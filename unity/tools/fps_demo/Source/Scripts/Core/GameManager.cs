@@ -26,7 +26,10 @@ public class GameManager : MonoBehaviour
     private bool smokeTestRequested;
     private bool autoOpenMapRequested;
     private bool autoOpenInventoryRequested;
+    private bool autoOpenOptionsRequested;
     private bool combatDisabledRequested;
+    private bool optionsReturnToTitleMenu;
+    private bool optionsReturnToPauseMenu;
     private bool waitingForCleanMenuInput;
     private bool waitingForMenuPointerMotion;
     private Vector2 titleMenuPointerOrigin;
@@ -72,6 +75,7 @@ public class GameManager : MonoBehaviour
         smokeTestRequested = commandLine.Contains("-smoketest");
         autoOpenMapRequested = commandLine.Contains("-openmap");
         autoOpenInventoryRequested = commandLine.Contains("-openinventory");
+        autoOpenOptionsRequested = commandLine.Contains("-openoptions");
         combatDisabledRequested = commandLine.Contains("-combatdisabled");
         player?.ApplyOptions(CurrentOptions);
         BuildMapTexture();
@@ -91,6 +95,10 @@ public class GameManager : MonoBehaviour
             else if (autoOpenInventoryRequested)
             {
                 ToggleInventory();
+            }
+            else if (autoOpenOptionsRequested)
+            {
+                ShowOptionsMenu(true);
             }
         }
         else
@@ -255,17 +263,38 @@ public class GameManager : MonoBehaviour
 
     public void ShowOptionsMenu(bool visible)
     {
-        optionsVisible = visible;
-        uiController.ShowOptions(visible);
         if (visible)
         {
+            optionsReturnToTitleMenu = titleMenuVisible;
+            optionsReturnToPauseMenu = pauseVisible;
+            optionsVisible = true;
+            uiController.ShowOptions(true);
             pauseVisible = false;
             inventoryVisible = false;
             mapVisible = false;
             uiController.ShowPauseMenu(false);
             uiController.ShowInventory(false, null);
             uiController.ShowMap(false);
+            UpdateCursorAndTime();
+            return;
         }
+
+        optionsVisible = false;
+        uiController.ShowOptions(false);
+
+        if (optionsReturnToTitleMenu)
+        {
+            uiController.ShowTitleMenu(true, playerDead ? "Mission Failed" : "Facility Sweep");
+            uiController.SetMenuInteractable(!waitingForCleanMenuInput && !waitingForMenuPointerMotion);
+        }
+        else if (optionsReturnToPauseMenu)
+        {
+            pauseVisible = true;
+            uiController.ShowPauseMenu(true);
+        }
+
+        optionsReturnToTitleMenu = false;
+        optionsReturnToPauseMenu = false;
         UpdateCursorAndTime();
     }
 
