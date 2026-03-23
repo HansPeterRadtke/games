@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95dd2013ea6d4c4792bbcff57e260953, type: 3}
+  m_Name: enemy_sentry_hub
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::EnemyData
+  Id: enemy_sentry_hub
+  DisplayName: Hub Sentry
+  MaxHealth: 65
+  MoveSpeed: 2.7
+  ChaseRange: 15
+  AttackRange: 1.9
+  AttackDamage: 8
+  AttackCooldown: 1.2
+  AttackStyle: 1
+  ChaseSpeed: 3.7
+  ProjectileSpeed: 28
+  ProjectileImpact: 7
+  PreferredRange: 7.5

@@ -1,10 +1,18 @@
 {
   "dependencies": {
     "com.hpr.foundation": {
-      "version": "file:../../../packages/com.hpr.foundation",
+      "version": "file:com.hpr.foundation",
       "depth": 0,
-      "source": "local",
+      "source": "embedded",
       "dependencies": {}
+    },
+    "com.hpr.fpsdemo": {
+      "version": "file:com.hpr.fpsdemo",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.ugui": "2.0.0"
+      }
     },
     "com.unity.multiplayer.center": {
       "version": "1.0.1",

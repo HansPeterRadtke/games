@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57dcabfcc66b42818d7f4a0173933788, type: 3}
+  m_Name: weapon_pulse_pistol
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::WeaponData
+  Id: weapon_pulse_pistol
+  DisplayName: Pulse Pistol
+  IncludeInDefaultLoadout: 1
+  DefaultSlot: 0
+  Damage: 18
+  Range: 60
+  FireDelay: 0.22
+  MaxAmmo: 128
+  AmmoPerPickup: 20
+  ProjectilePrefab: {fileID: 0}
+  Kind: 0
+  UtilityAction: 0
+  LinkedItemId:
+  UtilityMessage:
+  ViewShape: 3
+  ViewColor: {r: 0.18, g: 0.18, b: 0.22, a: 1}
+  ViewLocalPosition: {x: 0.35, y: -0.3, z: 0.8}
+  ViewLocalEuler: {x: 0, y: 15, z: 0}
+  ViewLocalScale: {x: 0.16, y: 0.12, z: 0.42}
+  AimLocalPosition: {x: 0.08, y: -0.2, z: 0.55}
+  Spread: 0.6
+  Pellets: 1
+  MagazineSize: 16
+  StartingMagazineAmmo: 16
+  StartingReserveAmmo: 64
+  UsesAmmo: 1
+  ProjectileSpeed: 65
+  ImpactForce: 10
+  ProjectileScale: 0.06
+  ExplosiveRadius: 0

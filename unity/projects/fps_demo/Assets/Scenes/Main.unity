@@ -479,21 +479,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c302fcb01c40869b7b1de43636e83b0a, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: security_guard
-  maxHealth: 65
-  moveSpeed: 2.7
-  chaseSpeed: 3.7
-  detectionRange: 15
-  attackRange: 1.9
-  attackDamage: 12
-  attackCooldown: 1.2
-  projectileDamage: 8
-  projectileSpeed: 28
-  projectileImpact: 7
-  preferredRange: 7.5
-  rangedAttacker: 1
+  enemyData: {fileID: 0}
   patrolA: {fileID: 1835781228}
   patrolB: {fileID: 1783355685}
   muzzle: {fileID: 340184747}
@@ -1278,6 +1267,8 @@ GameObject:
   - component: {fileID: 235406401}
   - component: {fileID: 235406400}
   - component: {fileID: 235406398}
+  - component: {fileID: 235406404}
+  - component: {fileID: 235406405}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1295,21 +1286,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 879445a0799d60749821cc8b0d21c41d, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   walkSpeed: 5.5
   runMultiplier: 1.8
   gravity: -24
   jumpHeight: 1.25
-  interactRange: 3.5
   staminaDrainPerSecond: 24
   staminaRecoverPerSecond: 18
   coyoteTime: 0.14
   jumpBufferTime: 0.16
   groundedStickVelocity: 4
   impactDamping: 8
-  aimZoomFovDelta: 12
-  aimFovLerp: 12
 --- !u!4 &235406399
 Transform:
   m_ObjectHideFlags: 0
@@ -1336,9 +1324,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d52186fdb304152e7811e5de43511089, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSystem
-  slots: []
+  loadout:
+  - {fileID: 11400000, guid: 99e74af9b2e051c29a22956e1dfde534, type: 2}
+  - {fileID: 11400000, guid: 9ef022dcb39633a54a9ec36ee2ea3e7e, type: 2}
+  - {fileID: 11400000, guid: 24877af39ac6275599c7b436e424669b, type: 2}
+  - {fileID: 11400000, guid: d109c07955ff43e03ad18d829f454ce1, type: 2}
+  - {fileID: 11400000, guid: 8318e1e6230567f4f900e284d6d797b4, type: 2}
+  - {fileID: 11400000, guid: b1cf02b2166a5ad9a9ccae1b5df3264a, type: 2}
+  - {fileID: 11400000, guid: 7fd62e4c4ebd682cea90e80c4cc89ce7, type: 2}
+  - {fileID: 11400000, guid: 000b04e841ea8a5a4be4be00e2a0adcd, type: 2}
+  - {fileID: 11400000, guid: 57692908ddc23f4bfa7e3121e8755081, type: 2}
   currentIndex: 0
 --- !u!114 &235406401
 MonoBehaviour:
@@ -1350,12 +1347,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80e9bf971ca30480a9f36c0d08d6da16, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
-  medkits: 1
-  armorPatches: 1
-  hasRedKey: 0
-  hasBlueKey: 0
+  knownItems:
+  - {fileID: 11400000, guid: 2902fdbe2bb1af72eaae4caa7fc4f410, type: 2}
+  - {fileID: 11400000, guid: 0672b32d60d4e280189dbcd4a1c8f6fe, type: 2}
+  - {fileID: 11400000, guid: 2e06821c2e55a353298378ea5fe78979, type: 2}
+  - {fileID: 11400000, guid: 3c9436a92f23f279d832418f4142a93b, type: 2}
+  - {fileID: 11400000, guid: 343b61ee8f089402ca20f91cfa4dd6b0, type: 2}
+  - {fileID: 11400000, guid: f36ab458373324abca0fe8192a98bc17, type: 2}
+  - {fileID: 11400000, guid: e9549c78ec451673f846757bcefa883e, type: 2}
+  - {fileID: 11400000, guid: c2dea30f9f467e93e81029a0e564cb60, type: 2}
+  - {fileID: 11400000, guid: 3c89b53cd2a0ddec99e18469e535bde4, type: 2}
+  - {fileID: 11400000, guid: 1147cc263ed43d980bfa4aee48a340e1, type: 2}
 --- !u!114 &235406402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1366,7 +1370,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 364b304c0180c9dc696c54c23ff6e862, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   maxHealth: 100
   maxStamina: 100
@@ -1397,6 +1401,33 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &235406404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235406397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6e62f42e5f436fbf93ebd4ccaf3dc6, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::PlayerActorContext
+--- !u!114 &235406405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235406397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 383001f2d3da44adaab6c833ebefa0ca, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::PlayerGameplayController
+  interactRange: 3.5
+  aimZoomFovDelta: 12
+  aimFovLerp: 12
 --- !u!1 &250154770
 GameObject:
   m_ObjectHideFlags: 0
@@ -1817,10 +1848,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32d1b2704b0909635a61d42b09de2545, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
   saveId: door_east
-  requiredKey: 
+  requiredKeyItem: {fileID: 0}
   openAngle: 92
   openSpeed: 140
   doorLeaf: {fileID: 997764753}
@@ -1987,7 +2018,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -2181,7 +2212,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -2832,10 +2863,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32d1b2704b0909635a61d42b09de2545, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
   saveId: door_west
-  requiredKey: 
+  requiredKeyItem: {fileID: 0}
   openAngle: 92
   openSpeed: 140
   doorLeaf: {fileID: 791944678}
@@ -3016,10 +3047,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_launcher_ammo
-  pickupKind: 2
+  itemData: {fileID: 0}
   amount: 2
 --- !u!23 &556040050
 MeshRenderer:
@@ -3288,21 +3319,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c302fcb01c40869b7b1de43636e83b0a, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: sweeper_armory
-  maxHealth: 65
-  moveSpeed: 2.7
-  chaseSpeed: 3.7
-  detectionRange: 15
-  attackRange: 1.9
-  attackDamage: 12
-  attackCooldown: 1.2
-  projectileDamage: 8
-  projectileSpeed: 28
-  projectileImpact: 7
-  preferredRange: 7.5
-  rangedAttacker: 0
+  enemyData: {fileID: 0}
   patrolA: {fileID: 1700035813}
   patrolB: {fileID: 2118605147}
   muzzle: {fileID: 2010301463}
@@ -3707,21 +3727,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c302fcb01c40869b7b1de43636e83b0a, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: power_walker
-  maxHealth: 65
-  moveSpeed: 2.7
-  chaseSpeed: 3.7
-  detectionRange: 15
-  attackRange: 1.9
-  attackDamage: 12
-  attackCooldown: 1.2
-  projectileDamage: 8
-  projectileSpeed: 28
-  projectileImpact: 7
-  preferredRange: 7.5
-  rangedAttacker: 1
+  enemyData: {fileID: 0}
   patrolA: {fileID: 1074713283}
   patrolB: {fileID: 1516748822}
   muzzle: {fileID: 250154771}
@@ -4824,7 +4833,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -5250,10 +5259,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_armor
-  pickupKind: 5
+  itemData: {fileID: 0}
   amount: 1
 --- !u!23 &1241162893
 MeshRenderer:
@@ -5608,7 +5617,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -6120,10 +6129,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_medkit
-  pickupKind: 4
+  itemData: {fileID: 0}
   amount: 1
 --- !u!23 &1490695484
 MeshRenderer:
@@ -6486,11 +6495,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89d99be0fe2cf5d8c986bf132a93bb35, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  player: {fileID: 235406398}
+  player: {fileID: 235406404}
   mapCamera: {fileID: 2110409993}
   uiController: {fileID: 1552775884}
+  saveableRoot: {fileID: 554023674}
 --- !u!114 &1552775884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6501,7 +6511,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97afd51cda4fcd224b5695b5bd3fde75, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::GameUiController
 --- !u!4 &1552775885
 Transform:
@@ -6772,10 +6782,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_red_key
-  pickupKind: 6
+  itemData: {fileID: 0}
   amount: 1
 --- !u!23 &1615725562
 MeshRenderer:
@@ -6901,21 +6911,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c302fcb01c40869b7b1de43636e83b0a, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: medbay_intruder
-  maxHealth: 65
-  moveSpeed: 2.7
-  chaseSpeed: 3.7
-  detectionRange: 15
-  attackRange: 1.9
-  attackDamage: 12
-  attackCooldown: 1.2
-  projectileDamage: 8
-  projectileSpeed: 28
-  projectileImpact: 7
-  preferredRange: 7.5
-  rangedAttacker: 0
+  enemyData: {fileID: 0}
   patrolA: {fileID: 546901139}
   patrolB: {fileID: 564980860}
   muzzle: {fileID: 642200374}
@@ -7334,10 +7333,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_blue_key
-  pickupKind: 7
+  itemData: {fileID: 0}
   amount: 1
 --- !u!23 &1702076046
 MeshRenderer:
@@ -7662,7 +7661,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -7744,7 +7743,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -7850,10 +7849,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32d1b2704b0909635a61d42b09de2545, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
   saveId: door_north
-  requiredKey: Red
+  requiredKeyItem: {fileID: 0}
   openAngle: 92
   openSpeed: 140
   doorLeaf: {fileID: 1216414420}
@@ -7989,7 +7988,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -8183,7 +8182,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -8619,7 +8618,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -8732,7 +8731,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -9359,7 +9358,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -9467,10 +9466,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_pistol_ammo
-  pickupKind: 0
+  itemData: {fileID: 0}
   amount: 20
 --- !u!23 &1966903736
 MeshRenderer:
@@ -9709,7 +9708,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -9989,10 +9988,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32d1b2704b0909635a61d42b09de2545, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
   saveId: door_south
-  requiredKey: Blue
+  requiredKeyItem: {fileID: 0}
   openAngle: 92
   openSpeed: 140
   doorLeaf: {fileID: 252446671}
@@ -10154,10 +10153,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_needler_ammo
-  pickupKind: 3
+  itemData: {fileID: 0}
   amount: 36
 --- !u!23 &2087381001
 MeshRenderer:
@@ -10282,10 +10281,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_shotgun_ammo
-  pickupKind: 1
+  itemData: {fileID: 0}
   amount: 8
 --- !u!23 &2089559579
 MeshRenderer:
@@ -10444,7 +10443,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9849f02d50cc8bb2ca16c6e34d030920, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::MapCameraFollow
   target: {fileID: 235406399}
   height: 48
@@ -10641,21 +10640,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c302fcb01c40869b7b1de43636e83b0a, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: sentry_hub
-  maxHealth: 65
-  moveSpeed: 2.7
-  chaseSpeed: 3.7
-  detectionRange: 15
-  attackRange: 1.9
-  attackDamage: 12
-  attackCooldown: 1.2
-  projectileDamage: 8
-  projectileSpeed: 28
-  projectileImpact: 7
-  preferredRange: 7.5
-  rangedAttacker: 1
+  enemyData: {fileID: 0}
   patrolA: {fileID: 2026274329}
   patrolB: {fileID: 1160514464}
   muzzle: {fileID: 1240030634}

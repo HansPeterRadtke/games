@@ -1,0 +1,20 @@
+{
+  "name": "HPR.FPSDemo.Editor",
+  "rootNamespace": "",
+  "references": [
+    "HPR.FPSDemo.Runtime",
+    "HPR.Foundation",
+    "HPR.Foundation.Editor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

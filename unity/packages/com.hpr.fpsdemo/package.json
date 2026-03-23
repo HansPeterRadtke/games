@@ -1,0 +1,13 @@
+{
+  "name": "com.hpr.fpsdemo",
+  "displayName": "HPR FPS Demo",
+  "version": "0.1.0",
+  "unity": "6000.4",
+  "description": "Reusable FPS demo gameplay package for the HPR Unity workspace.",
+  "author": {
+    "name": "HansPeterRadtke"
+  },
+  "dependencies": {
+    "com.unity.ugui": "2.0.0"
+  }
+}

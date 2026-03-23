@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5336d2857dd642379c26746c83dfc55e, type: 3}
+  m_Name: item_armor_patch
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::ItemData
+  Id: item_armor_patch
+  ItemType: 1
+  DisplayName: Armor Patch
+  IncludeInKnownItems: 1
+  Icon: {fileID: 0}
+  Value: 10
+  Description: Restores 10 HP
+  PickupPrompt: 'Pick up armor patch [E]'
+  PickupStatus: Collected armor patch
+  LinkedWeaponId:
+  PlaceholderColor: {r: 0.25, g: 0.56, b: 0.92, a: 1}
+  StartingPlayerQuantity: 1
