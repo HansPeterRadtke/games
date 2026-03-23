@@ -1,5 +1,28 @@
-using System.Text;
+using System.Collections.Generic;
 using UnityEngine;
+
+public enum InventoryTab
+{
+    Weapons,
+    Consumables,
+    Keys,
+    Utility
+}
+
+public class InventoryEntryData
+{
+    public string Name;
+    public string Detail;
+    public int Count;
+    public Color IconColor;
+}
+
+public class InventoryTabData
+{
+    public InventoryTab Tab;
+    public string Label;
+    public List<InventoryEntryData> Entries = new List<InventoryEntryData>();
+}
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -68,27 +91,75 @@ public class PlayerInventory : MonoBehaviour
         return true;
     }
 
-    public string BuildInventorySummary(WeaponSystem weaponSystem)
+    public List<InventoryTabData> BuildInventoryTabs(WeaponSystem weaponSystem)
     {
-        var sb = new StringBuilder();
-        sb.AppendLine("Equipment");
+        var tabs = new List<InventoryTabData>();
+
+        var weapons = new InventoryTabData { Tab = InventoryTab.Weapons, Label = "Weapons" };
         for (int i = 0; i < weaponSystem.SlotCount; i++)
         {
             var slot = weaponSystem.GetSlot(i);
-            string marker = i == weaponSystem.CurrentIndex ? ">" : " ";
-            sb.AppendLine($"{marker} {i + 1}. {slot.DisplayName}  {slot.GetAmmoLabel()}");
+            weapons.Entries.Add(new InventoryEntryData
+            {
+                Name = $"{i + 1}. {slot.DisplayName}",
+                Detail = slot.GetAmmoLabel(),
+                Count = slot.usesAmmo ? slot.ammoInMagazine + slot.reserveAmmo : 1,
+                IconColor = slot.color
+            });
         }
-        sb.AppendLine();
-        sb.AppendLine("Items");
-        sb.AppendLine($"Medkits: {medkits}");
-        sb.AppendLine($"Armor patches: {armorPatches}");
-        sb.AppendLine($"Red key: {(hasRedKey ? "YES" : "NO")}");
-        sb.AppendLine($"Blue key: {(hasBlueKey ? "YES" : "NO")}");
-        sb.AppendLine();
-        sb.AppendLine("Controls");
-        sb.AppendLine("1-9 switch equipment");
-        sb.AppendLine("LMB use current equipment");
-        sb.AppendLine("R reload ranged weapons");
-        return sb.ToString();
+        tabs.Add(weapons);
+
+        var consumables = new InventoryTabData { Tab = InventoryTab.Consumables, Label = "Consumables" };
+        consumables.Entries.Add(new InventoryEntryData
+        {
+            Name = "Medkit",
+            Detail = "Restores 35 HP",
+            Count = medkits,
+            IconColor = new Color(0.18f, 0.72f, 0.22f)
+        });
+        consumables.Entries.Add(new InventoryEntryData
+        {
+            Name = "Armor Patch",
+            Detail = "Restores 10 HP",
+            Count = armorPatches,
+            IconColor = new Color(0.25f, 0.56f, 0.92f)
+        });
+        tabs.Add(consumables);
+
+        var keys = new InventoryTabData { Tab = InventoryTab.Keys, Label = "Keys" };
+        keys.Entries.Add(new InventoryEntryData
+        {
+            Name = "Red Keycard",
+            Detail = hasRedKey ? "Security doors unlocked" : "Missing",
+            Count = hasRedKey ? 1 : 0,
+            IconColor = new Color(0.82f, 0.18f, 0.14f)
+        });
+        keys.Entries.Add(new InventoryEntryData
+        {
+            Name = "Blue Keycard",
+            Detail = hasBlueKey ? "Power doors unlocked" : "Missing",
+            Count = hasBlueKey ? 1 : 0,
+            IconColor = new Color(0.2f, 0.34f, 0.88f)
+        });
+        tabs.Add(keys);
+
+        var utility = new InventoryTabData { Tab = InventoryTab.Utility, Label = "Utility" };
+        utility.Entries.Add(new InventoryEntryData
+        {
+            Name = "Mission Pad",
+            Detail = "M opens the tactical map",
+            Count = 1,
+            IconColor = new Color(0.92f, 0.78f, 0.18f)
+        });
+        utility.Entries.Add(new InventoryEntryData
+        {
+            Name = "Field Manual",
+            Detail = "E interact, Shift sprint, RMB aim",
+            Count = 1,
+            IconColor = new Color(0.56f, 0.56f, 0.62f)
+        });
+        tabs.Add(utility);
+
+        return tabs;
     }
 }

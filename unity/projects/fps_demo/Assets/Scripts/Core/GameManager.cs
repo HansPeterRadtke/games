@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,11 +22,26 @@ public class GameManager : MonoBehaviour
     private bool mapVisible;
     private bool optionsVisible;
     private bool playerDead;
+    private bool autoStartRequested;
+    private bool smokeTestRequested;
+    private bool autoOpenMapRequested;
+    private bool autoOpenInventoryRequested;
+    private bool combatDisabledRequested;
+    private bool waitingForCleanMenuInput;
+    private bool waitingForMenuPointerMotion;
+    private Vector2 titleMenuPointerOrigin;
+    private float titleMenuShownRealtime;
+    private float sessionStartTime;
+    private bool combatHold;
 
     public GameOptionsData CurrentOptions { get; private set; }
     public PlayerController Player => player;
     public bool AllowsGameplayInput => IsGameplayRunning && !pauseVisible && !inventoryVisible && !mapVisible && !optionsVisible;
     public bool IsGameplayRunning => !titleMenuVisible && !playerDead;
+    public bool IsMapVisible => mapVisible;
+    public bool IsInventoryVisible => inventoryVisible;
+    public bool IsPauseVisible => pauseVisible;
+    public bool IsCombatLive => IsGameplayRunning && !combatDisabledRequested && !combatHold && Time.time >= sessionStartTime + 0.5f;
 
     private void Awake()
     {
@@ -39,11 +55,11 @@ public class GameManager : MonoBehaviour
         savePath = Path.Combine(Application.persistentDataPath, "fps_demo_save.json");
         if (player == null)
         {
-            player = FindFirstObjectByType<PlayerController>();
+            player = FindAnyObjectByType<PlayerController>();
         }
         if (mapCamera == null)
         {
-            mapCamera = FindFirstObjectByType<MapCameraFollow>()?.GetComponent<Camera>();
+            mapCamera = FindAnyObjectByType<MapCameraFollow>()?.GetComponent<Camera>();
         }
         if (uiController == null)
         {
@@ -51,6 +67,12 @@ public class GameManager : MonoBehaviour
         }
 
         CurrentOptions = GameOptionsStore.Load();
+        string commandLine = string.Join(" ", System.Environment.GetCommandLineArgs());
+        autoStartRequested = commandLine.Contains("-autostart");
+        smokeTestRequested = commandLine.Contains("-smoketest");
+        autoOpenMapRequested = commandLine.Contains("-openmap");
+        autoOpenInventoryRequested = commandLine.Contains("-openinventory");
+        combatDisabledRequested = commandLine.Contains("-combatdisabled");
         player?.ApplyOptions(CurrentOptions);
         BuildMapTexture();
         RegisterSaveables();
@@ -59,9 +81,81 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         uiController.Initialize(this, mapTexture);
-        uiController.ShowTitleMenu(true);
-        RefreshHud();
-        UpdateCursorAndTime();
+        if (autoStartRequested || smokeTestRequested)
+        {
+            BeginSession();
+            if (autoOpenMapRequested)
+            {
+                ToggleMap();
+            }
+            else if (autoOpenInventoryRequested)
+            {
+                ToggleInventory();
+            }
+        }
+        else
+        {
+            ShowInitialTitleMenu();
+            StartCoroutine(EnforceInitialTitleMenu());
+        }
+
+        if (smokeTestRequested)
+        {
+            StartCoroutine(RunSmokeTest());
+            StartCoroutine(ForceQuitSmokeTestAfterDelay());
+        }
+    }
+
+    private void Update()
+    {
+        if (titleMenuVisible)
+        {
+            if (waitingForCleanMenuInput)
+            {
+                if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter) || Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2))
+                {
+                    return;
+                }
+
+                waitingForCleanMenuInput = false;
+            }
+
+            if (waitingForMenuPointerMotion)
+            {
+                if (Time.realtimeSinceStartup - titleMenuShownRealtime < 1.5f)
+                {
+                    return;
+                }
+
+                if (((Vector2)Input.mousePosition - titleMenuPointerOrigin).sqrMagnitude < 6400f)
+                {
+                    return;
+                }
+
+                waitingForMenuPointerMotion = false;
+            }
+
+            if (!waitingForCleanMenuInput && !waitingForMenuPointerMotion)
+            {
+                uiController.SetMenuInteractable(true);
+            }
+
+            if (optionsVisible)
+            {
+                return;
+            }
+
+            if (!waitingForCleanMenuInput && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
+            {
+                ActivatePrimaryMenuAction();
+            }
+        }
+
+        if (combatHold && IsGameplayRunning && Time.time >= sessionStartTime + 12f)
+        {
+            combatHold = false;
+            NotifyStatus("Combat live");
+        }
     }
 
     private void OnDestroy()
@@ -76,17 +170,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void OnApplicationQuit()
+    {
+    }
+
     public void BeginSession()
     {
+        waitingForCleanMenuInput = false;
+        waitingForMenuPointerMotion = false;
         titleMenuVisible = false;
         playerDead = false;
         pauseVisible = false;
         inventoryVisible = false;
         mapVisible = false;
         optionsVisible = false;
+        sessionStartTime = Time.time;
+        combatHold = true;
         uiController.ShowTitleMenu(false);
         uiController.ShowPauseMenu(false);
-        uiController.ShowInventory(false, string.Empty);
+        uiController.ShowInventory(false, null);
         uiController.ShowMap(false);
         uiController.ShowOptions(false);
         RefreshHud();
@@ -105,7 +207,7 @@ public class GameManager : MonoBehaviour
         mapVisible = false;
         optionsVisible = false;
         uiController.ShowPauseMenu(pauseVisible);
-        uiController.ShowInventory(false, string.Empty);
+        uiController.ShowInventory(false, null);
         uiController.ShowMap(false);
         uiController.ShowOptions(false);
         UpdateCursorAndTime();
@@ -122,7 +224,7 @@ public class GameManager : MonoBehaviour
         pauseVisible = false;
         mapVisible = false;
         optionsVisible = false;
-        uiController.ShowInventory(inventoryVisible, player.Inventory.BuildInventorySummary(player.WeaponSystem));
+        uiController.ShowInventory(inventoryVisible, player.Inventory.BuildInventoryTabs(player.WeaponSystem));
         uiController.ShowPauseMenu(false);
         uiController.ShowMap(false);
         uiController.ShowOptions(false);
@@ -140,9 +242,13 @@ public class GameManager : MonoBehaviour
         pauseVisible = false;
         inventoryVisible = false;
         optionsVisible = false;
+        if (mapVisible)
+        {
+            mapCamera.GetComponent<MapCameraFollow>()?.ResetView();
+        }
         uiController.ShowMap(mapVisible);
         uiController.ShowPauseMenu(false);
-        uiController.ShowInventory(false, string.Empty);
+        uiController.ShowInventory(false, null);
         uiController.ShowOptions(false);
         UpdateCursorAndTime();
     }
@@ -157,7 +263,7 @@ public class GameManager : MonoBehaviour
             inventoryVisible = false;
             mapVisible = false;
             uiController.ShowPauseMenu(false);
-            uiController.ShowInventory(false, string.Empty);
+            uiController.ShowInventory(false, null);
             uiController.ShowMap(false);
         }
         UpdateCursorAndTime();
@@ -219,6 +325,11 @@ public class GameManager : MonoBehaviour
 
     public void ActivatePrimaryMenuAction()
     {
+        if (titleMenuVisible && waitingForCleanMenuInput)
+        {
+            return;
+        }
+
         if (playerDead)
         {
             StartNewGame();
@@ -226,6 +337,17 @@ public class GameManager : MonoBehaviour
         }
 
         BeginSession();
+    }
+
+    public void MarkCombatReady()
+    {
+        if (!combatHold)
+        {
+            return;
+        }
+
+        combatHold = false;
+        NotifyStatus("Combat live");
     }
 
     public void ExitGame()
@@ -246,7 +368,7 @@ public class GameManager : MonoBehaviour
         optionsVisible = false;
         titleMenuVisible = true;
         uiController.ShowPauseMenu(false);
-        uiController.ShowInventory(false, string.Empty);
+        uiController.ShowInventory(false, null);
         uiController.ShowMap(false);
         uiController.ShowOptions(false);
         uiController.ShowTitleMenu(true, "Mission Failed");
@@ -277,7 +399,7 @@ public class GameManager : MonoBehaviour
 
         if (inventoryVisible)
         {
-            uiController.ShowInventory(true, player.Inventory.BuildInventorySummary(player.WeaponSystem));
+            uiController.ShowInventory(true, player.Inventory.BuildInventoryTabs(player.WeaponSystem));
         }
         uiController.RefreshOptions(CurrentOptions);
     }
@@ -292,7 +414,7 @@ public class GameManager : MonoBehaviour
 
     public string DescribeNearbyThreats(Vector3 position)
     {
-        var enemies = FindObjectsByType<EnemyAgent>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
+        var enemies = FindObjectsByType<EnemyAgent>(FindObjectsInactive.Exclude)
             .Where(enemy => enemy.IsAlive)
             .OrderBy(enemy => Vector3.Distance(enemy.transform.position, position))
             .Take(3)
@@ -316,7 +438,7 @@ public class GameManager : MonoBehaviour
     private void RegisterSaveables()
     {
         saveables.Clear();
-        foreach (var behaviour in FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        foreach (var behaviour in FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include))
         {
             if (behaviour is ISaveableEntity saveable)
             {
@@ -357,5 +479,105 @@ public class GameManager : MonoBehaviour
         player = playerController;
         mapCamera = overheadMapCamera;
         uiController = ui;
+    }
+
+    private void ShowInitialTitleMenu()
+    {
+        titleMenuVisible = true;
+        pauseVisible = false;
+        inventoryVisible = false;
+        mapVisible = false;
+        optionsVisible = false;
+        playerDead = false;
+        waitingForCleanMenuInput = true;
+        waitingForMenuPointerMotion = true;
+        titleMenuPointerOrigin = Input.mousePosition;
+        titleMenuShownRealtime = Time.realtimeSinceStartup;
+        uiController.ShowPauseMenu(false);
+        uiController.ShowInventory(false, null);
+        uiController.ShowMap(false);
+        uiController.ShowOptions(false);
+        uiController.ShowTitleMenu(true);
+        uiController.SetMenuInteractable(false);
+        RefreshHud();
+        UpdateCursorAndTime();
+    }
+
+    private IEnumerator EnforceInitialTitleMenu()
+    {
+        yield return new WaitForSecondsRealtime(0.2f);
+        if (autoStartRequested || smokeTestRequested)
+        {
+            yield break;
+        }
+
+        ShowInitialTitleMenu();
+    }
+
+    private IEnumerator RunSmokeTest()
+    {
+        yield return null;
+        yield return null;
+
+        NotifyStatus("Smoke test: session started");
+        player.WeaponSystem.SelectSlot(1);
+        player.WeaponSystem.TriggerCurrent(player);
+        yield return new WaitForSecondsRealtime(0.2f);
+
+        player.WeaponSystem.SelectSlot(2);
+        player.WeaponSystem.TriggerCurrent(player);
+        yield return new WaitForSecondsRealtime(0.2f);
+
+        player.WeaponSystem.SelectSlot(3);
+        player.WeaponSystem.TriggerCurrent(player);
+        yield return new WaitForSecondsRealtime(0.2f);
+
+        ToggleInventory();
+        yield return new WaitForSecondsRealtime(0.2f);
+        uiController.SelectInventoryTab(InventoryTab.Keys);
+        yield return new WaitForSecondsRealtime(0.1f);
+        ToggleInventory();
+
+        ToggleMap();
+        yield return new WaitForSecondsRealtime(0.2f);
+        mapCamera.GetComponent<MapCameraFollow>()?.Pan(new Vector2(8f, -6f));
+        mapCamera.GetComponent<MapCameraFollow>()?.Zoom(1f);
+        yield return new WaitForSecondsRealtime(0.1f);
+        ToggleMap();
+
+        TogglePauseMenu();
+        yield return new WaitForSecondsRealtime(0.2f);
+        TogglePauseMenu();
+
+        FindObjectsByType<PickupItem>(FindObjectsInactive.Include)
+            .FirstOrDefault(pickup => pickup.gameObject.activeInHierarchy)?
+            .Interact(player);
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        FindObjectsByType<DoorController>(FindObjectsInactive.Include)
+            .FirstOrDefault()?
+            .Interact(player);
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        SaveGame();
+        yield return new WaitForSecondsRealtime(0.1f);
+        LoadGame();
+        yield return new WaitForSecondsRealtime(0.2f);
+
+        NotifyStatus("Smoke test completed");
+        yield return new WaitForSecondsRealtime(0.3f);
+        ExitGame();
+    }
+
+    private IEnumerator ForceQuitSmokeTestAfterDelay()
+    {
+        yield return new WaitForSecondsRealtime(8f);
+        if (!smokeTestRequested)
+        {
+            yield break;
+        }
+
+        NotifyStatus("Smoke test timeout exit");
+        ExitGame();
     }
 }

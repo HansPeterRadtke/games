@@ -154,6 +154,10 @@ public static class SceneBootstrap
             CreateBlock(parent, $"Crate_{i}", cratePositions[i], new Vector3(1.5f, 1.5f, 1.5f), materials["Trim"]);
         }
 
+        CreateDynamicProp(parent, "PhysicsBarrel_A", PrimitiveType.Cylinder, new Vector3(2.5f, 0.85f, 15.5f), new Vector3(0.7f, 0.85f, 0.7f), materials["Accent"], 18f);
+        CreateDynamicProp(parent, "PhysicsCrate_B", PrimitiveType.Cube, new Vector3(-3.5f, 0.8f, -14.5f), new Vector3(1.1f, 1.1f, 1.1f), materials["Trim"], 12f);
+        CreateDynamicProp(parent, "PhysicsCrate_C", PrimitiveType.Cube, new Vector3(13.5f, 0.8f, 13.5f), new Vector3(1.2f, 1.2f, 1.2f), materials["Door"], 14f);
+
         Vector3[] pillarPositions =
         {
             new Vector3(5f, 1.5f, 5f), new Vector3(-5f, 1.5f, 5f), new Vector3(5f, 1.5f, -5f), new Vector3(-5f, 1.5f, -5f)
@@ -178,17 +182,18 @@ public static class SceneBootstrap
 
     private static void CreateEnemies(Transform parent, Dictionary<string, Material> materials)
     {
-        CreateEnemy(parent, "sentry_hub", new Vector3(0f, 0.2f, 4f), new Vector3(-4f, 0.2f, 4f), new Vector3(4f, 0.2f, 4f), materials);
-        CreateEnemy(parent, "sweeper_armory", new Vector3(18f, 0.2f, -6f), new Vector3(14f, 0.2f, -6f), new Vector3(22f, 0.2f, -1f), materials);
-        CreateEnemy(parent, "medbay_intruder", new Vector3(-18f, 0.2f, 6f), new Vector3(-22f, 0.2f, 1f), new Vector3(-14f, 0.2f, 6f), materials);
-        CreateEnemy(parent, "security_guard", new Vector3(0f, 0.2f, 20f), new Vector3(-4f, 0.2f, 18f), new Vector3(4f, 0.2f, 22f), materials);
-        CreateEnemy(parent, "power_walker", new Vector3(0f, 0.2f, -18f), new Vector3(-5f, 0.2f, -22f), new Vector3(5f, 0.2f, -16f), materials);
+        CreateEnemy(parent, "sentry_hub", new Vector3(0f, 0.2f, 4f), new Vector3(-4f, 0.2f, 4f), new Vector3(4f, 0.2f, 4f), materials, true);
+        CreateEnemy(parent, "sweeper_armory", new Vector3(18f, 0.2f, -6f), new Vector3(14f, 0.2f, -6f), new Vector3(22f, 0.2f, -1f), materials, false);
+        CreateEnemy(parent, "medbay_intruder", new Vector3(-18f, 0.2f, 6f), new Vector3(-22f, 0.2f, 1f), new Vector3(-14f, 0.2f, 6f), materials, false);
+        CreateEnemy(parent, "security_guard", new Vector3(0f, 0.2f, 20f), new Vector3(-4f, 0.2f, 18f), new Vector3(4f, 0.2f, 22f), materials, true);
+        CreateEnemy(parent, "power_walker", new Vector3(0f, 0.2f, -18f), new Vector3(-5f, 0.2f, -22f), new Vector3(5f, 0.2f, -16f), materials, true);
     }
 
     private static PlayerController CreatePlayer(Dictionary<string, Material> materials)
     {
         var player = new GameObject("Player");
-        player.transform.position = new Vector3(0f, 1.3f, -6f);
+        player.transform.position = new Vector3(0f, 1.3f, -1.5f);
+        player.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         var controller = player.AddComponent<CharacterController>();
         controller.height = 1.8f;
         controller.radius = 0.35f;
@@ -284,7 +289,7 @@ public static class SceneBootstrap
         return pickupItem;
     }
 
-    private static EnemyAgent CreateEnemy(Transform parent, string saveId, Vector3 position, Vector3 patrolA, Vector3 patrolB, Dictionary<string, Material> materials)
+    private static EnemyAgent CreateEnemy(Transform parent, string saveId, Vector3 position, Vector3 patrolA, Vector3 patrolB, Dictionary<string, Material> materials, bool rangedAttacker)
     {
         var root = new GameObject(saveId);
         root.transform.SetParent(parent, false);
@@ -311,14 +316,30 @@ public static class SceneBootstrap
         head.GetComponent<Renderer>().sharedMaterial = materials["EnemyHead"];
         Object.DestroyImmediate(head.GetComponent<Collider>());
 
+        var muzzle = new GameObject("Muzzle");
+        muzzle.transform.SetParent(root.transform, false);
+        muzzle.transform.localPosition = new Vector3(0f, 1.15f, 0.45f);
+
         var waypointA = new GameObject($"{saveId}_PatrolA");
         waypointA.transform.SetParent(parent, false);
         waypointA.transform.position = patrolA;
         var waypointB = new GameObject($"{saveId}_PatrolB");
         waypointB.transform.SetParent(parent, false);
         waypointB.transform.position = patrolB;
-        enemy.Configure(saveId, waypointA.transform, waypointB.transform);
+        enemy.Configure(saveId, waypointA.transform, waypointB.transform, muzzle.transform, rangedAttacker);
         return enemy;
+    }
+
+    private static GameObject CreateDynamicProp(Transform parent, string name, PrimitiveType primitive, Vector3 position, Vector3 scale, Material material, float mass)
+    {
+        var go = primitive == PrimitiveType.Cylinder
+            ? CreateCylinder(parent, name, position, scale, material)
+            : CreateBlock(parent, name, position, scale, material);
+        var rigidbody = go.AddComponent<Rigidbody>();
+        rigidbody.mass = mass;
+        rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        return go;
     }
 
     private static GameObject CreateBlock(Transform parent, string name, Vector3 position, Vector3 scale, Material material)

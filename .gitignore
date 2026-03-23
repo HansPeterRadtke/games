@@ -32,3 +32,4 @@ Assets/AssetStoreTools*
 .vscode/
 .idea/
 .gradle/
+.git_credentials

@@ -12,6 +12,11 @@ public interface IDamageable
     void ApplyDamage(float amount, Vector3 hitPoint, Vector3 hitDirection);
 }
 
+public interface IImpactReceiver
+{
+    void ApplyImpact(Vector3 impulse, Vector3 point);
+}
+
 public interface ISaveableEntity
 {
     string SaveId { get; }

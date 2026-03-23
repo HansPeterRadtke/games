@@ -58,6 +58,10 @@ public class PlayerStats : MonoBehaviour, IDamageable
         }
 
         health = Mathf.Max(0f, health - amount);
+        if (GetComponent<IImpactReceiver>() is { } impactReceiver)
+        {
+            impactReceiver.ApplyImpact(hitDirection.normalized * Mathf.Clamp(amount * 0.18f, 1.2f, 6.5f), hitPoint);
+        }
         GameManager.Instance?.NotifyStatus($"Player hit: -{amount:0}");
         if (health <= 0f)
         {

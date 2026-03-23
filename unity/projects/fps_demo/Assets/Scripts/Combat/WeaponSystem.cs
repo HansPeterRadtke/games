@@ -21,6 +21,7 @@ public class WeaponSlot
     public Vector3 localPosition;
     public Vector3 localEuler;
     public Vector3 localScale;
+    public Vector3 aimLocalPosition;
     public float damage;
     public float range;
     public float fireDelay;
@@ -31,6 +32,10 @@ public class WeaponSlot
     public int reserveAmmo;
     public bool usesAmmo;
     public string utilityMessage;
+    public float projectileSpeed = 48f;
+    public float impactForce = 12f;
+    public float projectileScale = 0.08f;
+    public float explosiveRadius;
 
     public string DisplayName => displayName;
 
@@ -51,8 +56,14 @@ public class WeaponSystem : MonoBehaviour
     [SerializeField] private int currentIndex;
 
     private readonly List<GameObject> viewModels = new List<GameObject>();
+    private readonly List<Transform> muzzles = new List<Transform>();
+
     private Camera playerCamera;
     private float nextFireTime;
+    private float aimBlend;
+    private float bobTimer;
+    private Vector3 recoilPosition;
+    private Vector3 recoilRotation;
 
     public int SlotCount => slots.Count;
     public int CurrentIndex => currentIndex;
@@ -65,6 +76,7 @@ public class WeaponSystem : MonoBehaviour
         {
             slots = CreateDefaultLoadout();
         }
+
         BuildViewModels();
         SelectSlot(currentIndex);
     }
@@ -74,10 +86,16 @@ public class WeaponSystem : MonoBehaviour
     public void SelectSlot(int index)
     {
         currentIndex = Mathf.Clamp(index, 0, slots.Count - 1);
+        recoilPosition = Vector3.zero;
+        recoilRotation = Vector3.zero;
+        aimBlend = 0f;
+        bobTimer = 0f;
+
         for (int i = 0; i < viewModels.Count; i++)
         {
             viewModels[i].SetActive(i == currentIndex);
         }
+
         GameManager.Instance?.RefreshHud();
     }
 
@@ -99,6 +117,7 @@ public class WeaponSystem : MonoBehaviour
             slots[i].ammoInMagazine = magazineAmmo[i];
             slots[i].reserveAmmo = reserveAmmo[i];
         }
+
         SelectSlot(selectedIndex);
     }
 
@@ -147,16 +166,16 @@ public class WeaponSystem : MonoBehaviour
         switch (slot.kind)
         {
             case EquipmentKind.Hitscan:
-                FireHitscan(owner, slot, 1, slot.spread);
+                FireProjectilePattern(owner, slot, 1, slot.spread, false);
                 break;
             case EquipmentKind.Scatter:
-                FireHitscan(owner, slot, Mathf.Max(1, slot.pellets), slot.spread);
+                FireProjectilePattern(owner, slot, Mathf.Max(1, slot.pellets), slot.spread, false);
                 break;
             case EquipmentKind.Melee:
                 FireMelee(owner, slot);
                 break;
             case EquipmentKind.Explosive:
-                FireExplosive(owner, slot);
+                FireProjectilePattern(owner, slot, 1, slot.spread, true);
                 break;
             case EquipmentKind.Utility:
                 UseUtility(owner, slot);
@@ -166,14 +185,50 @@ public class WeaponSystem : MonoBehaviour
         GameManager.Instance?.RefreshHud();
     }
 
-    private void FireHitscan(PlayerController owner, WeaponSlot slot, int pellets, float spread)
+    public void TickPresentation(float movementAmount, bool isAiming, bool isRunning)
+    {
+        if (viewModels.Count == 0 || currentIndex >= viewModels.Count)
+        {
+            return;
+        }
+
+        var slot = CurrentSlot;
+        aimBlend = Mathf.MoveTowards(aimBlend, isAiming ? 1f : 0f, Time.deltaTime * 6f);
+        recoilPosition = Vector3.Lerp(recoilPosition, Vector3.zero, Time.deltaTime * 10f);
+        recoilRotation = Vector3.Lerp(recoilRotation, Vector3.zero, Time.deltaTime * 10f);
+
+        if (movementAmount > 0.05f)
+        {
+            bobTimer += Time.deltaTime * (isRunning ? 11f : 7f) * Mathf.Clamp(movementAmount, 0f, 1.6f);
+        }
+        else
+        {
+            bobTimer = Mathf.Lerp(bobTimer, 0f, Time.deltaTime * 5f);
+        }
+
+        Vector3 bobOffset = new Vector3(
+            Mathf.Sin(bobTimer) * 0.012f,
+            Mathf.Cos(bobTimer * 2f) * 0.008f,
+            0f);
+        Vector3 targetPosition = Vector3.Lerp(slot.localPosition, slot.aimLocalPosition, aimBlend) + bobOffset + recoilPosition;
+        Vector3 targetEuler = slot.localEuler + recoilRotation;
+
+        var currentView = viewModels[currentIndex].transform;
+        currentView.localPosition = Vector3.Lerp(currentView.localPosition, targetPosition, Time.deltaTime * 18f);
+        currentView.localRotation = Quaternion.Slerp(currentView.localRotation, Quaternion.Euler(targetEuler), Time.deltaTime * 18f);
+    }
+
+    private void FireProjectilePattern(PlayerController owner, WeaponSlot slot, int projectiles, float spread, bool explosive)
     {
         if (!ConsumeAmmoIfNeeded(slot))
         {
             return;
         }
 
-        for (int i = 0; i < pellets; i++)
+        ApplyFireAnimation(slot, explosive ? 1.3f : 1f);
+        GameManager.Instance?.NotifyStatus($"{slot.displayName} fired");
+
+        for (int i = 0; i < projectiles; i++)
         {
             Vector3 direction = playerCamera.transform.forward;
             if (spread > 0f)
@@ -181,56 +236,65 @@ public class WeaponSystem : MonoBehaviour
                 direction = Quaternion.Euler(UnityEngine.Random.Range(-spread, spread), UnityEngine.Random.Range(-spread, spread), 0f) * direction;
             }
 
-            if (Physics.Raycast(playerCamera.transform.position, direction, out RaycastHit hit, slot.range, ~0, QueryTriggerInteraction.Ignore))
-            {
-                if (hit.collider.GetComponentInParent<IDamageable>() is { } damageable)
-                {
-                    damageable.ApplyDamage(slot.damage, hit.point, direction);
-                }
-            }
+            CreateProjectile(
+                owner.transform,
+                GetMuzzleTransform().position,
+                direction,
+                slot.damage,
+                slot.projectileSpeed,
+                slot.impactForce,
+                explosive ? Mathf.Max(3.2f, slot.explosiveRadius) : 0f,
+                Mathf.Clamp(slot.range / Mathf.Max(8f, slot.projectileSpeed), 1.2f, 4f),
+                slot.projectileScale,
+                slot.color);
         }
-
-        GameManager.Instance?.NotifyStatus($"{slot.displayName} fired");
     }
 
     private void FireMelee(PlayerController owner, WeaponSlot slot)
     {
-        Vector3 origin = playerCamera.transform.position + playerCamera.transform.forward * 0.5f;
-        if (Physics.SphereCast(origin, 0.75f, playerCamera.transform.forward, out RaycastHit hit, slot.range, ~0, QueryTriggerInteraction.Ignore))
+        ApplyFireAnimation(slot, 1.5f);
+
+        Vector3 center = playerCamera.transform.position + playerCamera.transform.forward * Mathf.Clamp(slot.range * 0.65f, 1f, 1.8f);
+        Collider[] hits = Physics.OverlapSphere(center, 1.15f, ~0, QueryTriggerInteraction.Ignore);
+        IDamageable bestTarget = null;
+        IImpactReceiver bestImpact = null;
+        Vector3 bestPoint = center;
+        float bestDistance = float.MaxValue;
+
+        foreach (var collider in hits)
         {
-            if (hit.collider.GetComponentInParent<IDamageable>() is { } damageable)
+            if (collider.transform.root == owner.transform)
             {
-                damageable.ApplyDamage(slot.damage, hit.point, playerCamera.transform.forward);
-                GameManager.Instance?.NotifyStatus($"{slot.displayName} connected");
-                return;
+                continue;
+            }
+
+            var damageable = collider.GetComponentInParent<IDamageable>();
+            if (damageable == null || !damageable.IsAlive)
+            {
+                continue;
+            }
+
+            Vector3 point = collider.ClosestPoint(center);
+            float distance = (point - center).sqrMagnitude;
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                bestTarget = damageable;
+                bestImpact = collider.GetComponentInParent<IImpactReceiver>();
+                bestPoint = point;
             }
         }
 
-        GameManager.Instance?.NotifyStatus($"{slot.displayName} missed");
-    }
-
-    private void FireExplosive(PlayerController owner, WeaponSlot slot)
-    {
-        if (!ConsumeAmmoIfNeeded(slot))
+        if (bestTarget != null)
         {
+            Vector3 hitDirection = (bestPoint - playerCamera.transform.position).normalized;
+            bestTarget.ApplyDamage(slot.damage, bestPoint, hitDirection);
+            bestImpact?.ApplyImpact(hitDirection * slot.impactForce, bestPoint);
+            GameManager.Instance?.NotifyStatus($"{slot.displayName} connected");
             return;
         }
 
-        Vector3 center = playerCamera.transform.position + playerCamera.transform.forward * Mathf.Min(slot.range, 12f);
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, slot.range, ~0, QueryTriggerInteraction.Ignore))
-        {
-            center = hit.point;
-        }
-
-        foreach (Collider collider in Physics.OverlapSphere(center, 4f))
-        {
-            if (collider.GetComponentInParent<IDamageable>() is { } damageable)
-            {
-                damageable.ApplyDamage(slot.damage, center, (collider.transform.position - center).normalized);
-            }
-        }
-
-        GameManager.Instance?.NotifyStatus($"{slot.displayName} detonated");
+        GameManager.Instance?.NotifyStatus($"{slot.displayName} missed");
     }
 
     private void UseUtility(PlayerController owner, WeaponSlot slot)
@@ -279,6 +343,53 @@ public class WeaponSystem : MonoBehaviour
         return true;
     }
 
+    private void CreateProjectile(
+        Transform ownerRoot,
+        Vector3 origin,
+        Vector3 direction,
+        float damage,
+        float speed,
+        float impactForce,
+        float explosiveRadius,
+        float lifetime,
+        float projectileScale,
+        Color color)
+    {
+        var projectile = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        projectile.name = "Projectile";
+        projectile.transform.position = origin;
+        projectile.transform.localScale = Vector3.one * Mathf.Max(0.04f, projectileScale);
+
+        var rigidbody = projectile.AddComponent<Rigidbody>();
+        rigidbody.useGravity = false;
+        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        rigidbody.mass = 0.08f;
+
+        var projectileBehaviour = projectile.AddComponent<PhysicsProjectile>();
+        projectileBehaviour.Configure(ownerRoot, direction, damage, speed, impactForce, lifetime, explosiveRadius, color);
+    }
+
+    private Transform GetMuzzleTransform()
+    {
+        if (currentIndex < muzzles.Count && muzzles[currentIndex] != null)
+        {
+            return muzzles[currentIndex];
+        }
+
+        return playerCamera.transform;
+    }
+
+    private void ApplyFireAnimation(WeaponSlot slot, float multiplier)
+    {
+        recoilPosition += new Vector3(-0.02f, 0.015f, -0.12f * multiplier);
+        recoilRotation += new Vector3(-8f * multiplier, 1.5f * multiplier, UnityEngine.Random.Range(-2f, 2f) * multiplier);
+        if (slot.kind == EquipmentKind.Melee)
+        {
+            recoilPosition += new Vector3(0.05f, -0.04f, -0.08f);
+            recoilRotation += new Vector3(0f, 0f, 16f);
+        }
+    }
+
     private void BuildViewModels()
     {
         foreach (var existing in viewModels)
@@ -288,33 +399,66 @@ public class WeaponSystem : MonoBehaviour
                 Destroy(existing);
             }
         }
+
         viewModels.Clear();
+        muzzles.Clear();
 
         for (int i = 0; i < slots.Count; i++)
         {
             var slot = slots[i];
-            var go = GameObject.CreatePrimitive(slot.shape);
-            go.name = $"WeaponView_{slot.displayName}";
-            go.layer = 2;
-            foreach (var collider in go.GetComponentsInChildren<Collider>())
+            var root = new GameObject($"WeaponView_{slot.displayName}");
+            root.layer = 2;
+            root.transform.SetParent(playerCamera.transform, false);
+            root.transform.localPosition = slot.localPosition;
+            root.transform.localEulerAngles = slot.localEuler;
+            root.transform.localScale = Vector3.one;
+
+            var body = GameObject.CreatePrimitive(slot.shape);
+            body.name = "Body";
+            body.layer = 2;
+            body.transform.SetParent(root.transform, false);
+            body.transform.localPosition = Vector3.zero;
+            body.transform.localRotation = Quaternion.identity;
+            body.transform.localScale = slot.localScale;
+            var bodyRenderer = body.GetComponent<Renderer>();
+            if (bodyRenderer != null)
+            {
+                bodyRenderer.sharedMaterial = new Material(Shader.Find("Standard")) { color = slot.color };
+            }
+
+            foreach (var collider in body.GetComponentsInChildren<Collider>())
             {
                 Destroy(collider);
             }
 
-            go.transform.SetParent(playerCamera.transform, false);
-            go.transform.localPosition = slot.localPosition;
-            go.transform.localEulerAngles = slot.localEuler;
-            go.transform.localScale = slot.localScale;
-            var renderer = go.GetComponent<Renderer>();
-            if (renderer != null)
+            var barrel = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            barrel.name = "Barrel";
+            barrel.layer = 2;
+            barrel.transform.SetParent(root.transform, false);
+            barrel.transform.localPosition = new Vector3(0f, 0.01f, slot.localScale.z * 0.55f);
+            barrel.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
+            barrel.transform.localScale = new Vector3(slot.localScale.x * 0.25f, slot.localScale.z * 0.22f, slot.localScale.x * 0.25f);
+            var barrelRenderer = barrel.GetComponent<Renderer>();
+            if (barrelRenderer != null)
             {
-                renderer.sharedMaterial = new Material(Shader.Find("Standard"))
+                barrelRenderer.sharedMaterial = new Material(Shader.Find("Standard"))
                 {
-                    color = slot.color
+                    color = Color.Lerp(slot.color, Color.white, 0.18f)
                 };
             }
-            go.SetActive(false);
-            viewModels.Add(go);
+
+            foreach (var collider in barrel.GetComponentsInChildren<Collider>())
+            {
+                Destroy(collider);
+            }
+
+            var muzzle = new GameObject("Muzzle").transform;
+            muzzle.SetParent(root.transform, false);
+            muzzle.localPosition = new Vector3(0f, 0f, slot.localScale.z * 0.78f);
+            muzzles.Add(muzzle);
+
+            root.SetActive(false);
+            viewModels.Add(root);
         }
     }
 
@@ -322,15 +466,64 @@ public class WeaponSystem : MonoBehaviour
     {
         return new List<WeaponSlot>
         {
-            new WeaponSlot { displayName = "1 Pulse Pistol", kind = EquipmentKind.Hitscan, shape = PrimitiveType.Cube, color = new Color(0.18f,0.18f,0.22f), localPosition = new Vector3(0.35f,-0.3f,0.8f), localEuler = new Vector3(0f, 15f, 0f), localScale = new Vector3(0.16f,0.12f,0.42f), damage = 18f, range = 60f, fireDelay = 0.22f, spread = 1.2f, pellets = 1, magazineSize = 16, ammoInMagazine = 16, reserveAmmo = 64, usesAmmo = true },
-            new WeaponSlot { displayName = "2 Scatter Shot", kind = EquipmentKind.Scatter, shape = PrimitiveType.Sphere, color = new Color(0.35f,0.15f,0.1f), localPosition = new Vector3(0.32f,-0.28f,0.74f), localEuler = new Vector3(5f, 0f, -12f), localScale = new Vector3(0.26f,0.18f,0.55f), damage = 8f, range = 35f, fireDelay = 0.8f, spread = 6.5f, pellets = 8, magazineSize = 6, ammoInMagazine = 6, reserveAmmo = 24, usesAmmo = true },
-            new WeaponSlot { displayName = "3 Security Baton", kind = EquipmentKind.Melee, shape = PrimitiveType.Cylinder, color = new Color(0.78f,0.78f,0.25f), localPosition = new Vector3(0.42f,-0.36f,0.9f), localEuler = new Vector3(4f, 16f, 78f), localScale = new Vector3(0.07f,0.34f,0.07f), damage = 28f, range = 2.3f, fireDelay = 0.55f, usesAmmo = false },
-            new WeaponSlot { displayName = "4 Arc Launcher", kind = EquipmentKind.Explosive, shape = PrimitiveType.Capsule, color = new Color(0.15f,0.45f,0.7f), localPosition = new Vector3(0.3f,-0.25f,0.76f), localEuler = new Vector3(-10f, 0f, -90f), localScale = new Vector3(0.14f,0.22f,0.14f), damage = 40f, range = 25f, fireDelay = 1.1f, magazineSize = 2, ammoInMagazine = 2, reserveAmmo = 8, usesAmmo = true },
-            new WeaponSlot { displayName = "5 Needler", kind = EquipmentKind.Hitscan, shape = PrimitiveType.Cylinder, color = new Color(0.45f,0.45f,0.5f), localPosition = new Vector3(0.34f,-0.31f,0.78f), localEuler = new Vector3(90f, 0f, 12f), localScale = new Vector3(0.07f,0.32f,0.07f), damage = 11f, range = 55f, fireDelay = 0.11f, spread = 1.8f, pellets = 1, magazineSize = 28, ammoInMagazine = 28, reserveAmmo = 112, usesAmmo = true },
-            new WeaponSlot { displayName = "6 Med Injector", kind = EquipmentKind.Utility, shape = PrimitiveType.Cube, color = new Color(0.15f,0.7f,0.18f), localPosition = new Vector3(0.34f,-0.3f,0.72f), localEuler = new Vector3(0f, 10f, 18f), localScale = new Vector3(0.12f,0.2f,0.26f), fireDelay = 0.35f, utilityMessage = "Medical injector ready" },
-            new WeaponSlot { displayName = "7 Repair Tool", kind = EquipmentKind.Utility, shape = PrimitiveType.Capsule, color = new Color(0.85f,0.55f,0.12f), localPosition = new Vector3(0.34f,-0.28f,0.8f), localEuler = new Vector3(0f, 0f, -70f), localScale = new Vector3(0.09f,0.26f,0.09f), fireDelay = 0.3f, utilityMessage = "Repair tool calibrated" },
-            new WeaponSlot { displayName = "8 Scanner", kind = EquipmentKind.Utility, shape = PrimitiveType.Sphere, color = new Color(0.1f,0.65f,0.7f), localPosition = new Vector3(0.35f,-0.3f,0.72f), localEuler = Vector3.zero, localScale = new Vector3(0.18f,0.18f,0.18f), fireDelay = 0.25f, utilityMessage = "Scanner pulsed" },
-            new WeaponSlot { displayName = "9 Keyring", kind = EquipmentKind.Utility, shape = PrimitiveType.Cube, color = new Color(0.9f,0.82f,0.2f), localPosition = new Vector3(0.38f,-0.33f,0.78f), localEuler = new Vector3(20f,0f,35f), localScale = new Vector3(0.12f,0.12f,0.12f), fireDelay = 0.2f, utilityMessage = "Keyring synced" }
+            new WeaponSlot
+            {
+                displayName = "Pulse Pistol", kind = EquipmentKind.Hitscan, shape = PrimitiveType.Cube, color = new Color(0.18f, 0.18f, 0.22f),
+                localPosition = new Vector3(0.35f, -0.3f, 0.8f), aimLocalPosition = new Vector3(0.08f, -0.2f, 0.55f), localEuler = new Vector3(0f, 15f, 0f), localScale = new Vector3(0.16f, 0.12f, 0.42f),
+                damage = 18f, range = 60f, fireDelay = 0.22f, spread = 0.6f, pellets = 1, magazineSize = 16, ammoInMagazine = 16, reserveAmmo = 64, usesAmmo = true,
+                projectileSpeed = 65f, impactForce = 10f, projectileScale = 0.06f
+            },
+            new WeaponSlot
+            {
+                displayName = "Scatter Shot", kind = EquipmentKind.Scatter, shape = PrimitiveType.Cube, color = new Color(0.35f, 0.15f, 0.1f),
+                localPosition = new Vector3(0.32f, -0.28f, 0.74f), aimLocalPosition = new Vector3(0.06f, -0.22f, 0.52f), localEuler = new Vector3(5f, 0f, -12f), localScale = new Vector3(0.26f, 0.18f, 0.55f),
+                damage = 8f, range = 30f, fireDelay = 0.8f, spread = 5.4f, pellets = 8, magazineSize = 6, ammoInMagazine = 6, reserveAmmo = 24, usesAmmo = true,
+                projectileSpeed = 38f, impactForce = 7f, projectileScale = 0.05f
+            },
+            new WeaponSlot
+            {
+                displayName = "Security Baton", kind = EquipmentKind.Melee, shape = PrimitiveType.Cylinder, color = new Color(0.78f, 0.78f, 0.25f),
+                localPosition = new Vector3(0.42f, -0.36f, 0.9f), aimLocalPosition = new Vector3(0.14f, -0.3f, 0.68f), localEuler = new Vector3(4f, 16f, 78f), localScale = new Vector3(0.07f, 0.34f, 0.07f),
+                damage = 32f, range = 2.6f, fireDelay = 0.48f, usesAmmo = false, impactForce = 14f
+            },
+            new WeaponSlot
+            {
+                displayName = "Arc Launcher", kind = EquipmentKind.Explosive, shape = PrimitiveType.Capsule, color = new Color(0.15f, 0.45f, 0.7f),
+                localPosition = new Vector3(0.3f, -0.25f, 0.76f), aimLocalPosition = new Vector3(0.03f, -0.18f, 0.5f), localEuler = new Vector3(-10f, 0f, -90f), localScale = new Vector3(0.14f, 0.22f, 0.14f),
+                damage = 48f, range = 24f, fireDelay = 1.1f, magazineSize = 2, ammoInMagazine = 2, reserveAmmo = 8, usesAmmo = true,
+                projectileSpeed = 26f, impactForce = 22f, explosiveRadius = 4.2f, projectileScale = 0.12f
+            },
+            new WeaponSlot
+            {
+                displayName = "Needler", kind = EquipmentKind.Hitscan, shape = PrimitiveType.Cylinder, color = new Color(0.45f, 0.45f, 0.5f),
+                localPosition = new Vector3(0.34f, -0.31f, 0.78f), aimLocalPosition = new Vector3(0.07f, -0.2f, 0.54f), localEuler = new Vector3(90f, 0f, 12f), localScale = new Vector3(0.07f, 0.32f, 0.07f),
+                damage = 11f, range = 55f, fireDelay = 0.11f, spread = 1.1f, pellets = 1, magazineSize = 28, ammoInMagazine = 28, reserveAmmo = 112, usesAmmo = true,
+                projectileSpeed = 72f, impactForce = 6f, projectileScale = 0.04f
+            },
+            new WeaponSlot
+            {
+                displayName = "Med Injector", kind = EquipmentKind.Utility, shape = PrimitiveType.Cube, color = new Color(0.15f, 0.7f, 0.18f),
+                localPosition = new Vector3(0.34f, -0.3f, 0.72f), aimLocalPosition = new Vector3(0.1f, -0.22f, 0.56f), localEuler = new Vector3(0f, 10f, 18f), localScale = new Vector3(0.12f, 0.2f, 0.26f),
+                fireDelay = 0.35f, utilityMessage = "Medical injector ready"
+            },
+            new WeaponSlot
+            {
+                displayName = "Repair Tool", kind = EquipmentKind.Utility, shape = PrimitiveType.Capsule, color = new Color(0.85f, 0.55f, 0.12f),
+                localPosition = new Vector3(0.34f, -0.28f, 0.8f), aimLocalPosition = new Vector3(0.08f, -0.22f, 0.6f), localEuler = new Vector3(0f, 0f, -70f), localScale = new Vector3(0.09f, 0.26f, 0.09f),
+                fireDelay = 0.3f, utilityMessage = "Repair tool calibrated"
+            },
+            new WeaponSlot
+            {
+                displayName = "Scanner", kind = EquipmentKind.Utility, shape = PrimitiveType.Sphere, color = new Color(0.1f, 0.65f, 0.7f),
+                localPosition = new Vector3(0.35f, -0.3f, 0.72f), aimLocalPosition = new Vector3(0.1f, -0.2f, 0.52f), localEuler = Vector3.zero, localScale = new Vector3(0.18f, 0.18f, 0.18f),
+                fireDelay = 0.25f, utilityMessage = "Scanner pulsed"
+            },
+            new WeaponSlot
+            {
+                displayName = "Keyring", kind = EquipmentKind.Utility, shape = PrimitiveType.Cube, color = new Color(0.9f, 0.82f, 0.2f),
+                localPosition = new Vector3(0.38f, -0.33f, 0.78f), aimLocalPosition = new Vector3(0.12f, -0.25f, 0.56f), localEuler = new Vector3(20f, 0f, 35f), localScale = new Vector3(0.12f, 0.12f, 0.12f),
+                fireDelay = 0.2f, utilityMessage = "Keyring synced"
+            }
         };
     }
 }
