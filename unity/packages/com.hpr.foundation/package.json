@@ -1,0 +1,10 @@
+{
+  "name": "com.hpr.foundation",
+  "displayName": "HPR Foundation",
+  "version": "0.1.0",
+  "unity": "6000.0",
+  "description": "Shared runtime and editor code for HansPeterRadtke Unity projects.",
+  "author": {
+    "name": "HansPeterRadtke"
+  }
+}
