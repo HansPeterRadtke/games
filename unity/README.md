@@ -10,6 +10,10 @@ Recommended pattern:
 - reference those packages from each Unity project via `Packages/manifest.json`
 - only keep project-specific scenes/assets/scripts inside each project folder
 
+Current project:
+- `projects/fps_demo` contains the first playable prototype
+- `tools/fps_demo` contains the canonical source sync/build pipeline for that prototype
+
 Local package dependency example:
 ```json
 {

@@ -25,12 +25,14 @@ p = pathlib.Path(sys.argv[1])
 obj = json.loads(p.read_text(encoding='utf-8'))
 deps = obj.setdefault('dependencies', {})
 deps['com.hpr.foundation'] = 'file:../../../packages/com.hpr.foundation'
+deps['com.unity.ugui'] = '2.0.0'
 p.write_text(json.dumps(obj, indent=2) + '\n', encoding='utf-8')
 PY
 
-mkdir -p "$PROJECT_DIR/Assets/Scripts" "$PROJECT_DIR/Assets/Editor"
-cp "$SRC_DIR/FirstPersonController.cs" "$PROJECT_DIR/Assets/Scripts/FirstPersonController.cs"
-cp "$SRC_DIR/SceneBootstrap.cs" "$PROJECT_DIR/Assets/Editor/SceneBootstrap.cs"
+rm -rf "$PROJECT_DIR/Assets/Scripts" "$PROJECT_DIR/Assets/Editor"
+mkdir -p "$PROJECT_DIR/Assets"
+cp -R "$SRC_DIR/Scripts" "$PROJECT_DIR/Assets/"
+cp -R "$SRC_DIR/Editor" "$PROJECT_DIR/Assets/"
 
 "$UNITY_BIN" -batchmode -nographics -quit -projectPath "$PROJECT_DIR" -executeMethod SceneBootstrap.CreateScene -logFile -
 mkdir -p "$BUILD_DIR"
