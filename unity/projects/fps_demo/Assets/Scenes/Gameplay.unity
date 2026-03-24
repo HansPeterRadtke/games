@@ -482,7 +482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: security_guard
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: a5440b2c250f81ddd8e65204a721a675, type: 2}
   patrolA: {fileID: 1835781228}
   patrolB: {fileID: 1783355685}
   muzzle: {fileID: 340184747}
@@ -3030,8 +3030,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_launcher_ammo
-  itemData: {fileID: 0}
-  amount: 2
+  itemData: {fileID: 11400000, guid: 2902fdbe2bb1af72eaae4caa7fc4f410, type: 2}
+  amount: 1
 --- !u!23 &556040050
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3344,7 +3344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: sweeper_armory
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: 0c3ab23b2602b0d53a2161c9178f5e75, type: 2}
   patrolA: {fileID: 1700035813}
   patrolB: {fileID: 2118605147}
   muzzle: {fileID: 2010301463}
@@ -3752,7 +3752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: power_walker
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: 743bf32829c4dfc39bb418e5e8783d71, type: 2}
   patrolA: {fileID: 1074713283}
   patrolB: {fileID: 1516748822}
   muzzle: {fileID: 250154771}
@@ -5284,7 +5284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_armor
-  itemData: {fileID: 0}
+  itemData: {fileID: 11400000, guid: 343b61ee8f089402ca20f91cfa4dd6b0, type: 2}
   amount: 1
 --- !u!23 &1241162893
 MeshRenderer:
@@ -6228,7 +6228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_medkit
-  itemData: {fileID: 0}
+  itemData: {fileID: 11400000, guid: f36ab458373324abca0fe8192a98bc17, type: 2}
   amount: 1
 --- !u!23 &1490695484
 MeshRenderer:
@@ -6909,7 +6909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_red_key
-  itemData: {fileID: 0}
+  itemData: {fileID: 11400000, guid: c2dea30f9f467e93e81029a0e564cb60, type: 2}
   amount: 1
 --- !u!23 &1615725562
 MeshRenderer:
@@ -7038,7 +7038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: medbay_intruder
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: 91a5c5d04b21b651f94b8d983663d584, type: 2}
   patrolA: {fileID: 546901139}
   patrolB: {fileID: 564980860}
   muzzle: {fileID: 642200374}
@@ -7460,7 +7460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_blue_key
-  itemData: {fileID: 0}
+  itemData: {fileID: 11400000, guid: e9549c78ec451673f846757bcefa883e, type: 2}
   amount: 1
 --- !u!23 &1702076046
 MeshRenderer:
@@ -7976,7 +7976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
   saveId: door_north
-  requiredKeyItem: {fileID: 0}
+  requiredKeyItem: {fileID: 11400000, guid: c2dea30f9f467e93e81029a0e564cb60, type: 2}
   openAngle: 92
   openSpeed: 140
   doorLeaf: {fileID: 1216414420}
@@ -9593,8 +9593,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_pistol_ammo
-  itemData: {fileID: 0}
-  amount: 20
+  itemData: {fileID: 11400000, guid: 2e06821c2e55a353298378ea5fe78979, type: 2}
+  amount: 1
 --- !u!23 &1966903736
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10115,7 +10115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
   saveId: door_south
-  requiredKeyItem: {fileID: 0}
+  requiredKeyItem: {fileID: 11400000, guid: e9549c78ec451673f846757bcefa883e, type: 2}
   openAngle: 92
   openSpeed: 140
   doorLeaf: {fileID: 252446671}
@@ -10280,8 +10280,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_needler_ammo
-  itemData: {fileID: 0}
-  amount: 36
+  itemData: {fileID: 11400000, guid: 0672b32d60d4e280189dbcd4a1c8f6fe, type: 2}
+  amount: 1
 --- !u!23 &2087381001
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10408,8 +10408,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_shotgun_ammo
-  itemData: {fileID: 0}
-  amount: 8
+  itemData: {fileID: 11400000, guid: 3c9436a92f23f279d832418f4142a93b, type: 2}
+  amount: 1
 --- !u!23 &2089559579
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10767,7 +10767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: sentry_hub
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: ddfc87b2de520af6e8ab3805bbab23bf, type: 2}
   patrolA: {fileID: 2026274329}
   patrolB: {fileID: 1160514464}
   muzzle: {fileID: 1240030634}

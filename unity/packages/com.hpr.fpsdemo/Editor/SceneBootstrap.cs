@@ -123,9 +123,11 @@ public static class SceneBootstrap
         }
 
         var knownItems = GameplayDataSeeder.LoadAllItems();
+        var itemLookup = BuildItemLookup(knownItems);
         var loadout = GameplayDataSeeder.LoadDefaultWeapons();
 
         changed |= EnsureWorldHierarchy(world);
+        changed |= EnsureWorldEntityData(world, itemLookup);
         changed |= EnsurePlayerRuntime(playerGo, knownItems, loadout, mapCamera);
         changed |= EnsureSystemRuntime(systems, playerGo.GetComponent<PlayerActorContext>(), mapCamera, world);
 
@@ -264,6 +266,147 @@ public static class SceneBootstrap
         EditorUtility.SetDirty(ui);
         EditorUtility.SetDirty(manager);
         return changed;
+    }
+
+    private static bool EnsureWorldEntityData(Transform worldRoot, IReadOnlyDictionary<string, ItemData> items)
+    {
+        bool changed = false;
+        changed |= EnsurePickupData(worldRoot, items);
+        changed |= EnsureDoorData(worldRoot, items);
+        changed |= EnsureEnemyData(worldRoot);
+        return changed;
+    }
+
+    private static bool EnsurePickupData(Transform worldRoot, IReadOnlyDictionary<string, ItemData> items)
+    {
+        bool changed = false;
+        foreach (var pickup in worldRoot.GetComponentsInChildren<PickupItem>(true))
+        {
+            if (pickup == null || string.IsNullOrWhiteSpace(pickup.SaveId))
+            {
+                continue;
+            }
+
+            if (!TryResolvePickupDefinition(pickup.SaveId, items, out ItemData itemData, out int amount) || itemData == null)
+            {
+                continue;
+            }
+
+            if (pickup.ItemData == itemData && pickup.Amount == amount)
+            {
+                continue;
+            }
+
+            pickup.Configure(pickup.SaveId, itemData, amount);
+            EditorUtility.SetDirty(pickup);
+            changed = true;
+        }
+
+        return changed;
+    }
+
+    private static bool EnsureDoorData(Transform worldRoot, IReadOnlyDictionary<string, ItemData> items)
+    {
+        bool changed = false;
+        foreach (var door in worldRoot.GetComponentsInChildren<DoorController>(true))
+        {
+            if (door == null || string.IsNullOrWhiteSpace(door.SaveId))
+            {
+                continue;
+            }
+
+            ItemData requiredKey = ResolveDoorKeyItem(door.SaveId, items);
+            Transform leaf = door.transform.Find("DoorLeaf");
+            if (leaf == null)
+            {
+                continue;
+            }
+
+            door.Configure(door.SaveId, leaf, requiredKey);
+            EditorUtility.SetDirty(door);
+            changed = true;
+        }
+
+        return changed;
+    }
+
+    private static bool EnsureEnemyData(Transform worldRoot)
+    {
+        bool changed = false;
+        foreach (var enemy in worldRoot.GetComponentsInChildren<EnemyAgent>(true))
+        {
+            if (enemy == null || string.IsNullOrWhiteSpace(enemy.SaveId))
+            {
+                continue;
+            }
+
+            EnemyData data = GameplayDataSeeder.LoadEnemy($"enemy_{enemy.SaveId}");
+            if (data == null && enemy.SaveId == "medbay_intruder")
+            {
+                data = GameplayDataSeeder.LoadEnemy("enemy_medbay_intruder");
+            }
+
+            if (data == null)
+            {
+                continue;
+            }
+
+            Transform patrolA = worldRoot.Find($"EnemyRoot/{enemy.SaveId}_PatrolA");
+            Transform patrolB = worldRoot.Find($"EnemyRoot/{enemy.SaveId}_PatrolB");
+            Transform muzzle = enemy.transform.Find("Muzzle");
+            if (patrolA == null || patrolB == null || muzzle == null)
+            {
+                continue;
+            }
+
+            enemy.Configure(enemy.SaveId, data, patrolA, patrolB, muzzle);
+            EditorUtility.SetDirty(enemy);
+            changed = true;
+        }
+
+        return changed;
+    }
+
+    private static bool TryResolvePickupDefinition(string saveId, IReadOnlyDictionary<string, ItemData> items, out ItemData itemData, out int amount)
+    {
+        itemData = null;
+        amount = 1;
+        switch (saveId)
+        {
+            case "pickup_red_key":
+                return items.TryGetValue("key_red", out itemData);
+            case "pickup_blue_key":
+                return items.TryGetValue("key_blue", out itemData);
+            case "pickup_shotgun_ammo":
+                return items.TryGetValue("ammo_scatter_shot", out itemData);
+            case "pickup_launcher_ammo":
+                return items.TryGetValue("ammo_arc_launcher", out itemData);
+            case "pickup_pistol_ammo":
+                return items.TryGetValue("ammo_pulse_pistol", out itemData);
+            case "pickup_needler_ammo":
+                return items.TryGetValue("ammo_needler", out itemData);
+            case "pickup_medkit":
+                return items.TryGetValue("item_medkit", out itemData);
+            case "pickup_armor":
+                return items.TryGetValue("item_armor_patch", out itemData);
+            default:
+                return false;
+        }
+    }
+
+    private static ItemData ResolveDoorKeyItem(string saveId, IReadOnlyDictionary<string, ItemData> items)
+    {
+        switch (saveId)
+        {
+            case "door_north":
+                items.TryGetValue("key_red", out ItemData redKey);
+                return redKey;
+            case "door_south":
+                items.TryGetValue("key_blue", out ItemData blueKey);
+                return blueKey;
+            default:
+                return null;
+        }
     }
 
     private static Transform CreateWorld(Dictionary<string, Material> materials, IReadOnlyDictionary<string, ItemData> items)
