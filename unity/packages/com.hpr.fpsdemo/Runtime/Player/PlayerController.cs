@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
     private float baseFieldOfView;
     private float lastGroundedTime = -99f;
     private float lastJumpPressedTime = -99f;
+    private IGameEventBus eventBus;
 
     public Camera PlayerCamera => playerCamera;
     public Light Flashlight => flashlight;
@@ -54,7 +55,13 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
         if (GameManager.Instance != null)
         {
             ApplyOptions(GameManager.Instance.CurrentOptions);
+            BindEventBus(GameManager.Instance.EventBus);
         }
+    }
+
+    private void OnDestroy()
+    {
+        BindEventBus(null);
     }
 
     private void Update()
@@ -186,5 +193,34 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
 
         impactVelocity = Vector3.Lerp(impactVelocity, Vector3.zero, impactDamping * Time.deltaTime);
         LastMoveMagnitude = moveDirection.magnitude * (IsRunning ? 1.3f : 1f);
+    }
+
+    private void BindEventBus(IGameEventBus bus)
+    {
+        if (eventBus == bus)
+        {
+            return;
+        }
+
+        if (eventBus != null)
+        {
+            eventBus.Unsubscribe<ImpactEvent>(HandleImpactEvent);
+        }
+
+        eventBus = bus;
+        if (eventBus != null)
+        {
+            eventBus.Subscribe<ImpactEvent>(HandleImpactEvent);
+        }
+    }
+
+    private void HandleImpactEvent(ImpactEvent gameEvent)
+    {
+        if (gameEvent == null || gameEvent.TargetRoot != gameObject)
+        {
+            return;
+        }
+
+        ApplyImpact(gameEvent.Impulse, gameEvent.HitPoint);
     }
 }

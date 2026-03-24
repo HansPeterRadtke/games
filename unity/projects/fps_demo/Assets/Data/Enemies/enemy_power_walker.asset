@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HPR.FPSDemo.Runtime::EnemyData
   Id: enemy_power_walker
   DisplayName: Power Walker
+  AIType: 2
   MaxHealth: 66
   MoveSpeed: 2.75
   ChaseRange: 16
@@ -25,3 +26,7 @@ MonoBehaviour:
   ProjectileSpeed: 29
   ProjectileImpact: 7.2
   PreferredRange: 7.2
+  VisualPrefab: {fileID: 0}
+  VisualLocalPosition: {x: 0, y: 0, z: 0}
+  VisualLocalEuler: {x: 0, y: 0, z: 0}
+  VisualLocalScale: {x: 1, y: 1, z: 1}

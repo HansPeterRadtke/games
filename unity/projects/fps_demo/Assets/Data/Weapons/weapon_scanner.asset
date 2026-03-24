@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HPR.FPSDemo.Runtime::WeaponData
   Id: weapon_scanner
   DisplayName: Scanner
+  FireModeType: 4
   IncludeInDefaultLoadout: 1
   DefaultSlot: 7
   Damage: 0
@@ -24,14 +25,16 @@ MonoBehaviour:
   ProjectilePrefab: {fileID: 0}
   Kind: 4
   UtilityAction: 2
-  LinkedItemId:
+  LinkedItemId: 
   UtilityMessage: Scanner pulsed
   ViewShape: 0
+  ViewPrefab: {fileID: 0}
   ViewColor: {r: 0.1, g: 0.65, b: 0.7, a: 1}
   ViewLocalPosition: {x: 0.35, y: -0.3, z: 0.72}
   ViewLocalEuler: {x: 0, y: 0, z: 0}
   ViewLocalScale: {x: 0.18, y: 0.18, z: 0.18}
   AimLocalPosition: {x: 0.1, y: -0.2, z: 0.52}
+  ViewMuzzleLocalPosition: {x: 0, y: 0, z: 0}
   Spread: 0
   Pellets: 1
   MagazineSize: 0

@@ -106,7 +106,7 @@ public class PhysicsProjectile : MonoBehaviour
         }
     }
 
-    private static void ApplySingleHit(Collider targetCollider, Vector3 point, Vector3 direction, float damageAmount, float impact)
+    private void ApplySingleHit(Collider targetCollider, Vector3 point, Vector3 direction, float damageAmount, float impact)
     {
         if (targetCollider == null)
         {
@@ -118,14 +118,29 @@ public class PhysicsProjectile : MonoBehaviour
             targetCollider.attachedRigidbody.AddForceAtPosition(direction * impact, point, ForceMode.Impulse);
         }
 
-        if (targetCollider.GetComponentInParent<IImpactReceiver>() is { } impactReceiver)
+        if (targetCollider.GetComponentInParent<IImpactReceiver>() != null)
         {
-            impactReceiver.ApplyImpact(direction * impact, point);
+            GameObject targetRoot = targetCollider.transform.root.gameObject;
+            GameManager.Instance?.EventBus?.Publish(new ImpactEvent
+            {
+                SourceRoot = ownerRoot != null ? ownerRoot.gameObject : null,
+                TargetRoot = targetRoot,
+                Impulse = direction * impact,
+                HitPoint = point
+            });
         }
 
-        if (targetCollider.GetComponentInParent<IDamageable>() is { } damageable)
+        if (targetCollider.GetComponentInParent<IDamageable>() != null)
         {
-            damageable.ApplyDamage(damageAmount, point, direction);
+            GameObject targetRoot = targetCollider.transform.root.gameObject;
+            GameManager.Instance?.EventBus?.Publish(new DamageEvent
+            {
+                SourceRoot = ownerRoot != null ? ownerRoot.gameObject : null,
+                TargetRoot = targetRoot,
+                Amount = damageAmount,
+                HitPoint = point,
+                HitDirection = direction
+            });
         }
     }
 }

@@ -5,6 +5,7 @@ public class WeaponData : ScriptableObject
 {
     public string Id;
     public string DisplayName;
+    public FireModeType FireModeType = FireModeType.Hitscan;
     public bool IncludeInDefaultLoadout = true;
     public int DefaultSlot = -1;
     public float Damage;

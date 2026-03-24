@@ -1,37 +1,31 @@
 Intermediate report - 2026-03-24
 
 Current state
-- Unity workspace is live in `unity/projects/fps_demo` with shared packages in `unity/packages`.
-- The gameplay package is data-driven with ScriptableObjects for weapons, items, and enemies.
-- Unity Asset Store tooling is in `unity/tools/assetstore` and `unity/assetstore`.
-- The Linux player still builds and smoke-tests successfully after the current integration/tooling changes.
+- Unity workspace is active under `unity/projects/fps_demo` with reusable packages under `unity/packages`.
+- The FPS runtime is being extended without replacing the working gameplay systems.
+- The current pass adds behavior-driven weapons/enemies, a central event bus, persistent bootstrap/gameplay scenes, asset classification, and automated validation.
+- Imported Asset Store content remains local-only and is still excluded from Git tracking.
 
-Current asset workflow
-- Asset selection is now data-driven through `unity/assetstore/selected_assets.json`.
-- The asset pipeline script reads that selection file and keeps a single native download active at a time.
-- Imported Asset Store folders are now explicitly kept out of Git by `.gitignore`, and a helper exists at `unity/tools/assetstore/sync_gitignore.py` to regenerate the ignore block.
-- Asset Store metadata JSON and local import markers are also treated as local workflow state and are not meant to be tracked.
+Architecture extension status
+- `WeaponData` now carries `FireModeType`; runtime fire behavior is delegated through `IFireMode` implementations.
+- `EnemyData` now carries `AIType`; runtime AI behavior is delegated through `IEnemyBehavior` implementations.
+- Added central event infrastructure with `GameEvent`, `EventManager`, and gameplay events for damage, pickups, firing, and enemy deaths.
+- Damage, impacts, ammo pickup handling, and enemy death propagation now go through the event bus instead of direct cross-system field access.
+- Added `AssetMetadata` and `AssetRegistry` so imported/local assets can be classified without hardwiring them into gameplay code.
+- Scene setup now uses `Bootstrap` -> `Gameplay`, with persistent editable scene files and root scene containers for environment, enemies, and props.
+- Added `GameStateValidator` and extended the smoke test to validate state changes instead of only checking that the game launches.
 
-Local integration status
-- `Free Wood Door Pack` is present locally, has been integrated, rebuilt, and smoke-tested.
-- The local door integration marker now exists under `unity/assetstore/metadata/pipeline/imported_280509.done`.
-- Scene changes produced by local imported assets are being kept local; they are not being committed together with ignored asset content.
+Validation completed
+- Unity batch build succeeded with `SceneBootstrap.BuildLinux`.
+- Linux player smoke test succeeded from the built player with `-smoketest`.
+- Verified smoke path covers session start, player damage, weapon firing, inventory pickup, door interaction, enemy kill, save, load, and clean exit.
 
-Current blocker under active investigation
-- Native download/finalization of `Low Poly Weapons VOL.1` (`151980`) is still not completing cleanly.
-- The helper-project download now shows real byte progress in `pipeline_live.log`, which confirms the monitored downloader sees the hidden Unity cache temp file correctly.
-- Unity still writes only the hidden cache blob `.Low Poly Weapons VOL1-151980.tmp` and has not yet produced the final gzip `.unitypackage`.
-- This means the current remaining blocker is the Unity-side finalize step from the raw Asset Store cache blob to the final importable package.
+Local-only asset workflow
+- Asset Store package downloads and import metadata remain local-only.
+- Imported asset folders and generated imported-asset metadata stay ignored in `.gitignore`.
+- Local downloaded/imported content can be used for integration/testing without being committed.
 
-What changed since the previous report
-- Reverted the mistake of Git-tracking imported asset content.
-- Pushed the tooling-only asset pipeline commit without imported asset data.
-- Pushed a second hardening commit for local-only imported asset handling and selected asset queue management.
-- Added path normalization and stale-helper cleanup to the native downloader.
-- Switched the direct downloader to `UnityEditor.AssetStoreContext.Download(...)` with the correct reflected parameter order.
-
-Immediate next steps
-- keep the single native `151980` download/finalization path running and monitor it
-- if Unity still stalls, continue debugging the finalize/import path without adding asset data to Git
-- once `151980` lands, immediately import/integrate it, then start the next download while integration/build runs
-- continue the same sequence for house, furniture, character, and environment packs
+Immediate next focus
+- Continue local asset download/integration work on top of the new architecture.
+- Keep imported content out of Git.
+- Use the new metadata/event architecture as the base for further game expansion.

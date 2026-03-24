@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 public static class ThirdPartyAssetIntegrator
 {
-    private const string MainScenePath = "Assets/Scenes/Main.unity";
+    private const string MainScenePath = "Assets/Scenes/Gameplay.unity";
     private static readonly string[] FurnitureSearchRoots =
     {
         "Assets/Furniture Mega Pack - Free",
@@ -83,6 +83,7 @@ public static class ThirdPartyAssetIntegrator
 
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
+        ImportedAssetMetadataSynchronizer.Synchronize();
         Debug.Log($"Door pack applied to {updated} scene doors.");
     }
 
@@ -141,6 +142,7 @@ public static class ThirdPartyAssetIntegrator
 
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
+        ImportedAssetMetadataSynchronizer.Synchronize();
         Debug.Log($"Furniture pack applied with {placed} placed props.");
     }
 
@@ -168,6 +170,7 @@ public static class ThirdPartyAssetIntegrator
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+        ImportedAssetMetadataSynchronizer.Synchronize();
         Debug.Log($"Weapon pack applied to {updated} weapon data assets.");
     }
 
@@ -223,6 +226,7 @@ public static class ThirdPartyAssetIntegrator
 
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
+        ImportedAssetMetadataSynchronizer.Synchronize();
         Debug.Log($"House/environment packs applied with {placed} placed props.");
     }
 
@@ -250,6 +254,7 @@ public static class ThirdPartyAssetIntegrator
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+        ImportedAssetMetadataSynchronizer.Synchronize();
         Debug.Log($"Character packs applied to {updated} enemy data assets.");
     }
 

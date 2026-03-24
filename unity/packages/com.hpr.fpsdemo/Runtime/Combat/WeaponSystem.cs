@@ -56,15 +56,20 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
     [SerializeField] private int currentIndex;
 
     private readonly List<WeaponRuntimeState> runtimeSlots = new List<WeaponRuntimeState>();
+    private readonly Dictionary<FireModeType, IFireMode> fireModes = new Dictionary<FireModeType, IFireMode>();
 
     private Camera playerCamera;
     private IInventoryService inventory;
     private IPlayerStats ownerStats;
+    private IGameEventBus eventBus;
     private float aimBlend;
     private float bobTimer;
     private Vector3 recoilPosition;
     private Vector3 recoilRotation;
 
+    internal Camera PlayerCamera => playerCamera;
+    internal IInventoryService InventoryService => inventory;
+    internal IPlayerStats OwnerStats => ownerStats;
     public IReadOnlyList<WeaponRuntimeState> RuntimeSlots => runtimeSlots;
     public int SlotCount => runtimeSlots.Count;
     public int CurrentIndex => currentIndex;
@@ -73,6 +78,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
     public void ConfigureLoadout(IEnumerable<WeaponData> weaponData)
     {
         loadout = weaponData?.Where(data => data != null).Distinct().ToList() ?? new List<WeaponData>();
+        EnsureFireModes();
         BuildRuntimeSlots();
         if (playerCamera != null)
         {
@@ -84,27 +90,26 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
     public void Initialize(Camera camera)
     {
         playerCamera = camera;
+        EnsureFireModes();
         BuildRuntimeSlots();
         BuildViewModels();
         SelectSlot(currentIndex);
     }
 
+    private void Start()
+    {
+        EnsureEventBusBinding();
+    }
+
+    private void OnDisable()
+    {
+        BindEventBus(null);
+    }
+
     public void BindDependencies(IInventoryService inventoryService, IPlayerStats stats)
     {
-        if (inventory != null)
-        {
-            inventory.ItemAdded -= HandleInventoryItemAdded;
-            inventory.ItemRemoved -= HandleInventoryItemRemoved;
-        }
-
         inventory = inventoryService;
         ownerStats = stats;
-
-        if (inventory != null)
-        {
-            inventory.ItemAdded += HandleInventoryItemAdded;
-            inventory.ItemRemoved += HandleInventoryItemRemoved;
-        }
     }
 
     public void ResetToLoadoutDefaults()
@@ -252,6 +257,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
 
     public void TriggerCurrent(IPlayerActor owner)
     {
+        EnsureEventBusBinding();
         var runtimeState = CurrentState;
         if (runtimeState == null || runtimeState.Data == null || Time.time < runtimeState.CooldownUntil)
         {
@@ -259,27 +265,11 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         }
 
         runtimeState.CooldownUntil = Time.time + Mathf.Max(0.05f, runtimeState.Data.FireDelay);
-
-        switch (runtimeState.Data.Kind)
+        IFireMode fireMode = ResolveFireMode(runtimeState.Data);
+        if (fireMode != null && fireMode.Execute(new WeaponFireContext(this, owner, runtimeState)))
         {
-            case EquipmentKind.Hitscan:
-                FireProjectilePattern(owner, runtimeState, 1, runtimeState.Data.Spread, false);
-                break;
-            case EquipmentKind.Scatter:
-                FireProjectilePattern(owner, runtimeState, Mathf.Max(1, runtimeState.Data.Pellets), runtimeState.Data.Spread, false);
-                break;
-            case EquipmentKind.Melee:
-                FireMelee(owner, runtimeState);
-                break;
-            case EquipmentKind.Explosive:
-                FireProjectilePattern(owner, runtimeState, 1, runtimeState.Data.Spread, true);
-                break;
-            case EquipmentKind.Utility:
-                UseUtility(owner, runtimeState);
-                break;
+            GameManager.Instance?.RefreshHud();
         }
-
-        GameManager.Instance?.RefreshHud();
     }
 
     public void TickPresentation(float movementAmount, bool isAiming, bool isRunning)
@@ -316,146 +306,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         currentView.localRotation = Quaternion.Slerp(currentView.localRotation, Quaternion.Euler(targetEuler), Time.deltaTime * 18f);
     }
 
-    private void FireProjectilePattern(IPlayerActor owner, WeaponRuntimeState runtimeState, int projectiles, float spread, bool explosive)
-    {
-        if (!ConsumeAmmoIfNeeded(runtimeState))
-        {
-            return;
-        }
-
-        ApplyFireAnimation(runtimeState, explosive ? 1.3f : 1f);
-        GameManager.Instance?.NotifyStatus($"{runtimeState.Data.DisplayName} fired");
-
-        for (int i = 0; i < projectiles; i++)
-        {
-            Vector3 direction = playerCamera.transform.forward;
-            if (spread > 0f)
-            {
-                direction = Quaternion.Euler(UnityEngine.Random.Range(-spread, spread), UnityEngine.Random.Range(-spread, spread), 0f) * direction;
-            }
-
-            CreateProjectile(
-                owner.ActorTransform,
-                GetMuzzleTransform().position,
-                direction,
-                runtimeState.Data,
-                explosive ? Mathf.Max(3.2f, runtimeState.Data.ExplosiveRadius) : 0f,
-                runtimeState.Data.ProjectileScale,
-                Mathf.Clamp(runtimeState.Data.Range / Mathf.Max(8f, runtimeState.Data.ProjectileSpeed), 1.2f, 4f));
-        }
-    }
-
-    private void FireMelee(IPlayerActor owner, WeaponRuntimeState runtimeState)
-    {
-        ApplyFireAnimation(runtimeState, 1.5f);
-
-        Vector3 center = playerCamera.transform.position + playerCamera.transform.forward * Mathf.Clamp(runtimeState.Data.Range * 0.65f, 1f, 1.8f);
-        Collider[] hits = Physics.OverlapSphere(center, 1.15f, ~0, QueryTriggerInteraction.Ignore);
-        IDamageable bestTarget = null;
-        IImpactReceiver bestImpact = null;
-        Vector3 bestPoint = center;
-        float bestDistance = float.MaxValue;
-
-        foreach (var collider in hits)
-        {
-            if (collider.transform.root == owner.ActorTransform)
-            {
-                continue;
-            }
-
-            var damageable = collider.GetComponentInParent<IDamageable>();
-            if (damageable == null || !damageable.IsAlive)
-            {
-                continue;
-            }
-
-            Vector3 point = collider.ClosestPoint(center);
-            float distance = (point - center).sqrMagnitude;
-            if (distance < bestDistance)
-            {
-                bestDistance = distance;
-                bestTarget = damageable;
-                bestImpact = collider.GetComponentInParent<IImpactReceiver>();
-                bestPoint = point;
-            }
-        }
-
-        if (bestTarget != null)
-        {
-            Vector3 hitDirection = (bestPoint - playerCamera.transform.position).normalized;
-            bestTarget.ApplyDamage(runtimeState.Data.Damage, bestPoint, hitDirection);
-            bestImpact?.ApplyImpact(hitDirection * runtimeState.Data.ImpactForce, bestPoint);
-            GameManager.Instance?.NotifyStatus($"{runtimeState.Data.DisplayName} connected");
-            return;
-        }
-
-        GameManager.Instance?.NotifyStatus($"{runtimeState.Data.DisplayName} missed");
-    }
-
-    private void UseUtility(IPlayerActor owner, WeaponRuntimeState runtimeState)
-    {
-        var data = runtimeState.Data;
-        switch (data.UtilityAction)
-        {
-            case WeaponUtilityAction.ConsumeItem:
-                UseLinkedConsumable(data);
-                break;
-            case WeaponUtilityAction.ThreatScan:
-                GameManager.Instance?.NotifyStatus(GameManager.Instance?.DescribeNearbyThreats(owner.ActorTransform.position) ?? data.UtilityMessage);
-                break;
-            case WeaponUtilityAction.KeyringStatus:
-                GameManager.Instance?.NotifyStatus(inventory != null && inventory.HasAnyItemOfType(ItemType.Key) ? data.UtilityMessage : "Keyring is empty");
-                break;
-            case WeaponUtilityAction.RepairTool:
-                GameManager.Instance?.NotifyStatus(data.UtilityMessage);
-                break;
-            default:
-                GameManager.Instance?.NotifyStatus(data.UtilityMessage);
-                break;
-        }
-    }
-
-    private void UseLinkedConsumable(WeaponData data)
-    {
-        if (inventory == null || ownerStats == null)
-        {
-            return;
-        }
-
-        var item = inventory.GetItemData(data.LinkedItemId);
-        if (item == null)
-        {
-            GameManager.Instance?.NotifyStatus(data.UtilityMessage);
-            return;
-        }
-
-        if (!inventory.HasItem(item.Id))
-        {
-            GameManager.Instance?.NotifyStatus($"No {item.DisplayName} available");
-            return;
-        }
-
-        if (item.Value > 0 && ownerStats.Health >= ownerStats.MaxHealth - 1f)
-        {
-            GameManager.Instance?.NotifyStatus("Health already full");
-            return;
-        }
-
-        if (!inventory.RemoveItem(item.Id, 1))
-        {
-            GameManager.Instance?.NotifyStatus($"No {item.DisplayName} available");
-            return;
-        }
-
-        if (item.Value > 0)
-        {
-            ownerStats.Heal(item.Value);
-        }
-
-        GameManager.Instance?.NotifyStatus(string.IsNullOrWhiteSpace(data.UtilityMessage) ? $"Used {item.DisplayName}" : data.UtilityMessage);
-    }
-
-    private bool ConsumeAmmoIfNeeded(WeaponRuntimeState runtimeState)
+    internal bool TryConsumeAmmo(WeaponRuntimeState runtimeState)
     {
         if (!runtimeState.Data.UsesAmmo)
         {
@@ -472,7 +323,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         return true;
     }
 
-    private void CreateProjectile(
+    internal void CreateProjectile(
         Transform ownerRoot,
         Vector3 origin,
         Vector3 direction,
@@ -506,12 +357,12 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         projectileBehaviour.Configure(ownerRoot, direction, weaponData.Damage, weaponData.ProjectileSpeed, weaponData.ImpactForce, lifetime, explosiveRadius, weaponData.ViewColor);
     }
 
-    private Transform GetMuzzleTransform()
+    internal Transform ResolveCurrentMuzzle()
     {
         return CurrentState?.Muzzle != null ? CurrentState.Muzzle : playerCamera.transform;
     }
 
-    private void ApplyFireAnimation(WeaponRuntimeState runtimeState, float multiplier)
+    internal void ApplyFireAnimation(WeaponRuntimeState runtimeState, float multiplier)
     {
         recoilPosition += new Vector3(-0.02f, 0.015f, -0.12f * multiplier);
         recoilRotation += new Vector3(-8f * multiplier, 1.5f * multiplier, UnityEngine.Random.Range(-2f, 2f) * multiplier);
@@ -663,30 +514,69 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         }
     }
 
-    private void HandleInventoryItemAdded(ItemData itemData, int amount)
+    private void EnsureFireModes()
     {
+        foreach (WeaponData weaponData in loadout)
+        {
+            if (weaponData == null || fireModes.ContainsKey(weaponData.FireModeType))
+            {
+                continue;
+            }
+
+            fireModes[weaponData.FireModeType] = FireModeFactory.Create(weaponData.FireModeType);
+        }
+    }
+
+    private IFireMode ResolveFireMode(WeaponData weaponData)
+    {
+        EnsureFireModes();
+        if (weaponData == null)
+        {
+            return null;
+        }
+
+        if (!fireModes.TryGetValue(weaponData.FireModeType, out IFireMode fireMode))
+        {
+            fireMode = FireModeFactory.Create(weaponData.FireModeType);
+            fireModes[weaponData.FireModeType] = fireMode;
+        }
+
+        return fireMode;
+    }
+
+    private void EnsureEventBusBinding()
+    {
+        BindEventBus(GameManager.Instance != null ? GameManager.Instance.EventBus : null);
+    }
+
+    private void BindEventBus(IGameEventBus bus)
+    {
+        if (eventBus == bus)
+        {
+            return;
+        }
+
+        if (eventBus != null)
+        {
+            eventBus.Unsubscribe<ItemPickedEvent>(HandleItemPickedEvent);
+        }
+
+        eventBus = bus;
+        if (eventBus != null)
+        {
+            eventBus.Subscribe<ItemPickedEvent>(HandleItemPickedEvent);
+        }
+    }
+
+    private void HandleItemPickedEvent(ItemPickedEvent gameEvent)
+    {
+        ItemData itemData = gameEvent != null ? gameEvent.ItemData : null;
+        int amount = gameEvent != null ? gameEvent.Amount : 0;
         if (itemData == null || itemData.ItemType != ItemType.Ammo || string.IsNullOrWhiteSpace(itemData.LinkedWeaponId))
         {
             return;
         }
 
         AddAmmo(itemData.LinkedWeaponId, amount);
-    }
-
-    private void HandleInventoryItemRemoved(ItemData itemData, int amount)
-    {
-        if (itemData == null || itemData.ItemType != ItemType.Ammo || string.IsNullOrWhiteSpace(itemData.LinkedWeaponId))
-        {
-            return;
-        }
-
-        var runtimeState = runtimeSlots.FirstOrDefault(slot => slot.Data != null && slot.Data.Id == itemData.LinkedWeaponId);
-        if (runtimeState == null || !runtimeState.Data.UsesAmmo)
-        {
-            return;
-        }
-
-        runtimeState.ReserveAmmo = Mathf.Clamp(runtimeState.ReserveAmmo - amount, 0, Mathf.Max(0, runtimeState.Data.MaxAmmo));
-        GameManager.Instance?.RefreshHud();
     }
 }

@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Camera mapCamera;
     [SerializeField] private GameUiController uiController;
     [SerializeField] private Transform saveableRoot;
+    [SerializeField] private EventManager eventManager;
+    [SerializeField] private GameStateValidator stateValidator;
 
     private readonly List<ISaveableEntity> saveables = new List<ISaveableEntity>();
     private readonly List<EnemyAgent> registeredEnemies = new List<EnemyAgent>();
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     public GameOptionsData CurrentOptions { get; private set; }
     public IPlayerActor Player => player;
+    public IGameEventBus EventBus => eventManager;
     public bool AllowsGameplayInput => IsGameplayRunning && !pauseVisible && !inventoryVisible && !mapVisible && !optionsVisible;
     public bool IsGameplayRunning => !titleMenuVisible && !playerDead;
     public bool IsMapVisible => mapVisible;
@@ -61,6 +64,17 @@ public class GameManager : MonoBehaviour
         Instance = this;
         savePath = Path.Combine(Application.persistentDataPath, "fps_demo_save.json");
         CurrentOptions = GameOptionsStore.Load();
+        eventManager = eventManager != null ? eventManager : GetComponent<EventManager>();
+        if (eventManager == null)
+        {
+            eventManager = gameObject.AddComponent<EventManager>();
+        }
+
+        stateValidator = stateValidator != null ? stateValidator : GetComponent<GameStateValidator>();
+        if (stateValidator == null)
+        {
+            stateValidator = gameObject.AddComponent<GameStateValidator>();
+        }
         string commandLine = string.Join(" ", System.Environment.GetCommandLineArgs());
         autoStartRequested = commandLine.Contains("-autostart");
         smokeTestRequested = commandLine.Contains("-smoketest");
@@ -75,6 +89,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        stateValidator?.Bind(EventBus);
         uiController.Initialize(this, mapTexture);
         if (autoStartRequested || smokeTestRequested)
         {
@@ -340,6 +355,12 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         Time.timeScale = 1f;
+        if (Application.CanStreamedLevelBeLoaded("Bootstrap"))
+        {
+            SceneManager.LoadScene("Bootstrap");
+            return;
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -536,6 +557,17 @@ public class GameManager : MonoBehaviour
         mapCamera = overheadMapCamera;
         uiController = ui;
         saveableRoot = rootWithSaveables;
+        eventManager = eventManager != null ? eventManager : GetComponent<EventManager>();
+        if (eventManager == null)
+        {
+            eventManager = gameObject.AddComponent<EventManager>();
+        }
+        stateValidator = stateValidator != null ? stateValidator : GetComponent<GameStateValidator>();
+        if (stateValidator == null)
+        {
+            stateValidator = gameObject.AddComponent<GameStateValidator>();
+        }
+        stateValidator.Bind(eventManager);
     }
 
     private void ShowInitialTitleMenu()
@@ -577,9 +609,28 @@ public class GameManager : MonoBehaviour
         yield return null;
 
         NotifyStatus("Smoke test: session started");
+        stateValidator?.ResetCounters();
+        float previousHealth = player.StatsComponent.Health;
+        EventBus?.Publish(new DamageEvent
+        {
+            SourceRoot = player.ActorTransform.gameObject,
+            TargetRoot = player.ActorTransform.gameObject,
+            Amount = 9f,
+            HitPoint = player.ActorTransform.position,
+            HitDirection = Vector3.forward
+        });
+        yield return new WaitForSecondsRealtime(0.1f);
+        stateValidator?.ValidatePlayerDamage(player.StatsComponent, previousHealth);
+
+        stateValidator?.ResetCounters();
         player.WeaponSystemComponent.SelectSlot(1);
+        int previousAmmo = player.WeaponSystemComponent.CurrentState != null ? player.WeaponSystemComponent.CurrentState.MagazineAmmo : 0;
         player.WeaponSystemComponent.TriggerCurrent(player);
         yield return new WaitForSecondsRealtime(0.2f);
+        if (player.WeaponSystemComponent.CurrentState != null)
+        {
+            stateValidator?.ValidateWeaponFire(player.WeaponSystemComponent.CurrentState, previousAmmo);
+        }
 
         player.WeaponSystemComponent.SelectSlot(2);
         player.WeaponSystemComponent.TriggerCurrent(player);
@@ -606,15 +657,45 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.2f);
         TogglePauseMenu();
 
-        registeredPickups
-            .FirstOrDefault(pickup => pickup != null && pickup.gameObject.activeInHierarchy)?
-            .Interact(player);
+        stateValidator?.ResetCounters();
+        var firstPickup = registeredPickups.FirstOrDefault(candidate =>
+            candidate != null &&
+            candidate.gameObject.activeInHierarchy &&
+            candidate.ItemData != null &&
+            candidate.ItemData.ItemType != ItemType.Ammo);
+        if (firstPickup != null)
+        {
+            var pickupItemData = firstPickup.ItemData;
+            int previousQuantity = pickupItemData != null ? player.InventoryComponent.GetQuantity(pickupItemData.Id) : 0;
+            firstPickup.Interact(player);
+            yield return new WaitForSecondsRealtime(0.1f);
+            if (pickupItemData != null)
+            {
+                stateValidator?.ValidateInventoryPickup(player.InventoryComponent, pickupItemData.Id, previousQuantity);
+            }
+        }
         yield return new WaitForSecondsRealtime(0.1f);
 
         registeredDoors
             .FirstOrDefault(door => door != null && door.gameObject.activeInHierarchy)?
             .Interact(player);
         yield return new WaitForSecondsRealtime(0.1f);
+
+        EnemyAgent enemy = registeredEnemies.FirstOrDefault(candidate => candidate != null && candidate.IsAlive && candidate.gameObject.activeInHierarchy);
+        if (enemy != null)
+        {
+            stateValidator?.ResetCounters();
+            EventBus?.Publish(new DamageEvent
+            {
+                SourceRoot = player.ActorTransform.gameObject,
+                TargetRoot = enemy.gameObject,
+                Amount = enemy.Health + 1f,
+                HitPoint = enemy.transform.position,
+                HitDirection = (enemy.transform.position - player.ActorTransform.position).normalized
+            });
+            yield return new WaitForSecondsRealtime(0.1f);
+            stateValidator?.ValidateEnemyDeath(enemy);
+        }
 
         SaveGame();
         yield return new WaitForSecondsRealtime(0.1f);

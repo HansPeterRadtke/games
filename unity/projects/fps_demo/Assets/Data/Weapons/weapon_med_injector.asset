@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HPR.FPSDemo.Runtime::WeaponData
   Id: weapon_med_injector
   DisplayName: Med Injector
+  FireModeType: 4
   IncludeInDefaultLoadout: 1
   DefaultSlot: 5
   Damage: 0
@@ -27,11 +28,13 @@ MonoBehaviour:
   LinkedItemId: item_medkit
   UtilityMessage: Med injector restored health
   ViewShape: 3
+  ViewPrefab: {fileID: 0}
   ViewColor: {r: 0.15, g: 0.7, b: 0.18, a: 1}
   ViewLocalPosition: {x: 0.34, y: -0.3, z: 0.72}
   ViewLocalEuler: {x: 0, y: 10, z: 18}
   ViewLocalScale: {x: 0.12, y: 0.2, z: 0.26}
   AimLocalPosition: {x: 0.1, y: -0.22, z: 0.56}
+  ViewMuzzleLocalPosition: {x: 0, y: 0, z: 0}
   Spread: 0
   Pellets: 1
   MagazineSize: 0

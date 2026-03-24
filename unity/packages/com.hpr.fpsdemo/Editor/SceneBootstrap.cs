@@ -8,22 +8,59 @@ using UnityEngine.Rendering;
 
 public static class SceneBootstrap
 {
-    private const string ScenePath = "Assets/Scenes/Main.unity";
+    private const string LegacyScenePath = "Assets/Scenes/Main.unity";
+    private const string GameplayScenePath = "Assets/Scenes/Gameplay.unity";
+    private const string BootstrapScenePath = "Assets/Scenes/Bootstrap.unity";
 
     public static void EnsureProjectSetup()
     {
         GameplayDataSeeder.EnsureDataAssets();
         Directory.CreateDirectory("Assets/Scenes");
-        if (!File.Exists(ScenePath))
+        EnsureBootstrapScene();
+        if (!File.Exists(GameplayScenePath))
         {
-            CreateScene();
-            return;
+            if (File.Exists(LegacyScenePath))
+            {
+                AssetDatabase.CopyAsset(LegacyScenePath, GameplayScenePath);
+                AssetDatabase.Refresh();
+            }
+            else
+            {
+                CreateScene();
+                return;
+            }
         }
 
+        EditorBuildSettings.scenes = new[]
+        {
+            new EditorBuildSettingsScene(BootstrapScenePath, true),
+            new EditorBuildSettingsScene(GameplayScenePath, true)
+        };
         EnsureSceneWiring();
     }
 
+    private static void EnsureBootstrapScene()
+    {
+        if (File.Exists(BootstrapScenePath))
+        {
+            return;
+        }
+
+        var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        var bootstrap = new GameObject("Bootstrap");
+        bootstrap.AddComponent<BootstrapLoader>();
+        EditorSceneManager.SaveScene(scene, BootstrapScenePath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
     public static void CreateScene()
+    {
+        CreateGameplayScene();
+        EnsureBootstrapScene();
+    }
+
+    private static void CreateGameplayScene()
     {
         GameplayDataSeeder.EnsureDataAssets();
         Directory.CreateDirectory("Assets/Scenes");
@@ -44,25 +81,26 @@ public static class SceneBootstrap
 
         EditorBuildSettings.scenes = new[]
         {
-            new EditorBuildSettingsScene(ScenePath, true)
+            new EditorBuildSettingsScene(BootstrapScenePath, true),
+            new EditorBuildSettingsScene(GameplayScenePath, true)
         };
 
-        EditorSceneManager.SaveScene(scene, ScenePath);
+        EditorSceneManager.SaveScene(scene, GameplayScenePath);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-        Debug.Log($"Created {ScenePath}");
+        Debug.Log($"Created {GameplayScenePath}");
     }
 
     public static void RecreateDemoScene()
     {
-        CreateScene();
+        CreateGameplayScene();
     }
 
     public static void BuildLinux()
     {
         EnsureProjectSetup();
         Directory.CreateDirectory("Build/Linux");
-        var report = BuildPipeline.BuildPlayer(new[] { ScenePath }, "Build/Linux/FPSDemo.x86_64", BuildTarget.StandaloneLinux64, BuildOptions.StrictMode);
+        var report = BuildPipeline.BuildPlayer(new[] { BootstrapScenePath, GameplayScenePath }, "Build/Linux/FPSDemo.x86_64", BuildTarget.StandaloneLinux64, BuildOptions.StrictMode);
         if (report.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
         {
             throw new System.Exception($"Build failed: {report.summary.result}");
@@ -72,7 +110,7 @@ public static class SceneBootstrap
 
     private static void EnsureSceneWiring()
     {
-        var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+        var scene = EditorSceneManager.OpenScene(GameplayScenePath, OpenSceneMode.Single);
         bool changed = false;
 
         var playerGo = GameObject.Find("Player");
@@ -87,6 +125,7 @@ public static class SceneBootstrap
         var knownItems = GameplayDataSeeder.LoadAllItems();
         var loadout = GameplayDataSeeder.LoadDefaultWeapons();
 
+        changed |= EnsureWorldHierarchy(world);
         changed |= EnsurePlayerRuntime(playerGo, knownItems, loadout, mapCamera);
         changed |= EnsureSystemRuntime(systems, playerGo.GetComponent<PlayerActorContext>(), mapCamera, world);
 
@@ -210,11 +249,18 @@ public static class SceneBootstrap
     private static bool EnsureSystemRuntime(GameObject systems, PlayerActorContext player, Camera mapCamera, Transform worldRoot)
     {
         bool changed = false;
+        changed |= systems.GetComponent<EventManager>() == null;
+        var eventManager = GameObjectUtils.GetOrAddComponent<EventManager>(systems);
+        changed |= systems.GetComponent<GameStateValidator>() == null;
+        var validator = GameObjectUtils.GetOrAddComponent<GameStateValidator>(systems);
         changed |= systems.GetComponent<GameUiController>() == null;
         var ui = GameObjectUtils.GetOrAddComponent<GameUiController>(systems);
         changed |= systems.GetComponent<GameManager>() == null;
         var manager = GameObjectUtils.GetOrAddComponent<GameManager>(systems);
         manager.AssignReferences(player, mapCamera, ui, worldRoot);
+        validator.Bind(eventManager);
+        EditorUtility.SetDirty(eventManager);
+        EditorUtility.SetDirty(validator);
         EditorUtility.SetDirty(ui);
         EditorUtility.SetDirty(manager);
         return changed;
@@ -223,34 +269,38 @@ public static class SceneBootstrap
     private static Transform CreateWorld(Dictionary<string, Material> materials, IReadOnlyDictionary<string, ItemData> items)
     {
         var world = new GameObject("World").transform;
-        CreateBlock(world, "Ground", new Vector3(0f, -0.5f, 0f), new Vector3(62f, 1f, 62f), materials["Ground"]);
-        CreateBlock(world, "PerimeterNorth", new Vector3(0f, 2f, 31f), new Vector3(62f, 4f, 1f), materials["Wall"]);
-        CreateBlock(world, "PerimeterSouth", new Vector3(0f, 2f, -31f), new Vector3(62f, 4f, 1f), materials["Wall"]);
-        CreateBlock(world, "PerimeterEast", new Vector3(31f, 2f, 0f), new Vector3(1f, 4f, 62f), materials["Wall"]);
-        CreateBlock(world, "PerimeterWest", new Vector3(-31f, 2f, 0f), new Vector3(1f, 4f, 62f), materials["Wall"]);
+        var environmentRoot = EnsureChild(world, "EnvironmentRoot");
+        var enemyRoot = EnsureChild(world, "EnemyRoot");
+        var propsRoot = EnsureChild(world, "PropsRoot");
 
-        CreateBlock(world, "HubNorthLeft", new Vector3(-7f, 2f, 10f), new Vector3(6f, 4f, 1f), materials["Wall"]);
-        CreateBlock(world, "HubNorthRight", new Vector3(7f, 2f, 10f), new Vector3(6f, 4f, 1f), materials["Wall"]);
-        CreateBlock(world, "HubSouthLeft", new Vector3(-7f, 2f, -10f), new Vector3(6f, 4f, 1f), materials["Wall"]);
-        CreateBlock(world, "HubSouthRight", new Vector3(7f, 2f, -10f), new Vector3(6f, 4f, 1f), materials["Wall"]);
-        CreateBlock(world, "HubEastTop", new Vector3(10f, 2f, 7f), new Vector3(1f, 4f, 6f), materials["Wall"]);
-        CreateBlock(world, "HubEastBottom", new Vector3(10f, 2f, -7f), new Vector3(1f, 4f, 6f), materials["Wall"]);
-        CreateBlock(world, "HubWestTop", new Vector3(-10f, 2f, 7f), new Vector3(1f, 4f, 6f), materials["Wall"]);
-        CreateBlock(world, "HubWestBottom", new Vector3(-10f, 2f, -7f), new Vector3(1f, 4f, 6f), materials["Wall"]);
+        CreateBlock(environmentRoot, "Ground", new Vector3(0f, -0.5f, 0f), new Vector3(62f, 1f, 62f), materials["Ground"]);
+        CreateBlock(environmentRoot, "PerimeterNorth", new Vector3(0f, 2f, 31f), new Vector3(62f, 4f, 1f), materials["Wall"]);
+        CreateBlock(environmentRoot, "PerimeterSouth", new Vector3(0f, 2f, -31f), new Vector3(62f, 4f, 1f), materials["Wall"]);
+        CreateBlock(environmentRoot, "PerimeterEast", new Vector3(31f, 2f, 0f), new Vector3(1f, 4f, 62f), materials["Wall"]);
+        CreateBlock(environmentRoot, "PerimeterWest", new Vector3(-31f, 2f, 0f), new Vector3(1f, 4f, 62f), materials["Wall"]);
 
-        CreateBlock(world, "NorthRoomFront", new Vector3(0f, 2f, 30f), new Vector3(22f, 4f, 1f), materials["Wall"]);
-        CreateBlock(world, "SouthRoomFront", new Vector3(0f, 2f, -30f), new Vector3(22f, 4f, 1f), materials["Wall"]);
-        CreateBlock(world, "EastRoomFront", new Vector3(30f, 2f, 0f), new Vector3(1f, 4f, 22f), materials["Wall"]);
-        CreateBlock(world, "WestRoomFront", new Vector3(-30f, 2f, 0f), new Vector3(1f, 4f, 22f), materials["Wall"]);
+        CreateBlock(environmentRoot, "HubNorthLeft", new Vector3(-7f, 2f, 10f), new Vector3(6f, 4f, 1f), materials["Wall"]);
+        CreateBlock(environmentRoot, "HubNorthRight", new Vector3(7f, 2f, 10f), new Vector3(6f, 4f, 1f), materials["Wall"]);
+        CreateBlock(environmentRoot, "HubSouthLeft", new Vector3(-7f, 2f, -10f), new Vector3(6f, 4f, 1f), materials["Wall"]);
+        CreateBlock(environmentRoot, "HubSouthRight", new Vector3(7f, 2f, -10f), new Vector3(6f, 4f, 1f), materials["Wall"]);
+        CreateBlock(environmentRoot, "HubEastTop", new Vector3(10f, 2f, 7f), new Vector3(1f, 4f, 6f), materials["Wall"]);
+        CreateBlock(environmentRoot, "HubEastBottom", new Vector3(10f, 2f, -7f), new Vector3(1f, 4f, 6f), materials["Wall"]);
+        CreateBlock(environmentRoot, "HubWestTop", new Vector3(-10f, 2f, 7f), new Vector3(1f, 4f, 6f), materials["Wall"]);
+        CreateBlock(environmentRoot, "HubWestBottom", new Vector3(-10f, 2f, -7f), new Vector3(1f, 4f, 6f), materials["Wall"]);
 
-        CreateDoor(world, "door_east", new Vector3(10f, 0f, 0f), Vector3.zero, null, materials["Door"]);
-        CreateDoor(world, "door_west", new Vector3(-10f, 0f, 0f), new Vector3(0f, 180f, 0f), null, materials["Door"]);
-        CreateDoor(world, "door_north", new Vector3(0f, 0f, 10f), new Vector3(0f, 90f, 0f), items["key_red"], materials["SecurityDoor"]);
-        CreateDoor(world, "door_south", new Vector3(0f, 0f, -10f), new Vector3(0f, -90f, 0f), items["key_blue"], materials["BlueDoor"]);
+        CreateBlock(environmentRoot, "NorthRoomFront", new Vector3(0f, 2f, 30f), new Vector3(22f, 4f, 1f), materials["Wall"]);
+        CreateBlock(environmentRoot, "SouthRoomFront", new Vector3(0f, 2f, -30f), new Vector3(22f, 4f, 1f), materials["Wall"]);
+        CreateBlock(environmentRoot, "EastRoomFront", new Vector3(30f, 2f, 0f), new Vector3(1f, 4f, 22f), materials["Wall"]);
+        CreateBlock(environmentRoot, "WestRoomFront", new Vector3(-30f, 2f, 0f), new Vector3(1f, 4f, 22f), materials["Wall"]);
 
-        CreateCoverAndDecor(world, materials);
-        CreatePickups(world, materials, items);
-        CreateEnemies(world, materials);
+        CreateDoor(environmentRoot, "door_east", new Vector3(10f, 0f, 0f), Vector3.zero, null, materials["Door"]);
+        CreateDoor(environmentRoot, "door_west", new Vector3(-10f, 0f, 0f), new Vector3(0f, 180f, 0f), null, materials["Door"]);
+        CreateDoor(environmentRoot, "door_north", new Vector3(0f, 0f, 10f), new Vector3(0f, 90f, 0f), items["key_red"], materials["SecurityDoor"]);
+        CreateDoor(environmentRoot, "door_south", new Vector3(0f, 0f, -10f), new Vector3(0f, -90f, 0f), items["key_blue"], materials["BlueDoor"]);
+
+        CreateCoverAndDecor(propsRoot, materials);
+        CreatePickups(propsRoot, materials, items);
+        CreateEnemies(enemyRoot, materials);
         return world;
     }
 
@@ -362,9 +412,12 @@ public static class SceneBootstrap
     private static GameManager CreateGameSystems(PlayerActorContext player, Camera mapCamera, Transform worldRoot)
     {
         var systems = new GameObject("GameSystems");
+        var eventManager = systems.AddComponent<EventManager>();
         var ui = systems.AddComponent<GameUiController>();
+        var validator = systems.AddComponent<GameStateValidator>();
         var manager = systems.AddComponent<GameManager>();
         manager.AssignReferences(player, mapCamera, ui, worldRoot);
+        validator.Bind(eventManager);
         return manager;
     }
 
@@ -478,5 +531,71 @@ public static class SceneBootstrap
         go.transform.localScale = scale;
         go.GetComponent<Renderer>().sharedMaterial = material;
         return go;
+    }
+
+    private static bool EnsureWorldHierarchy(Transform world)
+    {
+        if (world == null)
+        {
+            return false;
+        }
+
+        bool changed = false;
+        var environmentRoot = EnsureChild(world, "EnvironmentRoot");
+        var enemyRoot = EnsureChild(world, "EnemyRoot");
+        var propsRoot = EnsureChild(world, "PropsRoot");
+
+        var children = new List<Transform>();
+        foreach (Transform child in world)
+        {
+            if (child == environmentRoot || child == enemyRoot || child == propsRoot)
+            {
+                continue;
+            }
+
+            children.Add(child);
+        }
+
+        foreach (Transform child in children)
+        {
+            Transform targetParent = ResolveWorldContainer(child, environmentRoot, enemyRoot, propsRoot);
+            if (child.parent == targetParent)
+            {
+                continue;
+            }
+
+            child.SetParent(targetParent, true);
+            changed = true;
+        }
+
+        return changed;
+    }
+
+    private static Transform ResolveWorldContainer(Transform child, Transform environmentRoot, Transform enemyRoot, Transform propsRoot)
+    {
+        if (child.GetComponent<EnemyAgent>() != null || child.name.Contains("_Patrol"))
+        {
+            return enemyRoot;
+        }
+
+        if (child.GetComponent<PickupItem>() != null || child.GetComponent<Rigidbody>() != null || child.name.StartsWith("pickup_") || child.name.Contains("ThirdPartyArt"))
+        {
+            return propsRoot;
+        }
+
+        return environmentRoot;
+    }
+
+    private static Transform EnsureChild(Transform parent, string name)
+    {
+        var child = parent.Find(name);
+        if (child != null)
+        {
+            return child;
+        }
+
+        var go = new GameObject(name);
+        go.transform.SetParent(parent, false);
+        return go.transform;
     }
 }

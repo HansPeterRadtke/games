@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HPR.FPSDemo.Runtime::WeaponData
   Id: weapon_repair_tool
   DisplayName: Repair Tool
+  FireModeType: 4
   IncludeInDefaultLoadout: 1
   DefaultSlot: 6
   Damage: 0
@@ -24,14 +25,16 @@ MonoBehaviour:
   ProjectilePrefab: {fileID: 0}
   Kind: 4
   UtilityAction: 4
-  LinkedItemId:
+  LinkedItemId: 
   UtilityMessage: Repair tool primed - interact with machinery
   ViewShape: 1
+  ViewPrefab: {fileID: 0}
   ViewColor: {r: 0.85, g: 0.55, b: 0.12, a: 1}
   ViewLocalPosition: {x: 0.34, y: -0.28, z: 0.8}
   ViewLocalEuler: {x: 0, y: 0, z: -70}
   ViewLocalScale: {x: 0.09, y: 0.26, z: 0.09}
   AimLocalPosition: {x: 0.08, y: -0.22, z: 0.6}
+  ViewMuzzleLocalPosition: {x: 0, y: 0, z: 0}
   Spread: 0
   Pellets: 1
   MagazineSize: 0

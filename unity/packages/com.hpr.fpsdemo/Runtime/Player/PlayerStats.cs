@@ -13,6 +13,18 @@ public class PlayerStats : MonoBehaviour, IPlayerStats
     public float Stamina => stamina;
     public bool IsAlive => health > 0f;
 
+    private IGameEventBus eventBus;
+
+    private void Start()
+    {
+        BindEventBus(GameManager.Instance != null ? GameManager.Instance.EventBus : null);
+    }
+
+    private void OnDestroy()
+    {
+        BindEventBus(null);
+    }
+
     public void ResetStats()
     {
         health = maxHealth;
@@ -58,14 +70,39 @@ public class PlayerStats : MonoBehaviour, IPlayerStats
         }
 
         health = Mathf.Max(0f, health - amount);
-        if (GetComponent<IImpactReceiver>() is { } impactReceiver)
-        {
-            impactReceiver.ApplyImpact(hitDirection.normalized * Mathf.Clamp(amount * 0.18f, 1.2f, 6.5f), hitPoint);
-        }
         GameManager.Instance?.NotifyStatus($"Player hit: -{amount:0}");
         if (health <= 0f)
         {
             GameManager.Instance?.HandlePlayerDeath();
         }
+    }
+
+    private void BindEventBus(IGameEventBus bus)
+    {
+        if (eventBus == bus)
+        {
+            return;
+        }
+
+        if (eventBus != null)
+        {
+            eventBus.Unsubscribe<DamageEvent>(HandleDamageEvent);
+        }
+
+        eventBus = bus;
+        if (eventBus != null)
+        {
+            eventBus.Subscribe<DamageEvent>(HandleDamageEvent);
+        }
+    }
+
+    private void HandleDamageEvent(DamageEvent gameEvent)
+    {
+        if (gameEvent == null || gameEvent.TargetRoot != gameObject)
+        {
+            return;
+        }
+
+        ApplyDamage(gameEvent.Amount, gameEvent.HitPoint, gameEvent.HitDirection);
     }
 }

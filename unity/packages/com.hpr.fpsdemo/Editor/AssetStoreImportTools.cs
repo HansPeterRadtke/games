@@ -14,6 +14,13 @@ public static class AssetStoreImportTools
     private static volatile bool s_DownloadSucceeded;
     private static string s_DownloadPath;
     private static string s_DownloadMessage;
+    private static string s_ExpectedFinalPath;
+    private static string s_TempDownloadDirectory;
+    private static string s_TempDownloadPattern;
+    private static DateTime s_DownloadDeadlineUtc;
+    private static DateTime s_LastProgressLogUtc;
+    private static long s_LastObservedSize = -1;
+    private static int s_StableTicks;
 
     [MenuItem("HPR/Assets/Import Unity Package From Arg")]
     public static void ImportFromArgs()
@@ -263,7 +270,13 @@ public static class AssetStoreImportTools
 
         s_DownloadFinished = false;
         s_DownloadSucceeded = false;
-        var expectedFinalPath = s_DownloadPath;
+        s_ExpectedFinalPath = s_DownloadPath;
+        s_TempDownloadDirectory = Path.GetDirectoryName(s_ExpectedFinalPath);
+        s_TempDownloadPattern = $".*-{assetId}.tmp";
+        s_DownloadDeadlineUtc = DateTime.UtcNow.AddSeconds(timeoutSeconds);
+        s_LastProgressLogUtc = DateTime.MinValue;
+        s_LastObservedSize = -1;
+        s_StableTicks = 0;
         s_DownloadPath = string.Empty;
         s_DownloadMessage = string.Empty;
 
@@ -274,48 +287,8 @@ public static class AssetStoreImportTools
         Debug.Log($"ASSETSTORE direct download start assetId={assetId} publisher={publisher} category={category} package={packageName} destination={string.Join("/", destination)}");
         var downloadTarget = contextDownloadMethod.IsStatic ? null : context;
         contextDownloadMethod.Invoke(downloadTarget, new object[] { assetId, assetUrl, assetKey, packageName, publisher, category, callback });
-
-        var deadline = DateTime.UtcNow.AddSeconds(timeoutSeconds);
-        long lastObservedSize = -1;
-        int stableTicks = 0;
-        while (!s_DownloadFinished && DateTime.UtcNow < deadline)
-        {
-            if (!string.IsNullOrWhiteSpace(expectedFinalPath) && File.Exists(expectedFinalPath))
-            {
-                var info = new FileInfo(expectedFinalPath);
-                if (info.Length == lastObservedSize && info.Length > 0)
-                {
-                    stableTicks++;
-                    if (stableTicks >= 3)
-                    {
-                        s_DownloadFinished = true;
-                        s_DownloadSucceeded = true;
-                        s_DownloadPath = expectedFinalPath;
-                        s_DownloadMessage = $"stableSize={info.Length}";
-                        break;
-                    }
-                }
-                else
-                {
-                    lastObservedSize = info.Length;
-                    stableTicks = 0;
-                    Debug.Log($"ASSETSTORE final path size {info.Length}");
-                }
-            }
-
-            Thread.Sleep(1000);
-        }
-
-        if (!s_DownloadFinished)
-        {
-            throw new TimeoutException($"Timed out waiting for direct Asset Store download {assetId}");
-        }
-
-        Debug.Log($"ASSETSTORE direct download finished success={s_DownloadSucceeded} path={s_DownloadPath} message={s_DownloadMessage}");
-        if (!s_DownloadSucceeded)
-        {
-            throw new Exception($"Direct Asset Store download failed: {s_DownloadMessage}");
-        }
+        EditorApplication.update -= PollAssetStoreDownload;
+        EditorApplication.update += PollAssetStoreDownload;
     }
 
     public static void ImportPackage(string packagePath)
@@ -440,6 +413,83 @@ public static class AssetStoreImportTools
         }
 
         throw new Exception($"Missing -{key} <value>");
+    }
+
+    private static void PollAssetStoreDownload()
+    {
+        if (s_DownloadFinished)
+        {
+            FinishAssetStoreDownload();
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(s_ExpectedFinalPath) && File.Exists(s_ExpectedFinalPath))
+        {
+            var info = new FileInfo(s_ExpectedFinalPath);
+            if (info.Length == s_LastObservedSize && info.Length > 0)
+            {
+                s_StableTicks++;
+                if (s_StableTicks >= 3)
+                {
+                    s_DownloadFinished = true;
+                    s_DownloadSucceeded = true;
+                    s_DownloadPath = s_ExpectedFinalPath;
+                    s_DownloadMessage = $"stableSize={info.Length}";
+                    FinishAssetStoreDownload();
+                    return;
+                }
+            }
+            else
+            {
+                s_LastObservedSize = info.Length;
+                s_StableTicks = 0;
+                Debug.Log($"ASSETSTORE final path size {info.Length}");
+            }
+        }
+        else
+        {
+            var tempPath = FindActiveTempDownload();
+            if (!string.IsNullOrWhiteSpace(tempPath))
+            {
+                var info = new FileInfo(tempPath);
+                if (info.Length != s_LastObservedSize || DateTime.UtcNow - s_LastProgressLogUtc > TimeSpan.FromSeconds(15))
+                {
+                    s_LastObservedSize = info.Length;
+                    s_LastProgressLogUtc = DateTime.UtcNow;
+                    Debug.Log($"ASSETSTORE temp path size {info.Length} path={tempPath}");
+                }
+            }
+        }
+
+        if (DateTime.UtcNow >= s_DownloadDeadlineUtc)
+        {
+            s_DownloadFinished = true;
+            s_DownloadSucceeded = false;
+            s_DownloadMessage = $"Timed out waiting for direct Asset Store download {s_TempDownloadPattern}";
+            FinishAssetStoreDownload();
+        }
+    }
+
+    private static string FindActiveTempDownload()
+    {
+        if (string.IsNullOrWhiteSpace(s_TempDownloadDirectory) || string.IsNullOrWhiteSpace(s_TempDownloadPattern) || !Directory.Exists(s_TempDownloadDirectory))
+        {
+            return null;
+        }
+
+        return Directory.GetFiles(s_TempDownloadDirectory, s_TempDownloadPattern)
+            .OrderByDescending(path => File.GetLastWriteTimeUtc(path))
+            .FirstOrDefault();
+    }
+
+    private static void FinishAssetStoreDownload()
+    {
+        EditorApplication.update -= PollAssetStoreDownload;
+        Debug.Log($"ASSETSTORE direct download finished success={s_DownloadSucceeded} path={s_DownloadPath} message={s_DownloadMessage}");
+        if (Application.isBatchMode)
+        {
+            EditorApplication.Exit(s_DownloadSucceeded ? 0 : 1);
+        }
     }
 
     private static void OnAssetStoreContextDownloadDone(string downloadId, string destination, int bytes, int resultCode)

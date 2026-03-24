@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HPR.FPSDemo.Runtime::WeaponData
   Id: weapon_scatter_shot
   DisplayName: Scatter Shot
+  FireModeType: 2
   IncludeInDefaultLoadout: 1
   DefaultSlot: 1
   Damage: 8
@@ -24,14 +25,16 @@ MonoBehaviour:
   ProjectilePrefab: {fileID: 0}
   Kind: 1
   UtilityAction: 0
-  LinkedItemId:
-  UtilityMessage:
+  LinkedItemId: 
+  UtilityMessage: 
   ViewShape: 3
+  ViewPrefab: {fileID: 0}
   ViewColor: {r: 0.35, g: 0.15, b: 0.1, a: 1}
   ViewLocalPosition: {x: 0.32, y: -0.28, z: 0.74}
   ViewLocalEuler: {x: 5, y: 0, z: -12}
   ViewLocalScale: {x: 0.26, y: 0.18, z: 0.55}
   AimLocalPosition: {x: 0.06, y: -0.22, z: 0.52}
+  ViewMuzzleLocalPosition: {x: 0, y: 0, z: 0}
   Spread: 5.4
   Pellets: 8
   MagazineSize: 6

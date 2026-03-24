@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HPR.FPSDemo.Runtime::WeaponData
   Id: weapon_arc_launcher
   DisplayName: Arc Launcher
+  FireModeType: 1
   IncludeInDefaultLoadout: 1
   DefaultSlot: 3
   Damage: 48
@@ -24,14 +25,16 @@ MonoBehaviour:
   ProjectilePrefab: {fileID: 0}
   Kind: 3
   UtilityAction: 0
-  LinkedItemId:
-  UtilityMessage:
+  LinkedItemId: 
+  UtilityMessage: 
   ViewShape: 1
+  ViewPrefab: {fileID: 0}
   ViewColor: {r: 0.15, g: 0.45, b: 0.7, a: 1}
   ViewLocalPosition: {x: 0.3, y: -0.25, z: 0.76}
   ViewLocalEuler: {x: -10, y: 0, z: -90}
   ViewLocalScale: {x: 0.14, y: 0.22, z: 0.14}
   AimLocalPosition: {x: 0.03, y: -0.18, z: 0.5}
+  ViewMuzzleLocalPosition: {x: 0, y: 0, z: 0}
   Spread: 0
   Pellets: 1
   MagazineSize: 2

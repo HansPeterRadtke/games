@@ -5,6 +5,7 @@ public class EnemyData : ScriptableObject
 {
     public string Id;
     public string DisplayName;
+    public EnemyAIType AIType = EnemyAIType.PatrolChase;
     public float MaxHealth;
     public float MoveSpeed;
     public float ChaseRange;

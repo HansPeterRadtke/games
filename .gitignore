@@ -40,6 +40,10 @@ unity/assetstore/logs/
 unity/assetstore/metadata/*.json
 unity/assetstore/metadata/pipeline/*.json
 unity/assetstore/metadata/pipeline/*.done
+unity/projects/fps_demo/Assets/Data/AssetRegistry.asset
+unity/projects/fps_demo/Assets/Data/AssetRegistry.asset.meta
+unity/projects/fps_demo/Assets/Data/AssetMetadata/Imported/
+unity/projects/fps_demo/Assets/Data/AssetMetadata/Imported.meta
 
 # BEGIN local Unity imported assets
 unity/projects/fps_demo/Assets/Free Wood Door Pack/

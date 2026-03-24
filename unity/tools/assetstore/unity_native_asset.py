@@ -22,10 +22,11 @@ DOWNLOAD_CACHE = Path("/home/hans/.local/share/unity3d/Asset Store-5.x")
 PIPELINE_META_DIR = REPO_ROOT / "unity/assetstore/metadata/pipeline"
 
 
-def build_unity_command(project: Path, method: str, extra_args: list[str], log_name: str) -> tuple[list[str], Path]:
+def build_unity_command(project: Path, method: str, extra_args: list[str], log_name: str, auto_quit: bool = True) -> tuple[list[str], Path]:
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     log_path = LOG_DIR / log_name
     args_str = " ".join(shlex.quote(arg) for arg in extra_args)
+    quit_arg = " -quit" if auto_quit else ""
     cmd = [
         "sudo", "-u", "hans", "-H",
         "env",
@@ -37,7 +38,8 @@ def build_unity_command(project: Path, method: str, extra_args: list[str], log_n
         + method
         + " "
         + args_str
-        + " -quit -logFile \"$LOG\"",
+        + quit_arg
+        + " -logFile \"$LOG\"",
     ]
     return cmd, log_path
 
@@ -181,7 +183,7 @@ def run_unity_download_with_monitoring(
     stall_timeout: int,
 ) -> tuple[int, str, str]:
     kill_stale_helper_unity()
-    cmd, log_path = build_unity_command(HELPER_PROJECT, method, extra_args, log_name)
+    cmd, log_path = build_unity_command(HELPER_PROJECT, method, extra_args, log_name, auto_quit=False)
     process = subprocess.Popen(
         cmd,
         text=True,

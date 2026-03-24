@@ -9,6 +9,8 @@ public class PickupItem : MonoBehaviour, IInteractable, ISaveableEntity
     [SerializeField] private int amount = 1;
 
     public string SaveId => saveId;
+    public ItemData ItemData => itemData;
+    public int Amount => amount;
 
     private void Awake()
     {
@@ -49,6 +51,12 @@ public class PickupItem : MonoBehaviour, IInteractable, ISaveableEntity
             return;
         }
 
+        GameManager.Instance?.EventBus?.Publish(new ItemPickedEvent
+        {
+            PickerRoot = player.ActorTransform.gameObject,
+            ItemData = itemData,
+            Amount = amount
+        });
         GameManager.Instance?.NotifyStatus(string.IsNullOrWhiteSpace(itemData.PickupStatus) ? $"Collected {itemData.DisplayName}" : itemData.PickupStatus);
         gameObject.SetActive(false);
     }
