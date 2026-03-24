@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveableEntity
 {
+    private const string AutoVisualName = "__AutoVisual";
+
     [SerializeField] private string saveId;
     [SerializeField] private EnemyData enemyData;
     [SerializeField] private Transform patrolA;
@@ -23,6 +25,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
     {
         controller = GetComponent<CharacterController>();
         health = enemyData != null ? enemyData.MaxHealth : 0f;
+        RefreshPresentation();
     }
 
     private void OnEnable()
@@ -122,6 +125,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         patrolB = waypointB;
         muzzle = projectileMuzzle;
         health = enemyData != null ? enemyData.MaxHealth : 0f;
+        RefreshPresentation();
     }
 
     public void ApplyDamage(float amount, Vector3 hitPoint, Vector3 hitDirection)
@@ -207,5 +211,66 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
 
         var behaviour = projectile.AddComponent<PhysicsProjectile>();
         behaviour.Configure(transform, direction, enemyData.AttackDamage, enemyData.ProjectileSpeed, enemyData.ProjectileImpact, 4f, 0f, renderer != null ? renderer.sharedMaterial.color : Color.red);
+    }
+
+    private void RefreshPresentation()
+    {
+        var autoVisual = transform.Find(AutoVisualName);
+        if (autoVisual != null)
+        {
+            DestroyObject(autoVisual.gameObject);
+        }
+
+        var customVisual = enemyData != null ? enemyData.VisualPrefab : null;
+        foreach (var renderer in GetComponentsInChildren<Renderer>(true))
+        {
+            if (renderer.transform != autoVisual)
+            {
+                renderer.enabled = customVisual == null || renderer.transform == transform.Find("Muzzle");
+            }
+        }
+
+        if (customVisual == null)
+        {
+            return;
+        }
+
+        var visual = Instantiate(customVisual, transform);
+        visual.name = AutoVisualName;
+        visual.transform.localPosition = enemyData.VisualLocalPosition;
+        visual.transform.localEulerAngles = enemyData.VisualLocalEuler;
+        visual.transform.localScale = enemyData.VisualLocalScale;
+
+        foreach (var behaviour in visual.GetComponentsInChildren<MonoBehaviour>(true))
+        {
+            DestroyObject(behaviour);
+        }
+
+        foreach (var rigidbody in visual.GetComponentsInChildren<Rigidbody>(true))
+        {
+            DestroyObject(rigidbody);
+        }
+
+        foreach (var collider in visual.GetComponentsInChildren<Collider>(true))
+        {
+            DestroyObject(collider);
+        }
+    }
+
+    private static void DestroyObject(Object target)
+    {
+        if (target == null)
+        {
+            return;
+        }
+
+        if (Application.isPlaying)
+        {
+            Destroy(target);
+        }
+        else
+        {
+            DestroyImmediate(target);
+        }
     }
 }

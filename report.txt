@@ -1,0 +1,24 @@
+Intermediate report - 2026-03-24
+
+Current state
+- Unity workspace is live in unity/projects/fps_demo with shared packages in unity/packages.
+- The gameplay package was refactored to a data-driven architecture with ScriptableObjects for weapons, items, and enemies.
+- Unity Asset Store tooling now exists under unity/tools/assetstore and unity/assetstore.
+- The project compiles and the Linux player build succeeds after the current editor/integration changes.
+
+Asset pipeline
+- Free Wood Door Pack is imported and integrated into the main scene.
+- Furniture, weapon, house/environment, and character integration hooks exist in ThirdPartyAssetIntegrator.
+- A sequential asset pipeline script exists at unity/assetstore/asset_pipeline.sh.
+- The native downloader now refreshes Unity tokens, caches metadata, cleans stale temp downloads before retry, and reports stalled downloads instead of hanging forever.
+
+What is still in progress
+- Large native Asset Store packages are not finishing reliably through Unity's cache pipeline yet.
+- The current focus is Furniture Mega Pack - Free (330002), because it is the first large package needed for the integration chain.
+- I have isolated the failure mode to stale/partial raw Asset Store cache files and am testing alternative finalize/import paths.
+
+Next steps after this report
+- keep one active download/finalization path running for package 330002
+- finish native import of furniture, then continue the remaining packages sequentially
+- rebuild and smoke-test after each integration step
+- continue scene enlargement and art integration as each package lands

@@ -15,4 +15,8 @@ public class ItemData : ScriptableObject
     public string LinkedWeaponId;
     public Color PlaceholderColor = Color.white;
     public int StartingPlayerQuantity;
+    public GameObject PickupPrefab;
+    public Vector3 PickupVisualLocalPosition;
+    public Vector3 PickupVisualLocalEuler;
+    public Vector3 PickupVisualLocalScale = Vector3.one;
 }

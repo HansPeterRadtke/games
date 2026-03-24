@@ -33,3 +33,13 @@ Assets/AssetStoreTools*
 .idea/
 .gradle/
 .git_credentials
+
+# local Unity assetstore workflow state
+unity/assetstore/downloads/
+unity/assetstore/logs/
+unity/assetstore/metadata/*.json
+
+# Local imported Unity assets
+unity/projects/fps_demo/Assets/Free Wood Door Pack/
+unity/projects/fps_demo/Assets/Free Wood Door Pack.meta
+unity/assetstore/imported/

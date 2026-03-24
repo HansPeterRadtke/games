@@ -16,4 +16,8 @@ public class EnemyData : ScriptableObject
     public float ProjectileSpeed = 28f;
     public float ProjectileImpact = 7f;
     public float PreferredRange = 7.5f;
+    public GameObject VisualPrefab;
+    public Vector3 VisualLocalPosition;
+    public Vector3 VisualLocalEuler;
+    public Vector3 VisualLocalScale = Vector3.one;
 }

@@ -18,11 +18,13 @@ public class WeaponData : ScriptableObject
     public string LinkedItemId;
     public string UtilityMessage;
     public PrimitiveType ViewShape = PrimitiveType.Cube;
+    public GameObject ViewPrefab;
     public Color ViewColor = Color.white;
     public Vector3 ViewLocalPosition;
     public Vector3 ViewLocalEuler;
     public Vector3 ViewLocalScale = Vector3.one;
     public Vector3 AimLocalPosition;
+    public Vector3 ViewMuzzleLocalPosition;
     public float Spread;
     public int Pellets = 1;
     public int MagazineSize;

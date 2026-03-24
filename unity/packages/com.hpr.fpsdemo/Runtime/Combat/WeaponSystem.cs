@@ -544,8 +544,9 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
 
     private void BuildViewModels()
     {
-        foreach (var runtimeState in runtimeSlots)
+        for (int index = 0; index < runtimeSlots.Count; index++)
         {
+            var runtimeState = runtimeSlots[index];
             if (runtimeState.ViewModel != null)
             {
                 Destroy(runtimeState.ViewModel);
@@ -558,53 +559,107 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
             root.transform.localEulerAngles = runtimeState.Data.ViewLocalEuler;
             root.transform.localScale = Vector3.one;
 
-            var body = GameObject.CreatePrimitive(runtimeState.Data.ViewShape);
-            body.name = "Body";
-            body.layer = 2;
-            body.transform.SetParent(root.transform, false);
-            body.transform.localPosition = Vector3.zero;
-            body.transform.localRotation = Quaternion.identity;
-            body.transform.localScale = runtimeState.Data.ViewLocalScale;
-            var bodyRenderer = body.GetComponent<Renderer>();
-            if (bodyRenderer != null)
-            {
-                bodyRenderer.sharedMaterial = new Material(Shader.Find("Standard")) { color = runtimeState.Data.ViewColor };
-            }
-
-            foreach (var collider in body.GetComponentsInChildren<Collider>())
-            {
-                Destroy(collider);
-            }
-
-            var barrel = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            barrel.name = "Barrel";
-            barrel.layer = 2;
-            barrel.transform.SetParent(root.transform, false);
-            barrel.transform.localPosition = new Vector3(0f, 0.01f, runtimeState.Data.ViewLocalScale.z * 0.55f);
-            barrel.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
-            barrel.transform.localScale = new Vector3(runtimeState.Data.ViewLocalScale.x * 0.25f, runtimeState.Data.ViewLocalScale.z * 0.22f, runtimeState.Data.ViewLocalScale.x * 0.25f);
-            var barrelRenderer = barrel.GetComponent<Renderer>();
-            if (barrelRenderer != null)
-            {
-                barrelRenderer.sharedMaterial = new Material(Shader.Find("Standard"))
-                {
-                    color = Color.Lerp(runtimeState.Data.ViewColor, Color.white, 0.18f)
-                };
-            }
-
-            foreach (var collider in barrel.GetComponentsInChildren<Collider>())
-            {
-                Destroy(collider);
-            }
+            CreateViewVisual(root.transform, runtimeState);
 
             var muzzle = new GameObject("Muzzle").transform;
             muzzle.SetParent(root.transform, false);
-            muzzle.localPosition = new Vector3(0f, 0f, runtimeState.Data.ViewLocalScale.z * 0.78f);
+            muzzle.localPosition = ResolveMuzzleOffset(runtimeState.Data);
 
             runtimeState.ViewModel = root;
             runtimeState.Muzzle = muzzle;
-            runtimeState.SlotLabel = $"{runtimeSlots.IndexOf(runtimeState) + 1}. {runtimeState.Data.DisplayName}";
+            runtimeState.SlotLabel = $"{index + 1}. {runtimeState.Data.DisplayName}";
             root.SetActive(false);
+        }
+    }
+
+    private void CreateViewVisual(Transform root, WeaponRuntimeState runtimeState)
+    {
+        if (runtimeState.Data.ViewPrefab != null)
+        {
+            var visual = Instantiate(runtimeState.Data.ViewPrefab, root);
+            visual.name = "Body";
+            visual.transform.localPosition = Vector3.zero;
+            visual.transform.localRotation = Quaternion.identity;
+            visual.transform.localScale = runtimeState.Data.ViewLocalScale;
+            AssignLayerRecursively(visual.transform, 2);
+            StripPresentationPhysics(visual);
+            return;
+        }
+
+        var body = GameObject.CreatePrimitive(runtimeState.Data.ViewShape);
+        body.name = "Body";
+        body.layer = 2;
+        body.transform.SetParent(root, false);
+        body.transform.localPosition = Vector3.zero;
+        body.transform.localRotation = Quaternion.identity;
+        body.transform.localScale = runtimeState.Data.ViewLocalScale;
+        var bodyRenderer = body.GetComponent<Renderer>();
+        if (bodyRenderer != null)
+        {
+            bodyRenderer.sharedMaterial = new Material(Shader.Find("Standard")) { color = runtimeState.Data.ViewColor };
+        }
+
+        foreach (var collider in body.GetComponentsInChildren<Collider>())
+        {
+            Destroy(collider);
+        }
+
+        var barrel = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        barrel.name = "Barrel";
+        barrel.layer = 2;
+        barrel.transform.SetParent(root, false);
+        barrel.transform.localPosition = new Vector3(0f, 0.01f, runtimeState.Data.ViewLocalScale.z * 0.55f);
+        barrel.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
+        barrel.transform.localScale = new Vector3(runtimeState.Data.ViewLocalScale.x * 0.25f, runtimeState.Data.ViewLocalScale.z * 0.22f, runtimeState.Data.ViewLocalScale.x * 0.25f);
+        var barrelRenderer = barrel.GetComponent<Renderer>();
+        if (barrelRenderer != null)
+        {
+            barrelRenderer.sharedMaterial = new Material(Shader.Find("Standard"))
+            {
+                color = Color.Lerp(runtimeState.Data.ViewColor, Color.white, 0.18f)
+            };
+        }
+
+        foreach (var collider in barrel.GetComponentsInChildren<Collider>())
+        {
+            Destroy(collider);
+        }
+    }
+
+    private static Vector3 ResolveMuzzleOffset(WeaponData data)
+    {
+        if (data.ViewMuzzleLocalPosition != Vector3.zero)
+        {
+            return data.ViewMuzzleLocalPosition;
+        }
+
+        return new Vector3(0f, 0f, data.ViewLocalScale.z * 0.78f);
+    }
+
+    private static void StripPresentationPhysics(GameObject root)
+    {
+        foreach (var collider in root.GetComponentsInChildren<Collider>(true))
+        {
+            Destroy(collider);
+        }
+
+        foreach (var rigidbody in root.GetComponentsInChildren<Rigidbody>(true))
+        {
+            Destroy(rigidbody);
+        }
+
+        foreach (var behaviour in root.GetComponentsInChildren<MonoBehaviour>(true))
+        {
+            Destroy(behaviour);
+        }
+    }
+
+    private static void AssignLayerRecursively(Transform root, int layer)
+    {
+        root.gameObject.layer = layer;
+        foreach (Transform child in root)
+        {
+            AssignLayerRecursively(child, layer);
         }
     }
 
