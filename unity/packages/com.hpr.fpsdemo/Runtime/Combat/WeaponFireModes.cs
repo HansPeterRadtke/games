@@ -126,6 +126,19 @@ public static class FireModeFactory
     }
 }
 
+internal static class FireModeTargetResolver
+{
+    public static GameObject ResolveDamageTarget(Collider collider)
+    {
+        return collider != null ? (collider.GetComponentInParent<IDamageable>() as Component)?.gameObject : null;
+    }
+
+    public static GameObject ResolveImpactTarget(Collider collider)
+    {
+        return collider != null ? (collider.GetComponentInParent<IImpactReceiver>() as Component)?.gameObject : null;
+    }
+}
+
 public sealed class HitscanFireMode : IFireMode
 {
     public bool Execute(WeaponFireContext context)
@@ -139,11 +152,16 @@ public sealed class HitscanFireMode : IFireMode
         Vector3 direction = context.ResolveDirection(context.Data.Spread);
         if (Physics.Raycast(context.PlayerCamera.transform.position, direction, out RaycastHit hit, context.Data.Range, ~0, QueryTriggerInteraction.Ignore))
         {
-            GameObject targetRoot = hit.collider != null ? hit.collider.transform.root.gameObject : null;
+            GameObject targetRoot = FireModeTargetResolver.ResolveDamageTarget(hit.collider);
+            GameObject impactTarget = FireModeTargetResolver.ResolveImpactTarget(hit.collider);
             if (targetRoot != null && targetRoot != context.Owner.ActorTransform.gameObject)
             {
                 context.PublishDamage(targetRoot, context.Data.Damage, hit.point, direction);
-                context.PublishImpact(targetRoot, direction * context.Data.ImpactForce, hit.point);
+            }
+
+            if (impactTarget != null && impactTarget != context.Owner.ActorTransform.gameObject)
+            {
+                context.PublishImpact(impactTarget, direction * context.Data.ImpactForce, hit.point);
             }
 
             if (hit.rigidbody != null && !hit.rigidbody.isKinematic)
@@ -197,12 +215,17 @@ public sealed class ShotgunFireMode : IFireMode
                 continue;
             }
 
-            GameObject targetRoot = hit.collider != null ? hit.collider.transform.root.gameObject : null;
+            GameObject targetRoot = FireModeTargetResolver.ResolveDamageTarget(hit.collider);
+            GameObject impactTarget = FireModeTargetResolver.ResolveImpactTarget(hit.collider);
             if (targetRoot != null && targetRoot != context.Owner.ActorTransform.gameObject)
             {
                 context.PublishDamage(targetRoot, context.Data.Damage, hit.point, direction);
-                context.PublishImpact(targetRoot, direction * context.Data.ImpactForce, hit.point);
                 landedHits++;
+            }
+
+            if (impactTarget != null && impactTarget != context.Owner.ActorTransform.gameObject)
+            {
+                context.PublishImpact(impactTarget, direction * context.Data.ImpactForce, hit.point);
             }
 
             if (hit.rigidbody != null && !hit.rigidbody.isKinematic)
@@ -264,9 +287,16 @@ public sealed class MeleeFireMode : IFireMode
         }
 
         Vector3 hitDirection = (bestPoint - context.PlayerCamera.transform.position).normalized;
-        GameObject targetRoot = bestCollider.transform.root.gameObject;
+        GameObject targetRoot = FireModeTargetResolver.ResolveDamageTarget(bestCollider);
+        GameObject impactTarget = FireModeTargetResolver.ResolveImpactTarget(bestCollider);
+        if (targetRoot == null && impactTarget == null)
+        {
+            context.Notify(context.Data.DisplayName + " missed");
+            return false;
+        }
+
         context.PublishDamage(targetRoot, context.Data.Damage, bestPoint, hitDirection);
-        context.PublishImpact(targetRoot, hitDirection * context.Data.ImpactForce, bestPoint);
+        context.PublishImpact(impactTarget ?? targetRoot, hitDirection * context.Data.ImpactForce, bestPoint);
         if (bestCollider.attachedRigidbody != null && !bestCollider.attachedRigidbody.isKinematic)
         {
             bestCollider.attachedRigidbody.AddForceAtPosition(hitDirection * context.Data.ImpactForce, bestPoint, ForceMode.Impulse);

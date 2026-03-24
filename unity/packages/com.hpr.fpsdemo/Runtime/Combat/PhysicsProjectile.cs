@@ -118,9 +118,10 @@ public class PhysicsProjectile : MonoBehaviour
             targetCollider.attachedRigidbody.AddForceAtPosition(direction * impact, point, ForceMode.Impulse);
         }
 
-        if (targetCollider.GetComponentInParent<IImpactReceiver>() != null)
+        IImpactReceiver impactReceiver = targetCollider.GetComponentInParent<IImpactReceiver>();
+        if (impactReceiver != null)
         {
-            GameObject targetRoot = targetCollider.transform.root.gameObject;
+            GameObject targetRoot = (impactReceiver as Component)?.gameObject;
             GameManager.Instance?.EventBus?.Publish(new ImpactEvent
             {
                 SourceRoot = ownerRoot != null ? ownerRoot.gameObject : null,
@@ -130,9 +131,10 @@ public class PhysicsProjectile : MonoBehaviour
             });
         }
 
-        if (targetCollider.GetComponentInParent<IDamageable>() != null)
+        IDamageable damageable = targetCollider.GetComponentInParent<IDamageable>();
+        if (damageable != null)
         {
-            GameObject targetRoot = targetCollider.transform.root.gameObject;
+            GameObject targetRoot = (damageable as Component)?.gameObject;
             GameManager.Instance?.EventBus?.Publish(new DamageEvent
             {
                 SourceRoot = ownerRoot != null ? ownerRoot.gameObject : null,
