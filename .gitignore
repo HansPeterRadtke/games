@@ -39,8 +39,9 @@ unity/assetstore/downloads/
 unity/assetstore/logs/
 unity/assetstore/metadata/*.json
 unity/assetstore/metadata/pipeline/*.json
+unity/assetstore/metadata/pipeline/*.done
 
-# Local imported Unity assets
+# BEGIN local Unity imported assets
 unity/projects/fps_demo/Assets/Free Wood Door Pack/
 unity/projects/fps_demo/Assets/Free Wood Door Pack.meta
 unity/projects/fps_demo/Assets/Low Poly Weapons VOL.1/
@@ -76,3 +77,4 @@ unity/projects/fps_demo/Assets/Unity Terrain - URP Demo Scene.meta
 unity/projects/fps_demo/Assets/Starter Assets/
 unity/projects/fps_demo/Assets/Starter Assets.meta
 unity/assetstore/imported/
+# END local Unity imported assets

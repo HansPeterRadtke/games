@@ -1,24 +1,37 @@
 Intermediate report - 2026-03-24
 
 Current state
-- Unity workspace is live in unity/projects/fps_demo with shared packages in unity/packages.
-- The gameplay package was refactored to a data-driven architecture with ScriptableObjects for weapons, items, and enemies.
-- Unity Asset Store tooling now exists under unity/tools/assetstore and unity/assetstore.
-- The project compiles and the Linux player build succeeds after the current editor/integration changes.
+- Unity workspace is live in `unity/projects/fps_demo` with shared packages in `unity/packages`.
+- The gameplay package is data-driven with ScriptableObjects for weapons, items, and enemies.
+- Unity Asset Store tooling is in `unity/tools/assetstore` and `unity/assetstore`.
+- The Linux player still builds and smoke-tests successfully after the current integration/tooling changes.
 
-Asset pipeline
-- Free Wood Door Pack is imported and integrated into the main scene.
-- Furniture, weapon, house/environment, and character integration hooks exist in ThirdPartyAssetIntegrator.
-- A sequential asset pipeline script exists at unity/assetstore/asset_pipeline.sh.
-- The native downloader now refreshes Unity tokens, caches metadata, cleans stale temp downloads before retry, and reports stalled downloads instead of hanging forever.
+Current asset workflow
+- Asset selection is now data-driven through `unity/assetstore/selected_assets.json`.
+- The asset pipeline script reads that selection file and keeps a single native download active at a time.
+- Imported Asset Store folders are now explicitly kept out of Git by `.gitignore`, and a helper exists at `unity/tools/assetstore/sync_gitignore.py` to regenerate the ignore block.
+- Asset Store metadata JSON and local import markers are also treated as local workflow state and are not meant to be tracked.
 
-What is still in progress
-- Large native Asset Store packages are not finishing reliably through Unity's cache pipeline yet.
-- The current focus is Furniture Mega Pack - Free (330002), because it is the first large package needed for the integration chain.
-- I have isolated the failure mode to stale/partial raw Asset Store cache files and am testing alternative finalize/import paths.
+Local integration status
+- `Free Wood Door Pack` is present locally, has been integrated, rebuilt, and smoke-tested.
+- The local door integration marker now exists under `unity/assetstore/metadata/pipeline/imported_280509.done`.
+- Scene changes produced by local imported assets are being kept local; they are not being committed together with ignored asset content.
 
-Next steps after this report
-- keep one active download/finalization path running for package 330002
-- finish native import of furniture, then continue the remaining packages sequentially
-- rebuild and smoke-test after each integration step
-- continue scene enlargement and art integration as each package lands
+Current blocker under active investigation
+- Native download/finalization of `Low Poly Weapons VOL.1` (`151980`) is still not completing cleanly.
+- The helper-project download now shows real byte progress in `pipeline_live.log`, which confirms the monitored downloader sees the hidden Unity cache temp file correctly.
+- Unity still writes only the hidden cache blob `.Low Poly Weapons VOL1-151980.tmp` and has not yet produced the final gzip `.unitypackage`.
+- This means the current remaining blocker is the Unity-side finalize step from the raw Asset Store cache blob to the final importable package.
+
+What changed since the previous report
+- Reverted the mistake of Git-tracking imported asset content.
+- Pushed the tooling-only asset pipeline commit without imported asset data.
+- Pushed a second hardening commit for local-only imported asset handling and selected asset queue management.
+- Added path normalization and stale-helper cleanup to the native downloader.
+- Switched the direct downloader to `UnityEditor.AssetStoreContext.Download(...)` with the correct reflected parameter order.
+
+Immediate next steps
+- keep the single native `151980` download/finalization path running and monitor it
+- if Unity still stalls, continue debugging the finalize/import path without adding asset data to Git
+- once `151980` lands, immediately import/integrate it, then start the next download while integration/build runs
+- continue the same sequence for house, furniture, character, and environment packs

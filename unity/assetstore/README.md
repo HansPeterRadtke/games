@@ -5,6 +5,7 @@ native Unity-cache downloads, and automated project import/integration.
 
 ## Main paths
 
+- Selected package queue: `selected_assets.json`
 - Purchase catalog: `metadata/my_assets.json`
 - Raw API download cache: `downloads/`
 - Native Unity cache: `/home/hans/.local/share/unity3d/Asset Store-5.x/`
@@ -30,6 +31,9 @@ native Unity-cache downloads, and automated project import/integration.
   - Imports each finished package once
   - Rebuilds and smoke-tests after every integration step
   - Continues through the selected asset list with only one active download at a time
+- `unity/tools/assetstore/sync_gitignore.py`
+  - Regenerates the `.gitignore` block for locally imported Unity asset folders
+  - Prevents accidental Git tracking of imported Asset Store content
 
 ## Import/integration automation
 
@@ -52,13 +56,14 @@ This is used to fit third-party content to the existing FPS scene with correct s
 
 The current preferred flow is:
 
-1. keep a single native download active
-2. wait for the finished gzip `.unitypackage`
-3. import it into the main project
-4. catalog prefab/model bounds
-5. apply the relevant scene/data integration
-6. rebuild the game
-7. run the smoke test
+1. maintain the selected package queue in `selected_assets.json`
+2. keep a single native download active
+3. wait for the finished gzip `.unitypackage`
+4. import it into the main project
+5. catalog prefab/model bounds
+6. apply the relevant scene/data integration
+7. rebuild the game
+8. run the smoke test
 
 This is automated by `asset_pipeline.sh`.
 

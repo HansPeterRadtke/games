@@ -1,5 +1,11 @@
 [
   {
+    "package_id": 280509,
+    "asset_folder": "Assets/Free Wood Door Pack",
+    "integration_label": "doors",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyDoorPackFromBatch"
+  },
+  {
     "package_id": 151980,
     "asset_folder": "Assets/Low Poly Weapons VOL.1",
     "integration_label": "weapons",

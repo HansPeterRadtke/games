@@ -222,25 +222,15 @@ public static class AssetStoreImportTools
             method.Name == "Download" &&
             method.GetParameters().Length == 7 &&
             method.GetParameters().FirstOrDefault()?.ParameterType == typeof(string));
-        var assetStoreUtilsType = coreAssembly.GetType("UnityEditor.AssetStoreUtils", true);
-        var checkMethod = assetStoreUtilsType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
-            .FirstOrDefault(method =>
-                method.Name == "CheckDownload" &&
-                method.GetParameters().Length == 4 &&
-                method.GetParameters().FirstOrDefault()?.ParameterType == typeof(string));
 
         var context = getInstance?.Invoke(null, null);
-        if (context == null || contextDownloadMethod == null || checkMethod == null)
+        if (context == null || contextDownloadMethod == null)
         {
             foreach (var method in contextMethods.Where(method => method.Name.Contains("Download") || method.Name.Contains("Package") || method.Name.Contains("GetInstance")))
             {
                 Debug.LogError($"ASSETSTORE context method candidate: {method}");
             }
-            foreach (var method in assetStoreUtilsType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).Where(method => method.Name.Contains("Download") || method.Name.Contains("Check") || method.Name.Contains("Build")))
-            {
-                Debug.LogError($"ASSETSTORE utils method candidate: {method}");
-            }
-            Debug.LogError($"ASSETSTORE contextType={contextType} getInstance={(getInstance != null)} context={(context != null)} packageStorePath={(packageStorePath != null)} contextDownloadMethod={(contextDownloadMethod != null)} checkMethod={(checkMethod != null)}");
+            Debug.LogError($"ASSETSTORE contextType={contextType} getInstance={(getInstance != null)} context={(context != null)} packageStorePath={(packageStorePath != null)} contextDownloadMethod={(contextDownloadMethod != null)}");
             throw new Exception("Could not resolve Asset Store download API");
         }
 
@@ -280,7 +270,6 @@ public static class AssetStoreImportTools
         var callbackType = contextDownloadMethod.GetParameters().Last().ParameterType;
         var callbackMethod = typeof(AssetStoreImportTools).GetMethod(nameof(OnAssetStoreContextDownloadDone), BindingFlags.Static | BindingFlags.NonPublic);
         var callback = Delegate.CreateDelegate(callbackType, callbackMethod);
-        string lastCheckStatus = null;
 
         Debug.Log($"ASSETSTORE direct download start assetId={assetId} publisher={publisher} category={category} package={packageName} destination={string.Join("/", destination)}");
         var downloadTarget = contextDownloadMethod.IsStatic ? null : context;
@@ -291,13 +280,6 @@ public static class AssetStoreImportTools
         int stableTicks = 0;
         while (!s_DownloadFinished && DateTime.UtcNow < deadline)
         {
-            var checkStatus = checkMethod.Invoke(null, new object[] { assetId, assetUrl, destination, assetKey }) as string;
-            if (!string.Equals(checkStatus, lastCheckStatus, StringComparison.Ordinal))
-            {
-                lastCheckStatus = checkStatus;
-                Debug.Log($"ASSETSTORE check status={(string.IsNullOrWhiteSpace(checkStatus) ? "<empty>" : checkStatus)}");
-            }
-
             if (!string.IsNullOrWhiteSpace(expectedFinalPath) && File.Exists(expectedFinalPath))
             {
                 var info = new FileInfo(expectedFinalPath);
