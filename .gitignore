@@ -38,8 +38,41 @@ Assets/AssetStoreTools*
 unity/assetstore/downloads/
 unity/assetstore/logs/
 unity/assetstore/metadata/*.json
+unity/assetstore/metadata/pipeline/*.json
 
 # Local imported Unity assets
 unity/projects/fps_demo/Assets/Free Wood Door Pack/
 unity/projects/fps_demo/Assets/Free Wood Door Pack.meta
+unity/projects/fps_demo/Assets/Low Poly Weapons VOL.1/
+unity/projects/fps_demo/Assets/Low Poly Weapons VOL.1.meta
+unity/projects/fps_demo/Assets/House Interior - Free/
+unity/projects/fps_demo/Assets/House Interior - Free.meta
+unity/projects/fps_demo/Assets/Furniture Mega Pack - Free/
+unity/projects/fps_demo/Assets/Furniture Mega Pack - Free.meta
+unity/projects/fps_demo/Assets/Furnished Cabin/
+unity/projects/fps_demo/Assets/Furnished Cabin.meta
+unity/projects/fps_demo/Assets/Apartment Kit/
+unity/projects/fps_demo/Assets/Apartment Kit.meta
+unity/projects/fps_demo/Assets/CITY package/
+unity/projects/fps_demo/Assets/CITY package.meta
+unity/projects/fps_demo/Assets/npc_casual_set_00/
+unity/projects/fps_demo/Assets/npc_casual_set_00.meta
+unity/projects/fps_demo/Assets/Survivalist character/
+unity/projects/fps_demo/Assets/Survivalist character.meta
+unity/projects/fps_demo/Assets/Human Crafting Animations FREE/
+unity/projects/fps_demo/Assets/Human Crafting Animations FREE.meta
+unity/projects/fps_demo/Assets/RPG_Animations_Pack_FREE/
+unity/projects/fps_demo/Assets/RPG_Animations_Pack_FREE.meta
+unity/projects/fps_demo/Assets/Nature Starter Kit 2/
+unity/projects/fps_demo/Assets/Nature Starter Kit 2.meta
+unity/projects/fps_demo/Assets/Grass Flowers Pack Free/
+unity/projects/fps_demo/Assets/Grass Flowers Pack Free.meta
+unity/projects/fps_demo/Assets/Realistic Terrain Textures FREE/
+unity/projects/fps_demo/Assets/Realistic Terrain Textures FREE.meta
+unity/projects/fps_demo/Assets/Flooded Grounds/
+unity/projects/fps_demo/Assets/Flooded Grounds.meta
+unity/projects/fps_demo/Assets/Unity Terrain - URP Demo Scene/
+unity/projects/fps_demo/Assets/Unity Terrain - URP Demo Scene.meta
+unity/projects/fps_demo/Assets/Starter Assets/
+unity/projects/fps_demo/Assets/Starter Assets.meta
 unity/assetstore/imported/

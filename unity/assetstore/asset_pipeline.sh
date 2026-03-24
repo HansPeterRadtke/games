@@ -9,6 +9,7 @@ PROJECT=$ROOT/unity/projects/fps_demo
 BUILD_DIR=$PROJECT/Build/Linux
 LOG_DIR=$ROOT/unity/assetstore/logs
 STATE_DIR=$ROOT/unity/assetstore/metadata/pipeline
+SELECTIONS=$ROOT/unity/assetstore/selected_assets.json
 
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
 export XDG_RUNTIME_DIR=/run/user/1000
@@ -85,6 +86,21 @@ build_and_smoke() {
     bash -lc "cd '$BUILD_DIR' && timeout 60 ./FPSDemo.x86_64 -logFile '$LOG_DIR/smoke_${label}.log' -smoketest"
 }
 
+load_package_specs() {
+  "$PY" - "$SELECTIONS" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], "r", encoding="utf-8") as handle:
+    data = json.load(handle)
+
+for item in data:
+    print(
+        f"{item['package_id']}|{item['asset_folder']}|{item['integration_label']}|{item['integration_method']}"
+    )
+PY
+}
+
 import_package_once() {
   local package_id="$1"
   local package_path="$2"
@@ -158,29 +174,78 @@ process_package() {
 }
 
 main() {
-  local furniture_meta furniture_path
-  furniture_meta=$(fetch_meta 330002)
-  furniture_path=$(meta_field "$furniture_meta" final_path)
+  mapfile -t package_specs < <(load_package_specs)
 
-  log "Waiting for the active furniture download to finish"
-  wait_for_valid_package "$furniture_path"
-  process_package 330002 "Assets/Furniture Mega Pack - Free" furniture ThirdPartyAssetIntegrator.ApplyFurniturePackFromBatch
+  local active_pid=""
+  local active_package_id=""
+  local active_final_path=""
+  local active_label=""
 
-  process_package 151980 "Assets/Low Poly Weapons VOL.1" weapons ThirdPartyAssetIntegrator.ApplyWeaponPackFromBatch
-  process_package 258782 "Assets/House Interior - Free" house ThirdPartyAssetIntegrator.ApplyHousePackFromBatch
-  process_package 71426 "Assets/Furnished Cabin" environment ThirdPartyAssetIntegrator.ApplyHousePackFromBatch
-  process_package 124055 "Assets/Apartment Kit" environment ThirdPartyAssetIntegrator.ApplyHousePackFromBatch
-  process_package 107224 "Assets/CITY package" environment ThirdPartyAssetIntegrator.ApplyHousePackFromBatch
-  process_package 326131 "Assets/npc_casual_set_00" characters ThirdPartyAssetIntegrator.ApplyCharacterPacksFromBatch
-  process_package 181470 "Assets/Survivalist character" characters ThirdPartyAssetIntegrator.ApplyCharacterPacksFromBatch
-  process_package 157920 "Assets/Human Crafting Animations FREE" animations ""
-  process_package 288783 "Assets/RPG_Animations_Pack_FREE" animations ""
-  process_package 52977 "Assets/Nature Starter Kit 2" environment ThirdPartyAssetIntegrator.ApplyHousePackFromBatch
-  process_package 138810 "Assets/Grass Flowers Pack Free" environment ThirdPartyAssetIntegrator.ApplyHousePackFromBatch
-  process_package 279940 "Assets/Realistic Terrain Textures FREE" environment ThirdPartyAssetIntegrator.ApplyHousePackFromBatch
-  process_package 48529 "Assets/Flooded Grounds" environment ThirdPartyAssetIntegrator.ApplyHousePackFromBatch
-  process_package 213197 "Assets/Unity Terrain - URP Demo Scene" environment ThirdPartyAssetIntegrator.ApplyHousePackFromBatch
-  process_package 267961 "Assets/Starter Assets" starter_assets ""
+  while true; do
+    local processed_ready=0
+    local pending_count=0
+    local spec package_id asset_folder integration_label integration_method meta_file final_path marker
+
+    for spec in "${package_specs[@]}"; do
+      IFS='|' read -r package_id asset_folder integration_label integration_method <<<"$spec"
+      meta_file=$(fetch_meta "$package_id")
+      final_path=$(meta_field "$meta_file" final_path)
+      marker="$STATE_DIR/imported_${package_id}.done"
+      if [[ -f "$marker" ]]; then
+        continue
+      fi
+
+      pending_count=$((pending_count + 1))
+      if is_valid_unitypackage "$final_path"; then
+        process_package "$package_id" "$asset_folder" "$integration_label" "$integration_method"
+        processed_ready=1
+        if [[ "$active_package_id" == "$package_id" ]]; then
+          active_package_id=""
+          active_pid=""
+          active_final_path=""
+          active_label=""
+        fi
+      elif [[ -z "$active_pid" ]]; then
+        log "Starting background native download for $package_id"
+        sudo -u hans -H env DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
+          "$PY" "$RUNNER" download "$package_id" --timeout 3600 --stall-timeout 300 &
+        active_pid=$!
+        active_package_id="$package_id"
+        active_final_path="$final_path"
+        active_label="$integration_label"
+        break
+      fi
+    done
+
+    if [[ -n "$active_pid" ]]; then
+      if kill -0 "$active_pid" 2>/dev/null; then
+        if [[ -e "$active_final_path.part" ]]; then
+          log "Download $active_package_id in progress: $(stat -c %s "$active_final_path.part") bytes"
+        elif [[ -e "$active_final_path" ]]; then
+          log "Download $active_package_id wrote partial final: $(stat -c %s "$active_final_path") bytes"
+        fi
+      else
+        if wait "$active_pid"; then
+          log "Download $active_package_id finished"
+        else
+          log "Download $active_package_id failed; will retry"
+        fi
+        active_pid=""
+        active_package_id=""
+        active_final_path=""
+        active_label=""
+      fi
+    fi
+
+    if [[ "$pending_count" -eq 0 && -z "$active_pid" ]]; then
+      log "All selected assets processed"
+      break
+    fi
+
+    if [[ "$processed_ready" -eq 0 ]]; then
+      sleep 20
+    fi
+  done
 }
 
 main "$@"

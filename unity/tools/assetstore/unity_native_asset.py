@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import re
 import shlex
 import signal
 import subprocess
@@ -39,6 +40,20 @@ def build_unity_command(project: Path, method: str, extra_args: list[str], log_n
         + " -quit -logFile \"$LOG\"",
     ]
     return cmd, log_path
+
+
+def kill_stale_helper_unity() -> None:
+    subprocess.run(
+        [
+            "bash",
+            "-lc",
+            f"pkill -u hans -f {shlex.quote(str(HELPER_PROJECT))} || true",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    time.sleep(2)
 
 
 def run_unity(project: Path, method: str, extra_args: list[str], log_name: str) -> subprocess.CompletedProcess[str]:
@@ -93,21 +108,50 @@ def is_probably_unitypackage(path: Path) -> bool:
         return handle.read(2) == b"\x1f\x8b"
 
 
+def _normalize_asset_name(name: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", name.lower())
+
+
+def resolve_final_path(final_path: Path) -> Path:
+    if final_path.exists():
+        return final_path
+    parent = final_path.parent
+    if not parent.exists():
+        return final_path
+    expected = _normalize_asset_name(final_path.stem)
+    for candidate in sorted(parent.glob("*.unitypackage")):
+        if _normalize_asset_name(candidate.stem) == expected:
+            return candidate
+    return final_path
+
+
 def temp_download_path(final_path: Path, package_id: int) -> Path:
-    return final_path.with_name(f".{final_path.stem}-{package_id}.tmp")
+    resolved_final = resolve_final_path(final_path)
+    parent = resolved_final.parent
+    if parent.exists():
+        matches = sorted(parent.glob(f".*-{package_id}.tmp"), key=lambda p: p.stat().st_mtime_ns, reverse=True)
+        if matches:
+            return matches[0]
+    return resolved_final.with_name(f".{resolved_final.stem}-{package_id}.tmp")
 
 
 def cleanup_stale_download_artifacts(final_path: Path, package_id: int, stale_seconds: int = 120) -> None:
-    tmp_path = temp_download_path(final_path, package_id)
-    tmp_meta_path = Path(str(tmp_path) + ".json")
-    if is_probably_unitypackage(final_path):
+    resolved_final = resolve_final_path(final_path)
+    tmp_path = temp_download_path(resolved_final, package_id)
+    if is_probably_unitypackage(resolved_final):
         return
 
-    if tmp_path.exists():
-        age_seconds = time.time() - tmp_path.stat().st_mtime
+    candidates = [tmp_path, Path(str(tmp_path) + ".json"), resolved_final]
+    if resolved_final.parent.exists():
+        candidates.extend(sorted(resolved_final.parent.glob(f".*-{package_id}.tmp*")))
+    seen: set[Path] = set()
+    for candidate in candidates:
+        if candidate in seen or not candidate.exists():
+            continue
+        seen.add(candidate)
+        age_seconds = time.time() - candidate.stat().st_mtime
         if age_seconds >= stale_seconds:
-            tmp_path.unlink(missing_ok=True)
-            tmp_meta_path.unlink(missing_ok=True)
+            candidate.unlink(missing_ok=True)
 
 
 def _kill_process_tree(process: subprocess.Popen[str]) -> None:
@@ -136,8 +180,8 @@ def run_unity_download_with_monitoring(
     timeout: int,
     stall_timeout: int,
 ) -> tuple[int, str, str]:
+    kill_stale_helper_unity()
     cmd, log_path = build_unity_command(HELPER_PROJECT, method, extra_args, log_name)
-    tmp_path = temp_download_path(final_path, package_id)
     process = subprocess.Popen(
         cmd,
         text=True,
@@ -153,7 +197,8 @@ def run_unity_download_with_monitoring(
     download_completed = False
 
     while True:
-        if is_probably_unitypackage(final_path):
+        resolved_final = resolve_final_path(final_path)
+        if is_probably_unitypackage(resolved_final):
             download_completed = True
             if process.poll() is not None:
                 break
@@ -164,7 +209,7 @@ def run_unity_download_with_monitoring(
         if process.poll() is not None:
             break
 
-        observed_path = final_path if final_path.exists() else tmp_path
+        observed_path = resolved_final if resolved_final.exists() else temp_download_path(final_path, package_id)
         if observed_path.exists():
             stat = observed_path.stat()
             signature = (stat.st_size, stat.st_mtime_ns)
@@ -195,14 +240,14 @@ def run_unity_download_with_monitoring(
         time.sleep(5)
 
     stdout, stderr = process.communicate()
-    if download_completed and is_probably_unitypackage(final_path):
+    if download_completed and is_probably_unitypackage(resolve_final_path(final_path)):
         return 0, stdout or "", stderr or ""
     return process.returncode or 0, stdout or "", stderr or ""
 
 
 def cmd_download(args: argparse.Namespace) -> int:
     meta = fetch_metadata_with_cache(args.package_id)
-    final_path = Path(meta["final_path"])
+    final_path = resolve_final_path(Path(meta["final_path"]))
     if is_probably_unitypackage(final_path):
         print(final_path)
         return 0
@@ -232,6 +277,7 @@ def cmd_download(args: argparse.Namespace) -> int:
         sys.stderr.write(stderr)
         sys.stderr.write((LOG_DIR / f"native_download_{args.package_id}.log").read_text())
         return returncode
+    final_path = resolve_final_path(final_path)
     if not is_probably_unitypackage(final_path):
         sys.stderr.write(f"Downloaded file is not a valid gzip-based unitypackage: {final_path}\n")
         return 2
@@ -252,7 +298,7 @@ def cmd_import(args: argparse.Namespace) -> int:
 
 def cmd_download_import(args: argparse.Namespace) -> int:
     meta = fetch_metadata_with_cache(args.package_id)
-    final_path = Path(meta["final_path"])
+    final_path = resolve_final_path(Path(meta["final_path"]))
     if final_path.exists() and not is_probably_unitypackage(final_path):
         final_path.unlink(missing_ok=True)
     cleanup_stale_download_artifacts(final_path, args.package_id)
@@ -294,6 +340,7 @@ def cmd_download_import(args: argparse.Namespace) -> int:
         sys.stderr.write((LOG_DIR / f"native_import_{args.package_id}.log").read_text())
         return import_result.returncode
 
+    final_path = resolve_final_path(final_path)
     if not is_probably_unitypackage(final_path):
         sys.stderr.write(f"Downloaded file is not a valid gzip-based unitypackage: {final_path}\n")
         return 2

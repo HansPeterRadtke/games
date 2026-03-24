@@ -1,0 +1,98 @@
+[
+  {
+    "package_id": 151980,
+    "asset_folder": "Assets/Low Poly Weapons VOL.1",
+    "integration_label": "weapons",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyWeaponPackFromBatch"
+  },
+  {
+    "package_id": 258782,
+    "asset_folder": "Assets/House Interior - Free",
+    "integration_label": "house",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+  },
+  {
+    "package_id": 330002,
+    "asset_folder": "Assets/Furniture Mega Pack - Free",
+    "integration_label": "furniture",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyFurniturePackFromBatch"
+  },
+  {
+    "package_id": 71426,
+    "asset_folder": "Assets/Furnished Cabin",
+    "integration_label": "environment",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+  },
+  {
+    "package_id": 124055,
+    "asset_folder": "Assets/Apartment Kit",
+    "integration_label": "environment",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+  },
+  {
+    "package_id": 107224,
+    "asset_folder": "Assets/CITY package",
+    "integration_label": "environment",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+  },
+  {
+    "package_id": 326131,
+    "asset_folder": "Assets/npc_casual_set_00",
+    "integration_label": "characters",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyCharacterPacksFromBatch"
+  },
+  {
+    "package_id": 181470,
+    "asset_folder": "Assets/Survivalist character",
+    "integration_label": "characters",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyCharacterPacksFromBatch"
+  },
+  {
+    "package_id": 157920,
+    "asset_folder": "Assets/Human Crafting Animations FREE",
+    "integration_label": "animations",
+    "integration_method": ""
+  },
+  {
+    "package_id": 288783,
+    "asset_folder": "Assets/RPG_Animations_Pack_FREE",
+    "integration_label": "animations",
+    "integration_method": ""
+  },
+  {
+    "package_id": 52977,
+    "asset_folder": "Assets/Nature Starter Kit 2",
+    "integration_label": "environment",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+  },
+  {
+    "package_id": 138810,
+    "asset_folder": "Assets/Grass Flowers Pack Free",
+    "integration_label": "environment",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+  },
+  {
+    "package_id": 279940,
+    "asset_folder": "Assets/Realistic Terrain Textures FREE",
+    "integration_label": "environment",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+  },
+  {
+    "package_id": 48529,
+    "asset_folder": "Assets/Flooded Grounds",
+    "integration_label": "environment",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+  },
+  {
+    "package_id": 213197,
+    "asset_folder": "Assets/Unity Terrain - URP Demo Scene",
+    "integration_label": "environment",
+    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+  },
+  {
+    "package_id": 267961,
+    "asset_folder": "Assets/Starter Assets",
+    "integration_label": "starter_assets",
+    "integration_method": ""
+  }
+]
