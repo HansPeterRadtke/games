@@ -264,7 +264,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         Transform autoVisual = transform.Find(AutoVisualName);
         if (autoVisual != null)
         {
-            DestroyObject(autoVisual.gameObject);
+            DestroyUnityObject(autoVisual.gameObject);
         }
 
         GameObject customVisual = enemyData != null ? enemyData.VisualPrefab : null;
@@ -289,17 +289,17 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
 
         foreach (MonoBehaviour behaviourComponent in visual.GetComponentsInChildren<MonoBehaviour>(true))
         {
-            DestroyObject(behaviourComponent);
+            DestroyUnityObject(behaviourComponent);
         }
 
         foreach (Rigidbody rigidbody in visual.GetComponentsInChildren<Rigidbody>(true))
         {
-            DestroyObject(rigidbody);
+            DestroyUnityObject(rigidbody);
         }
 
         foreach (Collider collider in visual.GetComponentsInChildren<Collider>(true))
         {
-            DestroyObject(collider);
+            DestroyUnityObject(collider);
         }
     }
 
@@ -344,7 +344,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         ApplyImpact(gameEvent.Impulse, gameEvent.HitPoint);
     }
 
-    private static void DestroyObject(Object target)
+    private static void DestroyUnityObject(Object target)
     {
         if (target == null)
         {

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HPR.FPSDemo.Runtime::WeaponData
   Id: weapon_pulse_pistol
   DisplayName: Pulse Pistol
+  FireModeType: 0
   IncludeInDefaultLoadout: 1
   DefaultSlot: 0
   Damage: 18
@@ -24,14 +25,16 @@ MonoBehaviour:
   ProjectilePrefab: {fileID: 0}
   Kind: 0
   UtilityAction: 0
-  LinkedItemId:
-  UtilityMessage:
+  LinkedItemId: 
+  UtilityMessage: 
   ViewShape: 3
+  ViewPrefab: {fileID: 100004, guid: b812e42521a5a27499e76cc5ed56e3ac, type: 3}
   ViewColor: {r: 0.18, g: 0.18, b: 0.22, a: 1}
   ViewLocalPosition: {x: 0.35, y: -0.3, z: 0.8}
-  ViewLocalEuler: {x: 0, y: 15, z: 0}
-  ViewLocalScale: {x: 0.16, y: 0.12, z: 0.42}
+  ViewLocalEuler: {x: 0, y: 195, z: 0}
+  ViewLocalScale: {x: 1.6958842, y: 1.6958842, z: 1.6958842}
   AimLocalPosition: {x: 0.08, y: -0.2, z: 0.55}
+  ViewMuzzleLocalPosition: {x: 0, y: 0.01, z: 0.23099999}
   Spread: 0.6
   Pellets: 1
   MagazineSize: 16

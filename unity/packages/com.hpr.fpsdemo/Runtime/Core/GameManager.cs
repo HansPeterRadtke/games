@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     public bool IsMapVisible => mapVisible;
     public bool IsInventoryVisible => inventoryVisible;
     public bool IsPauseVisible => pauseVisible;
+    public bool IsOptionsVisible => optionsVisible;
     public bool IsCombatLive => IsGameplayRunning && !combatDisabledRequested && !combatHold && Time.time >= sessionStartTime + 0.5f;
 
     private void Awake()
@@ -190,21 +191,25 @@ public class GameManager : MonoBehaviour
 
     public void BeginSession()
     {
-        waitingForCleanMenuInput = false;
-        waitingForMenuPointerMotion = false;
+        ClearMenuInputGuards();
         titleMenuVisible = false;
         playerDead = false;
-        pauseVisible = false;
-        inventoryVisible = false;
-        mapVisible = false;
-        optionsVisible = false;
         sessionStartTime = Time.time;
         combatHold = true;
-        uiController.ShowTitleMenu(false);
-        uiController.ShowPauseMenu(false);
-        uiController.ShowInventory(false, null);
-        uiController.ShowMap(false);
-        uiController.ShowOptions(false);
+        HideAllMenus();
+        RefreshHud();
+        UpdateCursorAndTime();
+    }
+
+    public void ResumeSession()
+    {
+        if (titleMenuVisible || playerDead)
+        {
+            return;
+        }
+
+        ClearMenuInputGuards();
+        HideAllMenus();
         RefreshHud();
         UpdateCursorAndTime();
     }
@@ -271,6 +276,7 @@ public class GameManager : MonoBehaviour
     {
         if (visible)
         {
+            ClearMenuInputGuards();
             optionsReturnToTitleMenu = titleMenuVisible;
             optionsReturnToPauseMenu = pauseVisible;
             optionsVisible = true;
@@ -290,8 +296,9 @@ public class GameManager : MonoBehaviour
 
         if (optionsReturnToTitleMenu)
         {
+            ClearMenuInputGuards();
             uiController.ShowTitleMenu(true, playerDead ? "Mission Failed" : "Facility Sweep");
-            uiController.SetMenuInteractable(!waitingForCleanMenuInput && !waitingForMenuPointerMotion);
+            uiController.SetMenuInteractable(true);
         }
         else if (optionsReturnToPauseMenu)
         {
@@ -592,6 +599,27 @@ public class GameManager : MonoBehaviour
         UpdateCursorAndTime();
     }
 
+    private void ClearMenuInputGuards()
+    {
+        waitingForCleanMenuInput = false;
+        waitingForMenuPointerMotion = false;
+        uiController?.SetMenuInteractable(true);
+    }
+
+    private void HideAllMenus()
+    {
+        titleMenuVisible = false;
+        pauseVisible = false;
+        inventoryVisible = false;
+        mapVisible = false;
+        optionsVisible = false;
+        uiController.ShowTitleMenu(false);
+        uiController.ShowPauseMenu(false);
+        uiController.ShowInventory(false, null);
+        uiController.ShowMap(false);
+        uiController.ShowOptions(false);
+    }
+
     private IEnumerator EnforceInitialTitleMenu()
     {
         yield return new WaitForSecondsRealtime(0.2f);
@@ -609,6 +637,8 @@ public class GameManager : MonoBehaviour
         yield return null;
 
         NotifyStatus("Smoke test: session started");
+        yield return CapturePreview("smoke_hub_furniture.png", "World/ThirdPartyArt/FurnitureMegaPack/Hub", new Vector3(-2.4f, 1.3f, -2.1f));
+        yield return CapturePreview("smoke_security_furniture.png", "World/ThirdPartyArt/FurnitureMegaPack/Security", new Vector3(-2.1f, 1.2f, -2.3f));
         stateValidator?.ResetCounters();
         float previousHealth = player.StatsComponent.Health;
         EventBus?.Publish(new DamageEvent
@@ -705,6 +735,90 @@ public class GameManager : MonoBehaviour
         NotifyStatus("Smoke test completed");
         yield return new WaitForSecondsRealtime(0.3f);
         ExitGame();
+    }
+
+    private IEnumerator CapturePreview(string fileName, string hierarchyPath, Vector3 framingScale)
+    {
+        if (player?.ViewCamera == null || string.IsNullOrWhiteSpace(fileName))
+        {
+            yield break;
+        }
+
+        var target = ResolveHierarchyPath(hierarchyPath);
+        if (target == null)
+        {
+            yield break;
+        }
+
+        var renderers = target.GetComponentsInChildren<Renderer>(true);
+        if (renderers.Length == 0)
+        {
+            yield break;
+        }
+
+        var bounds = renderers[0].bounds;
+        foreach (var renderer in renderers.Skip(1))
+        {
+            bounds.Encapsulate(renderer.bounds);
+        }
+
+        var camera = player.ViewCamera;
+        var cameraTransform = camera.transform;
+        Vector3 originalPosition = cameraTransform.position;
+        Quaternion originalRotation = cameraTransform.rotation;
+        float originalFov = camera.fieldOfView;
+
+        var extents = bounds.extents + Vector3.one * 0.35f;
+        var offset = Vector3.Scale(extents, framingScale);
+        cameraTransform.position = bounds.center + offset;
+        cameraTransform.LookAt(bounds.center + Vector3.up * Mathf.Max(0.12f, bounds.extents.y * 0.22f));
+        camera.fieldOfView = Mathf.Clamp(originalFov - 8f, 42f, originalFov);
+
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+
+        string path = Path.Combine(Application.persistentDataPath, fileName);
+        ScreenCapture.CaptureScreenshot(path);
+        yield return new WaitForSecondsRealtime(0.2f);
+
+        cameraTransform.position = originalPosition;
+        cameraTransform.rotation = originalRotation;
+        camera.fieldOfView = originalFov;
+        Debug.Log($"[FPSDemo] Captured smoke preview {path}");
+    }
+
+    private static Transform ResolveHierarchyPath(string hierarchyPath)
+    {
+        if (string.IsNullOrWhiteSpace(hierarchyPath))
+        {
+            return null;
+        }
+
+        var segments = hierarchyPath.Split('/').Where(segment => !string.IsNullOrWhiteSpace(segment)).ToArray();
+        if (segments.Length == 0)
+        {
+            return null;
+        }
+
+        var root = SceneManager.GetActiveScene()
+            .GetRootGameObjects()
+            .FirstOrDefault(candidate => candidate.name == segments[0]);
+        if (root == null)
+        {
+            return null;
+        }
+
+        Transform current = root.transform;
+        for (int i = 1; i < segments.Length; i++)
+        {
+            current = current.Find(segments[i]);
+            if (current == null)
+            {
+                return null;
+            }
+        }
+
+        return current;
     }
 
     private IEnumerator ForceQuitSmokeTestAfterDelay()

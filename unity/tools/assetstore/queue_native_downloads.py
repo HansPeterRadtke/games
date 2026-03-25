@@ -15,6 +15,31 @@ CATALOG = ROOT / "unity/assetstore/metadata/my_assets.json"
 STATE = ROOT / "unity/assetstore/metadata/native_download_state.json"
 LOG = ROOT / "unity/assetstore/logs/native_download_queue.log"
 RUNNER = ROOT / "unity/tools/assetstore/unity_native_asset.py"
+TERMUX_USER = "hans"
+
+
+def ensure_hans_context() -> None:
+    if os.geteuid() != 0 or os.environ.get("HPR_ASSET_QUEUE_AS_HANS") == "1":
+        return
+
+    env = os.environ.copy()
+    env["HPR_ASSET_QUEUE_AS_HANS"] = "1"
+    env.setdefault("DBUS_SESSION_BUS_ADDRESS", "unix:path=/run/user/1000/bus")
+    env.setdefault("XDG_RUNTIME_DIR", "/run/user/1000")
+    cmd = [
+        "sudo",
+        "-u",
+        TERMUX_USER,
+        "-H",
+        "env",
+        f"DBUS_SESSION_BUS_ADDRESS={env['DBUS_SESSION_BUS_ADDRESS']}",
+        f"XDG_RUNTIME_DIR={env['XDG_RUNTIME_DIR']}",
+        "HPR_ASSET_QUEUE_AS_HANS=1",
+        sys.executable,
+        __file__,
+        *sys.argv[1:],
+    ]
+    raise SystemExit(subprocess.call(cmd, env=env))
 
 
 def load_state() -> dict:
@@ -63,7 +88,8 @@ def wait_for_active_downloads(log_handle, poll_interval: float) -> None:
 
 
 def expected_download_path(client, package_id: int) -> Path:
-    return Path(unity_native_asset.fetch_metadata(client, package_id)["final_path"])
+    raw = Path(unity_native_asset.fetch_metadata(client, package_id)["final_path"])
+    return unity_native_asset.resolve_final_path(raw)
 
 
 def record_downloaded(state: dict, package_id: int, display_name: str, path: Path) -> None:
@@ -77,6 +103,8 @@ def record_downloaded(state: dict, package_id: int, display_name: str, path: Pat
 
 
 def main() -> int:
+    ensure_hans_context()
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--package-ids", default="")
     parser.add_argument("--skip-existing", action="store_true")
@@ -102,7 +130,8 @@ def main() -> int:
             package_id = int(item["packageId"])
             display_name = item["displayName"]
             final_path = expected_download_path(client, package_id)
-            if args.skip_existing and unity_native_asset.is_probably_unitypackage(final_path):
+            if args.skip_existing and unity_native_asset.is_probably_unitypackage(unity_native_asset.resolve_final_path(final_path)):
+                final_path = unity_native_asset.resolve_final_path(final_path)
                 record_downloaded(state, package_id, display_name, final_path)
                 save_state(state)
                 log_handle.write(f"SKIP\t{package_id}\t{final_path}\n")
@@ -118,25 +147,39 @@ def main() -> int:
             log_handle.flush()
             wait_for_active_downloads(log_handle, args.poll_interval)
             started = time.time()
-            process = subprocess.run(
-                [
-                    "sudo", "-u", "hans", "-H",
+            command = [
+                "/data/venv/bin/python",
+                str(RUNNER),
+                "download",
+                str(package_id),
+                "--timeout",
+                str(args.timeout),
+            ]
+            if os.geteuid() == 0:
+                command = [
+                    "sudo", "-u", TERMUX_USER, "-H",
                     "env",
                     "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus",
                     "XDG_RUNTIME_DIR=/run/user/1000",
-                    "/data/venv/bin/python",
-                    str(RUNNER),
-                    "download",
-                    str(package_id),
-                    "--timeout",
-                    str(args.timeout),
-                ],
+                    *command,
+                ]
+            else:
+                command = [
+                    "env",
+                    f"DBUS_SESSION_BUS_ADDRESS={os.environ.get('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus')}",
+                    f"XDG_RUNTIME_DIR={os.environ.get('XDG_RUNTIME_DIR', '/run/user/1000')}",
+                    *command,
+                ]
+
+            process = subprocess.run(
+                command,
                 text=True,
                 capture_output=True,
             )
 
             if process.returncode == 0:
                 final_path = Path(process.stdout.strip().splitlines()[-1]) if process.stdout.strip() else final_path
+                final_path = unity_native_asset.resolve_final_path(final_path)
                 record_downloaded(state, package_id, display_name, final_path)
                 state[str(package_id)]["durationSeconds"] = round(time.time() - started, 2)
                 log_handle.write(f"DONE\t{package_id}\t{final_path}\n")

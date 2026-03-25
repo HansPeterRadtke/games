@@ -82,7 +82,7 @@ public class PickupItem : MonoBehaviour, IInteractable, ISaveableEntity
         var autoVisual = transform.Find(AutoVisualName);
         if (autoVisual != null)
         {
-            DestroyObject(autoVisual.gameObject);
+            DestroyUnityObject(autoVisual.gameObject);
         }
 
         var rootRenderer = GetComponent<Renderer>();
@@ -104,16 +104,16 @@ public class PickupItem : MonoBehaviour, IInteractable, ISaveableEntity
 
         foreach (var behaviour in visual.GetComponentsInChildren<MonoBehaviour>(true))
         {
-            DestroyObject(behaviour);
+            DestroyUnityObject(behaviour);
         }
 
         foreach (var rigidbody in visual.GetComponentsInChildren<Rigidbody>(true))
         {
-            DestroyObject(rigidbody);
+            DestroyUnityObject(rigidbody);
         }
     }
 
-    private static void DestroyObject(Object target)
+    private static void DestroyUnityObject(Object target)
     {
         if (target == null)
         {

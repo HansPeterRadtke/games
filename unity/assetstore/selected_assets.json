@@ -13,13 +13,13 @@
   },
   {
     "package_id": 258782,
-    "asset_folder": "Assets/House Interior - Free",
+    "asset_folder": "Assets/nappin/HouseInteriorPack",
     "integration_label": "house",
     "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 330002,
-    "asset_folder": "Assets/Furniture Mega Pack - Free",
+    "asset_folder": "Assets/Furniture Mega Pack",
     "integration_label": "furniture",
     "integration_method": "ThirdPartyAssetIntegrator.ApplyFurniturePackFromBatch"
   },
@@ -49,7 +49,7 @@
   },
   {
     "package_id": 181470,
-    "asset_folder": "Assets/Survivalist character",
+    "asset_folder": "Assets/Survivalist",
     "integration_label": "characters",
     "integration_method": "ThirdPartyAssetIntegrator.ApplyCharacterPacksFromBatch"
   },
@@ -85,7 +85,7 @@
   },
   {
     "package_id": 48529,
-    "asset_folder": "Assets/Flooded Grounds",
+    "asset_folder": "Assets/Flooded_Grounds",
     "integration_label": "environment",
     "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },

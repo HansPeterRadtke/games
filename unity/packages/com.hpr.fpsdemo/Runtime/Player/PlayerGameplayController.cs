@@ -72,7 +72,22 @@ public class PlayerGameplayController : MonoBehaviour
         var options = GameManager.Instance.CurrentOptions;
         if (Input.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Pause)))
         {
-            GameManager.Instance.TogglePauseMenu();
+            if (GameManager.Instance.IsOptionsVisible)
+            {
+                GameManager.Instance.ShowOptionsMenu(false);
+            }
+            else if (GameManager.Instance.IsMapVisible)
+            {
+                GameManager.Instance.ToggleMap();
+            }
+            else if (GameManager.Instance.IsInventoryVisible)
+            {
+                GameManager.Instance.ToggleInventory();
+            }
+            else
+            {
+                GameManager.Instance.TogglePauseMenu();
+            }
         }
 
         if (Input.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Inventory)))

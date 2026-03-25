@@ -13,7 +13,9 @@ public static class ThirdPartyAssetIntegrator
     private static readonly string[] FurnitureSearchRoots =
     {
         "Assets/Furniture Mega Pack - Free",
-        "Assets/Furniture Mega Pack"
+        "Assets/Furniture Mega Pack",
+        "Assets/dlgames",
+        "Assets/dlgames/Furniture Mega Pack - Free"
     };
     private static readonly string[] WeaponSearchRoots =
     {
@@ -25,6 +27,8 @@ public static class ThirdPartyAssetIntegrator
     {
         "Assets/House Interior - Free",
         "Assets/House Interior",
+        "Assets/nappin",
+        "Assets/nappin/HouseInteriorPack",
         "Assets/Furnished Cabin",
         "Assets/Apartment Kit",
     };
@@ -36,14 +40,15 @@ public static class ThirdPartyAssetIntegrator
         "Assets/Unity Terrain - URP Demo Scene",
         "Assets/Realistic Terrain Textures FREE",
         "Assets/Grass Flowers Pack Free",
+        "Assets/Flooded_Grounds",
         "Assets/Flooded Grounds",
     };
     private static readonly string[] CharacterSearchRoots =
     {
         "Assets/npc_casual_set_00",
+        "Assets/Survivalist",
+        "Assets/Survivalist/Prefab",
         "Assets/Survivalist character",
-        "Assets/Starter Assets",
-        "Assets/StarterAssets",
     };
 
     private static readonly Dictionary<string, string> DoorPrefabBySaveId = new()
@@ -102,6 +107,8 @@ public static class ThirdPartyAssetIntegrator
             return;
         }
 
+        NormalizeImportedMaterials(FurnitureSearchRoots.Concat(HouseSearchRoots));
+
         var scene = EditorSceneManager.OpenScene(MainScenePath, OpenSceneMode.Single);
         var world = GameObject.Find("World")?.transform;
         if (world == null)
@@ -119,20 +126,20 @@ public static class ThirdPartyAssetIntegrator
         var powerRoot = EnsureChild(furnitureRoot, "Power");
 
         int placed = 0;
-        placed += TryPlaceFurniture(hubRoot, "hub_table", new[] { "table" }, new Vector3(0f, 0f, 3.2f), Vector3.zero, new Vector3(2.4f, 1.1f, 1.5f));
-        placed += TryPlaceFurniture(hubRoot, "hub_chair_left", new[] { "chair" }, new Vector3(-1.15f, 0f, 2.6f), new Vector3(0f, 35f, 0f), new Vector3(1.0f, 1.4f, 1.0f));
-        placed += TryPlaceFurniture(hubRoot, "hub_chair_right", new[] { "chair" }, new Vector3(1.15f, 0f, 2.6f), new Vector3(0f, -35f, 0f), new Vector3(1.0f, 1.4f, 1.0f));
-        placed += TryPlaceFurniture(medbayRoot, "medbay_cabinet_a", new[] { "cabinet", "locker" }, new Vector3(-24.4f, 0f, 4f), new Vector3(0f, 90f, 0f), new Vector3(1.4f, 2.3f, 0.9f));
-        placed += TryPlaceFurniture(medbayRoot, "medbay_cabinet_b", new[] { "cabinet", "locker" }, new Vector3(-24.4f, 0f, -2.6f), new Vector3(0f, 90f, 0f), new Vector3(1.4f, 2.3f, 0.9f));
-        placed += TryPlaceFurniture(medbayRoot, "medbay_table", new[] { "bed", "table" }, new Vector3(-17.8f, 0f, 2.2f), new Vector3(0f, 180f, 0f), new Vector3(2.3f, 1.2f, 1.0f));
-        placed += TryPlaceFurniture(securityRoot, "security_desk", new[] { "desk", "table" }, new Vector3(-2.2f, 0f, 23.8f), new Vector3(0f, 180f, 0f), new Vector3(2.8f, 1.2f, 1.4f));
-        placed += TryPlaceFurniture(securityRoot, "security_chair", new[] { "chair" }, new Vector3(-2.2f, 0f, 22.4f), Vector3.zero, new Vector3(1.0f, 1.4f, 1.0f));
-        placed += TryPlaceFurniture(securityRoot, "security_shelf", new[] { "shelf", "book" }, new Vector3(6.8f, 0f, 25.1f), new Vector3(0f, 180f, 0f), new Vector3(2.2f, 2.5f, 0.8f));
-        placed += TryPlaceFurniture(armoryRoot, "armory_shelf_a", new[] { "shelf", "rack" }, new Vector3(24.2f, 0f, 4.8f), new Vector3(0f, -90f, 0f), new Vector3(2.4f, 2.6f, 0.85f));
-        placed += TryPlaceFurniture(armoryRoot, "armory_shelf_b", new[] { "shelf", "rack" }, new Vector3(24.2f, 0f, -3.8f), new Vector3(0f, -90f, 0f), new Vector3(2.4f, 2.6f, 0.85f));
-        placed += TryPlaceFurniture(armoryRoot, "armory_table", new[] { "table", "bench" }, new Vector3(18.5f, 0f, -1.2f), new Vector3(0f, 90f, 0f), new Vector3(2.4f, 1.1f, 1.3f));
-        placed += TryPlaceFurniture(powerRoot, "power_cabinet", new[] { "cabinet", "locker" }, new Vector3(4.6f, 0f, -24.4f), Vector3.zero, new Vector3(1.6f, 2.4f, 0.9f));
-        placed += TryPlaceFurniture(powerRoot, "power_table", new[] { "table", "desk" }, new Vector3(-3.8f, 0f, -23.8f), Vector3.zero, new Vector3(2.6f, 1.1f, 1.3f));
+        placed += TryPlaceFurniture(hubRoot, "hub_table", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)LaunchTable.prefab", "Assets/Furniture Mega Pack/Prefabs/Tables/Table10.prefab" }, new[] { "table" }, new Vector3(0f, 0f, 3.2f), Vector3.zero, new Vector3(1.18f, 0.56f, 0.92f));
+        placed += TryPlaceFurniture(hubRoot, "hub_chair_left", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Chair1.prefab", "Assets/Furniture Mega Pack/Prefabs/Chairs/Chair09.prefab" }, new[] { "chair" }, new Vector3(-1.06f, 0f, 2.42f), new Vector3(0f, 28f, 0f), new Vector3(0.68f, 1.04f, 0.68f));
+        placed += TryPlaceFurniture(hubRoot, "hub_chair_right", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Chair1.prefab", "Assets/Furniture Mega Pack/Prefabs/Chairs/Chair09.prefab" }, new[] { "chair" }, new Vector3(1.06f, 0f, 2.42f), new Vector3(0f, -28f, 0f), new Vector3(0.68f, 1.04f, 0.68f));
+        placed += TryPlaceFurniture(medbayRoot, "medbay_cabinet_a", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Wardrobe.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet05.prefab" }, new[] { "cabinet", "locker" }, new Vector3(-24.4f, 0f, 4f), new Vector3(0f, 90f, 0f), new Vector3(1.18f, 2.04f, 0.66f));
+        placed += TryPlaceFurniture(medbayRoot, "medbay_cabinet_b", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Wardrobe.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet05.prefab" }, new[] { "cabinet", "locker" }, new Vector3(-24.4f, 0f, -2.6f), new Vector3(0f, 90f, 0f), new Vector3(1.18f, 2.04f, 0.66f));
+        placed += TryPlaceFurniture(medbayRoot, "medbay_table", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)SingleBed.prefab", "Assets/Furniture Mega Pack/Prefabs/Beds/Bed05.prefab" }, new[] { "bed", "table" }, new Vector3(-17.8f, 0f, 2.2f), new Vector3(0f, 180f, 0f), new Vector3(2.08f, 0.78f, 1.02f));
+        placed += TryPlaceFurniture(securityRoot, "security_desk", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Desk.prefab", "Assets/Furniture Mega Pack/Prefabs/Tables/Table23.prefab" }, new[] { "desk", "table" }, new Vector3(-2.2f, 0f, 23.8f), new Vector3(0f, 180f, 0f), new Vector3(1.58f, 0.84f, 0.78f));
+        placed += TryPlaceFurniture(securityRoot, "security_chair", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Chair2.prefab", "Assets/Furniture Mega Pack/Prefabs/Chairs/Chair04.prefab" }, new[] { "chair" }, new Vector3(-2.2f, 0f, 22.4f), Vector3.zero, new Vector3(0.66f, 1.02f, 0.66f));
+        placed += TryPlaceFurniture(securityRoot, "security_shelf", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Shelf1.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet21.prefab" }, new[] { "shelf", "book" }, new Vector3(6.8f, 0f, 25.1f), new Vector3(0f, 180f, 0f), new Vector3(1.22f, 2.16f, 0.44f));
+        placed += TryPlaceFurniture(armoryRoot, "armory_shelf_a", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Rack.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet31.prefab" }, new[] { "shelf", "rack" }, new Vector3(24.2f, 0f, 4.8f), new Vector3(0f, -90f, 0f), new Vector3(1.28f, 2.08f, 0.56f));
+        placed += TryPlaceFurniture(armoryRoot, "armory_shelf_b", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Rack.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet31.prefab" }, new[] { "shelf", "rack" }, new Vector3(24.2f, 0f, -3.8f), new Vector3(0f, -90f, 0f), new Vector3(1.28f, 2.08f, 0.56f));
+        placed += TryPlaceFurniture(armoryRoot, "armory_table", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Desk.prefab", "Assets/Furniture Mega Pack/Prefabs/Tables/Table25.prefab" }, new[] { "table", "bench" }, new Vector3(18.5f, 0f, -1.2f), new Vector3(0f, 90f, 0f), new Vector3(1.62f, 0.84f, 0.78f));
+        placed += TryPlaceFurniture(powerRoot, "power_cabinet", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Container2.prefab", "Assets/Furniture Mega Pack/Prefabs/Kitchen/CabinetE07.prefab" }, new[] { "cabinet", "locker" }, new Vector3(4.6f, 0f, -24.4f), Vector3.zero, new Vector3(1.12f, 1.82f, 0.58f));
+        placed += TryPlaceFurniture(powerRoot, "power_table", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Desk.prefab", "Assets/Furniture Mega Pack/Prefabs/Tables/Table45.prefab" }, new[] { "table", "desk" }, new Vector3(-3.8f, 0f, -23.8f), Vector3.zero, new Vector3(1.52f, 0.84f, 0.82f));
 
         if (placed == 0)
         {
@@ -162,11 +169,11 @@ public static class ThirdPartyAssetIntegrator
         }
 
         int updated = 0;
-        updated += TryApplyWeaponVisual("weapon_pulse_pistol", new[] { "pistol", "handgun" }, 0.42f);
-        updated += TryApplyWeaponVisual("weapon_scatter_shot", new[] { "shotgun" }, 0.62f);
-        updated += TryApplyWeaponVisual("weapon_needler", new[] { "rifle", "smg", "submachine" }, 0.62f);
-        updated += TryApplyWeaponVisual("weapon_arc_launcher", new[] { "launcher", "rocket", "rpg", "bazooka" }, 0.7f);
-        updated += TryApplyWeaponVisual("weapon_security_baton", new[] { "baton", "club", "hammer", "axe", "knife", "sword" }, 0.54f);
+        updated += TryApplyWeaponVisual("weapon_pulse_pistol", new[] { "M1911" }, new[] { "pistol", "handgun" }, 0.42f, new Vector3(0f, 195f, 0f));
+        updated += TryApplyWeaponVisual("weapon_scatter_shot", new[] { "Bennelli_M4" }, new[] { "shotgun" }, 0.62f, new Vector3(5f, 180f, -12f));
+        updated += TryApplyWeaponVisual("weapon_needler", new[] { "Uzi", "M4_8", "AK74" }, new[] { "uzi", "smg", "submachine", "rifle" }, 0.62f, new Vector3(0f, 192f, 12f));
+        updated += TryApplyWeaponVisual("weapon_arc_launcher", new[] { "RPG7" }, new[] { "launcher", "rocket", "rpg", "bazooka" }, 0.7f, new Vector3(-10f, 180f, -90f));
+        updated += TryApplyWeaponVisual("weapon_repair_tool", new[] { "ANPEQ15", "ELCAN" }, new[] { "tool", "scope", "laser" }, 0.28f, new Vector3(0f, 180f, -70f));
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -246,11 +253,11 @@ public static class ThirdPartyAssetIntegrator
         }
 
         int updated = 0;
-        updated += TryApplyEnemyVisual("enemy_sentry_hub", new[] { "female", "woman", "casual", "npc" }, 1.72f, 0f);
-        updated += TryApplyEnemyVisual("enemy_medbay_intruder", new[] { "female", "casual", "npc" }, 1.7f, 0f);
-        updated += TryApplyEnemyVisual("enemy_security_guard", new[] { "male", "survival", "guard", "casual" }, 1.8f, 0f);
-        updated += TryApplyEnemyVisual("enemy_sweeper_armory", new[] { "male", "survival", "worker", "casual" }, 1.8f, 0f);
-        updated += TryApplyEnemyVisual("enemy_power_walker", new[] { "male", "worker", "casual", "survival" }, 1.82f, 0f);
+        updated += TryApplyEnemyVisual("enemy_sentry_hub", new[] { "female", "woman", "casual", "npc" }, new[] { "npc_csl_00_character_01f_02", "npc_csl_tshirt_00f_01_02" }, 1.72f, 0f);
+        updated += TryApplyEnemyVisual("enemy_medbay_intruder", new[] { "female", "casual", "npc" }, new[] { "npc_csl_00_character_02f_01", "npc_csl_tshirt_00f_01_03" }, 1.7f, 0f);
+        updated += TryApplyEnemyVisual("enemy_security_guard", new[] { "male", "survival", "guard", "casual" }, new[] { "Survivalist (1)", "npc_csl_00_character_01m_02" }, 1.8f, 0f);
+        updated += TryApplyEnemyVisual("enemy_sweeper_armory", new[] { "male", "survival", "worker", "casual" }, new[] { "Survivalist (2)", "npc_csl_00_character_02m_03" }, 1.8f, 0f);
+        updated += TryApplyEnemyVisual("enemy_power_walker", new[] { "male", "worker", "casual", "survival" }, new[] { "Survivalist (4)", "npc_csl_00_character_02m_01" }, 1.82f, 0f);
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -327,9 +334,16 @@ public static class ThirdPartyAssetIntegrator
         EditorUtility.SetDirty(controller);
     }
 
-    private static int TryPlaceFurniture(Transform parent, string instanceName, string[] keywords, Vector3 position, Vector3 rotationEuler, Vector3 targetSize)
+    private static int TryPlaceFurniture(Transform parent, string instanceName, string[] preferredPrefabPaths, string[] keywords, Vector3 position, Vector3 rotationEuler, Vector3 targetSize)
     {
-        return TryPlaceProp(FurnitureSearchRoots, parent, instanceName, keywords, position, rotationEuler, targetSize);
+        var prefab = TryLoadAssetAtAnyPath(preferredPrefabPaths) ?? FindBestPrefab(FurnitureSearchRoots, keywords);
+        if (prefab == null)
+        {
+            return 0;
+        }
+
+        PlaceStaticProp(parent, instanceName, prefab, position, rotationEuler, targetSize);
+        return 1;
     }
 
     private static int TryPlaceProp(IEnumerable<string> searchRoots, Transform parent, string instanceName, string[] keywords, Vector3 position, Vector3 rotationEuler, Vector3 targetSize)
@@ -344,9 +358,9 @@ public static class ThirdPartyAssetIntegrator
         return 1;
     }
 
-    private static int TryApplyWeaponVisual(string weaponId, string[] keywords, float targetLength)
+    private static int TryApplyWeaponVisual(string weaponId, string[] preferredPrefabNames, string[] keywords, float targetLength, Vector3? localEulerOverride = null)
     {
-        var prefab = FindBestPrefab(WeaponSearchRoots, keywords);
+        var prefab = FindBestPrefab(WeaponSearchRoots, keywords, preferredPrefabNames);
         if (prefab == null)
         {
             return 0;
@@ -370,6 +384,10 @@ public static class ThirdPartyAssetIntegrator
         float uniformScale = targetLength / longestDimension;
         weapon.ViewPrefab = prefab;
         weapon.ViewLocalScale = Vector3.one * uniformScale;
+        if (localEulerOverride.HasValue)
+        {
+            weapon.ViewLocalEuler = localEulerOverride.Value;
+        }
         if (weapon.ViewMuzzleLocalPosition == Vector3.zero)
         {
             weapon.ViewMuzzleLocalPosition = new Vector3(0f, 0.01f, targetLength * 0.55f);
@@ -379,9 +397,9 @@ public static class ThirdPartyAssetIntegrator
         return 1;
     }
 
-    private static int TryApplyEnemyVisual(string enemyId, string[] keywords, float targetHeight, float yawDegrees)
+    private static int TryApplyEnemyVisual(string enemyId, string[] keywords, string[] preferredPrefabNames, float targetHeight, float yawDegrees)
     {
-        var prefab = FindBestPrefab(CharacterSearchRoots, keywords);
+        var prefab = FindBestPrefab(CharacterSearchRoots, keywords, preferredPrefabNames);
         if (prefab == null)
         {
             return 0;
@@ -495,7 +513,7 @@ public static class ThirdPartyAssetIntegrator
         }
     }
 
-    private static GameObject FindBestPrefab(IEnumerable<string> searchRoots, IEnumerable<string> keywords)
+    private static GameObject FindBestPrefab(IEnumerable<string> searchRoots, IEnumerable<string> keywords, IEnumerable<string> preferredPrefabNames = null)
     {
         var normalized = keywords
             .Where(keyword => !string.IsNullOrWhiteSpace(keyword))
@@ -512,6 +530,11 @@ public static class ThirdPartyAssetIntegrator
             return null;
         }
 
+        var preferred = (preferredPrefabNames ?? Array.Empty<string>())
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .Select(name => name.Trim().ToLowerInvariant())
+            .ToArray();
+
         return AssetDatabase.FindAssets("t:GameObject", roots)
             .Select(AssetDatabase.GUIDToAssetPath)
             .Where(path => path.EndsWith(".prefab", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".fbx", StringComparison.OrdinalIgnoreCase))
@@ -525,13 +548,40 @@ public static class ThirdPartyAssetIntegrator
             .Select(candidate => new
             {
                 candidate.asset,
-                score = normalized.Count(keyword => candidate.name.Contains(keyword))
+                score = normalized.Count(keyword => candidate.name.Contains(keyword)),
+                preferredScore = preferred.Any(name => candidate.name == name) ? 2 :
+                    preferred.Count(name => candidate.name.Contains(name))
             })
-            .Where(candidate => candidate.score > 0)
-            .OrderByDescending(candidate => candidate.score)
+            .Where(candidate => candidate.score > 0 || candidate.preferredScore > 0)
+            .OrderByDescending(candidate => candidate.preferredScore)
+            .ThenByDescending(candidate => candidate.score)
             .ThenBy(candidate => candidate.asset.name.Length)
             .Select(candidate => candidate.asset)
             .FirstOrDefault();
+    }
+
+    private static GameObject TryLoadAssetAtAnyPath(IEnumerable<string> preferredPaths)
+    {
+        if (preferredPaths == null)
+        {
+            return null;
+        }
+
+        foreach (var path in preferredPaths)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                continue;
+            }
+
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (prefab != null)
+            {
+                return prefab;
+            }
+        }
+
+        return null;
     }
 
     private static Transform FindChildRecursive(Transform root, string name)
@@ -591,6 +641,77 @@ public static class ThirdPartyAssetIntegrator
         for (int i = parent.childCount - 1; i >= 0; i--)
         {
             UnityEngine.Object.DestroyImmediate(parent.GetChild(i).gameObject);
+        }
+    }
+
+    private static void NormalizeImportedMaterials(IEnumerable<string> searchRoots)
+    {
+        var roots = searchRoots.Where(AssetDatabase.IsValidFolder).Distinct().ToArray();
+        if (roots.Length == 0)
+        {
+            return;
+        }
+
+        var standardShader = Shader.Find("Standard");
+        var urpLitShader = Shader.Find("Universal Render Pipeline/Lit");
+        foreach (var guid in AssetDatabase.FindAssets("t:Material", roots))
+        {
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            var material = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (material == null)
+            {
+                continue;
+            }
+
+            bool invalidShader = material.shader == null || material.shader.name.StartsWith("Hidden/InternalErrorShader", StringComparison.OrdinalIgnoreCase);
+            bool unsupportedPipelineShader = material.shader != null &&
+                (material.shader.name.Contains("Universal Render Pipeline", StringComparison.OrdinalIgnoreCase) ||
+                 material.shader.name.Contains("HDRP", StringComparison.OrdinalIgnoreCase));
+            if (invalidShader || unsupportedPipelineShader)
+            {
+                if (standardShader != null && (invalidShader || urpLitShader == null))
+                {
+                    material.shader = standardShader;
+                }
+                else if (urpLitShader != null)
+                {
+                    material.shader = urpLitShader;
+                }
+            }
+
+            var baseMap = material.HasProperty("_BaseMap") ? material.GetTexture("_BaseMap") : null;
+            if (baseMap == null && material.HasProperty("_Base_Map"))
+            {
+                baseMap = material.GetTexture("_Base_Map");
+            }
+            if (baseMap != null && material.HasProperty("_MainTex"))
+            {
+                material.SetTexture("_MainTex", baseMap);
+            }
+
+            var normalMap = material.HasProperty("_BumpMap") ? material.GetTexture("_BumpMap") : null;
+            if (normalMap == null && material.HasProperty("_Normal_Map"))
+            {
+                normalMap = material.GetTexture("_Normal_Map");
+            }
+            if (normalMap != null && material.HasProperty("_BumpMap"))
+            {
+                material.SetTexture("_BumpMap", normalMap);
+                material.EnableKeyword("_NORMALMAP");
+            }
+
+            var metallicMap = material.HasProperty("_MetallicGlossMap") ? material.GetTexture("_MetallicGlossMap") : null;
+            if (metallicMap == null && material.HasProperty("_Metallic_Map"))
+            {
+                metallicMap = material.GetTexture("_Metallic_Map");
+            }
+            if (metallicMap != null && material.HasProperty("_MetallicGlossMap"))
+            {
+                material.SetTexture("_MetallicGlossMap", metallicMap);
+                material.EnableKeyword("_METALLICGLOSSMAP");
+            }
+
+            EditorUtility.SetDirty(material);
         }
     }
 

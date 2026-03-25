@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
-PKG='/home/hans/.local/share/unity3d/Asset Store-5.x/Simon Mercuzot/3D ModelsPropsWeaponsGuns/Low Poly Weapons VOL.1.unitypackage'
+PKG='/home/hans/.local/share/unity3d/Asset Store-5.x/Simon Mercuzot/3D ModelsPropsWeaponsGuns/Low Poly Weapons VOL1.unitypackage'
 while true; do
   if [[ -f "$PKG" ]]; then
     MAGIC=$(python3 - <<'PY'
 from pathlib import Path
-p = Path('/home/hans/.local/share/unity3d/Asset Store-5.x/Simon Mercuzot/3D ModelsPropsWeaponsGuns/Low Poly Weapons VOL.1.unitypackage')
+p = Path('/home/hans/.local/share/unity3d/Asset Store-5.x/Simon Mercuzot/3D ModelsPropsWeaponsGuns/Low Poly Weapons VOL1.unitypackage')
 print(p.read_bytes()[:2].hex() if p.exists() and p.stat().st_size >= 2 else '')
 PY
 )

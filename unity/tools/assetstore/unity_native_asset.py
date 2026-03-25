@@ -63,6 +63,24 @@ def run_unity(project: Path, method: str, extra_args: list[str], log_name: str) 
     return subprocess.run(cmd, text=True, capture_output=True)
 
 
+def maybe_recover_import_with_known_fixes(log_name: str) -> bool:
+    log_path = LOG_DIR / log_name
+    if not log_path.exists():
+        return False
+
+    log_text = log_path.read_text(errors="ignore")
+    if "Scripts have compiler errors." not in log_text:
+        return False
+
+    fix_result = run_unity(
+        MAIN_PROJECT,
+        "AssetStoreImportTools.ApplyKnownCompatibilityFixes",
+        [],
+        f"{Path(log_name).stem}_fixup.log",
+    )
+    return fix_result.returncode == 0
+
+
 def fetch_metadata(client: unity_assetstore.UnityAssetStore, package_id: int) -> dict:
     product = client.fetch_product(package_id)
     download = client.fetch_download_info(package_id)["result"]["download"]
@@ -242,7 +260,8 @@ def run_unity_download_with_monitoring(
         time.sleep(5)
 
     stdout, stderr = process.communicate()
-    if download_completed and is_probably_unitypackage(resolve_final_path(final_path)):
+    resolved_final = resolve_final_path(final_path)
+    if is_probably_unitypackage(resolved_final):
         return 0, stdout or "", stderr or ""
     return process.returncode or 0, stdout or "", stderr or ""
 
@@ -259,12 +278,13 @@ def cmd_download(args: argparse.Namespace) -> int:
     extra_args = [
         "-assetId", meta["package_id"],
         "-assetUrl", meta["asset_url"],
-        "-assetKey", meta["asset_key"],
         "-publisher", meta["publisher"],
         "-category", meta["category"],
         "-packageName", meta["package_name"],
         "-timeout", str(args.timeout),
     ]
+    if meta.get("asset_key"):
+        extra_args[4:4] = ["-assetKey", meta["asset_key"]]
     returncode, stdout, stderr = run_unity_download_with_monitoring(
         args.package_id,
         final_path,
@@ -274,12 +294,14 @@ def cmd_download(args: argparse.Namespace) -> int:
         args.timeout,
         args.stall_timeout,
     )
+    final_path = resolve_final_path(final_path)
+    if returncode != 0 and is_probably_unitypackage(final_path):
+        returncode = 0
     if returncode != 0:
         sys.stderr.write(stdout)
         sys.stderr.write(stderr)
         sys.stderr.write((LOG_DIR / f"native_download_{args.package_id}.log").read_text())
         return returncode
-    final_path = resolve_final_path(final_path)
     if not is_probably_unitypackage(final_path):
         sys.stderr.write(f"Downloaded file is not a valid gzip-based unitypackage: {final_path}\n")
         return 2
@@ -289,10 +311,14 @@ def cmd_download(args: argparse.Namespace) -> int:
 
 def cmd_import(args: argparse.Namespace) -> int:
     package_path = Path(args.package_path).expanduser().resolve()
-    result = run_unity(MAIN_PROJECT, "AssetStoreImportTools.ImportFromArgs", ["-assetPackage", str(package_path)], f"native_import_{package_path.stem}.log")
+    log_name = f"native_import_{package_path.stem}.log"
+    result = run_unity(MAIN_PROJECT, "AssetStoreImportTools.ImportFromArgs", ["-assetPackage", str(package_path)], log_name)
     if result.returncode != 0:
+        if maybe_recover_import_with_known_fixes(log_name):
+            print(package_path)
+            return 0
         sys.stderr.write(result.stderr)
-        sys.stderr.write((LOG_DIR / f"native_import_{package_path.stem}.log").read_text())
+        sys.stderr.write((LOG_DIR / log_name).read_text())
         return result.returncode
     print(package_path)
     return 0
@@ -315,12 +341,13 @@ def cmd_download_import(args: argparse.Namespace) -> int:
     extra_args = [
         "-assetId", meta["package_id"],
         "-assetUrl", meta["asset_url"],
-        "-assetKey", meta["asset_key"],
         "-publisher", meta["publisher"],
         "-category", meta["category"],
         "-packageName", meta["package_name"],
         "-timeout", str(args.timeout),
     ]
+    if meta.get("asset_key"):
+        extra_args[4:4] = ["-assetKey", meta["asset_key"]]
     returncode, stdout, stderr = run_unity_download_with_monitoring(
         args.package_id,
         final_path,
@@ -338,8 +365,12 @@ def cmd_download_import(args: argparse.Namespace) -> int:
 
     import_result = run_unity(MAIN_PROJECT, "AssetStoreImportTools.ImportFromArgs", ["-assetPackage", str(final_path)], f"native_import_{args.package_id}.log")
     if import_result.returncode != 0:
+        log_name = f"native_import_{args.package_id}.log"
+        if maybe_recover_import_with_known_fixes(log_name):
+            print(json.dumps({"packageId": args.package_id, "path": str(final_path)}))
+            return 0
         sys.stderr.write(import_result.stderr)
-        sys.stderr.write((LOG_DIR / f"native_import_{args.package_id}.log").read_text())
+        sys.stderr.write((LOG_DIR / log_name).read_text())
         return import_result.returncode
 
     final_path = resolve_final_path(final_path)

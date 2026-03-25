@@ -10,6 +10,12 @@ using UnityEngine;
 
 public static class AssetStoreImportTools
 {
+    private static readonly string[] KnownIncompatibleImportPaths =
+    {
+        "Assets/Survivalist/StarterAssets/Editor",
+        "Assets/Flooded_Grounds/PostProcessing/Editor",
+    };
+
     private static volatile bool s_DownloadFinished;
     private static volatile bool s_DownloadSucceeded;
     private static string s_DownloadPath;
@@ -42,6 +48,31 @@ public static class AssetStoreImportTools
         }
 
         ImportPackage(packagePath);
+    }
+
+    [MenuItem("HPR/Assets/Apply Known Compatibility Fixes")]
+    public static void ApplyKnownCompatibilityFixes()
+    {
+        bool changed = false;
+        foreach (var assetPath in KnownIncompatibleImportPaths)
+        {
+            if (!AssetDatabase.IsValidFolder(assetPath))
+            {
+                continue;
+            }
+
+            changed |= AssetDatabase.DeleteAsset(assetPath);
+        }
+
+        if (!changed)
+        {
+            Debug.Log("ASSETSTORE compatibility fixes: nothing to remove");
+            return;
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+        Debug.Log("ASSETSTORE compatibility fixes applied");
     }
 
     [MenuItem("HPR/Assets/Report Asset Store Loader Path")]
@@ -212,7 +243,7 @@ public static class AssetStoreImportTools
         var args = ParseArgs(Environment.GetCommandLineArgs());
         var assetId = RequireArg(args, "assetId");
         var assetUrl = RequireArg(args, "assetUrl");
-        var assetKey = RequireArg(args, "assetKey");
+        var assetKey = args.TryGetValue("assetKey", out var assetKeyValue) ? assetKeyValue : string.Empty;
         var publisher = RequireArg(args, "publisher");
         var category = RequireArg(args, "category");
         var packageName = RequireArg(args, "packageName");
@@ -485,6 +516,18 @@ public static class AssetStoreImportTools
     private static void FinishAssetStoreDownload()
     {
         EditorApplication.update -= PollAssetStoreDownload;
+        if (!s_DownloadSucceeded &&
+            !string.IsNullOrWhiteSpace(s_ExpectedFinalPath) &&
+            File.Exists(s_ExpectedFinalPath))
+        {
+            var info = new FileInfo(s_ExpectedFinalPath);
+            if (info.Length > 0)
+            {
+                s_DownloadSucceeded = true;
+                s_DownloadPath = s_ExpectedFinalPath;
+                s_DownloadMessage = $"finalPathRecovered={info.Length}";
+            }
+        }
         Debug.Log($"ASSETSTORE direct download finished success={s_DownloadSucceeded} path={s_DownloadPath} message={s_DownloadMessage}");
         if (Application.isBatchMode)
         {
@@ -496,6 +539,18 @@ public static class AssetStoreImportTools
     {
         s_DownloadFinished = true;
         s_DownloadSucceeded = resultCode == 0 && !string.IsNullOrWhiteSpace(destination);
+        if (!s_DownloadSucceeded &&
+            !string.IsNullOrWhiteSpace(s_ExpectedFinalPath) &&
+            File.Exists(s_ExpectedFinalPath))
+        {
+            var info = new FileInfo(s_ExpectedFinalPath);
+            if (info.Length > 0)
+            {
+                s_DownloadSucceeded = true;
+                destination = s_ExpectedFinalPath;
+            }
+        }
+
         s_DownloadPath = destination ?? string.Empty;
         s_DownloadMessage = $"downloadId={downloadId} bytes={bytes} result={resultCode}";
         Debug.Log($"ASSETSTORE direct callback downloadId={downloadId} destination={destination} bytes={bytes} result={resultCode}");

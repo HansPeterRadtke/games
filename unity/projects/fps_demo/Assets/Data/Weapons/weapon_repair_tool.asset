@@ -28,13 +28,13 @@ MonoBehaviour:
   LinkedItemId: 
   UtilityMessage: Repair tool primed - interact with machinery
   ViewShape: 1
-  ViewPrefab: {fileID: 0}
+  ViewPrefab: {fileID: 100000, guid: 7430c7a2877dd0b429a981e69ac2ed00, type: 3}
   ViewColor: {r: 0.85, g: 0.55, b: 0.12, a: 1}
   ViewLocalPosition: {x: 0.34, y: -0.28, z: 0.8}
-  ViewLocalEuler: {x: 0, y: 0, z: -70}
-  ViewLocalScale: {x: 0.09, y: 0.26, z: 0.09}
+  ViewLocalEuler: {x: 0, y: 180, z: -70}
+  ViewLocalScale: {x: 1.7217703, y: 1.7217703, z: 1.7217703}
   AimLocalPosition: {x: 0.08, y: -0.22, z: 0.6}
-  ViewMuzzleLocalPosition: {x: 0, y: 0, z: 0}
+  ViewMuzzleLocalPosition: {x: 0, y: 0.01, z: 0.154}
   Spread: 0
   Pellets: 1
   MagazineSize: 0

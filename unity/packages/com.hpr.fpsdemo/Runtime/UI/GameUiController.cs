@@ -37,6 +37,7 @@ public class GameUiController : MonoBehaviour
     private Button resumeButton;
     private Button saveButton;
     private Button loadButton;
+    private Button restartButton;
     private Button optionsButton;
     private Button exitButton;
     private Text menuHintText;
@@ -150,9 +151,10 @@ public class GameUiController : MonoBehaviour
         resumeButton.gameObject.SetActive(false);
         saveButton.gameObject.SetActive(false);
         loadButton.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(false);
         optionsButton.gameObject.SetActive(true);
         exitButton.gameObject.SetActive(true);
-        ClearSelection();
+        FocusButton(newGameButton);
     }
 
     public void ShowPauseMenu(bool show)
@@ -173,10 +175,11 @@ public class GameUiController : MonoBehaviour
         resumeButton.gameObject.SetActive(true);
         saveButton.gameObject.SetActive(true);
         loadButton.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(true);
         optionsButton.gameObject.SetActive(true);
         exitButton.gameObject.SetActive(true);
         menuHintText.text = "Press Esc to resume";
-        ClearSelection();
+        FocusButton(resumeButton);
     }
 
     public void SetMenuInteractable(bool interactable)
@@ -196,6 +199,10 @@ public class GameUiController : MonoBehaviour
         if (loadButton != null)
         {
             loadButton.interactable = interactable;
+        }
+        if (restartButton != null)
+        {
+            restartButton.interactable = interactable;
         }
         if (optionsButton != null)
         {
@@ -399,29 +406,30 @@ public class GameUiController : MonoBehaviour
 
     private void BuildMenu()
     {
-        menuPanel = CreatePanel("MenuPanel", root, Vector2.zero, new Vector2(420f, 480f), new Color(0.03f, 0.04f, 0.06f, 0.9f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f)).gameObject;
+        menuPanel = CreatePanel("MenuPanel", root, Vector2.zero, new Vector2(420f, 540f), new Color(0.03f, 0.04f, 0.06f, 0.9f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f)).gameObject;
         var panelRt = (RectTransform)menuPanel.transform;
         menuTitleText = CreateText("MenuTitle", panelRt, "Facility Sweep", 36, TextAnchor.MiddleCenter, new Vector2(0f, -52f), new Vector2(340f, 40f));
         newGameButton = CreateMenuButton(panelRt, "NewGame", "Start Game", new Vector2(0f, -130f), gameManager.ActivatePrimaryMenuAction);
         newGameButtonText = newGameButton.GetComponentInChildren<Text>();
-        resumeButton = CreateMenuButton(panelRt, "Resume", "Resume", new Vector2(0f, -130f), gameManager.BeginSession);
+        resumeButton = CreateMenuButton(panelRt, "Resume", "Resume", new Vector2(0f, -130f), gameManager.ResumeSession);
         saveButton = CreateMenuButton(panelRt, "Save", "Save Game", new Vector2(0f, -188f), gameManager.SaveGame);
         loadButton = CreateMenuButton(panelRt, "Load", "Load Game", new Vector2(0f, -246f), gameManager.LoadGame);
-        optionsButton = CreateMenuButton(panelRt, "Options", "Options", new Vector2(0f, -304f), () => gameManager.ShowOptionsMenu(true));
-        exitButton = CreateMenuButton(panelRt, "Exit", "Exit", new Vector2(0f, -362f), gameManager.ExitGame);
-        menuHintText = CreateText("MenuHint", panelRt, string.Empty, 16, TextAnchor.MiddleCenter, new Vector2(0f, -418f), new Vector2(340f, 24f));
+        restartButton = CreateMenuButton(panelRt, "Restart", "Restart Run", new Vector2(0f, -304f), gameManager.StartNewGame);
+        optionsButton = CreateMenuButton(panelRt, "Options", "Options", new Vector2(0f, -362f), () => gameManager.ShowOptionsMenu(true));
+        exitButton = CreateMenuButton(panelRt, "Exit", "Exit", new Vector2(0f, -420f), gameManager.ExitGame);
+        menuHintText = CreateText("MenuHint", panelRt, string.Empty, 16, TextAnchor.MiddleCenter, new Vector2(0f, -476f), new Vector2(340f, 24f));
         menuHintText.color = new Color(0.8f, 0.86f, 0.92f, 0.95f);
     }
 
     private void BuildOptions()
     {
-        var panel = CreatePanel("OptionsPanel", root, Vector2.zero, new Vector2(1180f, 760f), new Color(0.03f, 0.05f, 0.08f, 0.95f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+        var panel = CreatePanel("OptionsPanel", root, Vector2.zero, new Vector2(1260f, 820f), new Color(0.03f, 0.05f, 0.08f, 0.95f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
         optionsPanel = panel.gameObject;
         optionsPanel.SetActive(false);
         CreateText("OptionsTitle", panel, "Options", 34, TextAnchor.UpperCenter, new Vector2(0f, -18f), new Vector2(280f, 40f));
 
-        var left = CreatePanel("OptionsLeft", panel, new Vector2(24f, -80f), new Vector2(500f, 620f), new Color(0.12f, 0.14f, 0.18f, 0.55f), new Vector2(0f, 1f), new Vector2(0f, 1f));
-        var right = CreatePanel("OptionsRight", panel, new Vector2(-24f, -80f), new Vector2(580f, 620f), new Color(0.12f, 0.14f, 0.18f, 0.55f), new Vector2(1f, 1f), new Vector2(1f, 1f));
+        var left = CreatePanel("OptionsLeft", panel, new Vector2(28f, -80f), new Vector2(540f, 660f), new Color(0.12f, 0.14f, 0.18f, 0.55f), new Vector2(0f, 1f), new Vector2(0f, 1f));
+        var right = CreatePanel("OptionsRight", panel, new Vector2(-28f, -80f), new Vector2(620f, 660f), new Color(0.12f, 0.14f, 0.18f, 0.55f), new Vector2(1f, 1f), new Vector2(1f, 1f));
 
         CreateTopLeftText("GraphicsHeader", left, "Graphics / Audio", 26, TextAnchor.UpperLeft, new Vector2(18f, -16f), new Vector2(240f, 28f));
         CreateSliderRow(left, "fov", "Field of View", 75f, 55f, 110f, new Vector2(18f, -72f), value =>
@@ -429,42 +437,42 @@ public class GameUiController : MonoBehaviour
             gameManager.CurrentOptions.fieldOfView = value;
             gameManager.ApplyOptions(gameManager.CurrentOptions);
         });
-        CreateSliderRow(left, "sensitivity", "Look Sensitivity", 2f, 0.4f, 5f, new Vector2(18f, -142f), value =>
+        CreateSliderRow(left, "sensitivity", "Look Sensitivity", 2f, 0.4f, 5f, new Vector2(18f, -162f), value =>
         {
             gameManager.CurrentOptions.lookSensitivity = value;
             gameManager.ApplyOptions(gameManager.CurrentOptions);
         });
-        CreateSliderRow(left, "master", "Master Volume", 100f, 0f, 100f, new Vector2(18f, -212f), value =>
+        CreateSliderRow(left, "master", "Master Volume", 100f, 0f, 100f, new Vector2(18f, -252f), value =>
         {
             gameManager.CurrentOptions.masterVolume = value / 100f;
             gameManager.ApplyOptions(gameManager.CurrentOptions);
         });
-        CreateSliderRow(left, "music", "Music Volume", 65f, 0f, 100f, new Vector2(18f, -282f), value =>
+        CreateSliderRow(left, "music", "Music Volume", 65f, 0f, 100f, new Vector2(18f, -342f), value =>
         {
             gameManager.CurrentOptions.musicVolume = value / 100f;
             gameManager.ApplyOptions(gameManager.CurrentOptions);
         });
-        CreateSliderRow(left, "sfx", "SFX Volume", 85f, 0f, 100f, new Vector2(18f, -352f), value =>
+        CreateSliderRow(left, "sfx", "SFX Volume", 85f, 0f, 100f, new Vector2(18f, -432f), value =>
         {
             gameManager.CurrentOptions.sfxVolume = value / 100f;
             gameManager.ApplyOptions(gameManager.CurrentOptions);
         });
 
-        CreateTopLeftText("QualityLabel", left, "Quality", 20, TextAnchor.MiddleLeft, new Vector2(18f, -430f), new Vector2(120f, 28f));
-        qualityButton = CreateTopLeftButton(left, "QualityCycle", string.Empty, new Vector2(170f, -428f), new Vector2(260f, 34f), () =>
+        CreateTopLeftText("QualityLabel", left, "Quality", 20, TextAnchor.MiddleLeft, new Vector2(18f, -544f), new Vector2(140f, 28f));
+        qualityButton = CreateTopLeftButton(left, "QualityCycle", string.Empty, new Vector2(178f, -540f), new Vector2(290f, 38f), () =>
         {
             gameManager.CurrentOptions.qualityLevel = (gameManager.CurrentOptions.qualityLevel + 1) % Mathf.Max(1, QualitySettings.names.Length);
             gameManager.ApplyOptions(gameManager.CurrentOptions);
             RefreshOptions(gameManager.CurrentOptions);
         });
         qualityButtonText = qualityButton.GetComponentInChildren<Text>();
-        CreateTopLeftText("InvertLabel", left, "Invert Y", 20, TextAnchor.MiddleLeft, new Vector2(18f, -482f), new Vector2(120f, 28f));
-        invertYToggle = CreateToggle(left, new Vector2(178f, -482f), new Vector2(160f, 32f), "Enabled", value =>
+        CreateTopLeftText("InvertLabel", left, "Invert Y", 20, TextAnchor.MiddleLeft, new Vector2(18f, -598f), new Vector2(120f, 28f));
+        invertYToggle = CreateToggle(left, new Vector2(182f, -596f), new Vector2(180f, 32f), "Enabled", value =>
         {
             gameManager.CurrentOptions.invertY = value;
             gameManager.ApplyOptions(gameManager.CurrentOptions);
         });
-        CreateTopLeftButton(left, "ResetDefaults", "Reset Defaults", new Vector2(18f, -536f), new Vector2(200f, 42f), () =>
+        CreateTopLeftButton(left, "ResetDefaults", "Reset Defaults", new Vector2(18f, -646f), new Vector2(220f, 42f), () =>
         {
             gameManager.ApplyOptions(GameOptionsData.CreateDefault());
             RefreshOptions(gameManager.CurrentOptions);
@@ -481,11 +489,11 @@ public class GameUiController : MonoBehaviour
                  })
         {
             CreateBindingRow(right, action, new Vector2(18f, y));
-            y -= 46f;
+            y -= 48f;
         }
 
-        optionsStatusText = CreateText("OptionsStatus", panel, string.Empty, 18, TextAnchor.MiddleCenter, new Vector2(0f, -710f), new Vector2(860f, 26f));
-        CreateButton(panel, "OptionsBack", "Back", new Vector2(0f, -660f), new Vector2(180f, 44f), () => gameManager.ShowOptionsMenu(false));
+        optionsStatusText = CreateText("OptionsStatus", panel, string.Empty, 18, TextAnchor.MiddleCenter, new Vector2(0f, -768f), new Vector2(920f, 26f));
+        CreateButton(panel, "OptionsBack", "Back", new Vector2(0f, -716f), new Vector2(180f, 44f), () => gameManager.ShowOptionsMenu(false));
     }
 
     private void BuildInventory()
@@ -545,8 +553,8 @@ public class GameUiController : MonoBehaviour
 
     private void CreateBindingRow(RectTransform parent, GameAction action, Vector2 anchoredPos)
     {
-        CreateTopLeftText($"{action}Label", parent, action.ToDisplayName(), 19, TextAnchor.MiddleLeft, anchoredPos, new Vector2(220f, 32f));
-        var button = CreateTopLeftButton(parent, $"{action}Button", string.Empty, new Vector2(302f, anchoredPos.y), new Vector2(220f, 32f), () =>
+        CreateTopLeftText($"{action}Label", parent, action.ToDisplayName(), 19, TextAnchor.MiddleLeft, anchoredPos, new Vector2(250f, 32f));
+        var button = CreateTopLeftButton(parent, $"{action}Button", string.Empty, new Vector2(336f, anchoredPos.y - 2f), new Vector2(238f, 36f), () =>
         {
             pendingRebindAction = action;
             optionsStatusText.text = $"Press a key for {action.ToDisplayName()}";
@@ -557,8 +565,8 @@ public class GameUiController : MonoBehaviour
 
     private void CreateSliderRow(RectTransform parent, string key, string label, float initialValue, float min, float max, Vector2 anchoredPos, Action<float> onChanged)
     {
-        CreateTopLeftText($"{key}Label", parent, label, 18, TextAnchor.MiddleLeft, anchoredPos, new Vector2(165f, 28f));
-        var slider = CreateSlider(key, parent, new Vector2(220f, anchoredPos.y + 2f), new Vector2(160f, 24f), new Color(0.3f, 0.65f, 0.9f));
+        CreateTopLeftText($"{key}Label", parent, label, 18, TextAnchor.UpperLeft, anchoredPos, new Vector2(220f, 24f));
+        var slider = CreateSlider(key, parent, new Vector2(16f, anchoredPos.y - 34f), new Vector2(382f, 28f), new Color(0.3f, 0.65f, 0.9f));
         slider.minValue = min;
         slider.maxValue = max;
         slider.value = initialValue;
@@ -568,7 +576,7 @@ public class GameUiController : MonoBehaviour
             onChanged(value);
         });
         sliders[key] = slider;
-        sliderValues[key] = CreateTopLeftText($"{key}Value", parent, initialValue.ToString(key == "sensitivity" ? "0.0" : "0"), 18, TextAnchor.MiddleRight, new Vector2(394f, anchoredPos.y), new Vector2(72f, 24f));
+        sliderValues[key] = CreateTopLeftText($"{key}Value", parent, initialValue.ToString(key == "sensitivity" ? "0.0" : "0"), 18, TextAnchor.MiddleRight, new Vector2(420f, anchoredPos.y - 30f), new Vector2(86f, 28f));
     }
 
     private void SetSliderValue(string key, float value, string format)

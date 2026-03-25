@@ -28,13 +28,13 @@ MonoBehaviour:
   LinkedItemId: 
   UtilityMessage: 
   ViewShape: 1
-  ViewPrefab: {fileID: 0}
+  ViewPrefab: {fileID: 100002, guid: 4e5ce0b6f97fdbc40b7bc818b06b80ba, type: 3}
   ViewColor: {r: 0.15, g: 0.45, b: 0.7, a: 1}
   ViewLocalPosition: {x: 0.3, y: -0.25, z: 0.76}
-  ViewLocalEuler: {x: -10, y: 0, z: -90}
-  ViewLocalScale: {x: 0.14, y: 0.22, z: 0.14}
+  ViewLocalEuler: {x: -10, y: 180, z: -90}
+  ViewLocalScale: {x: 0.46329314, y: 0.46329314, z: 0.46329314}
   AimLocalPosition: {x: 0.03, y: -0.18, z: 0.5}
-  ViewMuzzleLocalPosition: {x: 0, y: 0, z: 0}
+  ViewMuzzleLocalPosition: {x: 0, y: 0.01, z: 0.385}
   Spread: 0
   Pellets: 1
   MagazineSize: 2
