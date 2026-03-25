@@ -40,6 +40,8 @@ public class GameUiController : MonoBehaviour
     private Button restartButton;
     private Button optionsButton;
     private Button exitButton;
+    private Text loadButtonText;
+    private Text restartButtonText;
     private Text menuHintText;
     private readonly Dictionary<GameAction, Button> bindingButtons = new Dictionary<GameAction, Button>();
     private readonly Dictionary<GameAction, Text> bindingButtonTexts = new Dictionary<GameAction, Text>();
@@ -145,15 +147,23 @@ public class GameUiController : MonoBehaviour
         menuPanel.SetActive(show);
         ShowHud(!show);
         menuTitleText.text = title;
-        newGameButtonText.text = title == "Mission Failed" ? "Restart Run" : "Start Game";
-        menuHintText.text = title == "Mission Failed" ? "Press Enter or click Restart Run" : "Press Enter or click Start Game";
+        bool hasSave = gameManager != null && gameManager.HasSaveGame;
+        bool missionFailed = title == "Mission Failed";
+        newGameButtonText.text = missionFailed ? "Restart Run" : (hasSave ? "Continue" : "Start Game");
+        loadButtonText.text = hasSave ? "Load Save" : "Load Game";
+        restartButtonText.text = missionFailed ? "New Game" : "New Game";
+        menuHintText.text = missionFailed
+            ? (hasSave ? "Restart immediately or load the latest save" : "Press Enter or click Restart Run")
+            : (hasSave ? "Continue resumes the latest save. New Game starts fresh." : "Press Enter or click Start Game");
         newGameButton.gameObject.SetActive(true);
         resumeButton.gameObject.SetActive(false);
         saveButton.gameObject.SetActive(false);
-        loadButton.gameObject.SetActive(true);
-        restartButton.gameObject.SetActive(false);
+        loadButton.gameObject.SetActive(hasSave);
+        loadButton.interactable = hasSave;
+        restartButton.gameObject.SetActive(hasSave && !missionFailed);
         optionsButton.gameObject.SetActive(true);
         exitButton.gameObject.SetActive(true);
+        SetMenuInteractable(true);
         FocusButton(newGameButton);
     }
 
@@ -170,15 +180,19 @@ public class GameUiController : MonoBehaviour
             return;
         }
 
+        bool hasSave = gameManager != null && gameManager.HasSaveGame;
         menuTitleText.text = "Paused";
         newGameButton.gameObject.SetActive(false);
         resumeButton.gameObject.SetActive(true);
         saveButton.gameObject.SetActive(true);
         loadButton.gameObject.SetActive(true);
+        loadButton.interactable = hasSave;
         restartButton.gameObject.SetActive(true);
+        restartButtonText.text = "Restart Run";
         optionsButton.gameObject.SetActive(true);
         exitButton.gameObject.SetActive(true);
-        menuHintText.text = "Press Esc to resume";
+        menuHintText.text = hasSave ? "Press Esc to resume. Save/Load is available." : "Press Esc to resume. Save Game creates the first save.";
+        SetMenuInteractable(true);
         FocusButton(resumeButton);
     }
 
@@ -417,6 +431,8 @@ public class GameUiController : MonoBehaviour
         restartButton = CreateMenuButton(panelRt, "Restart", "Restart Run", new Vector2(0f, -304f), gameManager.StartNewGame);
         optionsButton = CreateMenuButton(panelRt, "Options", "Options", new Vector2(0f, -362f), () => gameManager.ShowOptionsMenu(true));
         exitButton = CreateMenuButton(panelRt, "Exit", "Exit", new Vector2(0f, -420f), gameManager.ExitGame);
+        loadButtonText = loadButton.GetComponentInChildren<Text>();
+        restartButtonText = restartButton.GetComponentInChildren<Text>();
         menuHintText = CreateText("MenuHint", panelRt, string.Empty, 16, TextAnchor.MiddleCenter, new Vector2(0f, -476f), new Vector2(340f, 24f));
         menuHintText.color = new Color(0.8f, 0.86f, 0.92f, 0.95f);
     }

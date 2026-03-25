@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     public bool IsPauseVisible => pauseVisible;
     public bool IsOptionsVisible => optionsVisible;
     public bool IsCombatLive => IsGameplayRunning && !combatDisabledRequested && !combatHold && Time.time >= sessionStartTime + 0.5f;
+    public bool HasSaveGame => !string.IsNullOrWhiteSpace(savePath) && File.Exists(savePath);
 
     private void Awake()
     {
@@ -384,6 +385,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        if (titleMenuVisible && HasSaveGame)
+        {
+            LoadGame();
+            return;
+        }
+
         BeginSession();
     }
 
@@ -637,8 +644,8 @@ public class GameManager : MonoBehaviour
         yield return null;
 
         NotifyStatus("Smoke test: session started");
-        yield return CapturePreview("smoke_hub_furniture.png", "World/ThirdPartyArt/FurnitureMegaPack/Hub", new Vector3(-2.4f, 1.3f, -2.1f));
-        yield return CapturePreview("smoke_security_furniture.png", "World/ThirdPartyArt/FurnitureMegaPack/Security", new Vector3(-2.1f, 1.2f, -2.3f));
+        yield return CapturePreview("smoke_hub_furniture.png", "PropsRoot/ThirdPartyArt/FurnitureMegaPack/Hub", new Vector3(-2.4f, 1.3f, -2.1f));
+        yield return CapturePreview("smoke_security_furniture.png", "PropsRoot/ThirdPartyArt/FurnitureMegaPack/Security", new Vector3(-2.1f, 1.2f, -2.3f));
         stateValidator?.ResetCounters();
         float previousHealth = player.StatsComponent.Health;
         EventBus?.Publish(new DamageEvent
@@ -741,18 +748,21 @@ public class GameManager : MonoBehaviour
     {
         if (player?.ViewCamera == null || string.IsNullOrWhiteSpace(fileName))
         {
+            Debug.LogWarning("[FPSDemo] CapturePreview skipped: missing camera or filename.");
             yield break;
         }
 
         var target = ResolveHierarchyPath(hierarchyPath);
         if (target == null)
         {
+            Debug.LogWarning($"[FPSDemo] CapturePreview skipped: target not found for {hierarchyPath}");
             yield break;
         }
 
         var renderers = target.GetComponentsInChildren<Renderer>(true);
         if (renderers.Length == 0)
         {
+            Debug.LogWarning($"[FPSDemo] CapturePreview skipped: no renderers under {hierarchyPath}");
             yield break;
         }
 
@@ -775,9 +785,11 @@ public class GameManager : MonoBehaviour
         camera.fieldOfView = Mathf.Clamp(originalFov - 8f, 42f, originalFov);
 
         string path = Path.Combine(Application.persistentDataPath, fileName);
+        Directory.CreateDirectory(Path.GetDirectoryName(path) ?? Application.persistentDataPath);
         var previousTarget = camera.targetTexture;
         var previousActive = RenderTexture.active;
         var previewTarget = new RenderTexture(1280, 720, 24, RenderTextureFormat.ARGB32);
+        yield return new WaitForEndOfFrame();
         camera.targetTexture = previewTarget;
         camera.Render();
         RenderTexture.active = previewTarget;
@@ -811,15 +823,39 @@ public class GameManager : MonoBehaviour
             return null;
         }
 
-        var root = SceneManager.GetActiveScene()
-            .GetRootGameObjects()
-            .FirstOrDefault(candidate => candidate.name == segments[0]);
-        if (root == null)
+        Transform current = null;
+        for (int sceneIndex = 0; sceneIndex < SceneManager.sceneCount; sceneIndex++)
+        {
+            var scene = SceneManager.GetSceneAt(sceneIndex);
+            if (!scene.isLoaded)
+            {
+                continue;
+            }
+
+            current = scene
+                .GetRootGameObjects()
+                .Select(candidate => candidate.transform)
+                .FirstOrDefault(candidate =>
+                    candidate.name == segments[0] ||
+                    FindDescendantByName(candidate, segments[0]) != null);
+            if (current == null)
+            {
+                continue;
+            }
+
+            if (current.name != segments[0])
+            {
+                current = FindDescendantByName(current, segments[0]);
+            }
+
+            break;
+        }
+
+        if (current == null)
         {
             return null;
         }
 
-        Transform current = root.transform;
         for (int i = 1; i < segments.Length; i++)
         {
             current = current.Find(segments[i]) ?? FindDescendantByName(current, segments[i]);

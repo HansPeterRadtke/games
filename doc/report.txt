@@ -1,48 +1,32 @@
-Games Unity FPS report - 2026-03-25
+Games repo report - 2026-03-25
 
-Current tested state
-- Project: unity/projects/fps_demo
-- Shared package: unity/packages/com.hpr.fpsdemo
-- Build target: unity/projects/fps_demo/Build/Linux/FPSDemo.x86_64
-- Latest verified build log: /tmp/build_after_env_imports.log
-- Latest verified smoke log: unity/assetstore/logs/fps_smoke_after_env_imports.log
-- Verified smoke path: player damage, weapon fire, pickup, door interaction, enemy death, save/load
+Repository hygiene / handoff pass
+- added repo-local copies of helper scripts used during the Unity/game workflow
+- added standard Unity batch and smoke-test entry points under unity/tools/fps_demo
+- added documentation set in doc/ for workflow, current state, and takeover
+- prepared the repo so a new developer or bot can continue without relying on shell history
 
-Current gameplay/code changes not yet in older pushed state
-- Expanded local Asset Store tooling and queue handling
-- Improved local-only asset ignore coverage for imported Unity assets
-- Updated third-party integration logic for weapons, furniture, characters, and environment placement
-- Added menu/input handling fixes in GameManager, UI layout changes in GameUiController, and interaction/combat data updates
-- Updated weapon and enemy data assets plus Gameplay scene integration
+Tracked helper/tooling additions in this pass
+- unity/tools/common/focus_notice.sh
+- unity/tools/common/zip_tracked_repo.sh
+- unity/tools/fps_demo/run_unity_batch.sh
+- unity/tools/fps_demo/smoke_test.sh
+- unity/tools/fps_demo/sync_temp_project.sh
+- unity/tools/fps_demo/temp_apply_and_build.sh
+- unity/packages/com.hpr.fpsdemo/Editor/ThirdPartySceneReporter.cs
 
-Local-only imported assets currently present in the Unity project
-- Free Wood Door Pack
-- Low Poly Weapons VOL.1
-- HouseInteriorPack (nappin)
-- Furniture Mega Pack
-- npc_casual_set_00
-- Survivalist
-- Flooded_Grounds
-- FurnishedCabin
-- Brick Project Studio/Apartment Kit
-- POLYGON city pack
-- NatureStarterKit2
-- ALP_Assets (Grass Flowers + Realistic Terrain Textures)
-- _TerrainAutoUpgrade (local-only helper leftovers; not tracked)
+Current policy
+- gameplay code, automation, and docs are tracked
+- imported Unity/Asset Store content remains local-only and ignored
+- work should be runnable as user hans
 
-Asset tracking policy
-- Imported Unity/Asset Store content remains local-only and must not be committed
-- .gitignore covers imported asset roots and helper-generated local asset folders
+Current practical entry points
+- build: unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux
+- smoke: unity/tools/fps_demo/smoke_test.sh
+- temp sync: unity/tools/fps_demo/sync_temp_project.sh
+- tracked zip: unity/tools/common/zip_tracked_repo.sh /data/src/github/games
 
-Current known issues / active follow-up
-- Furniture presentation still needs another visual polish pass in-game
-- Smoke screenshot capture path still does not emit preview PNGs; needs a dedicated runtime render path fix
-- NatureStarterKit2 required stripping incompatible legacy editor/image-effect scripts after import
-- Asset queue runner needs another persistence check after reconnect interruptions
-- Additional imported packs still need selective integration into the main playable level
-
-Immediate next tasks
-1. Keep asset downloads/imports running locally without tracking imported data
-2. Continue selective scene integration from POLYGON city pack, NatureStarterKit2, and ALP_Assets
-3. Continue correcting furniture/material scale issues with direct visual validation
-4. Continue expanding the scene/level using local imported content while preserving current gameplay systems
+Current risk notes
+- local art integration is still not fully polished
+- Unity batch lock sensitivity still exists, but the workflow is documented and scripted
+- local-only scene dressing based on imported art must not be committed
