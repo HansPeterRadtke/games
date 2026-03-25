@@ -774,16 +774,27 @@ public class GameManager : MonoBehaviour
         cameraTransform.LookAt(bounds.center + Vector3.up * Mathf.Max(0.12f, bounds.extents.y * 0.22f));
         camera.fieldOfView = Mathf.Clamp(originalFov - 8f, 42f, originalFov);
 
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-
         string path = Path.Combine(Application.persistentDataPath, fileName);
-        ScreenCapture.CaptureScreenshot(path);
-        yield return new WaitForSecondsRealtime(0.2f);
+        var previousTarget = camera.targetTexture;
+        var previousActive = RenderTexture.active;
+        var previewTarget = new RenderTexture(1280, 720, 24, RenderTextureFormat.ARGB32);
+        camera.targetTexture = previewTarget;
+        camera.Render();
+        RenderTexture.active = previewTarget;
+
+        var previewTexture = new Texture2D(previewTarget.width, previewTarget.height, TextureFormat.RGB24, false);
+        previewTexture.ReadPixels(new Rect(0f, 0f, previewTarget.width, previewTarget.height), 0, 0, false);
+        previewTexture.Apply(false, false);
+        File.WriteAllBytes(path, previewTexture.EncodeToPNG());
 
         cameraTransform.position = originalPosition;
         cameraTransform.rotation = originalRotation;
         camera.fieldOfView = originalFov;
+        camera.targetTexture = previousTarget;
+        RenderTexture.active = previousActive;
+        Destroy(previewTexture);
+        previewTarget.Release();
+        Destroy(previewTarget);
         Debug.Log($"[FPSDemo] Captured smoke preview {path}");
     }
 
@@ -811,7 +822,7 @@ public class GameManager : MonoBehaviour
         Transform current = root.transform;
         for (int i = 1; i < segments.Length; i++)
         {
-            current = current.Find(segments[i]);
+            current = current.Find(segments[i]) ?? FindDescendantByName(current, segments[i]);
             if (current == null)
             {
                 return null;
@@ -819,6 +830,25 @@ public class GameManager : MonoBehaviour
         }
 
         return current;
+    }
+
+    private static Transform FindDescendantByName(Transform root, string name)
+    {
+        foreach (Transform child in root)
+        {
+            if (child.name == name)
+            {
+                return child;
+            }
+
+            var nested = FindDescendantByName(child, name);
+            if (nested != null)
+            {
+                return nested;
+            }
+        }
+
+        return null;
     }
 
     private IEnumerator ForceQuitSmokeTestAfterDelay()

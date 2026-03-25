@@ -14,6 +14,8 @@ public static class AssetStoreImportTools
     {
         "Assets/Survivalist/StarterAssets/Editor",
         "Assets/Flooded_Grounds/PostProcessing/Editor",
+        "Assets/NatureStarterKit2/Editor",
+        "Assets/NatureStarterKit2/Standard Assets/Effects/ImageEffects/Scripts",
     };
 
     private static volatile bool s_DownloadFinished;

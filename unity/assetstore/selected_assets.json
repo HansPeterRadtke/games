@@ -25,19 +25,19 @@
   },
   {
     "package_id": 71426,
-    "asset_folder": "Assets/Furnished Cabin",
+    "asset_folder": "Assets/FurnishedCabin",
     "integration_label": "environment",
     "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 124055,
-    "asset_folder": "Assets/Apartment Kit",
+    "asset_folder": "Assets/Brick Project Studio",
     "integration_label": "environment",
     "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 107224,
-    "asset_folder": "Assets/CITY package",
+    "asset_folder": "Assets/POLYGON city pack",
     "integration_label": "environment",
     "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
@@ -67,19 +67,19 @@
   },
   {
     "package_id": 52977,
-    "asset_folder": "Assets/Nature Starter Kit 2",
+    "asset_folder": "Assets/NatureStarterKit2",
     "integration_label": "environment",
     "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 138810,
-    "asset_folder": "Assets/Grass Flowers Pack Free",
+    "asset_folder": "Assets/ALP_Assets",
     "integration_label": "environment",
     "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 279940,
-    "asset_folder": "Assets/Realistic Terrain Textures FREE",
+    "asset_folder": "Assets/ALP_Assets",
     "integration_label": "environment",
     "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },

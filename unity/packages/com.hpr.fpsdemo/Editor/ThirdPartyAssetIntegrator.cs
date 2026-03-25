@@ -29,13 +29,17 @@ public static class ThirdPartyAssetIntegrator
         "Assets/House Interior",
         "Assets/nappin",
         "Assets/nappin/HouseInteriorPack",
+        "Assets/FurnishedCabin",
         "Assets/Furnished Cabin",
+        "Assets/Brick Project Studio",
+        "Assets/Brick Project Studio/Apartment Kit",
         "Assets/Apartment Kit",
     };
     private static readonly string[] VistaSearchRoots =
     {
         "Assets/CITY package",
         "Assets/CITY Package",
+        "Assets/NatureStarterKit2",
         "Assets/Nature Starter Kit 2",
         "Assets/Unity Terrain - URP Demo Scene",
         "Assets/Realistic Terrain Textures FREE",
@@ -126,20 +130,20 @@ public static class ThirdPartyAssetIntegrator
         var powerRoot = EnsureChild(furnitureRoot, "Power");
 
         int placed = 0;
-        placed += TryPlaceFurniture(hubRoot, "hub_table", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)LaunchTable.prefab", "Assets/Furniture Mega Pack/Prefabs/Tables/Table10.prefab" }, new[] { "table" }, new Vector3(0f, 0f, 3.2f), Vector3.zero, new Vector3(1.18f, 0.56f, 0.92f));
-        placed += TryPlaceFurniture(hubRoot, "hub_chair_left", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Chair1.prefab", "Assets/Furniture Mega Pack/Prefabs/Chairs/Chair09.prefab" }, new[] { "chair" }, new Vector3(-1.06f, 0f, 2.42f), new Vector3(0f, 28f, 0f), new Vector3(0.68f, 1.04f, 0.68f));
-        placed += TryPlaceFurniture(hubRoot, "hub_chair_right", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Chair1.prefab", "Assets/Furniture Mega Pack/Prefabs/Chairs/Chair09.prefab" }, new[] { "chair" }, new Vector3(1.06f, 0f, 2.42f), new Vector3(0f, -28f, 0f), new Vector3(0.68f, 1.04f, 0.68f));
-        placed += TryPlaceFurniture(medbayRoot, "medbay_cabinet_a", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Wardrobe.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet05.prefab" }, new[] { "cabinet", "locker" }, new Vector3(-24.4f, 0f, 4f), new Vector3(0f, 90f, 0f), new Vector3(1.18f, 2.04f, 0.66f));
-        placed += TryPlaceFurniture(medbayRoot, "medbay_cabinet_b", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Wardrobe.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet05.prefab" }, new[] { "cabinet", "locker" }, new Vector3(-24.4f, 0f, -2.6f), new Vector3(0f, 90f, 0f), new Vector3(1.18f, 2.04f, 0.66f));
-        placed += TryPlaceFurniture(medbayRoot, "medbay_table", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)SingleBed.prefab", "Assets/Furniture Mega Pack/Prefabs/Beds/Bed05.prefab" }, new[] { "bed", "table" }, new Vector3(-17.8f, 0f, 2.2f), new Vector3(0f, 180f, 0f), new Vector3(2.08f, 0.78f, 1.02f));
-        placed += TryPlaceFurniture(securityRoot, "security_desk", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Desk.prefab", "Assets/Furniture Mega Pack/Prefabs/Tables/Table23.prefab" }, new[] { "desk", "table" }, new Vector3(-2.2f, 0f, 23.8f), new Vector3(0f, 180f, 0f), new Vector3(1.58f, 0.84f, 0.78f));
-        placed += TryPlaceFurniture(securityRoot, "security_chair", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Chair2.prefab", "Assets/Furniture Mega Pack/Prefabs/Chairs/Chair04.prefab" }, new[] { "chair" }, new Vector3(-2.2f, 0f, 22.4f), Vector3.zero, new Vector3(0.66f, 1.02f, 0.66f));
-        placed += TryPlaceFurniture(securityRoot, "security_shelf", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Shelf1.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet21.prefab" }, new[] { "shelf", "book" }, new Vector3(6.8f, 0f, 25.1f), new Vector3(0f, 180f, 0f), new Vector3(1.22f, 2.16f, 0.44f));
-        placed += TryPlaceFurniture(armoryRoot, "armory_shelf_a", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Rack.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet31.prefab" }, new[] { "shelf", "rack" }, new Vector3(24.2f, 0f, 4.8f), new Vector3(0f, -90f, 0f), new Vector3(1.28f, 2.08f, 0.56f));
-        placed += TryPlaceFurniture(armoryRoot, "armory_shelf_b", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Rack.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet31.prefab" }, new[] { "shelf", "rack" }, new Vector3(24.2f, 0f, -3.8f), new Vector3(0f, -90f, 0f), new Vector3(1.28f, 2.08f, 0.56f));
-        placed += TryPlaceFurniture(armoryRoot, "armory_table", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Desk.prefab", "Assets/Furniture Mega Pack/Prefabs/Tables/Table25.prefab" }, new[] { "table", "bench" }, new Vector3(18.5f, 0f, -1.2f), new Vector3(0f, 90f, 0f), new Vector3(1.62f, 0.84f, 0.78f));
-        placed += TryPlaceFurniture(powerRoot, "power_cabinet", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Container2.prefab", "Assets/Furniture Mega Pack/Prefabs/Kitchen/CabinetE07.prefab" }, new[] { "cabinet", "locker" }, new Vector3(4.6f, 0f, -24.4f), Vector3.zero, new Vector3(1.12f, 1.82f, 0.58f));
-        placed += TryPlaceFurniture(powerRoot, "power_table", new[] { "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Desk.prefab", "Assets/Furniture Mega Pack/Prefabs/Tables/Table45.prefab" }, new[] { "table", "desk" }, new Vector3(-3.8f, 0f, -23.8f), Vector3.zero, new Vector3(1.52f, 0.84f, 0.82f));
+        placed += TryPlaceFurniture(hubRoot, "hub_table", new[] { "Assets/FurnishedCabin/Prefabs/PFB_DiningTable.prefab", "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Table_Dining_Apt_01.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)LaunchTable.prefab", "Assets/Furniture Mega Pack/Prefabs/Tables/Table10.prefab" }, new[] { "table" }, new Vector3(0f, 0f, 3.2f), Vector3.zero, new Vector3(1.32f, 0.78f, 1.32f));
+        placed += TryPlaceFurniture(hubRoot, "hub_chair_left", new[] { "Assets/FurnishedCabin/Prefabs/PFB_DiningChair.prefab", "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Chair_Apt_01.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Chair1.prefab", "Assets/Furniture Mega Pack/Prefabs/Chairs/Chair09.prefab" }, new[] { "chair" }, new Vector3(-1.06f, 0f, 2.42f), new Vector3(0f, 28f, 0f), new Vector3(0.82f, 1.04f, 0.82f));
+        placed += TryPlaceFurniture(hubRoot, "hub_chair_right", new[] { "Assets/FurnishedCabin/Prefabs/PFB_DiningChair.prefab", "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Chair_Apt_01.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Chair1.prefab", "Assets/Furniture Mega Pack/Prefabs/Chairs/Chair09.prefab" }, new[] { "chair" }, new Vector3(1.06f, 0f, 2.42f), new Vector3(0f, -28f, 0f), new Vector3(0.82f, 1.04f, 0.82f));
+        placed += TryPlaceFurniture(medbayRoot, "medbay_cabinet_a", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Bedroom/Dresser Closet_01.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Wardrobe.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet05.prefab" }, new[] { "cabinet", "locker" }, new Vector3(-24.4f, 0f, 4f), new Vector3(0f, 90f, 0f), new Vector3(1.28f, 2.04f, 0.72f));
+        placed += TryPlaceFurniture(medbayRoot, "medbay_cabinet_b", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Bedroom/Dresser Closet_01.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Wardrobe.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet05.prefab" }, new[] { "cabinet", "locker" }, new Vector3(-24.4f, 0f, -2.6f), new Vector3(0f, 90f, 0f), new Vector3(1.28f, 2.04f, 0.72f));
+        placed += TryPlaceFurniture(medbayRoot, "medbay_table", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Bedroom/Bed_Apt_01_01.prefab", "Assets/FurnishedCabin/Prefabs/PFB_Bed.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)SingleBed.prefab", "Assets/Furniture Mega Pack/Prefabs/Beds/Bed05.prefab" }, new[] { "bed", "table" }, new Vector3(-17.8f, 0f, 2.2f), new Vector3(0f, 180f, 0f), new Vector3(2.2f, 0.92f, 1.16f));
+        placed += TryPlaceFurniture(securityRoot, "security_desk", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Table_Computer_01.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Desk.prefab", "Assets/Furniture Mega Pack/Prefabs/Tables/Table23.prefab" }, new[] { "desk", "table" }, new Vector3(-2.2f, 0f, 23.8f), new Vector3(0f, 180f, 0f), new Vector3(1.68f, 0.9f, 0.88f));
+        placed += TryPlaceFurniture(securityRoot, "security_chair", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Chair_Apt_01.prefab", "Assets/FurnishedCabin/Prefabs/PFB_DiningChair.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Chair2.prefab", "Assets/Furniture Mega Pack/Prefabs/Chairs/Chair04.prefab" }, new[] { "chair" }, new Vector3(-2.2f, 0f, 22.4f), Vector3.zero, new Vector3(0.82f, 1.04f, 0.82f));
+        placed += TryPlaceFurniture(securityRoot, "security_shelf", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Shelf_Apt_01.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Shelf1.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet21.prefab" }, new[] { "shelf", "book" }, new Vector3(6.8f, 0f, 25.1f), new Vector3(0f, 180f, 0f), new Vector3(1.28f, 2.08f, 0.48f));
+        placed += TryPlaceFurniture(armoryRoot, "armory_shelf_a", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Shelf_Apt_01.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Rack.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet31.prefab" }, new[] { "shelf", "rack" }, new Vector3(24.2f, 0f, 4.8f), new Vector3(0f, -90f, 0f), new Vector3(1.34f, 2.08f, 0.6f));
+        placed += TryPlaceFurniture(armoryRoot, "armory_shelf_b", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Shelf_Apt_01.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Rack.prefab", "Assets/Furniture Mega Pack/Prefabs/Closets/Closet31.prefab" }, new[] { "shelf", "rack" }, new Vector3(24.2f, 0f, -3.8f), new Vector3(0f, -90f, 0f), new Vector3(1.34f, 2.08f, 0.6f));
+        placed += TryPlaceFurniture(armoryRoot, "armory_table", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Table_Computer_01.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Desk.prefab", "Assets/Furniture Mega Pack/Prefabs/Tables/Table25.prefab" }, new[] { "table", "bench" }, new Vector3(18.5f, 0f, -1.2f), new Vector3(0f, 90f, 0f), new Vector3(1.68f, 0.88f, 0.88f));
+        placed += TryPlaceFurniture(powerRoot, "power_cabinet", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Kitchen/Cabinets/Cabinet_Tall_DD_01.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Container2.prefab", "Assets/Furniture Mega Pack/Prefabs/Kitchen/CabinetE07.prefab" }, new[] { "cabinet", "locker" }, new Vector3(4.6f, 0f, -24.4f), Vector3.zero, new Vector3(1.14f, 1.98f, 0.66f));
+        placed += TryPlaceFurniture(powerRoot, "power_table", new[] { "Assets/FurnishedCabin/Prefabs/PFB_KitchenBench.prefab", "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Bench_Apt_01.prefab", "Assets/nappin/HouseInteriorPack/Prefabs/(Prb)Desk.prefab", "Assets/Furniture Mega Pack/Prefabs/Tables/Table45.prefab" }, new[] { "table", "desk" }, new Vector3(-3.8f, 0f, -23.8f), Vector3.zero, new Vector3(1.72f, 0.92f, 0.84f));
 
         if (placed == 0)
         {
@@ -212,18 +216,18 @@ public static class ThirdPartyAssetIntegrator
         var vistaRoot = EnsureChild(houseRoot, "Vista");
 
         int placed = 0;
-        placed += TryPlaceProp(HouseSearchRoots, hubRoot, "hub_sofa", new[] { "sofa", "couch" }, new Vector3(-5.4f, 0f, 6.8f), new Vector3(0f, 90f, 0f), new Vector3(2.4f, 1.4f, 1.0f));
-        placed += TryPlaceProp(HouseSearchRoots, hubRoot, "hub_coffee_table", new[] { "coffee", "table" }, new Vector3(-4.1f, 0f, 6.8f), Vector3.zero, new Vector3(1.2f, 0.8f, 0.8f));
-        placed += TryPlaceProp(HouseSearchRoots, hubRoot, "hub_floor_lamp", new[] { "lamp" }, new Vector3(6.4f, 0f, 6.6f), Vector3.zero, new Vector3(0.8f, 2.4f, 0.8f));
-        placed += TryPlaceProp(HouseSearchRoots, hubRoot, "hub_bookshelf", new[] { "book", "shelf" }, new Vector3(7.2f, 0f, -2.8f), new Vector3(0f, -90f, 0f), new Vector3(1.3f, 2.3f, 0.5f));
-        placed += TryPlaceProp(HouseSearchRoots, medbayRoot, "medbay_bed_residential", new[] { "bed" }, new Vector3(-20.8f, 0f, -4.4f), new Vector3(0f, 90f, 0f), new Vector3(2.2f, 1.0f, 1.0f));
-        placed += TryPlaceProp(HouseSearchRoots, medbayRoot, "medbay_side_cabinet", new[] { "cabinet", "dresser", "wardrobe" }, new Vector3(-24.2f, 0f, -6.2f), new Vector3(0f, 90f, 0f), new Vector3(1.3f, 2.0f, 0.8f));
-        placed += TryPlaceProp(HouseSearchRoots, securityRoot, "security_sideboard", new[] { "drawer", "cabinet", "desk" }, new Vector3(7.6f, 0f, 18.2f), new Vector3(0f, 180f, 0f), new Vector3(2.2f, 1.2f, 0.8f));
-        placed += TryPlaceProp(HouseSearchRoots, securityRoot, "security_chair_residential", new[] { "chair" }, new Vector3(5.8f, 0f, 20.4f), new Vector3(0f, -50f, 0f), new Vector3(1.1f, 1.3f, 1.1f));
-        placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_block_a", new[] { "building", "house" }, new Vector3(0f, 0f, 58f), Vector3.zero, new Vector3(26f, 22f, 18f));
-        placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_block_b", new[] { "building", "house" }, new Vector3(42f, 0f, 26f), new Vector3(0f, 35f, 0f), new Vector3(20f, 18f, 16f));
-        placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_tree_cluster", new[] { "tree", "pine", "oak" }, new Vector3(-36f, 0f, 30f), Vector3.zero, new Vector3(10f, 14f, 10f));
-        placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_rock_cluster", new[] { "rock", "stone" }, new Vector3(-26f, 0f, 52f), Vector3.zero, new Vector3(8f, 5f, 8f));
+        placed += TryPlaceProp(HouseSearchRoots, hubRoot, "hub_sofa", new[] { "Assets/FurnishedCabin/Prefabs/PFB_Sofa.prefab", "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Sofa_Apt_01.prefab" }, new[] { "sofa", "couch" }, new Vector3(-5.4f, 0f, 6.8f), new Vector3(0f, 90f, 0f), new Vector3(2.52f, 1.26f, 1.08f));
+        placed += TryPlaceProp(HouseSearchRoots, hubRoot, "hub_coffee_table", new[] { "Assets/FurnishedCabin/Prefabs/PFB_CoffeeTable.prefab", "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Table_Coffee_01.prefab" }, new[] { "coffee", "table" }, new Vector3(-4.1f, 0f, 6.8f), Vector3.zero, new Vector3(1.22f, 0.62f, 0.82f));
+        placed += TryPlaceProp(HouseSearchRoots, hubRoot, "hub_floor_lamp", new[] { "Assets/FurnishedCabin/Prefabs/PFB_Lamp.prefab" }, new[] { "lamp" }, new Vector3(6.4f, 0f, 6.6f), Vector3.zero, new Vector3(0.84f, 2.22f, 0.84f));
+        placed += TryPlaceProp(HouseSearchRoots, hubRoot, "hub_bookshelf", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Shelf_Apt_01.prefab", "Assets/FurnishedCabin/Prefabs/PFB_Closet.prefab" }, new[] { "book", "shelf" }, new Vector3(7.2f, 0f, -2.8f), new Vector3(0f, -90f, 0f), new Vector3(1.24f, 2.18f, 0.48f));
+        placed += TryPlaceProp(HouseSearchRoots, medbayRoot, "medbay_bed_residential", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Bedroom/Bed_Apt_01_02.prefab", "Assets/FurnishedCabin/Prefabs/PFB_Bed.prefab" }, new[] { "bed" }, new Vector3(-20.8f, 0f, -4.4f), new Vector3(0f, 90f, 0f), new Vector3(2.24f, 0.94f, 1.08f));
+        placed += TryPlaceProp(HouseSearchRoots, medbayRoot, "medbay_side_cabinet", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Bedroom/Dresser_Apt_01.prefab", "Assets/FurnishedCabin/Prefabs/PFB_ChestOfDraws.prefab" }, new[] { "cabinet", "dresser", "wardrobe" }, new Vector3(-24.2f, 0f, -6.2f), new Vector3(0f, 90f, 0f), new Vector3(1.26f, 1.58f, 0.62f));
+        placed += TryPlaceProp(HouseSearchRoots, securityRoot, "security_sideboard", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Table_Media_01.prefab", "Assets/FurnishedCabin/Prefabs/PFB_TVStand.prefab" }, new[] { "drawer", "cabinet", "desk" }, new Vector3(7.6f, 0f, 18.2f), new Vector3(0f, 180f, 0f), new Vector3(2.14f, 0.86f, 0.58f));
+        placed += TryPlaceProp(HouseSearchRoots, securityRoot, "security_chair_residential", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Furniture/Living Room/Chair_Apt_01.prefab", "Assets/FurnishedCabin/Prefabs/PFB_DiningChair.prefab" }, new[] { "chair" }, new Vector3(5.8f, 0f, 20.4f), new Vector3(0f, -50f, 0f), new Vector3(0.88f, 1.06f, 0.88f));
+        placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_block_a", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Apt Build Kit/Exteriors/Special/Ext_apt_01_01.prefab" }, new[] { "building", "house" }, new Vector3(0f, 0f, 58f), Vector3.zero, new Vector3(26f, 22f, 18f));
+        placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_block_b", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Apt Build Kit/Exteriors/Special/Ext_apt_01_02.prefab" }, new[] { "building", "house" }, new Vector3(42f, 0f, 26f), new Vector3(0f, 35f, 0f), new Vector3(20f, 18f, 16f));
+        placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_tree_cluster", Array.Empty<string>(), new[] { "tree", "pine", "oak" }, new Vector3(-36f, 0f, 30f), Vector3.zero, new Vector3(10f, 14f, 10f));
+        placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_rock_cluster", Array.Empty<string>(), new[] { "rock", "stone" }, new Vector3(-26f, 0f, 52f), Vector3.zero, new Vector3(8f, 5f, 8f));
 
         if (placed == 0)
         {
@@ -346,9 +350,9 @@ public static class ThirdPartyAssetIntegrator
         return 1;
     }
 
-    private static int TryPlaceProp(IEnumerable<string> searchRoots, Transform parent, string instanceName, string[] keywords, Vector3 position, Vector3 rotationEuler, Vector3 targetSize)
+    private static int TryPlaceProp(IEnumerable<string> searchRoots, Transform parent, string instanceName, string[] preferredPrefabPaths, string[] keywords, Vector3 position, Vector3 rotationEuler, Vector3 targetSize)
     {
-        var prefab = FindBestPrefab(searchRoots, keywords);
+        var prefab = TryLoadAssetAtAnyPath(preferredPrefabPaths) ?? FindBestPrefab(searchRoots, keywords);
         if (prefab == null)
         {
             return 0;
