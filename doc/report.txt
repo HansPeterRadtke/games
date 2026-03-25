@@ -4,8 +4,8 @@ Current tested state
 - Project: unity/projects/fps_demo
 - Shared package: unity/packages/com.hpr.fpsdemo
 - Build target: unity/projects/fps_demo/Build/Linux/FPSDemo.x86_64
-- Latest verified build log: /tmp/games_build_precommit.log
-- Latest verified smoke log: unity/assetstore/logs/fps_smoke_precommit.log
+- Latest verified build log: /tmp/build_after_env_imports.log
+- Latest verified smoke log: unity/assetstore/logs/fps_smoke_after_env_imports.log
 - Verified smoke path: player damage, weapon fire, pickup, door interaction, enemy death, save/load
 
 Current gameplay/code changes not yet in older pushed state
@@ -25,6 +25,9 @@ Local-only imported assets currently present in the Unity project
 - Flooded_Grounds
 - FurnishedCabin
 - Brick Project Studio/Apartment Kit
+- POLYGON city pack
+- NatureStarterKit2
+- ALP_Assets (Grass Flowers + Realistic Terrain Textures)
 - _TerrainAutoUpgrade (local-only helper leftovers; not tracked)
 
 Asset tracking policy
@@ -32,13 +35,14 @@ Asset tracking policy
 - .gitignore covers imported asset roots and helper-generated local asset folders
 
 Current known issues / active follow-up
-- Furniture presentation still needs another pass for scale/material quality in-game
-- Smoke screenshot capture path was added but has not yet produced preview files; needs follow-up
+- Furniture presentation still needs another visual polish pass in-game
+- Smoke screenshot capture path still does not emit preview PNGs; needs a dedicated runtime render path fix
+- NatureStarterKit2 required stripping incompatible legacy editor/image-effect scripts after import
 - Asset queue runner needs another persistence check after reconnect interruptions
 - Additional imported packs still need selective integration into the main playable level
 
 Immediate next tasks
 1. Keep asset downloads/imports running locally without tracking imported data
-2. Integrate FurnishedCabin and Apartment Kit selectively into the gameplay scene
+2. Continue selective scene integration from POLYGON city pack, NatureStarterKit2, and ALP_Assets
 3. Continue correcting furniture/material scale issues with direct visual validation
 4. Continue expanding the scene/level using local imported content while preserving current gameplay systems
