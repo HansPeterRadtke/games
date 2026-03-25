@@ -40,6 +40,7 @@ public static class ThirdPartyAssetIntegrator
     {
         "Assets/CITY package",
         "Assets/CITY Package",
+        "Assets/POLYGON city pack",
         "Assets/NatureStarterKit2",
         "Assets/Nature Starter Kit 2",
         "Assets/Unity Terrain - URP Demo Scene",
@@ -121,7 +122,7 @@ public static class ThirdPartyAssetIntegrator
             throw new Exception("World root not found.");
         }
 
-        var artRoot = EnsureChild(world, "ThirdPartyArt");
+        var artRoot = EnsureThirdPartyArtRoot(world);
         var furnitureRoot = EnsureChild(artRoot, "FurnitureMegaPack");
         ClearChildren(furnitureRoot);
         var hubRoot = EnsureChild(furnitureRoot, "Hub");
@@ -208,17 +209,34 @@ public static class ThirdPartyAssetIntegrator
             throw new Exception("World root not found.");
         }
 
-        var artRoot = EnsureChild(world, "ThirdPartyArt");
+        var artRoot = EnsureThirdPartyArtRoot(world);
         var houseRoot = EnsureChild(artRoot, "HouseInteriorPack");
         ClearChildren(houseRoot);
         var hubRoot = EnsureChild(houseRoot, "Hub");
         var medbayRoot = EnsureChild(houseRoot, "Medbay");
         var securityRoot = EnsureChild(houseRoot, "Security");
+        var plazaRoot = EnsureChild(houseRoot, "Plaza");
+        var perimeterRoot = EnsureChild(houseRoot, "Perimeter");
         var vistaRoot = EnsureChild(houseRoot, "Vista");
 
         int placed = 0;
+        placed += TryPlaceProp(HouseSearchRoots, plazaRoot, "plaza_ground", new[] { "Assets/Brick Project Studio/_BPS Basic Assets/_Prefabs/Base Scene/BA_Concrete Plane.prefab" }, new[] { "plane", "concrete", "floor" }, new Vector3(0f, 0.02f, 0f), Vector3.zero, new Vector3(44f, 0.3f, 44f));
+        placed += TryPlaceProp(HouseSearchRoots, perimeterRoot, "north_wall_skin", new[] { "Assets/Brick Project Studio/_BPS Basic Assets/_Prefabs/Basic Asset/BA Build Kit/Exterior/Ext_BA_01_Wall_01.prefab" }, new[] { "wall", "exterior" }, new Vector3(0f, 0f, 12.6f), Vector3.zero, new Vector3(18f, 4.2f, 0.6f));
+        placed += TryPlaceProp(HouseSearchRoots, perimeterRoot, "south_wall_skin", new[] { "Assets/Brick Project Studio/_BPS Basic Assets/_Prefabs/Basic Asset/BA Build Kit/Exterior/Ext_BA_01_Wall_01.prefab" }, new[] { "wall", "exterior" }, new Vector3(0f, 0f, -12.6f), new Vector3(0f, 180f, 0f), new Vector3(18f, 4.2f, 0.6f));
+        placed += TryPlaceProp(HouseSearchRoots, perimeterRoot, "east_wall_skin", new[] { "Assets/Brick Project Studio/_BPS Basic Assets/_Prefabs/Basic Asset/BA Build Kit/Exterior/Ext_BA_01_Wall_02.prefab" }, new[] { "wall", "exterior" }, new Vector3(12.6f, 0f, 0f), new Vector3(0f, 90f, 0f), new Vector3(18f, 4.2f, 0.6f));
+        placed += TryPlaceProp(HouseSearchRoots, perimeterRoot, "west_wall_skin", new[] { "Assets/Brick Project Studio/_BPS Basic Assets/_Prefabs/Basic Asset/BA Build Kit/Exterior/Ext_BA_01_Wall_02.prefab" }, new[] { "wall", "exterior" }, new Vector3(-12.6f, 0f, 0f), new Vector3(0f, -90f, 0f), new Vector3(18f, 4.2f, 0.6f));
+        placed += TryPlaceProp(HouseSearchRoots, hubRoot, "hub_pillar_wrap_nw", new[] { "Assets/Brick Project Studio/_BPS Basic Assets/_Prefabs/Basic Asset/BA Build Kit/Interior/Int_02/Int_BA_02_Pillar_4x4.prefab" }, new[] { "pillar" }, new Vector3(-5f, 0f, 5f), Vector3.zero, new Vector3(1.5f, 3.1f, 1.5f));
+        placed += TryPlaceProp(HouseSearchRoots, hubRoot, "hub_pillar_wrap_ne", new[] { "Assets/Brick Project Studio/_BPS Basic Assets/_Prefabs/Basic Asset/BA Build Kit/Interior/Int_02/Int_BA_02_Pillar_4x4.prefab" }, new[] { "pillar" }, new Vector3(5f, 0f, 5f), Vector3.zero, new Vector3(1.5f, 3.1f, 1.5f));
+        placed += TryPlaceProp(HouseSearchRoots, hubRoot, "hub_pillar_wrap_sw", new[] { "Assets/Brick Project Studio/_BPS Basic Assets/_Prefabs/Basic Asset/BA Build Kit/Interior/Int_02/Int_BA_02_Pillar_4x4.prefab" }, new[] { "pillar" }, new Vector3(-5f, 0f, -5f), Vector3.zero, new Vector3(1.5f, 3.1f, 1.5f));
+        placed += TryPlaceProp(HouseSearchRoots, hubRoot, "hub_pillar_wrap_se", new[] { "Assets/Brick Project Studio/_BPS Basic Assets/_Prefabs/Basic Asset/BA Build Kit/Interior/Int_02/Int_BA_02_Pillar_4x4.prefab" }, new[] { "pillar" }, new Vector3(5f, 0f, -5f), Vector3.zero, new Vector3(1.5f, 3.1f, 1.5f));
+        placed += TryPlaceProp(VistaSearchRoots, plazaRoot, "plaza_bench_left", new[] { "Assets/POLYGON city pack/Prefabs/Props/bench prefab.prefab" }, new[] { "bench" }, new Vector3(-3.6f, 0f, 1.4f), new Vector3(0f, 26f, 0f), new Vector3(2.2f, 1.1f, 0.9f));
+        placed += TryPlaceProp(VistaSearchRoots, plazaRoot, "plaza_bench_right", new[] { "Assets/POLYGON city pack/Prefabs/Props/Bench 2 prefab.prefab" }, new[] { "bench" }, new Vector3(3.7f, 0f, 1.5f), new Vector3(0f, -28f, 0f), new Vector3(2.2f, 1.1f, 0.9f));
+        placed += TryPlaceProp(VistaSearchRoots, plazaRoot, "plaza_bush_left", new[] { "Assets/POLYGON city pack/Prefabs/Props/bush prefab.prefab" }, new[] { "bush" }, new Vector3(-8.5f, 0f, 8.8f), Vector3.zero, new Vector3(3.2f, 1.5f, 2.2f));
+        placed += TryPlaceProp(VistaSearchRoots, plazaRoot, "plaza_bush_right", new[] { "Assets/POLYGON city pack/Prefabs/Props/Bush 2 prefab.prefab" }, new[] { "bush" }, new Vector3(8.2f, 0f, 8.6f), new Vector3(0f, 35f, 0f), new Vector3(3.4f, 1.8f, 2.4f));
         placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_block_a", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Apt Build Kit/Exteriors/Special/Ext_apt_01_01.prefab" }, new[] { "building", "house" }, new Vector3(0f, 0f, 58f), Vector3.zero, new Vector3(26f, 22f, 18f));
         placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_block_b", new[] { "Assets/Brick Project Studio/Apartment Kit/_Prefabs/Apt Build Kit/Exteriors/Special/Ext_apt_01_02.prefab" }, new[] { "building", "house" }, new Vector3(42f, 0f, 26f), new Vector3(0f, 35f, 0f), new Vector3(20f, 18f, 16f));
+        placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_tree_city_a", new[] { "Assets/POLYGON city pack/Prefabs/Props/Tree prefab.prefab" }, new[] { "tree" }, new Vector3(-18f, 0f, 23f), Vector3.zero, new Vector3(6f, 9f, 6f));
+        placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_tree_city_b", new[] { "Assets/POLYGON city pack/Prefabs/Props/Tree prefab.prefab" }, new[] { "tree" }, new Vector3(17f, 0f, 25f), new Vector3(0f, 24f, 0f), new Vector3(6.5f, 10f, 6.5f));
         placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_tree_cluster", Array.Empty<string>(), new[] { "tree", "pine", "oak" }, new Vector3(-36f, 0f, 30f), Vector3.zero, new Vector3(10f, 14f, 10f));
         placed += TryPlaceProp(VistaSearchRoots, vistaRoot, "vista_rock_cluster", Array.Empty<string>(), new[] { "rock", "stone" }, new Vector3(-26f, 0f, 52f), Vector3.zero, new Vector3(8f, 5f, 8f));
 
@@ -658,6 +676,18 @@ public static class ThirdPartyAssetIntegrator
         child.localRotation = Quaternion.identity;
         child.localScale = Vector3.one;
         return child;
+    }
+
+    private static Transform EnsureThirdPartyArtRoot(Transform world)
+    {
+        var propsRoot = EnsureChild(world, "PropsRoot");
+        var legacyRoot = world.Find("ThirdPartyArt");
+        if (legacyRoot != null)
+        {
+            UnityEngine.Object.DestroyImmediate(legacyRoot.gameObject);
+        }
+
+        return EnsureChild(propsRoot, "ThirdPartyArt");
     }
 
     private static void ClearChildren(Transform parent)

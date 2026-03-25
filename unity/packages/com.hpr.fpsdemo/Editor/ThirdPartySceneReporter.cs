@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public static class ThirdPartySceneReporter
 {
     private const string MainScenePath = "Assets/Scenes/Gameplay.unity";
+    private const string ArtRootPath = "World/PropsRoot/ThirdPartyArt";
 
     [MenuItem("HPR/Debug/Report Third-Party Scene Assets")]
     public static void ReportSceneAssetsFromArgs()
@@ -25,10 +26,10 @@ public static class ThirdPartySceneReporter
         }
 
         EditorSceneManager.OpenScene(MainScenePath, OpenSceneMode.Single);
-        var artRoot = FindByHierarchyPath("World/ThirdPartyArt");
+        var artRoot = FindByHierarchyPath(ArtRootPath);
         if (artRoot == null)
         {
-            throw new Exception("World/ThirdPartyArt not found in Gameplay scene.");
+            throw new Exception($"{ArtRootPath} not found in Gameplay scene.");
         }
 
         foreach (var root in artRoot.Cast<Transform>())

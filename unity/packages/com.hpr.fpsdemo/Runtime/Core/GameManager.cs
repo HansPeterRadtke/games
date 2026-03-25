@@ -38,7 +38,6 @@ public class GameManager : MonoBehaviour
     private bool optionsReturnToPauseMenu;
     private bool waitingForCleanMenuInput;
     private bool waitingForMenuPointerMotion;
-    private Vector2 titleMenuPointerOrigin;
     private float titleMenuShownRealtime;
     private float sessionStartTime;
     private bool combatHold;
@@ -139,12 +138,7 @@ public class GameManager : MonoBehaviour
 
             if (waitingForMenuPointerMotion)
             {
-                if (Time.realtimeSinceStartup - titleMenuShownRealtime < 1.5f)
-                {
-                    return;
-                }
-
-                if (((Vector2)Input.mousePosition - titleMenuPointerOrigin).sqrMagnitude < 6400f)
+                if (Time.realtimeSinceStartup - titleMenuShownRealtime < 0.35f)
                 {
                     return;
                 }
@@ -595,7 +589,6 @@ public class GameManager : MonoBehaviour
         playerDead = false;
         waitingForCleanMenuInput = true;
         waitingForMenuPointerMotion = true;
-        titleMenuPointerOrigin = Input.mousePosition;
         titleMenuShownRealtime = Time.realtimeSinceStartup;
         uiController.ShowPauseMenu(false);
         uiController.ShowInventory(false, null);
