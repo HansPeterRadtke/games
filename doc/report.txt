@@ -1,34 +1,80 @@
 Games repo report - 2026-03-25
 
-Repository hygiene / handoff pass
-- added repo-local copies of helper scripts used during the Unity/game workflow
-- added standard Unity batch and smoke-test entry points under unity/tools/fps_demo
-- added documentation set in doc/ for workflow, current state, and takeover
-- added a real local asset inventory document in `doc/local-assets.md`
-- prepared the repo so a new developer or bot can continue without relying on shell history
+Current repo state
+- branch: `main`
+- latest verified commit before this report: `c304d89` `Fix third-party art root wiring and title menu gating`
+- repo policy is unchanged:
+  - code, docs, tooling, scene structure, and data assets created in-repo are tracked
+  - imported Unity/Asset Store package data stays local-only and ignored
+  - all normal workflows must run as user `hans`
 
-Tracked helper/tooling additions in this pass
-- unity/tools/common/focus_notice.sh
-- unity/tools/common/zip_tracked_repo.sh
-- unity/tools/fps_demo/run_unity_batch.sh
-- unity/tools/fps_demo/smoke_test.sh
-- unity/tools/fps_demo/sync_temp_project.sh
-- unity/tools/fps_demo/temp_apply_and_build.sh
-- unity/packages/com.hpr.fpsdemo/Editor/ThirdPartySceneReporter.cs
+What is currently working
+- Unity project builds successfully through:
+  - `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
+- standalone smoke test passes through:
+  - `unity/tools/fps_demo/smoke_test.sh`
+- smoke validation still confirms:
+  - session start
+  - damage application
+  - weapon fire
+  - pickup collection
+  - locked door interaction / opening
+  - enemy death
+  - save
+  - load
+- the playable build path is still:
+  - `unity/projects/fps_demo/Build/Linux/FPSDemo.x86_64`
 
-Current policy
-- gameplay code, automation, and docs are tracked
-- imported Unity/Asset Store content remains local-only and ignored
-- work should be runnable as user hans
+What was fixed in the latest stabilization pass
+- killed stray background FPS player instances that were still consuming resources
+- fixed third-party art placement to use the live scene root:
+  - `World/PropsRoot/ThirdPartyArt`
+- fixed the third-party scene reporter to inspect the same live root
+- kept the lighter title-menu gating change so menu interaction no longer depends on large mouse movement
+- reapplied local interior/environment integration and rebuilt successfully
+- confirmed scene serialization stability:
+  - repeated Unity builds no longer rewrite `Assets/Scenes/Gameplay.unity`
 
-Current practical entry points
-- build: unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux
-- smoke: unity/tools/fps_demo/smoke_test.sh
-- temp sync: unity/tools/fps_demo/sync_temp_project.sh
-- tracked zip: unity/tools/common/zip_tracked_repo.sh /data/src/github/games
+Current tracked entry points
+- docs:
+  - `doc/README.md`
+  - `doc/current-state.md`
+  - `doc/handoff.md`
+  - `doc/local-assets.md`
+  - `doc/workflows.md`
+  - `doc/report.txt`
+- common tools:
+  - `unity/tools/common/focus_notice.sh`
+  - `unity/tools/common/zip_tracked_repo.sh`
+- Unity workflow tools:
+  - `unity/tools/fps_demo/run_unity_batch.sh`
+  - `unity/tools/fps_demo/smoke_test.sh`
+  - `unity/tools/fps_demo/sync_temp_project.sh`
+  - `unity/tools/fps_demo/temp_apply_and_build.sh`
+- editor-side integration/reporting:
+  - `unity/packages/com.hpr.fpsdemo/Editor/ThirdPartyAssetIntegrator.cs`
+  - `unity/packages/com.hpr.fpsdemo/Editor/ThirdPartySceneReporter.cs`
 
-Current risk notes
-- local art integration is still not fully polished
-- Unity batch lock sensitivity still exists, but the workflow is documented and scripted
-- local-only scene dressing based on imported art must not be committed
-- runtime-only enemy/pickup visuals were changed to stop serializing editor-time `__AutoVisual` children into the scene during builds
+Current local-only asset situation
+- imported asset content exists locally and is integrated into the working scene, but is intentionally not git-tracked
+- the real local asset inventory is documented in:
+  - `doc/local-assets.md`
+- current local scene art integration includes:
+  - doors
+  - low poly weapons
+  - character packs
+  - environment/interior dressing under `PropsRoot/ThirdPartyArt`
+
+Current remaining quality issues
+- the scene is functionally stable, but art quality is not finished
+- screenshot review still shows:
+  - overbright / poor plaza ground choice
+  - weak overall environment composition
+  - some remaining stylized materials without useful texture maps
+- these are visual-integration problems, not current gameplay blockers
+
+Practical handoff summary
+- start from the current tracked repo state; do not rely on shell history
+- use the scripted build/smoke entry points first
+- treat local imported art as optional local enhancement, never as tracked source
+- if visual work continues, use screenshot-based QA and only commit scene changes that are stable and intentional
