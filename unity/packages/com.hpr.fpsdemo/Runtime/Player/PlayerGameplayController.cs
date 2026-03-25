@@ -70,7 +70,7 @@ public class PlayerGameplayController : MonoBehaviour
     private void UpdateGlobalActions()
     {
         var options = GameManager.Instance.CurrentOptions;
-        if (Input.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Pause)))
+        if (Input.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Pause)) && !GameManager.Instance.IsRebindingKey)
         {
             if (GameManager.Instance.IsOptionsVisible)
             {

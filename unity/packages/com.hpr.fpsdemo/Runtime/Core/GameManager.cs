@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     public bool IsOptionsVisible => optionsVisible;
     public bool IsCombatLive => IsGameplayRunning && !combatDisabledRequested && !combatHold && Time.time >= sessionStartTime + 0.5f;
     public bool HasSaveGame => !string.IsNullOrWhiteSpace(savePath) && File.Exists(savePath);
+    public bool IsRebindingKey => uiController != null && uiController.IsRebindingKey;
 
     private void Awake()
     {
@@ -644,8 +645,8 @@ public class GameManager : MonoBehaviour
         yield return null;
 
         NotifyStatus("Smoke test: session started");
-        yield return CapturePreview("smoke_hub_furniture.png", "PropsRoot/ThirdPartyArt/FurnitureMegaPack/Hub", new Vector3(-2.4f, 1.3f, -2.1f));
-        yield return CapturePreview("smoke_security_furniture.png", "PropsRoot/ThirdPartyArt/FurnitureMegaPack/Security", new Vector3(-2.1f, 1.2f, -2.3f));
+        yield return TryCapturePreview("smoke_hub_furniture.png", "PropsRoot/ThirdPartyArt/FurnitureMegaPack/Hub", new Vector3(-2.4f, 1.3f, -2.1f));
+        yield return TryCapturePreview("smoke_security_furniture.png", "PropsRoot/ThirdPartyArt/FurnitureMegaPack/Security", new Vector3(-2.1f, 1.2f, -2.3f));
         stateValidator?.ResetCounters();
         float previousHealth = player.StatsComponent.Health;
         EventBus?.Publish(new DamageEvent
@@ -742,6 +743,17 @@ public class GameManager : MonoBehaviour
         NotifyStatus("Smoke test completed");
         yield return new WaitForSecondsRealtime(0.3f);
         ExitGame();
+    }
+
+    private IEnumerator TryCapturePreview(string fileName, string hierarchyPath, Vector3 framingScale)
+    {
+        var target = ResolveHierarchyPath(hierarchyPath);
+        if (target == null || target.GetComponentsInChildren<Renderer>(true).Length == 0)
+        {
+            yield break;
+        }
+
+        yield return CapturePreview(fileName, hierarchyPath, framingScale);
     }
 
     private IEnumerator CapturePreview(string fileName, string hierarchyPath, Vector3 framingScale)

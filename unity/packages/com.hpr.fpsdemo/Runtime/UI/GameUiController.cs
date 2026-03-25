@@ -49,6 +49,8 @@ public class GameUiController : MonoBehaviour
     private float statusTimer;
     private bool hudBuilt;
 
+    public bool IsRebindingKey => pendingRebindAction.HasValue;
+
     public void Initialize(GameManager manager, RenderTexture mapTexture)
     {
         gameManager = manager;
