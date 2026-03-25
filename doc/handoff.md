@@ -4,9 +4,10 @@
 The project is in a usable engineering state for takeover if you follow this order:
 
 1. read `doc/current-state.md`
-2. use `unity/tools/fps_demo/run_unity_batch.sh` for batch work
-3. use `unity/tools/fps_demo/smoke_test.sh` for player verification
-4. do not commit imported art data
+2. read `doc/local-assets.md`
+3. use `unity/tools/fps_demo/run_unity_batch.sh` for batch work
+4. use `unity/tools/fps_demo/smoke_test.sh` for player verification
+5. do not commit imported art data
 
 ## Current code changes included in this handoff
 The repo currently includes tracked changes for:

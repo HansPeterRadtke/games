@@ -25,6 +25,7 @@ The following stay local-only:
 - queue logs and download metadata under `unity/assetstore/`
 
 The `.gitignore` already covers the local-only asset roots and pipeline state.
+The real local asset inventory is documented in `doc/local-assets.md`.
 
 ## Architecture summary
 The current gameplay architecture is package-based and data-driven.

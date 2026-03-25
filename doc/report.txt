@@ -4,6 +4,7 @@ Repository hygiene / handoff pass
 - added repo-local copies of helper scripts used during the Unity/game workflow
 - added standard Unity batch and smoke-test entry points under unity/tools/fps_demo
 - added documentation set in doc/ for workflow, current state, and takeover
+- added a real local asset inventory document in `doc/local-assets.md`
 - prepared the repo so a new developer or bot can continue without relying on shell history
 
 Tracked helper/tooling additions in this pass
@@ -30,3 +31,4 @@ Current risk notes
 - local art integration is still not fully polished
 - Unity batch lock sensitivity still exists, but the workflow is documented and scripted
 - local-only scene dressing based on imported art must not be committed
+- runtime-only enemy/pickup visuals were changed to stop serializing editor-time `__AutoVisual` children into the scene during builds

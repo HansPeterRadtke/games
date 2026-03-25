@@ -86,6 +86,9 @@ Tooling lives in:
 - `unity/tools/assetstore/`
 - `unity/assetstore/`
 
+Real local asset inventory:
+- `doc/local-assets.md`
+
 Important scripts already in the repo:
 - `unity/tools/assetstore/queue_native_downloads.py`
 - `unity/tools/assetstore/unity_native_asset.py`

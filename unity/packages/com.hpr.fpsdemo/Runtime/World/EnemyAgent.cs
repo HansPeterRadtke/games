@@ -268,15 +268,16 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         }
 
         GameObject customVisual = enemyData != null ? enemyData.VisualPrefab : null;
+        bool shouldSpawnRuntimeVisual = Application.isPlaying && customVisual != null;
         foreach (Renderer renderer in GetComponentsInChildren<Renderer>(true))
         {
             if (renderer.transform != autoVisual)
             {
-                renderer.enabled = customVisual == null || renderer.transform == transform.Find("Muzzle");
+                renderer.enabled = !shouldSpawnRuntimeVisual || renderer.transform == transform.Find("Muzzle");
             }
         }
 
-        if (customVisual == null)
+        if (!shouldSpawnRuntimeVisual)
         {
             return;
         }

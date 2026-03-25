@@ -86,12 +86,13 @@ public class PickupItem : MonoBehaviour, IInteractable, ISaveableEntity
         }
 
         var rootRenderer = GetComponent<Renderer>();
+        bool shouldSpawnRuntimeVisual = Application.isPlaying && itemData != null && itemData.PickupPrefab != null;
         if (rootRenderer != null)
         {
-            rootRenderer.enabled = itemData == null || itemData.PickupPrefab == null;
+            rootRenderer.enabled = !shouldSpawnRuntimeVisual;
         }
 
-        if (itemData == null || itemData.PickupPrefab == null)
+        if (!shouldSpawnRuntimeVisual)
         {
             return;
         }
