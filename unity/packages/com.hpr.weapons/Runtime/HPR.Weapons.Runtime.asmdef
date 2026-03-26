@@ -1,13 +1,7 @@
 {
   "name": "HPR.Weapons.Runtime",
   "rootNamespace": "",
-  "references": [
-    "HPR.Foundation",
-    "HPR.Core.Runtime",
-    "HPR.Eventbus.Runtime",
-    "HPR.Input.Runtime",
-    "HPR.Inventory.Runtime"
-  ],
+  "references": [],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

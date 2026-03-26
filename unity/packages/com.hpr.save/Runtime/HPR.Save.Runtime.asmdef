@@ -1,7 +1,9 @@
 {
-  "name": "HPR.Ai.Runtime",
+  "name": "HPR.Save.Runtime",
   "rootNamespace": "",
-  "references": [],
+  "references": [
+    "HPR.Foundation"
+  ],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

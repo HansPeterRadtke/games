@@ -2,7 +2,7 @@ Games repo report - 2026-03-26
 
 Current repo state
 - branch: `main`
-- current work is in a buildable intermediate modularization checkpoint
+- repo remains buildable and smoketest-clean
 - imported Unity Asset Store content is still local-only and ignored
 - repo content remains runnable as user `hans`
 
@@ -11,22 +11,22 @@ What is verified now
   - `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
 - standalone smoketest succeeds through:
   - `unity/tools/fps_demo/smoke_test.sh`
-- playable build path remains:
-  - `unity/projects/fps_demo/Build/Linux/FPSDemo.x86_64`
+- clean-project package validation succeeds through:
+  - `unity/tools/packages/validate_local_packages.sh <package>`
 
-Main architectural change in this checkpoint
-The repo is no longer only `foundation + fpsdemo`. A real package split is now started under `unity/packages/`:
+Playable build path
+- `unity/projects/fps_demo/Build/Linux/FPSDemo.x86_64`
+
+Main architectural state in this checkpoint
+The repo is no longer just `foundation + fpsdemo`. Real reusable packages now hold code/data that the game composes:
 - `com.hpr.core`
 - `com.hpr.eventbus`
 - `com.hpr.input`
-- `com.hpr.stats`
+- `com.hpr.save`
 - `com.hpr.inventory`
 - `com.hpr.weapons`
 - `com.hpr.ai`
-- `com.hpr.interaction`
-- `com.hpr.ui`
-- `com.hpr.world`
-- `com.hpr.bootstrap`
+- `com.hpr.fpsdemo`
 
 What was actually moved out of `com.hpr.fpsdemo`
 - `EventManager` -> `com.hpr.eventbus`
@@ -34,6 +34,10 @@ What was actually moved out of `com.hpr.fpsdemo`
 - `GameAction` -> `com.hpr.input`
 - `GameOptionsData` -> `com.hpr.input`
 - `GameOptionsStore` -> `com.hpr.input`
+- save payload types and `ISaveableEntity` -> `com.hpr.save`
+- `ItemData`, `ItemType`, `IInventoryService`, `InventoryComponent` -> `com.hpr.inventory`
+- `WeaponData`, `FireModeType`, `EquipmentKind`, `WeaponUtilityAction` -> `com.hpr.weapons`
+- `EnemyData`, `EnemyAIType`, `EnemyAttackStyle` -> `com.hpr.ai`
 
 What was decoupled from direct `GameManager` singleton usage
 These systems now bind through interfaces/services instead of direct singleton access:
@@ -48,13 +52,21 @@ These systems now bind through interfaces/services instead of direct singleton a
 - `EnemyAgent`
 - `GameUiController`
 
-Current composition reality
-- `GameManager` still exists, but now acts more clearly as a composition/runtime-services object instead of a global singleton
-- `SceneBootstrap` still wires the current playable scene and remains game-specific
-- `com.hpr.fpsdemo` is still the largest package and is not yet reduced to thin composition-only glue
+Package validation status
+Validated in a clean empty Unity project:
+- `com.hpr.core`
+- `com.hpr.eventbus`
+- `com.hpr.input`
+- `com.hpr.save`
+- `com.hpr.inventory`
+- `com.hpr.weapons`
+- `com.hpr.ai`
+- `com.hpr.fpsdemo` with declared dependencies
 
 Tracked docs/tooling relevant for takeover
 - `doc/current-state.md`
+- `doc/package-dependency-map.md`
+- `doc/package-validation.md`
 - `doc/handoff.md`
 - `doc/local-assets.md`
 - `doc/modularization-status.md`
@@ -63,7 +75,7 @@ Tracked docs/tooling relevant for takeover
 - `unity/tools/fps_demo/run_unity_batch.sh`
 - `unity/tools/fps_demo/smoke_test.sh`
 - `unity/tools/fps_demo/setup_project.sh`
-- `unity/tools/fps_demo/sync_temp_project.sh`
+- `unity/tools/packages/validate_local_packages.sh`
 
 Important local-only rule
 Do not commit:
@@ -72,13 +84,15 @@ Do not commit:
 - local asset registry/generated metadata for imported third-party art
 
 Known limitations at this checkpoint
-- scaffold packages currently contain package structure and marker scripts, not full standalone demos yet
-- `SceneBootstrap` and several editor tools are still in `com.hpr.fpsdemo`
-- `Gameplay.unity` is the authoritative playable scene and has been updated to serialize the new runtime service bindings
+- `com.hpr.fpsdemo` still contains most runtime execution logic and project-specific editor/bootstrap code
+- `SceneBootstrap` still knows the current project scene/hierarchy
+- package demos are still mostly README-level and not yet full standalone demo scenes
+- stats/interaction/ui/world/bootstrap packages are not real productized packages yet
 
 Recommended next steps
-1. move generic save/contracts/interfaces into `com.hpr.core`
-2. split inventory/weapons/AI/world runtime code into their dedicated packages
-3. create standalone demo scenes for each extracted package
-4. shrink `com.hpr.fpsdemo` into composition/bootstrap only
-5. re-run build + smoketest after each stable checkpoint
+1. move stats contracts/runtime into `com.hpr.stats`
+2. move weapon execution/runtime state into `com.hpr.weapons`
+3. move AI runtime behavior into `com.hpr.ai`
+4. generalize interaction runtime into `com.hpr.interaction`
+5. add real standalone demo scenes and package-level tests
+6. shrink `com.hpr.fpsdemo` to composition/bootstrap only

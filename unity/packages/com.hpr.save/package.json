@@ -1,0 +1,13 @@
+{
+  "name": "com.hpr.save",
+  "displayName": "HPR Save",
+  "version": "0.1.0",
+  "unity": "6000.4",
+  "description": "Reusable save contracts, serializable value types, and lightweight save payload models for HPR gameplay packages.",
+  "author": {
+    "name": "HansPeterRadtke"
+  },
+  "dependencies": {
+    "com.hpr.foundation": "file:../com.hpr.foundation"
+  }
+}

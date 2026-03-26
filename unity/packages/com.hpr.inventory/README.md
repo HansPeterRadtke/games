@@ -1,16 +1,30 @@
 # HPR Inventory
 
-Reusable item definitions and inventory runtime services.
+Reusable item definitions and runtime inventory services for Unity projects.
+
+## Included
+- `ItemData` ScriptableObject for item definitions
+- `ItemType` classification enum
+- `IInventoryService` runtime contract
+- `InventoryComponent` MonoBehaviour for item stack storage and save-friendly state capture
+
+## Dependencies
+- `com.hpr.save`
 
 ## Setup
-- Add the local package to a Unity project via the `Packages/` symlink workflow or by referencing this folder as a local package.
-- Open the module demo scene in `Demo/` once it has been generated.
+1. Add the package to `Packages/manifest.json` or embed it locally.
+2. Reference `HPR.Inventory.Runtime` from any dependent asmdef.
+3. Create `ItemData` assets via `Assets > Create > HPR > Inventory > Item`.
+4. Add `InventoryComponent` or a derived component to a GameObject and assign known items.
 
-## API Overview
-- Runtime code lives in `Runtime/`.
-- Editor helpers live in `Editor/`.
-- Demo scenes and supporting assets live in `Demo/`.
+## API overview
+- `InventoryComponent.ConfigureKnownItems(...)` updates the catalog at runtime.
+- `AddItem`, `RemoveItem`, `HasItem`, and `GetQuantity` operate purely by item id and quantity.
+- `CaptureItemQuantities()` and `RestoreItemQuantities(...)` use `ItemQuantitySaveData` from `com.hpr.save`.
 
-## Status
-- Package scaffold created during the package modularization pass.
-- Runtime migration is in progress.
+## Extension points
+- Derive from `InventoryComponent` for project-specific HUD or tab rendering helpers.
+- Subscribe to `ItemAdded` and `ItemRemoved` to drive UI or quest logic.
+
+## Validation
+- Clean-project import validation is automated through `unity/tools/packages/validate_local_packages.sh com.hpr.inventory`.

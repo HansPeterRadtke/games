@@ -1,33 +1,37 @@
 # Modularization Status
 
 ## Checkpoint
-The repo is in an intermediate package-split checkpoint. The main game still composes through `com.hpr.fpsdemo`, but shared event/input/core contracts have started moving into dedicated packages.
+The repo is in a buildable intermediate package-productization checkpoint. The main game still composes through `com.hpr.fpsdemo`, but several real standalone packages now compile and validate independently in clean projects.
 
-## Package layout now present
-- `unity/packages/com.hpr.foundation` - existing utility package
+## Real packages in use
+- `unity/packages/com.hpr.foundation` - shared low-level utilities
+- `unity/packages/com.hpr.core` - generic service contracts
+- `unity/packages/com.hpr.eventbus` - event bus infrastructure and current gameplay payloads
+- `unity/packages/com.hpr.input` - input abstraction and settings storage
+- `unity/packages/com.hpr.save` - save payload types and save contracts
+- `unity/packages/com.hpr.inventory` - item definitions and generic inventory runtime
+- `unity/packages/com.hpr.weapons` - weapon definitions and fire-mode metadata
+- `unity/packages/com.hpr.ai` - enemy definitions and AI metadata
 - `unity/packages/com.hpr.fpsdemo` - current composition-heavy gameplay package
-- `unity/packages/com.hpr.core` - shared service contracts and future neutral runtime types
-- `unity/packages/com.hpr.eventbus` - extracted event manager and gameplay event payloads
-- `unity/packages/com.hpr.input` - extracted options/binding/input abstractions
-- `unity/packages/com.hpr.stats` - scaffold package
-- `unity/packages/com.hpr.inventory` - scaffold package
-- `unity/packages/com.hpr.weapons` - scaffold package
-- `unity/packages/com.hpr.ai` - scaffold package
-- `unity/packages/com.hpr.interaction` - scaffold package
-- `unity/packages/com.hpr.ui` - scaffold package
-- `unity/packages/com.hpr.world` - scaffold package
-- `unity/packages/com.hpr.bootstrap` - scaffold package
 
-## What was extracted in this checkpoint
+## Scaffold packages still to populate
+- `unity/packages/com.hpr.stats`
+- `unity/packages/com.hpr.interaction`
+- `unity/packages/com.hpr.ui`
+- `unity/packages/com.hpr.world`
+- `unity/packages/com.hpr.bootstrap`
+
+## What was extracted in this checkpoint series
 - `EventManager` moved from `com.hpr.fpsdemo` to `com.hpr.eventbus`
 - `GameEvents` moved from `com.hpr.fpsdemo` to `com.hpr.eventbus`
 - `GameAction`, `GameOptionsData`, `GameOptionsStore` moved from `com.hpr.fpsdemo` to `com.hpr.input`
-- shared service interfaces moved into `com.hpr.core/Runtime/Services/GameplayServiceContracts.cs`
-- `IEventBusSource` added in `com.hpr.eventbus`
-- `IInputSource`, `IInputBindingsSource`, `IOptionsController` live in `com.hpr.input`
+- generic save payloads moved from `com.hpr.fpsdemo` to `com.hpr.save`
+- `ItemData`, `ItemType`, `IInventoryService`, and `InventoryComponent` moved into `com.hpr.inventory`
+- `WeaponData`, `FireModeType`, `EquipmentKind`, and `WeaponUtilityAction` moved into `com.hpr.weapons`
+- `EnemyData`, `EnemyAIType`, and `EnemyAttackStyle` moved into `com.hpr.ai`
 
-## Runtime decoupling completed in this checkpoint
-These systems no longer depend on `GameManager.Instance` and are bound through interfaces from the composition layer:
+## Runtime decoupling completed
+These systems no longer depend on `GameManager.Instance` and bind through interfaces/services instead:
 - `PlayerController`
 - `PlayerGameplayController`
 - `PlayerStats`
@@ -39,31 +43,31 @@ These systems no longer depend on `GameManager.Instance` and are bound through i
 - `EnemyAgent`
 - `GameUiController`
 
-## Composition layer still left to split further
-These are still composition-heavy and should be the next extraction targets:
-- `GameManager`
-- `SceneBootstrap`
-- `GameStateValidator`
-- most editor/import integration code in `com.hpr.fpsdemo/Editor`
-- save data types in `com.hpr.fpsdemo/Runtime/Core/SaveData.cs`
-- gameplay interfaces in `com.hpr.fpsdemo/Runtime/Core/GameplayInterfaces.cs`
-
 ## Validation result at this checkpoint
 Verified as `hans`:
 - `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux` succeeds
 - `unity/tools/fps_demo/smoke_test.sh` succeeds
-- project stays writable by `hans`
+- clean-project validation succeeds for:
+  - `com.hpr.core`
+  - `com.hpr.eventbus`
+  - `com.hpr.input`
+  - `com.hpr.save`
+  - `com.hpr.inventory`
+  - `com.hpr.weapons`
+  - `com.hpr.ai`
+  - `com.hpr.fpsdemo`
+
+## Remaining work before store-ready modularity
+- move generic stats contracts/runtime out of `com.hpr.fpsdemo`
+- move weapon runtime execution out of `com.hpr.fpsdemo` into `com.hpr.weapons`
+- move AI runtime behavior out of `com.hpr.fpsdemo` into `com.hpr.ai`
+- generalize interaction runtime into `com.hpr.interaction`
+- reduce `com.hpr.eventbus` to generic bus + cleaner domain event separation
+- create real demo scenes and tests per package
+- shrink `com.hpr.fpsdemo` to project composition/bootstrap only
 
 ## Known intermediate-state limitations
-- package scaffold demos are placeholders, not real standalone demo scenes yet
-- `com.hpr.fpsdemo` is still too large to be considered a thin composition-only package
-- scaffold packages still contain marker classes only until systems are moved into them
+- package demos are still mostly README-level, not real scenes yet
 - `SceneBootstrap` still knows about the current game scene and hierarchy
+- `com.hpr.fpsdemo` is still too large to be considered thin composition-only glue
 - imported Asset Store content remains local-only and untracked by design
-
-## Practical next steps
-1. move save contracts and generic runtime interfaces into `com.hpr.core`
-2. split inventory/weapons/stats/world/AI runtime classes out of `com.hpr.fpsdemo`
-3. create per-package standalone demo scenes and smoke entry points
-4. shrink `com.hpr.fpsdemo` to composition/bootstrap glue only
-5. update docs again after each stable buildable checkpoint

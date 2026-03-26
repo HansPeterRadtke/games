@@ -1,16 +1,22 @@
 # HPR Input
 
-Input abstraction, bindings, and options data for reusable gameplay modules.
+Input abstraction, action binding, and player option storage for HPR gameplay packages.
 
-## Setup
-- Add the local package to a Unity project via the `Packages/` symlink workflow or by referencing this folder as a local package.
-- Open the module demo scene in `Demo/` once it has been generated.
+Included:
+- `GameAction`
+- `GameOptionsData`
+- `GameOptionsStore`
+- `IInputSource`
+- `IInputBindingsSource`
+- `IOptionsController`
+- `UnityInputSource`
 
-## API Overview
-- Runtime code lives in `Runtime/`.
-- Editor helpers live in `Editor/`.
-- Demo scenes and supporting assets live in `Demo/`.
+Typical usage:
+- poll input through `IInputSource` instead of raw `Input.*`
+- expose current bindings and options through `IInputBindingsSource`
+- mutate rebinds and settings through `IOptionsController`
 
-## Status
-- Package scaffold created during the package modularization pass.
-- Runtime migration is in progress.
+Current scope:
+- Unity legacy input adapter
+- option persistence via `PlayerPrefs`
+- no package-standalone demo scene yet

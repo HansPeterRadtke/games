@@ -3,13 +3,11 @@
   "displayName": "HPR Inventory",
   "version": "0.1.0",
   "unity": "6000.4",
-  "description": "Reusable item definitions and inventory runtime services.",
+  "description": "Reusable item definitions and inventory runtime services with save-friendly data contracts.",
   "author": {
     "name": "HansPeterRadtke"
   },
   "dependencies": {
-    "com.hpr.foundation": "file:../com.hpr.foundation",
-    "com.hpr.core": "file:../com.hpr.core",
-    "com.hpr.eventbus": "file:../com.hpr.eventbus"
+    "com.hpr.save": "file:../com.hpr.save"
   }
 }

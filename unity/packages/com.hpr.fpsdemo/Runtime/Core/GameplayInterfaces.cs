@@ -19,13 +19,6 @@ public interface IImpactReceiver
     void ApplyImpact(Vector3 impulse, Vector3 point);
 }
 
-public interface ISaveableEntity
-{
-    string SaveId { get; }
-    SaveEntityData CaptureState();
-    void RestoreState(SaveEntityData data);
-}
-
 public interface IPlayerStats : IDamageable
 {
     float MaxHealth { get; }
@@ -54,21 +47,6 @@ public interface IWeaponLoadout
     void Reload();
     void TriggerCurrent(IPlayerActor owner);
     void TickPresentation(float movementAmount, bool isAiming, bool isRunning);
-}
-
-public interface IInventoryService
-{
-    event Action<ItemData, int> ItemAdded;
-    event Action<ItemData, int> ItemRemoved;
-
-    bool AddItem(ItemData data, int amount);
-    bool RemoveItem(string itemId, int amount = 1);
-    bool HasItem(string itemId, int amount = 1);
-    int GetQuantity(string itemId);
-    bool HasAnyItemOfType(ItemType itemType);
-    ItemData GetItemData(string itemId);
-    IReadOnlyDictionary<string, int> CaptureItemQuantities();
-    void RestoreItemQuantities(IEnumerable<ItemQuantitySaveData> savedItems);
 }
 
 public interface IPlayerActor

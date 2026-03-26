@@ -1,16 +1,18 @@
 # HPR AI
 
-Reusable enemy data, behaviors, and AI runtime components.
+Reusable enemy and agent data definitions for Unity gameplay packages.
+
+## Included
+- `EnemyData` ScriptableObject
+- `EnemyAIType` and `EnemyAttackStyle` enums
+
+## Current scope
+This package currently provides the data layer for AI-driven gameplay. Runtime enemy behavior remains in the game composition package while the split continues.
 
 ## Setup
-- Add the local package to a Unity project via the `Packages/` symlink workflow or by referencing this folder as a local package.
-- Open the module demo scene in `Demo/` once it has been generated.
+1. Add the package to your Unity project.
+2. Reference `HPR.Ai.Runtime` from dependent asmdefs.
+3. Create enemy assets via `Assets > Create > HPR > AI > Enemy`.
 
-## API Overview
-- Runtime code lives in `Runtime/`.
-- Editor helpers live in `Editor/`.
-- Demo scenes and supporting assets live in `Demo/`.
-
-## Status
-- Package scaffold created during the package modularization pass.
-- Runtime migration is in progress.
+## Validation
+- Clean-project import validation is automated through `unity/tools/packages/validate_local_packages.sh com.hpr.ai`.
