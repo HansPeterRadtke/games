@@ -12,7 +12,6 @@ packages_root="$repo_root/unity/packages"
 unity_bin="${UNITY_BIN:-/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity}"
 temp_root="${TEMP_ROOT:-/data/tmp/hpr_package_validation}"
 project_name="${PROJECT_NAME:-clean_package_project}"
-project_path="$temp_root/$project_name"
 log_dir="${LOG_DIR:-$repo_root/doc/logs/package_validation}"
 mkdir -p "$temp_root" "$log_dir"
 
@@ -22,6 +21,12 @@ if [[ ! -x "$unity_bin" ]]; then
 fi
 
 requested=("$@")
+if [[ "${PROJECT_NAME:-}" == "" ]]; then
+  sanitized_packages=$(printf '%s_' "${requested[@]}" | tr -c '[:alnum:]_-' '_')
+  project_name="clean_package_project_${sanitized_packages}_$$"
+fi
+project_path="$temp_root/$project_name"
+
 package_list=$(python3 - <<'PY' "$packages_root" "${requested[@]}"
 import json, sys
 from pathlib import Path

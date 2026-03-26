@@ -5,6 +5,7 @@ Use:
 - `unity/tools/packages/validate_local_packages.sh <package-name>`
 
 The helper creates a clean temporary Unity project, resolves declared local package dependencies, symlinks only those packages into the temp project, and batch-runs Unity to confirm compile/import health.
+Each invocation now uses its own temp project path by default, so multiple package validations can run concurrently without tripping Unity project-lock errors.
 
 ## Latest validated packages
 Validated on 2026-03-26:

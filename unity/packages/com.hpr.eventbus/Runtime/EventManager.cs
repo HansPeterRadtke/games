@@ -13,14 +13,15 @@ public class EventManager : MonoBehaviour, IGameEventBus
             return;
         }
 
-        if (!subscribers.TryGetValue(typeof(TEvent), out Delegate handlers))
+        Type currentType = typeof(TEvent);
+        while (currentType != null && typeof(GameEvent).IsAssignableFrom(currentType))
         {
-            return;
-        }
+            if (subscribers.TryGetValue(currentType, out Delegate handlers) && handlers is Action<TEvent> typedHandlers)
+            {
+                typedHandlers.Invoke(gameEvent);
+            }
 
-        if (handlers is Action<TEvent> typedHandlers)
-        {
-            typedHandlers.Invoke(gameEvent);
+            currentType = currentType.BaseType;
         }
     }
 

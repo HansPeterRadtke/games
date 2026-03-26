@@ -59,10 +59,7 @@ public class InventoryComponent : MonoBehaviour, IInventoryService
         }
 
         int delta = data.ItemType == ItemType.Ammo ? amount * Mathf.Max(1, data.Value) : amount;
-        if (data.ItemType != ItemType.Ammo)
-        {
-            quantities[data.Id] = GetQuantity(data.Id) + delta;
-        }
+        quantities[data.Id] = GetQuantity(data.Id) + delta;
 
         ItemAdded?.Invoke(data, delta);
         return true;
