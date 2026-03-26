@@ -18,3 +18,7 @@ Reusable health and stamina runtime contracts for Unity gameplay packages.
 
 ## Validation
 - Clean-project import validation should run through `unity/tools/packages/validate_local_packages.sh com.hpr.stats` after each extraction pass.
+
+## Demo
+- Runtime demo scene target: `Packages/com.hpr.stats/Demo/StatsDemo.unity`
+- Generate or refresh it with `HPR/Stats/Build Demo Scene` or `StatsDemoSceneBuilder.BuildDemoScene` in batch mode.

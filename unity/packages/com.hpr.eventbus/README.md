@@ -7,10 +7,12 @@ Included:
 - `EventManager`
 - gameplay event payloads for damage, weapon fire, pickup, kills, impact, and HUD-related notifications
 - `IEventBusSource`
+- `EventBusSourceAdapter`
 
 Typical usage:
 - add `EventManager` to a composition root object
-- expose it through `IEventBusSource`
+- add `EventBusSourceAdapter` when you need a ready-made `IEventBusSource` component
+- expose the bus through `IEventBusSource`
 - publish and subscribe to events instead of calling other systems directly
 
 Current limitation:

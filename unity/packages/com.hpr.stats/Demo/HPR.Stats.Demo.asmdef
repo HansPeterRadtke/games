@@ -1,16 +1,11 @@
 {
-  "name": "HPR.Stats.Editor",
+  "name": "HPR.Stats.Demo",
   "rootNamespace": "",
   "references": [
-    "HPR.Foundation",
-    "HPR.Core.Runtime",
     "HPR.Eventbus.Runtime",
-    "HPR.Stats.Runtime",
-    "HPR.Stats.Demo"
+    "HPR.Stats.Runtime"
   ],
-  "includePlatforms": [
-    "Editor"
-  ],
+  "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": false,
