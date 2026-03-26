@@ -1,6 +1,3 @@
-using UnityEngine;
-
-
 public enum AssetType
 {
     Environment,

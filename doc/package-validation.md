@@ -16,6 +16,7 @@ Validated on 2026-03-26:
 - `com.hpr.weapons`
 - `com.hpr.ai`
 - `com.hpr.stats`
+- `com.hpr.world`
 - `com.hpr.fpsdemo`
 
 ## Log locations
@@ -31,7 +32,8 @@ Relevant recent logs:
 - `20260326_102427_com_hpr_weapons_.log`
 - `20260326_102755_com_hpr_ai_.log`
 - `20260326_104044_com_hpr_stats_.log`
-- `20260326_104104_com_hpr_fpsdemo_.log`
+- `20260326_115137_com_hpr_world_.log`
+- `20260326_115201_com_hpr_fpsdemo_.log`
 
 ## Current meaning of a pass
 A passing validation currently proves:

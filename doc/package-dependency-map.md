@@ -11,6 +11,7 @@ Current verified graph for `unity/projects/fps_demo`:
 - `com.hpr.weapons`
 - `com.hpr.ai`
 - `com.hpr.stats`
+- `com.hpr.world`
 - `com.hpr.fpsdemo`
 
 Scaffold-only packages still present but not yet populated with real runtime code:
@@ -113,6 +114,7 @@ Validated in an empty Unity project through `unity/tools/packages/validate_local
 - `com.hpr.weapons`
 - `com.hpr.ai`
 - `com.hpr.stats`
+- `com.hpr.world`
 - `com.hpr.fpsdemo` (with declared dependencies)
 
 Logs are in `doc/logs/package_validation/`.

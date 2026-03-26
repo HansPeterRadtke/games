@@ -60,7 +60,8 @@
         "com.hpr.inventory": "file:../com.hpr.inventory",
         "com.hpr.weapons": "file:../com.hpr.weapons",
         "com.hpr.ai": "file:../com.hpr.ai",
-        "com.hpr.stats": "file:../com.hpr.stats"
+        "com.hpr.stats": "file:../com.hpr.stats",
+        "com.hpr.world": "file:../com.hpr.world"
       }
     },
     "com.hpr.input": {
@@ -128,13 +129,7 @@
       "version": "file:com.hpr.world",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {
-        "com.hpr.foundation": "file:../com.hpr.foundation",
-        "com.hpr.core": "file:../com.hpr.core",
-        "com.hpr.eventbus": "file:../com.hpr.eventbus",
-        "com.hpr.interaction": "file:../com.hpr.interaction",
-        "com.hpr.ai": "file:../com.hpr.ai"
-      }
+      "dependencies": {}
     },
     "com.unity.cinemachine": {
       "version": "3.1.6",

@@ -27,6 +27,7 @@ The repo is no longer just `foundation + fpsdemo`. Real reusable packages now ho
 - `com.hpr.weapons`
 - `com.hpr.ai`
 - `com.hpr.stats`
+- `com.hpr.world`
 - `com.hpr.fpsdemo`
 
 What was actually moved out of `com.hpr.fpsdemo`
@@ -63,6 +64,7 @@ Validated in a clean empty Unity project:
 - `com.hpr.weapons`
 - `com.hpr.ai`
 - `com.hpr.stats`
+- `com.hpr.world`
 - `com.hpr.fpsdemo` with declared dependencies
 
 Tracked docs/tooling relevant for takeover

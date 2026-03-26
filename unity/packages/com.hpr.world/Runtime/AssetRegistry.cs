@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "FPS Demo/Data/Asset Registry", fileName = "AssetRegistry")]
+[CreateAssetMenu(menuName = "HPR/World/Asset Registry", fileName = "AssetRegistry")]
 public class AssetRegistry : ScriptableObject
 {
     [SerializeField] private List<AssetMetadata> entries = new List<AssetMetadata>();

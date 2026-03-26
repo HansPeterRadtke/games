@@ -17,6 +17,7 @@
     "com.hpr.inventory": "file:../com.hpr.inventory",
     "com.hpr.weapons": "file:../com.hpr.weapons",
     "com.hpr.ai": "file:../com.hpr.ai",
-    "com.hpr.stats": "file:../com.hpr.stats"
+    "com.hpr.stats": "file:../com.hpr.stats",
+    "com.hpr.world": "file:../com.hpr.world"
   }
 }

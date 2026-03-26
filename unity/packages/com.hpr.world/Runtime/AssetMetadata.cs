@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "FPS Demo/Data/Asset Metadata", fileName = "AssetMetadata")]
+[CreateAssetMenu(menuName = "HPR/World/Asset Metadata", fileName = "AssetMetadata")]
 public class AssetMetadata : ScriptableObject
 {
     public string AssetId;
