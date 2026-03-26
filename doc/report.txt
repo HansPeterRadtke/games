@@ -90,7 +90,7 @@ Do not commit:
 Known limitations at this checkpoint
 - `com.hpr.fpsdemo` still contains most runtime execution logic and project-specific editor/bootstrap code
 - `SceneBootstrap` still knows the current project scene/hierarchy
-- package demos are still mostly README-level and not yet full standalone demo scenes
+- only `com.hpr.stats`, `com.hpr.eventbus`, and `com.hpr.inventory` currently have committed standalone demo scenes
 - stats/interaction/ui/world/bootstrap packages are not real productized packages yet
 
 Recommended next steps
@@ -100,3 +100,9 @@ Recommended next steps
 4. generalize interaction runtime into `com.hpr.interaction`
 5. add real standalone demo scenes and package-level tests
 6. shrink `com.hpr.fpsdemo` to composition/bootstrap only
+
+Standalone demo progress
+- `com.hpr.stats` now has a committed demo scene at `unity/packages/com.hpr.stats/Demo/StatsDemo.unity`
+- `com.hpr.eventbus` now includes `EventBusSourceAdapter` so demo scenes and clean projects can expose an event bus without game-specific composition code
+- `com.hpr.eventbus` now has a committed demo scene at `unity/packages/com.hpr.eventbus/Demo/EventBusDemo.unity`
+- `com.hpr.inventory` now has a committed demo scene at `unity/packages/com.hpr.inventory/Demo/InventoryDemo.unity`

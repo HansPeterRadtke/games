@@ -12,13 +12,13 @@ The repo is in a buildable intermediate package-productization checkpoint. The m
 - `unity/packages/com.hpr.inventory` - item definitions and generic inventory runtime
 - `unity/packages/com.hpr.weapons` - weapon definitions and fire-mode metadata
 - `unity/packages/com.hpr.ai` - enemy definitions and AI metadata
+- `unity/packages/com.hpr.stats` - reusable actor stats runtime and demo scene
+- `unity/packages/com.hpr.world` - generic asset metadata and registry types
 - `unity/packages/com.hpr.fpsdemo` - current composition-heavy gameplay package
 
 ## Scaffold packages still to populate
-- `unity/packages/com.hpr.stats`
 - `unity/packages/com.hpr.interaction`
 - `unity/packages/com.hpr.ui`
-- `unity/packages/com.hpr.world`
 - `unity/packages/com.hpr.bootstrap`
 
 ## What was extracted in this checkpoint series
@@ -55,7 +55,15 @@ Verified as `hans`:
   - `com.hpr.inventory`
   - `com.hpr.weapons`
   - `com.hpr.ai`
+  - `com.hpr.stats`
+  - `com.hpr.world`
   - `com.hpr.fpsdemo`
+
+## Demo progress
+- `com.hpr.stats` now has a committed standalone demo scene: `unity/packages/com.hpr.stats/Demo/StatsDemo.unity`
+- `com.hpr.eventbus` now includes `EventBusSourceAdapter` to make standalone package demos easier to compose
+- `com.hpr.eventbus` now has a committed standalone demo scene: `unity/packages/com.hpr.eventbus/Demo/EventBusDemo.unity`
+- `com.hpr.inventory` now has a committed standalone demo scene: `unity/packages/com.hpr.inventory/Demo/InventoryDemo.unity`
 
 ## Remaining work before store-ready modularity
 - move generic stats contracts/runtime out of `com.hpr.fpsdemo`
@@ -67,7 +75,7 @@ Verified as `hans`:
 - shrink `com.hpr.fpsdemo` to project composition/bootstrap only
 
 ## Known intermediate-state limitations
-- package demos are still mostly README-level, not real scenes yet
+- only `com.hpr.stats`, `com.hpr.eventbus`, and `com.hpr.inventory` currently have real standalone demo scenes
 - `SceneBootstrap` still knows about the current game scene and hierarchy
 - `com.hpr.fpsdemo` is still too large to be considered thin composition-only glue
 - imported Asset Store content remains local-only and untracked by design

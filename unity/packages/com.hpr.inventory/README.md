@@ -28,3 +28,7 @@ Reusable item definitions and runtime inventory services for Unity projects.
 
 ## Validation
 - Clean-project import validation is automated through `unity/tools/packages/validate_local_packages.sh com.hpr.inventory`.
+
+## Demo
+- Demo scene: `Packages/com.hpr.inventory/Demo/InventoryDemo.unity`
+- Generate or refresh it with `HPR/Inventory/Build Demo Scene` or `InventoryDemoSceneBuilder.BuildDemoScene` in batch mode.
