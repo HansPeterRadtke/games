@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class DoorController : MonoBehaviour, IInteractable, ISaveableEntity
@@ -8,9 +9,11 @@ public class DoorController : MonoBehaviour, IInteractable, ISaveableEntity
     [SerializeField] private float openSpeed = 140f;
     [SerializeField] private Transform doorLeaf;
     [SerializeField] private bool isOpen;
+    [SerializeField] private MonoBehaviour servicesBehaviour;
 
     private Quaternion closedRotation;
     private Quaternion openedRotation;
+    private IStatusMessageSink statusSink;
 
     public string SaveId => saveId;
 
@@ -20,6 +23,8 @@ public class DoorController : MonoBehaviour, IInteractable, ISaveableEntity
         {
             doorLeaf = transform.GetChild(0);
         }
+        servicesBehaviour = servicesBehaviour != null ? servicesBehaviour : GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault(component => component is IStatusMessageSink);
+        statusSink = servicesBehaviour as IStatusMessageSink;
         closedRotation = doorLeaf.localRotation;
         openedRotation = closedRotation * Quaternion.Euler(0f, openAngle, 0f);
     }
@@ -44,6 +49,12 @@ public class DoorController : MonoBehaviour, IInteractable, ISaveableEntity
         openedRotation = closedRotation * Quaternion.Euler(0f, openAngle, 0f);
     }
 
+    public void BindRuntimeServices(MonoBehaviour services)
+    {
+        servicesBehaviour = services;
+        statusSink = servicesBehaviour as IStatusMessageSink;
+    }
+
     public string GetPrompt(IPlayerActor player)
     {
         if (requiredKeyItem != null && !player.InventoryService.HasItem(requiredKeyItem.Id))
@@ -58,12 +69,12 @@ public class DoorController : MonoBehaviour, IInteractable, ISaveableEntity
     {
         if (requiredKeyItem != null && !player.InventoryService.HasItem(requiredKeyItem.Id))
         {
-            GameManager.Instance?.NotifyStatus($"{requiredKeyItem.DisplayName} required");
+            statusSink?.NotifyStatus($"{requiredKeyItem.DisplayName} required");
             return;
         }
 
         isOpen = !isOpen;
-        GameManager.Instance?.NotifyStatus(isOpen ? "Door opening" : "Door closing");
+        statusSink?.NotifyStatus(isOpen ? "Door opening" : "Door closing");
     }
 
     public SaveEntityData CaptureState()

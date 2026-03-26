@@ -1,5 +1,50 @@
 {
   "dependencies": {
+    "com.hpr.ai": {
+      "version": "file:com.hpr.ai",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.hpr.foundation": "file:../com.hpr.foundation",
+        "com.hpr.core": "file:../com.hpr.core",
+        "com.hpr.eventbus": "file:../com.hpr.eventbus",
+        "com.hpr.stats": "file:../com.hpr.stats"
+      }
+    },
+    "com.hpr.bootstrap": {
+      "version": "file:com.hpr.bootstrap",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.hpr.foundation": "file:../com.hpr.foundation",
+        "com.hpr.core": "file:../com.hpr.core",
+        "com.hpr.eventbus": "file:../com.hpr.eventbus",
+        "com.hpr.input": "file:../com.hpr.input",
+        "com.hpr.stats": "file:../com.hpr.stats",
+        "com.hpr.inventory": "file:../com.hpr.inventory",
+        "com.hpr.weapons": "file:../com.hpr.weapons",
+        "com.hpr.ai": "file:../com.hpr.ai",
+        "com.hpr.interaction": "file:../com.hpr.interaction",
+        "com.hpr.ui": "file:../com.hpr.ui",
+        "com.hpr.world": "file:../com.hpr.world"
+      }
+    },
+    "com.hpr.core": {
+      "version": "file:com.hpr.core",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.hpr.foundation": "file:../com.hpr.foundation"
+      }
+    },
+    "com.hpr.eventbus": {
+      "version": "file:com.hpr.eventbus",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.hpr.foundation": "file:../com.hpr.foundation"
+      }
+    },
     "com.hpr.foundation": {
       "version": "file:com.hpr.foundation",
       "depth": 0,
@@ -11,7 +56,86 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
+        "com.hpr.core": "file:../com.hpr.core",
+        "com.hpr.eventbus": "file:../com.hpr.eventbus",
+        "com.hpr.foundation": "file:../com.hpr.foundation",
+        "com.hpr.input": "file:../com.hpr.input",
         "com.unity.ugui": "2.0.0"
+      }
+    },
+    "com.hpr.input": {
+      "version": "file:com.hpr.input",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.hpr.foundation": "file:../com.hpr.foundation",
+        "com.hpr.eventbus": "file:../com.hpr.eventbus"
+      }
+    },
+    "com.hpr.interaction": {
+      "version": "file:com.hpr.interaction",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.hpr.foundation": "file:../com.hpr.foundation",
+        "com.hpr.core": "file:../com.hpr.core",
+        "com.hpr.eventbus": "file:../com.hpr.eventbus",
+        "com.hpr.inventory": "file:../com.hpr.inventory"
+      }
+    },
+    "com.hpr.inventory": {
+      "version": "file:com.hpr.inventory",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.hpr.foundation": "file:../com.hpr.foundation",
+        "com.hpr.core": "file:../com.hpr.core",
+        "com.hpr.eventbus": "file:../com.hpr.eventbus"
+      }
+    },
+    "com.hpr.stats": {
+      "version": "file:com.hpr.stats",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.hpr.foundation": "file:../com.hpr.foundation",
+        "com.hpr.core": "file:../com.hpr.core",
+        "com.hpr.eventbus": "file:../com.hpr.eventbus"
+      }
+    },
+    "com.hpr.ui": {
+      "version": "file:com.hpr.ui",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.hpr.foundation": "file:../com.hpr.foundation",
+        "com.hpr.core": "file:../com.hpr.core",
+        "com.hpr.eventbus": "file:../com.hpr.eventbus",
+        "com.unity.ugui": "2.0.0"
+      }
+    },
+    "com.hpr.weapons": {
+      "version": "file:com.hpr.weapons",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.hpr.foundation": "file:../com.hpr.foundation",
+        "com.hpr.core": "file:../com.hpr.core",
+        "com.hpr.eventbus": "file:../com.hpr.eventbus",
+        "com.hpr.input": "file:../com.hpr.input",
+        "com.hpr.inventory": "file:../com.hpr.inventory"
+      }
+    },
+    "com.hpr.world": {
+      "version": "file:com.hpr.world",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.hpr.foundation": "file:../com.hpr.foundation",
+        "com.hpr.core": "file:../com.hpr.core",
+        "com.hpr.eventbus": "file:../com.hpr.eventbus",
+        "com.hpr.interaction": "file:../com.hpr.interaction",
+        "com.hpr.ai": "file:../com.hpr.ai"
       }
     },
     "com.unity.cinemachine": {

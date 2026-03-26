@@ -23,7 +23,7 @@ public sealed class WeaponFireContext
     public Transform MuzzleTransform => WeaponSystem.ResolveCurrentMuzzle();
     public IInventoryService Inventory => WeaponSystem.InventoryService;
     public IPlayerStats OwnerStats => WeaponSystem.OwnerStats;
-    public IGameEventBus EventBus => GameManager.Instance != null ? GameManager.Instance.EventBus : null;
+    public IGameEventBus EventBus => WeaponSystem.EventBus;
 
     public bool TryConsumeAmmo()
     {
@@ -63,7 +63,7 @@ public sealed class WeaponFireContext
             CurrentMagazineAmmo = RuntimeState.MagazineAmmo,
             CurrentReserveAmmo = RuntimeState.ReserveAmmo,
             ProjectileCount = projectileCount,
-            FireModeType = Data != null ? Data.FireModeType : FireModeType.Hitscan
+            FireModeId = Data != null ? Data.FireModeType.ToString() : string.Empty
         });
     }
 
@@ -102,7 +102,7 @@ public sealed class WeaponFireContext
 
     public void Notify(string message)
     {
-        GameManager.Instance?.NotifyStatus(message);
+        WeaponSystem.StatusSink?.NotifyStatus(message);
     }
 }
 
@@ -323,7 +323,7 @@ public sealed class UtilityFireMode : IFireMode
             case WeaponUtilityAction.ConsumeItem:
                 return ConsumeLinkedItem(context);
             case WeaponUtilityAction.ThreatScan:
-                context.Notify(GameManager.Instance != null ? GameManager.Instance.DescribeNearbyThreats(context.Owner.ActorTransform.position) : data.UtilityMessage);
+                context.Notify(context.WeaponSystem.ThreatScanner != null ? context.WeaponSystem.ThreatScanner.DescribeNearbyThreats(context.Owner.ActorTransform.position) : data.UtilityMessage);
                 return true;
             case WeaponUtilityAction.KeyringStatus:
                 context.Notify(context.Inventory != null && context.Inventory.HasAnyItemOfType(ItemType.Key) ? data.UtilityMessage : "Keyring is empty");

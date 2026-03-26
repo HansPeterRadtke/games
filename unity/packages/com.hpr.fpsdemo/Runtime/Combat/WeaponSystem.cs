@@ -54,6 +54,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
 {
     [SerializeField] private List<WeaponData> loadout = new List<WeaponData>();
     [SerializeField] private int currentIndex;
+    [SerializeField] private MonoBehaviour servicesBehaviour;
 
     private readonly List<WeaponRuntimeState> runtimeSlots = new List<WeaponRuntimeState>();
     private readonly Dictionary<FireModeType, IFireMode> fireModes = new Dictionary<FireModeType, IFireMode>();
@@ -62,6 +63,9 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
     private IInventoryService inventory;
     private IPlayerStats ownerStats;
     private IGameEventBus eventBus;
+    private IEventBusSource eventBusSource;
+    private IStatusMessageSink statusSink;
+    private IHudRefreshSink hudRefreshSink;
     private float aimBlend;
     private float bobTimer;
     private Vector3 recoilPosition;
@@ -70,10 +74,21 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
     internal Camera PlayerCamera => playerCamera;
     internal IInventoryService InventoryService => inventory;
     internal IPlayerStats OwnerStats => ownerStats;
+    internal IGameEventBus EventBus => eventBus;
+    internal IStatusMessageSink StatusSink => statusSink;
+    internal IThreatScanner ThreatScanner => servicesBehaviour as IThreatScanner;
     public IReadOnlyList<WeaponRuntimeState> RuntimeSlots => runtimeSlots;
     public int SlotCount => runtimeSlots.Count;
     public int CurrentIndex => currentIndex;
     public WeaponRuntimeState CurrentState => runtimeSlots.Count == 0 ? null : runtimeSlots[Mathf.Clamp(currentIndex, 0, runtimeSlots.Count - 1)];
+
+    private void Awake()
+    {
+        servicesBehaviour = servicesBehaviour != null ? servicesBehaviour : GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault(component => component is IEventBusSource || component is IStatusMessageSink || component is IHudRefreshSink);
+        eventBusSource = servicesBehaviour as IEventBusSource;
+        statusSink = servicesBehaviour as IStatusMessageSink;
+        hudRefreshSink = servicesBehaviour as IHudRefreshSink;
+    }
 
     public void ConfigureLoadout(IEnumerable<WeaponData> weaponData)
     {
@@ -94,6 +109,15 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         BuildRuntimeSlots();
         BuildViewModels();
         SelectSlot(currentIndex);
+    }
+
+    public void BindRuntimeServices(MonoBehaviour services)
+    {
+        servicesBehaviour = services;
+        eventBusSource = servicesBehaviour as IEventBusSource;
+        statusSink = servicesBehaviour as IStatusMessageSink;
+        hudRefreshSink = servicesBehaviour as IHudRefreshSink;
+        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
     }
 
     private void Start()
@@ -120,7 +144,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         }
 
         SelectSlot(currentIndex);
-        GameManager.Instance?.RefreshHud();
+        hudRefreshSink?.RefreshHud();
     }
 
     public WeaponRuntimeState GetSlot(int index)
@@ -150,7 +174,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
             }
         }
 
-        GameManager.Instance?.RefreshHud();
+        hudRefreshSink?.RefreshHud();
     }
 
     public bool TrySelectWeapon(string weaponId)
@@ -184,7 +208,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         }
 
         runtimeState.ReserveAmmo = Mathf.Clamp(runtimeState.ReserveAmmo + amount, 0, Mathf.Max(0, runtimeState.Data.MaxAmmo));
-        GameManager.Instance?.RefreshHud();
+        hudRefreshSink?.RefreshHud();
     }
 
     public List<WeaponRuntimeSaveData> CaptureRuntimeState()
@@ -237,22 +261,22 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         var data = runtimeState.Data;
         if (!data.UsesAmmo || data.MagazineSize <= 0)
         {
-            GameManager.Instance?.NotifyStatus("No reload needed");
+            statusSink?.NotifyStatus("No reload needed");
             return;
         }
 
         int missing = data.MagazineSize - runtimeState.MagazineAmmo;
         if (missing <= 0 || runtimeState.ReserveAmmo <= 0)
         {
-            GameManager.Instance?.NotifyStatus("Magazine full or reserve empty");
+            statusSink?.NotifyStatus("Magazine full or reserve empty");
             return;
         }
 
         int moved = Mathf.Min(missing, runtimeState.ReserveAmmo);
         runtimeState.MagazineAmmo += moved;
         runtimeState.ReserveAmmo -= moved;
-        GameManager.Instance?.NotifyStatus($"Reloaded {data.DisplayName}");
-        GameManager.Instance?.RefreshHud();
+        statusSink?.NotifyStatus($"Reloaded {data.DisplayName}");
+        hudRefreshSink?.RefreshHud();
     }
 
     public void TriggerCurrent(IPlayerActor owner)
@@ -268,7 +292,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         IFireMode fireMode = ResolveFireMode(runtimeState.Data);
         if (fireMode != null && fireMode.Execute(new WeaponFireContext(this, owner, runtimeState)))
         {
-            GameManager.Instance?.RefreshHud();
+            hudRefreshSink?.RefreshHud();
         }
     }
 
@@ -315,7 +339,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
 
         if (runtimeState.MagazineAmmo <= 0)
         {
-            GameManager.Instance?.NotifyStatus("Magazine empty - press reload");
+            statusSink?.NotifyStatus("Magazine empty - press reload");
             return false;
         }
 
@@ -354,7 +378,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         {
             projectileBehaviour = projectile.AddComponent<PhysicsProjectile>();
         }
-        projectileBehaviour.Configure(ownerRoot, direction, weaponData.Damage, weaponData.ProjectileSpeed, weaponData.ImpactForce, lifetime, explosiveRadius, weaponData.ViewColor);
+        projectileBehaviour.Configure(ownerRoot, direction, weaponData.Damage, weaponData.ProjectileSpeed, weaponData.ImpactForce, lifetime, explosiveRadius, weaponData.ViewColor, eventBus);
     }
 
     internal Transform ResolveCurrentMuzzle()
@@ -546,7 +570,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
 
     private void EnsureEventBusBinding()
     {
-        BindEventBus(GameManager.Instance != null ? GameManager.Instance.EventBus : null);
+        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
     }
 
     private void BindEventBus(IGameEventBus bus)
@@ -570,13 +594,12 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
 
     private void HandleItemPickedEvent(ItemPickedEvent gameEvent)
     {
-        ItemData itemData = gameEvent != null ? gameEvent.ItemData : null;
         int amount = gameEvent != null ? gameEvent.Amount : 0;
-        if (itemData == null || itemData.ItemType != ItemType.Ammo || string.IsNullOrWhiteSpace(itemData.LinkedWeaponId))
+        if (gameEvent == null || gameEvent.ItemType != (int)ItemType.Ammo || string.IsNullOrWhiteSpace(gameEvent.LinkedWeaponId))
         {
             return;
         }
 
-        AddAmmo(itemData.LinkedWeaponId, amount);
+        AddAmmo(gameEvent.LinkedWeaponId, amount);
     }
 }

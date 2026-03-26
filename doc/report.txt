@@ -1,80 +1,84 @@
-Games repo report - 2026-03-25
+Games repo report - 2026-03-26
 
 Current repo state
 - branch: `main`
-- latest verified commit before this report: `c304d89` `Fix third-party art root wiring and title menu gating`
-- repo policy is unchanged:
-  - code, docs, tooling, scene structure, and data assets created in-repo are tracked
-  - imported Unity/Asset Store package data stays local-only and ignored
-  - all normal workflows must run as user `hans`
+- current work is in a buildable intermediate modularization checkpoint
+- imported Unity Asset Store content is still local-only and ignored
+- repo content remains runnable as user `hans`
 
-What is currently working
-- Unity project builds successfully through:
+What is verified now
+- Unity project build succeeds through:
   - `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
-- standalone smoke test passes through:
+- standalone smoketest succeeds through:
   - `unity/tools/fps_demo/smoke_test.sh`
-- smoke validation still confirms:
-  - session start
-  - damage application
-  - weapon fire
-  - pickup collection
-  - locked door interaction / opening
-  - enemy death
-  - save
-  - load
-- the playable build path is still:
+- playable build path remains:
   - `unity/projects/fps_demo/Build/Linux/FPSDemo.x86_64`
 
-What was fixed in the latest stabilization pass
-- killed stray background FPS player instances that were still consuming resources
-- fixed third-party art placement to use the live scene root:
-  - `World/PropsRoot/ThirdPartyArt`
-- fixed the third-party scene reporter to inspect the same live root
-- kept the lighter title-menu gating change so menu interaction no longer depends on large mouse movement
-- reapplied local interior/environment integration and rebuilt successfully
-- confirmed scene serialization stability:
-  - repeated Unity builds no longer rewrite `Assets/Scenes/Gameplay.unity`
+Main architectural change in this checkpoint
+The repo is no longer only `foundation + fpsdemo`. A real package split is now started under `unity/packages/`:
+- `com.hpr.core`
+- `com.hpr.eventbus`
+- `com.hpr.input`
+- `com.hpr.stats`
+- `com.hpr.inventory`
+- `com.hpr.weapons`
+- `com.hpr.ai`
+- `com.hpr.interaction`
+- `com.hpr.ui`
+- `com.hpr.world`
+- `com.hpr.bootstrap`
 
-Current tracked entry points
-- docs:
-  - `doc/README.md`
-  - `doc/current-state.md`
-  - `doc/handoff.md`
-  - `doc/local-assets.md`
-  - `doc/workflows.md`
-  - `doc/report.txt`
-- common tools:
-  - `unity/tools/common/focus_notice.sh`
-  - `unity/tools/common/zip_tracked_repo.sh`
-- Unity workflow tools:
-  - `unity/tools/fps_demo/run_unity_batch.sh`
-  - `unity/tools/fps_demo/smoke_test.sh`
-  - `unity/tools/fps_demo/sync_temp_project.sh`
-  - `unity/tools/fps_demo/temp_apply_and_build.sh`
-- editor-side integration/reporting:
-  - `unity/packages/com.hpr.fpsdemo/Editor/ThirdPartyAssetIntegrator.cs`
-  - `unity/packages/com.hpr.fpsdemo/Editor/ThirdPartySceneReporter.cs`
+What was actually moved out of `com.hpr.fpsdemo`
+- `EventManager` -> `com.hpr.eventbus`
+- `GameEvents` -> `com.hpr.eventbus`
+- `GameAction` -> `com.hpr.input`
+- `GameOptionsData` -> `com.hpr.input`
+- `GameOptionsStore` -> `com.hpr.input`
 
-Current local-only asset situation
-- imported asset content exists locally and is integrated into the working scene, but is intentionally not git-tracked
-- the real local asset inventory is documented in:
-  - `doc/local-assets.md`
-- current local scene art integration includes:
-  - doors
-  - low poly weapons
-  - character packs
-  - environment/interior dressing under `PropsRoot/ThirdPartyArt`
+What was decoupled from direct `GameManager` singleton usage
+These systems now bind through interfaces/services instead of direct singleton access:
+- `PlayerController`
+- `PlayerGameplayController`
+- `PlayerStats`
+- `WeaponSystem`
+- `WeaponFireModes`
+- `PhysicsProjectile`
+- `PickupItem`
+- `DoorController`
+- `EnemyAgent`
+- `GameUiController`
 
-Current remaining quality issues
-- the scene is functionally stable, but art quality is not finished
-- screenshot review still shows:
-  - overbright / poor plaza ground choice
-  - weak overall environment composition
-  - some remaining stylized materials without useful texture maps
-- these are visual-integration problems, not current gameplay blockers
+Current composition reality
+- `GameManager` still exists, but now acts more clearly as a composition/runtime-services object instead of a global singleton
+- `SceneBootstrap` still wires the current playable scene and remains game-specific
+- `com.hpr.fpsdemo` is still the largest package and is not yet reduced to thin composition-only glue
 
-Practical handoff summary
-- start from the current tracked repo state; do not rely on shell history
-- use the scripted build/smoke entry points first
-- treat local imported art as optional local enhancement, never as tracked source
-- if visual work continues, use screenshot-based QA and only commit scene changes that are stable and intentional
+Tracked docs/tooling relevant for takeover
+- `doc/current-state.md`
+- `doc/handoff.md`
+- `doc/local-assets.md`
+- `doc/modularization-status.md`
+- `doc/workflows.md`
+- `doc/report.txt`
+- `unity/tools/fps_demo/run_unity_batch.sh`
+- `unity/tools/fps_demo/smoke_test.sh`
+- `unity/tools/fps_demo/setup_project.sh`
+- `unity/tools/fps_demo/sync_temp_project.sh`
+
+Important local-only rule
+Do not commit:
+- imported asset folders under `unity/projects/fps_demo/Assets/...`
+- downloaded `.unitypackage` files
+- local asset registry/generated metadata for imported third-party art
+
+Known limitations at this checkpoint
+- scaffold packages currently contain package structure and marker scripts, not full standalone demos yet
+- `SceneBootstrap` and several editor tools are still in `com.hpr.fpsdemo`
+- `Gameplay.unity` is the authoritative playable scene and has been updated to serialize the new runtime service bindings
+
+Recommended next steps
+1. move generic save/contracts/interfaces into `com.hpr.core`
+2. split inventory/weapons/AI/world runtime code into their dedicated packages
+3. create standalone demo scenes for each extracted package
+4. shrink `com.hpr.fpsdemo` into composition/bootstrap only
+5. re-run build + smoketest after each stable checkpoint

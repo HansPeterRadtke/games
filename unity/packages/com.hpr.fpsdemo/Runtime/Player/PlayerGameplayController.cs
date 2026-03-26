@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerActorContext))]
@@ -7,11 +8,20 @@ public class PlayerGameplayController : MonoBehaviour
     [SerializeField] private float interactRange = 3.5f;
     [SerializeField] private float aimZoomFovDelta = 12f;
     [SerializeField] private float aimFovLerp = 12f;
+    [SerializeField] private MonoBehaviour servicesBehaviour;
+    [SerializeField] private MonoBehaviour inputSourceBehaviour;
 
     private PlayerActorContext actor;
     private PlayerController movement;
     private MapCameraFollow mapFollow;
     private IInteractable currentInteractable;
+    private IGameplayStateSource gameplayState;
+    private IInputBindingsSource inputBindings;
+    private IInputSource inputSource;
+    private IStatusMessageSink statusSink;
+    private IInteractionPromptSink promptSink;
+    private IHudRefreshSink hudRefreshSink;
+    private IGameplayFlowCommands flowCommands;
 
     public bool IsAiming { get; private set; }
 
@@ -19,6 +29,15 @@ public class PlayerGameplayController : MonoBehaviour
     {
         actor = GetComponent<PlayerActorContext>();
         movement = GetComponent<PlayerController>();
+        servicesBehaviour = servicesBehaviour != null ? servicesBehaviour : FindBehaviourImplementing<IGameplayStateSource>();
+        inputSourceBehaviour = inputSourceBehaviour != null ? inputSourceBehaviour : GetComponents<MonoBehaviour>().FirstOrDefault(component => component is IInputSource);
+        gameplayState = ResolveInterface<IGameplayStateSource>(servicesBehaviour);
+        inputBindings = ResolveInterface<IInputBindingsSource>(servicesBehaviour);
+        inputSource = ResolveInterface<IInputSource>(inputSourceBehaviour);
+        statusSink = ResolveInterface<IStatusMessageSink>(servicesBehaviour);
+        promptSink = ResolveInterface<IInteractionPromptSink>(servicesBehaviour);
+        hudRefreshSink = ResolveInterface<IHudRefreshSink>(servicesBehaviour);
+        flowCommands = ResolveInterface<IGameplayFlowCommands>(servicesBehaviour);
     }
 
     public void BindMapCamera(MapCameraFollow follow)
@@ -26,88 +45,101 @@ public class PlayerGameplayController : MonoBehaviour
         mapFollow = follow;
     }
 
+    public void BindRuntimeServices(MonoBehaviour services, MonoBehaviour inputBehaviour)
+    {
+        servicesBehaviour = services;
+        inputSourceBehaviour = inputBehaviour;
+        gameplayState = ResolveInterface<IGameplayStateSource>(servicesBehaviour);
+        inputBindings = ResolveInterface<IInputBindingsSource>(servicesBehaviour);
+        inputSource = ResolveInterface<IInputSource>(inputSourceBehaviour);
+        statusSink = ResolveInterface<IStatusMessageSink>(servicesBehaviour);
+        promptSink = ResolveInterface<IInteractionPromptSink>(servicesBehaviour);
+        hudRefreshSink = ResolveInterface<IHudRefreshSink>(servicesBehaviour);
+        flowCommands = ResolveInterface<IGameplayFlowCommands>(servicesBehaviour);
+    }
+
     private void Update()
     {
-        if (GameManager.Instance == null || actor == null || movement == null)
+        if (actor == null || movement == null || gameplayState == null || inputBindings == null || inputSource == null)
         {
             return;
         }
 
         UpdateGlobalActions();
 
-        if (GameManager.Instance.IsMapVisible)
+        if (gameplayState.IsMapVisible)
         {
             HandleMapInput();
             SetAiming(false);
             UpdateAimingFov();
             actor.WeaponSystem.TickPresentation(0f, false, false);
             UpdateInteractionPrompt(null);
-            GameManager.Instance.RefreshHud();
+            hudRefreshSink?.RefreshHud();
             return;
         }
 
-        if (!GameManager.Instance.AllowsGameplayInput)
+        if (!gameplayState.AllowsGameplayInput)
         {
             SetAiming(false);
             UpdateAimingFov();
             actor.WeaponSystem.TickPresentation(0f, false, false);
             UpdateInteractionPrompt(null);
-            GameManager.Instance.RefreshHud();
+            hudRefreshSink?.RefreshHud();
             return;
         }
 
         if (HasCombatActivationInput())
         {
-            GameManager.Instance.MarkCombatReady();
+            flowCommands?.MarkCombatReady();
         }
 
         UpdateInteraction();
         UpdateWeapons();
         actor.WeaponSystem.TickPresentation(movement.LastMoveMagnitude, IsAiming, movement.IsRunning);
-        GameManager.Instance.RefreshHud();
+        hudRefreshSink?.RefreshHud();
     }
 
     private void UpdateGlobalActions()
     {
-        var options = GameManager.Instance.CurrentOptions;
-        if (Input.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Pause)) && !GameManager.Instance.IsRebindingKey)
+        var options = inputBindings.CurrentOptions;
+        if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Pause)) && !gameplayState.IsRebindingKey)
         {
-            if (GameManager.Instance.IsOptionsVisible)
+            if (gameplayState.IsOptionsVisible)
             {
-                GameManager.Instance.ShowOptionsMenu(false);
+                flowCommands?.ShowOptionsMenu(false);
             }
-            else if (GameManager.Instance.IsMapVisible)
+            else if (gameplayState.IsMapVisible)
             {
-                GameManager.Instance.ToggleMap();
+                flowCommands?.ToggleMap();
             }
-            else if (GameManager.Instance.IsInventoryVisible)
+            else if (gameplayState.IsInventoryVisible)
             {
-                GameManager.Instance.ToggleInventory();
+                flowCommands?.ToggleInventory();
             }
             else
             {
-                GameManager.Instance.TogglePauseMenu();
+                flowCommands?.TogglePauseMenu();
             }
         }
 
-        if (Input.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Inventory)))
+        if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Inventory)))
         {
-            GameManager.Instance.ToggleInventory();
+            flowCommands?.ToggleInventory();
         }
 
-        if (Input.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Map)))
+        if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Map)))
         {
-            GameManager.Instance.ToggleMap();
-            if (GameManager.Instance.IsMapVisible)
+            flowCommands?.ToggleMap();
+            if (gameplayState.IsMapVisible)
             {
                 mapFollow?.ResetView();
             }
         }
 
-        if (Input.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Flashlight)) && movement.Flashlight != null)
+        if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Flashlight)) && movement.Flashlight != null)
         {
             movement.Flashlight.enabled = !movement.Flashlight.enabled;
-            GameManager.Instance.NotifyStatus($"Flashlight {(movement.Flashlight.enabled ? "on" : "off")}");
+            statusSink?.NotifyStatus($"Flashlight {(movement.Flashlight.enabled ? "on" : "off")}");
         }
     }
 
@@ -118,14 +150,14 @@ public class PlayerGameplayController : MonoBehaviour
             return;
         }
 
-        if (Input.GetMouseButton(1))
+        if (inputSource.GetMouseButton(1))
         {
-            mapFollow.Pan(new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")));
+            mapFollow.Pan(new Vector2(inputSource.GetAxisRaw("Mouse X"), inputSource.GetAxisRaw("Mouse Y")));
         }
 
-        if (Mathf.Abs(Input.mouseScrollDelta.y) > 0.01f)
+        if (Mathf.Abs(inputSource.MouseScrollDelta.y) > 0.01f)
         {
-            mapFollow.Zoom(Input.mouseScrollDelta.y);
+            mapFollow.Zoom(inputSource.MouseScrollDelta.y);
         }
     }
 
@@ -140,7 +172,7 @@ public class PlayerGameplayController : MonoBehaviour
         if (currentInteractable != null)
         {
             UpdateInteractionPrompt(currentInteractable.GetPrompt(actor));
-            if (Input.GetKeyDown(GameOptionsStore.GetBinding(GameManager.Instance.CurrentOptions, GameAction.Interact)))
+            if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(inputBindings.CurrentOptions, GameAction.Interact)))
             {
                 currentInteractable.Interact(actor);
             }
@@ -153,22 +185,22 @@ public class PlayerGameplayController : MonoBehaviour
 
     private void UpdateWeapons()
     {
-        SetAiming(Input.GetMouseButton(1));
+        SetAiming(inputSource.GetMouseButton(1));
         UpdateAimingFov();
 
-        if (Input.GetMouseButton(0))
+        if (inputSource.GetMouseButton(0))
         {
             actor.WeaponSystem.TriggerCurrent(actor);
         }
 
-        if (Input.GetKeyDown(GameOptionsStore.GetBinding(GameManager.Instance.CurrentOptions, GameAction.Reload)))
+        if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(inputBindings.CurrentOptions, GameAction.Reload)))
         {
             actor.WeaponSystem.Reload();
         }
 
-        if (Mathf.Abs(Input.mouseScrollDelta.y) > 0.01f)
+        if (Mathf.Abs(inputSource.MouseScrollDelta.y) > 0.01f)
         {
-            int direction = Input.mouseScrollDelta.y > 0f ? 1 : -1;
+            int direction = inputSource.MouseScrollDelta.y > 0f ? 1 : -1;
             int nextIndex = (actor.WeaponSystem.CurrentIndex + direction + actor.WeaponSystem.SlotCount) % actor.WeaponSystem.SlotCount;
             actor.WeaponSystem.SelectSlot(nextIndex);
         }
@@ -180,7 +212,7 @@ public class PlayerGameplayController : MonoBehaviour
         };
         for (int i = 0; i < weaponKeys.Length && i < actor.WeaponSystem.SlotCount; i++)
         {
-            if (Input.GetKeyDown(weaponKeys[i]))
+            if (inputSource.GetKeyDown(weaponKeys[i]))
             {
                 actor.WeaponSystem.SelectSlot(i);
             }
@@ -206,13 +238,13 @@ public class PlayerGameplayController : MonoBehaviour
 
     private void UpdateInteractionPrompt(string prompt)
     {
-        GameManager.Instance.SetInteractionPrompt(prompt);
+        promptSink?.SetInteractionPrompt(prompt);
     }
 
     private bool HasCombatActivationInput()
     {
-        var options = GameManager.Instance.CurrentOptions;
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Mathf.Abs(Input.mouseScrollDelta.y) > 0.01f)
+        var options = inputBindings.CurrentOptions;
+        if (inputSource.GetMouseButtonDown(0) || inputSource.GetMouseButtonDown(1) || Mathf.Abs(inputSource.MouseScrollDelta.y) > 0.01f)
         {
             return true;
         }
@@ -223,7 +255,7 @@ public class PlayerGameplayController : MonoBehaviour
                      GameAction.Jump, GameAction.Run, GameAction.Interact, GameAction.Reload
                  })
         {
-            if (Input.GetKeyDown(GameOptionsStore.GetBinding(options, action)))
+            if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, action)))
             {
                 return true;
             }
@@ -231,12 +263,22 @@ public class PlayerGameplayController : MonoBehaviour
 
         for (int i = 1; i <= 9; i++)
         {
-            if (Input.GetKeyDown((KeyCode)((int)KeyCode.Alpha0 + i)))
+            if (inputSource.GetKeyDown((KeyCode)((int)KeyCode.Alpha0 + i)))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static T ResolveInterface<T>(MonoBehaviour behaviour) where T : class
+    {
+        return behaviour as T;
+    }
+
+    private MonoBehaviour FindBehaviourImplementing<T>() where T : class
+    {
+        return GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault(component => component is T);
     }
 }

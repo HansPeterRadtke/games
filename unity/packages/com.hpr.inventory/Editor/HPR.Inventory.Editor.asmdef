@@ -1,0 +1,21 @@
+{
+  "name": "HPR.Inventory.Editor",
+  "rootNamespace": "",
+  "references": [
+    "HPR.Foundation",
+    "HPR.Core.Runtime",
+    "HPR.Eventbus.Runtime",
+    "HPR.Inventory.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

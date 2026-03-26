@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour, IPlayerStats
@@ -6,6 +7,7 @@ public class PlayerStats : MonoBehaviour, IPlayerStats
     [SerializeField] private float maxStamina = 100f;
     [SerializeField] private float health = 100f;
     [SerializeField] private float stamina = 100f;
+    [SerializeField] private MonoBehaviour servicesBehaviour;
 
     public float MaxHealth => maxHealth;
     public float MaxStamina => maxStamina;
@@ -14,15 +16,35 @@ public class PlayerStats : MonoBehaviour, IPlayerStats
     public bool IsAlive => health > 0f;
 
     private IGameEventBus eventBus;
+    private IEventBusSource eventBusSource;
+    private IStatusMessageSink statusSink;
+    private IPlayerDeathHandler playerDeathHandler;
+
+    private void Awake()
+    {
+        servicesBehaviour = servicesBehaviour != null ? servicesBehaviour : GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault(component => component is IEventBusSource || component is IStatusMessageSink || component is IPlayerDeathHandler);
+        eventBusSource = servicesBehaviour as IEventBusSource;
+        statusSink = servicesBehaviour as IStatusMessageSink;
+        playerDeathHandler = servicesBehaviour as IPlayerDeathHandler;
+    }
 
     private void Start()
     {
-        BindEventBus(GameManager.Instance != null ? GameManager.Instance.EventBus : null);
+        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
     }
 
     private void OnDestroy()
     {
         BindEventBus(null);
+    }
+
+    public void BindRuntimeServices(MonoBehaviour services)
+    {
+        servicesBehaviour = services;
+        eventBusSource = servicesBehaviour as IEventBusSource;
+        statusSink = servicesBehaviour as IStatusMessageSink;
+        playerDeathHandler = servicesBehaviour as IPlayerDeathHandler;
+        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
     }
 
     public void ResetStats()
@@ -70,10 +92,10 @@ public class PlayerStats : MonoBehaviour, IPlayerStats
         }
 
         health = Mathf.Max(0f, health - amount);
-        GameManager.Instance?.NotifyStatus($"Player hit: -{amount:0}");
+        statusSink?.NotifyStatus($"Player hit: -{amount:0}");
         if (health <= 0f)
         {
-            GameManager.Instance?.HandlePlayerDeath();
+            playerDeathHandler?.HandlePlayerDeath();
         }
     }
 

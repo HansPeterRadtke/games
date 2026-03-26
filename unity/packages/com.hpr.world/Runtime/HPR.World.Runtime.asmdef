@@ -1,0 +1,20 @@
+{
+  "name": "HPR.World.Runtime",
+  "rootNamespace": "",
+  "references": [
+    "HPR.Foundation",
+    "HPR.Core.Runtime",
+    "HPR.Eventbus.Runtime",
+    "HPR.Interaction.Runtime",
+    "HPR.Ai.Runtime"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

@@ -75,9 +75,11 @@ for asset_dir in "${LOCAL_ASSET_DIRS[@]}"; do
   cp -a "$MAIN_PROJECT/Assets/$asset_dir.meta" "$TEMP_PROJECT/Assets/$asset_dir.meta"
 done
 
-rm -f "$TEMP_PROJECT/Packages/com.hpr.foundation" "$TEMP_PROJECT/Packages/com.hpr.fpsdemo"
-ln -s "$PACKAGE_ROOT/com.hpr.foundation" "$TEMP_PROJECT/Packages/com.hpr.foundation"
-ln -s "$PACKAGE_ROOT/com.hpr.fpsdemo" "$TEMP_PROJECT/Packages/com.hpr.fpsdemo"
+find "$TEMP_PROJECT/Packages" -maxdepth 1 -type l -name 'com.hpr.*' -delete 2>/dev/null || true
+while IFS= read -r package_dir; do
+  package_name=$(basename "$package_dir")
+  ln -s "$package_dir" "$TEMP_PROJECT/Packages/$package_name"
+done < <(find "$PACKAGE_ROOT" -maxdepth 1 -mindepth 1 -type d -name 'com.hpr.*' | sort)
 
 find "$TEMP_PROJECT/Library" -maxdepth 1 \( -name '*lock*' -o -name '*.pid' \) -delete 2>/dev/null || true
 rm -f "$TEMP_PROJECT/Temp/UnityLockfile" 2>/dev/null || true

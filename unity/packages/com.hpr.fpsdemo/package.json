@@ -8,6 +8,10 @@
     "name": "HansPeterRadtke"
   },
   "dependencies": {
+    "com.hpr.core": "file:../com.hpr.core",
+    "com.hpr.eventbus": "file:../com.hpr.eventbus",
+    "com.hpr.foundation": "file:../com.hpr.foundation",
+    "com.hpr.input": "file:../com.hpr.input",
     "com.unity.ugui": "2.0.0"
   }
 }

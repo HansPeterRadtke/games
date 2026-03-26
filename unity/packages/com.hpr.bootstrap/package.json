@@ -1,0 +1,23 @@
+{
+  "name": "com.hpr.bootstrap",
+  "displayName": "HPR Bootstrap",
+  "version": "0.1.0",
+  "unity": "6000.4",
+  "description": "Thin composition/bootstrap layer for wiring the modular packages into runnable games and demos.",
+  "author": {
+    "name": "HansPeterRadtke"
+  },
+  "dependencies": {
+    "com.hpr.foundation": "file:../com.hpr.foundation",
+    "com.hpr.core": "file:../com.hpr.core",
+    "com.hpr.eventbus": "file:../com.hpr.eventbus",
+    "com.hpr.input": "file:../com.hpr.input",
+    "com.hpr.stats": "file:../com.hpr.stats",
+    "com.hpr.inventory": "file:../com.hpr.inventory",
+    "com.hpr.weapons": "file:../com.hpr.weapons",
+    "com.hpr.ai": "file:../com.hpr.ai",
+    "com.hpr.interaction": "file:../com.hpr.interaction",
+    "com.hpr.ui": "file:../com.hpr.ui",
+    "com.hpr.world": "file:../com.hpr.world"
+  }
+}

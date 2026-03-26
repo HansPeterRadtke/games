@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerStats))]
 [RequireComponent(typeof(PlayerInventory))]
 [RequireComponent(typeof(WeaponSystem))]
+[RequireComponent(typeof(UnityInputSource))]
 public class PlayerActorContext : MonoBehaviour, IPlayerActor
 {
     public PlayerController MovementController { get; private set; }
@@ -21,13 +22,17 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
 
     private void Awake()
     {
+        EnsureComponentCache();
+        WeaponSystemComponent.Initialize(ViewCamera);
+        WeaponSystemComponent.BindDependencies(InventoryComponent, StatsComponent);
+    }
+
+    private void EnsureComponentCache()
+    {
         MovementController = GetComponent<PlayerController>();
         StatsComponent = GetComponent<PlayerStats>();
         InventoryComponent = GetComponent<PlayerInventory>();
         WeaponSystemComponent = GetComponent<WeaponSystem>();
-
-        WeaponSystemComponent.Initialize(ViewCamera);
-        WeaponSystemComponent.BindDependencies(InventoryComponent, StatsComponent);
     }
 
     public void ConfigureKnownItems(System.Collections.Generic.IEnumerable<ItemData> knownItems)
@@ -40,8 +45,23 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
         WeaponSystemComponent.ConfigureLoadout(weaponLoadout);
     }
 
+    public void BindRuntimeServices(MonoBehaviour services)
+    {
+        EnsureComponentCache();
+        var inputSource = GetComponent<UnityInputSource>();
+        MovementController.BindRuntimeServices(services, inputSource);
+        StatsComponent.BindRuntimeServices(services);
+        WeaponSystemComponent.BindRuntimeServices(services);
+        var gameplayController = GetComponent<PlayerGameplayController>();
+        if (gameplayController != null)
+        {
+            gameplayController.BindRuntimeServices(services, inputSource);
+        }
+    }
+
     public void RestoreFromSave(PlayerSaveData saveData)
     {
+        EnsureComponentCache();
         if (saveData == null)
         {
             return;
@@ -56,6 +76,7 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
 
     public PlayerSaveData CaptureSaveData()
     {
+        EnsureComponentCache();
         var data = MovementController.CaptureTransformSaveData();
         data.health = StatsComponent.Health;
         data.stamina = StatsComponent.Stamina;

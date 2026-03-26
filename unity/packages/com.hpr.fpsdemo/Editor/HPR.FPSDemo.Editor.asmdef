@@ -4,7 +4,10 @@
   "references": [
     "HPR.FPSDemo.Runtime",
     "HPR.Foundation",
-    "HPR.Foundation.Editor"
+    "HPR.Foundation.Editor",
+    "HPR.Core.Runtime",
+    "HPR.Eventbus.Runtime",
+    "HPR.Input.Runtime"
   ],
   "includePlatforms": [
     "Editor"

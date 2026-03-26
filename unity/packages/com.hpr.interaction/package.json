@@ -1,0 +1,16 @@
+{
+  "name": "com.hpr.interaction",
+  "displayName": "HPR Interaction",
+  "version": "0.1.0",
+  "unity": "6000.4",
+  "description": "Reusable interaction flow for doors, pickups, and other world objects.",
+  "author": {
+    "name": "HansPeterRadtke"
+  },
+  "dependencies": {
+    "com.hpr.foundation": "file:../com.hpr.foundation",
+    "com.hpr.core": "file:../com.hpr.core",
+    "com.hpr.eventbus": "file:../com.hpr.eventbus",
+    "com.hpr.inventory": "file:../com.hpr.inventory"
+  }
+}

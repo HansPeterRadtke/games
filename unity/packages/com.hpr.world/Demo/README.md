@@ -1,0 +1,3 @@
+# HPR World Demo
+
+Standalone demo scene and assets for com.hpr.world.

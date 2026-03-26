@@ -1,0 +1,16 @@
+{
+  "name": "com.hpr.ai",
+  "displayName": "HPR AI",
+  "version": "0.1.0",
+  "unity": "6000.4",
+  "description": "Reusable enemy data, behaviors, and AI runtime components.",
+  "author": {
+    "name": "HansPeterRadtke"
+  },
+  "dependencies": {
+    "com.hpr.foundation": "file:../com.hpr.foundation",
+    "com.hpr.core": "file:../com.hpr.core",
+    "com.hpr.eventbus": "file:../com.hpr.eventbus",
+    "com.hpr.stats": "file:../com.hpr.stats"
+  }
+}

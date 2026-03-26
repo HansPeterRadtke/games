@@ -1,0 +1,13 @@
+{
+  "name": "com.hpr.core",
+  "displayName": "HPR Core",
+  "version": "0.1.0",
+  "unity": "6000.4",
+  "description": "Shared core gameplay contracts, save models, and reusable runtime primitives.",
+  "author": {
+    "name": "HansPeterRadtke"
+  },
+  "dependencies": {
+    "com.hpr.foundation": "file:../com.hpr.foundation"
+  }
+}

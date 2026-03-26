@@ -1,0 +1,3 @@
+# HPR Interaction Demo
+
+Standalone demo scene and assets for com.hpr.interaction.

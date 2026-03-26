@@ -5,10 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsController, IEventBusSource, IGameplayStateSource, IStatusMessageSink, IInteractionPromptSink, IHudRefreshSink, IThreatScanner, IGameplayFlowCommands, IGameMenuCommands, IPlayerDeathHandler, IPlayerActorSource, IEnemyRegistry
 {
-    public static GameManager Instance { get; private set; }
-
     [SerializeField] private PlayerActorContext player;
     [SerializeField] private Camera mapCamera;
     [SerializeField] private GameUiController uiController;
@@ -57,15 +55,20 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        EnsureRuntimeBootstrapped();
+        player?.MovementController.ApplyOptions(CurrentOptions);
+        BuildMapTexture();
+        RegisterSaveables();
+    }
+
+    private void EnsureRuntimeBootstrapped()
+    {
+        if (string.IsNullOrWhiteSpace(savePath))
         {
-            Destroy(gameObject);
-            return;
+            savePath = Path.Combine(Application.persistentDataPath, "fps_demo_save.json");
         }
 
-        Instance = this;
-        savePath = Path.Combine(Application.persistentDataPath, "fps_demo_save.json");
-        CurrentOptions = GameOptionsStore.Load();
+        CurrentOptions ??= GameOptionsStore.Load();
         eventManager = eventManager != null ? eventManager : GetComponent<EventManager>();
         if (eventManager == null)
         {
@@ -77,6 +80,7 @@ public class GameManager : MonoBehaviour
         {
             stateValidator = gameObject.AddComponent<GameStateValidator>();
         }
+
         string commandLine = string.Join(" ", System.Environment.GetCommandLineArgs());
         autoStartRequested = commandLine.Contains("-autostart");
         smokeTestRequested = commandLine.Contains("-smoketest");
@@ -84,9 +88,6 @@ public class GameManager : MonoBehaviour
         autoOpenInventoryRequested = commandLine.Contains("-openinventory");
         autoOpenOptionsRequested = commandLine.Contains("-openoptions");
         combatDisabledRequested = commandLine.Contains("-combatdisabled");
-        player?.MovementController.ApplyOptions(CurrentOptions);
-        BuildMapTexture();
-        RegisterSaveables();
     }
 
     private void Start()
@@ -174,10 +175,6 @@ public class GameManager : MonoBehaviour
         if (mapTexture != null)
         {
             mapTexture.Release();
-        }
-        if (Instance == this)
-        {
-            Instance = null;
         }
     }
 
@@ -507,6 +504,7 @@ public class GameManager : MonoBehaviour
     private void RegisterSaveables()
     {
         saveables.Clear();
+        registeredEnemies.Clear();
         registeredPickups.Clear();
         registeredDoors.Clear();
         if (saveableRoot == null)
@@ -529,6 +527,11 @@ public class GameManager : MonoBehaviour
             if (behaviour is DoorController door)
             {
                 registeredDoors.Add(door);
+            }
+
+            if (behaviour is EnemyAgent enemy)
+            {
+                registeredEnemies.Add(enemy);
             }
         }
     }
@@ -562,21 +565,28 @@ public class GameManager : MonoBehaviour
 
     public void AssignReferences(PlayerActorContext playerController, Camera overheadMapCamera, GameUiController ui, Transform rootWithSaveables)
     {
+        EnsureRuntimeBootstrapped();
         player = playerController;
         mapCamera = overheadMapCamera;
         uiController = ui;
         saveableRoot = rootWithSaveables;
-        eventManager = eventManager != null ? eventManager : GetComponent<EventManager>();
-        if (eventManager == null)
-        {
-            eventManager = gameObject.AddComponent<EventManager>();
-        }
-        stateValidator = stateValidator != null ? stateValidator : GetComponent<GameStateValidator>();
-        if (stateValidator == null)
-        {
-            stateValidator = gameObject.AddComponent<GameStateValidator>();
-        }
         stateValidator.Bind(eventManager);
+        player?.BindRuntimeServices(this);
+        RegisterSaveables();
+        foreach (var pickup in registeredPickups)
+        {
+            pickup?.BindRuntimeServices(this);
+        }
+
+        foreach (var door in registeredDoors)
+        {
+            door?.BindRuntimeServices(this);
+        }
+
+        foreach (var enemy in registeredEnemies)
+        {
+            enemy?.BindRuntimeServices(this);
+        }
     }
 
     private void ShowInitialTitleMenu()

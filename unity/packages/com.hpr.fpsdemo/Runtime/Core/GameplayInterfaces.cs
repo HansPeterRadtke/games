@@ -80,3 +80,14 @@ public interface IPlayerActor
     IWeaponLoadout WeaponSystem { get; }
     bool IsAiming { get; }
 }
+
+public interface IPlayerActorSource
+{
+    IPlayerActor Player { get; }
+}
+
+public interface IEnemyRegistry
+{
+    void RegisterEnemy(EnemyAgent enemy);
+    void UnregisterEnemy(EnemyAgent enemy);
+}

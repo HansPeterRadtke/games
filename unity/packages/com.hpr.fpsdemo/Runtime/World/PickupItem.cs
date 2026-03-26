@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class PickupItem : MonoBehaviour, IInteractable, ISaveableEntity
@@ -7,6 +8,10 @@ public class PickupItem : MonoBehaviour, IInteractable, ISaveableEntity
     [SerializeField] private string saveId;
     [SerializeField] private ItemData itemData;
     [SerializeField] private int amount = 1;
+    [SerializeField] private MonoBehaviour servicesBehaviour;
+
+    private IEventBusSource eventBusSource;
+    private IStatusMessageSink statusSink;
 
     public string SaveId => saveId;
     public ItemData ItemData => itemData;
@@ -14,6 +19,9 @@ public class PickupItem : MonoBehaviour, IInteractable, ISaveableEntity
 
     private void Awake()
     {
+        servicesBehaviour = servicesBehaviour != null ? servicesBehaviour : GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault(component => component is IEventBusSource || component is IStatusMessageSink);
+        eventBusSource = servicesBehaviour as IEventBusSource;
+        statusSink = servicesBehaviour as IStatusMessageSink;
         RefreshPresentation();
     }
 
@@ -30,6 +38,13 @@ public class PickupItem : MonoBehaviour, IInteractable, ISaveableEntity
         itemData = data;
         amount = pickupAmount;
         RefreshPresentation();
+    }
+
+    public void BindRuntimeServices(MonoBehaviour services)
+    {
+        servicesBehaviour = services;
+        eventBusSource = servicesBehaviour as IEventBusSource;
+        statusSink = servicesBehaviour as IStatusMessageSink;
     }
 
     public string GetPrompt(IPlayerActor player)
@@ -51,13 +66,17 @@ public class PickupItem : MonoBehaviour, IInteractable, ISaveableEntity
             return;
         }
 
-        GameManager.Instance?.EventBus?.Publish(new ItemPickedEvent
+        eventBusSource?.EventBus?.Publish(new ItemPickedEvent
         {
             PickerRoot = player.ActorTransform.gameObject,
-            ItemData = itemData,
+            ItemId = itemData.Id,
+            ItemDisplayName = itemData.DisplayName,
+            LinkedWeaponId = itemData.LinkedWeaponId,
+            PickupStatus = itemData.PickupStatus,
+            ItemType = (int)itemData.ItemType,
             Amount = amount
         });
-        GameManager.Instance?.NotifyStatus(string.IsNullOrWhiteSpace(itemData.PickupStatus) ? $"Collected {itemData.DisplayName}" : itemData.PickupStatus);
+        statusSink?.NotifyStatus(string.IsNullOrWhiteSpace(itemData.PickupStatus) ? $"Collected {itemData.DisplayName}" : itemData.PickupStatus);
         gameObject.SetActive(false);
     }
 

@@ -2,7 +2,10 @@
   "name": "HPR.FPSDemo.Runtime",
   "rootNamespace": "",
   "references": [
-    "HPR.Foundation"
+    "HPR.Foundation",
+    "HPR.Core.Runtime",
+    "HPR.Eventbus.Runtime",
+    "HPR.Input.Runtime"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

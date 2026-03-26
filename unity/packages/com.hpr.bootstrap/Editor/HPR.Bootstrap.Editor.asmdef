@@ -1,0 +1,29 @@
+{
+  "name": "HPR.Bootstrap.Editor",
+  "rootNamespace": "",
+  "references": [
+    "HPR.Foundation",
+    "HPR.Core.Runtime",
+    "HPR.Eventbus.Runtime",
+    "HPR.Input.Runtime",
+    "HPR.Stats.Runtime",
+    "HPR.Inventory.Runtime",
+    "HPR.Weapons.Runtime",
+    "HPR.Ai.Runtime",
+    "HPR.Interaction.Runtime",
+    "HPR.Ui.Runtime",
+    "HPR.World.Runtime",
+    "HPR.Bootstrap.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

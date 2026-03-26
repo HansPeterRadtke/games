@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameUiController : MonoBehaviour
 {
-    private GameManager gameManager;
+    private IGameMenuCommands menuCommands;
+    private IInputBindingsSource inputBindings;
+    private IOptionsController optionsController;
     private Font uiFont;
     private Canvas canvas;
     private RectTransform root;
@@ -51,13 +54,15 @@ public class GameUiController : MonoBehaviour
 
     public bool IsRebindingKey => pendingRebindAction.HasValue;
 
-    public void Initialize(GameManager manager, RenderTexture mapTexture)
+    public void Initialize(MonoBehaviour services, RenderTexture mapTexture)
     {
-        gameManager = manager;
+        menuCommands = ResolveInterface<IGameMenuCommands>(services);
+        inputBindings = ResolveInterface<IInputBindingsSource>(services);
+        optionsController = ResolveInterface<IOptionsController>(services);
         uiFont = Resources.GetBuiltinResource<Font>("Arial.ttf");
         BuildCanvas();
         mapImage.texture = mapTexture;
-        RefreshOptions(gameManager.CurrentOptions);
+        RefreshOptions(inputBindings != null ? inputBindings.CurrentOptions : GameOptionsData.CreateDefault());
     }
 
     private void Update()
@@ -87,11 +92,11 @@ public class GameUiController : MonoBehaviour
                 }
                 else
                 {
-                    gameManager.RebindAction(pendingRebindAction.Value, keyCode);
+                    optionsController?.RebindAction(pendingRebindAction.Value, keyCode);
                     pendingRebindAction = null;
                     optionsStatusText.text = string.Empty;
                 }
-                RefreshOptions(gameManager.CurrentOptions);
+                RefreshOptions(inputBindings != null ? inputBindings.CurrentOptions : GameOptionsData.CreateDefault());
                 break;
             }
         }
@@ -149,7 +154,7 @@ public class GameUiController : MonoBehaviour
         menuPanel.SetActive(show);
         ShowHud(!show);
         menuTitleText.text = title;
-        bool hasSave = gameManager != null && gameManager.HasSaveGame;
+        bool hasSave = menuCommands != null && menuCommands.HasSaveGame;
         bool missionFailed = title == "Mission Failed";
         newGameButtonText.text = missionFailed ? "Restart Run" : (hasSave ? "Continue" : "Start Game");
         loadButtonText.text = hasSave ? "Load Save" : "Load Game";
@@ -182,7 +187,7 @@ public class GameUiController : MonoBehaviour
             return;
         }
 
-        bool hasSave = gameManager != null && gameManager.HasSaveGame;
+        bool hasSave = menuCommands != null && menuCommands.HasSaveGame;
         menuTitleText.text = "Paused";
         newGameButton.gameObject.SetActive(false);
         resumeButton.gameObject.SetActive(true);
@@ -425,14 +430,14 @@ public class GameUiController : MonoBehaviour
         menuPanel = CreatePanel("MenuPanel", root, Vector2.zero, new Vector2(420f, 540f), new Color(0.03f, 0.04f, 0.06f, 0.9f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f)).gameObject;
         var panelRt = (RectTransform)menuPanel.transform;
         menuTitleText = CreateText("MenuTitle", panelRt, "Facility Sweep", 36, TextAnchor.MiddleCenter, new Vector2(0f, -52f), new Vector2(340f, 40f));
-        newGameButton = CreateMenuButton(panelRt, "NewGame", "Start Game", new Vector2(0f, -130f), gameManager.ActivatePrimaryMenuAction);
+        newGameButton = CreateMenuButton(panelRt, "NewGame", "Start Game", new Vector2(0f, -130f), () => menuCommands?.ActivatePrimaryMenuAction());
         newGameButtonText = newGameButton.GetComponentInChildren<Text>();
-        resumeButton = CreateMenuButton(panelRt, "Resume", "Resume", new Vector2(0f, -130f), gameManager.ResumeSession);
-        saveButton = CreateMenuButton(panelRt, "Save", "Save Game", new Vector2(0f, -188f), gameManager.SaveGame);
-        loadButton = CreateMenuButton(panelRt, "Load", "Load Game", new Vector2(0f, -246f), gameManager.LoadGame);
-        restartButton = CreateMenuButton(panelRt, "Restart", "Restart Run", new Vector2(0f, -304f), gameManager.StartNewGame);
-        optionsButton = CreateMenuButton(panelRt, "Options", "Options", new Vector2(0f, -362f), () => gameManager.ShowOptionsMenu(true));
-        exitButton = CreateMenuButton(panelRt, "Exit", "Exit", new Vector2(0f, -420f), gameManager.ExitGame);
+        resumeButton = CreateMenuButton(panelRt, "Resume", "Resume", new Vector2(0f, -130f), () => menuCommands?.ResumeSession());
+        saveButton = CreateMenuButton(panelRt, "Save", "Save Game", new Vector2(0f, -188f), () => menuCommands?.SaveGame());
+        loadButton = CreateMenuButton(panelRt, "Load", "Load Game", new Vector2(0f, -246f), () => menuCommands?.LoadGame());
+        restartButton = CreateMenuButton(panelRt, "Restart", "Restart Run", new Vector2(0f, -304f), () => menuCommands?.StartNewGame());
+        optionsButton = CreateMenuButton(panelRt, "Options", "Options", new Vector2(0f, -362f), () => menuCommands?.ShowOptionsMenu(true));
+        exitButton = CreateMenuButton(panelRt, "Exit", "Exit", new Vector2(0f, -420f), () => menuCommands?.ExitGame());
         loadButtonText = loadButton.GetComponentInChildren<Text>();
         restartButtonText = restartButton.GetComponentInChildren<Text>();
         menuHintText = CreateText("MenuHint", panelRt, string.Empty, 16, TextAnchor.MiddleCenter, new Vector2(0f, -476f), new Vector2(340f, 24f));
@@ -452,48 +457,56 @@ public class GameUiController : MonoBehaviour
         CreateTopLeftText("GraphicsHeader", left, "Graphics / Audio", 26, TextAnchor.UpperLeft, new Vector2(18f, -16f), new Vector2(240f, 28f));
         CreateSliderRow(left, "fov", "Field of View", 75f, 55f, 110f, new Vector2(18f, -72f), value =>
         {
-            gameManager.CurrentOptions.fieldOfView = value;
-            gameManager.ApplyOptions(gameManager.CurrentOptions);
+            var options = CloneCurrentOptions();
+            options.fieldOfView = value;
+            optionsController?.ApplyOptions(options);
         });
         CreateSliderRow(left, "sensitivity", "Look Sensitivity", 2f, 0.4f, 5f, new Vector2(18f, -162f), value =>
         {
-            gameManager.CurrentOptions.lookSensitivity = value;
-            gameManager.ApplyOptions(gameManager.CurrentOptions);
+            var options = CloneCurrentOptions();
+            options.lookSensitivity = value;
+            optionsController?.ApplyOptions(options);
         });
         CreateSliderRow(left, "master", "Master Volume", 100f, 0f, 100f, new Vector2(18f, -252f), value =>
         {
-            gameManager.CurrentOptions.masterVolume = value / 100f;
-            gameManager.ApplyOptions(gameManager.CurrentOptions);
+            var options = CloneCurrentOptions();
+            options.masterVolume = value / 100f;
+            optionsController?.ApplyOptions(options);
         });
         CreateSliderRow(left, "music", "Music Volume", 65f, 0f, 100f, new Vector2(18f, -342f), value =>
         {
-            gameManager.CurrentOptions.musicVolume = value / 100f;
-            gameManager.ApplyOptions(gameManager.CurrentOptions);
+            var options = CloneCurrentOptions();
+            options.musicVolume = value / 100f;
+            optionsController?.ApplyOptions(options);
         });
         CreateSliderRow(left, "sfx", "SFX Volume", 85f, 0f, 100f, new Vector2(18f, -432f), value =>
         {
-            gameManager.CurrentOptions.sfxVolume = value / 100f;
-            gameManager.ApplyOptions(gameManager.CurrentOptions);
+            var options = CloneCurrentOptions();
+            options.sfxVolume = value / 100f;
+            optionsController?.ApplyOptions(options);
         });
 
         CreateTopLeftText("QualityLabel", left, "Quality", 20, TextAnchor.MiddleLeft, new Vector2(18f, -544f), new Vector2(140f, 28f));
         qualityButton = CreateTopLeftButton(left, "QualityCycle", string.Empty, new Vector2(178f, -540f), new Vector2(290f, 38f), () =>
         {
-            gameManager.CurrentOptions.qualityLevel = (gameManager.CurrentOptions.qualityLevel + 1) % Mathf.Max(1, QualitySettings.names.Length);
-            gameManager.ApplyOptions(gameManager.CurrentOptions);
-            RefreshOptions(gameManager.CurrentOptions);
+            var options = CloneCurrentOptions();
+            options.qualityLevel = (options.qualityLevel + 1) % Mathf.Max(1, QualitySettings.names.Length);
+            optionsController?.ApplyOptions(options);
+            RefreshOptions(inputBindings != null ? inputBindings.CurrentOptions : options);
         });
         qualityButtonText = qualityButton.GetComponentInChildren<Text>();
         CreateTopLeftText("InvertLabel", left, "Invert Y", 20, TextAnchor.MiddleLeft, new Vector2(18f, -598f), new Vector2(120f, 28f));
         invertYToggle = CreateToggle(left, new Vector2(182f, -596f), new Vector2(180f, 32f), "Enabled", value =>
         {
-            gameManager.CurrentOptions.invertY = value;
-            gameManager.ApplyOptions(gameManager.CurrentOptions);
+            var options = CloneCurrentOptions();
+            options.invertY = value;
+            optionsController?.ApplyOptions(options);
         });
         CreateTopLeftButton(left, "ResetDefaults", "Reset Defaults", new Vector2(18f, -646f), new Vector2(220f, 42f), () =>
         {
-            gameManager.ApplyOptions(GameOptionsData.CreateDefault());
-            RefreshOptions(gameManager.CurrentOptions);
+            var defaults = GameOptionsData.CreateDefault();
+            optionsController?.ApplyOptions(defaults);
+            RefreshOptions(inputBindings != null ? inputBindings.CurrentOptions : defaults);
             optionsStatusText.text = "Defaults restored";
         });
 
@@ -511,7 +524,7 @@ public class GameUiController : MonoBehaviour
         }
 
         optionsStatusText = CreateText("OptionsStatus", panel, string.Empty, 18, TextAnchor.MiddleCenter, new Vector2(0f, -768f), new Vector2(920f, 26f));
-        CreateButton(panel, "OptionsBack", "Back", new Vector2(0f, -716f), new Vector2(180f, 44f), () => gameManager.ShowOptionsMenu(false));
+        CreateButton(panel, "OptionsBack", "Back", new Vector2(0f, -716f), new Vector2(180f, 44f), () => menuCommands?.ShowOptionsMenu(false));
     }
 
     private void BuildInventory()
@@ -728,6 +741,48 @@ public class GameUiController : MonoBehaviour
         CreateText("Label", rt, label, 18, TextAnchor.MiddleLeft, new Vector2(54f, 0f), new Vector2(90f, 24f));
         toggle.onValueChanged.AddListener(value => onChanged(value));
         return toggle;
+    }
+
+    private GameOptionsData CloneCurrentOptions()
+    {
+        var current = inputBindings != null ? inputBindings.CurrentOptions : null;
+        if (current == null)
+        {
+            return GameOptionsData.CreateDefault();
+        }
+
+        return new GameOptionsData
+        {
+            fieldOfView = current.fieldOfView,
+            lookSensitivity = current.lookSensitivity,
+            masterVolume = current.masterVolume,
+            musicVolume = current.musicVolume,
+            sfxVolume = current.sfxVolume,
+            qualityLevel = current.qualityLevel,
+            invertY = current.invertY,
+            moveForward = current.moveForward,
+            moveBackward = current.moveBackward,
+            moveLeft = current.moveLeft,
+            moveRight = current.moveRight,
+            jump = current.jump,
+            run = current.run,
+            interact = current.interact,
+            inventory = current.inventory,
+            map = current.map,
+            pause = current.pause,
+            flashlight = current.flashlight,
+            reload = current.reload
+        };
+    }
+
+    private static T ResolveInterface<T>(MonoBehaviour behaviour) where T : class
+    {
+        if (behaviour == null)
+        {
+            return null;
+        }
+
+        return behaviour.GetComponents<MonoBehaviour>().OfType<T>().FirstOrDefault();
     }
 
     private RectTransform CreatePanel(string name, RectTransform parent, Vector2 anchoredPos, Vector2 size, Color color, Vector2 anchorMin, Vector2 anchorMax)

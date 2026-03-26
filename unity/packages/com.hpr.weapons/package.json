@@ -1,0 +1,17 @@
+{
+  "name": "com.hpr.weapons",
+  "displayName": "HPR Weapons",
+  "version": "0.1.0",
+  "unity": "6000.4",
+  "description": "Reusable weapon, projectile, and fire-mode systems.",
+  "author": {
+    "name": "HansPeterRadtke"
+  },
+  "dependencies": {
+    "com.hpr.foundation": "file:../com.hpr.foundation",
+    "com.hpr.core": "file:../com.hpr.core",
+    "com.hpr.eventbus": "file:../com.hpr.eventbus",
+    "com.hpr.input": "file:../com.hpr.input",
+    "com.hpr.inventory": "file:../com.hpr.inventory"
+  }
+}

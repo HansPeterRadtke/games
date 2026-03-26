@@ -1,0 +1,17 @@
+{
+  "name": "com.hpr.world",
+  "displayName": "HPR World",
+  "version": "0.1.0",
+  "unity": "6000.4",
+  "description": "Reusable world helpers, cameras, spawn points, and runtime scene utilities.",
+  "author": {
+    "name": "HansPeterRadtke"
+  },
+  "dependencies": {
+    "com.hpr.foundation": "file:../com.hpr.foundation",
+    "com.hpr.core": "file:../com.hpr.core",
+    "com.hpr.eventbus": "file:../com.hpr.eventbus",
+    "com.hpr.interaction": "file:../com.hpr.interaction",
+    "com.hpr.ai": "file:../com.hpr.ai"
+  }
+}

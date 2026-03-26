@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -14,6 +15,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
     [SerializeField] private Transform patrolA;
     [SerializeField] private Transform patrolB;
     [SerializeField] private Transform muzzle;
+    [SerializeField] private MonoBehaviour servicesBehaviour;
 
     private CharacterController controller;
     private float health;
@@ -22,6 +24,11 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
     private Vector3 impactVelocity;
     private IEnemyBehavior behavior;
     private IGameEventBus eventBus;
+    private IEventBusSource eventBusSource;
+    private IStatusMessageSink statusSink;
+    private IGameplayStateSource gameplayState;
+    private IPlayerActorSource playerSource;
+    private IEnemyRegistry enemyRegistry;
 
     public string SaveId => saveId;
     public bool IsAlive => health > 0f;
@@ -31,6 +38,13 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        servicesBehaviour = servicesBehaviour != null ? servicesBehaviour : GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault(component =>
+            component is IEventBusSource || component is IStatusMessageSink || component is IGameplayStateSource || component is IPlayerActorSource || component is IEnemyRegistry);
+        eventBusSource = servicesBehaviour as IEventBusSource;
+        statusSink = servicesBehaviour as IStatusMessageSink;
+        gameplayState = servicesBehaviour as IGameplayStateSource;
+        playerSource = servicesBehaviour as IPlayerActorSource;
+        enemyRegistry = servicesBehaviour as IEnemyRegistry;
         health = enemyData != null ? enemyData.MaxHealth : 0f;
         behavior = EnemyBehaviorFactory.Create(enemyData != null ? enemyData.AIType : EnemyAIType.PatrolChase);
         RefreshPresentation();
@@ -38,28 +52,39 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
 
     private void Start()
     {
-        BindEventBus(GameManager.Instance != null ? GameManager.Instance.EventBus : null);
+        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
+    }
+
+    public void BindRuntimeServices(MonoBehaviour services)
+    {
+        servicesBehaviour = services;
+        eventBusSource = servicesBehaviour as IEventBusSource;
+        statusSink = servicesBehaviour as IStatusMessageSink;
+        gameplayState = servicesBehaviour as IGameplayStateSource;
+        playerSource = servicesBehaviour as IPlayerActorSource;
+        enemyRegistry = servicesBehaviour as IEnemyRegistry;
+        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
     }
 
     private void OnEnable()
     {
-        GameManager.Instance?.RegisterEnemy(this);
+        enemyRegistry?.RegisterEnemy(this);
     }
 
     private void OnDisable()
     {
-        GameManager.Instance?.UnregisterEnemy(this);
+        enemyRegistry?.UnregisterEnemy(this);
         BindEventBus(null);
     }
 
     private void Update()
     {
-        if (!IsAlive || enemyData == null || GameManager.Instance == null || !GameManager.Instance.IsGameplayRunning)
+        if (!IsAlive || enemyData == null || gameplayState == null || !gameplayState.IsGameplayRunning)
         {
             return;
         }
 
-        IPlayerActor player = GameManager.Instance.Player;
+        IPlayerActor player = playerSource != null ? playerSource.Player : null;
         if (player == null)
         {
             return;
@@ -90,18 +115,18 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         }
 
         health = Mathf.Max(0f, health - amount);
-        GameManager.Instance?.NotifyStatus($"{(enemyData != null ? enemyData.DisplayName : saveId)} hp {health:0}");
+        statusSink?.NotifyStatus($"{(enemyData != null ? enemyData.DisplayName : saveId)} hp {health:0}");
         if (health > 0f)
         {
             return;
         }
 
-        GameManager.Instance?.EventBus?.Publish(new EnemyKilledEvent
+        eventBus?.Publish(new EnemyKilledEvent
         {
             SourceRoot = null,
             EnemyRoot = gameObject,
             EnemyId = saveId,
-            EnemyData = enemyData
+            EnemyDisplayName = enemyData != null ? enemyData.DisplayName : saveId
         });
         gameObject.SetActive(false);
     }
@@ -182,7 +207,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
 
     public void TryAttack(IPlayerActor player, float distanceToPlayer)
     {
-        if (player == null || enemyData == null || GameManager.Instance == null || !GameManager.Instance.IsCombatLive)
+        if (player == null || enemyData == null || gameplayState == null || !gameplayState.IsCombatLive)
         {
             return;
         }
@@ -196,7 +221,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         if (distanceToPlayer <= enemyData.AttackRange)
         {
             Vector3 direction = (player.ActorTransform.position - transform.position).normalized;
-            GameManager.Instance.EventBus?.Publish(new DamageEvent
+            eventBus?.Publish(new DamageEvent
             {
                 SourceRoot = gameObject,
                 TargetRoot = player.ActorTransform.gameObject,
@@ -204,7 +229,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
                 HitPoint = player.ActorTransform.position,
                 HitDirection = direction
             });
-            GameManager.Instance.EventBus?.Publish(new ImpactEvent
+            eventBus?.Publish(new ImpactEvent
             {
                 SourceRoot = gameObject,
                 TargetRoot = player.ActorTransform.gameObject,
@@ -256,7 +281,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         rigidbody.mass = 0.08f;
 
         PhysicsProjectile behaviour = projectile.AddComponent<PhysicsProjectile>();
-        behaviour.Configure(transform, direction, enemyData.AttackDamage, enemyData.ProjectileSpeed, enemyData.ProjectileImpact, 4f, 0f, renderer != null ? renderer.sharedMaterial.color : Color.red);
+        behaviour.Configure(transform, direction, enemyData.AttackDamage, enemyData.ProjectileSpeed, enemyData.ProjectileImpact, 4f, 0f, renderer != null ? renderer.sharedMaterial.color : Color.red, eventBus);
     }
 
     private void RefreshPresentation()

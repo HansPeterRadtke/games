@@ -1,0 +1,20 @@
+{
+  "name": "HPR.Input.Editor",
+  "rootNamespace": "",
+  "references": [
+    "HPR.Foundation",
+    "HPR.Eventbus.Runtime",
+    "HPR.Input.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

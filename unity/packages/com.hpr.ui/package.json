@@ -1,0 +1,16 @@
+{
+  "name": "com.hpr.ui",
+  "displayName": "HPR UI",
+  "version": "0.1.0",
+  "unity": "6000.4",
+  "description": "Reusable event-driven UI and HUD presentation layer.",
+  "author": {
+    "name": "HansPeterRadtke"
+  },
+  "dependencies": {
+    "com.hpr.foundation": "file:../com.hpr.foundation",
+    "com.hpr.core": "file:../com.hpr.core",
+    "com.hpr.eventbus": "file:../com.hpr.eventbus",
+    "com.unity.ugui": "2.0.0"
+  }
+}

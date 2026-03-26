@@ -23,8 +23,9 @@ p = pathlib.Path(sys.argv[1])
 obj = json.loads(p.read_text(encoding='utf-8'))
 deps = obj.setdefault('dependencies', {})
 deps['com.unity.ugui'] = '2.0.0'
-deps.pop('com.hpr.foundation', None)
-deps.pop('com.hpr.fpsdemo', None)
+for name in list(deps):
+    if name.startswith('com.hpr.'):
+        deps.pop(name, None)
 p.write_text(json.dumps(obj, indent=2) + '\n', encoding='utf-8')
 PY
 
@@ -36,8 +37,8 @@ import sys
 
 packages_dir = Path(sys.argv[1])
 shared_packages = Path(sys.argv[2])
-
-for name in ("com.hpr.foundation", "com.hpr.fpsdemo"):
+package_names = sorted(path.name for path in shared_packages.iterdir() if path.is_dir() and path.name.startswith("com.hpr."))
+for name in package_names:
     source = shared_packages / name
     target = packages_dir / name
     relative_source = Path(os.path.relpath(source, packages_dir))

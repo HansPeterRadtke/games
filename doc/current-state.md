@@ -5,6 +5,7 @@
 - `unity/projects/fps_demo` - the Unity project
 - `unity/packages/com.hpr.fpsdemo` - shared FPS gameplay/editor package
 - `unity/packages/com.hpr.foundation` - shared base utilities
+- `unity/packages/com.hpr.*` - new modular package split in progress
 - `unity/tools/` - reproducible helpers used to build, test, import, and diagnose the project
 
 ## What is committed
@@ -28,14 +29,15 @@ The `.gitignore` already covers the local-only asset roots and pipeline state.
 The real local asset inventory is documented in `doc/local-assets.md`.
 
 ## Architecture summary
-The current gameplay architecture is package-based and data-driven.
+The current gameplay architecture is package-based, data-driven, and mid-transition toward stricter reusable modules.
 
-### Core gameplay package
-`unity/packages/com.hpr.fpsdemo`
-- runtime systems
-- editor/import tooling
-- data ScriptableObjects
-- event bus and validation
+### Active package split
+- `unity/packages/com.hpr.foundation` - low-level shared utilities
+- `unity/packages/com.hpr.eventbus` - extracted event manager and gameplay event payloads
+- `unity/packages/com.hpr.input` - extracted options, bindings, and input abstractions
+- `unity/packages/com.hpr.core` - shared service contracts for composition/runtime binding
+- `unity/packages/com.hpr.fpsdemo` - still the main composition-heavy gameplay package
+- `unity/packages/com.hpr.stats`, `unity/packages/com.hpr.inventory`, `unity/packages/com.hpr.weapons`, `unity/packages/com.hpr.ai`, `unity/packages/com.hpr.interaction`, `unity/packages/com.hpr.ui`, `unity/packages/com.hpr.world`, `unity/packages/com.hpr.bootstrap` - scaffold packages prepared for the next extraction passes
 
 ### Runtime boundaries
 - `PlayerController` / player runtime components: movement and player-facing runtime state
@@ -43,7 +45,20 @@ The current gameplay architecture is package-based and data-driven.
 - `PlayerInventory`: inventory data keyed by item IDs
 - `EnemyAgent`: enemy runtime behavior delegated from data
 - `GameManager`: scene/session orchestration, save/load, smoke path
-- `EventManager`: central event bus used by gameplay systems
+- `EventManager`: central event bus used by gameplay systems, now living in `com.hpr.eventbus`
+
+### Decoupling checkpoint
+The following runtime systems no longer use `GameManager.Instance` and are bound through interfaces from the composition layer:
+- `PlayerController`
+- `PlayerGameplayController`
+- `PlayerStats`
+- `WeaponSystem`
+- `WeaponFireModes`
+- `PhysicsProjectile`
+- `PickupItem`
+- `DoorController`
+- `EnemyAgent`
+- `GameUiController`
 
 ### Data-driven pieces already present
 - `WeaponData`
@@ -58,6 +73,8 @@ The current gameplay architecture is package-based and data-driven.
 - third-party asset integrator
 - third-party scene reporter
 - prefab/material reporters
+
+Detailed modularization status is tracked in `doc/modularization-status.md`.
 
 ## Current reality about art integration
 The project supports local-only third-party art integration, but those integrations are not a committed source of truth.

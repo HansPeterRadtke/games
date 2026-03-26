@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -13,6 +14,8 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
     [SerializeField] private float jumpBufferTime = 0.16f;
     [SerializeField] private float groundedStickVelocity = 4f;
     [SerializeField] private float impactDamping = 8f;
+    [SerializeField] private MonoBehaviour servicesBehaviour;
+    [SerializeField] private MonoBehaviour inputSourceBehaviour;
 
     private CharacterController characterController;
     private Camera playerCamera;
@@ -26,6 +29,10 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
     private float lastGroundedTime = -99f;
     private float lastJumpPressedTime = -99f;
     private IGameEventBus eventBus;
+    private IGameplayStateSource gameplayState;
+    private IInputBindingsSource inputBindings;
+    private IEventBusSource eventBusSource;
+    private IInputSource inputSource;
 
     public Camera PlayerCamera => playerCamera;
     public Light Flashlight => flashlight;
@@ -42,6 +49,12 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
         stats = GetComponent<PlayerStats>();
         playerCamera = GetComponentInChildren<Camera>();
         flashlight = GetComponentInChildren<Light>(true);
+        servicesBehaviour = servicesBehaviour != null ? servicesBehaviour : FindBehaviourImplementing<IGameplayStateSource>();
+        inputSourceBehaviour = inputSourceBehaviour != null ? inputSourceBehaviour : GetComponents<MonoBehaviour>().FirstOrDefault(component => component is IInputSource);
+        gameplayState = ResolveInterface<IGameplayStateSource>(servicesBehaviour);
+        inputBindings = ResolveInterface<IInputBindingsSource>(servicesBehaviour);
+        eventBusSource = ResolveInterface<IEventBusSource>(servicesBehaviour);
+        inputSource = ResolveInterface<IInputSource>(inputSourceBehaviour);
         yaw = transform.eulerAngles.y;
         pitch = playerCamera.transform.localEulerAngles.x;
         if (pitch > 180f)
@@ -52,10 +65,14 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
 
     private void Start()
     {
-        if (GameManager.Instance != null)
+        if (inputBindings != null)
         {
-            ApplyOptions(GameManager.Instance.CurrentOptions);
-            BindEventBus(GameManager.Instance.EventBus);
+            ApplyOptions(inputBindings.CurrentOptions);
+        }
+
+        if (eventBusSource != null)
+        {
+            BindEventBus(eventBusSource.EventBus);
         }
     }
 
@@ -66,12 +83,12 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
 
     private void Update()
     {
-        if (GameManager.Instance == null)
+        if (gameplayState == null || inputBindings == null || inputSource == null)
         {
             return;
         }
 
-        if (GameManager.Instance.IsMapVisible || !GameManager.Instance.AllowsGameplayInput)
+        if (gameplayState.IsMapVisible || !gameplayState.AllowsGameplayInput)
         {
             LastMoveMagnitude = 0f;
             IsRunning = false;
@@ -85,6 +102,21 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
     public void SetAiming(bool aiming)
     {
         IsAiming = aiming;
+    }
+
+    public void BindRuntimeServices(MonoBehaviour services, MonoBehaviour inputBehaviour)
+    {
+        servicesBehaviour = services;
+        inputSourceBehaviour = inputBehaviour;
+        gameplayState = ResolveInterface<IGameplayStateSource>(servicesBehaviour);
+        inputBindings = ResolveInterface<IInputBindingsSource>(servicesBehaviour);
+        eventBusSource = ResolveInterface<IEventBusSource>(servicesBehaviour);
+        inputSource = ResolveInterface<IInputSource>(inputSourceBehaviour);
+        if (inputBindings != null)
+        {
+            ApplyOptions(inputBindings.CurrentOptions);
+        }
+        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
     }
 
     public void ApplyOptions(GameOptionsData options)
@@ -125,9 +157,9 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
 
     private void UpdateLook()
     {
-        var options = GameManager.Instance.CurrentOptions;
-        float mouseX = Input.GetAxisRaw("Mouse X") * options.lookSensitivity;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * options.lookSensitivity * (options.invertY ? 1f : -1f);
+        var options = inputBindings.CurrentOptions;
+        float mouseX = inputSource.GetAxisRaw("Mouse X") * options.lookSensitivity;
+        float mouseY = inputSource.GetAxisRaw("Mouse Y") * options.lookSensitivity * (options.invertY ? 1f : -1f);
 
         yaw += mouseX;
         pitch = Mathf.Clamp(pitch + mouseY, -85f, 85f);
@@ -138,12 +170,12 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
 
     private void UpdateMovement()
     {
-        var options = GameManager.Instance.CurrentOptions;
+        var options = inputBindings.CurrentOptions;
         Vector3 moveDirection = Vector3.zero;
-        if (Input.GetKey(GameOptionsStore.GetBinding(options, GameAction.MoveForward))) moveDirection += transform.forward;
-        if (Input.GetKey(GameOptionsStore.GetBinding(options, GameAction.MoveBackward))) moveDirection -= transform.forward;
-        if (Input.GetKey(GameOptionsStore.GetBinding(options, GameAction.MoveRight))) moveDirection += transform.right;
-        if (Input.GetKey(GameOptionsStore.GetBinding(options, GameAction.MoveLeft))) moveDirection -= transform.right;
+        if (inputSource.GetKey(GameOptionsStore.GetBinding(options, GameAction.MoveForward))) moveDirection += transform.forward;
+        if (inputSource.GetKey(GameOptionsStore.GetBinding(options, GameAction.MoveBackward))) moveDirection -= transform.forward;
+        if (inputSource.GetKey(GameOptionsStore.GetBinding(options, GameAction.MoveRight))) moveDirection += transform.right;
+        if (inputSource.GetKey(GameOptionsStore.GetBinding(options, GameAction.MoveLeft))) moveDirection -= transform.right;
         moveDirection = moveDirection.normalized;
 
         bool groundedBeforeMove = characterController.isGrounded;
@@ -156,12 +188,12 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
             }
         }
 
-        if (Input.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Jump)))
+        if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Jump)))
         {
             lastJumpPressedTime = Time.time;
         }
 
-        bool wantsToRun = Input.GetKey(GameOptionsStore.GetBinding(options, GameAction.Run)) && moveDirection.sqrMagnitude > 0.01f && !IsAiming;
+        bool wantsToRun = inputSource.GetKey(GameOptionsStore.GetBinding(options, GameAction.Run)) && moveDirection.sqrMagnitude > 0.01f && !IsAiming;
         bool canConsumeStamina = stats != null && stats.ConsumeStamina(staminaDrainPerSecond * Time.deltaTime);
         IsRunning = wantsToRun && canConsumeStamina;
         if (!IsRunning)
@@ -222,5 +254,15 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
         }
 
         ApplyImpact(gameEvent.Impulse, gameEvent.HitPoint);
+    }
+
+    private static T ResolveInterface<T>(MonoBehaviour behaviour) where T : class
+    {
+        return behaviour as T;
+    }
+
+    private MonoBehaviour FindBehaviourImplementing<T>() where T : class
+    {
+        return GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault(component => component is T);
     }
 }

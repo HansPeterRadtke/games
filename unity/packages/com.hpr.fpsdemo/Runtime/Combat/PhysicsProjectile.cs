@@ -13,6 +13,7 @@ public class PhysicsProjectile : MonoBehaviour
     private Rigidbody body;
     private Collider projectileCollider;
     private bool armed;
+    private IGameEventBus eventBus;
 
     public void Configure(
         Transform owner,
@@ -22,7 +23,8 @@ public class PhysicsProjectile : MonoBehaviour
         float projectileImpactForce,
         float timeToLive,
         float radius,
-        Color color)
+        Color color,
+        IGameEventBus bus)
     {
         ownerRoot = owner;
         damage = damageAmount;
@@ -30,6 +32,7 @@ public class PhysicsProjectile : MonoBehaviour
         impactForce = projectileImpactForce;
         lifetime = timeToLive;
         explosiveRadius = radius;
+        eventBus = bus;
 
         var renderer = GetComponentInChildren<Renderer>();
         if (renderer != null)
@@ -122,7 +125,7 @@ public class PhysicsProjectile : MonoBehaviour
         if (impactReceiver != null)
         {
             GameObject targetRoot = (impactReceiver as Component)?.gameObject;
-            GameManager.Instance?.EventBus?.Publish(new ImpactEvent
+            eventBus?.Publish(new ImpactEvent
             {
                 SourceRoot = ownerRoot != null ? ownerRoot.gameObject : null,
                 TargetRoot = targetRoot,
@@ -135,7 +138,7 @@ public class PhysicsProjectile : MonoBehaviour
         if (damageable != null)
         {
             GameObject targetRoot = (damageable as Component)?.gameObject;
-            GameManager.Instance?.EventBus?.Publish(new DamageEvent
+            eventBus?.Publish(new DamageEvent
             {
                 SourceRoot = ownerRoot != null ? ownerRoot.gameObject : null,
                 TargetRoot = targetRoot,

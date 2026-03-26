@@ -1,0 +1,14 @@
+{
+  "name": "com.hpr.input",
+  "displayName": "HPR Input",
+  "version": "0.1.0",
+  "unity": "6000.4",
+  "description": "Input abstraction, bindings, and options data for reusable gameplay modules.",
+  "author": {
+    "name": "HansPeterRadtke"
+  },
+  "dependencies": {
+    "com.hpr.foundation": "file:../com.hpr.foundation",
+    "com.hpr.eventbus": "file:../com.hpr.eventbus"
+  }
+}
