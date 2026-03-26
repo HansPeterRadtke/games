@@ -16,6 +16,7 @@
     "com.unity.ugui": "2.0.0",
     "com.hpr.inventory": "file:../com.hpr.inventory",
     "com.hpr.weapons": "file:../com.hpr.weapons",
-    "com.hpr.ai": "file:../com.hpr.ai"
+    "com.hpr.ai": "file:../com.hpr.ai",
+    "com.hpr.stats": "file:../com.hpr.stats"
   }
 }

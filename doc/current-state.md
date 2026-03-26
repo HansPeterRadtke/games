@@ -55,6 +55,7 @@ Still mostly scaffold packages:
 - `com.hpr.inventory` owns item definitions plus a generic `InventoryComponent`
 - `com.hpr.weapons` owns weapon definitions and fire-mode enums
 - `com.hpr.ai` owns enemy definitions and AI enums
+- `com.hpr.stats` owns generic damage/health/stamina contracts and the reusable base stats component
 - `com.hpr.fpsdemo` still owns composition-heavy runtime, editor bootstrapping, and project-specific gameplay orchestration
 
 ## Build and validation status

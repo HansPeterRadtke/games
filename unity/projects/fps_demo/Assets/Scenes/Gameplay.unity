@@ -713,7 +713,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c302fcb01c40869b7b1de43636e83b0a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: security_guard
   enemyData: {fileID: 11400000, guid: a5440b2c250f81ddd8e65204a721a675, type: 2}
@@ -2498,7 +2498,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 879445a0799d60749821cc8b0d21c41d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   walkSpeed: 5.5
   runMultiplier: 1.8
@@ -2538,7 +2538,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d52186fdb304152e7811e5de43511089, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSystem
   loadout:
   - {fileID: 11400000, guid: 99e74af9b2e051c29a22956e1dfde534, type: 2}
@@ -2562,7 +2562,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80e9bf971ca30480a9f36c0d08d6da16, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
   knownItems:
   - {fileID: 11400000, guid: 2902fdbe2bb1af72eaae4caa7fc4f410, type: 2}
@@ -2585,12 +2585,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 364b304c0180c9dc696c54c23ff6e862, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   maxHealth: 100
   maxStamina: 100
   health: 100
   stamina: 100
+  eventBusSourceBehaviour: {fileID: 1552775883}
   servicesBehaviour: {fileID: 1552775883}
 --- !u!143 &235406403
 CharacterController:
@@ -2627,7 +2628,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a6e62f42e5f436fbf93ebd4ccaf3dc6, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: HPR.FPSDemo.Runtime::PlayerActorContext
 --- !u!114 &235406405
 MonoBehaviour:
@@ -2639,7 +2640,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 383001f2d3da44adaab6c833ebefa0ca, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: HPR.FPSDemo.Runtime::PlayerGameplayController
   interactRange: 3.5
   aimZoomFovDelta: 12
@@ -2656,7 +2657,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 111f50ddbbe4c5a029c0b5249b5a9c37, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: HPR.Input.Runtime::UnityInputSource
 --- !u!1 &250154770
 GameObject:
@@ -3525,7 +3526,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32d1b2704b0909635a61d42b09de2545, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
   saveId: door_east
   requiredKeyItem: {fileID: 0}
@@ -4342,7 +4343,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -4719,7 +4720,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -6767,7 +6768,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32d1b2704b0909635a61d42b09de2545, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
   saveId: door_west
   requiredKeyItem: {fileID: 0}
@@ -6886,7 +6887,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_launcher_ammo
   itemData: {fileID: 11400000, guid: 2902fdbe2bb1af72eaae4caa7fc4f410, type: 2}
@@ -7550,7 +7551,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c302fcb01c40869b7b1de43636e83b0a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: sweeper_armory
   enemyData: {fileID: 11400000, guid: 0c3ab23b2602b0d53a2161c9178f5e75, type: 2}
@@ -8894,7 +8895,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c302fcb01c40869b7b1de43636e83b0a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: power_walker
   enemyData: {fileID: 11400000, guid: 743bf32829c4dfc39bb418e5e8783d71, type: 2}
@@ -12882,7 +12883,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -13925,7 +13926,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_armor
   itemData: {fileID: 11400000, guid: 343b61ee8f089402ca20f91cfa4dd6b0, type: 2}
@@ -14399,7 +14400,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -16351,7 +16352,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_medkit
   itemData: {fileID: 11400000, guid: f36ab458373324abca0fe8192a98bc17, type: 2}
@@ -17273,7 +17274,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89d99be0fe2cf5d8c986bf132a93bb35, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   player: {fileID: 235406404}
   mapCamera: {fileID: 2110409993}
@@ -17291,7 +17292,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97afd51cda4fcd224b5695b5bd3fde75, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameUiController
 --- !u!4 &1552775885
 Transform:
@@ -17318,7 +17319,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd75f24a9af284636a94b6f0eadb0f02, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: HPR.FPSDemo.Runtime::GameStateValidator
 --- !u!114 &1552775887
 MonoBehaviour:
@@ -17330,7 +17331,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 635af4f91019f924aab7baa518823983, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: HPR.FPSDemo.Runtime::EventManager
 --- !u!1001 &1568303247
 PrefabInstance:
@@ -17890,7 +17891,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_red_key
   itemData: {fileID: 11400000, guid: c2dea30f9f467e93e81029a0e564cb60, type: 2}
@@ -18020,7 +18021,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c302fcb01c40869b7b1de43636e83b0a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: medbay_intruder
   enemyData: {fileID: 11400000, guid: 91a5c5d04b21b651f94b8d983663d584, type: 2}
@@ -19052,7 +19053,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_blue_key
   itemData: {fileID: 11400000, guid: e9549c78ec451673f846757bcefa883e, type: 2}
@@ -19524,7 +19525,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -19869,7 +19870,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -20117,7 +20118,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32d1b2704b0909635a61d42b09de2545, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
   saveId: door_north
   requiredKeyItem: {fileID: 11400000, guid: c2dea30f9f467e93e81029a0e564cb60, type: 2}
@@ -20291,7 +20292,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -20485,7 +20486,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -21533,7 +21534,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -21756,7 +21757,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -23244,7 +23245,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -23352,7 +23353,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_pistol_ammo
   itemData: {fileID: 11400000, guid: 2e06821c2e55a353298378ea5fe78979, type: 2}
@@ -23703,7 +23704,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -24214,7 +24215,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32d1b2704b0909635a61d42b09de2545, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
   saveId: door_south
   requiredKeyItem: {fileID: 11400000, guid: e9549c78ec451673f846757bcefa883e, type: 2}
@@ -24875,7 +24876,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_needler_ammo
   itemData: {fileID: 11400000, guid: 0672b32d60d4e280189dbcd4a1c8f6fe, type: 2}
@@ -25004,7 +25005,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7459ca0ae60a149b40e9c1ea18b0f9, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   saveId: pickup_shotgun_ammo
   itemData: {fileID: 11400000, guid: 3c9436a92f23f279d832418f4142a93b, type: 2}
@@ -25383,7 +25384,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9849f02d50cc8bb2ca16c6e34d030920, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapCameraFollow
   target: {fileID: 235406399}
   height: 48
@@ -26040,7 +26041,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c302fcb01c40869b7b1de43636e83b0a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   saveId: sentry_hub
   enemyData: {fileID: 11400000, guid: ddfc87b2de520af6e8ab3805bbab23bf, type: 2}

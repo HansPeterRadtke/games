@@ -11,7 +11,8 @@
     "HPR.Inventory.Runtime",
     "HPR.Save.Runtime",
     "HPR.Weapons.Runtime",
-    "HPR.Ai.Runtime"
+    "HPR.Ai.Runtime",
+    "HPR.Stats.Runtime"
   ],
   "includePlatforms": [
     "Editor"

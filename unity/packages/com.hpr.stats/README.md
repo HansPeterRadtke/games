@@ -1,16 +1,20 @@
 # HPR Stats
 
-Reusable health, stamina, and attribute systems driven by data and events.
+Reusable health and stamina runtime contracts for Unity gameplay packages.
+
+## Included
+- `IDamageable`
+- `ICharacterStats`
+- `ActorStatsComponent`
+
+## Dependencies
+- `com.hpr.eventbus`
 
 ## Setup
-- Add the local package to a Unity project via the `Packages/` symlink workflow or by referencing this folder as a local package.
-- Open the module demo scene in `Demo/` once it has been generated.
+1. Add the package to your Unity project.
+2. Reference `HPR.Stats.Runtime` from dependent asmdefs.
+3. Add `ActorStatsComponent` or a derived component to a GameObject.
+4. If you use the event bus, provide an `IEventBusSource` in the parent hierarchy or bind one at runtime.
 
-## API Overview
-- Runtime code lives in `Runtime/`.
-- Editor helpers live in `Editor/`.
-- Demo scenes and supporting assets live in `Demo/`.
-
-## Status
-- Package scaffold created during the package modularization pass.
-- Runtime migration is in progress.
+## Validation
+- Clean-project import validation should run through `unity/tools/packages/validate_local_packages.sh com.hpr.stats` after each extraction pass.

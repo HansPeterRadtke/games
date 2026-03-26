@@ -3,13 +3,11 @@
   "displayName": "HPR Stats",
   "version": "0.1.0",
   "unity": "6000.4",
-  "description": "Reusable health, stamina, and attribute systems driven by data and events.",
+  "description": "Reusable health and stamina runtime contracts for Unity gameplay packages.",
   "author": {
     "name": "HansPeterRadtke"
   },
   "dependencies": {
-    "com.hpr.foundation": "file:../com.hpr.foundation",
-    "com.hpr.core": "file:../com.hpr.core",
     "com.hpr.eventbus": "file:../com.hpr.eventbus"
   }
 }

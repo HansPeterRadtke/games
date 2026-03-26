@@ -8,18 +8,12 @@ public interface IInteractable
     void Interact(IPlayerActor player);
 }
 
-public interface IDamageable
-{
-    bool IsAlive { get; }
-    void ApplyDamage(float amount, Vector3 hitPoint, Vector3 hitDirection);
-}
-
 public interface IImpactReceiver
 {
     void ApplyImpact(Vector3 impulse, Vector3 point);
 }
 
-public interface IPlayerStats : IDamageable
+public interface IPlayerStats : ICharacterStats
 {
     float MaxHealth { get; }
     float MaxStamina { get; }

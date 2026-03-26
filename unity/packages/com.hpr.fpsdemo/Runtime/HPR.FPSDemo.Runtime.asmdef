@@ -9,7 +9,8 @@
     "HPR.Save.Runtime",
     "HPR.Inventory.Runtime",
     "HPR.Weapons.Runtime",
-    "HPR.Ai.Runtime"
+    "HPR.Ai.Runtime",
+    "HPR.Stats.Runtime"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

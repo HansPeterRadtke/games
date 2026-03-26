@@ -59,7 +59,8 @@
         "com.unity.ugui": "2.0.0",
         "com.hpr.inventory": "file:../com.hpr.inventory",
         "com.hpr.weapons": "file:../com.hpr.weapons",
-        "com.hpr.ai": "file:../com.hpr.ai"
+        "com.hpr.ai": "file:../com.hpr.ai",
+        "com.hpr.stats": "file:../com.hpr.stats"
       }
     },
     "com.hpr.input": {
@@ -103,8 +104,6 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.foundation": "file:../com.hpr.foundation",
-        "com.hpr.core": "file:../com.hpr.core",
         "com.hpr.eventbus": "file:../com.hpr.eventbus"
       }
     },

@@ -2,8 +2,6 @@
   "name": "HPR.Stats.Runtime",
   "rootNamespace": "",
   "references": [
-    "HPR.Foundation",
-    "HPR.Core.Runtime",
     "HPR.Eventbus.Runtime"
   ],
   "includePlatforms": [],
