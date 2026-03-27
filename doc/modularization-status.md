@@ -14,10 +14,10 @@ The repo is in a buildable intermediate package-productization checkpoint. The m
 - `unity/packages/com.hpr.ai` - enemy definitions and AI metadata
 - `unity/packages/com.hpr.stats` - reusable actor stats runtime and demo scene
 - `unity/packages/com.hpr.world` - generic asset metadata and registry types
+- `unity/packages/com.hpr.interaction` - reusable interaction contracts, sensors, pickups, keyed doors, and standalone demo
 - `unity/packages/com.hpr.fpsdemo` - current composition-heavy gameplay package
 
 ## Scaffold packages still to populate
-- `unity/packages/com.hpr.interaction`
 - `unity/packages/com.hpr.ui`
 - `unity/packages/com.hpr.bootstrap`
 
@@ -64,12 +64,12 @@ Verified as `hans`:
 - `com.hpr.eventbus` now includes `EventBusSourceAdapter` to make standalone package demos easier to compose
 - `com.hpr.eventbus` now has a committed standalone demo scene: `unity/packages/com.hpr.eventbus/Demo/EventBusDemo.unity`
 - `com.hpr.inventory` now has a committed standalone demo scene: `unity/packages/com.hpr.inventory/Demo/InventoryDemo.unity`
+- `com.hpr.interaction` now has a committed standalone demo scene: `unity/packages/com.hpr.interaction/Demo/InteractionDemo.unity`
 
 ## Remaining work before store-ready modularity
 - move generic stats contracts/runtime out of `com.hpr.fpsdemo`
 - move weapon runtime execution out of `com.hpr.fpsdemo` into `com.hpr.weapons`
 - move AI runtime behavior out of `com.hpr.fpsdemo` into `com.hpr.ai`
-- generalize interaction runtime into `com.hpr.interaction`
 - reduce `com.hpr.eventbus` to generic bus + cleaner domain event separation
 - create real demo scenes and tests per package
 - shrink `com.hpr.fpsdemo` to project composition/bootstrap only
@@ -79,3 +79,10 @@ Verified as `hans`:
 - `SceneBootstrap` still knows about the current game scene and hierarchy
 - `com.hpr.fpsdemo` is still too large to be considered thin composition-only glue
 - imported Asset Store content remains local-only and untracked by design
+
+
+## Game-content checkpoint on top of the package split
+- `com.hpr.fpsdemo` now owns authored quest/dialogue/journal composition without leaking those project-specific systems into reusable packages.
+- `QuestManager` subscribes to package events (`ItemPickedEvent`, `EnemyKilledEvent`, `DialogueCompletedEvent`) and persists quest state through `com.hpr.save`.
+- Dialogue-aware NPC interactions are now composed through `com.hpr.interaction` and `IDialogueFlowCommands`, keeping the reusable interaction package generic.
+- The smoke path now validates quest acceptance, quest completion, journal visibility, skill-point rewards, and save/load after progression.

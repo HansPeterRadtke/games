@@ -10,6 +10,8 @@ public static class GameplayDataSeeder
     public const string ItemsRoot = DataRoot + "/Items";
     public const string EnemiesRoot = DataRoot + "/Enemies";
     public const string SkillsRoot = DataRoot + "/Skills";
+    public const string QuestsRoot = DataRoot + "/Quests";
+    public const string DialoguesRoot = DataRoot + "/Dialogues";
     public const string AssetMetadataRoot = DataRoot + "/AssetMetadata";
     public const string AssetRegistryPath = DataRoot + "/AssetRegistry.asset";
 
@@ -20,9 +22,13 @@ public static class GameplayDataSeeder
         EnsureFolder(DataRoot, "Items");
         EnsureFolder(DataRoot, "Enemies");
         EnsureFolder(DataRoot, "Skills");
+        EnsureFolder(DataRoot, "Quests");
+        EnsureFolder(DataRoot, "Dialogues");
         EnsureFolder(DataRoot, "AssetMetadata");
         EnsureAssetRegistry();
         EnsureSkillAssets();
+        EnsureQuestAssets();
+        EnsureDialogueAssets();
         EnsureGameplayAssetDefaults();
         ImportedAssetMetadataSynchronizer.Synchronize();
         AssetDatabase.Refresh();
@@ -63,6 +69,20 @@ public static class GameplayDataSeeder
             .OrderBy(asset => asset.Cost)
             .ThenBy(asset => asset.DisplayName)
             .ToList();
+    }
+
+    public static List<QuestData> LoadAllQuests()
+    {
+        return LoadAssets<QuestData>(QuestsRoot)
+            .Where(asset => asset != null && !string.IsNullOrWhiteSpace(asset.Id))
+            .OrderBy(asset => asset.Title)
+            .ToList();
+    }
+
+    public static DialogueData LoadDialogue(string id)
+    {
+        return LoadAssets<DialogueData>(DialoguesRoot)
+            .FirstOrDefault(asset => asset != null && asset.Id == id);
     }
 
     public static AssetRegistry LoadAssetRegistry()
@@ -211,6 +231,124 @@ public static class GameplayDataSeeder
             sprinter);
     }
 
+    private static void EnsureQuestAssets()
+    {
+        EnsureQuestAsset(
+            "quest_security_sweep",
+            "Security Sweep",
+            "Recover the red keycard and neutralize the hub sentry.",
+            1,
+            null,
+            0,
+            new Color(0.88f, 0.48f, 0.28f, 1f),
+            new QuestObjectiveData
+            {
+                Id = "kill_sentry_hub",
+                ObjectiveType = QuestObjectiveType.KillEnemy,
+                TargetId = "sentry_hub",
+                Description = "Neutralize the hub sentry",
+                RequiredCount = 1
+            },
+            new QuestObjectiveData
+            {
+                Id = "collect_red_key",
+                ObjectiveType = QuestObjectiveType.CollectItem,
+                TargetId = "key_red",
+                Description = "Recover the red security keycard",
+                RequiredCount = 1
+            });
+
+        EnsureQuestAsset(
+            "quest_supply_recovery",
+            "Supply Recovery",
+            "Recover the medkit from the medbay and report back to Quartermaster Vale.",
+            1,
+            null,
+            0,
+            new Color(0.34f, 0.76f, 0.92f, 1f),
+            new QuestObjectiveData
+            {
+                Id = "collect_medkit",
+                ObjectiveType = QuestObjectiveType.CollectItem,
+                TargetId = "item_medkit",
+                Description = "Retrieve the medkit from the medbay",
+                RequiredCount = 1
+            },
+            new QuestObjectiveData
+            {
+                Id = "report_to_vale",
+                ObjectiveType = QuestObjectiveType.TalkToNpc,
+                TargetId = "npc_vale",
+                Description = "Report back to Quartermaster Vale",
+                RequiredCount = 1
+            });
+    }
+
+    private static void EnsureDialogueAssets()
+    {
+        EnsureDialogueAsset(
+            "dialogue_echo_briefing",
+            "Commander Echo",
+            "echo_start",
+            new[]
+            {
+                new DialogueNodeData
+                {
+                    Id = "echo_start",
+                    SpeakerName = "Commander Echo",
+                    Text = "The hub sentry locked down the north corridor. I need that red keycard back and the sentry off the network.",
+                    Choices = new List<DialogueChoiceData>
+                    {
+                        new DialogueChoiceData
+                        {
+                            Id = "echo_accept_security",
+                            Text = "I will sweep the corridor.",
+                            StartQuestId = "quest_security_sweep",
+                            ExitAfterChoice = true,
+                            StatusMessage = "Commander Echo marked the security sweep on your HUD."
+                        },
+                        new DialogueChoiceData
+                        {
+                            Id = "echo_decline",
+                            Text = "I need a moment first.",
+                            ExitAfterChoice = true
+                        }
+                    }
+                }
+            });
+
+        EnsureDialogueAsset(
+            "dialogue_vale_supplies",
+            "Quartermaster Vale",
+            "vale_start",
+            new[]
+            {
+                new DialogueNodeData
+                {
+                    Id = "vale_start",
+                    SpeakerName = "Quartermaster Vale",
+                    Text = "Medbay crates are still unsecured. Bring me one intact medkit and I can keep the survivors operational.",
+                    Choices = new List<DialogueChoiceData>
+                    {
+                        new DialogueChoiceData
+                        {
+                            Id = "vale_accept_supply",
+                            Text = "Point me to the medbay cache.",
+                            StartQuestId = "quest_supply_recovery",
+                            ExitAfterChoice = true,
+                            StatusMessage = "Quartermaster Vale marked the medbay cache in your journal."
+                        },
+                        new DialogueChoiceData
+                        {
+                            Id = "vale_acknowledge",
+                            Text = "Understood. I will report back when I have it.",
+                            ExitAfterChoice = true
+                        }
+                    }
+                }
+            });
+    }
+
     private static SkillNodeData EnsureSkillAsset(
         string id,
         string displayName,
@@ -246,6 +384,91 @@ public static class GameplayDataSeeder
         EditorUtility.SetDirty(asset);
         AssetDatabase.SaveAssets();
         return asset;
+    }
+
+    private static QuestData EnsureQuestAsset(
+        string id,
+        string title,
+        string description,
+        int rewardSkillPoints,
+        ItemData rewardItem,
+        int rewardItemAmount,
+        Color themeColor,
+        params QuestObjectiveData[] objectives)
+    {
+        string path = $"{QuestsRoot}/{id}.asset";
+        var asset = AssetDatabase.LoadAssetAtPath<QuestData>(path);
+        if (asset == null)
+        {
+            asset = ScriptableObject.CreateInstance<QuestData>();
+            AssetDatabase.CreateAsset(asset, path);
+        }
+
+        asset.Id = id;
+        asset.Title = title;
+        asset.Description = description;
+        asset.RewardSkillPoints = Mathf.Max(0, rewardSkillPoints);
+        asset.RewardItem = rewardItem;
+        asset.RewardItemAmount = Mathf.Max(0, rewardItemAmount);
+        asset.ThemeColor = themeColor;
+        asset.Objectives = objectives?.Where(objective => objective != null).Select(CloneObjective).ToList() ?? new List<QuestObjectiveData>();
+        EditorUtility.SetDirty(asset);
+        AssetDatabase.SaveAssets();
+        return asset;
+    }
+
+    private static DialogueData EnsureDialogueAsset(
+        string id,
+        string displayName,
+        string startNodeId,
+        IEnumerable<DialogueNodeData> nodes)
+    {
+        string path = $"{DialoguesRoot}/{id}.asset";
+        var asset = AssetDatabase.LoadAssetAtPath<DialogueData>(path);
+        if (asset == null)
+        {
+            asset = ScriptableObject.CreateInstance<DialogueData>();
+            AssetDatabase.CreateAsset(asset, path);
+        }
+
+        asset.Id = id;
+        asset.DisplayName = displayName;
+        asset.StartNodeId = startNodeId;
+        asset.Nodes = nodes?.Where(node => node != null).Select(CloneNode).ToList() ?? new List<DialogueNodeData>();
+        EditorUtility.SetDirty(asset);
+        AssetDatabase.SaveAssets();
+        return asset;
+    }
+
+    private static QuestObjectiveData CloneObjective(QuestObjectiveData objective)
+    {
+        return new QuestObjectiveData
+        {
+            Id = objective.Id,
+            ObjectiveType = objective.ObjectiveType,
+            TargetId = objective.TargetId,
+            Description = objective.Description,
+            RequiredCount = Mathf.Max(1, objective.RequiredCount)
+        };
+    }
+
+    private static DialogueNodeData CloneNode(DialogueNodeData node)
+    {
+        return new DialogueNodeData
+        {
+            Id = node.Id,
+            SpeakerName = node.SpeakerName,
+            Text = node.Text,
+            Choices = node.Choices?.Where(choice => choice != null).Select(choice => new DialogueChoiceData
+            {
+                Id = choice.Id,
+                Text = choice.Text,
+                NextNodeId = choice.NextNodeId,
+                ExitAfterChoice = choice.ExitAfterChoice,
+                StartQuestId = choice.StartQuestId,
+                StatusMessage = choice.StatusMessage
+            }).ToList() ?? new List<DialogueChoiceData>()
+        };
     }
 
     private static FireModeType DeriveFireMode(WeaponData weapon)

@@ -8,6 +8,7 @@
     "HPR.Input.Runtime",
     "HPR.Save.Runtime",
     "HPR.Inventory.Runtime",
+    "HPR.Interaction.Runtime",
     "HPR.Weapons.Runtime",
     "HPR.Ai.Runtime",
     "HPR.Stats.Runtime",

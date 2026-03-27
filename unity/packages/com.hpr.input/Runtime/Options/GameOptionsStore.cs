@@ -24,6 +24,10 @@ public static class GameOptionsStore
         }
 
         var defaults = GameOptionsData.CreateDefault();
+        if (data.journal == KeyCode.None)
+        {
+            data.journal = defaults.journal;
+        }
         if (data.skills == KeyCode.None)
         {
             data.skills = defaults.skills;
@@ -51,6 +55,7 @@ public static class GameOptionsStore
             GameAction.Run => options.run,
             GameAction.Interact => options.interact,
             GameAction.Inventory => options.inventory,
+            GameAction.Journal => options.journal,
             GameAction.Skills => options.skills,
             GameAction.Map => options.map,
             GameAction.Pause => options.pause,
@@ -77,6 +82,7 @@ public static class GameOptionsStore
             case GameAction.Run: options.run = key; break;
             case GameAction.Interact: options.interact = key; break;
             case GameAction.Inventory: options.inventory = key; break;
+            case GameAction.Journal: options.journal = key; break;
             case GameAction.Skills: options.skills = key; break;
             case GameAction.Map: options.map = key; break;
             case GameAction.Pause: options.pause = key; break;

@@ -6,6 +6,8 @@ public class GameStateValidator : MonoBehaviour
     private int itemPickedEventCount;
     private int weaponFiredEventCount;
     private int enemyKilledEventCount;
+    private int dialogueCompletedEventCount;
+    private int questCompletedEventCount;
 
     private IGameEventBus eventBus;
 
@@ -27,6 +29,8 @@ public class GameStateValidator : MonoBehaviour
         itemPickedEventCount = 0;
         weaponFiredEventCount = 0;
         enemyKilledEventCount = 0;
+        dialogueCompletedEventCount = 0;
+        questCompletedEventCount = 0;
     }
 
     public void ValidatePlayerDamage(IPlayerStats stats, float previousHealth)
@@ -62,6 +66,17 @@ public class GameStateValidator : MonoBehaviour
         AssertCondition(skillTree != null && skillTree.SkillPoints > previousPoints, "Expected skill points to increase");
     }
 
+    public void ValidateDialogueCompletion()
+    {
+        AssertCondition(dialogueCompletedEventCount > 0, "Expected DialogueCompletedEvent");
+    }
+
+    public void ValidateQuestCompletion(QuestManager questManager, string questId)
+    {
+        AssertCondition(questCompletedEventCount > 0, "Expected QuestCompletedEvent");
+        AssertCondition(questManager != null && questManager.IsQuestCompleted(questId), $"Expected quest '{questId}' to be completed");
+    }
+
     private void OnDestroy()
     {
         Unsubscribe();
@@ -78,6 +93,8 @@ public class GameStateValidator : MonoBehaviour
         eventBus.Subscribe<ItemPickedEvent>(HandleItemPickedEvent);
         eventBus.Subscribe<WeaponFiredEvent>(HandleWeaponFiredEvent);
         eventBus.Subscribe<EnemyKilledEvent>(HandleEnemyKilledEvent);
+        eventBus.Subscribe<DialogueCompletedEvent>(HandleDialogueCompletedEvent);
+        eventBus.Subscribe<QuestCompletedEvent>(HandleQuestCompletedEvent);
     }
 
     private void Unsubscribe()
@@ -91,6 +108,8 @@ public class GameStateValidator : MonoBehaviour
         eventBus.Unsubscribe<ItemPickedEvent>(HandleItemPickedEvent);
         eventBus.Unsubscribe<WeaponFiredEvent>(HandleWeaponFiredEvent);
         eventBus.Unsubscribe<EnemyKilledEvent>(HandleEnemyKilledEvent);
+        eventBus.Unsubscribe<DialogueCompletedEvent>(HandleDialogueCompletedEvent);
+        eventBus.Unsubscribe<QuestCompletedEvent>(HandleQuestCompletedEvent);
     }
 
     private void HandleDamageEvent(DamageEvent gameEvent)
@@ -111,6 +130,16 @@ public class GameStateValidator : MonoBehaviour
     private void HandleEnemyKilledEvent(EnemyKilledEvent gameEvent)
     {
         enemyKilledEventCount++;
+    }
+
+    private void HandleDialogueCompletedEvent(DialogueCompletedEvent gameEvent)
+    {
+        dialogueCompletedEventCount++;
+    }
+
+    private void HandleQuestCompletedEvent(QuestCompletedEvent gameEvent)
+    {
+        questCompletedEventCount++;
     }
 
     private static void AssertCondition(bool condition, string message)

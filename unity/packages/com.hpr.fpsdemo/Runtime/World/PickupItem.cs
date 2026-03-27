@@ -16,6 +16,7 @@ public class PickupItem : MonoBehaviour, IInteractable, ISaveableEntity
     public string SaveId => saveId;
     public ItemData ItemData => itemData;
     public int Amount => amount;
+    public InteractionType InteractionType => InteractionType.Loot;
 
     private void Awake()
     {
@@ -47,16 +48,16 @@ public class PickupItem : MonoBehaviour, IInteractable, ISaveableEntity
         statusSink = servicesBehaviour as IStatusMessageSink;
     }
 
-    public string GetPrompt(IPlayerActor player)
+    public string GetPrompt(IInteractionActor player)
     {
         return itemData != null && !string.IsNullOrWhiteSpace(itemData.PickupPrompt)
             ? itemData.PickupPrompt
             : "Collect item [E]";
     }
 
-    public void Interact(IPlayerActor player)
+    public void Interact(IInteractionActor player)
     {
-        if (itemData == null)
+        if (itemData == null || player?.InventoryService == null)
         {
             return;
         }

@@ -66,6 +66,16 @@ public class PlayerSaveData
     public List<ItemQuantitySaveData> inventoryItems = new List<ItemQuantitySaveData>();
     public int skillPoints;
     public List<string> unlockedSkillIds = new List<string>();
+    public List<QuestStateSaveData> questStates = new List<QuestStateSaveData>();
+}
+
+[Serializable]
+public class QuestStateSaveData
+{
+    public string questId;
+    public bool started;
+    public bool completed;
+    public List<int> objectiveCounts = new List<int>();
 }
 
 [Serializable]

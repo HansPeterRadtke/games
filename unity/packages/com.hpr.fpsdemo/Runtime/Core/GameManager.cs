@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsController, IEventBusSource, IGameplayStateSource, IStatusMessageSink, IInteractionPromptSink, IHudRefreshSink, IThreatScanner, IGameplayFlowCommands, IGameMenuCommands, IPlayerDeathHandler, IPlayerActorSource, IEnemyRegistry, ISkillTreeCommands
+public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsController, IEventBusSource, IGameplayStateSource, IStatusMessageSink, IInteractionPromptSink, IHudRefreshSink, IThreatScanner, IGameplayFlowCommands, IGameMenuCommands, IPlayerDeathHandler, IPlayerActorSource, IEnemyRegistry, ISkillTreeCommands, IQuestJournalSource, IDialogueFlowCommands, ISkillPointRewardSink
 {
     [SerializeField] private PlayerActorContext player;
     [SerializeField] private Camera mapCamera;
@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
     [SerializeField] private Transform saveableRoot;
     [SerializeField] private EventManager eventManager;
     [SerializeField] private GameStateValidator stateValidator;
+    [SerializeField] private QuestManager questManager;
 
     private readonly List<ISaveableEntity> saveables = new List<ISaveableEntity>();
     private readonly List<EnemyAgent> registeredEnemies = new List<EnemyAgent>();
@@ -23,8 +24,10 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
     private bool titleMenuVisible = true;
     private bool pauseVisible;
     private bool inventoryVisible;
+    private bool journalVisible;
     private bool skillsVisible;
     private bool mapVisible;
+    private bool dialogueVisible;
     private bool optionsVisible;
     private bool playerDead;
     private bool autoStartRequested;
@@ -40,20 +43,31 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
     private float titleMenuShownRealtime;
     private float sessionStartTime;
     private bool combatHold;
+    private ActiveDialogueState activeDialogue;
 
     public GameOptionsData CurrentOptions { get; private set; }
     public IPlayerActor Player => player;
     public IGameEventBus EventBus => eventManager;
-    public bool AllowsGameplayInput => IsGameplayRunning && !pauseVisible && !inventoryVisible && !skillsVisible && !mapVisible && !optionsVisible;
+    public bool AllowsGameplayInput => IsGameplayRunning && !pauseVisible && !inventoryVisible && !journalVisible && !skillsVisible && !mapVisible && !dialogueVisible && !optionsVisible;
     public bool IsGameplayRunning => !titleMenuVisible && !playerDead;
     public bool IsMapVisible => mapVisible;
     public bool IsInventoryVisible => inventoryVisible;
+    public bool IsJournalVisible => journalVisible;
     public bool IsSkillsVisible => skillsVisible;
+    public bool IsDialogueVisible => dialogueVisible;
     public bool IsPauseVisible => pauseVisible;
     public bool IsOptionsVisible => optionsVisible;
     public bool IsCombatLive => IsGameplayRunning && !combatDisabledRequested && !combatHold && Time.time >= sessionStartTime + 0.5f;
     public bool HasSaveGame => !string.IsNullOrWhiteSpace(savePath) && File.Exists(savePath);
     public bool IsRebindingKey => uiController != null && uiController.IsRebindingKey;
+
+    private sealed class ActiveDialogueState
+    {
+        public string NpcId;
+        public string SpeakerName;
+        public DialogueData DialogueData;
+        public string CurrentNodeId;
+    }
 
     private void Awake()
     {
@@ -83,6 +97,12 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
             stateValidator = gameObject.AddComponent<GameStateValidator>();
         }
 
+        questManager = questManager != null ? questManager : GetComponent<QuestManager>();
+        if (questManager == null)
+        {
+            questManager = gameObject.AddComponent<QuestManager>();
+        }
+
         string commandLine = string.Join(" ", System.Environment.GetCommandLineArgs());
         autoStartRequested = commandLine.Contains("-autostart");
         smokeTestRequested = commandLine.Contains("-smoketest");
@@ -95,6 +115,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
     private void Start()
     {
         stateValidator?.Bind(EventBus);
+        questManager?.BindRuntimeServices(this);
         uiController.Initialize(this, mapTexture);
         if (autoStartRequested || smokeTestRequested)
         {
@@ -191,6 +212,8 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         playerDead = false;
         sessionStartTime = Time.time;
         combatHold = true;
+        activeDialogue = null;
+        questManager?.ResetQuestState();
         HideAllMenus();
         RefreshHud();
         UpdateCursorAndTime();
@@ -204,6 +227,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         }
 
         ClearMenuInputGuards();
+        activeDialogue = null;
         HideAllMenus();
         RefreshHud();
         UpdateCursorAndTime();
@@ -218,13 +242,17 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
         pauseVisible = !pauseVisible;
         inventoryVisible = false;
+        journalVisible = false;
         skillsVisible = false;
         mapVisible = false;
+        dialogueVisible = false;
         optionsVisible = false;
         uiController.ShowPauseMenu(pauseVisible);
         uiController.ShowInventory(false, null);
+        uiController.ShowJournal(false, null);
         uiController.ShowSkills(false, null, 0);
         uiController.ShowMap(false);
+        uiController.ShowDialogue(false, null);
         uiController.ShowOptions(false);
         UpdateCursorAndTime();
     }
@@ -238,13 +266,41 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
         inventoryVisible = !inventoryVisible;
         pauseVisible = false;
+        journalVisible = false;
         skillsVisible = false;
         mapVisible = false;
+        dialogueVisible = false;
         optionsVisible = false;
         uiController.ShowInventory(inventoryVisible, player.InventoryComponent.BuildInventoryTabs(player.WeaponSystemComponent));
         uiController.ShowPauseMenu(false);
+        uiController.ShowJournal(false, null);
         uiController.ShowSkills(false, null, 0);
         uiController.ShowMap(false);
+        uiController.ShowDialogue(false, null);
+        uiController.ShowOptions(false);
+        UpdateCursorAndTime();
+    }
+
+    public void ToggleJournal()
+    {
+        if (titleMenuVisible || playerDead || questManager == null)
+        {
+            return;
+        }
+
+        journalVisible = !journalVisible;
+        pauseVisible = false;
+        inventoryVisible = false;
+        skillsVisible = false;
+        mapVisible = false;
+        dialogueVisible = false;
+        optionsVisible = false;
+        uiController.ShowPauseMenu(false);
+        uiController.ShowInventory(false, null);
+        uiController.ShowJournal(journalVisible, questManager.BuildJournalEntries());
+        uiController.ShowSkills(false, null, 0);
+        uiController.ShowMap(false);
+        uiController.ShowDialogue(false, null);
         uiController.ShowOptions(false);
         UpdateCursorAndTime();
     }
@@ -259,12 +315,16 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         skillsVisible = !skillsVisible;
         pauseVisible = false;
         inventoryVisible = false;
+        journalVisible = false;
         mapVisible = false;
+        dialogueVisible = false;
         optionsVisible = false;
         uiController.ShowSkills(skillsVisible, player.SkillTreeComponent.BuildEntries(), player.SkillTreeComponent.SkillPoints);
         uiController.ShowPauseMenu(false);
         uiController.ShowInventory(false, null);
+        uiController.ShowJournal(false, null);
         uiController.ShowMap(false);
+        uiController.ShowDialogue(false, null);
         uiController.ShowOptions(false);
         UpdateCursorAndTime();
     }
@@ -279,7 +339,9 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         mapVisible = !mapVisible;
         pauseVisible = false;
         inventoryVisible = false;
+        journalVisible = false;
         skillsVisible = false;
+        dialogueVisible = false;
         optionsVisible = false;
         if (mapVisible)
         {
@@ -288,7 +350,9 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         uiController.ShowMap(mapVisible);
         uiController.ShowPauseMenu(false);
         uiController.ShowInventory(false, null);
+        uiController.ShowJournal(false, null);
         uiController.ShowSkills(false, null, 0);
+        uiController.ShowDialogue(false, null);
         uiController.ShowOptions(false);
         UpdateCursorAndTime();
     }
@@ -304,12 +368,16 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
             uiController.ShowOptions(true);
             pauseVisible = false;
             inventoryVisible = false;
+            journalVisible = false;
             skillsVisible = false;
             mapVisible = false;
+            dialogueVisible = false;
             uiController.ShowPauseMenu(false);
             uiController.ShowInventory(false, null);
+            uiController.ShowJournal(false, null);
             uiController.ShowSkills(false, null, 0);
             uiController.ShowMap(false);
+            uiController.ShowDialogue(false, null);
             UpdateCursorAndTime();
             return;
         }
@@ -343,6 +411,10 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
         RegisterSaveables();
         var saveData = new SaveGameData { player = player.CaptureSaveData() };
+        if (questManager != null)
+        {
+            saveData.player.questStates = questManager.CaptureState();
+        }
         foreach (var saveable in saveables)
         {
             saveData.entities.Add(saveable.CaptureState());
@@ -368,6 +440,181 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         return unlocked;
     }
 
+    public void AwardSkillPoints(int amount, string reason)
+    {
+        if (player?.SkillTreeComponent == null || amount <= 0)
+        {
+            return;
+        }
+
+        player.SkillTreeComponent.AwardPoints(amount);
+        if (!string.IsNullOrWhiteSpace(reason))
+        {
+            NotifyStatus($"{reason} reward secured");
+        }
+    }
+
+    public List<QuestJournalEntryViewData> BuildJournalEntries()
+    {
+        return questManager != null ? questManager.BuildJournalEntries() : new List<QuestJournalEntryViewData>();
+    }
+
+    public bool StartDialogue(string npcId, string speakerName, DialogueData dialogueData)
+    {
+        if (dialogueVisible || dialogueData == null || uiController == null || titleMenuVisible || playerDead)
+        {
+            return false;
+        }
+
+        DialogueNodeData startNode = dialogueData.ResolveStartNode();
+        if (startNode == null)
+        {
+            return false;
+        }
+
+        activeDialogue = new ActiveDialogueState
+        {
+            NpcId = npcId,
+            SpeakerName = string.IsNullOrWhiteSpace(speakerName) ? startNode.SpeakerName : speakerName,
+            DialogueData = dialogueData,
+            CurrentNodeId = startNode.Id
+        };
+        dialogueVisible = true;
+        pauseVisible = false;
+        inventoryVisible = false;
+        journalVisible = false;
+        skillsVisible = false;
+        mapVisible = false;
+        optionsVisible = false;
+        uiController.ShowPauseMenu(false);
+        uiController.ShowInventory(false, null);
+        uiController.ShowJournal(false, null);
+        uiController.ShowSkills(false, null, 0);
+        uiController.ShowMap(false);
+        uiController.ShowOptions(false);
+        uiController.ShowDialogue(true, BuildDialogueView());
+        eventManager?.Publish(new DialogueStartedEvent
+        {
+            NpcId = npcId,
+            DialogueId = dialogueData.Id,
+            SpeakerName = activeDialogue.SpeakerName
+        });
+        UpdateCursorAndTime();
+        return true;
+    }
+
+    public void SelectDialogueChoice(string choiceId)
+    {
+        if (!dialogueVisible || activeDialogue == null || activeDialogue.DialogueData == null)
+        {
+            return;
+        }
+
+        DialogueNodeData node = activeDialogue.DialogueData.GetNode(activeDialogue.CurrentNodeId);
+        if (node == null)
+        {
+            CloseDialogue();
+            return;
+        }
+
+        DialogueChoiceData choice = node.Choices?.FirstOrDefault(candidate => candidate != null && string.Equals(candidate.Id, choiceId, System.StringComparison.Ordinal));
+        if (choice == null)
+        {
+            CompleteDialogue(node.Id);
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(choice.StartQuestId))
+        {
+            questManager?.TryStartQuest(choice.StartQuestId);
+        }
+
+        if (!string.IsNullOrWhiteSpace(choice.StatusMessage))
+        {
+            NotifyStatus(choice.StatusMessage);
+        }
+
+        if (choice.ExitAfterChoice || string.IsNullOrWhiteSpace(choice.NextNodeId))
+        {
+            CompleteDialogue(node.Id);
+            return;
+        }
+
+        DialogueNodeData nextNode = activeDialogue.DialogueData.GetNode(choice.NextNodeId);
+        if (nextNode == null)
+        {
+            CompleteDialogue(node.Id);
+            return;
+        }
+
+        activeDialogue.CurrentNodeId = nextNode.Id;
+        uiController.ShowDialogue(true, BuildDialogueView());
+        UpdateCursorAndTime();
+    }
+
+    public void CloseDialogue()
+    {
+        dialogueVisible = false;
+        activeDialogue = null;
+        uiController?.ShowDialogue(false, null);
+        UpdateCursorAndTime();
+        RefreshHud();
+    }
+
+    private DialogueViewData BuildDialogueView()
+    {
+        if (activeDialogue == null || activeDialogue.DialogueData == null)
+        {
+            return null;
+        }
+
+        DialogueNodeData node = activeDialogue.DialogueData.GetNode(activeDialogue.CurrentNodeId);
+        if (node == null)
+        {
+            return null;
+        }
+
+        var view = new DialogueViewData
+        {
+            DialogueId = activeDialogue.DialogueData.Id,
+            NpcId = activeDialogue.NpcId,
+            SpeakerName = string.IsNullOrWhiteSpace(node.SpeakerName) ? activeDialogue.SpeakerName : node.SpeakerName,
+            Body = node.Text,
+            Choices = new List<DialogueChoiceViewData>()
+        };
+
+        foreach (DialogueChoiceData choice in node.Choices ?? new List<DialogueChoiceData>())
+        {
+            if (choice == null || string.IsNullOrWhiteSpace(choice.Text))
+            {
+                continue;
+            }
+
+            view.Choices.Add(new DialogueChoiceViewData
+            {
+                Id = string.IsNullOrWhiteSpace(choice.Id) ? choice.Text : choice.Id,
+                Label = choice.Text
+            });
+        }
+
+        return view;
+    }
+
+    private void CompleteDialogue(string finalNodeId)
+    {
+        if (activeDialogue?.DialogueData != null)
+        {
+            EventBus?.Publish(new DialogueCompletedEvent
+            {
+                NpcId = activeDialogue.NpcId,
+                DialogueId = activeDialogue.DialogueData.Id,
+                FinalNodeId = finalNodeId
+            });
+        }
+
+        CloseDialogue();
+    }
+
     public void LoadGame()
     {
         if (!File.Exists(savePath))
@@ -386,6 +633,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
         BeginSession();
         player.RestoreFromSave(saveData.player);
+        questManager?.RestoreState(saveData.player.questStates);
         var lookup = saveData.entities.ToDictionary(x => x.id, x => x);
         foreach (var saveable in saveables)
         {
@@ -457,14 +705,19 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         playerDead = true;
         pauseVisible = false;
         inventoryVisible = false;
+        journalVisible = false;
         skillsVisible = false;
         mapVisible = false;
+        dialogueVisible = false;
         optionsVisible = false;
+        activeDialogue = null;
         titleMenuVisible = true;
         uiController.ShowPauseMenu(false);
         uiController.ShowInventory(false, null);
+        uiController.ShowJournal(false, null);
         uiController.ShowSkills(false, null, 0);
         uiController.ShowMap(false);
+        uiController.ShowDialogue(false, null);
         uiController.ShowOptions(false);
         uiController.ShowTitleMenu(true, "Mission Failed");
         UpdateCursorAndTime();
@@ -498,9 +751,17 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         {
             uiController.ShowInventory(true, player.InventoryComponent.BuildInventoryTabs(player.WeaponSystemComponent));
         }
+        if (journalVisible)
+        {
+            uiController.ShowJournal(true, questManager != null ? questManager.BuildJournalEntries() : new List<QuestJournalEntryViewData>());
+        }
         if (skillsVisible)
         {
             uiController.ShowSkills(true, player.SkillTreeComponent.BuildEntries(), player.SkillTreeComponent.SkillPoints);
+        }
+        if (dialogueVisible)
+        {
+            uiController.ShowDialogue(true, BuildDialogueView());
         }
         uiController.RefreshOptions(CurrentOptions);
     }
@@ -609,7 +870,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
     private void UpdateCursorAndTime()
     {
-        bool blockGameplay = titleMenuVisible || pauseVisible || inventoryVisible || skillsVisible || mapVisible || optionsVisible || playerDead;
+        bool blockGameplay = titleMenuVisible || pauseVisible || inventoryVisible || journalVisible || skillsVisible || mapVisible || dialogueVisible || optionsVisible || playerDead;
         Time.timeScale = blockGameplay ? 0f : 1f;
         Cursor.lockState = blockGameplay ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = blockGameplay;
@@ -624,6 +885,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         saveableRoot = rootWithSaveables;
         stateValidator.Bind(eventManager);
         player?.BindRuntimeServices(this);
+        questManager?.BindRuntimeServices(this);
         RegisterSaveables();
         foreach (var pickup in registeredPickups)
         {
@@ -639,6 +901,10 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         {
             enemy?.BindRuntimeServices(this);
         }
+        foreach (var npc in saveableRoot.GetComponentsInChildren<DialogueNpcInteractable>(true))
+        {
+            npc?.BindRuntimeServices(this);
+        }
     }
 
     private void ShowInitialTitleMenu()
@@ -646,17 +912,22 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         titleMenuVisible = true;
         pauseVisible = false;
         inventoryVisible = false;
+        journalVisible = false;
         skillsVisible = false;
         mapVisible = false;
+        dialogueVisible = false;
         optionsVisible = false;
         playerDead = false;
+        activeDialogue = null;
         waitingForCleanMenuInput = true;
         waitingForMenuPointerMotion = true;
         titleMenuShownRealtime = Time.realtimeSinceStartup;
         uiController.ShowPauseMenu(false);
         uiController.ShowInventory(false, null);
+        uiController.ShowJournal(false, null);
         uiController.ShowSkills(false, null, 0);
         uiController.ShowMap(false);
+        uiController.ShowDialogue(false, null);
         uiController.ShowOptions(false);
         uiController.ShowTitleMenu(true);
         uiController.SetMenuInteractable(false);
@@ -676,14 +947,19 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         titleMenuVisible = false;
         pauseVisible = false;
         inventoryVisible = false;
+        journalVisible = false;
         skillsVisible = false;
         mapVisible = false;
+        dialogueVisible = false;
         optionsVisible = false;
+        activeDialogue = null;
         uiController.ShowTitleMenu(false);
         uiController.ShowPauseMenu(false);
         uiController.ShowInventory(false, null);
+        uiController.ShowJournal(false, null);
         uiController.ShowSkills(false, null, 0);
         uiController.ShowMap(false);
+        uiController.ShowDialogue(false, null);
         uiController.ShowOptions(false);
     }
 
@@ -754,8 +1030,30 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         yield return new WaitForSecondsRealtime(0.2f);
         TogglePauseMenu();
 
+        DialogueNpcInteractable echoNpc = saveableRoot != null
+            ? saveableRoot.GetComponentsInChildren<DialogueNpcInteractable>(true).FirstOrDefault(candidate => candidate != null && candidate.NpcId == "npc_echo")
+            : null;
+        if (echoNpc != null)
+        {
+            stateValidator?.ResetCounters();
+            echoNpc.Interact(player);
+            yield return new WaitForSecondsRealtime(0.1f);
+            SelectDialogueChoice("echo_accept_security");
+            yield return new WaitForSecondsRealtime(0.1f);
+            stateValidator?.ValidateDialogueCompletion();
+        }
+
+        ToggleJournal();
+        yield return new WaitForSecondsRealtime(0.15f);
+        ToggleJournal();
+
         stateValidator?.ResetCounters();
         var firstPickup = registeredPickups.FirstOrDefault(candidate =>
+            candidate != null &&
+            candidate.gameObject.activeInHierarchy &&
+            candidate.ItemData != null &&
+            candidate.ItemData.Id == "key_red");
+        firstPickup ??= registeredPickups.FirstOrDefault(candidate =>
             candidate != null &&
             candidate.gameObject.activeInHierarchy &&
             candidate.ItemData != null &&
@@ -778,7 +1076,8 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
             .Interact(player);
         yield return new WaitForSecondsRealtime(0.1f);
 
-        EnemyAgent enemy = registeredEnemies.FirstOrDefault(candidate => candidate != null && candidate.IsAlive && candidate.gameObject.activeInHierarchy);
+        EnemyAgent enemy = registeredEnemies.FirstOrDefault(candidate => candidate != null && candidate.IsAlive && candidate.gameObject.activeInHierarchy && candidate.SaveId == "sentry_hub");
+        enemy ??= registeredEnemies.FirstOrDefault(candidate => candidate != null && candidate.IsAlive && candidate.gameObject.activeInHierarchy);
         if (enemy != null)
         {
             stateValidator?.ResetCounters();
@@ -794,6 +1093,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
             yield return new WaitForSecondsRealtime(0.1f);
             stateValidator?.ValidateEnemyDeath(enemy);
             stateValidator?.ValidateSkillPointGain(player.SkillTreeComponent, previousSkillPoints);
+            stateValidator?.ValidateQuestCompletion(questManager, "quest_security_sweep");
         }
 
         ToggleSkills();

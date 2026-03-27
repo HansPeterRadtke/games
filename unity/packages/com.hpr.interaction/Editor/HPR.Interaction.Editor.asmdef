@@ -6,7 +6,8 @@
     "HPR.Core.Runtime",
     "HPR.Eventbus.Runtime",
     "HPR.Inventory.Runtime",
-    "HPR.Interaction.Runtime"
+    "HPR.Interaction.Runtime",
+    "HPR.Interaction.Demo"
   ],
   "includePlatforms": [
     "Editor"

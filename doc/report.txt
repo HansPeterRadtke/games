@@ -134,3 +134,77 @@ Validation at this checkpoint
   - `Unlocked Recovery Lattice`
   - `Smoke test completed`
 - No imported third-party asset folders were added to git tracking.
+
+2026-03-27 interaction package checkpoint
+- `com.hpr.interaction` is no longer a scaffold package.
+- Added generic runtime interaction code:
+  - `IInteractionActor`
+  - `IInteractable`
+  - `InteractionSensor`
+  - `InventoryPickupInteractable`
+  - `KeyDoorInteractable`
+  - `SimpleInteractionActor`
+- Added a committed standalone package demo:
+  - `unity/packages/com.hpr.interaction/Demo/InteractionDemo.unity`
+  - built by `InteractionDemoSceneBuilder.BuildDemoScene`
+- Added package-owned safe demo assets:
+  - `DemoBronzeKey.asset`
+  - `DemoMedkit.asset`
+- Integrated the generic interaction contracts back into the main game:
+  - `PlayerGameplayController`
+  - `DoorController`
+  - `PickupItem`
+  - `IPlayerActor` now composes through `IInteractionActor`
+- Validation:
+  - `unity/tools/packages/validate_local_packages.sh com.hpr.interaction`
+  - full game build
+  - full smoke test
+- Player log remains clean:
+  - no runtime exceptions
+  - smoke still completes successfully
+
+
+2026-03-27 quest + dialogue + journal checkpoint
+- `com.hpr.interaction` is now a real reusable package, not a scaffold.
+- Added committed standalone interaction demo content:
+  - `unity/packages/com.hpr.interaction/Demo/InteractionDemo.unity`
+  - `InteractionDemoSceneBuilder.BuildDemoScene`
+- Added game-side quest/dialogue/journal runtime in `com.hpr.fpsdemo`:
+  - `Runtime/Questing/QuestData.cs`
+  - `Runtime/Questing/QuestManager.cs`
+  - `Runtime/Dialogue/DialogueData.cs`
+  - `Runtime/Dialogue/DialogueNpcInteractable.cs`
+- Added authored project data assets for quests and dialogues under:
+  - `unity/projects/fps_demo/Assets/Data/Quests`
+  - `unity/projects/fps_demo/Assets/Data/Dialogues`
+- Added two primitive placeholder NPCs to the gameplay scene:
+  - `npc_echo`
+  - `npc_vale`
+- Added journal toggle support through the input package (`J` by default).
+- Save/load now persists quest state through `com.hpr.save` payloads.
+- Smoke validation now covers:
+  - accepting a dialogue-driven quest
+  - collecting the red keycard
+  - killing the hub sentry
+  - quest completion reward
+  - journal open/close
+  - save/load after quest progression
+
+Validation at this checkpoint
+- `unity/tools/packages/validate_local_packages.sh com.hpr.interaction`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.fpsdemo`
+- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
+- `unity/tools/fps_demo/smoke_test.sh`
+- Latest validated package list:
+  - `com.hpr.foundation`
+  - `com.hpr.core`
+  - `com.hpr.eventbus`
+  - `com.hpr.input`
+  - `com.hpr.save`
+  - `com.hpr.inventory`
+  - `com.hpr.interaction`
+  - `com.hpr.weapons`
+  - `com.hpr.ai`
+  - `com.hpr.stats`
+  - `com.hpr.world`
+  - `com.hpr.fpsdemo`

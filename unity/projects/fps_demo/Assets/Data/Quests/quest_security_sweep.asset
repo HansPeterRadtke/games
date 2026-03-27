@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8955332fa2655e24a88653bca8a641e6, type: 3}
+  m_Name: quest_security_sweep
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::QuestData
+  Id: quest_security_sweep
+  Title: Security Sweep
+  Description: Recover the red keycard and neutralize the hub sentry.
+  StartOnSession: 0
+  RewardSkillPoints: 1
+  RewardItem: {fileID: 0}
+  RewardItemAmount: 0
+  ThemeColor: {r: 0.88, g: 0.48, b: 0.28, a: 1}
+  Objectives:
+  - Id: kill_sentry_hub
+    ObjectiveType: 0
+    TargetId: sentry_hub
+    Description: Neutralize the hub sentry
+    RequiredCount: 1
+  - Id: collect_red_key
+    ObjectiveType: 1
+    TargetId: key_red
+    Description: Recover the red security keycard
+    RequiredCount: 1

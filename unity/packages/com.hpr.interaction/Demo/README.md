@@ -1,3 +1,9 @@
 # HPR Interaction Demo
 
-Standalone demo scene and assets for com.hpr.interaction.
+Shows:
+- a simple interaction actor with inventory
+- inventory pickup interactions
+- a keyed door interaction
+- forward probing and prompt display
+
+Use `WASD` to move and `E` to interact.

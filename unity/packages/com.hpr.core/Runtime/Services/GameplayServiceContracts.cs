@@ -6,7 +6,9 @@ public interface IGameplayStateSource
     bool IsGameplayRunning { get; }
     bool IsMapVisible { get; }
     bool IsInventoryVisible { get; }
+    bool IsJournalVisible { get; }
     bool IsSkillsVisible { get; }
+    bool IsDialogueVisible { get; }
     bool IsPauseVisible { get; }
     bool IsOptionsVisible { get; }
     bool IsRebindingKey { get; }
@@ -38,9 +40,11 @@ public interface IGameplayFlowCommands
     void MarkCombatReady();
     void TogglePauseMenu();
     void ToggleInventory();
+    void ToggleJournal();
     void ToggleSkills();
     void ToggleMap();
     void ShowOptionsMenu(bool visible);
+    void CloseDialogue();
 }
 
 public interface IPlayerDeathHandler

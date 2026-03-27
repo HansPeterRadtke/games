@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8955332fa2655e24a88653bca8a641e6, type: 3}
+  m_Name: quest_supply_recovery
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::QuestData
+  Id: quest_supply_recovery
+  Title: Supply Recovery
+  Description: Recover the medkit from the medbay and report back to Quartermaster
+    Vale.
+  StartOnSession: 0
+  RewardSkillPoints: 1
+  RewardItem: {fileID: 0}
+  RewardItemAmount: 0
+  ThemeColor: {r: 0.34, g: 0.76, b: 0.92, a: 1}
+  Objectives:
+  - Id: collect_medkit
+    ObjectiveType: 1
+    TargetId: item_medkit
+    Description: Retrieve the medkit from the medbay
+    RequiredCount: 1
+  - Id: report_to_vale
+    ObjectiveType: 2
+    TargetId: npc_vale
+    Description: Report back to Quartermaster Vale
+    RequiredCount: 1

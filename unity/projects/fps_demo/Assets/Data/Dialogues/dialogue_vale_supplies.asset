@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b5984e7dc9354366b3b71c6f2ab09ee, type: 3}
+  m_Name: dialogue_vale_supplies
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::DialogueData
+  Id: dialogue_vale_supplies
+  DisplayName: Quartermaster Vale
+  StartNodeId: vale_start
+  Nodes:
+  - Id: vale_start
+    SpeakerName: Quartermaster Vale
+    Text: Medbay crates are still unsecured. Bring me one intact medkit and I can
+      keep the survivors operational.
+    Choices:
+    - Id: vale_accept_supply
+      Text: Point me to the medbay cache.
+      NextNodeId: 
+      ExitAfterChoice: 1
+      StartQuestId: quest_supply_recovery
+      StatusMessage: Quartermaster Vale marked the medbay cache in your journal.
+    - Id: vale_acknowledge
+      Text: Understood. I will report back when I have it.
+      NextNodeId: 
+      ExitAfterChoice: 1
+      StartQuestId: 
+      StatusMessage: 

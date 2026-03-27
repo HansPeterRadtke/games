@@ -16,6 +16,7 @@ public class DoorController : MonoBehaviour, IInteractable, ISaveableEntity
     private IStatusMessageSink statusSink;
 
     public string SaveId => saveId;
+    public InteractionType InteractionType => InteractionType.Open;
 
     private void Awake()
     {
@@ -55,9 +56,9 @@ public class DoorController : MonoBehaviour, IInteractable, ISaveableEntity
         statusSink = servicesBehaviour as IStatusMessageSink;
     }
 
-    public string GetPrompt(IPlayerActor player)
+    public string GetPrompt(IInteractionActor player)
     {
-        if (requiredKeyItem != null && !player.InventoryService.HasItem(requiredKeyItem.Id))
+        if (requiredKeyItem != null && (player?.InventoryService == null || !player.InventoryService.HasItem(requiredKeyItem.Id)))
         {
             return $"{requiredKeyItem.DisplayName} required";
         }
@@ -65,9 +66,9 @@ public class DoorController : MonoBehaviour, IInteractable, ISaveableEntity
         return isOpen ? "Close door [E]" : "Open door [E]";
     }
 
-    public void Interact(IPlayerActor player)
+    public void Interact(IInteractionActor player)
     {
-        if (requiredKeyItem != null && !player.InventoryService.HasItem(requiredKeyItem.Id))
+        if (requiredKeyItem != null && (player?.InventoryService == null || !player.InventoryService.HasItem(requiredKeyItem.Id)))
         {
             statusSink?.NotifyStatus($"{requiredKeyItem.DisplayName} required");
             return;

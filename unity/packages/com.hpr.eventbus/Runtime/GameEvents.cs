@@ -52,6 +52,27 @@ public sealed class EnemyKilledEvent : GameEvent
     public string EnemyDisplayName;
 }
 
+public sealed class DialogueStartedEvent : GameEvent
+{
+    public string NpcId;
+    public string DialogueId;
+    public string SpeakerName;
+}
+
+public sealed class DialogueCompletedEvent : GameEvent
+{
+    public string NpcId;
+    public string DialogueId;
+    public string FinalNodeId;
+}
+
+public sealed class QuestCompletedEvent : GameEvent
+{
+    public string QuestId;
+    public string QuestTitle;
+    public int RewardSkillPoints;
+}
+
 public sealed class StatusMessageEvent : GameEvent
 {
     public string Message;

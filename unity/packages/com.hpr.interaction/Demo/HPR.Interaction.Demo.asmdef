@@ -1,0 +1,18 @@
+{
+  "name": "HPR.Interaction.Demo",
+  "rootNamespace": "",
+  "references": [
+    "HPR.Interaction.Runtime",
+    "HPR.Inventory.Runtime",
+    "HPR.Eventbus.Runtime"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

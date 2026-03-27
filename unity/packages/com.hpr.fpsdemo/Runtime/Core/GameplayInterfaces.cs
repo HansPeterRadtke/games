@@ -1,12 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IInteractable
-{
-    string GetPrompt(IPlayerActor player);
-    void Interact(IPlayerActor player);
-}
-
 public interface IImpactReceiver
 {
     void ApplyImpact(Vector3 impulse, Vector3 point);
@@ -38,11 +32,9 @@ public interface IWeaponLoadout
     void TickPresentation(float movementAmount, bool isAiming, bool isRunning);
 }
 
-public interface IPlayerActor
+public interface IPlayerActor : IInteractionActor
 {
-    Transform ActorTransform { get; }
     Camera ViewCamera { get; }
-    IInventoryService InventoryService { get; }
     IPlayerStats Stats { get; }
     IWeaponLoadout WeaponSystem { get; }
     bool IsAiming { get; }
@@ -62,4 +54,21 @@ public interface IEnemyRegistry
 public interface ISkillTreeCommands
 {
     bool TryUnlockSkill(string skillId);
+}
+
+public interface ISkillPointRewardSink
+{
+    void AwardSkillPoints(int amount, string reason);
+}
+
+public interface IQuestJournalSource
+{
+    List<QuestJournalEntryViewData> BuildJournalEntries();
+}
+
+public interface IDialogueFlowCommands
+{
+    bool StartDialogue(string npcId, string speakerName, DialogueData dialogueData);
+    void SelectDialogueChoice(string choiceId);
+    void CloseDialogue();
 }

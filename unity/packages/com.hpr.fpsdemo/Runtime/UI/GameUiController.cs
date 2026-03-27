@@ -9,6 +9,8 @@ public class GameUiController : MonoBehaviour
 {
     private IGameMenuCommands menuCommands;
     private ISkillTreeCommands skillCommands;
+    private IQuestJournalSource journalSource;
+    private IDialogueFlowCommands dialogueCommands;
     private IInputBindingsSource inputBindings;
     private IOptionsController optionsController;
     private Font uiFont;
@@ -26,13 +28,19 @@ public class GameUiController : MonoBehaviour
     private GameObject menuPanel;
     private GameObject optionsPanel;
     private GameObject inventoryPanel;
+    private GameObject journalPanel;
     private GameObject mapPanel;
     private GameObject skillsPanel;
+    private GameObject dialoguePanel;
     private RectTransform inventoryGrid;
+    private RectTransform journalGrid;
     private Text inventoryDetailText;
+    private Text journalDetailText;
     private readonly Dictionary<InventoryTab, Button> inventoryTabButtons = new Dictionary<InventoryTab, Button>();
     private readonly List<GameObject> inventoryCards = new List<GameObject>();
+    private readonly List<GameObject> journalCards = new List<GameObject>();
     private readonly List<GameObject> skillCards = new List<GameObject>();
+    private readonly List<GameObject> dialogueChoiceButtons = new List<GameObject>();
     private List<InventoryTabData> inventoryTabs = new List<InventoryTabData>();
     private InventoryTab currentInventoryTab = InventoryTab.Weapons;
     private RawImage mapImage;
@@ -40,6 +48,9 @@ public class GameUiController : MonoBehaviour
     private RectTransform skillsGrid;
     private Text skillPointsText;
     private Text skillDetailText;
+    private Text dialogueSpeakerText;
+    private Text dialogueBodyText;
+    private RectTransform dialogueChoiceRoot;
     private Text optionsStatusText;
     private Button newGameButton;
     private Text newGameButtonText;
@@ -65,6 +76,8 @@ public class GameUiController : MonoBehaviour
     {
         menuCommands = ResolveInterface<IGameMenuCommands>(services);
         skillCommands = ResolveInterface<ISkillTreeCommands>(services);
+        journalSource = ResolveInterface<IQuestJournalSource>(services);
+        dialogueCommands = ResolveInterface<IDialogueFlowCommands>(services);
         inputBindings = ResolveInterface<IInputBindingsSource>(services);
         optionsController = ResolveInterface<IOptionsController>(services);
         uiFont = Resources.GetBuiltinResource<Font>("Arial.ttf");
@@ -156,8 +169,10 @@ public class GameUiController : MonoBehaviour
         {
             optionsPanel?.SetActive(false);
             inventoryPanel?.SetActive(false);
+            journalPanel?.SetActive(false);
             mapPanel?.SetActive(false);
             skillsPanel?.SetActive(false);
+            dialoguePanel?.SetActive(false);
         }
 
         menuPanel.SetActive(show);
@@ -191,6 +206,8 @@ public class GameUiController : MonoBehaviour
         }
 
         menuPanel.SetActive(show);
+        journalPanel?.SetActive(false);
+        dialoguePanel?.SetActive(false);
         if (!show)
         {
             return;
@@ -252,6 +269,8 @@ public class GameUiController : MonoBehaviour
     public void ShowOptions(bool show)
     {
         optionsPanel.SetActive(show);
+        journalPanel?.SetActive(false);
+        dialoguePanel?.SetActive(false);
         if (!show)
         {
             pendingRebindAction = null;
@@ -262,6 +281,8 @@ public class GameUiController : MonoBehaviour
     public void ShowInventory(bool show, List<InventoryTabData> tabs)
     {
         inventoryPanel.SetActive(show);
+        journalPanel?.SetActive(false);
+        dialoguePanel?.SetActive(false);
         skillsPanel?.SetActive(false);
         if (!show || tabs == null)
         {
@@ -279,6 +300,8 @@ public class GameUiController : MonoBehaviour
     public void ShowMap(bool show)
     {
         mapPanel.SetActive(show);
+        journalPanel?.SetActive(false);
+        dialoguePanel?.SetActive(false);
         skillsPanel?.SetActive(false);
         if (show && mapHintText != null)
         {
@@ -294,12 +317,54 @@ public class GameUiController : MonoBehaviour
         }
 
         skillsPanel.SetActive(show);
+        journalPanel?.SetActive(false);
+        dialoguePanel?.SetActive(false);
         if (!show || entries == null)
         {
             return;
         }
 
         RefreshSkills(entries, skillPoints);
+    }
+
+    public void ShowJournal(bool show, List<QuestJournalEntryViewData> entries)
+    {
+        if (journalPanel == null)
+        {
+            return;
+        }
+
+        journalPanel.SetActive(show);
+        if (!show)
+        {
+            return;
+        }
+
+        inventoryPanel?.SetActive(false);
+        skillsPanel?.SetActive(false);
+        mapPanel?.SetActive(false);
+        dialoguePanel?.SetActive(false);
+        RefreshJournal(entries ?? new List<QuestJournalEntryViewData>());
+    }
+
+    public void ShowDialogue(bool show, DialogueViewData data)
+    {
+        if (dialoguePanel == null)
+        {
+            return;
+        }
+
+        dialoguePanel.SetActive(show);
+        if (!show || data == null)
+        {
+            return;
+        }
+
+        inventoryPanel?.SetActive(false);
+        journalPanel?.SetActive(false);
+        skillsPanel?.SetActive(false);
+        mapPanel?.SetActive(false);
+        RefreshDialogue(data);
     }
 
     public void SelectInventoryTab(InventoryTab tab)
@@ -374,8 +439,10 @@ public class GameUiController : MonoBehaviour
         BuildMenu();
         BuildOptions();
         BuildInventory();
+        BuildJournal();
         BuildSkills();
         BuildMap();
+        BuildDialogue();
         hudBuilt = true;
     }
 
@@ -404,6 +471,80 @@ public class GameUiController : MonoBehaviour
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(skillsGrid);
+        Canvas.ForceUpdateCanvases();
+    }
+
+    private void RefreshJournal(List<QuestJournalEntryViewData> entries)
+    {
+        if (journalGrid == null || journalDetailText == null)
+        {
+            return;
+        }
+
+        foreach (var card in journalCards)
+        {
+            if (card != null)
+            {
+                Destroy(card);
+            }
+        }
+        journalCards.Clear();
+
+        if (entries == null || entries.Count == 0)
+        {
+            journalDetailText.text = "No active contracts. Speak with friendly operators to accept objectives.";
+            return;
+        }
+
+        foreach (QuestJournalEntryViewData entry in entries)
+        {
+            journalCards.Add(CreateJournalCard(journalGrid, entry).gameObject);
+        }
+
+        var firstActive = entries.FirstOrDefault(entry => entry.Active) ?? entries[0];
+        journalDetailText.text = $"{firstActive.Title}: {firstActive.Description}";
+        LayoutRebuilder.ForceRebuildLayoutImmediate(journalGrid);
+        Canvas.ForceUpdateCanvases();
+    }
+
+    private void RefreshDialogue(DialogueViewData data)
+    {
+        if (dialogueSpeakerText == null || dialogueBodyText == null || dialogueChoiceRoot == null || data == null)
+        {
+            return;
+        }
+
+        dialogueSpeakerText.text = string.IsNullOrWhiteSpace(data.SpeakerName) ? "Operator" : data.SpeakerName;
+        dialogueBodyText.text = data.Body ?? string.Empty;
+
+        foreach (var buttonGo in dialogueChoiceButtons)
+        {
+            if (buttonGo != null)
+            {
+                Destroy(buttonGo);
+            }
+        }
+        dialogueChoiceButtons.Clear();
+
+        var choices = data.Choices ?? new List<DialogueChoiceViewData>();
+        if (choices.Count == 0)
+        {
+            choices = new List<DialogueChoiceViewData>
+            {
+                new DialogueChoiceViewData { Id = string.Empty, Label = "Continue" }
+            };
+        }
+
+        foreach (DialogueChoiceViewData choice in choices)
+        {
+            var button = CreateTopLeftButton(dialogueChoiceRoot, $"{choice.Id}_DialogueChoice", choice.Label, Vector2.zero, new Vector2(760f, 42f), () => dialogueCommands?.SelectDialogueChoice(choice.Id));
+            button.GetComponent<RectTransform>().anchorMin = new Vector2(0.5f, 1f);
+            button.GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 1f);
+            button.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 1f);
+            dialogueChoiceButtons.Add(button.gameObject);
+        }
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(dialogueChoiceRoot);
         Canvas.ForceUpdateCanvases();
     }
 
@@ -510,13 +651,13 @@ public class GameUiController : MonoBehaviour
 
     private void BuildOptions()
     {
-        var panel = CreatePanel("OptionsPanel", root, Vector2.zero, new Vector2(1260f, 820f), new Color(0.03f, 0.05f, 0.08f, 0.95f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+        var panel = CreatePanel("OptionsPanel", root, Vector2.zero, new Vector2(1260f, 860f), new Color(0.03f, 0.05f, 0.08f, 0.95f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
         optionsPanel = panel.gameObject;
         optionsPanel.SetActive(false);
         CreateText("OptionsTitle", panel, "Options", 34, TextAnchor.UpperCenter, new Vector2(0f, -18f), new Vector2(280f, 40f));
 
-        var left = CreatePanel("OptionsLeft", panel, new Vector2(28f, -80f), new Vector2(540f, 660f), new Color(0.12f, 0.14f, 0.18f, 0.55f), new Vector2(0f, 1f), new Vector2(0f, 1f));
-        var right = CreatePanel("OptionsRight", panel, new Vector2(-28f, -80f), new Vector2(620f, 660f), new Color(0.12f, 0.14f, 0.18f, 0.55f), new Vector2(1f, 1f), new Vector2(1f, 1f));
+        var left = CreatePanel("OptionsLeft", panel, new Vector2(28f, -80f), new Vector2(540f, 700f), new Color(0.12f, 0.14f, 0.18f, 0.55f), new Vector2(0f, 1f), new Vector2(0f, 1f));
+        var right = CreatePanel("OptionsRight", panel, new Vector2(-28f, -80f), new Vector2(620f, 700f), new Color(0.12f, 0.14f, 0.18f, 0.55f), new Vector2(1f, 1f), new Vector2(1f, 1f));
 
         CreateTopLeftText("GraphicsHeader", left, "Graphics / Audio", 26, TextAnchor.UpperLeft, new Vector2(18f, -16f), new Vector2(240f, 28f));
         CreateSliderRow(left, "fov", "Field of View", 75f, 55f, 110f, new Vector2(18f, -72f), value =>
@@ -579,16 +720,16 @@ public class GameUiController : MonoBehaviour
         foreach (var action in new[]
                  {
                      GameAction.MoveForward, GameAction.MoveBackward, GameAction.MoveLeft, GameAction.MoveRight,
-                     GameAction.Jump, GameAction.Run, GameAction.Interact, GameAction.Inventory, GameAction.Skills, GameAction.Map,
+                     GameAction.Jump, GameAction.Run, GameAction.Interact, GameAction.Inventory, GameAction.Journal, GameAction.Skills, GameAction.Map,
                      GameAction.Pause, GameAction.Flashlight, GameAction.Reload
                  })
         {
             CreateBindingRow(right, action, new Vector2(18f, y));
-            y -= 48f;
+            y -= 44f;
         }
 
-        optionsStatusText = CreateText("OptionsStatus", panel, string.Empty, 18, TextAnchor.MiddleCenter, new Vector2(0f, -768f), new Vector2(920f, 26f));
-        CreateButton(panel, "OptionsBack", "Back", new Vector2(0f, -716f), new Vector2(180f, 44f), () => menuCommands?.ShowOptionsMenu(false));
+        optionsStatusText = CreateText("OptionsStatus", panel, string.Empty, 18, TextAnchor.MiddleCenter, new Vector2(0f, -808f), new Vector2(920f, 26f));
+        CreateButton(panel, "OptionsBack", "Back", new Vector2(0f, -756f), new Vector2(180f, 44f), () => menuCommands?.ShowOptionsMenu(false));
     }
 
     private void BuildInventory()
@@ -633,6 +774,31 @@ public class GameUiController : MonoBehaviour
         inventoryDetailText.verticalOverflow = VerticalWrapMode.Overflow;
     }
 
+    private void BuildJournal()
+    {
+        var panel = CreatePanel("JournalPanel", root, new Vector2(28f, -100f), new Vector2(620f, 720f), new Color(0.03f, 0.04f, 0.07f, 0.95f), new Vector2(0f, 1f), new Vector2(0f, 1f));
+        journalPanel = panel.gameObject;
+        journalPanel.SetActive(false);
+        CreateText("JournalTitle", panel, "Quest Journal", 30, TextAnchor.UpperCenter, new Vector2(0f, -18f), new Vector2(280f, 34f));
+
+        var gridPanel = CreatePanel("JournalGridPanel", panel, new Vector2(0f, -70f), new Vector2(570f, 540f), new Color(0.08f, 0.1f, 0.14f, 0.82f), new Vector2(0.5f, 1f), new Vector2(0.5f, 1f));
+        journalGrid = CreateRectTransform("JournalGrid", gridPanel, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(14f, -14f), new Vector2(542f, 0f));
+        journalGrid.pivot = new Vector2(0f, 1f);
+        var layout = journalGrid.gameObject.AddComponent<VerticalLayoutGroup>();
+        layout.spacing = 12f;
+        layout.padding = new RectOffset(0, 0, 0, 0);
+        layout.childControlHeight = false;
+        layout.childControlWidth = true;
+        layout.childForceExpandHeight = false;
+        layout.childForceExpandWidth = true;
+        var fitter = journalGrid.gameObject.AddComponent<ContentSizeFitter>();
+        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        journalDetailText = CreateText("JournalDetail", panel, string.Empty, 17, TextAnchor.UpperLeft, new Vector2(0f, -634f), new Vector2(560f, 58f));
+        journalDetailText.horizontalOverflow = HorizontalWrapMode.Wrap;
+        journalDetailText.verticalOverflow = VerticalWrapMode.Overflow;
+    }
+
     private void BuildSkills()
     {
         var panel = CreatePanel("SkillsPanel", root, Vector2.zero, new Vector2(860f, 720f), new Color(0.04f, 0.05f, 0.08f, 0.95f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
@@ -670,6 +836,28 @@ public class GameUiController : MonoBehaviour
         mapImage.color = Color.white;
         mapHintText = CreateText("MapHint", panel, string.Empty, 18, TextAnchor.MiddleCenter, new Vector2(0f, -842f), new Vector2(520f, 24f));
         mapHintText.color = new Color(0.86f, 0.9f, 0.96f, 0.95f);
+    }
+
+    private void BuildDialogue()
+    {
+        var panel = CreatePanel("DialoguePanel", root, new Vector2(0f, -60f), new Vector2(920f, 430f), new Color(0.03f, 0.04f, 0.07f, 0.96f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+        dialoguePanel = panel.gameObject;
+        dialoguePanel.SetActive(false);
+        dialogueSpeakerText = CreateText("DialogueSpeaker", panel, "Speaker", 30, TextAnchor.UpperCenter, new Vector2(0f, -20f), new Vector2(520f, 34f));
+        dialogueBodyText = CreateText("DialogueBody", panel, string.Empty, 22, TextAnchor.UpperLeft, new Vector2(0f, -82f), new Vector2(820f, 150f));
+        dialogueBodyText.horizontalOverflow = HorizontalWrapMode.Wrap;
+        dialogueBodyText.verticalOverflow = VerticalWrapMode.Overflow;
+        dialogueChoiceRoot = CreateRectTransform("DialogueChoices", panel, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(0f, -254f), new Vector2(760f, 0f));
+        dialogueChoiceRoot.pivot = new Vector2(0.5f, 1f);
+        var layout = dialogueChoiceRoot.gameObject.AddComponent<VerticalLayoutGroup>();
+        layout.spacing = 10f;
+        layout.childControlHeight = false;
+        layout.childControlWidth = true;
+        layout.childForceExpandHeight = false;
+        layout.childForceExpandWidth = true;
+        var fitter = dialogueChoiceRoot.gameObject.AddComponent<ContentSizeFitter>();
+        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        CreateButton(panel, "DialogueClose", "Close", new Vector2(0f, -378f), new Vector2(180f, 40f), () => dialogueCommands?.CloseDialogue());
     }
 
     private void CreateBindingRow(RectTransform parent, GameAction action, Vector2 anchoredPos)
@@ -811,6 +999,42 @@ public class GameUiController : MonoBehaviour
         return card;
     }
 
+    private RectTransform CreateJournalCard(RectTransform parent, QuestJournalEntryViewData entry)
+    {
+        var card = CreateRectTransform($"{entry.Id}_JournalCard", parent, new Vector2(0f, 1f), new Vector2(1f, 1f), Vector2.zero, new Vector2(0f, 122f));
+        card.offsetMin = new Vector2(0f, 0f);
+        card.offsetMax = new Vector2(0f, 0f);
+        var bg = card.gameObject.AddComponent<Image>();
+        bg.color = entry.Completed
+            ? new Color(0.1f, 0.24f, 0.14f, 0.96f)
+            : (entry.Active ? new Color(0.14f, 0.17f, 0.24f, 0.96f) : new Color(0.1f, 0.11f, 0.14f, 0.96f));
+
+        var accent = CreateRectTransform("Accent", card, new Vector2(0f, 1f), new Vector2(0f, 1f), Vector2.zero, new Vector2(10f, 122f));
+        accent.pivot = new Vector2(0f, 1f);
+        var accentImage = accent.gameObject.AddComponent<Image>();
+        accentImage.color = entry.ThemeColor;
+
+        var title = CreateTopLeftText("Title", card, entry.Title, 20, TextAnchor.UpperLeft, new Vector2(24f, -16f), new Vector2(320f, 24f));
+        title.horizontalOverflow = HorizontalWrapMode.Wrap;
+        title.verticalOverflow = VerticalWrapMode.Overflow;
+        var state = CreateTopLeftText("State", card, entry.Completed ? "Completed" : (entry.Active ? "Active" : "Tracked"), 15, TextAnchor.UpperRight, new Vector2(356f, -18f), new Vector2(160f, 20f));
+        state.color = entry.Completed ? new Color(0.72f, 1f, 0.72f, 1f) : new Color(1f, 0.92f, 0.7f, 1f);
+        var desc = CreateTopLeftText("Desc", card, entry.Description, 14, TextAnchor.UpperLeft, new Vector2(24f, -46f), new Vector2(500f, 32f));
+        desc.horizontalOverflow = HorizontalWrapMode.Wrap;
+        desc.verticalOverflow = VerticalWrapMode.Overflow;
+        desc.color = new Color(0.84f, 0.9f, 0.96f, 0.95f);
+
+        float y = -84f;
+        foreach (QuestObjectiveProgressViewData objective in entry.Objectives ?? new List<QuestObjectiveProgressViewData>())
+        {
+            var line = CreateTopLeftText("Objective", card, $"{(objective.Completed ? "[x]" : "[ ]")} {objective.Description} ({objective.CurrentCount}/{objective.RequiredCount})", 13, TextAnchor.UpperLeft, new Vector2(24f, y), new Vector2(500f, 18f));
+            line.color = objective.Completed ? new Color(0.74f, 1f, 0.74f, 1f) : new Color(0.9f, 0.92f, 0.96f, 1f);
+            y -= 18f;
+        }
+
+        return card;
+    }
+
     private Button CreateButton(RectTransform parent, string name, string label, Vector2 anchoredPos, Vector2 size, UnityEngine.Events.UnityAction action)
     {
         var rt = CreateRectTransform(name, parent, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), anchoredPos, size);
@@ -897,6 +1121,7 @@ public class GameUiController : MonoBehaviour
             run = current.run,
             interact = current.interact,
             inventory = current.inventory,
+            journal = current.journal,
             skills = current.skills,
             map = current.map,
             pause = current.pause,

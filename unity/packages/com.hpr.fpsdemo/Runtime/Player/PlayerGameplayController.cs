@@ -104,7 +104,11 @@ public class PlayerGameplayController : MonoBehaviour
         var options = inputBindings.CurrentOptions;
         if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Pause)) && !gameplayState.IsRebindingKey)
         {
-            if (gameplayState.IsOptionsVisible)
+            if (gameplayState.IsDialogueVisible)
+            {
+                flowCommands?.CloseDialogue();
+            }
+            else if (gameplayState.IsOptionsVisible)
             {
                 flowCommands?.ShowOptionsMenu(false);
             }
@@ -115,6 +119,10 @@ public class PlayerGameplayController : MonoBehaviour
             else if (gameplayState.IsInventoryVisible)
             {
                 flowCommands?.ToggleInventory();
+            }
+            else if (gameplayState.IsJournalVisible)
+            {
+                flowCommands?.ToggleJournal();
             }
             else if (gameplayState.IsSkillsVisible)
             {
@@ -129,6 +137,11 @@ public class PlayerGameplayController : MonoBehaviour
         if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Inventory)))
         {
             flowCommands?.ToggleInventory();
+        }
+
+        if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Journal)))
+        {
+            flowCommands?.ToggleJournal();
         }
 
         if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Skills)))
@@ -175,7 +188,7 @@ public class PlayerGameplayController : MonoBehaviour
         currentInteractable = null;
         if (Physics.Raycast(actor.ViewCamera.transform.position, actor.ViewCamera.transform.forward, out RaycastHit hit, interactRange, ~0, QueryTriggerInteraction.Collide))
         {
-            currentInteractable = hit.collider.GetComponentInParent<IInteractable>();
+            currentInteractable = hit.collider.GetComponentsInParent<MonoBehaviour>(true).OfType<IInteractable>().FirstOrDefault();
         }
 
         if (currentInteractable != null)

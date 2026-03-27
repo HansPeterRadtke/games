@@ -70,6 +70,7 @@ public static class SceneBootstrap
         var sharedMaterials = CreateMaterialPalette();
         var allItems = GameplayDataSeeder.LoadAllItems();
         var allSkills = GameplayDataSeeder.LoadAllSkills();
+        var allQuests = GameplayDataSeeder.LoadAllQuests();
         var itemLookup = BuildItemLookup(allItems);
         var weaponLoadout = GameplayDataSeeder.LoadDefaultWeapons();
 
@@ -78,7 +79,7 @@ public static class SceneBootstrap
         var player = CreatePlayer(weaponLoadout, allItems, allSkills);
         var mapCamera = CreateMapCamera(player.ActorTransform);
         player.GetComponent<PlayerGameplayController>().BindMapCamera(mapCamera.GetComponent<MapCameraFollow>());
-        CreateGameSystems(player, mapCamera, world);
+        CreateGameSystems(player, mapCamera, world, allQuests);
 
         EditorBuildSettings.scenes = new[]
         {
@@ -125,13 +126,15 @@ public static class SceneBootstrap
 
         var knownItems = GameplayDataSeeder.LoadAllItems();
         var skills = GameplayDataSeeder.LoadAllSkills();
+        var quests = GameplayDataSeeder.LoadAllQuests();
         var itemLookup = BuildItemLookup(knownItems);
         var loadout = GameplayDataSeeder.LoadDefaultWeapons();
+        var sharedMaterials = CreateMaterialPalette();
 
         changed |= EnsureWorldHierarchy(world);
-        changed |= EnsureWorldEntityData(world, itemLookup);
+        changed |= EnsureWorldEntityData(world, itemLookup, sharedMaterials);
         changed |= EnsurePlayerRuntime(playerGo, knownItems, loadout, skills, mapCamera);
-        changed |= EnsureSystemRuntime(systems, playerGo.GetComponent<PlayerActorContext>(), mapCamera, world);
+        changed |= EnsureSystemRuntime(systems, playerGo.GetComponent<PlayerActorContext>(), mapCamera, world, quests);
 
         if (changed)
         {
@@ -254,7 +257,7 @@ public static class SceneBootstrap
         return changed;
     }
 
-    private static bool EnsureSystemRuntime(GameObject systems, PlayerActorContext player, Camera mapCamera, Transform worldRoot)
+    private static bool EnsureSystemRuntime(GameObject systems, PlayerActorContext player, Camera mapCamera, Transform worldRoot, List<QuestData> quests)
     {
         bool changed = false;
         changed |= systems.GetComponent<EventManager>() == null;
@@ -263,23 +266,29 @@ public static class SceneBootstrap
         var validator = GameObjectUtils.GetOrAddComponent<GameStateValidator>(systems);
         changed |= systems.GetComponent<GameUiController>() == null;
         var ui = GameObjectUtils.GetOrAddComponent<GameUiController>(systems);
+        changed |= systems.GetComponent<QuestManager>() == null;
+        var questManager = GameObjectUtils.GetOrAddComponent<QuestManager>(systems);
         changed |= systems.GetComponent<GameManager>() == null;
         var manager = GameObjectUtils.GetOrAddComponent<GameManager>(systems);
+        questManager.ConfigureQuests(quests);
         manager.AssignReferences(player, mapCamera, ui, worldRoot);
         validator.Bind(eventManager);
         EditorUtility.SetDirty(eventManager);
         EditorUtility.SetDirty(validator);
+        EditorUtility.SetDirty(questManager);
         EditorUtility.SetDirty(ui);
         EditorUtility.SetDirty(manager);
         return changed;
     }
 
-    private static bool EnsureWorldEntityData(Transform worldRoot, IReadOnlyDictionary<string, ItemData> items)
+    private static bool EnsureWorldEntityData(Transform worldRoot, IReadOnlyDictionary<string, ItemData> items, Dictionary<string, Material> materials)
     {
         bool changed = false;
+        changed |= EnsureDialogueNpcPresence(worldRoot, materials);
         changed |= EnsurePickupData(worldRoot, items);
         changed |= EnsureDoorData(worldRoot, items);
         changed |= EnsureEnemyData(worldRoot);
+        changed |= EnsureDialogueNpcData(worldRoot);
         return changed;
     }
 
@@ -373,6 +382,67 @@ public static class SceneBootstrap
         return changed;
     }
 
+    private static bool EnsureDialogueNpcData(Transform worldRoot)
+    {
+        bool changed = false;
+        foreach (var npc in worldRoot.GetComponentsInChildren<DialogueNpcInteractable>(true))
+        {
+            if (npc == null || string.IsNullOrWhiteSpace(npc.NpcId))
+            {
+                continue;
+            }
+
+            DialogueData dialogue = npc.NpcId switch
+            {
+                "npc_echo" => GameplayDataSeeder.LoadDialogue("dialogue_echo_briefing"),
+                "npc_vale" => GameplayDataSeeder.LoadDialogue("dialogue_vale_supplies"),
+                _ => null
+            };
+
+            if (dialogue == null)
+            {
+                continue;
+            }
+
+            string displayName = npc.NpcId switch
+            {
+                "npc_echo" => "Commander Echo",
+                "npc_vale" => "Quartermaster Vale",
+                _ => npc.DisplayName
+            };
+
+            npc.Configure(npc.NpcId, displayName, dialogue);
+            EditorUtility.SetDirty(npc);
+            changed = true;
+        }
+
+        return changed;
+    }
+
+    private static bool EnsureDialogueNpcPresence(Transform worldRoot, Dictionary<string, Material> materials)
+    {
+        if (worldRoot == null || materials == null)
+        {
+            return false;
+        }
+
+        var npcRoot = EnsureChild(EnsureChild(worldRoot, "PropsRoot"), "NpcRoot");
+        bool changed = false;
+        if (npcRoot.Find("npc_echo") == null)
+        {
+            CreateDialogueNpc(npcRoot, "npc_echo", "Commander Echo", GameplayDataSeeder.LoadDialogue("dialogue_echo_briefing"), new Vector3(3.5f, 0f, -2.5f), new Vector3(0f, 210f, 0f), materials["Accent"]);
+            changed = true;
+        }
+
+        if (npcRoot.Find("npc_vale") == null)
+        {
+            CreateDialogueNpc(npcRoot, "npc_vale", "Quartermaster Vale", GameplayDataSeeder.LoadDialogue("dialogue_vale_supplies"), new Vector3(-4.2f, 0f, -3.2f), new Vector3(0f, 140f, 0f), materials["Pickup"]);
+            changed = true;
+        }
+
+        return changed;
+    }
+
     private static bool TryResolvePickupDefinition(string saveId, IReadOnlyDictionary<string, ItemData> items, out ItemData itemData, out int amount)
     {
         itemData = null;
@@ -449,6 +519,7 @@ public static class SceneBootstrap
 
         CreateCoverAndDecor(propsRoot, materials);
         CreatePickups(propsRoot, materials, items);
+        CreateDialogueNpcs(propsRoot, materials);
         CreateEnemies(enemyRoot, materials);
         return world;
     }
@@ -498,6 +569,13 @@ public static class SceneBootstrap
         CreateEnemy(parent, "medbay_intruder", GameplayDataSeeder.LoadEnemy("enemy_medbay_intruder"), new Vector3(-18f, 0.2f, 6f), new Vector3(-22f, 0.2f, 1f), new Vector3(-14f, 0.2f, 6f), materials);
         CreateEnemy(parent, "security_guard", GameplayDataSeeder.LoadEnemy("enemy_security_guard"), new Vector3(0f, 0.2f, 20f), new Vector3(-4f, 0.2f, 18f), new Vector3(4f, 0.2f, 22f), materials);
         CreateEnemy(parent, "power_walker", GameplayDataSeeder.LoadEnemy("enemy_power_walker"), new Vector3(0f, 0.2f, -18f), new Vector3(-5f, 0.2f, -22f), new Vector3(5f, 0.2f, -16f), materials);
+    }
+
+    private static void CreateDialogueNpcs(Transform parent, Dictionary<string, Material> materials)
+    {
+        var npcRoot = EnsureChild(parent, "NpcRoot");
+        CreateDialogueNpc(npcRoot, "npc_echo", "Commander Echo", GameplayDataSeeder.LoadDialogue("dialogue_echo_briefing"), new Vector3(3.5f, 0f, -2.5f), new Vector3(0f, 210f, 0f), materials["Accent"]);
+        CreateDialogueNpc(npcRoot, "npc_vale", "Quartermaster Vale", GameplayDataSeeder.LoadDialogue("dialogue_vale_supplies"), new Vector3(-4.2f, 0f, -3.2f), new Vector3(0f, 140f, 0f), materials["Pickup"]);
     }
 
     private static PlayerActorContext CreatePlayer(List<WeaponData> weaponLoadout, List<ItemData> knownItems, List<SkillNodeData> skills)
@@ -560,12 +638,14 @@ public static class SceneBootstrap
         return camera;
     }
 
-    private static GameManager CreateGameSystems(PlayerActorContext player, Camera mapCamera, Transform worldRoot)
+    private static GameManager CreateGameSystems(PlayerActorContext player, Camera mapCamera, Transform worldRoot, List<QuestData> quests)
     {
         var systems = new GameObject("GameSystems");
         var eventManager = systems.AddComponent<EventManager>();
         var ui = systems.AddComponent<GameUiController>();
         var validator = systems.AddComponent<GameStateValidator>();
+        var questManager = systems.AddComponent<QuestManager>();
+        questManager.ConfigureQuests(quests);
         var manager = systems.AddComponent<GameManager>();
         manager.AssignReferences(player, mapCamera, ui, worldRoot);
         validator.Bind(eventManager);
@@ -607,6 +687,40 @@ public static class SceneBootstrap
         var pickupItem = pickup.AddComponent<PickupItem>();
         pickupItem.Configure(saveId, data, amount);
         return pickupItem;
+    }
+
+    private static DialogueNpcInteractable CreateDialogueNpc(Transform parent, string npcId, string displayName, DialogueData dialogueData, Vector3 position, Vector3 euler, Material material)
+    {
+        var root = new GameObject(npcId);
+        root.transform.SetParent(parent, false);
+        root.transform.position = position;
+        root.transform.eulerAngles = euler;
+
+        var capsule = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        capsule.name = "Body";
+        capsule.transform.SetParent(root.transform, false);
+        capsule.transform.localPosition = new Vector3(0f, 0.9f, 0f);
+        capsule.transform.localScale = new Vector3(0.8f, 0.9f, 0.8f);
+        capsule.GetComponent<Renderer>().sharedMaterial = material;
+
+        var head = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        head.name = "Head";
+        head.transform.SetParent(root.transform, false);
+        head.transform.localPosition = new Vector3(0f, 1.85f, 0f);
+        head.transform.localScale = new Vector3(0.42f, 0.42f, 0.42f);
+        head.GetComponent<Renderer>().sharedMaterial = material;
+
+        var marker = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        marker.name = "Marker";
+        marker.transform.SetParent(root.transform, false);
+        marker.transform.localPosition = new Vector3(0f, 2.45f, 0f);
+        marker.transform.localScale = new Vector3(0.12f, 0.25f, 0.12f);
+        marker.GetComponent<Renderer>().sharedMaterial = material;
+        Object.DestroyImmediate(marker.GetComponent<Collider>());
+
+        var interactable = root.AddComponent<DialogueNpcInteractable>();
+        interactable.Configure(npcId, displayName, dialogueData);
+        return interactable;
     }
 
     private static EnemyAgent CreateEnemy(Transform parent, string saveId, EnemyData data, Vector3 position, Vector3 patrolA, Vector3 patrolB, Dictionary<string, Material> materials)
@@ -729,7 +843,7 @@ public static class SceneBootstrap
             return enemyRoot;
         }
 
-        if (child.GetComponent<PickupItem>() != null || child.GetComponent<Rigidbody>() != null || child.name.StartsWith("pickup_") || child.name.Contains("ThirdPartyArt"))
+        if (child.GetComponent<PickupItem>() != null || child.GetComponent<DialogueNpcInteractable>() != null || child.GetComponent<Rigidbody>() != null || child.name.StartsWith("pickup_") || child.name.Contains("ThirdPartyArt"))
         {
             return propsRoot;
         }

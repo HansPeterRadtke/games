@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b5984e7dc9354366b3b71c6f2ab09ee, type: 3}
+  m_Name: dialogue_echo_briefing
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::DialogueData
+  Id: dialogue_echo_briefing
+  DisplayName: Commander Echo
+  StartNodeId: echo_start
+  Nodes:
+  - Id: echo_start
+    SpeakerName: Commander Echo
+    Text: The hub sentry locked down the north corridor. I need that red keycard
+      back and the sentry off the network.
+    Choices:
+    - Id: echo_accept_security
+      Text: I will sweep the corridor.
+      NextNodeId: 
+      ExitAfterChoice: 1
+      StartQuestId: quest_security_sweep
+      StatusMessage: Commander Echo marked the security sweep on your HUD.
+    - Id: echo_decline
+      Text: I need a moment first.
+      NextNodeId: 
+      ExitAfterChoice: 1
+      StartQuestId: 
+      StatusMessage: 
