@@ -23,4 +23,6 @@ MonoBehaviour:
   MaxStaminaBonus: 0
   DamageMultiplierBonus: 0
   MoveSpeedMultiplierBonus: 0.18
+  GrantedAbilities:
+  - {fileID: 11400000, guid: d1cfe0bde2442170e927e53d0b5d8abf, type: 2}
   ThemeColor: {r: 0.24, g: 0.7, b: 0.94, a: 1}

@@ -1,0 +1,14 @@
+{
+  "name": "com.hpr.abilities",
+  "displayName": "HPR Abilities",
+  "version": "0.1.0",
+  "unity": "6000.4",
+  "description": "Reusable data-driven abilities and effects runtime with event-driven activation and standalone demos.",
+  "author": {
+    "name": "HansPeterRadtke"
+  },
+  "dependencies": {
+    "com.hpr.eventbus": "file:../com.hpr.eventbus",
+    "com.hpr.stats": "file:../com.hpr.stats"
+  }
+}

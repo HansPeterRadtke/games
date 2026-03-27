@@ -9,6 +9,7 @@
     "HPR.Eventbus.Runtime",
     "HPR.Input.Runtime",
     "HPR.Inventory.Runtime",
+    "HPR.Abilities.Runtime",
     "HPR.Save.Runtime",
     "HPR.Weapons.Runtime",
     "HPR.Ai.Runtime",

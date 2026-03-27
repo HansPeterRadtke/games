@@ -8,7 +8,8 @@ The helper creates a clean temporary Unity project, resolves declared local pack
 Each invocation now uses its own temp project path by default, so multiple package validations can run concurrently without tripping Unity project-lock errors.
 
 ## Latest validated packages
-Validated on 2026-03-26:
+Validated through 2026-03-27:
+- `com.hpr.foundation`
 - `com.hpr.core`
 - `com.hpr.eventbus`
 - `com.hpr.input`
@@ -18,6 +19,8 @@ Validated on 2026-03-26:
 - `com.hpr.ai`
 - `com.hpr.stats`
 - `com.hpr.world`
+- `com.hpr.interaction`
+- `com.hpr.abilities`
 - `com.hpr.fpsdemo`
 
 ## Log locations
@@ -38,6 +41,7 @@ Relevant recent logs:
 - `20260326_142424_com_hpr_inventory_.log`
 - `20260326_115137_com_hpr_world_.log`
 - `20260326_115201_com_hpr_fpsdemo_.log`
+- `20260327_131049_com_hpr_abilities_.log`
 
 ## Current meaning of a pass
 A passing validation currently proves:
@@ -54,3 +58,4 @@ It does not yet prove:
 - Stats demo scene generation was validated via `unity/tools/fps_demo/run_unity_batch.sh StatsDemoSceneBuilder.BuildDemoScene`.
 - Event bus demo scene generation was validated via `unity/tools/fps_demo/run_unity_batch.sh EventBusDemoSceneBuilder.BuildDemoScene`.
 - Inventory demo scene generation was validated via `unity/tools/fps_demo/run_unity_batch.sh InventoryDemoSceneBuilder.BuildDemoScene`.
+- Abilities demo scene generation was validated via `unity/tools/fps_demo/run_unity_batch.sh AbilitiesDemoSceneBuilder.BuildDemoScene`.

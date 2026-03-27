@@ -12,13 +12,11 @@ Current verified graph for `unity/projects/fps_demo`:
 - `com.hpr.ai`
 - `com.hpr.stats`
 - `com.hpr.world`
+- `com.hpr.abilities`
 - `com.hpr.fpsdemo`
 
 Scaffold-only packages still present but not yet populated with real runtime code:
-- `com.hpr.stats`
-- `com.hpr.interaction`
 - `com.hpr.ui`
-- `com.hpr.world`
 - `com.hpr.bootstrap`
 
 ## Extracted responsibilities
@@ -81,6 +79,17 @@ Current contents:
 - `EnemyAIType`
 - `EnemyAttackStyle`
 
+### com.hpr.abilities
+Reusable ability/effect runtime package now in use by the game.
+Current contents:
+- `AbilityData`
+- `AbilityEffectData`
+- `AbilityRunnerComponent`
+- `IAbilityResourcePool`
+- `IAbilityLoadout`
+- `AbilityUsedEvent`
+- `AbilityEffectAppliedEvent`
+
 ### com.hpr.fpsdemo
 Still owns composition-heavy gameplay runtime and editor tooling.
 Current contents still include:
@@ -115,6 +124,8 @@ Validated in an empty Unity project through `unity/tools/packages/validate_local
 - `com.hpr.ai`
 - `com.hpr.stats`
 - `com.hpr.world`
+- `com.hpr.interaction`
+- `com.hpr.abilities`
 - `com.hpr.fpsdemo` (with declared dependencies)
 
 Logs are in `doc/logs/package_validation/`.
@@ -143,6 +154,11 @@ Candidates:
 Candidates:
 - `IInteractable` once the actor contract is generalized
 - generalized `DoorController` and `PickupItem` logic stripped of project assumptions
+
+### Move from fpsdemo to abilities
+Candidates:
+- ability-triggered presentation hooks that are still embedded in the FPS demo flow
+- generic ability progression hooks that should move out of the game-specific skill tree composition
 
 ### Keep in fpsdemo or move to bootstrap later
 Likely composition-specific:

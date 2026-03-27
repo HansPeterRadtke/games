@@ -220,6 +220,19 @@ public class PlayerGameplayController : MonoBehaviour
             actor.WeaponSystem.Reload();
         }
 
+        if (actor.AbilityLoadout != null)
+        {
+            if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(inputBindings.CurrentOptions, GameAction.AbilityPrimary)))
+            {
+                actor.AbilityLoadout.TryActivateBySlot(0);
+            }
+
+            if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(inputBindings.CurrentOptions, GameAction.AbilitySecondary)))
+            {
+                actor.AbilityLoadout.TryActivateBySlot(1);
+            }
+        }
+
         if (Mathf.Abs(inputSource.MouseScrollDelta.y) > 0.01f)
         {
             int direction = inputSource.MouseScrollDelta.y > 0f ? 1 : -1;
@@ -274,7 +287,8 @@ public class PlayerGameplayController : MonoBehaviour
         foreach (var action in new[]
                  {
                      GameAction.MoveForward, GameAction.MoveBackward, GameAction.MoveLeft, GameAction.MoveRight,
-                     GameAction.Jump, GameAction.Run, GameAction.Interact, GameAction.Reload
+                     GameAction.Jump, GameAction.Run, GameAction.Interact, GameAction.Reload,
+                     GameAction.AbilityPrimary, GameAction.AbilitySecondary
                  })
         {
             if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, action)))

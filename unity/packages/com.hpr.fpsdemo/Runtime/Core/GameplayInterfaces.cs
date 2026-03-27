@@ -37,6 +37,7 @@ public interface IPlayerActor : IInteractionActor
     Camera ViewCamera { get; }
     IPlayerStats Stats { get; }
     IWeaponLoadout WeaponSystem { get; }
+    IAbilityLoadout AbilityLoadout { get; }
     bool IsAiming { get; }
 }
 

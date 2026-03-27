@@ -14,6 +14,7 @@ The repo is in a buildable intermediate package-productization checkpoint. The m
 - `unity/packages/com.hpr.ai` - enemy definitions and AI metadata
 - `unity/packages/com.hpr.stats` - reusable actor stats runtime and demo scene
 - `unity/packages/com.hpr.world` - generic asset metadata and registry types
+- `unity/packages/com.hpr.abilities` - reusable ability/effect data, runtime activation, and standalone demo
 - `unity/packages/com.hpr.interaction` - reusable interaction contracts, sensors, pickups, keyed doors, and standalone demo
 - `unity/packages/com.hpr.fpsdemo` - current composition-heavy gameplay package
 
@@ -57,6 +58,7 @@ Verified as `hans`:
   - `com.hpr.ai`
   - `com.hpr.stats`
   - `com.hpr.world`
+  - `com.hpr.abilities`
   - `com.hpr.fpsdemo`
 
 ## Demo progress
@@ -64,12 +66,14 @@ Verified as `hans`:
 - `com.hpr.eventbus` now includes `EventBusSourceAdapter` to make standalone package demos easier to compose
 - `com.hpr.eventbus` now has a committed standalone demo scene: `unity/packages/com.hpr.eventbus/Demo/EventBusDemo.unity`
 - `com.hpr.inventory` now has a committed standalone demo scene: `unity/packages/com.hpr.inventory/Demo/InventoryDemo.unity`
+- `com.hpr.abilities` now has a committed standalone demo scene: `unity/packages/com.hpr.abilities/Demo/AbilitiesDemo.unity`
 - `com.hpr.interaction` now has a committed standalone demo scene: `unity/packages/com.hpr.interaction/Demo/InteractionDemo.unity`
 
 ## Remaining work before store-ready modularity
 - move generic stats contracts/runtime out of `com.hpr.fpsdemo`
 - move weapon runtime execution out of `com.hpr.fpsdemo` into `com.hpr.weapons`
 - move AI runtime behavior out of `com.hpr.fpsdemo` into `com.hpr.ai`
+- move generic progression/effect execution that is still FPS-specific out of `com.hpr.fpsdemo` and onto `com.hpr.abilities`/`com.hpr.stats`
 - reduce `com.hpr.eventbus` to generic bus + cleaner domain event separation
 - create real demo scenes and tests per package
 - shrink `com.hpr.fpsdemo` to project composition/bootstrap only

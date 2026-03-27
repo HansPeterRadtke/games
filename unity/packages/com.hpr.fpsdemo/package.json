@@ -15,6 +15,7 @@
     "com.hpr.save": "file:../com.hpr.save",
     "com.unity.ugui": "2.0.0",
     "com.hpr.inventory": "file:../com.hpr.inventory",
+    "com.hpr.abilities": "file:../com.hpr.abilities",
     "com.hpr.interaction": "file:../com.hpr.interaction",
     "com.hpr.weapons": "file:../com.hpr.weapons",
     "com.hpr.ai": "file:../com.hpr.ai",

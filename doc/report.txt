@@ -1,4 +1,4 @@
-Games repo report - 2026-03-26
+Games repo report - 2026-03-27
 
 Current repo state
 - branch: `main`
@@ -28,6 +28,7 @@ The repo is no longer just `foundation + fpsdemo`. Real reusable packages now ho
 - `com.hpr.ai`
 - `com.hpr.stats`
 - `com.hpr.world`
+- `com.hpr.abilities`
 - `com.hpr.fpsdemo`
 
 What was actually moved out of `com.hpr.fpsdemo`
@@ -56,6 +57,7 @@ These systems now bind through interfaces/services instead of direct singleton a
 
 Package validation status
 Validated in a clean empty Unity project:
+- `com.hpr.foundation`
 - `com.hpr.core`
 - `com.hpr.eventbus`
 - `com.hpr.input`
@@ -65,6 +67,7 @@ Validated in a clean empty Unity project:
 - `com.hpr.ai`
 - `com.hpr.stats`
 - `com.hpr.world`
+- `com.hpr.abilities`
 - `com.hpr.fpsdemo` with declared dependencies
 
 Tracked docs/tooling relevant for takeover
@@ -106,6 +109,7 @@ Standalone demo progress
 - `com.hpr.eventbus` now includes `EventBusSourceAdapter` so demo scenes and clean projects can expose an event bus without game-specific composition code
 - `com.hpr.eventbus` now has a committed demo scene at `unity/packages/com.hpr.eventbus/Demo/EventBusDemo.unity`
 - `com.hpr.inventory` now has a committed demo scene at `unity/packages/com.hpr.inventory/Demo/InventoryDemo.unity`
+- `com.hpr.abilities` now has a committed demo scene at `unity/packages/com.hpr.abilities/Demo/AbilitiesDemo.unity`
 
 2026-03-27 progression + animation checkpoint
 - Imported local-only animation content was integrated without tracking vendor data in git:
@@ -218,6 +222,39 @@ Validation at this checkpoint
   - Echo: briefing, active reminder, completion acknowledgement
   - Vale: quest offer, active reminder, turn-in, completion acknowledgement
 - `QuestManager` now supports dialogue objective targets scoped to a final node id via `npcId:nodeId` matching.
+
+2026-03-27 reusable abilities checkpoint
+- Added a real reusable package at `unity/packages/com.hpr.abilities`.
+- The package now owns:
+  - `AbilityData`
+  - `AbilityEffectData`
+  - `AbilityRunnerComponent`
+  - `AbilityUsedEvent`
+  - `AbilityEffectAppliedEvent`
+  - generic ability/resource/loadout contracts
+- Added a standalone demo scene:
+  - `unity/packages/com.hpr.abilities/Demo/AbilitiesDemo.unity`
+  - built by `AbilitiesDemoSceneBuilder.BuildDemoScene`
+- Added authored gameplay ability data under:
+  - `unity/projects/fps_demo/Assets/Data/Abilities`
+  - `unity/projects/fps_demo/Assets/Data/AbilityEffects`
+- Skill nodes now grant authored abilities:
+  - `skill_vigor` -> `Repair Pulse`
+  - `skill_sprinter` -> `Adrenaline Surge`
+  - `skill_overcharge` -> `Shock Pulse`
+- Added rebindable input actions:
+  - `AbilityPrimary` (`Q`)
+  - `AbilitySecondary` (`C`)
+- The FPS smoke path now validates a live ability activation before the save/load segment.
+
+Validation at this checkpoint
+- `unity/tools/packages/validate_local_packages.sh com.hpr.abilities`
+- `unity/tools/fps_demo/run_unity_batch.sh AbilitiesDemoSceneBuilder.BuildDemoScene`
+- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
+- `unity/tools/fps_demo/smoke_test.sh`
+- Player log confirms:
+  - `Repair pulse restored vital systems.`
+  - `Smoke test completed`
 - Supply Recovery no longer completes immediately on quest acceptance; it completes only after the medkit is recovered and the Vale turn-in dialogue is completed.
 - Added authored dialogue assets:
   - `dialogue_echo_reminder`

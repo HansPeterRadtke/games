@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346beff0d3510006f857dbfb7fc00b73, type: 3}
+  m_Name: ability_adrenaline_surge
+  m_EditorClassIdentifier: HPR.Abilities.Runtime::AbilityData
+  Id: ability_adrenaline_surge
+  DisplayName: Adrenaline Surge
+  Description: Flushes the suit with stimulants to restore stamina.
+  TargetType: 0
+  Cooldown: 10
+  Cost: 8
+  Effects:
+  - {fileID: 11400000, guid: 743d754484f07a28c93d7e07f7d460e6, type: 2}
+  ActivationStatus: Adrenaline surge restored stamina.
+  FailureStatus: Adrenaline surge is unavailable.
+  ThemeColor: {r: 0.18, g: 0.68, b: 0.96, a: 1}

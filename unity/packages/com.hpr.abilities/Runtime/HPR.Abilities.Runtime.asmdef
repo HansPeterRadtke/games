@@ -1,0 +1,17 @@
+{
+  "name": "HPR.Abilities.Runtime",
+  "rootNamespace": "",
+  "references": [
+    "HPR.Eventbus.Runtime",
+    "HPR.Stats.Runtime"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

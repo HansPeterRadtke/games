@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(WeaponSystem))]
 [RequireComponent(typeof(UnityInputSource))]
 [RequireComponent(typeof(SkillTreeComponent))]
+[RequireComponent(typeof(AbilityRunnerComponent))]
 public class PlayerActorContext : MonoBehaviour, IPlayerActor
 {
     public PlayerController MovementController { get; private set; }
@@ -14,12 +15,14 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
     public PlayerInventory InventoryComponent { get; private set; }
     public WeaponSystem WeaponSystemComponent { get; private set; }
     public SkillTreeComponent SkillTreeComponent { get; private set; }
+    public AbilityRunnerComponent AbilityComponent { get; private set; }
 
     public Transform ActorTransform => transform;
     public Camera ViewCamera => MovementController != null ? MovementController.PlayerCamera : null;
     public IInventoryService InventoryService => InventoryComponent;
     public IPlayerStats Stats => StatsComponent;
     public IWeaponLoadout WeaponSystem => WeaponSystemComponent;
+    public IAbilityLoadout AbilityLoadout => AbilityComponent;
     public bool IsAiming => MovementController != null && MovementController.IsAiming;
 
     private void Awake()
@@ -27,6 +30,7 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
         EnsureComponentCache();
         WeaponSystemComponent.Initialize(ViewCamera);
         WeaponSystemComponent.BindDependencies(InventoryComponent, StatsComponent);
+        RefreshAbilityUnlocks();
     }
 
     private void EnsureComponentCache()
@@ -36,6 +40,7 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
         InventoryComponent = GetComponent<PlayerInventory>();
         WeaponSystemComponent = GetComponent<WeaponSystem>();
         SkillTreeComponent = GetComponent<SkillTreeComponent>();
+        AbilityComponent = GetComponent<AbilityRunnerComponent>();
     }
 
     public void ConfigureKnownItems(System.Collections.Generic.IEnumerable<ItemData> knownItems)
@@ -51,6 +56,13 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
     public void ConfigureSkills(System.Collections.Generic.IEnumerable<SkillNodeData> skills)
     {
         SkillTreeComponent.ConfigureSkills(skills);
+        RefreshAbilityUnlocks();
+    }
+
+    public void ConfigureAbilities(System.Collections.Generic.IEnumerable<AbilityData> abilities)
+    {
+        AbilityComponent.ConfigureAbilities(abilities);
+        RefreshAbilityUnlocks();
     }
 
     public void BindRuntimeServices(MonoBehaviour services)
@@ -61,6 +73,8 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
         StatsComponent.BindRuntimeServices(services);
         WeaponSystemComponent.BindRuntimeServices(services);
         SkillTreeComponent.BindRuntimeServices(services);
+        AbilityComponent.BindRuntimeServices(services, StatsComponent);
+        RefreshAbilityUnlocks();
         var gameplayController = GetComponent<PlayerGameplayController>();
         if (gameplayController != null)
         {
@@ -82,6 +96,7 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
         InventoryComponent.RestoreItemQuantities(saveData.inventoryItems);
         WeaponSystemComponent.RestoreRuntimeState(saveData.weapons, saveData.selectedWeaponId);
         SkillTreeComponent.RestoreState(saveData.unlockedSkillIds, saveData.skillPoints);
+        RefreshAbilityUnlocks();
     }
 
     public PlayerSaveData CaptureSaveData()
@@ -98,5 +113,11 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
         data.skillPoints = SkillTreeComponent.SkillPoints;
         data.unlockedSkillIds = SkillTreeComponent.CaptureUnlockedSkillIds();
         return data;
+    }
+
+    public void RefreshAbilityUnlocks()
+    {
+        EnsureComponentCache();
+        AbilityComponent?.SetUnlockedAbilityIds(SkillTreeComponent != null ? SkillTreeComponent.BuildUnlockedAbilityIds() : null);
     }
 }

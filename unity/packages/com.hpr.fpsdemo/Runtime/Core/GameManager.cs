@@ -121,8 +121,10 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
     private void Start()
     {
         stateValidator?.Bind(EventBus);
-        questManager?.BindRuntimeServices(this);
         uiController.Initialize(this, mapTexture);
+        BindRuntimeServicesToWorld();
+        EventBus?.Subscribe<StatusMessageEvent>(HandleStatusMessageEvent);
+        EventBus?.Subscribe<HudInvalidatedEvent>(HandleHudInvalidatedEvent);
         if (autoStartRequested || smokeTestRequested)
         {
             BeginSession();
@@ -201,6 +203,8 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
     private void OnDestroy()
     {
+        EventBus?.Unsubscribe<StatusMessageEvent>(HandleStatusMessageEvent);
+        EventBus?.Unsubscribe<HudInvalidatedEvent>(HandleHudInvalidatedEvent);
         if (mapTexture != null)
         {
             mapTexture.Release();
@@ -440,6 +444,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         bool unlocked = player.SkillTreeComponent.TryUnlock(skillId);
         if (unlocked)
         {
+            player.RefreshAbilityUnlocks();
             RefreshHud();
         }
 
@@ -749,9 +754,15 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         }
 
         var currentWeapon = player.WeaponSystemComponent.CurrentState;
+        string resourceSummary = player.InventoryComponent.BuildHudSummary();
+        string abilitySummary = player.AbilityComponent != null ? player.AbilityComponent.BuildHudSummary("Q", "C") : string.Empty;
+        if (!string.IsNullOrWhiteSpace(abilitySummary))
+        {
+            resourceSummary = string.IsNullOrWhiteSpace(resourceSummary) ? abilitySummary : $"{resourceSummary}\n{abilitySummary}";
+        }
         uiController.SetHudValues(player.StatsComponent.Health, player.StatsComponent.MaxHealth, player.StatsComponent.Stamina, player.StatsComponent.MaxStamina,
             currentWeapon?.Data?.DisplayName ?? "Unarmed", currentWeapon?.GetAmmoLabel() ?? string.Empty,
-            player.InventoryComponent.BuildHudSummary());
+            resourceSummary);
 
         if (inventoryVisible)
         {
@@ -890,27 +901,8 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         uiController = ui;
         saveableRoot = rootWithSaveables;
         stateValidator.Bind(eventManager);
-        player?.BindRuntimeServices(this);
-        questManager?.BindRuntimeServices(this);
         RegisterSaveables();
-        foreach (var pickup in registeredPickups)
-        {
-            pickup?.BindRuntimeServices(this);
-        }
-
-        foreach (var door in registeredDoors)
-        {
-            door?.BindRuntimeServices(this);
-        }
-
-        foreach (var enemy in registeredEnemies)
-        {
-            enemy?.BindRuntimeServices(this);
-        }
-        foreach (var npc in saveableRoot.GetComponentsInChildren<DialogueNpcInteractable>(true))
-        {
-            npc?.BindRuntimeServices(this);
-        }
+        BindRuntimeServicesToWorld();
     }
 
     public void ConfigureConsumables(IEnumerable<ConsumableEffectData> effects)
@@ -951,6 +943,19 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         NotifyStatus(string.IsNullOrWhiteSpace(effect.SuccessStatus) ? "Item applied." : effect.SuccessStatus);
         RefreshHud();
         return true;
+    }
+
+    private void HandleStatusMessageEvent(StatusMessageEvent gameEvent)
+    {
+        if (gameEvent != null && !string.IsNullOrWhiteSpace(gameEvent.Message))
+        {
+            NotifyStatus(gameEvent.Message);
+        }
+    }
+
+    private void HandleHudInvalidatedEvent(HudInvalidatedEvent gameEvent)
+    {
+        RefreshHud();
     }
 
     private void ShowInitialTitleMenu()
@@ -1154,6 +1159,18 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
             stateValidator?.ValidateInventoryPickup(player.InventoryComponent, "item_medkit", previousQuantity);
         }
 
+        if (player.AbilityComponent != null)
+        {
+            stateValidator?.ResetCounters();
+            player.StatsComponent.ApplyDamage(18f, player.ActorTransform.position, -player.ActorTransform.forward);
+            yield return new WaitForSecondsRealtime(0.05f);
+            float abilityHealthBefore = player.StatsComponent.Health;
+            float abilityStaminaBefore = player.StatsComponent.Stamina;
+            player.AbilityComponent.TryActivateBySlot(0);
+            yield return new WaitForSecondsRealtime(0.1f);
+            stateValidator?.ValidateAbilityUse(player.StatsComponent, abilityHealthBefore, abilityStaminaBefore);
+        }
+
         registeredDoors
             .FirstOrDefault(door => door != null && door.gameObject.activeInHierarchy)?
             .Interact(player);
@@ -1255,6 +1272,37 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
             }
 
             consumableLookup[effect.ItemId] = effect;
+        }
+    }
+
+    private void BindRuntimeServicesToWorld()
+    {
+        player?.BindRuntimeServices(this);
+        questManager?.BindRuntimeServices(this);
+
+        foreach (var pickup in registeredPickups)
+        {
+            pickup?.BindRuntimeServices(this);
+        }
+
+        foreach (var door in registeredDoors)
+        {
+            door?.BindRuntimeServices(this);
+        }
+
+        foreach (var enemy in registeredEnemies)
+        {
+            enemy?.BindRuntimeServices(this);
+        }
+
+        if (saveableRoot == null)
+        {
+            return;
+        }
+
+        foreach (var npc in saveableRoot.GetComponentsInChildren<DialogueNpcInteractable>(true))
+        {
+            npc?.BindRuntimeServices(this);
         }
     }
 

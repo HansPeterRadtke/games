@@ -14,5 +14,6 @@ public class SkillNodeData : ScriptableObject
     public float MaxStaminaBonus;
     [Min(0f)] public float DamageMultiplierBonus;
     [Min(0f)] public float MoveSpeedMultiplierBonus;
+    public List<AbilityData> GrantedAbilities = new();
     public Color ThemeColor = new Color(0.26f, 0.66f, 0.95f, 1f);
 }

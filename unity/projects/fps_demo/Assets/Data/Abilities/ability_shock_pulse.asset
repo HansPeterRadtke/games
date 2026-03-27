@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346beff0d3510006f857dbfb7fc00b73, type: 3}
+  m_Name: ability_shock_pulse
+  m_EditorClassIdentifier: HPR.Abilities.Runtime::AbilityData
+  Id: ability_shock_pulse
+  DisplayName: Shock Pulse
+  Description: Detonates a short-range arc burst around the operator.
+  TargetType: 1
+  Cooldown: 14
+  Cost: 26
+  Effects:
+  - {fileID: 11400000, guid: 48373ca10cf490a4bbce652f5245c905, type: 2}
+  ActivationStatus: Shock pulse detonated.
+  FailureStatus: Shock pulse is unavailable.
+  ThemeColor: {r: 0.94, g: 0.56, b: 0.2, a: 1}

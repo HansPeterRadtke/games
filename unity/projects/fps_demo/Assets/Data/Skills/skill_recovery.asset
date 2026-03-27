@@ -23,4 +23,5 @@ MonoBehaviour:
   MaxStaminaBonus: 25
   DamageMultiplierBonus: 0
   MoveSpeedMultiplierBonus: 0
+  GrantedAbilities: []
   ThemeColor: {r: 0.28, g: 0.88, b: 0.54, a: 1}

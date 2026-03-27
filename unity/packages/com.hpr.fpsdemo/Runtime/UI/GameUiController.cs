@@ -621,7 +621,8 @@ public class GameUiController : MonoBehaviour
         var weaponPanel = CreatePanel("WeaponPanel", hudRt, new Vector2(-22f, -22f), new Vector2(360f, 110f), new Color(0f, 0f, 0f, 0.45f), new Vector2(1f, 1f), new Vector2(1f, 1f));
         weaponText = CreateText("WeaponName", weaponPanel, "Pulse Pistol", 24, TextAnchor.UpperRight, new Vector2(-16f, -14f), new Vector2(320f, 28f));
         ammoText = CreateText("AmmoLabel", weaponPanel, "16/64", 22, TextAnchor.UpperRight, new Vector2(-16f, -48f), new Vector2(320f, 26f));
-        resourceText = CreateText("ResourceText", weaponPanel, string.Empty, 16, TextAnchor.UpperRight, new Vector2(-16f, -80f), new Vector2(320f, 22f));
+        resourceText = CreateText("ResourceText", weaponPanel, string.Empty, 15, TextAnchor.UpperRight, new Vector2(-16f, -80f), new Vector2(320f, 42f));
+        resourceText.verticalOverflow = VerticalWrapMode.Overflow;
 
         interactionText = CreateCenteredText("InteractionText", hudRt, string.Empty, 28, TextAnchor.MiddleCenter, new Vector2(0f, -120f), new Vector2(780f, 36f));
         interactionText.color = new Color(1f, 0.95f, 0.7f, 1f);
@@ -653,13 +654,13 @@ public class GameUiController : MonoBehaviour
 
     private void BuildOptions()
     {
-        var panel = CreatePanel("OptionsPanel", root, Vector2.zero, new Vector2(1260f, 860f), new Color(0.03f, 0.05f, 0.08f, 0.95f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+        var panel = CreatePanel("OptionsPanel", root, Vector2.zero, new Vector2(1260f, 920f), new Color(0.03f, 0.05f, 0.08f, 0.95f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
         optionsPanel = panel.gameObject;
         optionsPanel.SetActive(false);
         CreateText("OptionsTitle", panel, "Options", 34, TextAnchor.UpperCenter, new Vector2(0f, -18f), new Vector2(280f, 40f));
 
-        var left = CreatePanel("OptionsLeft", panel, new Vector2(28f, -80f), new Vector2(540f, 700f), new Color(0.12f, 0.14f, 0.18f, 0.55f), new Vector2(0f, 1f), new Vector2(0f, 1f));
-        var right = CreatePanel("OptionsRight", panel, new Vector2(-28f, -80f), new Vector2(620f, 700f), new Color(0.12f, 0.14f, 0.18f, 0.55f), new Vector2(1f, 1f), new Vector2(1f, 1f));
+        var left = CreatePanel("OptionsLeft", panel, new Vector2(28f, -80f), new Vector2(540f, 760f), new Color(0.12f, 0.14f, 0.18f, 0.55f), new Vector2(0f, 1f), new Vector2(0f, 1f));
+        var right = CreatePanel("OptionsRight", panel, new Vector2(-28f, -80f), new Vector2(620f, 760f), new Color(0.12f, 0.14f, 0.18f, 0.55f), new Vector2(1f, 1f), new Vector2(1f, 1f));
 
         CreateTopLeftText("GraphicsHeader", left, "Graphics / Audio", 26, TextAnchor.UpperLeft, new Vector2(18f, -16f), new Vector2(240f, 28f));
         CreateSliderRow(left, "fov", "Field of View", 75f, 55f, 110f, new Vector2(18f, -72f), value =>
@@ -722,7 +723,8 @@ public class GameUiController : MonoBehaviour
         foreach (var action in new[]
                  {
                      GameAction.MoveForward, GameAction.MoveBackward, GameAction.MoveLeft, GameAction.MoveRight,
-                     GameAction.Jump, GameAction.Run, GameAction.Interact, GameAction.Inventory, GameAction.Journal, GameAction.Skills, GameAction.Map,
+                     GameAction.Jump, GameAction.Run, GameAction.Interact, GameAction.AbilityPrimary, GameAction.AbilitySecondary,
+                     GameAction.Inventory, GameAction.Journal, GameAction.Skills, GameAction.Map,
                      GameAction.Pause, GameAction.Flashlight, GameAction.Reload
                  })
         {
@@ -730,8 +732,8 @@ public class GameUiController : MonoBehaviour
             y -= 44f;
         }
 
-        optionsStatusText = CreateText("OptionsStatus", panel, string.Empty, 18, TextAnchor.MiddleCenter, new Vector2(0f, -808f), new Vector2(920f, 26f));
-        CreateButton(panel, "OptionsBack", "Back", new Vector2(0f, -756f), new Vector2(180f, 44f), () => menuCommands?.ShowOptionsMenu(false));
+        optionsStatusText = CreateText("OptionsStatus", panel, string.Empty, 18, TextAnchor.MiddleCenter, new Vector2(0f, -864f), new Vector2(920f, 26f));
+        CreateButton(panel, "OptionsBack", "Back", new Vector2(0f, -812f), new Vector2(180f, 44f), () => menuCommands?.ShowOptionsMenu(false));
     }
 
     private void BuildInventory()

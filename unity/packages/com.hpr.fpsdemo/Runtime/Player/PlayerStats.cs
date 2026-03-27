@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-public class PlayerStats : ActorStatsComponent, IPlayerStats
+public class PlayerStats : ActorStatsComponent, IPlayerStats, IAbilityResourcePool
 {
     [SerializeField] private MonoBehaviour servicesBehaviour;
 
@@ -22,6 +22,16 @@ public class PlayerStats : ActorStatsComponent, IPlayerStats
         statusSink = servicesBehaviour as IStatusMessageSink;
         playerDeathHandler = servicesBehaviour as IPlayerDeathHandler;
         BindRuntimeEventBusSource(servicesBehaviour);
+    }
+
+    public bool SpendAbilityCost(float amount)
+    {
+        return ConsumeStamina(amount);
+    }
+
+    public void RestoreStamina(float amount)
+    {
+        RegenerateStamina(amount);
     }
 
     protected override void OnDamageApplied(float amount, Vector3 hitPoint, Vector3 hitDirection)

@@ -19,8 +19,11 @@ MonoBehaviour:
   StartingUnlocked: 0
   Prerequisites:
   - {fileID: 11400000, guid: 599c72ed9788328d38ade9625b9fb14b, type: 2}
+  - {fileID: 11400000, guid: c47ccee96c6ab01ca81d3127ef9fc16e, type: 2}
   MaxHealthBonus: 0
   MaxStaminaBonus: 0
   DamageMultiplierBonus: 0.2
   MoveSpeedMultiplierBonus: 0
+  GrantedAbilities:
+  - {fileID: 11400000, guid: 62560f21eec4827cdb6586069ec8b8e9, type: 2}
   ThemeColor: {r: 0.95, g: 0.64, b: 0.2, a: 1}

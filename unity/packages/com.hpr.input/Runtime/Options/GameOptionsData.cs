@@ -18,6 +18,8 @@ public class GameOptionsData
     public KeyCode jump = KeyCode.Space;
     public KeyCode run = KeyCode.LeftShift;
     public KeyCode interact = KeyCode.E;
+    public KeyCode abilityPrimary = KeyCode.Q;
+    public KeyCode abilitySecondary = KeyCode.C;
     public KeyCode inventory = KeyCode.I;
     public KeyCode journal = KeyCode.J;
     public KeyCode skills = KeyCode.K;

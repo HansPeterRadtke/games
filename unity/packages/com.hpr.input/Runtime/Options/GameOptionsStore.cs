@@ -28,6 +28,14 @@ public static class GameOptionsStore
         {
             data.journal = defaults.journal;
         }
+        if (data.abilityPrimary == KeyCode.None)
+        {
+            data.abilityPrimary = defaults.abilityPrimary;
+        }
+        if (data.abilitySecondary == KeyCode.None)
+        {
+            data.abilitySecondary = defaults.abilitySecondary;
+        }
         if (data.skills == KeyCode.None)
         {
             data.skills = defaults.skills;
@@ -54,6 +62,8 @@ public static class GameOptionsStore
             GameAction.Jump => options.jump,
             GameAction.Run => options.run,
             GameAction.Interact => options.interact,
+            GameAction.AbilityPrimary => options.abilityPrimary,
+            GameAction.AbilitySecondary => options.abilitySecondary,
             GameAction.Inventory => options.inventory,
             GameAction.Journal => options.journal,
             GameAction.Skills => options.skills,
@@ -81,6 +91,8 @@ public static class GameOptionsStore
             case GameAction.Jump: options.jump = key; break;
             case GameAction.Run: options.run = key; break;
             case GameAction.Interact: options.interact = key; break;
+            case GameAction.AbilityPrimary: options.abilityPrimary = key; break;
+            case GameAction.AbilitySecondary: options.abilitySecondary = key; break;
             case GameAction.Inventory: options.inventory = key; break;
             case GameAction.Journal: options.journal = key; break;
             case GameAction.Skills: options.skills = key; break;

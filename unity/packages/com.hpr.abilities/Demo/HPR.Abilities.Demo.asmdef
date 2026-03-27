@@ -1,0 +1,18 @@
+{
+  "name": "HPR.Abilities.Demo",
+  "rootNamespace": "",
+  "references": [
+    "HPR.Abilities.Runtime",
+    "HPR.Eventbus.Runtime",
+    "HPR.Stats.Runtime"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

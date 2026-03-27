@@ -8,6 +8,7 @@ public class GameStateValidator : MonoBehaviour
     private int enemyKilledEventCount;
     private int dialogueCompletedEventCount;
     private int questCompletedEventCount;
+    private int abilityUsedEventCount;
 
     private IGameEventBus eventBus;
 
@@ -31,6 +32,7 @@ public class GameStateValidator : MonoBehaviour
         enemyKilledEventCount = 0;
         dialogueCompletedEventCount = 0;
         questCompletedEventCount = 0;
+        abilityUsedEventCount = 0;
     }
 
     public void ValidatePlayerDamage(IPlayerStats stats, float previousHealth)
@@ -63,6 +65,12 @@ public class GameStateValidator : MonoBehaviour
     public void ValidateInventoryQuantityIncrease(IInventoryService inventory, string itemId, int previousQuantity)
     {
         AssertCondition(inventory != null && inventory.GetQuantity(itemId) > previousQuantity, "Expected inventory quantity to increase");
+    }
+
+    public void ValidateAbilityUse(IAbilityResourcePool resourcePool, float previousHealth, float previousStamina)
+    {
+        AssertCondition(abilityUsedEventCount > 0, "Expected AbilityUsedEvent");
+        AssertCondition(resourcePool != null && (resourcePool.Health > previousHealth || resourcePool.Stamina < previousStamina), "Expected ability to change tracked resources");
     }
 
     public void ValidateEnemyDeath(EnemyAgent enemy)
@@ -106,6 +114,7 @@ public class GameStateValidator : MonoBehaviour
         eventBus.Subscribe<EnemyKilledEvent>(HandleEnemyKilledEvent);
         eventBus.Subscribe<DialogueCompletedEvent>(HandleDialogueCompletedEvent);
         eventBus.Subscribe<QuestCompletedEvent>(HandleQuestCompletedEvent);
+        eventBus.Subscribe<AbilityUsedEvent>(HandleAbilityUsedEvent);
     }
 
     private void Unsubscribe()
@@ -121,6 +130,7 @@ public class GameStateValidator : MonoBehaviour
         eventBus.Unsubscribe<EnemyKilledEvent>(HandleEnemyKilledEvent);
         eventBus.Unsubscribe<DialogueCompletedEvent>(HandleDialogueCompletedEvent);
         eventBus.Unsubscribe<QuestCompletedEvent>(HandleQuestCompletedEvent);
+        eventBus.Unsubscribe<AbilityUsedEvent>(HandleAbilityUsedEvent);
     }
 
     private void HandleDamageEvent(DamageEvent gameEvent)
@@ -151,6 +161,11 @@ public class GameStateValidator : MonoBehaviour
     private void HandleQuestCompletedEvent(QuestCompletedEvent gameEvent)
     {
         questCompletedEventCount++;
+    }
+
+    private void HandleAbilityUsedEvent(AbilityUsedEvent gameEvent)
+    {
+        abilityUsedEventCount++;
     }
 
     private static void AssertCondition(bool condition, string message)

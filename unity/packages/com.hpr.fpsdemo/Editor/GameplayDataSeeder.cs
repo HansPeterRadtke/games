@@ -9,6 +9,8 @@ public static class GameplayDataSeeder
     public const string WeaponsRoot = DataRoot + "/Weapons";
     public const string ItemsRoot = DataRoot + "/Items";
     public const string ConsumablesRoot = DataRoot + "/Consumables";
+    public const string AbilityEffectsRoot = DataRoot + "/AbilityEffects";
+    public const string AbilitiesRoot = DataRoot + "/Abilities";
     public const string EnemiesRoot = DataRoot + "/Enemies";
     public const string SkillsRoot = DataRoot + "/Skills";
     public const string QuestsRoot = DataRoot + "/Quests";
@@ -22,12 +24,15 @@ public static class GameplayDataSeeder
         EnsureFolder(DataRoot, "Weapons");
         EnsureFolder(DataRoot, "Items");
         EnsureFolder(DataRoot, "Consumables");
+        EnsureFolder(DataRoot, "AbilityEffects");
+        EnsureFolder(DataRoot, "Abilities");
         EnsureFolder(DataRoot, "Enemies");
         EnsureFolder(DataRoot, "Skills");
         EnsureFolder(DataRoot, "Quests");
         EnsureFolder(DataRoot, "Dialogues");
         EnsureFolder(DataRoot, "AssetMetadata");
         EnsureAssetRegistry();
+        EnsureAbilityAssets();
         EnsureSkillAssets();
         EnsureQuestAssets();
         EnsureDialogueAssets();
@@ -71,6 +76,14 @@ public static class GameplayDataSeeder
     public static EnemyData LoadEnemy(string id)
     {
         return LoadAssets<EnemyData>(EnemiesRoot).FirstOrDefault(asset => asset != null && asset.Id == id);
+    }
+
+    public static List<AbilityData> LoadAllAbilities()
+    {
+        return LoadAssets<AbilityData>(AbilitiesRoot)
+            .Where(asset => asset != null && !string.IsNullOrWhiteSpace(asset.Id))
+            .OrderBy(asset => asset.DisplayName)
+            .ToList();
     }
 
     public static List<SkillNodeData> LoadAllSkills()
@@ -190,6 +203,10 @@ public static class GameplayDataSeeder
 
     private static void EnsureSkillAssets()
     {
+        AbilityData repairPulse = LoadAbility("ability_repair_pulse");
+        AbilityData adrenalineSurge = LoadAbility("ability_adrenaline_surge");
+        AbilityData shockPulse = LoadAbility("ability_shock_pulse");
+
         SkillNodeData vigor = EnsureSkillAsset(
             "skill_vigor",
             "Vigor Matrix",
@@ -200,7 +217,8 @@ public static class GameplayDataSeeder
             staminaBonus: 0f,
             damageBonus: 0f,
             moveSpeedBonus: 0f,
-            new Color(0.82f, 0.3f, 0.34f, 1f));
+            new Color(0.82f, 0.3f, 0.34f, 1f),
+            new[] { repairPulse });
 
         SkillNodeData sprinter = EnsureSkillAsset(
             "skill_sprinter",
@@ -213,9 +231,10 @@ public static class GameplayDataSeeder
             damageBonus: 0f,
             moveSpeedBonus: 0.18f,
             new Color(0.24f, 0.7f, 0.94f, 1f),
+            new[] { adrenalineSurge },
             vigor);
 
-        EnsureSkillAsset(
+        SkillNodeData recovery = EnsureSkillAsset(
             "skill_recovery",
             "Recovery Lattice",
             "Expands the stamina reserve for longer sprint windows.",
@@ -226,6 +245,7 @@ public static class GameplayDataSeeder
             damageBonus: 0f,
             moveSpeedBonus: 0f,
             new Color(0.28f, 0.88f, 0.54f, 1f),
+            null,
             vigor);
 
         EnsureSkillAsset(
@@ -239,7 +259,75 @@ public static class GameplayDataSeeder
             damageBonus: 0.2f,
             moveSpeedBonus: 0f,
             new Color(0.95f, 0.64f, 0.2f, 1f),
-            sprinter);
+            new[] { shockPulse },
+            sprinter,
+            recovery);
+    }
+
+    private static void EnsureAbilityAssets()
+    {
+        AbilityEffectData repairEffect = EnsureAbilityEffectAsset(
+            "effect_repair_pulse",
+            "Repair Pulse Field",
+            AbilityEffectType.Heal,
+            24f,
+            0f,
+            0.35f,
+            new Color(0.24f, 0.84f, 0.42f, 1f));
+
+        AbilityEffectData adrenalineEffect = EnsureAbilityEffectAsset(
+            "effect_adrenaline_surge",
+            "Adrenaline Surge",
+            AbilityEffectType.RestoreStamina,
+            34f,
+            0f,
+            0.35f,
+            new Color(0.18f, 0.68f, 0.96f, 1f));
+
+        AbilityEffectData shockEffect = EnsureAbilityEffectAsset(
+            "effect_shock_pulse",
+            "Shock Pulse",
+            AbilityEffectType.AreaDamage,
+            36f,
+            5.5f,
+            1.2f,
+            new Color(0.94f, 0.56f, 0.2f, 1f));
+
+        EnsureAbilityAsset(
+            "ability_repair_pulse",
+            "Repair Pulse",
+            "Converts suit power into an emergency heal burst.",
+            8f,
+            18f,
+            AbilityTargetType.Self,
+            "Repair pulse restored vital systems.",
+            "Repair pulse is unavailable.",
+            new Color(0.24f, 0.84f, 0.42f, 1f),
+            repairEffect);
+
+        EnsureAbilityAsset(
+            "ability_adrenaline_surge",
+            "Adrenaline Surge",
+            "Flushes the suit with stimulants to restore stamina.",
+            10f,
+            8f,
+            AbilityTargetType.Self,
+            "Adrenaline surge restored stamina.",
+            "Adrenaline surge is unavailable.",
+            new Color(0.18f, 0.68f, 0.96f, 1f),
+            adrenalineEffect);
+
+        EnsureAbilityAsset(
+            "ability_shock_pulse",
+            "Shock Pulse",
+            "Detonates a short-range arc burst around the operator.",
+            14f,
+            26f,
+            AbilityTargetType.Area,
+            "Shock pulse detonated.",
+            "Shock pulse is unavailable.",
+            new Color(0.94f, 0.56f, 0.2f, 1f),
+            shockEffect);
     }
 
     private static void EnsureConsumableAssets()
@@ -508,6 +596,7 @@ public static class GameplayDataSeeder
         float damageBonus,
         float moveSpeedBonus,
         Color themeColor,
+        IEnumerable<AbilityData> grantedAbilities,
         params SkillNodeData[] prerequisites)
     {
         string path = $"{SkillsRoot}/{id}.asset";
@@ -528,10 +617,80 @@ public static class GameplayDataSeeder
         asset.DamageMultiplierBonus = damageBonus;
         asset.MoveSpeedMultiplierBonus = moveSpeedBonus;
         asset.ThemeColor = themeColor;
+        asset.GrantedAbilities = grantedAbilities?.Where(ability => ability != null).Distinct().ToList() ?? new List<AbilityData>();
         asset.Prerequisites = prerequisites?.Where(requirement => requirement != null).Distinct().ToList() ?? new List<SkillNodeData>();
         EditorUtility.SetDirty(asset);
         AssetDatabase.SaveAssets();
         return asset;
+    }
+
+    private static AbilityEffectData EnsureAbilityEffectAsset(
+        string id,
+        string displayName,
+        AbilityEffectType effectType,
+        float value,
+        float radius,
+        float forwardOffset,
+        Color themeColor)
+    {
+        string path = $"{AbilityEffectsRoot}/{id}.asset";
+        var asset = AssetDatabase.LoadAssetAtPath<AbilityEffectData>(path);
+        if (asset == null)
+        {
+            asset = ScriptableObject.CreateInstance<AbilityEffectData>();
+            AssetDatabase.CreateAsset(asset, path);
+        }
+
+        asset.Id = id;
+        asset.DisplayName = displayName;
+        asset.EffectType = effectType;
+        asset.Value = Mathf.Max(0f, value);
+        asset.Radius = Mathf.Max(0f, radius);
+        asset.ForwardOffset = forwardOffset;
+        asset.ThemeColor = themeColor;
+        EditorUtility.SetDirty(asset);
+        AssetDatabase.SaveAssets();
+        return asset;
+    }
+
+    private static AbilityData EnsureAbilityAsset(
+        string id,
+        string displayName,
+        string description,
+        float cooldown,
+        float cost,
+        AbilityTargetType targetType,
+        string activationStatus,
+        string failureStatus,
+        Color themeColor,
+        params AbilityEffectData[] effects)
+    {
+        string path = $"{AbilitiesRoot}/{id}.asset";
+        var asset = AssetDatabase.LoadAssetAtPath<AbilityData>(path);
+        if (asset == null)
+        {
+            asset = ScriptableObject.CreateInstance<AbilityData>();
+            AssetDatabase.CreateAsset(asset, path);
+        }
+
+        asset.Id = id;
+        asset.DisplayName = displayName;
+        asset.Description = description;
+        asset.Cooldown = Mathf.Max(0f, cooldown);
+        asset.Cost = Mathf.Max(0f, cost);
+        asset.TargetType = targetType;
+        asset.ActivationStatus = activationStatus;
+        asset.FailureStatus = failureStatus;
+        asset.ThemeColor = themeColor;
+        asset.Effects = effects?.Where(effect => effect != null).Distinct().ToList() ?? new List<AbilityEffectData>();
+        EditorUtility.SetDirty(asset);
+        AssetDatabase.SaveAssets();
+        return asset;
+    }
+
+    private static AbilityData LoadAbility(string id)
+    {
+        return LoadAssets<AbilityData>(AbilitiesRoot).FirstOrDefault(asset => asset != null && asset.Id == id);
     }
 
     private static QuestData EnsureQuestAsset(

@@ -2399,6 +2399,7 @@ GameObject:
   - component: {fileID: 235406405}
   - component: {fileID: 235406406}
   - component: {fileID: 235406407}
+  - component: {fileID: 235406408}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2599,6 +2600,29 @@ MonoBehaviour:
   startingSkillPoints: 1
   pointsPerEnemyKill: 1
   servicesBehaviour: {fileID: 1552775883}
+--- !u!114 &235406408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235406397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b264fbccf54cda999a913fe5c4089240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HPR.Abilities.Runtime::AbilityRunnerComponent
+  configuredAbilities:
+  - {fileID: 11400000, guid: d1cfe0bde2442170e927e53d0b5d8abf, type: 2}
+  - {fileID: 11400000, guid: 9142c3c0c0cc52fc9a269815295e2533, type: 2}
+  - {fileID: 11400000, guid: 62560f21eec4827cdb6586069ec8b8e9, type: 2}
+  unlockAllConfiguredAbilities: 0
+  effectOrigin: {fileID: 0}
+  damageLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  eventBusSourceBehaviour: {fileID: 1552775883}
+  resourcePoolBehaviour: {fileID: 235406402}
 --- !u!1 &237205159
 GameObject:
   m_ObjectHideFlags: 0

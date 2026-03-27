@@ -106,6 +106,18 @@ public class SkillTreeComponent : MonoBehaviour, ICombatModifierSource
         return unlockedSkillIds.OrderBy(id => id, StringComparer.Ordinal).ToList();
     }
 
+    public List<string> BuildUnlockedAbilityIds()
+    {
+        return skillNodes
+            .Where(node => node != null && unlockedSkillIds.Contains(node.Id))
+            .SelectMany(node => node.GrantedAbilities ?? new List<AbilityData>())
+            .Where(ability => ability != null && !string.IsNullOrWhiteSpace(ability.Id))
+            .Select(ability => ability.Id)
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(id => id, StringComparer.Ordinal)
+            .ToList();
+    }
+
     public List<SkillEntryViewData> BuildEntries()
     {
         return skillNodes

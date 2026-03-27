@@ -70,6 +70,7 @@ public static class SceneBootstrap
         var sharedMaterials = CreateMaterialPalette();
         var allItems = GameplayDataSeeder.LoadAllItems();
         var allConsumables = GameplayDataSeeder.LoadAllConsumables();
+        var allAbilities = GameplayDataSeeder.LoadAllAbilities();
         var allSkills = GameplayDataSeeder.LoadAllSkills();
         var allQuests = GameplayDataSeeder.LoadAllQuests();
         var itemLookup = BuildItemLookup(allItems);
@@ -77,7 +78,7 @@ public static class SceneBootstrap
 
         CreateLighting();
         var world = CreateWorld(sharedMaterials, itemLookup);
-        var player = CreatePlayer(weaponLoadout, allItems, allSkills);
+        var player = CreatePlayer(weaponLoadout, allItems, allSkills, allAbilities);
         var mapCamera = CreateMapCamera(player.ActorTransform);
         player.GetComponent<PlayerGameplayController>().BindMapCamera(mapCamera.GetComponent<MapCameraFollow>());
         CreateGameSystems(player, mapCamera, world, allQuests, allConsumables);
@@ -127,6 +128,7 @@ public static class SceneBootstrap
 
         var knownItems = GameplayDataSeeder.LoadAllItems();
         var consumables = GameplayDataSeeder.LoadAllConsumables();
+        var abilities = GameplayDataSeeder.LoadAllAbilities();
         var skills = GameplayDataSeeder.LoadAllSkills();
         var quests = GameplayDataSeeder.LoadAllQuests();
         var itemLookup = BuildItemLookup(knownItems);
@@ -135,7 +137,7 @@ public static class SceneBootstrap
 
         changed |= EnsureWorldHierarchy(world);
         changed |= EnsureWorldEntityData(world, itemLookup, sharedMaterials);
-        changed |= EnsurePlayerRuntime(playerGo, knownItems, loadout, skills, mapCamera);
+        changed |= EnsurePlayerRuntime(playerGo, knownItems, loadout, skills, abilities, mapCamera);
         changed |= EnsureSystemRuntime(systems, playerGo.GetComponent<PlayerActorContext>(), mapCamera, world, quests, consumables);
 
         if (changed)
@@ -224,7 +226,7 @@ public static class SceneBootstrap
         go.transform.position = position;
     }
 
-    private static bool EnsurePlayerRuntime(GameObject playerGo, List<ItemData> knownItems, List<WeaponData> loadout, List<SkillNodeData> skills, Camera mapCamera)
+    private static bool EnsurePlayerRuntime(GameObject playerGo, List<ItemData> knownItems, List<WeaponData> loadout, List<SkillNodeData> skills, List<AbilityData> abilities, Camera mapCamera)
     {
         bool changed = false;
         changed |= playerGo.GetComponent<PlayerStats>() == null;
@@ -235,6 +237,8 @@ public static class SceneBootstrap
         var weaponSystem = GameObjectUtils.GetOrAddComponent<WeaponSystem>(playerGo);
         changed |= playerGo.GetComponent<SkillTreeComponent>() == null;
         var skillTree = GameObjectUtils.GetOrAddComponent<SkillTreeComponent>(playerGo);
+        changed |= playerGo.GetComponent<AbilityRunnerComponent>() == null;
+        var abilityRunner = GameObjectUtils.GetOrAddComponent<AbilityRunnerComponent>(playerGo);
         changed |= playerGo.GetComponent<PlayerController>() == null;
         var playerController = GameObjectUtils.GetOrAddComponent<PlayerController>(playerGo);
         changed |= playerGo.GetComponent<PlayerActorContext>() == null;
@@ -247,11 +251,13 @@ public static class SceneBootstrap
         inventory.ConfigureKnownItems(knownItems);
         weaponSystem.ConfigureLoadout(loadout);
         skillTree.ConfigureSkills(skills);
+        abilityRunner.ConfigureAbilities(abilities);
         gameplayController.BindMapCamera(mapFollow);
 
         EditorUtility.SetDirty(inventory);
         EditorUtility.SetDirty(weaponSystem);
         EditorUtility.SetDirty(skillTree);
+        EditorUtility.SetDirty(abilityRunner);
         EditorUtility.SetDirty(playerController);
         EditorUtility.SetDirty(actorContext);
         EditorUtility.SetDirty(gameplayController);
@@ -582,7 +588,7 @@ public static class SceneBootstrap
         CreateDialogueNpc(npcRoot, "npc_vale", "Quartermaster Vale", GameplayDataSeeder.LoadDialogue("dialogue_vale_supplies"), new Vector3(-4.2f, 0f, -3.2f), new Vector3(0f, 140f, 0f), materials["Pickup"]);
     }
 
-    private static PlayerActorContext CreatePlayer(List<WeaponData> weaponLoadout, List<ItemData> knownItems, List<SkillNodeData> skills)
+    private static PlayerActorContext CreatePlayer(List<WeaponData> weaponLoadout, List<ItemData> knownItems, List<SkillNodeData> skills, List<AbilityData> abilities)
     {
         var player = new GameObject("Player");
         player.transform.position = new Vector3(0f, 1.3f, -1.5f);
@@ -596,12 +602,14 @@ public static class SceneBootstrap
         var inventory = player.AddComponent<PlayerInventory>();
         var weaponSystem = player.AddComponent<WeaponSystem>();
         var skillTree = player.AddComponent<SkillTreeComponent>();
+        var abilityRunner = player.AddComponent<AbilityRunnerComponent>();
         player.AddComponent<PlayerController>();
         var actorContext = player.AddComponent<PlayerActorContext>();
         player.AddComponent<PlayerGameplayController>();
         inventory.ConfigureKnownItems(knownItems);
         weaponSystem.ConfigureLoadout(weaponLoadout);
         skillTree.ConfigureSkills(skills);
+        abilityRunner.ConfigureAbilities(abilities);
 
         var cameraGo = new GameObject("Main Camera");
         cameraGo.tag = "MainCamera";

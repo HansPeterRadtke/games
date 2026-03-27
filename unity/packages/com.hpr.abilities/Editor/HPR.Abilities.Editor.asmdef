@@ -1,0 +1,22 @@
+{
+  "name": "HPR.Abilities.Editor",
+  "rootNamespace": "",
+  "references": [
+    "HPR.Abilities.Runtime",
+    "HPR.Abilities.Demo",
+    "HPR.Eventbus.Runtime",
+    "HPR.Stats.Runtime",
+    "UnityEditor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

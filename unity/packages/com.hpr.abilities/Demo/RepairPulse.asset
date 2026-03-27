@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346beff0d3510006f857dbfb7fc00b73, type: 3}
+  m_Name: RepairPulse
+  m_EditorClassIdentifier: HPR.Abilities.Runtime::AbilityData
+  Id: ability_repair_demo
+  DisplayName: Repair Pulse
+  Description: Restores health at stamina cost.
+  TargetType: 0
+  Cooldown: 8
+  Cost: 18
+  Effects:
+  - {fileID: 11400000, guid: 3a1f1c45944f90d55bffeed03f80a993, type: 2}
+  ActivationStatus: Repair pulse emitted.
+  FailureStatus: Repair pulse unavailable.
+  ThemeColor: {r: 0.24, g: 0.82, b: 0.42, a: 1}
