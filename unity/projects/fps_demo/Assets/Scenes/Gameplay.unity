@@ -16642,6 +16642,9 @@ MonoBehaviour:
   eventManager: {fileID: 1552775887}
   stateValidator: {fileID: 1552775886}
   questManager: {fileID: 1552775888}
+  consumableEffects:
+  - {fileID: 11400000, guid: 7a7838108a8fcd275b36d75de969e3ce, type: 2}
+  - {fileID: 11400000, guid: f6c3d68ea6a9921d0b63bac8a8200d2a, type: 2}
 --- !u!114 &1552775884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18450,6 +18453,28 @@ MonoBehaviour:
   npcId: npc_vale
   displayName: Quartermaster Vale
   dialogueData: {fileID: 11400000, guid: 6fe497f3b52731a94856be45d98564ae, type: 2}
+  dialogueVariants:
+  - Label: Completed
+    Dialogue: {fileID: 11400000, guid: cd60bc0741e2e9749a67fb4683e7e4aa, type: 2}
+    RequiredActiveQuestId: 
+    RequiredCompletedQuestId: quest_supply_recovery
+    RequiredObjectiveQuestId: 
+    RequiredObjectiveId: 
+    Priority: 60
+  - Label: TurnIn
+    Dialogue: {fileID: 11400000, guid: b4f6b45f75480cc4c9436944377631f7, type: 2}
+    RequiredActiveQuestId: quest_supply_recovery
+    RequiredCompletedQuestId: 
+    RequiredObjectiveQuestId: quest_supply_recovery
+    RequiredObjectiveId: collect_medkit
+    Priority: 40
+  - Label: Reminder
+    Dialogue: {fileID: 11400000, guid: 7385e158e86723873848613e63394de3, type: 2}
+    RequiredActiveQuestId: quest_supply_recovery
+    RequiredCompletedQuestId: 
+    RequiredObjectiveQuestId: 
+    RequiredObjectiveId: 
+    Priority: 20
   servicesBehaviour: {fileID: 1552775883}
 --- !u!1 &1720317794
 GameObject:
@@ -18887,6 +18912,21 @@ MonoBehaviour:
   npcId: npc_echo
   displayName: Commander Echo
   dialogueData: {fileID: 11400000, guid: ceb14cfd186125e939a8e0f4b888387c, type: 2}
+  dialogueVariants:
+  - Label: Completed
+    Dialogue: {fileID: 11400000, guid: bbf6a90d035ce7d34aea0ded40614d37, type: 2}
+    RequiredActiveQuestId: 
+    RequiredCompletedQuestId: quest_security_sweep
+    RequiredObjectiveQuestId: 
+    RequiredObjectiveId: 
+    Priority: 40
+  - Label: Reminder
+    Dialogue: {fileID: 11400000, guid: 6f18355278ae7eac098ec3d686e981f5, type: 2}
+    RequiredActiveQuestId: quest_security_sweep
+    RequiredCompletedQuestId: 
+    RequiredObjectiveQuestId: 
+    RequiredObjectiveId: 
+    Priority: 20
   servicesBehaviour: {fileID: 1552775883}
 --- !u!1001 &1744038229
 PrefabInstance:

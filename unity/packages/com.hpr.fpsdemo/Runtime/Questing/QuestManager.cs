@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class QuestManager : MonoBehaviour, IQuestJournalSource
+public class QuestManager : MonoBehaviour, IQuestJournalSource, IQuestStateQuery
 {
     [SerializeField] private List<QuestData> questDefinitions = new();
     [SerializeField] private MonoBehaviour servicesBehaviour;
@@ -96,6 +96,16 @@ public class QuestManager : MonoBehaviour, IQuestJournalSource
     public bool IsQuestCompleted(string questId)
     {
         return !string.IsNullOrWhiteSpace(questId) && questStates.TryGetValue(questId, out QuestRuntimeState state) && state.Completed;
+    }
+
+    public bool IsObjectiveComplete(string questId, string objectiveId)
+    {
+        if (string.IsNullOrWhiteSpace(questId) || string.IsNullOrWhiteSpace(objectiveId) || !questStates.TryGetValue(questId, out QuestRuntimeState state))
+        {
+            return false;
+        }
+
+        return state.IsObjectiveComplete(objectiveId);
     }
 
     public List<QuestStateSaveData> CaptureState()
@@ -252,7 +262,16 @@ public class QuestManager : MonoBehaviour, IQuestJournalSource
 
     private void HandleDialogueCompletedEvent(DialogueCompletedEvent gameEvent)
     {
-        AdvanceMatchingObjectives(QuestObjectiveType.TalkToNpc, gameEvent?.NpcId, 1);
+        if (gameEvent == null)
+        {
+            return;
+        }
+
+        AdvanceMatchingObjectives(QuestObjectiveType.TalkToNpc, gameEvent.NpcId, 1);
+        if (!string.IsNullOrWhiteSpace(gameEvent.NpcId) && !string.IsNullOrWhiteSpace(gameEvent.FinalNodeId))
+        {
+            AdvanceMatchingObjectives(QuestObjectiveType.TalkToNpc, $"{gameEvent.NpcId}:{gameEvent.FinalNodeId}", 1);
+        }
     }
 
     private void AdvanceMatchingObjectives(QuestObjectiveType objectiveType, string targetId, int amount)
@@ -373,6 +392,27 @@ public class QuestManager : MonoBehaviour, IQuestJournalSource
             }
 
             return changed;
+        }
+
+        public bool IsObjectiveComplete(string objectiveId)
+        {
+            if (string.IsNullOrWhiteSpace(objectiveId) || Data == null || Data.Objectives == null)
+            {
+                return false;
+            }
+
+            for (int index = 0; index < Data.Objectives.Count; index++)
+            {
+                QuestObjectiveData objective = Data.Objectives[index];
+                if (objective == null || !string.Equals(objective.Id, objectiveId, StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+                return ObjectiveCounts[index] >= Mathf.Max(1, objective.RequiredCount);
+            }
+
+            return false;
         }
 
         public List<QuestObjectiveProgressViewData> BuildObjectiveView()

@@ -54,6 +54,17 @@ public class GameStateValidator : MonoBehaviour
         AssertCondition(inventory.GetQuantity(itemId) > previousQuantity, "Expected inventory quantity to increase");
     }
 
+    public void ValidateConsumableUse(IInventoryService inventory, string itemId, int previousQuantity, IPlayerStats stats, float previousHealth)
+    {
+        AssertCondition(inventory != null && inventory.GetQuantity(itemId) < previousQuantity, "Expected consumable quantity to decrease");
+        AssertCondition(stats != null && stats.Health > previousHealth, "Expected consumable to restore health");
+    }
+
+    public void ValidateInventoryQuantityIncrease(IInventoryService inventory, string itemId, int previousQuantity)
+    {
+        AssertCondition(inventory != null && inventory.GetQuantity(itemId) > previousQuantity, "Expected inventory quantity to increase");
+    }
+
     public void ValidateEnemyDeath(EnemyAgent enemy)
     {
         AssertCondition(enemyKilledEventCount > 0, "Expected EnemyKilledEvent");

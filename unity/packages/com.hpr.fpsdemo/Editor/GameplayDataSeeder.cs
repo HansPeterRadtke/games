@@ -8,6 +8,7 @@ public static class GameplayDataSeeder
     public const string DataRoot = "Assets/Data";
     public const string WeaponsRoot = DataRoot + "/Weapons";
     public const string ItemsRoot = DataRoot + "/Items";
+    public const string ConsumablesRoot = DataRoot + "/Consumables";
     public const string EnemiesRoot = DataRoot + "/Enemies";
     public const string SkillsRoot = DataRoot + "/Skills";
     public const string QuestsRoot = DataRoot + "/Quests";
@@ -20,6 +21,7 @@ public static class GameplayDataSeeder
         EnsureFolder("Assets", "Data");
         EnsureFolder(DataRoot, "Weapons");
         EnsureFolder(DataRoot, "Items");
+        EnsureFolder(DataRoot, "Consumables");
         EnsureFolder(DataRoot, "Enemies");
         EnsureFolder(DataRoot, "Skills");
         EnsureFolder(DataRoot, "Quests");
@@ -29,6 +31,7 @@ public static class GameplayDataSeeder
         EnsureSkillAssets();
         EnsureQuestAssets();
         EnsureDialogueAssets();
+        EnsureConsumableAssets();
         EnsureGameplayAssetDefaults();
         ImportedAssetMetadataSynchronizer.Synchronize();
         AssetDatabase.Refresh();
@@ -55,6 +58,14 @@ public static class GameplayDataSeeder
     public static ItemData LoadItem(string id)
     {
         return LoadAssets<ItemData>(ItemsRoot).FirstOrDefault(asset => asset != null && asset.Id == id);
+    }
+
+    public static List<ConsumableEffectData> LoadAllConsumables()
+    {
+        return LoadAssets<ConsumableEffectData>(ConsumablesRoot)
+            .Where(asset => asset != null && !string.IsNullOrWhiteSpace(asset.ItemId))
+            .OrderBy(asset => asset.Id)
+            .ToList();
     }
 
     public static EnemyData LoadEnemy(string id)
@@ -231,6 +242,27 @@ public static class GameplayDataSeeder
             sprinter);
     }
 
+    private static void EnsureConsumableAssets()
+    {
+        EnsureConsumableAsset(
+            "consumable_medkit",
+            LoadItem("item_medkit"),
+            ConsumableEffectType.Heal,
+            35f,
+            "Medkit injected. Vital signs stabilized.",
+            "Health is already stable.",
+            new Color(0.18f, 0.72f, 0.22f, 1f));
+
+        EnsureConsumableAsset(
+            "consumable_armor_patch",
+            LoadItem("item_armor_patch"),
+            ConsumableEffectType.Heal,
+            10f,
+            "Armor patch sealed the suit breach.",
+            "The patch would be wasted right now.",
+            new Color(0.25f, 0.56f, 0.92f, 1f));
+    }
+
     private static void EnsureQuestAssets()
     {
         EnsureQuestAsset(
@@ -263,8 +295,8 @@ public static class GameplayDataSeeder
             "Supply Recovery",
             "Recover the medkit from the medbay and report back to Quartermaster Vale.",
             1,
-            null,
-            0,
+            LoadItem("item_armor_patch"),
+            1,
             new Color(0.34f, 0.76f, 0.92f, 1f),
             new QuestObjectiveData
             {
@@ -278,7 +310,7 @@ public static class GameplayDataSeeder
             {
                 Id = "report_to_vale",
                 ObjectiveType = QuestObjectiveType.TalkToNpc,
-                TargetId = "npc_vale",
+                TargetId = "npc_vale:vale_turnin",
                 Description = "Report back to Quartermaster Vale",
                 RequiredCount = 1
             });
@@ -318,6 +350,52 @@ public static class GameplayDataSeeder
             });
 
         EnsureDialogueAsset(
+            "dialogue_echo_reminder",
+            "Commander Echo",
+            "echo_reminder",
+            new[]
+            {
+                new DialogueNodeData
+                {
+                    Id = "echo_reminder",
+                    SpeakerName = "Commander Echo",
+                    Text = "The red keycard is still somewhere in the hub. Bring it back and cut that sentry off the network.",
+                    Choices = new List<DialogueChoiceData>
+                    {
+                        new DialogueChoiceData
+                        {
+                            Id = "echo_hold_position",
+                            Text = "Understood. I am on it.",
+                            ExitAfterChoice = true
+                        }
+                    }
+                }
+            });
+
+        EnsureDialogueAsset(
+            "dialogue_echo_complete",
+            "Commander Echo",
+            "echo_complete",
+            new[]
+            {
+                new DialogueNodeData
+                {
+                    Id = "echo_complete",
+                    SpeakerName = "Commander Echo",
+                    Text = "The corridor is clear and the sentry is dark. Good work.",
+                    Choices = new List<DialogueChoiceData>
+                    {
+                        new DialogueChoiceData
+                        {
+                            Id = "echo_complete_ack",
+                            Text = "Moving to the next sector.",
+                            ExitAfterChoice = true
+                        }
+                    }
+                }
+            });
+
+        EnsureDialogueAsset(
             "dialogue_vale_supplies",
             "Quartermaster Vale",
             "vale_start",
@@ -342,6 +420,76 @@ public static class GameplayDataSeeder
                         {
                             Id = "vale_acknowledge",
                             Text = "Understood. I will report back when I have it.",
+                            ExitAfterChoice = true
+                        }
+                    }
+                }
+            });
+
+        EnsureDialogueAsset(
+            "dialogue_vale_waiting",
+            "Quartermaster Vale",
+            "vale_waiting",
+            new[]
+            {
+                new DialogueNodeData
+                {
+                    Id = "vale_waiting",
+                    SpeakerName = "Quartermaster Vale",
+                    Text = "The medbay cache should still have one intact medkit. I need it back here, not floating in the corridor.",
+                    Choices = new List<DialogueChoiceData>
+                    {
+                        new DialogueChoiceData
+                        {
+                            Id = "vale_waiting_ack",
+                            Text = "I am heading to the cache now.",
+                            ExitAfterChoice = true
+                        }
+                    }
+                }
+            });
+
+        EnsureDialogueAsset(
+            "dialogue_vale_turnin",
+            "Quartermaster Vale",
+            "vale_turnin",
+            new[]
+            {
+                new DialogueNodeData
+                {
+                    Id = "vale_turnin",
+                    SpeakerName = "Quartermaster Vale",
+                    Text = "That medkit will keep triage running. Take this armor patch and get back in the fight.",
+                    Choices = new List<DialogueChoiceData>
+                    {
+                        new DialogueChoiceData
+                        {
+                            Id = "vale_turnin_ack",
+                            Text = "Supplies delivered.",
+                            ExitAfterChoice = true,
+                            StatusMessage = "Quartermaster Vale logged the medkit and issued an armor patch."
+                        }
+                    }
+                }
+            });
+
+        EnsureDialogueAsset(
+            "dialogue_vale_complete",
+            "Quartermaster Vale",
+            "vale_complete",
+            new[]
+            {
+                new DialogueNodeData
+                {
+                    Id = "vale_complete",
+                    SpeakerName = "Quartermaster Vale",
+                    Text = "The medkit is already in triage. Keep scavenging and I will keep the squad breathing.",
+                    Choices = new List<DialogueChoiceData>
+                    {
+                        new DialogueChoiceData
+                        {
+                            Id = "vale_complete_ack",
+                            Text = "Copy that.",
                             ExitAfterChoice = true
                         }
                     }
@@ -435,6 +583,35 @@ public static class GameplayDataSeeder
         asset.DisplayName = displayName;
         asset.StartNodeId = startNodeId;
         asset.Nodes = nodes?.Where(node => node != null).Select(CloneNode).ToList() ?? new List<DialogueNodeData>();
+        EditorUtility.SetDirty(asset);
+        AssetDatabase.SaveAssets();
+        return asset;
+    }
+
+    private static ConsumableEffectData EnsureConsumableAsset(
+        string id,
+        ItemData item,
+        ConsumableEffectType effectType,
+        float amount,
+        string successStatus,
+        string failureStatus,
+        Color themeColor)
+    {
+        string path = $"{ConsumablesRoot}/{id}.asset";
+        var asset = AssetDatabase.LoadAssetAtPath<ConsumableEffectData>(path);
+        if (asset == null)
+        {
+            asset = ScriptableObject.CreateInstance<ConsumableEffectData>();
+            AssetDatabase.CreateAsset(asset, path);
+        }
+
+        asset.Id = id;
+        asset.ItemId = item != null ? item.Id : string.Empty;
+        asset.EffectType = effectType;
+        asset.Amount = Mathf.Max(1f, amount);
+        asset.SuccessStatus = successStatus;
+        asset.FailureStatus = failureStatus;
+        asset.ThemeColor = themeColor;
         EditorUtility.SetDirty(asset);
         AssetDatabase.SaveAssets();
         return asset;

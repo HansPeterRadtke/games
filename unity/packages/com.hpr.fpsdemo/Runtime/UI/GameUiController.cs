@@ -10,6 +10,7 @@ public class GameUiController : MonoBehaviour
     private IGameMenuCommands menuCommands;
     private ISkillTreeCommands skillCommands;
     private IQuestJournalSource journalSource;
+    private IInventoryItemUseCommands itemUseCommands;
     private IDialogueFlowCommands dialogueCommands;
     private IInputBindingsSource inputBindings;
     private IOptionsController optionsController;
@@ -77,6 +78,7 @@ public class GameUiController : MonoBehaviour
         menuCommands = ResolveInterface<IGameMenuCommands>(services);
         skillCommands = ResolveInterface<ISkillTreeCommands>(services);
         journalSource = ResolveInterface<IQuestJournalSource>(services);
+        itemUseCommands = ResolveInterface<IInventoryItemUseCommands>(services);
         dialogueCommands = ResolveInterface<IDialogueFlowCommands>(services);
         inputBindings = ResolveInterface<IInputBindingsSource>(services);
         optionsController = ResolveInterface<IOptionsController>(services);
@@ -593,7 +595,7 @@ public class GameUiController : MonoBehaviour
         inventoryDetailText.text = activeTab.Tab switch
         {
             InventoryTab.Weapons => "Weapons are grouped by slot. 1-9 equips instantly. RMB aims the active weapon.",
-            InventoryTab.Consumables => "Consumables are instant-use support items. Medkits and armor patches are limited.",
+            InventoryTab.Consumables => "Consumables are instant-use support items. Click a card to use one charge.",
             InventoryTab.Keys => "Security clearance persists across saves. Keycards unlock the corresponding doors.",
             _ => "Utility equipment covers scanners, repair tools, the map, and interaction hints."
         };
@@ -937,7 +939,23 @@ public class GameUiController : MonoBehaviour
     {
         var card = CreateRectTransform($"{entry.Name}_Card", parent, new Vector2(0f, 1f), new Vector2(0f, 1f), Vector2.zero, new Vector2(142f, 142f));
         var cardImage = card.gameObject.AddComponent<Image>();
-        cardImage.color = new Color(0.12f, 0.15f, 0.19f, 0.95f);
+        bool canUse = entry.Usable && entry.Count > 0;
+        cardImage.color = canUse
+            ? new Color(0.12f, 0.18f, 0.22f, 0.95f)
+            : new Color(0.12f, 0.15f, 0.19f, 0.95f);
+        if (entry.Usable)
+        {
+            var button = card.gameObject.AddComponent<Button>();
+            button.targetGraphic = cardImage;
+            button.interactable = canUse;
+            button.onClick.AddListener(() =>
+            {
+                if (entry.Count > 0)
+                {
+                    itemUseCommands?.TryUseInventoryItem(entry.Id);
+                }
+            });
+        }
 
         var icon = CreateRectTransform("Icon", card, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(12f, -12f), new Vector2(46f, 46f));
         var iconImage = icon.gameObject.AddComponent<Image>();
@@ -957,6 +975,16 @@ public class GameUiController : MonoBehaviour
         detail.color = new Color(0.76f, 0.82f, 0.92f, 0.92f);
         detail.horizontalOverflow = HorizontalWrapMode.Wrap;
         detail.verticalOverflow = VerticalWrapMode.Overflow;
+
+        if (entry.Usable)
+        {
+            var useBadge = CreateRectTransform("UseBadge", card, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(-12f, 12f), new Vector2(56f, 20f));
+            var useBadgeImage = useBadge.gameObject.AddComponent<Image>();
+            useBadgeImage.color = canUse ? new Color(0.16f, 0.46f, 0.22f, 0.95f) : new Color(0.18f, 0.18f, 0.2f, 0.95f);
+            var useText = CreateCenteredText("UseText", useBadge, canUse ? entry.UseLabel : "Empty", 12, TextAnchor.MiddleCenter, Vector2.zero, new Vector2(56f, 20f));
+            useText.color = Color.white;
+        }
+
         return card;
     }
 

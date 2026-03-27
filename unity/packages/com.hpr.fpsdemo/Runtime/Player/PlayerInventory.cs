@@ -18,6 +18,8 @@ public class InventoryEntryData
     public int Count;
     public Color IconColor;
     public Sprite Icon;
+    public bool Usable;
+    public string UseLabel;
 }
 
 public class InventoryTabData
@@ -91,7 +93,9 @@ public class PlayerInventory : InventoryComponent
                 Detail = string.IsNullOrWhiteSpace(item.Description) ? item.ItemType.ToString() : item.Description,
                 Count = GetQuantity(item.Id),
                 IconColor = item.PlaceholderColor,
-                Icon = item.Icon
+                Icon = item.Icon,
+                Usable = itemType == ItemType.Consumable,
+                UseLabel = itemType == ItemType.Consumable ? "Use" : string.Empty
             });
         }
 

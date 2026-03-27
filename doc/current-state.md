@@ -119,3 +119,10 @@ Everything in this repo should be writable/readable by user `hans`. Root-owned f
 - Authoring roots now exist for `Assets/Data/Quests` and `Assets/Data/Dialogues`.
 - Primitive placeholder NPCs `npc_echo` and `npc_vale` are generated into the gameplay scene and drive dialogue-started quests.
 - The smoke test now verifies: dialogue acceptance, journal toggle, red key pickup, hub sentry kill, quest completion, reward skill point, save, load, and completion without runtime exceptions.
+
+
+## Current authored gameplay content checkpoint
+- Two authored quests are live in the gameplay scene: `Security Sweep` and `Supply Recovery`.
+- Two primitive NPCs now provide branching dialogue variants based on quest state: `npc_echo` and `npc_vale`.
+- Inventory consumables are now usable through authored `ConsumableEffectData` assets, not hardcoded values in UI logic.
+- Automated smoke now verifies damage, consumable use, both quest loops, skill-point rewards, save, load, and clean completion.

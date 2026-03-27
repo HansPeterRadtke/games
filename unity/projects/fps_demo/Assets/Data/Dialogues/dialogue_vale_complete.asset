@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b5984e7dc9354366b3b71c6f2ab09ee, type: 3}
+  m_Name: dialogue_vale_complete
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::DialogueData
+  Id: dialogue_vale_complete
+  DisplayName: Quartermaster Vale
+  StartNodeId: vale_complete
+  Nodes:
+  - Id: vale_complete
+    SpeakerName: Quartermaster Vale
+    Text: The medkit is already in triage. Keep scavenging and I will keep the squad
+      breathing.
+    Choices:
+    - Id: vale_complete_ack
+      Text: Copy that.
+      NextNodeId: 
+      ExitAfterChoice: 1
+      StartQuestId: 
+      StatusMessage: 

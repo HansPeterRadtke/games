@@ -69,6 +69,7 @@ public static class SceneBootstrap
 
         var sharedMaterials = CreateMaterialPalette();
         var allItems = GameplayDataSeeder.LoadAllItems();
+        var allConsumables = GameplayDataSeeder.LoadAllConsumables();
         var allSkills = GameplayDataSeeder.LoadAllSkills();
         var allQuests = GameplayDataSeeder.LoadAllQuests();
         var itemLookup = BuildItemLookup(allItems);
@@ -79,7 +80,7 @@ public static class SceneBootstrap
         var player = CreatePlayer(weaponLoadout, allItems, allSkills);
         var mapCamera = CreateMapCamera(player.ActorTransform);
         player.GetComponent<PlayerGameplayController>().BindMapCamera(mapCamera.GetComponent<MapCameraFollow>());
-        CreateGameSystems(player, mapCamera, world, allQuests);
+        CreateGameSystems(player, mapCamera, world, allQuests, allConsumables);
 
         EditorBuildSettings.scenes = new[]
         {
@@ -125,6 +126,7 @@ public static class SceneBootstrap
         }
 
         var knownItems = GameplayDataSeeder.LoadAllItems();
+        var consumables = GameplayDataSeeder.LoadAllConsumables();
         var skills = GameplayDataSeeder.LoadAllSkills();
         var quests = GameplayDataSeeder.LoadAllQuests();
         var itemLookup = BuildItemLookup(knownItems);
@@ -134,7 +136,7 @@ public static class SceneBootstrap
         changed |= EnsureWorldHierarchy(world);
         changed |= EnsureWorldEntityData(world, itemLookup, sharedMaterials);
         changed |= EnsurePlayerRuntime(playerGo, knownItems, loadout, skills, mapCamera);
-        changed |= EnsureSystemRuntime(systems, playerGo.GetComponent<PlayerActorContext>(), mapCamera, world, quests);
+        changed |= EnsureSystemRuntime(systems, playerGo.GetComponent<PlayerActorContext>(), mapCamera, world, quests, consumables);
 
         if (changed)
         {
@@ -257,7 +259,7 @@ public static class SceneBootstrap
         return changed;
     }
 
-    private static bool EnsureSystemRuntime(GameObject systems, PlayerActorContext player, Camera mapCamera, Transform worldRoot, List<QuestData> quests)
+    private static bool EnsureSystemRuntime(GameObject systems, PlayerActorContext player, Camera mapCamera, Transform worldRoot, List<QuestData> quests, List<ConsumableEffectData> consumables)
     {
         bool changed = false;
         changed |= systems.GetComponent<EventManager>() == null;
@@ -271,6 +273,7 @@ public static class SceneBootstrap
         changed |= systems.GetComponent<GameManager>() == null;
         var manager = GameObjectUtils.GetOrAddComponent<GameManager>(systems);
         questManager.ConfigureQuests(quests);
+        manager.ConfigureConsumables(consumables);
         manager.AssignReferences(player, mapCamera, ui, worldRoot);
         validator.Bind(eventManager);
         EditorUtility.SetDirty(eventManager);
@@ -412,6 +415,7 @@ public static class SceneBootstrap
             };
 
             npc.Configure(npc.NpcId, displayName, dialogue);
+            npc.ConfigureVariants(BuildDialogueVariants(npc.NpcId));
             EditorUtility.SetDirty(npc);
             changed = true;
         }
@@ -638,7 +642,7 @@ public static class SceneBootstrap
         return camera;
     }
 
-    private static GameManager CreateGameSystems(PlayerActorContext player, Camera mapCamera, Transform worldRoot, List<QuestData> quests)
+    private static GameManager CreateGameSystems(PlayerActorContext player, Camera mapCamera, Transform worldRoot, List<QuestData> quests, List<ConsumableEffectData> consumables)
     {
         var systems = new GameObject("GameSystems");
         var eventManager = systems.AddComponent<EventManager>();
@@ -647,6 +651,7 @@ public static class SceneBootstrap
         var questManager = systems.AddComponent<QuestManager>();
         questManager.ConfigureQuests(quests);
         var manager = systems.AddComponent<GameManager>();
+        manager.ConfigureConsumables(consumables);
         manager.AssignReferences(player, mapCamera, ui, worldRoot);
         validator.Bind(eventManager);
         return manager;
@@ -720,7 +725,63 @@ public static class SceneBootstrap
 
         var interactable = root.AddComponent<DialogueNpcInteractable>();
         interactable.Configure(npcId, displayName, dialogueData);
+        interactable.ConfigureVariants(BuildDialogueVariants(npcId));
         return interactable;
+    }
+
+    private static List<DialogueNpcInteractable.DialogueVariantRule> BuildDialogueVariants(string npcId)
+    {
+        switch (npcId)
+        {
+            case "npc_echo":
+                return new List<DialogueNpcInteractable.DialogueVariantRule>
+                {
+                    new DialogueNpcInteractable.DialogueVariantRule
+                    {
+                        Label = "Completed",
+                        Dialogue = GameplayDataSeeder.LoadDialogue("dialogue_echo_complete"),
+                        RequiredCompletedQuestId = "quest_security_sweep",
+                        Priority = 40
+                    },
+                    new DialogueNpcInteractable.DialogueVariantRule
+                    {
+                        Label = "Reminder",
+                        Dialogue = GameplayDataSeeder.LoadDialogue("dialogue_echo_reminder"),
+                        RequiredActiveQuestId = "quest_security_sweep",
+                        Priority = 20
+                    }
+                };
+
+            case "npc_vale":
+                return new List<DialogueNpcInteractable.DialogueVariantRule>
+                {
+                    new DialogueNpcInteractable.DialogueVariantRule
+                    {
+                        Label = "Completed",
+                        Dialogue = GameplayDataSeeder.LoadDialogue("dialogue_vale_complete"),
+                        RequiredCompletedQuestId = "quest_supply_recovery",
+                        Priority = 60
+                    },
+                    new DialogueNpcInteractable.DialogueVariantRule
+                    {
+                        Label = "TurnIn",
+                        Dialogue = GameplayDataSeeder.LoadDialogue("dialogue_vale_turnin"),
+                        RequiredActiveQuestId = "quest_supply_recovery",
+                        RequiredObjectiveQuestId = "quest_supply_recovery",
+                        RequiredObjectiveId = "collect_medkit",
+                        Priority = 40
+                    },
+                    new DialogueNpcInteractable.DialogueVariantRule
+                    {
+                        Label = "Reminder",
+                        Dialogue = GameplayDataSeeder.LoadDialogue("dialogue_vale_waiting"),
+                        RequiredActiveQuestId = "quest_supply_recovery",
+                        Priority = 20
+                    }
+                };
+        }
+
+        return new List<DialogueNpcInteractable.DialogueVariantRule>();
     }
 
     private static EnemyAgent CreateEnemy(Transform parent, string saveId, EnemyData data, Vector3 position, Vector3 patrolA, Vector3 patrolB, Dictionary<string, Material> materials)

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsController, IEventBusSource, IGameplayStateSource, IStatusMessageSink, IInteractionPromptSink, IHudRefreshSink, IThreatScanner, IGameplayFlowCommands, IGameMenuCommands, IPlayerDeathHandler, IPlayerActorSource, IEnemyRegistry, ISkillTreeCommands, IQuestJournalSource, IDialogueFlowCommands, ISkillPointRewardSink
+public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsController, IEventBusSource, IGameplayStateSource, IStatusMessageSink, IInteractionPromptSink, IHudRefreshSink, IThreatScanner, IGameplayFlowCommands, IGameMenuCommands, IPlayerDeathHandler, IPlayerActorSource, IEnemyRegistry, ISkillTreeCommands, IQuestJournalSource, IDialogueFlowCommands, ISkillPointRewardSink, IQuestStateQuery, IInventoryItemUseCommands
 {
     [SerializeField] private PlayerActorContext player;
     [SerializeField] private Camera mapCamera;
@@ -14,11 +14,13 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
     [SerializeField] private EventManager eventManager;
     [SerializeField] private GameStateValidator stateValidator;
     [SerializeField] private QuestManager questManager;
+    [SerializeField] private List<ConsumableEffectData> consumableEffects = new List<ConsumableEffectData>();
 
     private readonly List<ISaveableEntity> saveables = new List<ISaveableEntity>();
     private readonly List<EnemyAgent> registeredEnemies = new List<EnemyAgent>();
     private readonly List<PickupItem> registeredPickups = new List<PickupItem>();
     private readonly List<DoorController> registeredDoors = new List<DoorController>();
+    private readonly Dictionary<string, ConsumableEffectData> consumableLookup = new Dictionary<string, ConsumableEffectData>(System.StringComparer.Ordinal);
     private RenderTexture mapTexture;
     private string savePath;
     private bool titleMenuVisible = true;
@@ -60,6 +62,9 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
     public bool IsCombatLive => IsGameplayRunning && !combatDisabledRequested && !combatHold && Time.time >= sessionStartTime + 0.5f;
     public bool HasSaveGame => !string.IsNullOrWhiteSpace(savePath) && File.Exists(savePath);
     public bool IsRebindingKey => uiController != null && uiController.IsRebindingKey;
+    public bool IsQuestActive(string questId) => questManager != null && questManager.IsQuestActive(questId);
+    public bool IsQuestCompleted(string questId) => questManager != null && questManager.IsQuestCompleted(questId);
+    public bool IsObjectiveComplete(string questId, string objectiveId) => questManager != null && questManager.IsObjectiveComplete(questId, objectiveId);
 
     private sealed class ActiveDialogueState
     {
@@ -72,6 +77,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
     private void Awake()
     {
         EnsureRuntimeBootstrapped();
+        RebuildConsumableLookup();
         player?.MovementController.ApplyOptions(CurrentOptions);
         BuildMapTexture();
         RegisterSaveables();
@@ -907,6 +913,46 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         }
     }
 
+    public void ConfigureConsumables(IEnumerable<ConsumableEffectData> effects)
+    {
+        consumableEffects = effects?.Where(effect => effect != null && !string.IsNullOrWhiteSpace(effect.ItemId))
+            .GroupBy(effect => effect.ItemId, System.StringComparer.Ordinal)
+            .Select(group => group.First())
+            .ToList() ?? new List<ConsumableEffectData>();
+        RebuildConsumableLookup();
+    }
+
+    public bool TryUseInventoryItem(string itemId)
+    {
+        if (player?.InventoryComponent == null || string.IsNullOrWhiteSpace(itemId))
+        {
+            return false;
+        }
+
+        if (!consumableLookup.TryGetValue(itemId, out ConsumableEffectData effect) || effect == null)
+        {
+            NotifyStatus("This item cannot be used right now.");
+            return false;
+        }
+
+        if (!player.InventoryComponent.HasItem(itemId))
+        {
+            NotifyStatus("Item not available.");
+            return false;
+        }
+
+        if (!TryApplyConsumableEffect(effect))
+        {
+            NotifyStatus(string.IsNullOrWhiteSpace(effect.FailureStatus) ? "Item had no effect." : effect.FailureStatus);
+            return false;
+        }
+
+        player.InventoryComponent.RemoveItem(itemId, 1);
+        NotifyStatus(string.IsNullOrWhiteSpace(effect.SuccessStatus) ? "Item applied." : effect.SuccessStatus);
+        RefreshHud();
+        return true;
+    }
+
     private void ShowInitialTitleMenu()
     {
         titleMenuVisible = true;
@@ -1019,6 +1065,16 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         yield return new WaitForSecondsRealtime(0.1f);
         ToggleInventory();
 
+        stateValidator?.ResetCounters();
+        float healthBeforeMedkit = player.StatsComponent.Health;
+        int medkitBeforeUse = player.InventoryComponent.GetQuantity("item_medkit");
+        bool medkitUsed = TryUseInventoryItem("item_medkit");
+        yield return new WaitForSecondsRealtime(0.1f);
+        if (medkitUsed)
+        {
+            stateValidator?.ValidateConsumableUse(player.InventoryComponent, "item_medkit", medkitBeforeUse, player.StatsComponent, healthBeforeMedkit);
+        }
+
         ToggleMap();
         yield return new WaitForSecondsRealtime(0.2f);
         mapCamera.GetComponent<MapCameraFollow>()?.Pan(new Vector2(8f, -6f));
@@ -1039,6 +1095,19 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
             echoNpc.Interact(player);
             yield return new WaitForSecondsRealtime(0.1f);
             SelectDialogueChoice("echo_accept_security");
+            yield return new WaitForSecondsRealtime(0.1f);
+            stateValidator?.ValidateDialogueCompletion();
+        }
+
+        DialogueNpcInteractable valeNpc = saveableRoot != null
+            ? saveableRoot.GetComponentsInChildren<DialogueNpcInteractable>(true).FirstOrDefault(candidate => candidate != null && candidate.NpcId == "npc_vale")
+            : null;
+        if (valeNpc != null)
+        {
+            stateValidator?.ResetCounters();
+            valeNpc.Interact(player);
+            yield return new WaitForSecondsRealtime(0.1f);
+            SelectDialogueChoice("vale_accept_supply");
             yield return new WaitForSecondsRealtime(0.1f);
             stateValidator?.ValidateDialogueCompletion();
         }
@@ -1071,6 +1140,20 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         }
         yield return new WaitForSecondsRealtime(0.1f);
 
+        stateValidator?.ResetCounters();
+        PickupItem medkitPickup = registeredPickups.FirstOrDefault(candidate =>
+            candidate != null &&
+            candidate.gameObject.activeInHierarchy &&
+            candidate.ItemData != null &&
+            candidate.ItemData.Id == "item_medkit");
+        if (medkitPickup != null)
+        {
+            int previousQuantity = player.InventoryComponent.GetQuantity("item_medkit");
+            medkitPickup.Interact(player);
+            yield return new WaitForSecondsRealtime(0.1f);
+            stateValidator?.ValidateInventoryPickup(player.InventoryComponent, "item_medkit", previousQuantity);
+        }
+
         registeredDoors
             .FirstOrDefault(door => door != null && door.gameObject.activeInHierarchy)?
             .Interact(player);
@@ -1096,6 +1179,19 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
             stateValidator?.ValidateQuestCompletion(questManager, "quest_security_sweep");
         }
 
+        if (valeNpc != null)
+        {
+            stateValidator?.ResetCounters();
+            int armorPatchBeforeReward = player.InventoryComponent.GetQuantity("item_armor_patch");
+            valeNpc.Interact(player);
+            yield return new WaitForSecondsRealtime(0.1f);
+            SelectDialogueChoice("vale_turnin_ack");
+            yield return new WaitForSecondsRealtime(0.1f);
+            stateValidator?.ValidateDialogueCompletion();
+            stateValidator?.ValidateQuestCompletion(questManager, "quest_supply_recovery");
+            stateValidator?.ValidateInventoryQuantityIncrease(player.InventoryComponent, "item_armor_patch", armorPatchBeforeReward);
+        }
+
         ToggleSkills();
         yield return new WaitForSecondsRealtime(0.15f);
         var unlockCandidate = player.SkillTreeComponent.BuildEntries().FirstOrDefault(entry => entry.Available && !entry.Unlocked);
@@ -1114,6 +1210,52 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         NotifyStatus("Smoke test completed");
         yield return new WaitForSecondsRealtime(0.3f);
         ExitGame();
+    }
+
+    private bool TryApplyConsumableEffect(ConsumableEffectData effect)
+    {
+        if (effect == null || player?.StatsComponent == null)
+        {
+            return false;
+        }
+
+        switch (effect.EffectType)
+        {
+            case ConsumableEffectType.Heal:
+                if (player.StatsComponent.Health >= player.StatsComponent.MaxHealth - 0.01f)
+                {
+                    return false;
+                }
+
+                player.StatsComponent.Heal(effect.Amount);
+                return true;
+
+            case ConsumableEffectType.RestoreStamina:
+                if (player.StatsComponent.Stamina >= player.StatsComponent.MaxStamina - 0.01f)
+                {
+                    return false;
+                }
+
+                player.StatsComponent.RegenerateStamina(effect.Amount);
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    private void RebuildConsumableLookup()
+    {
+        consumableLookup.Clear();
+        foreach (ConsumableEffectData effect in consumableEffects)
+        {
+            if (effect == null || string.IsNullOrWhiteSpace(effect.ItemId))
+            {
+                continue;
+            }
+
+            consumableLookup[effect.ItemId] = effect;
+        }
     }
 
     private IEnumerator TryCapturePreview(string fileName, string hierarchyPath, Vector3 framingScale)

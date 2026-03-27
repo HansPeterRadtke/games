@@ -18,8 +18,8 @@ MonoBehaviour:
     Vale.
   StartOnSession: 0
   RewardSkillPoints: 1
-  RewardItem: {fileID: 0}
-  RewardItemAmount: 0
+  RewardItem: {fileID: 11400000, guid: 343b61ee8f089402ca20f91cfa4dd6b0, type: 2}
+  RewardItemAmount: 1
   ThemeColor: {r: 0.34, g: 0.76, b: 0.92, a: 1}
   Objectives:
   - Id: collect_medkit
@@ -29,6 +29,6 @@ MonoBehaviour:
     RequiredCount: 1
   - Id: report_to_vale
     ObjectiveType: 2
-    TargetId: npc_vale
+    TargetId: npc_vale:vale_turnin
     Description: Report back to Quartermaster Vale
     RequiredCount: 1

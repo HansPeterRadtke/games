@@ -208,3 +208,34 @@ Validation at this checkpoint
   - `com.hpr.stats`
   - `com.hpr.world`
   - `com.hpr.fpsdemo`
+
+
+2026-03-27 consumable + branching quest checkpoint
+- Added data-driven consumable effect assets under `Assets/Data/Consumables`.
+- Added new runtime type `ConsumableEffectData` in `com.hpr.fpsdemo`.
+- Inventory consumables are now clickable from the inventory panel and use package-safe item data plus authored consumable definitions.
+- Added branching NPC dialogue variants:
+  - Echo: briefing, active reminder, completion acknowledgement
+  - Vale: quest offer, active reminder, turn-in, completion acknowledgement
+- `QuestManager` now supports dialogue objective targets scoped to a final node id via `npcId:nodeId` matching.
+- Supply Recovery no longer completes immediately on quest acceptance; it completes only after the medkit is recovered and the Vale turn-in dialogue is completed.
+- Added authored dialogue assets:
+  - `dialogue_echo_reminder`
+  - `dialogue_echo_complete`
+  - `dialogue_vale_waiting`
+  - `dialogue_vale_turnin`
+  - `dialogue_vale_complete`
+- Added a consumable smoke path:
+  - player takes damage
+  - uses medkit from inventory
+  - completes both Security Sweep and Supply Recovery
+  - validates save/load after progression
+
+Validation at this checkpoint
+- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
+- `unity/tools/fps_demo/smoke_test.sh`
+- smoke log confirms:
+  - `Medkit injected. Vital signs stabilized.`
+  - `Quest complete: Security Sweep`
+  - `Quest complete: Supply Recovery`
+  - `Smoke test completed`

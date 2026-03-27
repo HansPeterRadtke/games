@@ -61,9 +61,21 @@ public interface ISkillPointRewardSink
     void AwardSkillPoints(int amount, string reason);
 }
 
+public interface IQuestStateQuery
+{
+    bool IsQuestActive(string questId);
+    bool IsQuestCompleted(string questId);
+    bool IsObjectiveComplete(string questId, string objectiveId);
+}
+
 public interface IQuestJournalSource
 {
     List<QuestJournalEntryViewData> BuildJournalEntries();
+}
+
+public interface IInventoryItemUseCommands
+{
+    bool TryUseInventoryItem(string itemId);
 }
 
 public interface IDialogueFlowCommands
