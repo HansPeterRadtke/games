@@ -24,7 +24,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
     private bool patrolToA;
     private Vector3 impactVelocity;
     private IEnemyBehavior behavior;
-    private IGameEventBus eventBus;
+    private IEventBus eventBus;
     private GameObject lastDamageSourceRoot;
     private IEventBusSource eventBusSource;
     private IStatusMessageSink statusSink;
@@ -387,7 +387,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         visualAnimator.ResetPresentation();
     }
 
-    private void BindEventBus(IGameEventBus bus)
+    private void BindEventBus(IEventBus bus)
     {
         if (eventBus == bus)
         {

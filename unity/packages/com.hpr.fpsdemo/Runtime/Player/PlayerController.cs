@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
     private float baseFieldOfView;
     private float lastGroundedTime = -99f;
     private float lastJumpPressedTime = -99f;
-    private IGameEventBus eventBus;
+    private IEventBus eventBus;
     private IGameplayStateSource gameplayState;
     private IInputBindingsSource inputBindings;
     private IEventBusSource eventBusSource;
@@ -233,7 +233,7 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
         LastMoveMagnitude = moveDirection.magnitude * (IsRunning ? 1.3f : 1f);
     }
 
-    private void BindEventBus(IGameEventBus bus)
+    private void BindEventBus(IEventBus bus)
     {
         if (eventBus == bus)
         {

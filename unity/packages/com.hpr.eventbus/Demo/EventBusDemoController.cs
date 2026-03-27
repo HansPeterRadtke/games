@@ -1,7 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class DemoPingEvent : GameEvent
+public sealed class DemoPingEvent
+{
+    public string Message;
+}
+
+public sealed class DemoStatusEvent
 {
     public string Message;
 }
@@ -18,16 +23,11 @@ public class EventBusDemoController : MonoBehaviour
     {
         if (eventManager == null)
         {
-            eventManager = FindAnyObjectByType<EventManager>();
-        }
-
-        if (eventManager == null)
-        {
             return;
         }
 
         eventManager.Subscribe<DemoPingEvent>(HandlePing);
-        eventManager.Subscribe<StatusMessageEvent>(HandleStatus);
+        eventManager.Subscribe<DemoStatusEvent>(HandleStatus);
     }
 
     private void OnDisable()
@@ -38,7 +38,7 @@ public class EventBusDemoController : MonoBehaviour
         }
 
         eventManager.Unsubscribe<DemoPingEvent>(HandlePing);
-        eventManager.Unsubscribe<StatusMessageEvent>(HandleStatus);
+        eventManager.Unsubscribe<DemoStatusEvent>(HandleStatus);
     }
 
     private void HandlePing(DemoPingEvent demoEvent)
@@ -48,7 +48,7 @@ public class EventBusDemoController : MonoBehaviour
         TrimEntries();
     }
 
-    private void HandleStatus(StatusMessageEvent demoEvent)
+    private void HandleStatus(DemoStatusEvent demoEvent)
     {
         statusCount++;
         entries.Insert(0, $"Status {statusCount}: {demoEvent.Message}");
@@ -70,7 +70,7 @@ public class EventBusDemoController : MonoBehaviour
 
         if (GUILayout.Button("Publish Status", GUILayout.Height(32f)))
         {
-            eventManager?.Publish(new StatusMessageEvent { Message = "Status event published" });
+            eventManager?.Publish(new DemoStatusEvent { Message = "Status event published" });
         }
         GUILayout.EndHorizontal();
 

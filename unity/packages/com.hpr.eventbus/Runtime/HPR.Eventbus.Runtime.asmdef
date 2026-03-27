@@ -1,9 +1,7 @@
 {
   "name": "HPR.Eventbus.Runtime",
   "rootNamespace": "",
-  "references": [
-    "HPR.Foundation"
-  ],
+  "references": [],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

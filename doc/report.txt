@@ -2,86 +2,115 @@ Games repo report - 2026-03-27
 
 Current repo state
 - branch: `main`
-- repo remains buildable and smoketest-clean
-- imported Unity Asset Store content is still local-only and ignored
-- repo content remains runnable as user `hans`
+- repo is buildable, smoke-clean, and currently in phase-one modularization
+- imported Unity Asset Store content remains local-only and ignored
+- repo content is runnable as user `hans`
+
+Phase-one modularization result
+1. Central control reduced
+- `GameManager` no longer boots the runtime graph by itself
+- `SceneBootstrap` now acts as a thin editor/bootstrap adapter that wires scene references into `FpsDemoCompositionRoot`
+- runtime service registration is explicit through `com.hpr.composition`
+
+2. New composition system
+- new package: `unity/packages/com.hpr.composition`
+- core types:
+  - `IService`
+  - `IServiceResolver`
+  - `IServiceRegistry`
+  - `IInitializable`
+  - `IUpdatableService`
+  - `ServiceRegistry`
+  - `CompositionRoot`
+- headless validation entrypoint:
+  - `unity/tools/architecture/run_phase1_headless_validation.sh`
+
+3. Standalone event system
+- `com.hpr.eventbus` is now a real standalone event package
+- event bus API is now:
+  - `IEventBus`
+  - `EventBus` (pure C# implementation)
+  - `EventManager` (Unity adapter only)
+  - `IEventBusSource`
+  - `EventBusSourceAdapter`
+- gameplay-domain event payloads were moved out of `com.hpr.eventbus`
+- gameplay payloads now live in:
+  - `unity/packages/com.hpr.core/Runtime/Events/GameplayEvents.cs`
+
+4. Dependency audit output
+- generated report:
+  - `doc/dependency-audit-phase1.md`
+- current phase-one violations are concentrated in `com.hpr.fpsdemo`
+- main remaining forbidden patterns:
+  - `GameManager` references
+  - `SceneBootstrap` ownership of game scene construction
+  - parent `MonoBehaviour` fallback lookups in runtime components
+- package-level violations outside `fpsdemo` are still present in:
+  - `com.hpr.interaction` demo/runtime lookup fallbacks
+  - `com.hpr.inventory` demo scene search
+  - `com.hpr.stats` parent lookup fallback
+
+5. What is still NOT modular
+- `com.hpr.fpsdemo` is still too large and still owns:
+  - `GameManager`
+  - `SceneBootstrap`
+  - `GameStateValidator`
+  - game-specific quest/dialogue/menu flow
+  - scene-specific composition and smoke flow
+- runtime components in `fpsdemo` still rely on scene-parent service discovery in several places
+- `com.hpr.core` currently carries FPS-domain event payloads; the event transport is modular, but the domain model is still shared through core rather than fully split into separate game-domain packages
+
+6. Ranked next extraction targets
+1. remove parent `MonoBehaviour` service lookups from `fpsdemo` runtime
+2. extract input/runtime wiring out of `fpsdemo` and onto explicit composition-only registration
+3. move reusable stats runtime out of `fpsdemo` completely
+4. move weapon runtime execution out of `fpsdemo`
+5. move AI runtime behavior out of `fpsdemo`
+6. shrink `SceneBootstrap` until only generic/setup-safe bootstrap logic remains
+
+Current package set
+- `com.hpr.foundation`
+- `com.hpr.core`
+- `com.hpr.composition`
+- `com.hpr.eventbus`
+- `com.hpr.input`
+- `com.hpr.save`
+- `com.hpr.inventory`
+- `com.hpr.weapons`
+- `com.hpr.ai`
+- `com.hpr.stats`
+- `com.hpr.world`
+- `com.hpr.abilities`
+- `com.hpr.interaction`
+- `com.hpr.fpsdemo`
 
 What is verified now
+- headless validation succeeds through:
+  - `unity/tools/architecture/run_phase1_headless_validation.sh`
+- dependency audit succeeds through:
+  - `unity/tools/architecture/dependency_audit.py`
+- clean-project package validation succeeds for:
+  - `com.hpr.eventbus`
+  - `com.hpr.composition`
 - Unity project build succeeds through:
   - `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
 - standalone smoketest succeeds through:
-  - `unity/tools/fps_demo/smoke_test.sh`
-- clean-project package validation succeeds through:
-  - `unity/tools/packages/validate_local_packages.sh <package>`
+  - `NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh`
 
 Playable build path
 - `unity/projects/fps_demo/Build/Linux/FPSDemo.x86_64`
 
-Main architectural state in this checkpoint
-The repo is no longer just `foundation + fpsdemo`. Real reusable packages now hold code/data that the game composes:
-- `com.hpr.core`
-- `com.hpr.eventbus`
-- `com.hpr.input`
-- `com.hpr.save`
-- `com.hpr.inventory`
-- `com.hpr.weapons`
-- `com.hpr.ai`
-- `com.hpr.stats`
-- `com.hpr.world`
-- `com.hpr.abilities`
-- `com.hpr.fpsdemo`
-
-What was actually moved out of `com.hpr.fpsdemo`
-- `EventManager` -> `com.hpr.eventbus`
-- `GameEvents` -> `com.hpr.eventbus`
-- `GameAction` -> `com.hpr.input`
-- `GameOptionsData` -> `com.hpr.input`
-- `GameOptionsStore` -> `com.hpr.input`
-- save payload types and `ISaveableEntity` -> `com.hpr.save`
-- `ItemData`, `ItemType`, `IInventoryService`, `InventoryComponent` -> `com.hpr.inventory`
-- `WeaponData`, `FireModeType`, `EquipmentKind`, `WeaponUtilityAction` -> `com.hpr.weapons`
-- `EnemyData`, `EnemyAIType`, `EnemyAttackStyle` -> `com.hpr.ai`
-
-What was decoupled from direct `GameManager` singleton usage
-These systems now bind through interfaces/services instead of direct singleton access:
-- `PlayerController`
-- `PlayerGameplayController`
-- `PlayerStats`
-- `WeaponSystem`
-- `WeaponFireModes`
-- `PhysicsProjectile`
-- `PickupItem`
-- `DoorController`
-- `EnemyAgent`
-- `GameUiController`
-
-Package validation status
-Validated in a clean empty Unity project:
-- `com.hpr.foundation`
-- `com.hpr.core`
-- `com.hpr.eventbus`
-- `com.hpr.input`
-- `com.hpr.save`
-- `com.hpr.inventory`
-- `com.hpr.weapons`
-- `com.hpr.ai`
-- `com.hpr.stats`
-- `com.hpr.world`
-- `com.hpr.abilities`
-- `com.hpr.fpsdemo` with declared dependencies
-
 Tracked docs/tooling relevant for takeover
 - `doc/current-state.md`
+- `doc/modularization-status.md`
 - `doc/package-dependency-map.md`
 - `doc/package-validation.md`
-- `doc/handoff.md`
-- `doc/local-assets.md`
-- `doc/modularization-status.md`
-- `doc/workflows.md`
+- `doc/dependency-audit-phase1.md`
 - `doc/report.txt`
+- `unity/tools/architecture/run_phase1_headless_validation.sh`
+- `unity/tools/architecture/dependency_audit.py`
 - `unity/tools/fps_demo/run_unity_batch.sh`
 - `unity/tools/fps_demo/smoke_test.sh`
-- `unity/tools/fps_demo/setup_project.sh`
 - `unity/tools/packages/validate_local_packages.sh`
 
 Important local-only rule
@@ -89,190 +118,3 @@ Do not commit:
 - imported asset folders under `unity/projects/fps_demo/Assets/...`
 - downloaded `.unitypackage` files
 - local asset registry/generated metadata for imported third-party art
-
-Known limitations at this checkpoint
-- `com.hpr.fpsdemo` still contains most runtime execution logic and project-specific editor/bootstrap code
-- `SceneBootstrap` still knows the current project scene/hierarchy
-- only `com.hpr.stats`, `com.hpr.eventbus`, and `com.hpr.inventory` currently have committed standalone demo scenes
-- stats/interaction/ui/world/bootstrap packages are not real productized packages yet
-
-Recommended next steps
-1. move stats contracts/runtime into `com.hpr.stats`
-2. move weapon execution/runtime state into `com.hpr.weapons`
-3. move AI runtime behavior into `com.hpr.ai`
-4. generalize interaction runtime into `com.hpr.interaction`
-5. add real standalone demo scenes and package-level tests
-6. shrink `com.hpr.fpsdemo` to composition/bootstrap only
-
-Standalone demo progress
-- `com.hpr.stats` now has a committed demo scene at `unity/packages/com.hpr.stats/Demo/StatsDemo.unity`
-- `com.hpr.eventbus` now includes `EventBusSourceAdapter` so demo scenes and clean projects can expose an event bus without game-specific composition code
-- `com.hpr.eventbus` now has a committed demo scene at `unity/packages/com.hpr.eventbus/Demo/EventBusDemo.unity`
-- `com.hpr.inventory` now has a committed demo scene at `unity/packages/com.hpr.inventory/Demo/InventoryDemo.unity`
-- `com.hpr.abilities` now has a committed demo scene at `unity/packages/com.hpr.abilities/Demo/AbilitiesDemo.unity`
-
-2026-03-27 progression + animation checkpoint
-- Imported local-only animation content was integrated without tracking vendor data in git:
-  - `Assets/Kevin Iglesias/Human Animations`
-  - `Assets/DoubleL`
-- Added tracked animation integration tooling:
-  - `unity/packages/com.hpr.fpsdemo/Editor/LocalCharacterAnimationTools.cs`
-  - `unity/packages/com.hpr.fpsdemo/Runtime/Presentation/CharacterVisualAnimator.cs`
-- Enemy visuals now use imported humanoid animation controllers for idle / locomotion / hit / attack / death presentation.
-- Ambient NPCs are placed into the gameplay scene with local-only animation controllers.
-- Added a tracked skill-tree runtime foundation in `com.hpr.fpsdemo`:
-  - `SkillNodeData` assets under `Assets/Data/Skills`
-  - `SkillTreeComponent` runtime with unlocks, save/load persistence, kill-rewarded skill points, damage/move/stat modifiers
-  - player skill hotkey binding (`K`) and options-menu rebinding support
-  - in-game skill panel with unlock buttons
-- Extended save payload to persist skill points and unlocked skill ids.
-- Extended smoke validation to verify enemy kill -> skill point gain and to unlock one available skill during the automated run.
-- Runtime regression fixed:
-  - old startup `NullReferenceException` from `GameUiController.RefreshOptions` during early weapon initialization is fixed in the rebuilt player.
-
-Validation at this checkpoint
-- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
-- `unity/tools/fps_demo/smoke_test.sh`
-- Player log confirms:
-  - `Skill point +1`
-  - `Unlocked Recovery Lattice`
-  - `Smoke test completed`
-- No imported third-party asset folders were added to git tracking.
-
-2026-03-27 interaction package checkpoint
-- `com.hpr.interaction` is no longer a scaffold package.
-- Added generic runtime interaction code:
-  - `IInteractionActor`
-  - `IInteractable`
-  - `InteractionSensor`
-  - `InventoryPickupInteractable`
-  - `KeyDoorInteractable`
-  - `SimpleInteractionActor`
-- Added a committed standalone package demo:
-  - `unity/packages/com.hpr.interaction/Demo/InteractionDemo.unity`
-  - built by `InteractionDemoSceneBuilder.BuildDemoScene`
-- Added package-owned safe demo assets:
-  - `DemoBronzeKey.asset`
-  - `DemoMedkit.asset`
-- Integrated the generic interaction contracts back into the main game:
-  - `PlayerGameplayController`
-  - `DoorController`
-  - `PickupItem`
-  - `IPlayerActor` now composes through `IInteractionActor`
-- Validation:
-  - `unity/tools/packages/validate_local_packages.sh com.hpr.interaction`
-  - full game build
-  - full smoke test
-- Player log remains clean:
-  - no runtime exceptions
-  - smoke still completes successfully
-
-
-2026-03-27 quest + dialogue + journal checkpoint
-- `com.hpr.interaction` is now a real reusable package, not a scaffold.
-- Added committed standalone interaction demo content:
-  - `unity/packages/com.hpr.interaction/Demo/InteractionDemo.unity`
-  - `InteractionDemoSceneBuilder.BuildDemoScene`
-- Added game-side quest/dialogue/journal runtime in `com.hpr.fpsdemo`:
-  - `Runtime/Questing/QuestData.cs`
-  - `Runtime/Questing/QuestManager.cs`
-  - `Runtime/Dialogue/DialogueData.cs`
-  - `Runtime/Dialogue/DialogueNpcInteractable.cs`
-- Added authored project data assets for quests and dialogues under:
-  - `unity/projects/fps_demo/Assets/Data/Quests`
-  - `unity/projects/fps_demo/Assets/Data/Dialogues`
-- Added two primitive placeholder NPCs to the gameplay scene:
-  - `npc_echo`
-  - `npc_vale`
-- Added journal toggle support through the input package (`J` by default).
-- Save/load now persists quest state through `com.hpr.save` payloads.
-- Smoke validation now covers:
-  - accepting a dialogue-driven quest
-  - collecting the red keycard
-  - killing the hub sentry
-  - quest completion reward
-  - journal open/close
-  - save/load after quest progression
-
-Validation at this checkpoint
-- `unity/tools/packages/validate_local_packages.sh com.hpr.interaction`
-- `unity/tools/packages/validate_local_packages.sh com.hpr.fpsdemo`
-- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
-- `unity/tools/fps_demo/smoke_test.sh`
-- Latest validated package list:
-  - `com.hpr.foundation`
-  - `com.hpr.core`
-  - `com.hpr.eventbus`
-  - `com.hpr.input`
-  - `com.hpr.save`
-  - `com.hpr.inventory`
-  - `com.hpr.interaction`
-  - `com.hpr.weapons`
-  - `com.hpr.ai`
-  - `com.hpr.stats`
-  - `com.hpr.world`
-  - `com.hpr.fpsdemo`
-
-
-2026-03-27 consumable + branching quest checkpoint
-- Added data-driven consumable effect assets under `Assets/Data/Consumables`.
-- Added new runtime type `ConsumableEffectData` in `com.hpr.fpsdemo`.
-- Inventory consumables are now clickable from the inventory panel and use package-safe item data plus authored consumable definitions.
-- Added branching NPC dialogue variants:
-  - Echo: briefing, active reminder, completion acknowledgement
-  - Vale: quest offer, active reminder, turn-in, completion acknowledgement
-- `QuestManager` now supports dialogue objective targets scoped to a final node id via `npcId:nodeId` matching.
-
-2026-03-27 reusable abilities checkpoint
-- Added a real reusable package at `unity/packages/com.hpr.abilities`.
-- The package now owns:
-  - `AbilityData`
-  - `AbilityEffectData`
-  - `AbilityRunnerComponent`
-  - `AbilityUsedEvent`
-  - `AbilityEffectAppliedEvent`
-  - generic ability/resource/loadout contracts
-- Added a standalone demo scene:
-  - `unity/packages/com.hpr.abilities/Demo/AbilitiesDemo.unity`
-  - built by `AbilitiesDemoSceneBuilder.BuildDemoScene`
-- Added authored gameplay ability data under:
-  - `unity/projects/fps_demo/Assets/Data/Abilities`
-  - `unity/projects/fps_demo/Assets/Data/AbilityEffects`
-- Skill nodes now grant authored abilities:
-  - `skill_vigor` -> `Repair Pulse`
-  - `skill_sprinter` -> `Adrenaline Surge`
-  - `skill_overcharge` -> `Shock Pulse`
-- Added rebindable input actions:
-  - `AbilityPrimary` (`Q`)
-  - `AbilitySecondary` (`C`)
-- The FPS smoke path now validates a live ability activation before the save/load segment.
-
-Validation at this checkpoint
-- `unity/tools/packages/validate_local_packages.sh com.hpr.abilities`
-- `unity/tools/fps_demo/run_unity_batch.sh AbilitiesDemoSceneBuilder.BuildDemoScene`
-- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
-- `unity/tools/fps_demo/smoke_test.sh`
-- Player log confirms:
-  - `Repair pulse restored vital systems.`
-  - `Smoke test completed`
-- Supply Recovery no longer completes immediately on quest acceptance; it completes only after the medkit is recovered and the Vale turn-in dialogue is completed.
-- Added authored dialogue assets:
-  - `dialogue_echo_reminder`
-  - `dialogue_echo_complete`
-  - `dialogue_vale_waiting`
-  - `dialogue_vale_turnin`
-  - `dialogue_vale_complete`
-- Added a consumable smoke path:
-  - player takes damage
-  - uses medkit from inventory
-  - completes both Security Sweep and Supply Recovery
-  - validates save/load after progression
-
-Validation at this checkpoint
-- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
-- `unity/tools/fps_demo/smoke_test.sh`
-- smoke log confirms:
-  - `Medkit injected. Vital signs stabilized.`
-  - `Quest complete: Security Sweep`
-  - `Quest complete: Supply Recovery`
-  - `Smoke test completed`

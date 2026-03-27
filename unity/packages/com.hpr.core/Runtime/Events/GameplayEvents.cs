@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public abstract class GameEvent
@@ -85,11 +84,4 @@ public sealed class InteractionPromptEvent : GameEvent
 
 public sealed class HudInvalidatedEvent : GameEvent
 {
-}
-
-public interface IGameEventBus
-{
-    void Publish<TEvent>(TEvent gameEvent) where TEvent : GameEvent;
-    void Subscribe<TEvent>(Action<TEvent> handler) where TEvent : GameEvent;
-    void Unsubscribe<TEvent>(Action<TEvent> handler) where TEvent : GameEvent;
 }

@@ -10,9 +10,9 @@ public class GameStateValidator : MonoBehaviour
     private int questCompletedEventCount;
     private int abilityUsedEventCount;
 
-    private IGameEventBus eventBus;
+    private IEventBus eventBus;
 
-    public void Bind(IGameEventBus bus)
+    public void Bind(IEventBus bus)
     {
         if (eventBus == bus)
         {

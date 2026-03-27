@@ -1,22 +1,21 @@
 # Current State
 
 ## Repository purpose
-`games` contains a Unity workspace under `unity/` with one current playable prototype and an in-progress package productization effort.
+`games` contains a Unity workspace under `unity/` with one current composition project and an ongoing conversion of reusable code into standalone Unity packages.
 
 Main areas:
-- `unity/projects/fps_demo` - playable composition project
-- `unity/packages/com.hpr.*` - reusable package split
-- `unity/tools/` - reproducible build/test/package-validation helpers
-- `doc/` - takeover and workflow documentation
+- `unity/projects/fps_demo` - current composition project and playable prototype
+- `unity/packages/com.hpr.*` - reusable or in-progress reusable packages
+- `unity/tools/` - reproducible build, audit, and validation helpers
+- `doc/` - handoff and architecture status documentation
 
 ## What is committed
 Committed content is limited to:
-- gameplay/runtime code
-- editor tooling
-- package validation helpers
-- setup/build/test scripts
+- package/runtime/editor code
+- package manifests and package docs
+- setup/build/test/audit scripts
+- project metadata and authored data assets that are ours
 - documentation
-- Unity project metadata that does not require local-only imported art assets
 
 ## What is intentionally not committed
 The following stay local-only:
@@ -24,14 +23,14 @@ The following stay local-only:
 - imported Asset Store folders under `unity/projects/fps_demo/Assets/...`
 - generated asset metadata registries for imported local art
 - Unity `Library/`, `Temp/`, `Logs/`, and build artifacts
-- queue logs and local download metadata under `unity/assetstore/`
 
 The real local-only asset inventory is documented in `doc/local-assets.md`.
 
 ## Active package split
-Real packages already carrying production code or data:
+Real packages now carrying production code:
 - `unity/packages/com.hpr.foundation`
 - `unity/packages/com.hpr.core`
+- `unity/packages/com.hpr.composition`
 - `unity/packages/com.hpr.eventbus`
 - `unity/packages/com.hpr.input`
 - `unity/packages/com.hpr.save`
@@ -49,86 +48,48 @@ Still mostly scaffold packages:
 - `unity/packages/com.hpr.bootstrap`
 
 ## Current architecture summary
-- `com.hpr.core` owns generic service contracts
-- `com.hpr.eventbus` owns event dispatch and current domain payloads
-- `com.hpr.input` owns input abstractions and binding/options storage
-- `com.hpr.save` owns generic save payload types and save contracts
-- `com.hpr.inventory` owns item definitions plus a generic `InventoryComponent`
-- `com.hpr.weapons` owns weapon definitions and fire-mode enums
-- `com.hpr.ai` owns enemy definitions and AI enums
-- `com.hpr.stats` owns generic damage/health/stamina contracts and the reusable base stats component
-- `com.hpr.world` owns generic asset metadata and registry types for world-building workflows
-- `com.hpr.abilities` owns reusable ability/effect data, runtime activation, and ability-related events
-- `com.hpr.interaction` owns reusable interaction contracts, sensors, keyed doors, pickups, and a standalone demo scene
-- `com.hpr.fpsdemo` still owns composition-heavy runtime, editor bootstrapping, and project-specific gameplay orchestration
+- `com.hpr.composition` owns explicit service registration and lifecycle primitives
+- `com.hpr.eventbus` owns generic event transport only
+- `com.hpr.core` owns shared service contracts and current gameplay-domain event payloads
+- `com.hpr.input` owns input abstractions and options/binding storage
+- `com.hpr.save` owns save payload types and save contracts
+- `com.hpr.inventory` owns item definitions plus generic inventory runtime
+- `com.hpr.weapons` owns weapon definitions and weapon metadata
+- `com.hpr.ai` owns enemy definitions and AI metadata
+- `com.hpr.stats` owns reusable actor stats runtime
+- `com.hpr.world` owns generic asset metadata/registry types
+- `com.hpr.abilities` owns reusable ability/effect data and runtime activation
+- `com.hpr.interaction` owns reusable interaction contracts and generic interaction runtime
+- `com.hpr.fpsdemo` still owns project-specific composition-heavy runtime and editor bootstrap logic
+
+## Phase-one modularization checkpoint
+This repo now has:
+- an explicit runtime composition root: `FpsDemoCompositionRoot`
+- an adapter service layer: `FpsDemoServiceAdapter`
+- a pure headless validation path for composition + event dispatch
+- a generated phase-one dependency audit in `doc/dependency-audit-phase1.md`
+
+What it does not have yet:
+- a thin `fpsdemo` package
+- full elimination of scene-parent service lookup fallbacks
+- package-safe separation of all gameplay-domain events
+- standalone sellable demos/tests for every package
 
 ## Build and validation status
 Verified as `hans`:
-- main project build succeeds through `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
-- main project smoke path succeeds through `unity/tools/fps_demo/smoke_test.sh`
-- clean-project import validation succeeds for:
-  - `com.hpr.foundation`
-  - `com.hpr.core`
-  - `com.hpr.eventbus`
-  - `com.hpr.input`
-  - `com.hpr.save`
-  - `com.hpr.inventory`
-  - `com.hpr.weapons`
-  - `com.hpr.ai`
-  - `com.hpr.stats`
-  - `com.hpr.world`
-  - `com.hpr.abilities`
-  - `com.hpr.interaction`
-  - `com.hpr.fpsdemo` with declared dependencies
+- `unity/tools/architecture/run_phase1_headless_validation.sh`
+- `unity/tools/architecture/dependency_audit.py`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.eventbus`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.composition`
+- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
+- `NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh`
 
-Validation logs live in `doc/logs/package_validation/`.
+Validation logs live in `doc/logs/` and `doc/logs/package_validation/`.
 
-## Runtime decoupling checkpoint
-These systems no longer depend on `GameManager.Instance`:
-- `PlayerController`
-- `PlayerGameplayController`
-- `PlayerStats`
-- `WeaponSystem`
-- `WeaponFireModes`
-- `PhysicsProjectile`
-- `PickupItem`
-- `DoorController`
-- `EnemyAgent`
-- `GameUiController`
-
-## Current reality about art integration
-The project supports local-only third-party art integration, but those integrations are not a committed source of truth. The committed source of truth is:
-- the gameplay code
-- the integration scripts
-- the documented workflow
-
-If a new machine needs the same art, the expected path is:
-1. download/import the local asset packs again
-2. run the documented integration helpers as `hans`
-3. keep imported content local-only
+## Current modularity reality
+The event system is now truly standalone.
+The composition root exists and works headlessly.
+The main game still composes through `com.hpr.fpsdemo`, and that package is still the major remaining extraction target.
 
 ## Ownership rule
-Everything in this repo should be writable/readable by user `hans`. Root-owned files are a bug and should be corrected immediately.
-
-## Standalone demo progress
-- `com.hpr.stats` now includes a committed demo scene at `unity/packages/com.hpr.stats/Demo/StatsDemo.unity`.
-- The scene is generated/refreshed by `StatsDemoSceneBuilder.BuildDemoScene` and demonstrates the reusable stats runtime with the event bus.
-- `com.hpr.eventbus` now includes `unity/packages/com.hpr.eventbus/Demo/EventBusDemo.unity`, generated by `EventBusDemoSceneBuilder.BuildDemoScene`.
-- `com.hpr.inventory` now includes `unity/packages/com.hpr.inventory/Demo/InventoryDemo.unity` plus package-owned demo `ItemData` assets, generated by `InventoryDemoSceneBuilder.BuildDemoScene`.
-- `com.hpr.interaction` now includes `unity/packages/com.hpr.interaction/Demo/InteractionDemo.unity`, generated by `InteractionDemoSceneBuilder.BuildDemoScene`.
-- `com.hpr.abilities` now includes `unity/packages/com.hpr.abilities/Demo/AbilitiesDemo.unity`, generated by `AbilitiesDemoSceneBuilder.BuildDemoScene`.
-
-
-## Current game-content checkpoint
-- The main gameplay package now includes a primitive but fully automated quest/dialogue/journal loop built on top of the reusable packages.
-- Authoring roots now exist for `Assets/Data/Quests` and `Assets/Data/Dialogues`.
-- Primitive placeholder NPCs `npc_echo` and `npc_vale` are generated into the gameplay scene and drive dialogue-started quests.
-- The smoke test now verifies: dialogue acceptance, journal toggle, red key pickup, hub sentry kill, quest completion, reward skill point, save, load, and completion without runtime exceptions.
-
-
-## Current authored gameplay content checkpoint
-- Two authored quests are live in the gameplay scene: `Security Sweep` and `Supply Recovery`.
-- Two primitive NPCs now provide branching dialogue variants based on quest state: `npc_echo` and `npc_vale`.
-- Inventory consumables are now usable through authored `ConsumableEffectData` assets, not hardcoded values in UI logic.
-- Automated smoke now verifies damage, consumable use, both quest loops, skill-point rewards, save, load, and clean completion.
-- Player abilities are now authored as data assets under `Assets/Data/Abilities` and are granted by unlocked skill nodes instead of being hardcoded in runtime logic.
+Everything in this repo should be readable and writable by `hans`. Root-owned files are a bug and must be corrected immediately.

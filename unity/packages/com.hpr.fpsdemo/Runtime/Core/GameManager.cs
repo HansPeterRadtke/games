@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsController, IEventBusSource, IGameplayStateSource, IStatusMessageSink, IInteractionPromptSink, IHudRefreshSink, IThreatScanner, IGameplayFlowCommands, IGameMenuCommands, IPlayerDeathHandler, IPlayerActorSource, IEnemyRegistry, ISkillTreeCommands, IQuestJournalSource, IDialogueFlowCommands, ISkillPointRewardSink, IQuestStateQuery, IInventoryItemUseCommands
+public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsController, IGameplayStateSource, IStatusMessageSink, IInteractionPromptSink, IHudRefreshSink, IThreatScanner, IGameplayFlowCommands, IGameMenuCommands, IPlayerDeathHandler, IPlayerActorSource, IEnemyRegistry, ISkillTreeCommands, IQuestJournalSource, IDialogueFlowCommands, ISkillPointRewardSink, IQuestStateQuery, IInventoryItemUseCommands
 {
     [SerializeField] private PlayerActorContext player;
     [SerializeField] private Camera mapCamera;
@@ -49,7 +49,8 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
     public GameOptionsData CurrentOptions { get; private set; }
     public IPlayerActor Player => player;
-    public IGameEventBus EventBus => eventManager;
+    public IEventBus EventBus => eventManager != null ? eventManager.EventBus : null;
+    public RenderTexture MapTexture => mapTexture;
     public bool AllowsGameplayInput => IsGameplayRunning && !pauseVisible && !inventoryVisible && !journalVisible && !skillsVisible && !mapVisible && !dialogueVisible && !optionsVisible;
     public bool IsGameplayRunning => !titleMenuVisible && !playerDead;
     public bool IsMapVisible => mapVisible;
@@ -79,8 +80,6 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         EnsureRuntimeBootstrapped();
         RebuildConsumableLookup();
         player?.MovementController.ApplyOptions(CurrentOptions);
-        BuildMapTexture();
-        RegisterSaveables();
     }
 
     private void EnsureRuntimeBootstrapped()
@@ -91,23 +90,6 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         }
 
         CurrentOptions ??= GameOptionsStore.Load();
-        eventManager = eventManager != null ? eventManager : GetComponent<EventManager>();
-        if (eventManager == null)
-        {
-            eventManager = gameObject.AddComponent<EventManager>();
-        }
-
-        stateValidator = stateValidator != null ? stateValidator : GetComponent<GameStateValidator>();
-        if (stateValidator == null)
-        {
-            stateValidator = gameObject.AddComponent<GameStateValidator>();
-        }
-
-        questManager = questManager != null ? questManager : GetComponent<QuestManager>();
-        if (questManager == null)
-        {
-            questManager = gameObject.AddComponent<QuestManager>();
-        }
 
         string commandLine = string.Join(" ", System.Environment.GetCommandLineArgs());
         autoStartRequested = commandLine.Contains("-autostart");
@@ -120,9 +102,6 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
     private void Start()
     {
-        stateValidator?.Bind(EventBus);
-        uiController.Initialize(this, mapTexture);
-        BindRuntimeServicesToWorld();
         EventBus?.Subscribe<StatusMessageEvent>(HandleStatusMessageEvent);
         EventBus?.Subscribe<HudInvalidatedEvent>(HandleHudInvalidatedEvent);
         if (autoStartRequested || smokeTestRequested)
@@ -893,16 +872,18 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         Cursor.visible = blockGameplay;
     }
 
-    public void AssignReferences(PlayerActorContext playerController, Camera overheadMapCamera, GameUiController ui, Transform rootWithSaveables)
+    public void ConfigureSceneReferences(EventManager eventManagerComponent, GameStateValidator validator, QuestManager questManagerComponent, PlayerActorContext playerController, Camera overheadMapCamera, GameUiController ui, Transform rootWithSaveables)
     {
         EnsureRuntimeBootstrapped();
+        eventManager = eventManagerComponent;
+        stateValidator = validator;
+        questManager = questManagerComponent;
         player = playerController;
         mapCamera = overheadMapCamera;
         uiController = ui;
         saveableRoot = rootWithSaveables;
-        stateValidator.Bind(eventManager);
+        BuildMapTexture();
         RegisterSaveables();
-        BindRuntimeServicesToWorld();
     }
 
     public void ConfigureConsumables(IEnumerable<ConsumableEffectData> effects)
@@ -1272,37 +1253,6 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
             }
 
             consumableLookup[effect.ItemId] = effect;
-        }
-    }
-
-    private void BindRuntimeServicesToWorld()
-    {
-        player?.BindRuntimeServices(this);
-        questManager?.BindRuntimeServices(this);
-
-        foreach (var pickup in registeredPickups)
-        {
-            pickup?.BindRuntimeServices(this);
-        }
-
-        foreach (var door in registeredDoors)
-        {
-            door?.BindRuntimeServices(this);
-        }
-
-        foreach (var enemy in registeredEnemies)
-        {
-            enemy?.BindRuntimeServices(this);
-        }
-
-        if (saveableRoot == null)
-        {
-            return;
-        }
-
-        foreach (var npc in saveableRoot.GetComponentsInChildren<DialogueNpcInteractable>(true))
-        {
-            npc?.BindRuntimeServices(this);
         }
     }
 

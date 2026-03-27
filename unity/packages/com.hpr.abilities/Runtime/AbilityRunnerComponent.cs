@@ -17,7 +17,7 @@ public class AbilityRunnerComponent : MonoBehaviour, IAbilityLoadout
     private readonly HashSet<string> unlockedAbilityIds = new(StringComparer.Ordinal);
     private readonly HashSet<string> requestedUnlockedAbilityIds = new(StringComparer.Ordinal);
 
-    private IGameEventBus eventBus;
+    private IEventBus eventBus;
     private IEventBusSource eventBusSource;
     private IAbilityResourcePool resourcePool;
 
@@ -277,7 +277,7 @@ public class AbilityRunnerComponent : MonoBehaviour, IAbilityLoadout
         eventBus?.Publish(new StatusMessageEvent { Message = message });
     }
 
-    private void BindEventBus(IGameEventBus bus)
+    private void BindEventBus(IEventBus bus)
     {
         eventBus = bus;
     }

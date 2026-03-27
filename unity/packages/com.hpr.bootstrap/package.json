@@ -8,16 +8,16 @@
     "name": "HansPeterRadtke"
   },
   "dependencies": {
-    "com.hpr.foundation": "file:../com.hpr.foundation",
-    "com.hpr.core": "file:../com.hpr.core",
-    "com.hpr.eventbus": "file:../com.hpr.eventbus",
-    "com.hpr.input": "file:../com.hpr.input",
-    "com.hpr.stats": "file:../com.hpr.stats",
-    "com.hpr.inventory": "file:../com.hpr.inventory",
-    "com.hpr.weapons": "file:../com.hpr.weapons",
-    "com.hpr.ai": "file:../com.hpr.ai",
-    "com.hpr.interaction": "file:../com.hpr.interaction",
-    "com.hpr.ui": "file:../com.hpr.ui",
-    "com.hpr.world": "file:../com.hpr.world"
+    "com.hpr.foundation": "0.1.0",
+    "com.hpr.core": "0.1.0",
+    "com.hpr.eventbus": "0.1.0",
+    "com.hpr.input": "0.1.0",
+    "com.hpr.stats": "0.1.0",
+    "com.hpr.inventory": "0.1.0",
+    "com.hpr.weapons": "0.1.0",
+    "com.hpr.ai": "0.1.0",
+    "com.hpr.interaction": "0.1.0",
+    "com.hpr.ui": "0.1.0",
+    "com.hpr.world": "0.1.0"
   }
 }

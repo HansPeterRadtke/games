@@ -8,9 +8,9 @@
     "name": "HansPeterRadtke"
   },
   "dependencies": {
-    "com.hpr.foundation": "file:../com.hpr.foundation",
-    "com.hpr.core": "file:../com.hpr.core",
-    "com.hpr.eventbus": "file:../com.hpr.eventbus",
-    "com.hpr.inventory": "file:../com.hpr.inventory"
+    "com.hpr.foundation": "0.1.0",
+    "com.hpr.core": "0.1.0",
+    "com.hpr.eventbus": "0.1.0",
+    "com.hpr.inventory": "0.1.0"
   }
 }

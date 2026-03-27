@@ -1,9 +1,7 @@
 {
   "name": "HPR.Core.Runtime",
   "rootNamespace": "",
-  "references": [
-    "HPR.Foundation"
-  ],
+  "references": [],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

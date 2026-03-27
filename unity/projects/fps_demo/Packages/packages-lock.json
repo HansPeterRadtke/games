@@ -5,8 +5,9 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.eventbus": "file:../com.hpr.eventbus",
-        "com.hpr.stats": "file:../com.hpr.stats"
+        "com.hpr.core": "0.1.0",
+        "com.hpr.eventbus": "0.1.0",
+        "com.hpr.stats": "0.1.0"
       }
     },
     "com.hpr.ai": {
@@ -20,34 +21,36 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.foundation": "file:../com.hpr.foundation",
-        "com.hpr.core": "file:../com.hpr.core",
-        "com.hpr.eventbus": "file:../com.hpr.eventbus",
-        "com.hpr.input": "file:../com.hpr.input",
-        "com.hpr.stats": "file:../com.hpr.stats",
-        "com.hpr.inventory": "file:../com.hpr.inventory",
-        "com.hpr.weapons": "file:../com.hpr.weapons",
-        "com.hpr.ai": "file:../com.hpr.ai",
-        "com.hpr.interaction": "file:../com.hpr.interaction",
-        "com.hpr.ui": "file:../com.hpr.ui",
-        "com.hpr.world": "file:../com.hpr.world"
+        "com.hpr.foundation": "0.1.0",
+        "com.hpr.core": "0.1.0",
+        "com.hpr.eventbus": "0.1.0",
+        "com.hpr.input": "0.1.0",
+        "com.hpr.stats": "0.1.0",
+        "com.hpr.inventory": "0.1.0",
+        "com.hpr.weapons": "0.1.0",
+        "com.hpr.ai": "0.1.0",
+        "com.hpr.interaction": "0.1.0",
+        "com.hpr.ui": "0.1.0",
+        "com.hpr.world": "0.1.0"
       }
+    },
+    "com.hpr.composition": {
+      "version": "file:com.hpr.composition",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
     },
     "com.hpr.core": {
       "version": "file:com.hpr.core",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {
-        "com.hpr.foundation": "file:../com.hpr.foundation"
-      }
+      "dependencies": {}
     },
     "com.hpr.eventbus": {
       "version": "file:com.hpr.eventbus",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {
-        "com.hpr.foundation": "file:../com.hpr.foundation"
-      }
+      "dependencies": {}
     },
     "com.hpr.foundation": {
       "version": "file:com.hpr.foundation",
@@ -60,19 +63,20 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.core": "file:../com.hpr.core",
-        "com.hpr.eventbus": "file:../com.hpr.eventbus",
-        "com.hpr.foundation": "file:../com.hpr.foundation",
-        "com.hpr.input": "file:../com.hpr.input",
-        "com.hpr.save": "file:../com.hpr.save",
+        "com.hpr.core": "0.1.0",
+        "com.hpr.eventbus": "0.1.0",
+        "com.hpr.foundation": "0.1.0",
+        "com.hpr.composition": "0.1.0",
+        "com.hpr.input": "0.1.0",
+        "com.hpr.save": "0.1.0",
         "com.unity.ugui": "2.0.0",
-        "com.hpr.inventory": "file:../com.hpr.inventory",
-        "com.hpr.abilities": "file:../com.hpr.abilities",
-        "com.hpr.interaction": "file:../com.hpr.interaction",
-        "com.hpr.weapons": "file:../com.hpr.weapons",
-        "com.hpr.ai": "file:../com.hpr.ai",
-        "com.hpr.stats": "file:../com.hpr.stats",
-        "com.hpr.world": "file:../com.hpr.world"
+        "com.hpr.inventory": "0.1.0",
+        "com.hpr.abilities": "0.1.0",
+        "com.hpr.interaction": "0.1.0",
+        "com.hpr.weapons": "0.1.0",
+        "com.hpr.ai": "0.1.0",
+        "com.hpr.stats": "0.1.0",
+        "com.hpr.world": "0.1.0"
       }
     },
     "com.hpr.input": {
@@ -80,8 +84,7 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.foundation": "file:../com.hpr.foundation",
-        "com.hpr.eventbus": "file:../com.hpr.eventbus"
+        "com.hpr.foundation": "0.1.0"
       }
     },
     "com.hpr.interaction": {
@@ -89,10 +92,10 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.foundation": "file:../com.hpr.foundation",
-        "com.hpr.core": "file:../com.hpr.core",
-        "com.hpr.eventbus": "file:../com.hpr.eventbus",
-        "com.hpr.inventory": "file:../com.hpr.inventory"
+        "com.hpr.foundation": "0.1.0",
+        "com.hpr.core": "0.1.0",
+        "com.hpr.eventbus": "0.1.0",
+        "com.hpr.inventory": "0.1.0"
       }
     },
     "com.hpr.inventory": {
@@ -100,7 +103,7 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.save": "file:../com.hpr.save"
+        "com.hpr.save": "0.1.0"
       }
     },
     "com.hpr.save": {
@@ -108,7 +111,7 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.foundation": "file:../com.hpr.foundation"
+        "com.hpr.foundation": "0.1.0"
       }
     },
     "com.hpr.stats": {
@@ -116,7 +119,8 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.eventbus": "file:../com.hpr.eventbus"
+        "com.hpr.core": "0.1.0",
+        "com.hpr.eventbus": "0.1.0"
       }
     },
     "com.hpr.ui": {
@@ -124,9 +128,9 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.foundation": "file:../com.hpr.foundation",
-        "com.hpr.core": "file:../com.hpr.core",
-        "com.hpr.eventbus": "file:../com.hpr.eventbus",
+        "com.hpr.foundation": "0.1.0",
+        "com.hpr.core": "0.1.0",
+        "com.hpr.eventbus": "0.1.0",
         "com.unity.ugui": "2.0.0"
       }
     },

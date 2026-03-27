@@ -8,18 +8,19 @@
     "name": "HansPeterRadtke"
   },
   "dependencies": {
-    "com.hpr.core": "file:../com.hpr.core",
-    "com.hpr.eventbus": "file:../com.hpr.eventbus",
-    "com.hpr.foundation": "file:../com.hpr.foundation",
-    "com.hpr.input": "file:../com.hpr.input",
-    "com.hpr.save": "file:../com.hpr.save",
+    "com.hpr.core": "0.1.0",
+    "com.hpr.eventbus": "0.1.0",
+    "com.hpr.foundation": "0.1.0",
+    "com.hpr.composition": "0.1.0",
+    "com.hpr.input": "0.1.0",
+    "com.hpr.save": "0.1.0",
     "com.unity.ugui": "2.0.0",
-    "com.hpr.inventory": "file:../com.hpr.inventory",
-    "com.hpr.abilities": "file:../com.hpr.abilities",
-    "com.hpr.interaction": "file:../com.hpr.interaction",
-    "com.hpr.weapons": "file:../com.hpr.weapons",
-    "com.hpr.ai": "file:../com.hpr.ai",
-    "com.hpr.stats": "file:../com.hpr.stats",
-    "com.hpr.world": "file:../com.hpr.world"
+    "com.hpr.inventory": "0.1.0",
+    "com.hpr.abilities": "0.1.0",
+    "com.hpr.interaction": "0.1.0",
+    "com.hpr.weapons": "0.1.0",
+    "com.hpr.ai": "0.1.0",
+    "com.hpr.stats": "0.1.0",
+    "com.hpr.world": "0.1.0"
   }
 }

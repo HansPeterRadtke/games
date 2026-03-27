@@ -24,7 +24,7 @@ public class SkillTreeComponent : MonoBehaviour, ICombatModifierSource
 
     private readonly HashSet<string> unlockedSkillIds = new(StringComparer.Ordinal);
     private readonly Dictionary<string, SkillNodeData> nodeLookup = new(StringComparer.Ordinal);
-    private IGameEventBus eventBus;
+    private IEventBus eventBus;
     private IEventBusSource eventBusSource;
     private IStatusMessageSink statusSink;
     private IHudRefreshSink hudRefreshSink;
@@ -235,7 +235,7 @@ public class SkillTreeComponent : MonoBehaviour, ICombatModifierSource
         hudRefreshSink?.RefreshHud();
     }
 
-    private void BindEventBus(IGameEventBus bus)
+    private void BindEventBus(IEventBus bus)
     {
         if (eventBus == bus)
         {

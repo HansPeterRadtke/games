@@ -8,6 +8,6 @@
     "name": "HansPeterRadtke"
   },
   "dependencies": {
-    "com.hpr.save": "file:../com.hpr.save"
+    "com.hpr.save": "0.1.0"
   }
 }

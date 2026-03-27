@@ -2,8 +2,7 @@
   "name": "HPR.Input.Runtime",
   "rootNamespace": "",
   "references": [
-    "HPR.Foundation",
-    "HPR.Eventbus.Runtime"
+    "HPR.Foundation"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

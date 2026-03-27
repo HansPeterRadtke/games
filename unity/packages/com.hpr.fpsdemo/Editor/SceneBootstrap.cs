@@ -248,10 +248,10 @@ public static class SceneBootstrap
         changed |= mapCamera.GetComponent<MapCameraFollow>() == null;
         var mapFollow = GameObjectUtils.GetOrAddComponent<MapCameraFollow>(mapCamera.gameObject);
 
-        inventory.ConfigureKnownItems(knownItems);
-        weaponSystem.ConfigureLoadout(loadout);
-        skillTree.ConfigureSkills(skills);
-        abilityRunner.ConfigureAbilities(abilities);
+        actorContext.ConfigureKnownItems(knownItems);
+        actorContext.ConfigureLoadout(loadout);
+        actorContext.ConfigureSkills(skills);
+        actorContext.ConfigureAbilities(abilities);
         gameplayController.BindMapCamera(mapFollow);
 
         EditorUtility.SetDirty(inventory);
@@ -278,14 +278,19 @@ public static class SceneBootstrap
         var questManager = GameObjectUtils.GetOrAddComponent<QuestManager>(systems);
         changed |= systems.GetComponent<GameManager>() == null;
         var manager = GameObjectUtils.GetOrAddComponent<GameManager>(systems);
+        changed |= systems.GetComponent<FpsDemoServiceAdapter>() == null;
+        var serviceAdapter = GameObjectUtils.GetOrAddComponent<FpsDemoServiceAdapter>(systems);
+        changed |= systems.GetComponent<FpsDemoCompositionRoot>() == null;
+        var compositionRoot = GameObjectUtils.GetOrAddComponent<FpsDemoCompositionRoot>(systems);
         questManager.ConfigureQuests(quests);
         manager.ConfigureConsumables(consumables);
-        manager.AssignReferences(player, mapCamera, ui, worldRoot);
-        validator.Bind(eventManager);
+        compositionRoot.ConfigureSceneReferences(manager, eventManager, validator, questManager, ui, serviceAdapter, player, mapCamera, worldRoot);
         EditorUtility.SetDirty(eventManager);
         EditorUtility.SetDirty(validator);
         EditorUtility.SetDirty(questManager);
         EditorUtility.SetDirty(ui);
+        EditorUtility.SetDirty(serviceAdapter);
+        EditorUtility.SetDirty(compositionRoot);
         EditorUtility.SetDirty(manager);
         return changed;
     }
@@ -606,10 +611,10 @@ public static class SceneBootstrap
         player.AddComponent<PlayerController>();
         var actorContext = player.AddComponent<PlayerActorContext>();
         player.AddComponent<PlayerGameplayController>();
-        inventory.ConfigureKnownItems(knownItems);
-        weaponSystem.ConfigureLoadout(weaponLoadout);
-        skillTree.ConfigureSkills(skills);
-        abilityRunner.ConfigureAbilities(abilities);
+        actorContext.ConfigureKnownItems(knownItems);
+        actorContext.ConfigureLoadout(weaponLoadout);
+        actorContext.ConfigureSkills(skills);
+        actorContext.ConfigureAbilities(abilities);
 
         var cameraGo = new GameObject("Main Camera");
         cameraGo.tag = "MainCamera";
@@ -659,9 +664,10 @@ public static class SceneBootstrap
         var questManager = systems.AddComponent<QuestManager>();
         questManager.ConfigureQuests(quests);
         var manager = systems.AddComponent<GameManager>();
+        var serviceAdapter = systems.AddComponent<FpsDemoServiceAdapter>();
+        var compositionRoot = systems.AddComponent<FpsDemoCompositionRoot>();
         manager.ConfigureConsumables(consumables);
-        manager.AssignReferences(player, mapCamera, ui, worldRoot);
-        validator.Bind(eventManager);
+        compositionRoot.ConfigureSceneReferences(manager, eventManager, validator, questManager, ui, serviceAdapter, player, mapCamera, worldRoot);
         return manager;
     }
 

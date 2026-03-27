@@ -3,11 +3,9 @@
   "displayName": "HPR Event Bus",
   "version": "0.1.0",
   "unity": "6000.4",
-  "description": "Lightweight event bus and gameplay event contracts for decoupled modules.",
+  "description": "Strongly typed standalone event bus infrastructure with optional Unity adapter and demo.",
   "author": {
     "name": "HansPeterRadtke"
   },
-  "dependencies": {
-    "com.hpr.foundation": "file:../com.hpr.foundation"
-  }
+  "dependencies": {}
 }

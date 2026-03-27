@@ -11,7 +11,7 @@ public class QuestManager : MonoBehaviour, IQuestJournalSource, IQuestStateQuery
     private readonly Dictionary<string, QuestData> questLookup = new(StringComparer.Ordinal);
     private readonly Dictionary<string, QuestRuntimeState> questStates = new(StringComparer.Ordinal);
 
-    private IGameEventBus eventBus;
+    private IEventBus eventBus;
     private IEventBusSource eventBusSource;
     private IStatusMessageSink statusSink;
     private IHudRefreshSink hudRefreshSink;
@@ -227,7 +227,7 @@ public class QuestManager : MonoBehaviour, IQuestJournalSource, IQuestStateQuery
         return state;
     }
 
-    private void BindEventBus(IGameEventBus bus)
+    private void BindEventBus(IEventBus bus)
     {
         if (eventBus == bus)
         {

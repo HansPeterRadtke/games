@@ -5,7 +5,7 @@ public class EventBusSourceAdapter : MonoBehaviour, IEventBusSource
 {
     private EventManager eventManager;
 
-    public IGameEventBus EventBus
+    public IEventBus EventBus
     {
         get
         {
@@ -14,7 +14,7 @@ public class EventBusSourceAdapter : MonoBehaviour, IEventBusSource
                 eventManager = GetComponent<EventManager>();
             }
 
-            return eventManager;
+            return eventManager != null ? eventManager.EventBus : null;
         }
     }
 }

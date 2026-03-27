@@ -17,7 +17,7 @@ public class ActorStatsComponent : MonoBehaviour, ICharacterStats
     public float Stamina => stamina;
     public bool IsAlive => health > 0f;
 
-    private IGameEventBus eventBus;
+    private IEventBus eventBus;
     private IEventBusSource eventBusSource;
 
     protected virtual void Awake()
@@ -115,7 +115,7 @@ public class ActorStatsComponent : MonoBehaviour, ICharacterStats
     {
     }
 
-    private void BindEventBus(IGameEventBus bus)
+    private void BindEventBus(IEventBus bus)
     {
         if (eventBus == bus)
         {

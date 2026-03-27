@@ -16640,6 +16640,8 @@ GameObject:
   - component: {fileID: 1552775887}
   - component: {fileID: 1552775886}
   - component: {fileID: 1552775888}
+  - component: {fileID: 1552775890}
+  - component: {fileID: 1552775889}
   m_Layer: 0
   m_Name: GameSystems
   m_TagString: Untagged
@@ -16736,6 +16738,39 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8b5165c710988caf7a7dee19e25adedc, type: 2}
   - {fileID: 11400000, guid: 5cf459e24659351e4a538f0cd895a562, type: 2}
   servicesBehaviour: {fileID: 1552775883}
+--- !u!114 &1552775889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552775882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46c52f380253478ab9280b7ed3c3c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::FpsDemoCompositionRoot
+  gameManager: {fileID: 1552775883}
+  eventManager: {fileID: 1552775887}
+  stateValidator: {fileID: 1552775886}
+  questManager: {fileID: 1552775888}
+  uiController: {fileID: 1552775884}
+  serviceAdapter: {fileID: 1552775890}
+  player: {fileID: 235406404}
+  mapCamera: {fileID: 2110409993}
+  saveableRoot: {fileID: 554023674}
+--- !u!114 &1552775890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552775882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1775c8bc11ab852eaf12ff1d32f898a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::FpsDemoServiceAdapter
 --- !u!1001 &1568303247
 PrefabInstance:
   m_ObjectHideFlags: 0

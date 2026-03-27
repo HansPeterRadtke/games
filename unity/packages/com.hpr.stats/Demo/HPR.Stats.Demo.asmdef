@@ -2,6 +2,7 @@
   "name": "HPR.Stats.Demo",
   "rootNamespace": "",
   "references": [
+    "HPR.Core.Runtime",
     "HPR.Eventbus.Runtime",
     "HPR.Stats.Runtime"
   ],

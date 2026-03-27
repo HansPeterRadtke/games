@@ -23,7 +23,7 @@ public sealed class WeaponFireContext
     public Transform MuzzleTransform => WeaponSystem.ResolveCurrentMuzzle();
     public IInventoryService Inventory => WeaponSystem.InventoryService;
     public IPlayerStats OwnerStats => WeaponSystem.OwnerStats;
-    public IGameEventBus EventBus => WeaponSystem.EventBus;
+    public IEventBus EventBus => WeaponSystem.EventBus;
 
     public bool TryConsumeAmmo()
     {

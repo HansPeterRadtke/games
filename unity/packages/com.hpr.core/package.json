@@ -7,7 +7,5 @@
   "author": {
     "name": "HansPeterRadtke"
   },
-  "dependencies": {
-    "com.hpr.foundation": "file:../com.hpr.foundation"
-  }
+  "dependencies": {}
 }

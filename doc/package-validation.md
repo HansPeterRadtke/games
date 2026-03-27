@@ -1,61 +1,52 @@
 # Package Validation
 
-## Validation helper
+## Validation helpers
 Use:
 - `unity/tools/packages/validate_local_packages.sh <package-name>`
+- `unity/tools/architecture/run_phase1_headless_validation.sh`
 
-The helper creates a clean temporary Unity project, resolves declared local package dependencies, symlinks only those packages into the temp project, and batch-runs Unity to confirm compile/import health.
-Each invocation now uses its own temp project path by default, so multiple package validations can run concurrently without tripping Unity project-lock errors.
+The Unity package validator creates a clean temporary Unity project, resolves declared local package dependencies, symlinks only those packages into the temp project, and batch-runs Unity to confirm compile/import health.
+Each invocation uses its own temp project path by default, so multiple validations can run concurrently without Unity project-lock collisions.
 
-## Latest validated packages
-Validated through 2026-03-27:
-- `com.hpr.foundation`
-- `com.hpr.core`
-- `com.hpr.eventbus`
-- `com.hpr.input`
-- `com.hpr.save`
-- `com.hpr.inventory`
-- `com.hpr.weapons`
-- `com.hpr.ai`
-- `com.hpr.stats`
-- `com.hpr.world`
-- `com.hpr.interaction`
-- `com.hpr.abilities`
-- `com.hpr.fpsdemo`
+The headless phase-one validator is separate. It proves that `com.hpr.composition` and `com.hpr.eventbus` work outside Unity scene bootstrapping.
+
+## Latest verified validations
+Verified through 2026-03-27:
+- headless:
+  - `unity/tools/architecture/run_phase1_headless_validation.sh`
+- clean-project package validation:
+  - `com.hpr.eventbus`
+  - `com.hpr.composition`
+- full project:
+  - `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
+  - `NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh`
 
 ## Log locations
-Validation logs are written to:
-- `doc/logs/package_validation/`
+- package validation logs: `doc/logs/package_validation/`
+- Unity batch logs: `doc/logs/`
 
-Relevant recent logs:
-- `20260326_100057_com_hpr_core_.log`
-- `20260326_100137_com_hpr_eventbus_.log`
-- `20260326_100205_com_hpr_input_.log`
-- `20260326_100236_com_hpr_save_.log`
-- `20260326_102012_com_hpr_inventory_.log`
-- `20260326_102427_com_hpr_weapons_.log`
-- `20260326_102755_com_hpr_ai_.log`
-- `20260326_104044_com_hpr_stats_.log`
-- `20260326_120926_com_hpr_stats_.log`
-- `20260326_142342_com_hpr_eventbus_.log`
-- `20260326_142424_com_hpr_inventory_.log`
-- `20260326_115137_com_hpr_world_.log`
-- `20260326_115201_com_hpr_fpsdemo_.log`
-- `20260327_131049_com_hpr_abilities_.log`
+Relevant current logs:
+- `doc/logs/package_validation/20260327_165749_com_hpr_eventbus_.log`
+- `doc/logs/package_validation/20260327_165859_com_hpr_composition_.log`
+- `doc/logs/20260327_170846_BuildLinux.log`
 
 ## Current meaning of a pass
-A passing validation currently proves:
+### Headless phase-one validator proves
+- `CompositionRoot` initializes and disposes services without scene wiring
+- `EventBus` supports typed publish/subscribe
+- base-type subscription delivery works
+- disposed subscriptions stop receiving events
+
+### Clean-project package validation proves
 - the package and its declared local package dependencies import into an empty Unity project
 - Unity script compilation succeeds
-- no missing-reference compile failures occur during batch import
+- there are no package-resolution or missing-reference compile failures
 
-It does not yet prove:
-- standalone demo scene quality
-- package-specific runtime behavior correctness
-- Asset Store submission readiness
+### Full project build + smoke proves
+- the composition project still builds after the modularization changes
+- the runtime smoke path still completes after the composition/eventbus split
 
-## Demo-specific validation
-- Stats demo scene generation was validated via `unity/tools/fps_demo/run_unity_batch.sh StatsDemoSceneBuilder.BuildDemoScene`.
-- Event bus demo scene generation was validated via `unity/tools/fps_demo/run_unity_batch.sh EventBusDemoSceneBuilder.BuildDemoScene`.
-- Inventory demo scene generation was validated via `unity/tools/fps_demo/run_unity_batch.sh InventoryDemoSceneBuilder.BuildDemoScene`.
-- Abilities demo scene generation was validated via `unity/tools/fps_demo/run_unity_batch.sh AbilitiesDemoSceneBuilder.BuildDemoScene`.
+## What this still does not prove
+- Asset Store submission readiness of every package
+- complete elimination of `fpsdemo` dependency violations
+- standalone demo quality for every package

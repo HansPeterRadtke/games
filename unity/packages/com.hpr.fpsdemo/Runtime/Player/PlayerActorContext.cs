@@ -33,6 +33,11 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
         RefreshAbilityUnlocks();
     }
 
+    private void Start()
+    {
+        RefreshAbilityUnlocks();
+    }
+
     private void EnsureComponentCache()
     {
         MovementController = GetComponent<PlayerController>();
@@ -45,22 +50,26 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
 
     public void ConfigureKnownItems(System.Collections.Generic.IEnumerable<ItemData> knownItems)
     {
+        EnsureComponentCache();
         InventoryComponent.ConfigureKnownItems(knownItems);
     }
 
     public void ConfigureLoadout(System.Collections.Generic.IEnumerable<WeaponData> weaponLoadout)
     {
+        EnsureComponentCache();
         WeaponSystemComponent.ConfigureLoadout(weaponLoadout);
     }
 
     public void ConfigureSkills(System.Collections.Generic.IEnumerable<SkillNodeData> skills)
     {
+        EnsureComponentCache();
         SkillTreeComponent.ConfigureSkills(skills);
         RefreshAbilityUnlocks();
     }
 
     public void ConfigureAbilities(System.Collections.Generic.IEnumerable<AbilityData> abilities)
     {
+        EnsureComponentCache();
         AbilityComponent.ConfigureAbilities(abilities);
         RefreshAbilityUnlocks();
     }

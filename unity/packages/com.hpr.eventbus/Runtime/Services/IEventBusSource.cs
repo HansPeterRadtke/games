@@ -1,4 +1,4 @@
 public interface IEventBusSource
 {
-    IGameEventBus EventBus { get; }
+    IEventBus EventBus { get; }
 }

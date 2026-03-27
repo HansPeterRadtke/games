@@ -13,7 +13,7 @@ public class PhysicsProjectile : MonoBehaviour
     private Rigidbody body;
     private Collider projectileCollider;
     private bool armed;
-    private IGameEventBus eventBus;
+    private IEventBus eventBus;
 
     public void Configure(
         Transform owner,
@@ -24,7 +24,7 @@ public class PhysicsProjectile : MonoBehaviour
         float timeToLive,
         float radius,
         Color color,
-        IGameEventBus bus)
+        IEventBus bus)
     {
         ownerRoot = owner;
         damage = damageAmount;

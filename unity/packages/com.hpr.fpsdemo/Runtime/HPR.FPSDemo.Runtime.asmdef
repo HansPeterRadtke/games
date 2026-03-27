@@ -3,6 +3,7 @@
   "rootNamespace": "",
   "references": [
     "HPR.Foundation",
+    "HPR.Composition.Runtime",
     "HPR.Core.Runtime",
     "HPR.Eventbus.Runtime",
     "HPR.Input.Runtime",

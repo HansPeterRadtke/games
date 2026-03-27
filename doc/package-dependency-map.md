@@ -4,6 +4,7 @@
 Current verified graph for `unity/projects/fps_demo`:
 - `com.hpr.foundation`
 - `com.hpr.core`
+- `com.hpr.composition`
 - `com.hpr.eventbus`
 - `com.hpr.input`
 - `com.hpr.save`
@@ -13,6 +14,7 @@ Current verified graph for `unity/projects/fps_demo`:
 - `com.hpr.stats`
 - `com.hpr.world`
 - `com.hpr.abilities`
+- `com.hpr.interaction`
 - `com.hpr.fpsdemo`
 
 Scaffold-only packages still present but not yet populated with real runtime code:
@@ -21,155 +23,92 @@ Scaffold-only packages still present but not yet populated with real runtime cod
 
 ## Extracted responsibilities
 
-### com.hpr.core
-Generic composition/service contracts only.
-Current contents:
-- gameplay state contracts
-- menu/flow command contracts
+### `com.hpr.core`
+Generic service contracts plus current gameplay-domain event payloads.
+Current contents include:
+- gameplay/menu/flow service contracts
 - status/prompt/HUD sink contracts
-- player death contract
+- player-death and runtime service contracts
+- `GameplayEvents.cs`
 
-### com.hpr.eventbus
-Event dispatch infrastructure and current gameplay-domain payloads.
+### `com.hpr.composition`
+Explicit composition only.
 Current contents:
-- `IGameEventBus`
+- `IService`
+- `IServiceResolver`
+- `IServiceRegistry`
+- `IInitializable`
+- `IUpdatableService`
+- `ServiceRegistry`
+- `CompositionRoot`
+
+### `com.hpr.eventbus`
+Generic event transport only.
+Current contents:
+- `IEventBus`
+- `EventBus`
 - `EventManager`
-- gameplay event payloads from the FPS prototype
 - `IEventBusSource`
+- `EventBusSourceAdapter`
 
-### com.hpr.input
+### `com.hpr.input`
 Input abstraction and settings/binding storage.
-Current contents:
-- `GameAction`
-- `GameOptionsData`
-- `GameOptionsStore`
-- `IInputSource`
-- `IInputBindingsSource`
-- `IOptionsController`
-- `UnityInputSource`
 
-### com.hpr.save
+### `com.hpr.save`
 Generic save payload types and save contracts.
-Current contents:
-- serializable vector/quaternion wrappers
-- player/entity save payloads
-- inventory and weapon save payloads
-- `ISaveableEntity`
 
-### com.hpr.inventory
-Real standalone data/runtime package now in use by the game.
-Current contents:
-- `ItemData`
-- `ItemType`
-- `IInventoryService`
-- `InventoryComponent`
+### `com.hpr.inventory`
+Generic item definitions and inventory runtime.
 
-### com.hpr.weapons
-Real standalone data package now in use by the game.
-Current contents:
-- `WeaponData`
-- `FireModeType`
-- `EquipmentKind`
-- `WeaponUtilityAction`
+### `com.hpr.weapons`
+Weapon definitions and weapon metadata.
 
-### com.hpr.ai
-Real standalone data package now in use by the game.
-Current contents:
-- `EnemyData`
-- `EnemyAIType`
-- `EnemyAttackStyle`
+### `com.hpr.ai`
+Enemy definitions and AI metadata.
 
-### com.hpr.abilities
-Reusable ability/effect runtime package now in use by the game.
-Current contents:
-- `AbilityData`
-- `AbilityEffectData`
-- `AbilityRunnerComponent`
-- `IAbilityResourcePool`
-- `IAbilityLoadout`
-- `AbilityUsedEvent`
-- `AbilityEffectAppliedEvent`
+### `com.hpr.stats`
+Reusable actor stats runtime.
 
-### com.hpr.fpsdemo
-Still owns composition-heavy gameplay runtime and editor tooling.
+### `com.hpr.abilities`
+Reusable ability/effect runtime.
+
+### `com.hpr.interaction`
+Reusable interaction contracts and interaction runtime.
+
+### `com.hpr.fpsdemo`
+Still owns project-specific composition-heavy runtime and editor tooling.
 Current contents still include:
 - `GameManager`
 - `SceneBootstrap`
 - `GameStateValidator`
-- player, weapon, enemy, pickup, and door runtime code
-- asset metadata/registry support
-- project-specific editor/bootstrap/integration logic
+- player/world/combat runtime wiring
+- project-specific smoke flow
 
-## Runtime decoupling already completed
-These systems no longer use `GameManager.Instance` and bind through interfaces or the event bus:
-- `PlayerController`
-- `PlayerGameplayController`
-- `PlayerStats`
-- `WeaponSystem`
-- `WeaponFireModes`
-- `PhysicsProjectile`
-- `PickupItem`
-- `DoorController`
-- `EnemyAgent`
-- `GameUiController`
+## Phase-one dependency violations
+Generated audit:
+- `doc/dependency-audit-phase1.md`
 
-## Clean-project validations already passing
-Validated in an empty Unity project through `unity/tools/packages/validate_local_packages.sh`:
-- `com.hpr.core`
-- `com.hpr.eventbus`
-- `com.hpr.input`
-- `com.hpr.save`
-- `com.hpr.inventory`
-- `com.hpr.weapons`
-- `com.hpr.ai`
-- `com.hpr.stats`
-- `com.hpr.world`
+Primary remaining violations:
+- `com.hpr.fpsdemo`
+  - `GameManager` references
+  - `SceneBootstrap` references
+  - parent `MonoBehaviour` service lookup fallbacks
 - `com.hpr.interaction`
-- `com.hpr.abilities`
-- `com.hpr.fpsdemo` (with declared dependencies)
+  - demo/runtime lookup fallbacks
+- `com.hpr.inventory`
+  - demo scene search fallback
+- `com.hpr.stats`
+  - parent lookup fallback
 
-Logs are in `doc/logs/package_validation/`.
+## Verified validation points
+- `unity/tools/architecture/run_phase1_headless_validation.sh`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.eventbus`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.composition`
+- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
+- `NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh`
 
-## Remaining high-value extraction targets
-
-### Move from fpsdemo to stats
-Candidates:
-- generic health/stamina contracts currently in `GameplayInterfaces.cs`
-- `PlayerStats` or a generic replacement component
-
-### Move from fpsdemo to weapons
-Candidates:
-- `WeaponSystem`
-- `WeaponFireModes`
-- `PhysicsProjectile`
-- weapon runtime state and loadout contracts
-
-### Move from fpsdemo to ai
-Candidates:
-- `EnemyAgent`
-- `EnemyBehaviors`
-- generic targeting/agent behavior contracts
-
-### Move from fpsdemo to interaction
-Candidates:
-- `IInteractable` once the actor contract is generalized
-- generalized `DoorController` and `PickupItem` logic stripped of project assumptions
-
-### Move from fpsdemo to abilities
-Candidates:
-- ability-triggered presentation hooks that are still embedded in the FPS demo flow
-- generic ability progression hooks that should move out of the game-specific skill tree composition
-
-### Keep in fpsdemo or move to bootstrap later
-Likely composition-specific:
-- `GameManager`
-- `SceneBootstrap`
-- current world composition/editor scene wiring
-- game-specific smoke validation flow
-- third-party asset placement workflow
-
-## Known dependency cleanliness gaps
-- `SceneBootstrap` still hardcodes the current project scene and hierarchy
-- event payloads in `com.hpr.eventbus` are still FPS-domain payloads, not purely generic bus infrastructure
-- several packages still lack real demo scenes and module-specific tests
-- `com.hpr.fpsdemo` remains the composition-heavy package and is not store-ready
+## Next extraction targets
+1. remove runtime parent-service discovery from `fpsdemo`
+2. move more shared runtime from `fpsdemo` into package-owned modules
+3. reduce `com.hpr.core` gameplay-event ownership where domain packages can own their own event payloads cleanly
+4. keep `fpsdemo` as composition-only glue

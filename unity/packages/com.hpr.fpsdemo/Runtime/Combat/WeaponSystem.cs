@@ -62,7 +62,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
     private Camera playerCamera;
     private IInventoryService inventory;
     private IPlayerStats ownerStats;
-    private IGameEventBus eventBus;
+    private IEventBus eventBus;
     private IEventBusSource eventBusSource;
     private IStatusMessageSink statusSink;
     private IHudRefreshSink hudRefreshSink;
@@ -74,7 +74,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
     internal Camera PlayerCamera => playerCamera;
     internal IInventoryService InventoryService => inventory;
     internal IPlayerStats OwnerStats => ownerStats;
-    internal IGameEventBus EventBus => eventBus;
+    internal IEventBus EventBus => eventBus;
     internal IStatusMessageSink StatusSink => statusSink;
     internal IThreatScanner ThreatScanner => servicesBehaviour as IThreatScanner;
     public IReadOnlyList<WeaponRuntimeState> RuntimeSlots => runtimeSlots;
@@ -574,7 +574,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
     }
 
-    private void BindEventBus(IGameEventBus bus)
+    private void BindEventBus(IEventBus bus)
     {
         if (eventBus == bus)
         {
