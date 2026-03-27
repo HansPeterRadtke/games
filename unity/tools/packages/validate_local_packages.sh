@@ -11,7 +11,7 @@ repo_root=$(git -C "$script_dir" rev-parse --show-toplevel)
 packages_root="$repo_root/unity/packages"
 unity_bin="${UNITY_BIN:-/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity}"
 temp_root="${TEMP_ROOT:-/data/tmp/hpr_package_validation}"
-project_name="${PROJECT_NAME:-clean_package_project}"
+project_name="${PROJECT_NAME:-}"
 log_dir="${LOG_DIR:-$repo_root/doc/logs/package_validation}"
 mkdir -p "$temp_root" "$log_dir"
 
@@ -21,7 +21,7 @@ if [[ ! -x "$unity_bin" ]]; then
 fi
 
 requested=("$@")
-if [[ "${PROJECT_NAME:-}" == "" ]]; then
+if [[ -z "$project_name" ]]; then
   sanitized_packages=$(printf '%s_' "${requested[@]}" | tr -c '[:alnum:]_-' '_')
   project_name="clean_package_project_${sanitized_packages}_$$"
 fi
@@ -98,21 +98,32 @@ for name in package_names:
 PY
 
 log_file="$log_dir/$(date +%Y%m%d_%H%M%S)_$(printf '%s_' "${requested[@]}" | tr '/.' '__').log"
+execute_method="${EXECUTE_METHOD:-}"
+execute_log_file=""
 
 run_editor() {
   "$unity_bin" -batchmode -nographics -quit -projectPath "$project_path" -logFile "$log_file"
 }
 
+run_execute_method() {
+  execute_log_file="${log_dir}/$(date +%Y%m%d_%H%M%S)_$(printf '%s_' "${requested[@]}" | tr '/.' '__')_${execute_method##*.}.log"
+  "$unity_bin" -batchmode -nographics -quit -projectPath "$project_path" -executeMethod "$execute_method" -logFile "$execute_log_file"
+}
+
 if [[ "$(id -un)" == "hans" ]]; then
   run_editor
+  if [[ -n "$execute_method" ]]; then
+    run_execute_method
+  fi
 else
-  sudo -u hans -H env \
+  exec runuser -u hans -- env \
     HOME=/home/hans USER=hans LOGNAME=hans \
     DISPLAY="${DISPLAY:-:1}" \
     XAUTHORITY="${XAUTHORITY:-/home/hans/.Xauthority}" \
     XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/1000}" \
     DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/1000/bus}" \
-    bash -lc "$(printf '%q ' "$unity_bin") -batchmode -nographics -quit -projectPath $(printf '%q' "$project_path") -logFile $(printf '%q' "$log_file")"
+    UNITY_BIN="$unity_bin" TEMP_ROOT="$temp_root" PROJECT_NAME="$project_name" LOG_DIR="$log_dir" EXECUTE_METHOD="$execute_method" \
+    bash "$0" "$@"
 fi
 
 if rg -n "error CS|: error|Aborting batchmode|Unhandled exception|NullReferenceException|Exception:" "$log_file" >/dev/null 2>&1; then
@@ -121,6 +132,17 @@ if rg -n "error CS|: error|Aborting batchmode|Unhandled exception|NullReferenceE
   exit 1
 fi
 
+if [[ -n "$execute_method" && -n "$execute_log_file" ]]; then
+  if rg -n "error CS|: error|Aborting batchmode|Unhandled exception|NullReferenceException|Exception:" "$execute_log_file" >/dev/null 2>&1; then
+    echo "Validation failed during execute method. See log: $execute_log_file" >&2
+    rg -n "error CS|: error|Aborting batchmode|Unhandled exception|NullReferenceException|Exception:" "$execute_log_file" >&2 || true
+    exit 1
+  fi
+fi
+
 echo "Validated packages:"
 printf ' - %s\n' "${resolved_packages[@]}"
 echo "Log: $log_file"
+if [[ -n "$execute_method" && -n "$execute_log_file" ]]; then
+  echo "Execute log: $execute_log_file"
+fi

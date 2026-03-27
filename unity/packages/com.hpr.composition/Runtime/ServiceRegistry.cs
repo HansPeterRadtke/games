@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 public sealed class ServiceRegistry : IServiceRegistry
@@ -38,7 +39,7 @@ public sealed class ServiceRegistry : IServiceRegistry
 
     public TService Resolve<TService>() where TService : class
     {
-        if (TryResolve(out TService service))
+        if (TryResolve(out TService? service))
         {
             return service;
         }
@@ -46,9 +47,9 @@ public sealed class ServiceRegistry : IServiceRegistry
         throw new InvalidOperationException($"Service '{typeof(TService).FullName}' is not registered.");
     }
 
-    public bool TryResolve<TService>(out TService service) where TService : class
+    public bool TryResolve<TService>([NotNullWhen(true)] out TService? service) where TService : class
     {
-        if (services.TryGetValue(typeof(TService), out object instance) && instance is TService typed)
+        if (services.TryGetValue(typeof(TService), out object? instance) && instance is TService typed)
         {
             service = typed;
             return true;

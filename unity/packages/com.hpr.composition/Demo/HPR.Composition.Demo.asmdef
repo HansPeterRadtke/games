@@ -1,13 +1,10 @@
 {
-  "name": "HPR.Eventbus.Editor",
+  "name": "HPR.Composition.Demo",
   "rootNamespace": "",
   "references": [
-    "HPR.Eventbus.Runtime",
-    "HPR.Eventbus.Demo"
+    "HPR.Composition.Runtime"
   ],
-  "includePlatforms": [
-    "Editor"
-  ],
+  "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": false,

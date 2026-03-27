@@ -1,6 +1,27 @@
 # Workflows
 
-## 1. Build the Linux player
+## 1. Run the authoritative release-candidate validation
+Run as `hans`:
+
+```bash
+cd /data/src/github/games
+unity/tools/release/validate_release_candidate.sh
+```
+
+What it does:
+- runs release audit for the sellable package set
+- runs dependency audit
+- runs headless validation
+- validates clean-project import + demo execution for each sale-ready package
+- validates clean-project import for the sale-ready package combination
+- rebuilds the main game
+- runs the main-game smoke test
+
+Current sale-ready package set:
+- `com.hpr.eventbus`
+- `com.hpr.composition`
+
+## 2. Build the Linux player directly
 Run as `hans`:
 
 ```bash
@@ -22,7 +43,7 @@ Override if needed:
 UNITY_BIN=/path/to/Unity unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux
 ```
 
-## 2. Run a smoke test
+## 3. Run the full-game smoke test
 Run as `hans`:
 
 ```bash
@@ -32,8 +53,8 @@ unity/tools/fps_demo/smoke_test.sh
 
 Notes:
 - it uses the built player at `unity/projects/fps_demo/Build/Linux/FPSDemo.x86_64`
-- it shows the standard focus notice before the visible run
-- if no notice appears, there is no focus requirement
+- it shows the standard focus notice before the visible run unless `NO_NOTICE=1`
+- the player proof log is written to `/home/hans/.config/unity3d/DefaultCompany/fps_demo/Player.log`
 
 Useful environment overrides:
 
@@ -42,16 +63,44 @@ SMOKE_TIMEOUT=30 NOTICE_SECONDS=2 unity/tools/fps_demo/smoke_test.sh
 NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh
 ```
 
-## 3. Focus-sensitive visible tests
+## 4. Validate selected packages in fresh Unity projects
+Use:
+
+```bash
+cd /data/src/github/games
+unity/tools/packages/validate_local_packages.sh com.hpr.eventbus
+unity/tools/packages/validate_local_packages.sh com.hpr.composition
+unity/tools/packages/validate_local_packages.sh com.hpr.composition com.hpr.eventbus
+```
+
+To execute a package-owned validator inside the clean temp project:
+
+```bash
+cd /data/src/github/games
+EXECUTE_METHOD=EventBusPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.eventbus
+EXECUTE_METHOD=CompositionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.composition
+```
+
+## 5. Headless non-Unity validation
+Use:
+
+```bash
+cd /data/src/github/games
+unity/tools/architecture/run_phase1_headless_validation.sh
+```
+
+This proves the current standalone composition + eventbus core still works outside Unity scene bootstrapping.
+
+## 6. Focus-sensitive visible tests
 Use:
 
 ```bash
 unity/tools/common/focus_notice.sh 2 "Leave FPSDemo alone for 8 seconds."
 ```
 
-This is the repo copy of the helper that was also exposed through `/data/bin/focus_notice.sh`.
+This is the repo copy of the helper that is also exposed through `/data/bin/focus_notice.sh`.
 
-## 4. Zip only tracked repo files
+## 7. Zip only tracked repo files
 Use:
 
 ```bash
@@ -64,7 +113,7 @@ Optional output path:
 unity/tools/common/zip_tracked_repo.sh /data/src/github/games /tmp/games_tracked.zip
 ```
 
-## 5. Temp-project workflow for Unity lock issues
+## 8. Temp-project workflow for Unity lock issues
 If the main project gets stuck in a bad batch/lock state, the fallback workflow is:
 
 ```bash
@@ -73,15 +122,9 @@ unity/tools/fps_demo/sync_temp_project.sh
 unity/tools/fps_demo/temp_apply_and_build.sh
 ```
 
-What these do:
-- create/sync a temp Unity project under `/data/tmp/games_unity_temp/fps_demo`
-- symlink local-only asset roots into that temp project
-- run selected local art integration in the temp project
-- build there, then copy tracked scene/build outputs back if required
-
 This exists because Unity can occasionally leave stale lock state even when no live editor is present.
 
-## 6. Local Asset Store workflow
+## 9. Local Asset Store workflow
 Tooling lives in:
 - `unity/tools/assetstore/`
 - `unity/assetstore/`
@@ -101,7 +144,7 @@ Policy:
 - imported art stays ignored
 - only scripts/automation/docs are committed
 
-## 7. Ownership / permissions
+## 10. Ownership / permissions
 Everything should be runnable as `hans`.
 
 If ownership drifts again, the safe correction is:
@@ -109,5 +152,3 @@ If ownership drifts again, the safe correction is:
 ```bash
 sudo chown -R hans:hans /data/src/github/games
 ```
-
-The current repo state should already be corrected for this.

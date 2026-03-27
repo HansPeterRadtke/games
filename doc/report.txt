@@ -2,119 +2,121 @@ Games repo report - 2026-03-27
 
 Current repo state
 - branch: `main`
-- repo is buildable, smoke-clean, and currently in phase-one modularization
+- repo is in a verified release-candidate checkpoint for the first sellable package set
+- designated sale-ready packages:
+  - `unity/packages/com.hpr.eventbus`
+  - `unity/packages/com.hpr.composition`
+- full game build and smoke still pass after the package split work
 - imported Unity Asset Store content remains local-only and ignored
-- repo content is runnable as user `hans`
+- repo content is runnable and writable as user `hans`
 
-Phase-one modularization result
-1. Central control reduced
-- `GameManager` no longer boots the runtime graph by itself
-- `SceneBootstrap` now acts as a thin editor/bootstrap adapter that wires scene references into `FpsDemoCompositionRoot`
-- runtime service registration is explicit through `com.hpr.composition`
-
-2. New composition system
-- new package: `unity/packages/com.hpr.composition`
-- core types:
-  - `IService`
-  - `IServiceResolver`
-  - `IServiceRegistry`
-  - `IInitializable`
-  - `IUpdatableService`
-  - `ServiceRegistry`
-  - `CompositionRoot`
-- headless validation entrypoint:
-  - `unity/tools/architecture/run_phase1_headless_validation.sh`
-
-3. Standalone event system
-- `com.hpr.eventbus` is now a real standalone event package
-- event bus API is now:
-  - `IEventBus`
-  - `EventBus` (pure C# implementation)
-  - `EventManager` (Unity adapter only)
-  - `IEventBusSource`
-  - `EventBusSourceAdapter`
-- gameplay-domain event payloads were moved out of `com.hpr.eventbus`
-- gameplay payloads now live in:
-  - `unity/packages/com.hpr.core/Runtime/Events/GameplayEvents.cs`
-
-4. Dependency audit output
-- generated report:
-  - `doc/dependency-audit-phase1.md`
-- current phase-one violations are concentrated in `com.hpr.fpsdemo`
-- main remaining forbidden patterns:
-  - `GameManager` references
-  - `SceneBootstrap` ownership of game scene construction
-  - parent `MonoBehaviour` fallback lookups in runtime components
-- package-level violations outside `fpsdemo` are still present in:
-  - `com.hpr.interaction` demo/runtime lookup fallbacks
-  - `com.hpr.inventory` demo scene search
-  - `com.hpr.stats` parent lookup fallback
-
-5. What is still NOT modular
-- `com.hpr.fpsdemo` is still too large and still owns:
+What is actually sale-ready now
+1. `com.hpr.eventbus`
+- standalone typed event transport
+- package-owned demo scene: `unity/packages/com.hpr.eventbus/Demo/EventBusDemo.unity`
+- clean-project validator: `EventBusPackageValidator.ValidateInBatch`
+- no forbidden references to:
   - `GameManager`
   - `SceneBootstrap`
-  - `GameStateValidator`
-  - game-specific quest/dialogue/menu flow
-  - scene-specific composition and smoke flow
-- runtime components in `fpsdemo` still rely on scene-parent service discovery in several places
-- `com.hpr.core` currently carries FPS-domain event payloads; the event transport is modular, but the domain model is still shared through core rather than fully split into separate game-domain packages
+  - fpsdemo scene hierarchy
+  - parent `MonoBehaviour` service lookup
+- release docs included:
+  - `README.md`
+  - `CHANGELOG.md`
+  - `LICENSE.md`
+  - `ThirdPartyNotices.md`
 
-6. Ranked next extraction targets
-1. remove parent `MonoBehaviour` service lookups from `fpsdemo` runtime
-2. extract input/runtime wiring out of `fpsdemo` and onto explicit composition-only registration
-3. move reusable stats runtime out of `fpsdemo` completely
-4. move weapon runtime execution out of `fpsdemo`
-5. move AI runtime behavior out of `fpsdemo`
-6. shrink `SceneBootstrap` until only generic/setup-safe bootstrap logic remains
+2. `com.hpr.composition`
+- standalone explicit service registration + lifecycle root
+- package-owned demo scene: `unity/packages/com.hpr.composition/Demo/CompositionDemo.unity`
+- clean-project validator: `CompositionPackageValidator.ValidateInBatch`
+- no forbidden references to:
+  - `GameManager`
+  - `SceneBootstrap`
+  - fpsdemo scene hierarchy
+  - parent `MonoBehaviour` service lookup
+- release docs included:
+  - `README.md`
+  - `CHANGELOG.md`
+  - `LICENSE.md`
+  - `ThirdPartyNotices.md`
 
-Current package set
-- `com.hpr.foundation`
+What is NOT sale-ready yet
+The following packages remain internal/incomplete for external sale in this checkpoint:
+- `com.hpr.fpsdemo`
 - `com.hpr.core`
-- `com.hpr.composition`
-- `com.hpr.eventbus`
 - `com.hpr.input`
-- `com.hpr.save`
 - `com.hpr.inventory`
 - `com.hpr.weapons`
 - `com.hpr.ai`
 - `com.hpr.stats`
+- `com.hpr.interaction`
+- `com.hpr.save`
 - `com.hpr.world`
 - `com.hpr.abilities`
-- `com.hpr.interaction`
-- `com.hpr.fpsdemo`
+- `com.hpr.ui`
+- `com.hpr.bootstrap`
+- `com.hpr.foundation`
 
-What is verified now
-- headless validation succeeds through:
-  - `unity/tools/architecture/run_phase1_headless_validation.sh`
-- dependency audit succeeds through:
-  - `unity/tools/architecture/dependency_audit.py`
-- clean-project package validation succeeds for:
-  - `com.hpr.eventbus`
-  - `com.hpr.composition`
-- Unity project build succeeds through:
-  - `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
-- standalone smoketest succeeds through:
-  - `NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh`
+Why they are not sale-ready
+- remaining project-specific ownership is still concentrated in `com.hpr.fpsdemo`
+- additional forbidden lookup patterns still exist in:
+  - `com.hpr.interaction`
+  - `com.hpr.inventory` demo code
+  - `com.hpr.stats`
+- current gameplay-domain events still live in `com.hpr.core`, which is acceptable for the game but not yet fully productized as a separate external product
 
-Playable build path
-- `unity/projects/fps_demo/Build/Linux/FPSDemo.x86_64`
+Release-candidate validation that passed
+Single entrypoint:
+- `unity/tools/release/validate_release_candidate.sh`
 
-Tracked docs/tooling relevant for takeover
-- `doc/current-state.md`
-- `doc/modularization-status.md`
-- `doc/package-dependency-map.md`
-- `doc/package-validation.md`
+This passed fully on 2026-03-27 and includes:
+1. release audit
+- `doc/release-audit.md`
+
+2. dependency audit
 - `doc/dependency-audit-phase1.md`
-- `doc/report.txt`
+
+3. headless standalone validation
 - `unity/tools/architecture/run_phase1_headless_validation.sh`
+
+4. clean-project import + demo validation
+- `com.hpr.eventbus`
+- `com.hpr.composition`
+- combination import: `com.hpr.composition + com.hpr.eventbus`
+
+5. full game validation
+- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
+- `NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh`
+
+Latest concrete proof files
+- package import combo log:
+  - `doc/logs/package_validation/20260327_195113_com_hpr_composition_com_hpr_eventbus_.log`
+- eventbus execute log:
+  - `doc/logs/package_validation/20260327_194854_com_hpr_eventbus__ValidateInBatch.log`
+- composition execute log:
+  - `doc/logs/package_validation/20260327_195023_com_hpr_composition__ValidateInBatch.log`
+- latest build log:
+  - `doc/logs/20260327_195141_BuildLinux.log`
+- latest player smoke proof:
+  - `/home/hans/.config/unity3d/DefaultCompany/fps_demo/Player.log`
+
+Current smoke proof lines from `Player.log`
+- `[FPSDemo] Smoke test: session started`
+- `[FPSDemo] Quest complete: Security Sweep`
+- `[FPSDemo] Quest complete: Supply Recovery`
+- `[FPSDemo] Unlocked Recovery Lattice`
+- `[FPSDemo] Smoke test completed`
+
+Generated release/audit tooling
+- `unity/tools/release/validate_release_candidate.sh`
+- `unity/tools/release/release_audit.py`
+- `unity/tools/release/release_packages.json`
 - `unity/tools/architecture/dependency_audit.py`
-- `unity/tools/fps_demo/run_unity_batch.sh`
-- `unity/tools/fps_demo/smoke_test.sh`
 - `unity/tools/packages/validate_local_packages.sh`
 
 Important local-only rule
 Do not commit:
 - imported asset folders under `unity/projects/fps_demo/Assets/...`
 - downloaded `.unitypackage` files
-- local asset registry/generated metadata for imported third-party art
+- generated third-party asset metadata / placement artifacts

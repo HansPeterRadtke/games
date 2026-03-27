@@ -1,0 +1,49 @@
+{
+  "sellable_packages": [
+    {
+      "name": "com.hpr.eventbus",
+      "execute_method": "EventBusPackageValidator.ValidateInBatch",
+      "required_paths": [
+        "Demo/EventBusDemo.unity",
+        "Editor/EventBusDemoSceneBuilder.cs",
+        "Editor/EventBusPackageValidator.cs"
+      ]
+    },
+    {
+      "name": "com.hpr.composition",
+      "execute_method": "CompositionPackageValidator.ValidateInBatch",
+      "required_paths": [
+        "Demo/CompositionDemo.unity",
+        "Editor/CompositionDemoSceneBuilder.cs",
+        "Editor/CompositionPackageValidator.cs"
+      ]
+    }
+  ],
+  "forbidden_patterns": {
+    "GameManager reference": "GameManager",
+    "SceneBootstrap reference": "SceneBootstrap",
+    "Direct scene search": "FindAnyObjectByType",
+    "Parent MonoBehaviour lookup": "GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault",
+    "Hardcoded local path": "/data/",
+    "Embedded local file dependency": "file:../"
+  },
+  "required_paths": [
+    "package.json",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE.md",
+    "ThirdPartyNotices.md",
+    "Runtime",
+    "Demo"
+  ],
+  "allowed_extensions": [
+    ".cs",
+    ".asmdef",
+    ".unity",
+    ".md",
+    ".json",
+    ".meta",
+    ".txt",
+    ".gitignore"
+  ]
+}

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 public interface IService
 {
@@ -8,7 +9,7 @@ public interface IService
 public interface IServiceResolver
 {
     TService Resolve<TService>() where TService : class;
-    bool TryResolve<TService>(out TService service) where TService : class;
+    bool TryResolve<TService>([NotNullWhen(true)] out TService? service) where TService : class;
     IReadOnlyList<TService> ResolveAll<TService>() where TService : class;
 }
 
@@ -31,14 +32,14 @@ public interface IUpdatableService : IService
 
 public static class ServiceResolverExtensions
 {
-    public static T ResolveOptional<T>(this IServiceResolver services) where T : class
+    public static T? ResolveOptional<T>(this IServiceResolver services) where T : class
     {
         if (services == null)
         {
             return null;
         }
 
-        services.TryResolve(out T service);
+        services.TryResolve(out T? service);
         return service;
     }
 }

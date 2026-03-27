@@ -1,6 +1,13 @@
 # HPR Event Bus
 
-Standalone strongly typed event bus infrastructure for modular Unity packages.
+Strongly typed publish/subscribe infrastructure for Unity projects that need an event
+transport without taking a dependency on project-specific managers or scene hierarchies.
+
+## Audience
+Use this package when you want:
+- a reusable event transport shared by multiple runtime systems
+- a pure C# event bus that also works outside Unity scenes
+- an optional Unity `MonoBehaviour` adapter for scene composition
 
 ## Included
 - `IEventBus`
@@ -9,22 +16,57 @@ Standalone strongly typed event bus infrastructure for modular Unity packages.
 - `IEventBusSource`
 - `EventBusSourceAdapter`
 
-## Setup
-1. Add the package to your Unity project.
-2. Reference `HPR.Eventbus.Runtime` from any dependent asmdef.
-3. For headless or plain C# composition, instantiate `EventBus` directly.
-4. For Unity scene composition, add `EventManager` to a bootstrap GameObject.
-5. Add `EventBusSourceAdapter` only when a scene needs a ready-made `IEventBusSource`.
+## Dependencies
+- no local package dependencies
+- Unity `UnityEngine` only for the adapter classes and demo scene
 
-## Typical usage
-- register `IEventBus` in a composition root
-- publish plain C# event objects
-- subscribe through strongly typed handlers
-- keep domain event types outside this package
+## Installation
+1. Add `com.hpr.eventbus` to your Unity project.
+2. Reference `HPR.Eventbus.Runtime` from any dependent asmdef.
+3. Register `IEventBus` explicitly in your composition root, or place `EventManager`
+   on a bootstrap GameObject when you want scene-based composition.
+
+## Quick start
+```csharp
+var bus = new EventBus();
+IDisposable subscription = bus.Subscribe<PlayerDiedEvent>(evt =>
+{
+    UnityEngine.Debug.Log($"Player died: {evt.PlayerId}");
+});
+
+bus.Publish(new PlayerDiedEvent { PlayerId = "hero" });
+subscription.Dispose();
+```
+
+## Unity scene usage
+1. Add `EventManager` to a scene object.
+2. Add `EventBusSourceAdapter` only if other components want a serialized
+   `IEventBusSource` provider.
+3. Keep domain event payload classes in your own package or project code.
+
+## API overview
+- `Subscribe<TEvent>(Action<TEvent>)` returns a disposable subscription token
+- `Unsubscribe<TEvent>(Action<TEvent>)` explicitly removes a handler
+- `Publish<TEvent>(TEvent)` dispatches to exact-type and base-type subscribers
+- `Clear()` removes all subscriptions
 
 ## Demo
-- Demo scene: `Packages/com.hpr.eventbus/Demo/EventBusDemo.unity`
-- Generate or refresh it with `HPR/EventBus/Build Demo Scene` or `EventBusDemoSceneBuilder.BuildDemoScene` in batch mode.
+- Scene: `Packages/com.hpr.eventbus/Demo/EventBusDemo.unity`
+- Builder: `EventBusDemoSceneBuilder.BuildDemoScene`
+- Batch validator: `EventBusPackageValidator.ValidateInBatch`
 
-## Headless validation
-- `unity/tools/architecture/run_phase1_headless_validation.sh`
+## Validation
+- headless composition + event validation:
+  - `unity/tools/architecture/run_phase1_headless_validation.sh`
+- clean-project import + demo validation:
+  - `EXECUTE_METHOD=EventBusPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.eventbus`
+
+## Extension points
+- define domain event payloads in your own package
+- wrap `IEventBus` in your own service abstractions if you need filtering or logging
+- compose the bus with any DI or service-registration layer
+
+## Limitations
+- this package does not define domain events for you
+- subscription ordering is registration-order based and intentionally simple
+- no replay, persistence, or buffering is included

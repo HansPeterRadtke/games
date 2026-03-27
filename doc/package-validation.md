@@ -1,52 +1,81 @@
 # Package Validation
 
-## Validation helpers
+## Single release-candidate entrypoint
 Use:
-- `unity/tools/packages/validate_local_packages.sh <package-name>`
-- `unity/tools/architecture/run_phase1_headless_validation.sh`
+- `unity/tools/release/validate_release_candidate.sh`
 
-The Unity package validator creates a clean temporary Unity project, resolves declared local package dependencies, symlinks only those packages into the temp project, and batch-runs Unity to confirm compile/import health.
+This is the current authoritative validation entrypoint for the sale-ready package set.
+It runs:
+1. release audit
+2. dependency audit
+3. headless validation
+4. clean-project import + demo execution for each sale-ready package
+5. clean-project import for the sale-ready package combination
+6. full game build
+7. full game smoke test
+
+## Lower-level helpers
+- `unity/tools/packages/validate_local_packages.sh <package-name> [more packages...]`
+- `unity/tools/architecture/run_phase1_headless_validation.sh`
+- `unity/tools/architecture/dependency_audit.py`
+- `unity/tools/release/release_audit.py`
+
+The Unity package validator creates a clean temporary Unity project, resolves declared local package dependencies, symlinks only those packages into the temp project, and batch-runs Unity.
 Each invocation uses its own temp project path by default, so multiple validations can run concurrently without Unity project-lock collisions.
 
-The headless phase-one validator is separate. It proves that `com.hpr.composition` and `com.hpr.eventbus` work outside Unity scene bootstrapping.
+## What currently counts as sale-ready proof
+For a designated sale-ready package, the repo now requires all of the following:
+- package metadata exists and passes release audit
+- README contains installation/quick-start/API/demo/validation sections
+- clean-project import succeeds
+- package demo execute method succeeds in that clean project
+- no forbidden architectural references are present in the package
 
-## Latest verified validations
-Verified through 2026-03-27:
-- headless:
-  - `unity/tools/architecture/run_phase1_headless_validation.sh`
-- clean-project package validation:
-  - `com.hpr.eventbus`
-  - `com.hpr.composition`
-- full project:
-  - `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
-  - `NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh`
+## Latest verified commands
+Verified through the latest release-candidate pass on 2026-03-27:
+- `unity/tools/release/validate_release_candidate.sh`
+- `unity/tools/architecture/run_phase1_headless_validation.sh`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.eventbus`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.composition`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.composition com.hpr.eventbus`
+- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
+- `NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh`
 
-## Log locations
-- package validation logs: `doc/logs/package_validation/`
-- Unity batch logs: `doc/logs/`
+## Latest proof logs
+### Release audits
+- `doc/release-audit.md`
+- `doc/dependency-audit-phase1.md`
 
-Relevant current logs:
-- `doc/logs/package_validation/20260327_165749_com_hpr_eventbus_.log`
-- `doc/logs/package_validation/20260327_165859_com_hpr_composition_.log`
-- `doc/logs/20260327_170846_BuildLinux.log`
+### Package validation logs
+- `doc/logs/package_validation/20260327_194816_com_hpr_eventbus_.log`
+- `doc/logs/package_validation/20260327_194854_com_hpr_eventbus__ValidateInBatch.log`
+- `doc/logs/package_validation/20260327_194953_com_hpr_composition_.log`
+- `doc/logs/package_validation/20260327_195023_com_hpr_composition__ValidateInBatch.log`
+- `doc/logs/package_validation/20260327_195113_com_hpr_composition_com_hpr_eventbus_.log`
+
+### Full game validation logs
+- `doc/logs/20260327_195141_BuildLinux.log`
+- `/home/hans/.config/unity3d/DefaultCompany/fps_demo/Player.log`
 
 ## Current meaning of a pass
-### Headless phase-one validator proves
+### Headless validation proves
 - `CompositionRoot` initializes and disposes services without scene wiring
 - `EventBus` supports typed publish/subscribe
 - base-type subscription delivery works
 - disposed subscriptions stop receiving events
 
 ### Clean-project package validation proves
-- the package and its declared local package dependencies import into an empty Unity project
-- Unity script compilation succeeds
-- there are no package-resolution or missing-reference compile failures
+- the selected packages import into an empty Unity project
+- declared local package dependencies resolve correctly
+- Unity script compilation succeeds there
+- the package-owned demo execute method succeeds there
 
 ### Full project build + smoke proves
-- the composition project still builds after the modularization changes
-- the runtime smoke path still completes after the composition/eventbus split
+- the main game still builds after the modularization work
+- the release-candidate packages still compose back into the game cleanly
+- the smoke path still reaches completion
 
-## What this still does not prove
-- Asset Store submission readiness of every package
-- complete elimination of `fpsdemo` dependency violations
-- standalone demo quality for every package
+## What this does not prove
+- the internal package set is ready for sale
+- every package in the repo is standalone yet
+- future package candidates are productized automatically

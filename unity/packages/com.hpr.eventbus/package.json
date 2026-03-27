@@ -3,9 +3,15 @@
   "displayName": "HPR Event Bus",
   "version": "0.1.0",
   "unity": "6000.4",
-  "description": "Strongly typed standalone event bus infrastructure with optional Unity adapter and demo.",
+  "description": "Strongly typed publish/subscribe infrastructure for Unity projects with a pure C# event bus, Unity adapter, and standalone demo validation.",
   "author": {
     "name": "HansPeterRadtke"
   },
+  "keywords": [
+    "eventbus",
+    "events",
+    "architecture",
+    "messaging"
+  ],
   "dependencies": {}
 }

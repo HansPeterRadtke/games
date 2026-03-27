@@ -16,7 +16,7 @@ public sealed class EventBus : IEventBus, IDisposable
         var entry = new SubscriptionEntry(typeof(TEvent), handler, payload => handler((TEvent)payload));
         lock (gate)
         {
-            if (!subscribers.TryGetValue(entry.EventType, out List<SubscriptionEntry> handlers))
+            if (!subscribers.TryGetValue(entry.EventType, out List<SubscriptionEntry>? handlers))
             {
                 handlers = new List<SubscriptionEntry>();
                 subscribers[entry.EventType] = handlers;
@@ -86,7 +86,7 @@ public sealed class EventBus : IEventBus, IDisposable
 
         lock (gate)
         {
-            if (!subscribers.TryGetValue(eventType, out List<SubscriptionEntry> handlers))
+            if (!subscribers.TryGetValue(eventType, out List<SubscriptionEntry>? handlers))
             {
                 return;
             }
@@ -117,7 +117,7 @@ public sealed class EventBus : IEventBus, IDisposable
     {
         private readonly EventBus bus;
         private readonly Type eventType;
-        private Delegate handler;
+        private Delegate? handler;
 
         public EventSubscription(EventBus bus, Type eventType, Delegate handler)
         {

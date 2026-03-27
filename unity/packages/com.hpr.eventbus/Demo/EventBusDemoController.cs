@@ -18,25 +18,42 @@ public class EventBusDemoController : MonoBehaviour
     private readonly List<string> entries = new();
     private int pingCount;
     private int statusCount;
+    private bool subscriptionsActive;
+
+    public int PingCount => pingCount;
+    public int StatusCount => statusCount;
+    public IReadOnlyList<string> Entries => entries;
 
     private void OnEnable()
     {
-        if (eventManager == null)
-        {
-            return;
-        }
-
-        eventManager.Subscribe<DemoPingEvent>(HandlePing);
-        eventManager.Subscribe<DemoStatusEvent>(HandleStatus);
+        EnsureSubscriptions();
     }
 
     private void OnDisable()
     {
-        if (eventManager == null)
+        RemoveSubscriptions();
+    }
+
+    public void EnsureSubscriptions()
+    {
+        if (eventManager == null || subscriptionsActive)
         {
             return;
         }
 
+        subscriptionsActive = true;
+        eventManager.Subscribe<DemoPingEvent>(HandlePing);
+        eventManager.Subscribe<DemoStatusEvent>(HandleStatus);
+    }
+
+    public void RemoveSubscriptions()
+    {
+        if (eventManager == null || !subscriptionsActive)
+        {
+            return;
+        }
+
+        subscriptionsActive = false;
         eventManager.Unsubscribe<DemoPingEvent>(HandlePing);
         eventManager.Unsubscribe<DemoStatusEvent>(HandleStatus);
     }
@@ -65,12 +82,12 @@ public class EventBusDemoController : MonoBehaviour
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Publish Ping", GUILayout.Height(32f)))
         {
-            eventManager?.Publish(new DemoPingEvent { Message = "Demo ping published" });
+            PublishPing();
         }
 
         if (GUILayout.Button("Publish Status", GUILayout.Height(32f)))
         {
-            eventManager?.Publish(new DemoStatusEvent { Message = "Status event published" });
+            PublishStatus();
         }
         GUILayout.EndHorizontal();
 
@@ -93,5 +110,15 @@ public class EventBusDemoController : MonoBehaviour
         {
             entries.RemoveAt(entries.Count - 1);
         }
+    }
+
+    public void PublishPing()
+    {
+        eventManager?.Publish(new DemoPingEvent { Message = "Demo ping published" });
+    }
+
+    public void PublishStatus()
+    {
+        eventManager?.Publish(new DemoStatusEvent { Message = "Status event published" });
     }
 }

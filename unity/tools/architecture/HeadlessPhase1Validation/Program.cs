@@ -16,7 +16,7 @@ sealed class DerivedEvent : BaseEvent
 
 sealed class PingRecorder : IInitializable, IDisposable
 {
-    private IDisposable subscription;
+    private IDisposable? subscription;
 
     public int Total { get; private set; }
 
@@ -39,7 +39,7 @@ sealed class PingRecorder : IInitializable, IDisposable
 
 sealed class BaseEventRecorder : IInitializable, IDisposable
 {
-    private IDisposable subscription;
+    private IDisposable? subscription;
 
     public int Count { get; private set; }
 

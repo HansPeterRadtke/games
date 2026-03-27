@@ -3,9 +3,15 @@
   "displayName": "HPR Composition",
   "version": "0.1.0",
   "unity": "6000.4",
-  "description": "Explicit service registration, lifecycle management, and composition root primitives for modular Unity packages.",
+  "description": "Explicit service registration, lifecycle management, and composition root primitives for modular Unity packages with standalone demo validation.",
   "author": {
     "name": "HansPeterRadtke"
   },
+  "keywords": [
+    "composition",
+    "services",
+    "bootstrap",
+    "architecture"
+  ],
   "dependencies": {}
 }
