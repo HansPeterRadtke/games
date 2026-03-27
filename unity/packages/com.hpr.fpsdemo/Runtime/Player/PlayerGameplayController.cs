@@ -116,6 +116,10 @@ public class PlayerGameplayController : MonoBehaviour
             {
                 flowCommands?.ToggleInventory();
             }
+            else if (gameplayState.IsSkillsVisible)
+            {
+                flowCommands?.ToggleSkills();
+            }
             else
             {
                 flowCommands?.TogglePauseMenu();
@@ -125,6 +129,11 @@ public class PlayerGameplayController : MonoBehaviour
         if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Inventory)))
         {
             flowCommands?.ToggleInventory();
+        }
+
+        if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Skills)))
+        {
+            flowCommands?.ToggleSkills();
         }
 
         if (inputSource.GetKeyDown(GameOptionsStore.GetBinding(options, GameAction.Map)))

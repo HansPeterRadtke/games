@@ -55,15 +55,15 @@
   },
   {
     "package_id": 157920,
-    "asset_folder": "Assets/Human Crafting Animations FREE",
+    "asset_folder": "Assets/Kevin Iglesias/Human Animations",
     "integration_label": "animations",
-    "integration_method": ""
+    "integration_method": "LocalCharacterAnimationTools.ApplyAnimationPacksFromBatch"
   },
   {
     "package_id": 288783,
-    "asset_folder": "Assets/RPG_Animations_Pack_FREE",
+    "asset_folder": "Assets/DoubleL",
     "integration_label": "animations",
-    "integration_method": ""
+    "integration_method": "LocalCharacterAnimationTools.ApplyAnimationPacksFromBatch"
   },
   {
     "package_id": 52977,
@@ -91,7 +91,7 @@
   },
   {
     "package_id": 213197,
-    "asset_folder": "Assets/Unity Terrain - URP Demo Scene",
+    "asset_folder": "Assets/TerrainDemoScene_URP",
     "integration_label": "environment",
     "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },

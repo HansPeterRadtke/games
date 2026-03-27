@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b712b5d64ac19d9718b7d7abbe25f1d9, type: 3}
+  m_Name: skill_recovery
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::SkillNodeData
+  Id: skill_recovery
+  DisplayName: Recovery Lattice
+  Description: Expands the stamina reserve for longer sprint windows.
+  Cost: 1
+  StartingUnlocked: 0
+  Prerequisites:
+  - {fileID: 11400000, guid: daae1096f8e73790e8e8f0fbf6e99f3e, type: 2}
+  MaxHealthBonus: 0
+  MaxStaminaBonus: 25
+  DamageMultiplierBonus: 0
+  MoveSpeedMultiplierBonus: 0
+  ThemeColor: {r: 0.28, g: 0.88, b: 0.54, a: 1}

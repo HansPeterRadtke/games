@@ -19,6 +19,7 @@ public class GameOptionsData
     public KeyCode run = KeyCode.LeftShift;
     public KeyCode interact = KeyCode.E;
     public KeyCode inventory = KeyCode.I;
+    public KeyCode skills = KeyCode.K;
     public KeyCode map = KeyCode.M;
     public KeyCode pause = KeyCode.Escape;
     public KeyCode flashlight = KeyCode.F;

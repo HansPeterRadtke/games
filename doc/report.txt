@@ -106,3 +106,31 @@ Standalone demo progress
 - `com.hpr.eventbus` now includes `EventBusSourceAdapter` so demo scenes and clean projects can expose an event bus without game-specific composition code
 - `com.hpr.eventbus` now has a committed demo scene at `unity/packages/com.hpr.eventbus/Demo/EventBusDemo.unity`
 - `com.hpr.inventory` now has a committed demo scene at `unity/packages/com.hpr.inventory/Demo/InventoryDemo.unity`
+
+2026-03-27 progression + animation checkpoint
+- Imported local-only animation content was integrated without tracking vendor data in git:
+  - `Assets/Kevin Iglesias/Human Animations`
+  - `Assets/DoubleL`
+- Added tracked animation integration tooling:
+  - `unity/packages/com.hpr.fpsdemo/Editor/LocalCharacterAnimationTools.cs`
+  - `unity/packages/com.hpr.fpsdemo/Runtime/Presentation/CharacterVisualAnimator.cs`
+- Enemy visuals now use imported humanoid animation controllers for idle / locomotion / hit / attack / death presentation.
+- Ambient NPCs are placed into the gameplay scene with local-only animation controllers.
+- Added a tracked skill-tree runtime foundation in `com.hpr.fpsdemo`:
+  - `SkillNodeData` assets under `Assets/Data/Skills`
+  - `SkillTreeComponent` runtime with unlocks, save/load persistence, kill-rewarded skill points, damage/move/stat modifiers
+  - player skill hotkey binding (`K`) and options-menu rebinding support
+  - in-game skill panel with unlock buttons
+- Extended save payload to persist skill points and unlocked skill ids.
+- Extended smoke validation to verify enemy kill -> skill point gain and to unlock one available skill during the automated run.
+- Runtime regression fixed:
+  - old startup `NullReferenceException` from `GameUiController.RefreshOptions` during early weapon initialization is fixed in the rebuilt player.
+
+Validation at this checkpoint
+- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
+- `unity/tools/fps_demo/smoke_test.sh`
+- Player log confirms:
+  - `Skill point +1`
+  - `Unlocked Recovery Lattice`
+  - `Smoke test completed`
+- No imported third-party asset folders were added to git tracking.

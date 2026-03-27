@@ -69,12 +69,13 @@ public static class SceneBootstrap
 
         var sharedMaterials = CreateMaterialPalette();
         var allItems = GameplayDataSeeder.LoadAllItems();
+        var allSkills = GameplayDataSeeder.LoadAllSkills();
         var itemLookup = BuildItemLookup(allItems);
         var weaponLoadout = GameplayDataSeeder.LoadDefaultWeapons();
 
         CreateLighting();
         var world = CreateWorld(sharedMaterials, itemLookup);
-        var player = CreatePlayer(weaponLoadout, allItems);
+        var player = CreatePlayer(weaponLoadout, allItems, allSkills);
         var mapCamera = CreateMapCamera(player.ActorTransform);
         player.GetComponent<PlayerGameplayController>().BindMapCamera(mapCamera.GetComponent<MapCameraFollow>());
         CreateGameSystems(player, mapCamera, world);
@@ -123,12 +124,13 @@ public static class SceneBootstrap
         }
 
         var knownItems = GameplayDataSeeder.LoadAllItems();
+        var skills = GameplayDataSeeder.LoadAllSkills();
         var itemLookup = BuildItemLookup(knownItems);
         var loadout = GameplayDataSeeder.LoadDefaultWeapons();
 
         changed |= EnsureWorldHierarchy(world);
         changed |= EnsureWorldEntityData(world, itemLookup);
-        changed |= EnsurePlayerRuntime(playerGo, knownItems, loadout, mapCamera);
+        changed |= EnsurePlayerRuntime(playerGo, knownItems, loadout, skills, mapCamera);
         changed |= EnsureSystemRuntime(systems, playerGo.GetComponent<PlayerActorContext>(), mapCamera, world);
 
         if (changed)
@@ -217,7 +219,7 @@ public static class SceneBootstrap
         go.transform.position = position;
     }
 
-    private static bool EnsurePlayerRuntime(GameObject playerGo, List<ItemData> knownItems, List<WeaponData> loadout, Camera mapCamera)
+    private static bool EnsurePlayerRuntime(GameObject playerGo, List<ItemData> knownItems, List<WeaponData> loadout, List<SkillNodeData> skills, Camera mapCamera)
     {
         bool changed = false;
         changed |= playerGo.GetComponent<PlayerStats>() == null;
@@ -226,6 +228,8 @@ public static class SceneBootstrap
         var inventory = GameObjectUtils.GetOrAddComponent<PlayerInventory>(playerGo);
         changed |= playerGo.GetComponent<WeaponSystem>() == null;
         var weaponSystem = GameObjectUtils.GetOrAddComponent<WeaponSystem>(playerGo);
+        changed |= playerGo.GetComponent<SkillTreeComponent>() == null;
+        var skillTree = GameObjectUtils.GetOrAddComponent<SkillTreeComponent>(playerGo);
         changed |= playerGo.GetComponent<PlayerController>() == null;
         var playerController = GameObjectUtils.GetOrAddComponent<PlayerController>(playerGo);
         changed |= playerGo.GetComponent<PlayerActorContext>() == null;
@@ -237,10 +241,12 @@ public static class SceneBootstrap
 
         inventory.ConfigureKnownItems(knownItems);
         weaponSystem.ConfigureLoadout(loadout);
+        skillTree.ConfigureSkills(skills);
         gameplayController.BindMapCamera(mapFollow);
 
         EditorUtility.SetDirty(inventory);
         EditorUtility.SetDirty(weaponSystem);
+        EditorUtility.SetDirty(skillTree);
         EditorUtility.SetDirty(playerController);
         EditorUtility.SetDirty(actorContext);
         EditorUtility.SetDirty(gameplayController);
@@ -494,7 +500,7 @@ public static class SceneBootstrap
         CreateEnemy(parent, "power_walker", GameplayDataSeeder.LoadEnemy("enemy_power_walker"), new Vector3(0f, 0.2f, -18f), new Vector3(-5f, 0.2f, -22f), new Vector3(5f, 0.2f, -16f), materials);
     }
 
-    private static PlayerActorContext CreatePlayer(List<WeaponData> weaponLoadout, List<ItemData> knownItems)
+    private static PlayerActorContext CreatePlayer(List<WeaponData> weaponLoadout, List<ItemData> knownItems, List<SkillNodeData> skills)
     {
         var player = new GameObject("Player");
         player.transform.position = new Vector3(0f, 1.3f, -1.5f);
@@ -507,11 +513,13 @@ public static class SceneBootstrap
         player.AddComponent<PlayerStats>();
         var inventory = player.AddComponent<PlayerInventory>();
         var weaponSystem = player.AddComponent<WeaponSystem>();
+        var skillTree = player.AddComponent<SkillTreeComponent>();
         player.AddComponent<PlayerController>();
         var actorContext = player.AddComponent<PlayerActorContext>();
         player.AddComponent<PlayerGameplayController>();
         inventory.ConfigureKnownItems(knownItems);
         weaponSystem.ConfigureLoadout(weaponLoadout);
+        skillTree.ConfigureSkills(skills);
 
         var cameraGo = new GameObject("Main Camera");
         cameraGo.tag = "MainCamera";

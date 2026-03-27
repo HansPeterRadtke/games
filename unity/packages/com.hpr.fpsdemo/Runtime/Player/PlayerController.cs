@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
     private IInputBindingsSource inputBindings;
     private IEventBusSource eventBusSource;
     private IInputSource inputSource;
+    private float externalMoveSpeedMultiplier = 1f;
 
     public Camera PlayerCamera => playerCamera;
     public Light Flashlight => flashlight;
@@ -155,6 +156,11 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
         impactVelocity += impulse;
     }
 
+    public void SetExternalMoveSpeedMultiplier(float multiplier)
+    {
+        externalMoveSpeedMultiplier = Mathf.Max(0.25f, multiplier);
+    }
+
     private void UpdateLook()
     {
         var options = inputBindings.CurrentOptions;
@@ -208,7 +214,7 @@ public class PlayerController : MonoBehaviour, IImpactReceiver
             lastGroundedTime = -99f;
         }
 
-        float speed = walkSpeed * (IsRunning ? runMultiplier : 1f) * (IsAiming ? 0.78f : 1f);
+        float speed = walkSpeed * externalMoveSpeedMultiplier * (IsRunning ? runMultiplier : 1f) * (IsAiming ? 0.78f : 1f);
         verticalVelocity.y += gravity * Time.deltaTime;
 
         Vector3 desiredVelocity = moveDirection * speed + impactVelocity + Vector3.up * verticalVelocity.y;

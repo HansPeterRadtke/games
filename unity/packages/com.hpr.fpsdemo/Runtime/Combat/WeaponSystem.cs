@@ -352,6 +352,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         Vector3 origin,
         Vector3 direction,
         WeaponData weaponData,
+        float damageAmount,
         float explosiveRadius,
         float projectileScale,
         float lifetime)
@@ -378,7 +379,7 @@ public class WeaponSystem : MonoBehaviour, IWeaponLoadout
         {
             projectileBehaviour = projectile.AddComponent<PhysicsProjectile>();
         }
-        projectileBehaviour.Configure(ownerRoot, direction, weaponData.Damage, weaponData.ProjectileSpeed, weaponData.ImpactForce, lifetime, explosiveRadius, weaponData.ViewColor, eventBus);
+        projectileBehaviour.Configure(ownerRoot, direction, damageAmount, weaponData.ProjectileSpeed, weaponData.ImpactForce, lifetime, explosiveRadius, weaponData.ViewColor, eventBus);
     }
 
     internal Transform ResolveCurrentMuzzle()

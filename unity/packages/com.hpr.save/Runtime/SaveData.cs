@@ -64,6 +64,8 @@ public class PlayerSaveData
     public string selectedWeaponId;
     public List<WeaponRuntimeSaveData> weapons = new List<WeaponRuntimeSaveData>();
     public List<ItemQuantitySaveData> inventoryItems = new List<ItemQuantitySaveData>();
+    public int skillPoints;
+    public List<string> unlockedSkillIds = new List<string>();
 }
 
 [Serializable]

@@ -18,7 +18,18 @@ public static class GameOptionsStore
         }
 
         var data = JsonUtility.FromJson<GameOptionsData>(json);
-        return data ?? GameOptionsData.CreateDefault();
+        if (data == null)
+        {
+            return GameOptionsData.CreateDefault();
+        }
+
+        var defaults = GameOptionsData.CreateDefault();
+        if (data.skills == KeyCode.None)
+        {
+            data.skills = defaults.skills;
+        }
+
+        return data;
     }
 
     public static void Save(GameOptionsData data)
@@ -40,6 +51,7 @@ public static class GameOptionsStore
             GameAction.Run => options.run,
             GameAction.Interact => options.interact,
             GameAction.Inventory => options.inventory,
+            GameAction.Skills => options.skills,
             GameAction.Map => options.map,
             GameAction.Pause => options.pause,
             GameAction.Flashlight => options.flashlight,
@@ -65,6 +77,7 @@ public static class GameOptionsStore
             case GameAction.Run: options.run = key; break;
             case GameAction.Interact: options.interact = key; break;
             case GameAction.Inventory: options.inventory = key; break;
+            case GameAction.Skills: options.skills = key; break;
             case GameAction.Map: options.map = key; break;
             case GameAction.Pause: options.pause = key; break;
             case GameAction.Flashlight: options.flashlight = key; break;

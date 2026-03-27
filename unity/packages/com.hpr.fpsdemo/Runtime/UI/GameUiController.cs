@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class GameUiController : MonoBehaviour
 {
     private IGameMenuCommands menuCommands;
+    private ISkillTreeCommands skillCommands;
     private IInputBindingsSource inputBindings;
     private IOptionsController optionsController;
     private Font uiFont;
@@ -26,14 +27,19 @@ public class GameUiController : MonoBehaviour
     private GameObject optionsPanel;
     private GameObject inventoryPanel;
     private GameObject mapPanel;
+    private GameObject skillsPanel;
     private RectTransform inventoryGrid;
     private Text inventoryDetailText;
     private readonly Dictionary<InventoryTab, Button> inventoryTabButtons = new Dictionary<InventoryTab, Button>();
     private readonly List<GameObject> inventoryCards = new List<GameObject>();
+    private readonly List<GameObject> skillCards = new List<GameObject>();
     private List<InventoryTabData> inventoryTabs = new List<InventoryTabData>();
     private InventoryTab currentInventoryTab = InventoryTab.Weapons;
     private RawImage mapImage;
     private Text mapHintText;
+    private RectTransform skillsGrid;
+    private Text skillPointsText;
+    private Text skillDetailText;
     private Text optionsStatusText;
     private Button newGameButton;
     private Text newGameButtonText;
@@ -53,10 +59,12 @@ public class GameUiController : MonoBehaviour
     private bool hudBuilt;
 
     public bool IsRebindingKey => pendingRebindAction.HasValue;
+    public bool IsInitialized => hudBuilt;
 
     public void Initialize(MonoBehaviour services, RenderTexture mapTexture)
     {
         menuCommands = ResolveInterface<IGameMenuCommands>(services);
+        skillCommands = ResolveInterface<ISkillTreeCommands>(services);
         inputBindings = ResolveInterface<IInputBindingsSource>(services);
         optionsController = ResolveInterface<IOptionsController>(services);
         uiFont = Resources.GetBuiltinResource<Font>("Arial.ttf");
@@ -149,6 +157,7 @@ public class GameUiController : MonoBehaviour
             optionsPanel?.SetActive(false);
             inventoryPanel?.SetActive(false);
             mapPanel?.SetActive(false);
+            skillsPanel?.SetActive(false);
         }
 
         menuPanel.SetActive(show);
@@ -253,6 +262,7 @@ public class GameUiController : MonoBehaviour
     public void ShowInventory(bool show, List<InventoryTabData> tabs)
     {
         inventoryPanel.SetActive(show);
+        skillsPanel?.SetActive(false);
         if (!show || tabs == null)
         {
             return;
@@ -269,10 +279,27 @@ public class GameUiController : MonoBehaviour
     public void ShowMap(bool show)
     {
         mapPanel.SetActive(show);
+        skillsPanel?.SetActive(false);
         if (show && mapHintText != null)
         {
             mapHintText.text = "RMB drag to pan  |  Mouse wheel zoom";
         }
+    }
+
+    public void ShowSkills(bool show, List<SkillEntryViewData> entries, int skillPoints)
+    {
+        if (skillsPanel == null)
+        {
+            return;
+        }
+
+        skillsPanel.SetActive(show);
+        if (!show || entries == null)
+        {
+            return;
+        }
+
+        RefreshSkills(entries, skillPoints);
     }
 
     public void SelectInventoryTab(InventoryTab tab)
@@ -291,6 +318,11 @@ public class GameUiController : MonoBehaviour
 
     public void RefreshOptions(GameOptionsData options)
     {
+        if (!hudBuilt || options == null)
+        {
+            return;
+        }
+
         SetSliderValue("fov", options.fieldOfView, "0");
         SetSliderValue("sensitivity", options.lookSensitivity, "0.0");
         SetSliderValue("master", options.masterVolume * 100f, "0");
@@ -308,7 +340,10 @@ public class GameUiController : MonoBehaviour
 
         foreach (var pair in bindingButtonTexts)
         {
-            pair.Value.text = GameOptionsStore.GetBinding(options, pair.Key).ToString();
+            if (pair.Value != null)
+            {
+                pair.Value.text = GameOptionsStore.GetBinding(options, pair.Key).ToString();
+            }
         }
     }
 
@@ -339,8 +374,37 @@ public class GameUiController : MonoBehaviour
         BuildMenu();
         BuildOptions();
         BuildInventory();
+        BuildSkills();
         BuildMap();
         hudBuilt = true;
+    }
+
+    private void RefreshSkills(List<SkillEntryViewData> entries, int skillPoints)
+    {
+        if (skillsGrid == null || skillPointsText == null)
+        {
+            return;
+        }
+
+        foreach (var card in skillCards)
+        {
+            if (card != null)
+            {
+                Destroy(card);
+            }
+        }
+        skillCards.Clear();
+
+        skillPointsText.text = $"Skill Points: {skillPoints}";
+        skillDetailText.text = "Unlock permanent combat and movement upgrades.";
+
+        foreach (SkillEntryViewData entry in entries)
+        {
+            skillCards.Add(CreateSkillCard(skillsGrid, entry).gameObject);
+        }
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(skillsGrid);
+        Canvas.ForceUpdateCanvases();
     }
 
     private void RefreshInventoryContents()
@@ -515,7 +579,7 @@ public class GameUiController : MonoBehaviour
         foreach (var action in new[]
                  {
                      GameAction.MoveForward, GameAction.MoveBackward, GameAction.MoveLeft, GameAction.MoveRight,
-                     GameAction.Jump, GameAction.Run, GameAction.Interact, GameAction.Inventory, GameAction.Map,
+                     GameAction.Jump, GameAction.Run, GameAction.Interact, GameAction.Inventory, GameAction.Skills, GameAction.Map,
                      GameAction.Pause, GameAction.Flashlight, GameAction.Reload
                  })
         {
@@ -569,6 +633,32 @@ public class GameUiController : MonoBehaviour
         inventoryDetailText.verticalOverflow = VerticalWrapMode.Overflow;
     }
 
+    private void BuildSkills()
+    {
+        var panel = CreatePanel("SkillsPanel", root, Vector2.zero, new Vector2(860f, 720f), new Color(0.04f, 0.05f, 0.08f, 0.95f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+        skillsPanel = panel.gameObject;
+        skillsPanel.SetActive(false);
+        CreateText("SkillsTitle", panel, "Skill Tree", 32, TextAnchor.UpperCenter, new Vector2(0f, -18f), new Vector2(260f, 34f));
+        skillPointsText = CreateText("SkillPoints", panel, "Skill Points: 0", 20, TextAnchor.UpperCenter, new Vector2(0f, -60f), new Vector2(260f, 24f));
+
+        var gridPanel = CreatePanel("SkillsGridPanel", panel, new Vector2(0f, -98f), new Vector2(780f, 480f), new Color(0.1f, 0.12f, 0.16f, 0.85f), new Vector2(0.5f, 1f), new Vector2(0.5f, 1f));
+        skillsGrid = CreateRectTransform("SkillsGrid", gridPanel, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(14f, -14f), new Vector2(752f, 0f));
+        skillsGrid.pivot = new Vector2(0f, 1f);
+        var layout = skillsGrid.gameObject.AddComponent<GridLayoutGroup>();
+        layout.cellSize = new Vector2(240f, 140f);
+        layout.spacing = new Vector2(12f, 12f);
+        layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        layout.constraintCount = 3;
+        layout.childAlignment = TextAnchor.UpperLeft;
+        layout.padding = new RectOffset(0, 0, 0, 0);
+        var fitter = skillsGrid.gameObject.AddComponent<ContentSizeFitter>();
+        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        skillDetailText = CreateText("SkillDetail", panel, string.Empty, 18, TextAnchor.UpperLeft, new Vector2(0f, -618f), new Vector2(760f, 44f));
+        skillDetailText.horizontalOverflow = HorizontalWrapMode.Wrap;
+        skillDetailText.verticalOverflow = VerticalWrapMode.Overflow;
+    }
+
     private void BuildMap()
     {
         var panel = CreatePanel("MapPanel", root, Vector2.zero, new Vector2(1540f, 900f), new Color(0f, 0f, 0f, 0.8f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
@@ -612,13 +702,13 @@ public class GameUiController : MonoBehaviour
 
     private void SetSliderValue(string key, float value, string format)
     {
-        if (!sliders.TryGetValue(key, out var slider))
+        if (!sliders.TryGetValue(key, out var slider) || !sliderValues.TryGetValue(key, out var valueText))
         {
             return;
         }
 
         slider.SetValueWithoutNotify(value);
-        sliderValues[key].text = value.ToString(format);
+        valueText.text = value.ToString(format);
     }
 
     private Button CreateMenuButton(RectTransform parent, string name, string label, Vector2 anchoredPos, UnityEngine.Events.UnityAction action)
@@ -679,6 +769,45 @@ public class GameUiController : MonoBehaviour
         detail.color = new Color(0.76f, 0.82f, 0.92f, 0.92f);
         detail.horizontalOverflow = HorizontalWrapMode.Wrap;
         detail.verticalOverflow = VerticalWrapMode.Overflow;
+        return card;
+    }
+
+    private RectTransform CreateSkillCard(RectTransform parent, SkillEntryViewData entry)
+    {
+        var card = CreateRectTransform($"{entry.Id}_SkillCard", parent, new Vector2(0f, 1f), new Vector2(0f, 1f), Vector2.zero, new Vector2(240f, 140f));
+        var buttonImage = card.gameObject.AddComponent<Image>();
+        buttonImage.color = entry.Unlocked
+            ? new Color(0.16f, 0.34f, 0.2f, 0.96f)
+            : (entry.Available ? new Color(0.12f, 0.18f, 0.24f, 0.96f) : new Color(0.1f, 0.1f, 0.12f, 0.96f));
+        var button = card.gameObject.AddComponent<Button>();
+        button.targetGraphic = buttonImage;
+        button.interactable = entry.Available;
+        button.onClick.AddListener(() =>
+        {
+            if (skillDetailText != null)
+            {
+                skillDetailText.text = entry.Description;
+            }
+            skillCommands?.TryUnlockSkill(entry.Id);
+        });
+
+        var accent = CreateRectTransform("Accent", card, new Vector2(0f, 1f), new Vector2(1f, 1f), Vector2.zero, new Vector2(0f, 8f));
+        accent.offsetMin = new Vector2(0f, -8f);
+        accent.offsetMax = new Vector2(0f, 0f);
+        var accentImage = accent.gameObject.AddComponent<Image>();
+        accentImage.color = entry.ThemeColor;
+
+        var title = CreateTopLeftText("Title", card, entry.DisplayName, 18, TextAnchor.UpperLeft, new Vector2(12f, -18f), new Vector2(146f, 24f));
+        title.horizontalOverflow = HorizontalWrapMode.Wrap;
+        title.verticalOverflow = VerticalWrapMode.Overflow;
+        var cost = CreateTopLeftText("Cost", card, entry.Unlocked ? "Unlocked" : $"Cost {entry.Cost}", 15, TextAnchor.UpperRight, new Vector2(112f, -18f), new Vector2(116f, 20f));
+        cost.color = entry.Unlocked ? new Color(0.7f, 1f, 0.7f, 1f) : new Color(1f, 0.9f, 0.62f, 1f);
+        var desc = CreateTopLeftText("Desc", card, entry.Description, 14, TextAnchor.UpperLeft, new Vector2(12f, -52f), new Vector2(214f, 54f));
+        desc.horizontalOverflow = HorizontalWrapMode.Wrap;
+        desc.verticalOverflow = VerticalWrapMode.Overflow;
+        desc.color = new Color(0.82f, 0.88f, 0.95f, 0.96f);
+        var state = CreateTopLeftText("State", card, entry.Unlocked ? "Active" : (entry.Available ? "Click to unlock" : "Locked"), 14, TextAnchor.UpperLeft, new Vector2(12f, -116f), new Vector2(214f, 18f));
+        state.color = entry.Unlocked ? new Color(0.72f, 1f, 0.72f, 1f) : (entry.Available ? new Color(0.88f, 0.94f, 1f, 1f) : new Color(0.7f, 0.72f, 0.76f, 1f));
         return card;
     }
 
@@ -768,6 +897,7 @@ public class GameUiController : MonoBehaviour
             run = current.run,
             interact = current.interact,
             inventory = current.inventory,
+            skills = current.skills,
             map = current.map,
             pause = current.pause,
             flashlight = current.flashlight,

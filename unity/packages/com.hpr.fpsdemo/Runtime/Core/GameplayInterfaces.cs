@@ -16,6 +16,12 @@ public interface IPlayerStats : ICharacterStats
 {
 }
 
+public interface ICombatModifierSource
+{
+    float DamageMultiplier { get; }
+    float MovementSpeedMultiplier { get; }
+}
+
 public interface IWeaponLoadout
 {
     IReadOnlyList<WeaponRuntimeState> RuntimeSlots { get; }
@@ -51,4 +57,9 @@ public interface IEnemyRegistry
 {
     void RegisterEnemy(EnemyAgent enemy);
     void UnregisterEnemy(EnemyAgent enemy);
+}
+
+public interface ISkillTreeCommands
+{
+    bool TryUnlockSkill(string skillId);
 }

@@ -299,6 +299,7 @@ public static class ThirdPartyAssetIntegrator
         ApplyDoorPack();
         ApplyWeaponPack();
         ApplyCharacterPacks();
+        LocalCharacterAnimationTools.ApplyAnimationPacks();
         ApplyHousePack();
         ApplyFurniturePack();
     }

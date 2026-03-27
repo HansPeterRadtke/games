@@ -16,6 +16,10 @@ public static class AssetStoreImportTools
         "Assets/Flooded_Grounds/PostProcessing/Editor",
         "Assets/NatureStarterKit2/Editor",
         "Assets/NatureStarterKit2/Standard Assets/Effects/ImageEffects/Scripts",
+        "Assets/Starter Assets/Editor",
+        "Assets/Starter Assets/TutorialInfo",
+        "Assets/Starter Assets/Runtime/FirstPersonController/Scripts",
+        "Assets/Starter Assets/Runtime/Mobile/Scripts",
     };
 
     private static volatile bool s_DownloadFinished;

@@ -56,6 +56,12 @@ public class GameStateValidator : MonoBehaviour
         AssertCondition(enemy == null || !enemy.gameObject.activeSelf || !enemy.IsAlive, "Expected enemy to be dead");
     }
 
+    public void ValidateSkillPointGain(SkillTreeComponent skillTree, int previousPoints)
+    {
+        AssertCondition(enemyKilledEventCount > 0, "Expected EnemyKilledEvent before awarding skill points");
+        AssertCondition(skillTree != null && skillTree.SkillPoints > previousPoints, "Expected skill points to increase");
+    }
+
     private void OnDestroy()
     {
         Unsubscribe();

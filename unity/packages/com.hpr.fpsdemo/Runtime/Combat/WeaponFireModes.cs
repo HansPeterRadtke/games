@@ -51,7 +51,7 @@ public sealed class WeaponFireContext
 
     public void CreateProjectile(Vector3 direction, float explosiveRadius, float projectileScale, float lifetime)
     {
-        WeaponSystem.CreateProjectile(Owner.ActorTransform, MuzzleTransform.position, direction, Data, explosiveRadius, projectileScale, lifetime);
+        WeaponSystem.CreateProjectile(Owner.ActorTransform, MuzzleTransform.position, direction, Data, ScaleDamage(Data.Damage), explosiveRadius, projectileScale, lifetime);
     }
 
     public void PublishWeaponFired(int projectileCount)
@@ -78,7 +78,7 @@ public sealed class WeaponFireContext
         {
             SourceRoot = Owner.ActorTransform.gameObject,
             TargetRoot = targetRoot,
-            Amount = amount,
+            Amount = ScaleDamage(amount),
             HitPoint = hitPoint,
             HitDirection = hitDirection
         });
@@ -103,6 +103,24 @@ public sealed class WeaponFireContext
     public void Notify(string message)
     {
         WeaponSystem.StatusSink?.NotifyStatus(message);
+    }
+
+    private float ScaleDamage(float amount)
+    {
+        if (Owner?.ActorTransform == null)
+        {
+            return amount;
+        }
+
+        foreach (var behaviour in Owner.ActorTransform.GetComponents<MonoBehaviour>())
+        {
+            if (behaviour is ICombatModifierSource modifiers)
+            {
+                return amount * Mathf.Max(0.1f, modifiers.DamageMultiplier);
+            }
+        }
+
+        return amount;
     }
 }
 

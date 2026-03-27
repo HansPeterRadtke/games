@@ -16,6 +16,7 @@ Current local-only imported roots:
 - `ALP_Assets`
 - `Brick Project Studio`
 - `Flooded_Grounds`
+- `TerrainDemoScene_URP`
 - `Free Wood Door Pack`
 - `FurnishedCabin`
 - `Furniture Mega Pack`
@@ -23,6 +24,8 @@ Current local-only imported roots:
 - `NatureStarterKit2`
 - `POLYGON city pack`
 - `Survivalist`
+- `DoubleL`
+- `Kevin Iglesias`
 - `_TerrainAutoUpgrade`
 - `nappin`
 - `npc_casual_set_00`
@@ -45,13 +48,13 @@ Selected packages and intended roots/integration labels:
 - `107224` - `CITY package` / `POLYGON city pack` - environment
 - `326131` - `npc_casual_set_00` - characters
 - `181470` - `Survivalist character` -> `Assets/Survivalist` - characters
-- `157920` - `Human Crafting Animations FREE` - animations
-- `288783` - `RPG Animations Pack FREE` - animations
+- `157920` - `Human Crafting Animations FREE` -> `Assets/Kevin Iglesias/Human Animations` - animations
+- `288783` - `RPG Animations Pack FREE` -> `Assets/DoubleL` - animations
 - `52977` - `Nature Starter Kit 2` - environment
 - `138810` - `Grass Flowers Pack Free` -> `Assets/ALP_Assets` - environment
 - `279940` - `Realistic Terrain Textures FREE` -> `Assets/ALP_Assets` - environment
 - `48529` - `Flooded Grounds` -> `Assets/Flooded_Grounds` - environment
-- `213197` - `Unity Terrain - URP Demo Scene` - environment
+- `213197` - `Unity Terrain - URP Demo Scene` -> `Assets/TerrainDemoScene_URP` - environment
 - `267961` - `Starter Assets: Character Controllers | URP` - starter assets
 
 ## Local Unity Asset Store cache
@@ -99,10 +102,12 @@ Important:
 - House Interior - Free / nappin
 - Furniture Mega Pack
 - character packs (`npc_casual_set_00`, `Survivalist`)
+- animation packs (`Kevin Iglesias/Human Animations`, `DoubleL`)
 - several environment packs via local scene integration tooling
 
 ### Known integration/use notes
 - weapon prefabs from `Low Poly Weapons VOL.1` required per-weapon rotation handling; the pack is not orientation-standardized
+- animation integration now uses a generated local humanoid combat controller under `Assets/DoubleL/HPRGenerated` plus ambient NPC placements driven from Kevin Iglesias controllers
 - furniture from mixed packs caused unrealistic scale/material issues; current integration was narrowed toward `Furniture Mega Pack` exact prefabs for furniture placement
 - `Nature Starter Kit 2` needed compatibility fixup for older scripts/editor pieces after import
 - local imported art still needs another visual polish pass; this is not considered final content quality

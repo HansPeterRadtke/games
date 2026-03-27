@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b712b5d64ac19d9718b7d7abbe25f1d9, type: 3}
+  m_Name: skill_overcharge
+  m_EditorClassIdentifier: HPR.FPSDemo.Runtime::SkillNodeData
+  Id: skill_overcharge
+  DisplayName: Overcharge Chamber
+  Description: Routes more power into weapon systems for heavier shots.
+  Cost: 2
+  StartingUnlocked: 0
+  Prerequisites:
+  - {fileID: 11400000, guid: 599c72ed9788328d38ade9625b9fb14b, type: 2}
+  MaxHealthBonus: 0
+  MaxStaminaBonus: 0
+  DamageMultiplierBonus: 0.2
+  MoveSpeedMultiplierBonus: 0
+  ThemeColor: {r: 0.95, g: 0.64, b: 0.2, a: 1}

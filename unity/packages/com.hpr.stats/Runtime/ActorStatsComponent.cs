@@ -8,9 +8,11 @@ public class ActorStatsComponent : MonoBehaviour, ICharacterStats
     [SerializeField] private float health = 100f;
     [SerializeField] private float stamina = 100f;
     [SerializeField] private MonoBehaviour eventBusSourceBehaviour;
+    [SerializeField] private float runtimeMaxHealthBonus;
+    [SerializeField] private float runtimeMaxStaminaBonus;
 
-    public float MaxHealth => maxHealth;
-    public float MaxStamina => maxStamina;
+    public float MaxHealth => maxHealth + runtimeMaxHealthBonus;
+    public float MaxStamina => maxStamina + runtimeMaxStaminaBonus;
     public float Health => health;
     public float Stamina => stamina;
     public bool IsAlive => health > 0f;
@@ -47,8 +49,16 @@ public class ActorStatsComponent : MonoBehaviour, ICharacterStats
 
     public virtual void ResetStats()
     {
-        health = maxHealth;
-        stamina = maxStamina;
+        health = MaxHealth;
+        stamina = MaxStamina;
+    }
+
+    public virtual void SetRuntimeBonuses(float healthBonus, float staminaBonus)
+    {
+        runtimeMaxHealthBonus = Mathf.Max(0f, healthBonus);
+        runtimeMaxStaminaBonus = Mathf.Max(0f, staminaBonus);
+        health = Mathf.Clamp(health, 0f, MaxHealth);
+        stamina = Mathf.Clamp(stamina, 0f, MaxStamina);
     }
 
     public virtual void SetHealth(float value)
@@ -79,7 +89,7 @@ public class ActorStatsComponent : MonoBehaviour, ICharacterStats
 
     public virtual void Heal(float amount)
     {
-        health = Mathf.Min(maxHealth, health + amount);
+        health = Mathf.Min(MaxHealth, health + amount);
     }
 
     public virtual void ApplyDamage(float amount, Vector3 hitPoint, Vector3 hitDirection)

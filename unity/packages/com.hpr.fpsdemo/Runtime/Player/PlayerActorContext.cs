@@ -6,12 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInventory))]
 [RequireComponent(typeof(WeaponSystem))]
 [RequireComponent(typeof(UnityInputSource))]
+[RequireComponent(typeof(SkillTreeComponent))]
 public class PlayerActorContext : MonoBehaviour, IPlayerActor
 {
     public PlayerController MovementController { get; private set; }
     public PlayerStats StatsComponent { get; private set; }
     public PlayerInventory InventoryComponent { get; private set; }
     public WeaponSystem WeaponSystemComponent { get; private set; }
+    public SkillTreeComponent SkillTreeComponent { get; private set; }
 
     public Transform ActorTransform => transform;
     public Camera ViewCamera => MovementController != null ? MovementController.PlayerCamera : null;
@@ -33,6 +35,7 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
         StatsComponent = GetComponent<PlayerStats>();
         InventoryComponent = GetComponent<PlayerInventory>();
         WeaponSystemComponent = GetComponent<WeaponSystem>();
+        SkillTreeComponent = GetComponent<SkillTreeComponent>();
     }
 
     public void ConfigureKnownItems(System.Collections.Generic.IEnumerable<ItemData> knownItems)
@@ -45,6 +48,11 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
         WeaponSystemComponent.ConfigureLoadout(weaponLoadout);
     }
 
+    public void ConfigureSkills(System.Collections.Generic.IEnumerable<SkillNodeData> skills)
+    {
+        SkillTreeComponent.ConfigureSkills(skills);
+    }
+
     public void BindRuntimeServices(MonoBehaviour services)
     {
         EnsureComponentCache();
@@ -52,6 +60,7 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
         MovementController.BindRuntimeServices(services, inputSource);
         StatsComponent.BindRuntimeServices(services);
         WeaponSystemComponent.BindRuntimeServices(services);
+        SkillTreeComponent.BindRuntimeServices(services);
         var gameplayController = GetComponent<PlayerGameplayController>();
         if (gameplayController != null)
         {
@@ -72,6 +81,7 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
         StatsComponent.SetStamina(saveData.stamina);
         InventoryComponent.RestoreItemQuantities(saveData.inventoryItems);
         WeaponSystemComponent.RestoreRuntimeState(saveData.weapons, saveData.selectedWeaponId);
+        SkillTreeComponent.RestoreState(saveData.unlockedSkillIds, saveData.skillPoints);
     }
 
     public PlayerSaveData CaptureSaveData()
@@ -85,6 +95,8 @@ public class PlayerActorContext : MonoBehaviour, IPlayerActor
         data.inventoryItems = InventoryComponent.CaptureItemQuantities()
             .Select(pair => new ItemQuantitySaveData { itemId = pair.Key, quantity = pair.Value })
             .ToList();
+        data.skillPoints = SkillTreeComponent.SkillPoints;
+        data.unlockedSkillIds = SkillTreeComponent.CaptureUnlockedSkillIds();
         return data;
     }
 }

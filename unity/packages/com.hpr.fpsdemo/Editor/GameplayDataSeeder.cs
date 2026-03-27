@@ -9,6 +9,7 @@ public static class GameplayDataSeeder
     public const string WeaponsRoot = DataRoot + "/Weapons";
     public const string ItemsRoot = DataRoot + "/Items";
     public const string EnemiesRoot = DataRoot + "/Enemies";
+    public const string SkillsRoot = DataRoot + "/Skills";
     public const string AssetMetadataRoot = DataRoot + "/AssetMetadata";
     public const string AssetRegistryPath = DataRoot + "/AssetRegistry.asset";
 
@@ -18,8 +19,10 @@ public static class GameplayDataSeeder
         EnsureFolder(DataRoot, "Weapons");
         EnsureFolder(DataRoot, "Items");
         EnsureFolder(DataRoot, "Enemies");
+        EnsureFolder(DataRoot, "Skills");
         EnsureFolder(DataRoot, "AssetMetadata");
         EnsureAssetRegistry();
+        EnsureSkillAssets();
         EnsureGameplayAssetDefaults();
         ImportedAssetMetadataSynchronizer.Synchronize();
         AssetDatabase.Refresh();
@@ -51,6 +54,15 @@ public static class GameplayDataSeeder
     public static EnemyData LoadEnemy(string id)
     {
         return LoadAssets<EnemyData>(EnemiesRoot).FirstOrDefault(asset => asset != null && asset.Id == id);
+    }
+
+    public static List<SkillNodeData> LoadAllSkills()
+    {
+        return LoadAssets<SkillNodeData>(SkillsRoot)
+            .Where(asset => asset != null && !string.IsNullOrWhiteSpace(asset.Id))
+            .OrderBy(asset => asset.Cost)
+            .ThenBy(asset => asset.DisplayName)
+            .ToList();
     }
 
     public static AssetRegistry LoadAssetRegistry()
@@ -143,6 +155,97 @@ public static class GameplayDataSeeder
         {
             AssetDatabase.SaveAssets();
         }
+    }
+
+    private static void EnsureSkillAssets()
+    {
+        SkillNodeData vigor = EnsureSkillAsset(
+            "skill_vigor",
+            "Vigor Matrix",
+            "Reinforces the suit frame for a larger health reserve.",
+            1,
+            startingUnlocked: true,
+            healthBonus: 20f,
+            staminaBonus: 0f,
+            damageBonus: 0f,
+            moveSpeedBonus: 0f,
+            new Color(0.82f, 0.3f, 0.34f, 1f));
+
+        SkillNodeData sprinter = EnsureSkillAsset(
+            "skill_sprinter",
+            "Sprinter Servo",
+            "Retunes the leg servos for faster repositioning.",
+            1,
+            startingUnlocked: false,
+            healthBonus: 0f,
+            staminaBonus: 0f,
+            damageBonus: 0f,
+            moveSpeedBonus: 0.18f,
+            new Color(0.24f, 0.7f, 0.94f, 1f),
+            vigor);
+
+        EnsureSkillAsset(
+            "skill_recovery",
+            "Recovery Lattice",
+            "Expands the stamina reserve for longer sprint windows.",
+            1,
+            startingUnlocked: false,
+            healthBonus: 0f,
+            staminaBonus: 25f,
+            damageBonus: 0f,
+            moveSpeedBonus: 0f,
+            new Color(0.28f, 0.88f, 0.54f, 1f),
+            vigor);
+
+        EnsureSkillAsset(
+            "skill_overcharge",
+            "Overcharge Chamber",
+            "Routes more power into weapon systems for heavier shots.",
+            2,
+            startingUnlocked: false,
+            healthBonus: 0f,
+            staminaBonus: 0f,
+            damageBonus: 0.2f,
+            moveSpeedBonus: 0f,
+            new Color(0.95f, 0.64f, 0.2f, 1f),
+            sprinter);
+    }
+
+    private static SkillNodeData EnsureSkillAsset(
+        string id,
+        string displayName,
+        string description,
+        int cost,
+        bool startingUnlocked,
+        float healthBonus,
+        float staminaBonus,
+        float damageBonus,
+        float moveSpeedBonus,
+        Color themeColor,
+        params SkillNodeData[] prerequisites)
+    {
+        string path = $"{SkillsRoot}/{id}.asset";
+        var asset = AssetDatabase.LoadAssetAtPath<SkillNodeData>(path);
+        if (asset == null)
+        {
+            asset = ScriptableObject.CreateInstance<SkillNodeData>();
+            AssetDatabase.CreateAsset(asset, path);
+        }
+
+        asset.Id = id;
+        asset.DisplayName = displayName;
+        asset.Description = description;
+        asset.Cost = Mathf.Max(1, cost);
+        asset.StartingUnlocked = startingUnlocked;
+        asset.MaxHealthBonus = healthBonus;
+        asset.MaxStaminaBonus = staminaBonus;
+        asset.DamageMultiplierBonus = damageBonus;
+        asset.MoveSpeedMultiplierBonus = moveSpeedBonus;
+        asset.ThemeColor = themeColor;
+        asset.Prerequisites = prerequisites?.Where(requirement => requirement != null).Distinct().ToList() ?? new List<SkillNodeData>();
+        EditorUtility.SetDirty(asset);
+        AssetDatabase.SaveAssets();
+        return asset;
     }
 
     private static FireModeType DeriveFireMode(WeaponData weapon)

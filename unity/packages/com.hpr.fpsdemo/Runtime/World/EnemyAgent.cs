@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -24,11 +25,15 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
     private Vector3 impactVelocity;
     private IEnemyBehavior behavior;
     private IGameEventBus eventBus;
+    private GameObject lastDamageSourceRoot;
     private IEventBusSource eventBusSource;
     private IStatusMessageSink statusSink;
     private IGameplayStateSource gameplayState;
     private IPlayerActorSource playerSource;
     private IEnemyRegistry enemyRegistry;
+    private CharacterVisualAnimator visualAnimator;
+    private Coroutine deathRoutine;
+    private bool isDying;
 
     public string SaveId => saveId;
     public bool IsAlive => health > 0f;
@@ -68,18 +73,30 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
 
     private void OnEnable()
     {
+        isDying = false;
+        lastDamageSourceRoot = null;
+        if (controller != null)
+        {
+            controller.enabled = true;
+        }
+        visualAnimator?.ResetPresentation();
         enemyRegistry?.RegisterEnemy(this);
     }
 
     private void OnDisable()
     {
+        if (deathRoutine != null)
+        {
+            StopCoroutine(deathRoutine);
+            deathRoutine = null;
+        }
         enemyRegistry?.UnregisterEnemy(this);
         BindEventBus(null);
     }
 
     private void Update()
     {
-        if (!IsAlive || enemyData == null || gameplayState == null || !gameplayState.IsGameplayRunning)
+        if (!IsAlive || isDying || enemyData == null || gameplayState == null || !gameplayState.IsGameplayRunning)
         {
             return;
         }
@@ -109,7 +126,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
 
     public void ApplyDamage(float amount, Vector3 hitPoint, Vector3 hitDirection)
     {
-        if (!IsAlive)
+        if (!IsAlive || isDying)
         {
             return;
         }
@@ -118,17 +135,38 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         statusSink?.NotifyStatus($"{(enemyData != null ? enemyData.DisplayName : saveId)} hp {health:0}");
         if (health > 0f)
         {
+            visualAnimator?.TriggerHit();
             return;
         }
 
         eventBus?.Publish(new EnemyKilledEvent
         {
-            SourceRoot = null,
+            SourceRoot = lastDamageSourceRoot,
             EnemyRoot = gameObject,
             EnemyId = saveId,
             EnemyDisplayName = enemyData != null ? enemyData.DisplayName : saveId
         });
+        if (deathRoutine != null)
+        {
+            StopCoroutine(deathRoutine);
+        }
+        deathRoutine = StartCoroutine(PlayDeathAndHide(hitDirection));
+    }
+
+    private IEnumerator PlayDeathAndHide(Vector3 hitDirection)
+    {
+        isDying = true;
+        visualAnimator?.TriggerDeath();
+        impactVelocity += hitDirection * 0.18f;
+        if (controller != null)
+        {
+            controller.enabled = false;
+        }
+
+        float hideDelay = enemyData != null ? Mathf.Max(0.1f, enemyData.DeathHideDelay) : 0.65f;
+        yield return new WaitForSeconds(hideDelay);
         gameObject.SetActive(false);
+        deathRoutine = null;
     }
 
     public void ApplyImpact(Vector3 impulse, Vector3 point)
@@ -155,10 +193,17 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         health = data.health;
         patrolToA = data.boolValue;
         impactVelocity = Vector3.zero;
+        isDying = false;
+        if (deathRoutine != null)
+        {
+            StopCoroutine(deathRoutine);
+            deathRoutine = null;
+        }
         controller.enabled = false;
         transform.position = data.position.ToVector3();
         transform.rotation = data.rotation.ToQuaternion();
         controller.enabled = true;
+        visualAnimator?.ResetPresentation();
     }
 
     public Transform GetCurrentPatrolTarget()
@@ -191,6 +236,10 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         Vector3 move = destination - transform.position;
         move.y = 0f;
         Vector3 planarImpact = new Vector3(impactVelocity.x, 0f, impactVelocity.z);
+        float normalizedMove = move.sqrMagnitude > 0.05f
+            ? Mathf.Clamp01(speed / Mathf.Max(0.01f, enemyData != null ? Mathf.Max(enemyData.MoveSpeed, enemyData.ChaseSpeed) : speed))
+            : 0f;
+        visualAnimator?.SetMoveSpeed(normalizedMove);
         if (move.sqrMagnitude > 0.05f || planarImpact.sqrMagnitude > 0.02f)
         {
             Vector3 direction = move.sqrMagnitude > 0.05f ? move.normalized : planarImpact.normalized;
@@ -218,6 +267,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         }
 
         lastAttackTime = Time.time;
+        visualAnimator?.TriggerAttack();
         if (distanceToPlayer <= enemyData.AttackRange)
         {
             Vector3 direction = (player.ActorTransform.position - transform.position).normalized;
@@ -286,6 +336,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
 
     private void RefreshPresentation()
     {
+        visualAnimator = null;
         Transform autoVisual = transform.Find(AutoVisualName);
         if (autoVisual != null)
         {
@@ -327,6 +378,13 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
         {
             DestroyUnityObject(collider);
         }
+
+        visualAnimator = visual.GetComponent<CharacterVisualAnimator>();
+        if (visualAnimator == null)
+        {
+            visualAnimator = visual.AddComponent<CharacterVisualAnimator>();
+        }
+        visualAnimator.ResetPresentation();
     }
 
     private void BindEventBus(IGameEventBus bus)
@@ -357,6 +415,7 @@ public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveable
             return;
         }
 
+        lastDamageSourceRoot = gameEvent.SourceRoot;
         ApplyDamage(gameEvent.Amount, gameEvent.HitPoint, gameEvent.HitDirection);
     }
 

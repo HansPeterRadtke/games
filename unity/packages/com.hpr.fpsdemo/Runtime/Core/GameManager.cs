@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsController, IEventBusSource, IGameplayStateSource, IStatusMessageSink, IInteractionPromptSink, IHudRefreshSink, IThreatScanner, IGameplayFlowCommands, IGameMenuCommands, IPlayerDeathHandler, IPlayerActorSource, IEnemyRegistry
+public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsController, IEventBusSource, IGameplayStateSource, IStatusMessageSink, IInteractionPromptSink, IHudRefreshSink, IThreatScanner, IGameplayFlowCommands, IGameMenuCommands, IPlayerDeathHandler, IPlayerActorSource, IEnemyRegistry, ISkillTreeCommands
 {
     [SerializeField] private PlayerActorContext player;
     [SerializeField] private Camera mapCamera;
@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
     private bool titleMenuVisible = true;
     private bool pauseVisible;
     private bool inventoryVisible;
+    private bool skillsVisible;
     private bool mapVisible;
     private bool optionsVisible;
     private bool playerDead;
@@ -43,10 +44,11 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
     public GameOptionsData CurrentOptions { get; private set; }
     public IPlayerActor Player => player;
     public IGameEventBus EventBus => eventManager;
-    public bool AllowsGameplayInput => IsGameplayRunning && !pauseVisible && !inventoryVisible && !mapVisible && !optionsVisible;
+    public bool AllowsGameplayInput => IsGameplayRunning && !pauseVisible && !inventoryVisible && !skillsVisible && !mapVisible && !optionsVisible;
     public bool IsGameplayRunning => !titleMenuVisible && !playerDead;
     public bool IsMapVisible => mapVisible;
     public bool IsInventoryVisible => inventoryVisible;
+    public bool IsSkillsVisible => skillsVisible;
     public bool IsPauseVisible => pauseVisible;
     public bool IsOptionsVisible => optionsVisible;
     public bool IsCombatLive => IsGameplayRunning && !combatDisabledRequested && !combatHold && Time.time >= sessionStartTime + 0.5f;
@@ -216,10 +218,12 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
         pauseVisible = !pauseVisible;
         inventoryVisible = false;
+        skillsVisible = false;
         mapVisible = false;
         optionsVisible = false;
         uiController.ShowPauseMenu(pauseVisible);
         uiController.ShowInventory(false, null);
+        uiController.ShowSkills(false, null, 0);
         uiController.ShowMap(false);
         uiController.ShowOptions(false);
         UpdateCursorAndTime();
@@ -234,10 +238,32 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
         inventoryVisible = !inventoryVisible;
         pauseVisible = false;
+        skillsVisible = false;
         mapVisible = false;
         optionsVisible = false;
         uiController.ShowInventory(inventoryVisible, player.InventoryComponent.BuildInventoryTabs(player.WeaponSystemComponent));
         uiController.ShowPauseMenu(false);
+        uiController.ShowSkills(false, null, 0);
+        uiController.ShowMap(false);
+        uiController.ShowOptions(false);
+        UpdateCursorAndTime();
+    }
+
+    public void ToggleSkills()
+    {
+        if (titleMenuVisible || playerDead || player == null || uiController == null)
+        {
+            return;
+        }
+
+        skillsVisible = !skillsVisible;
+        pauseVisible = false;
+        inventoryVisible = false;
+        mapVisible = false;
+        optionsVisible = false;
+        uiController.ShowSkills(skillsVisible, player.SkillTreeComponent.BuildEntries(), player.SkillTreeComponent.SkillPoints);
+        uiController.ShowPauseMenu(false);
+        uiController.ShowInventory(false, null);
         uiController.ShowMap(false);
         uiController.ShowOptions(false);
         UpdateCursorAndTime();
@@ -253,6 +279,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         mapVisible = !mapVisible;
         pauseVisible = false;
         inventoryVisible = false;
+        skillsVisible = false;
         optionsVisible = false;
         if (mapVisible)
         {
@@ -261,6 +288,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         uiController.ShowMap(mapVisible);
         uiController.ShowPauseMenu(false);
         uiController.ShowInventory(false, null);
+        uiController.ShowSkills(false, null, 0);
         uiController.ShowOptions(false);
         UpdateCursorAndTime();
     }
@@ -276,9 +304,11 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
             uiController.ShowOptions(true);
             pauseVisible = false;
             inventoryVisible = false;
+            skillsVisible = false;
             mapVisible = false;
             uiController.ShowPauseMenu(false);
             uiController.ShowInventory(false, null);
+            uiController.ShowSkills(false, null, 0);
             uiController.ShowMap(false);
             UpdateCursorAndTime();
             return;
@@ -320,6 +350,22 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
         File.WriteAllText(savePath, JsonUtility.ToJson(saveData, true));
         NotifyStatus($"Saved to {savePath}");
+    }
+
+    public bool TryUnlockSkill(string skillId)
+    {
+        if (player?.SkillTreeComponent == null || string.IsNullOrWhiteSpace(skillId))
+        {
+            return false;
+        }
+
+        bool unlocked = player.SkillTreeComponent.TryUnlock(skillId);
+        if (unlocked)
+        {
+            RefreshHud();
+        }
+
+        return unlocked;
     }
 
     public void LoadGame()
@@ -411,11 +457,13 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         playerDead = true;
         pauseVisible = false;
         inventoryVisible = false;
+        skillsVisible = false;
         mapVisible = false;
         optionsVisible = false;
         titleMenuVisible = true;
         uiController.ShowPauseMenu(false);
         uiController.ShowInventory(false, null);
+        uiController.ShowSkills(false, null, 0);
         uiController.ShowMap(false);
         uiController.ShowOptions(false);
         uiController.ShowTitleMenu(true, "Mission Failed");
@@ -436,7 +484,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
     public void RefreshHud()
     {
-        if (player == null || uiController == null)
+        if (player == null || uiController == null || !uiController.IsInitialized)
         {
             return;
         }
@@ -449,6 +497,10 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         if (inventoryVisible)
         {
             uiController.ShowInventory(true, player.InventoryComponent.BuildInventoryTabs(player.WeaponSystemComponent));
+        }
+        if (skillsVisible)
+        {
+            uiController.ShowSkills(true, player.SkillTreeComponent.BuildEntries(), player.SkillTreeComponent.SkillPoints);
         }
         uiController.RefreshOptions(CurrentOptions);
     }
@@ -557,7 +609,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
     private void UpdateCursorAndTime()
     {
-        bool blockGameplay = titleMenuVisible || pauseVisible || inventoryVisible || mapVisible || optionsVisible || playerDead;
+        bool blockGameplay = titleMenuVisible || pauseVisible || inventoryVisible || skillsVisible || mapVisible || optionsVisible || playerDead;
         Time.timeScale = blockGameplay ? 0f : 1f;
         Cursor.lockState = blockGameplay ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = blockGameplay;
@@ -594,6 +646,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         titleMenuVisible = true;
         pauseVisible = false;
         inventoryVisible = false;
+        skillsVisible = false;
         mapVisible = false;
         optionsVisible = false;
         playerDead = false;
@@ -602,6 +655,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         titleMenuShownRealtime = Time.realtimeSinceStartup;
         uiController.ShowPauseMenu(false);
         uiController.ShowInventory(false, null);
+        uiController.ShowSkills(false, null, 0);
         uiController.ShowMap(false);
         uiController.ShowOptions(false);
         uiController.ShowTitleMenu(true);
@@ -622,11 +676,13 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         titleMenuVisible = false;
         pauseVisible = false;
         inventoryVisible = false;
+        skillsVisible = false;
         mapVisible = false;
         optionsVisible = false;
         uiController.ShowTitleMenu(false);
         uiController.ShowPauseMenu(false);
         uiController.ShowInventory(false, null);
+        uiController.ShowSkills(false, null, 0);
         uiController.ShowMap(false);
         uiController.ShowOptions(false);
     }
@@ -726,6 +782,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         if (enemy != null)
         {
             stateValidator?.ResetCounters();
+            int previousSkillPoints = player.SkillTreeComponent.SkillPoints;
             EventBus?.Publish(new DamageEvent
             {
                 SourceRoot = player.ActorTransform.gameObject,
@@ -736,7 +793,18 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
             });
             yield return new WaitForSecondsRealtime(0.1f);
             stateValidator?.ValidateEnemyDeath(enemy);
+            stateValidator?.ValidateSkillPointGain(player.SkillTreeComponent, previousSkillPoints);
         }
+
+        ToggleSkills();
+        yield return new WaitForSecondsRealtime(0.15f);
+        var unlockCandidate = player.SkillTreeComponent.BuildEntries().FirstOrDefault(entry => entry.Available && !entry.Unlocked);
+        if (unlockCandidate != null)
+        {
+            TryUnlockSkill(unlockCandidate.Id);
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+        ToggleSkills();
 
         SaveGame();
         yield return new WaitForSecondsRealtime(0.1f);

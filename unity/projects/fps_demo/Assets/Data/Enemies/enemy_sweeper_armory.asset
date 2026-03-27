@@ -26,6 +26,7 @@ MonoBehaviour:
   ProjectileSpeed: 28
   ProjectileImpact: 7
   PreferredRange: 0
+  DeathHideDelay: 0.65
   VisualPrefab: {fileID: 2333246135476635899, guid: bae3b6da9f558a04994badd5424cbd6f, type: 3}
   VisualLocalPosition: {x: 0, y: 0.036910478, z: 0}
   VisualLocalEuler: {x: 0, y: 0, z: 0}
