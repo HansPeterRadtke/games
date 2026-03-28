@@ -11,14 +11,6 @@ public class InteractionSensor : MonoBehaviour
     public IInteractable CurrentInteractable { get; private set; }
     public string CurrentPrompt { get; private set; }
 
-    private void Awake()
-    {
-        if (sourceCamera == null)
-        {
-            sourceCamera = GetComponentInChildren<Camera>();
-        }
-    }
-
     public void BindCamera(Camera camera)
     {
         sourceCamera = camera;
@@ -39,7 +31,7 @@ public class InteractionSensor : MonoBehaviour
             return;
         }
 
-        CurrentInteractable = hit.collider.GetComponentsInParent<MonoBehaviour>(true).OfType<IInteractable>().FirstOrDefault();
+        CurrentInteractable = ResolveInteractable(hit.collider);
         CurrentPrompt = CurrentInteractable != null ? CurrentInteractable.GetPrompt(actor) : string.Empty;
     }
 
@@ -54,5 +46,22 @@ public class InteractionSensor : MonoBehaviour
         CurrentInteractable.Interact(actor);
         Probe(actor);
         return true;
+    }
+
+    private static IInteractable ResolveInteractable(Collider collider)
+    {
+        if (collider == null)
+        {
+            return null;
+        }
+
+        IInteractable directTarget = collider.GetComponents<MonoBehaviour>().OfType<IInteractable>().FirstOrDefault();
+        if (directTarget != null)
+        {
+            return directTarget;
+        }
+
+        InteractionTargetProxy proxy = collider.GetComponent<InteractionTargetProxy>();
+        return proxy != null ? proxy.Resolve() : null;
     }
 }

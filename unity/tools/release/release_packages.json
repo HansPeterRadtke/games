@@ -111,6 +111,12 @@
     "Hardcoded local path": "/data/",
     "Embedded local file dependency": "file:../"
   },
+  "runtime_forbidden_patterns": {
+    "Runtime parent lookup": "GetComponentInParent<",
+    "Runtime parent collection lookup": "GetComponentsInParent<",
+    "Runtime child lookup": "GetComponentInChildren<",
+    "Runtime child collection lookup": "GetComponentsInChildren<"
+  },
   "required_paths": [
     "package.json",
     "README.md",

@@ -64,6 +64,7 @@ runner.TryActivate(repairPulse.Id);
 - add new effect types through `AbilityEffectType` and `AbilityRunnerComponent`
 - subscribe to ability events for UI, telemetry, quests, or combat logs
 - implement `IAbilityResourcePool` on custom actors or wrappers around existing stat systems
+- place `DamageableTargetProxy` on child colliders when area damage needs to resolve an `IDamageable` target on another object
 
 ## Limitations
 - the included runner supports heal, stamina restore, and area-damage effects only

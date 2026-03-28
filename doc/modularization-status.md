@@ -1,7 +1,6 @@
 # Modularization Status
 
-## Release-ready package set
-The current release-ready set is:
+## Frozen first-release package set
 - `com.hpr.eventbus`
 - `com.hpr.composition`
 - `com.hpr.save`
@@ -13,12 +12,7 @@ The current release-ready set is:
 - `com.hpr.ai`
 - `com.hpr.world`
 
-## What changed since the earlier release set
-The release set is no longer limited to low-level infrastructure. The package line now includes:
-- gameplay-adjacent reusable runtime (`save`, `stats`, `inventory`, `interaction`, `abilities`)
-- authored reusable data products (`weapons`, `ai`, `world`)
-
-## What remains internal
+## Excluded packages
 - `com.hpr.foundation`
 - `com.hpr.core`
 - `com.hpr.input`
@@ -26,8 +20,8 @@ The release set is no longer limited to low-level infrastructure. The package li
 - `com.hpr.bootstrap`
 - `com.hpr.fpsdemo`
 
-## Current extraction target order
-1. continue shrinking `com.hpr.fpsdemo`
-2. decide whether `com.hpr.input` can be productized cleanly
-3. separate generic UI widgets from game-specific UI flow
-4. either productize or keep internal the remaining support packages based on actual dependency cleanliness
+## Current truth
+- the frozen first-release set validated successfully in fresh clean-project imports during the current run
+- the internal game still builds and its smoke path completes during the current run
+- the release tooling now emits in-repo proof logs for audits, build, and smoke instead of pointing outside the repo
+- the selected packages no longer contain runtime parent/child lookup shortcuts in their runtime code

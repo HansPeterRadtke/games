@@ -50,7 +50,7 @@ PY
 run_batch() {
   sync_local_packages
   cleanup_locks
-  exec "$unity_bin" -batchmode -projectPath "$project_path" -executeMethod "$method" -quit -logFile "$log_file" "$@"
+  "$unity_bin" -batchmode -projectPath "$project_path" -executeMethod "$method" -quit -logFile "$log_file" "$@"
 }
 
 if [[ "$(id -un)" == "hans" ]]; then
@@ -65,3 +65,12 @@ else
     PROJECT_PATH="$project_path" UNITY_BIN="$unity_bin" LOG_DIR="$log_dir" LOG_FILE="$log_file" \
     bash "$script_dir/run_unity_batch.sh" "$method" "$@"
 fi
+
+if rg -n "error CS|: error|Aborting batchmode|Unhandled exception|NullReferenceException|Exception:" "$log_file" >/dev/null 2>&1; then
+  echo "Unity batch method failed. See log: $log_file" >&2
+  rg -n "error CS|: error|Aborting batchmode|Unhandled exception|NullReferenceException|Exception:" "$log_file" >&2 || true
+  exit 1
+fi
+
+echo "Unity batch method succeeded"
+echo "Log: $log_file"

@@ -40,6 +40,7 @@ def main():
 
     allowed_extensions = set(config["allowed_extensions"])
     forbidden_patterns = config["forbidden_patterns"]
+    runtime_forbidden_patterns = config.get("runtime_forbidden_patterns", {})
 
     for entry in config["sellable_packages"]:
         name = entry["name"]
@@ -106,6 +107,8 @@ def main():
 
             if path.suffix in {".cs", ".md", ".json", ".asmdef", ".txt"} or path.name in {"package.json", ".gitignore"}:
                 forbidden_hits.extend((path.relative_to(ROOT), *hit) for hit in scan_text_file(path, forbidden_patterns))
+                if "Runtime" in path.parts:
+                    forbidden_hits.extend((path.relative_to(ROOT), *hit) for hit in scan_text_file(path, runtime_forbidden_patterns))
 
         if illegal_files:
             failures.append(f"{name}: non-whitelisted file types present")

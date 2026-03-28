@@ -12,6 +12,7 @@ Use this package when you want:
 - `IInteractionActor`
 - `IInteractable`
 - `InteractionSensor`
+- `InteractionTargetProxy`
 - `InventoryPickupInteractable`
 - `KeyDoorInteractable`
 - `SimpleInteractionActor`
@@ -30,6 +31,7 @@ Use this package when you want:
 3. Implement `IInteractionActor` or use `SimpleInteractionActor` for basic setups.
 4. Add `InteractionSensor` and bind a camera explicitly.
 5. Add `IInteractable` components to world objects.
+6. If a collider lives on a child object, add `InteractionTargetProxy` to that collider and bind the actual interactable explicitly.
 
 ## Quick start
 ```csharp
@@ -46,6 +48,7 @@ if (sensor.TryInteract(actor))
 ## API overview
 - `InteractionSensor.Probe(...)` caches the current prompt and interactable target
 - `InteractionSensor.TryInteract(...)` executes the active target if one is available
+- `InteractionTargetProxy` lets child colliders resolve an explicit `IInteractable` target without parent lookups
 - `InventoryPickupInteractable` adds `ItemData` into an `IInventoryService` and can publish `ItemPickedEvent`
 - `KeyDoorInteractable` toggles a door leaf and optionally requires a key item id
 

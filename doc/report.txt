@@ -5,7 +5,7 @@ Repository
 - path: `/data/src/github/games`
 - purpose: Unity workspace with sellable package candidates plus the internal `fps_demo` game composition project
 
-Chosen first-release package set
+Frozen first-release package set
 - `unity/packages/com.hpr.eventbus`
 - `unity/packages/com.hpr.composition`
 - `unity/packages/com.hpr.save`
@@ -17,27 +17,29 @@ Chosen first-release package set
 - `unity/packages/com.hpr.ai`
 - `unity/packages/com.hpr.world`
 
-Why this set
-- this is the strongest realistic package set that currently has standalone demos, package-owned validators, explicit manifests, external-user docs, and fresh clean-project proof
-- the excluded packages are still internal or game-specific and are not being misrepresented as external products
 
-Not in the first release
-- `com.hpr.foundation`
-- `com.hpr.core`
-- `com.hpr.input`
-- `com.hpr.ui`
-- `com.hpr.bootstrap`
-- `com.hpr.fpsdemo`
+Excluded packages
+- `unity/packages/com.hpr.foundation`: internal support package; missing full external release assets and clean-project proof
+- `unity/packages/com.hpr.core`: internal shared-contract package; not productized to the frozen first-release standard
+- `unity/packages/com.hpr.input`: internal-only package; missing full external release assets and proof
+- `unity/packages/com.hpr.ui`: internal UI support; not productized or isolated for external sale
+- `unity/packages/com.hpr.bootstrap`: thin internal bootstrap helper; missing release metadata/docs and not marketed as a standalone product
+- `unity/packages/com.hpr.fpsdemo`: game-specific composition/content package; not reusable product code
 
-Authoritative validation entrypoint
-- `unity/tools/release/validate_release_candidate.sh`
 
 Fresh proof
-- package-set validation: `doc/logs/package_validation/20260328_130003_com_hpr_eventbus_com_hpr_composition_com_hpr_save_com_hpr_stats_com_hpr_inventory_com_hpr_interaction_com_hpr_abilities_com_hpr_weapons_com_hpr_ai_com_hpr_world_.log`
-- game build: `doc/logs/20260328_130012_BuildLinux.log`
-- game smoke: `/home/hans/.config/unity3d/DefaultCompany/fps_demo/Player.log`
-- audits: `doc/release-audit.md`, `doc/dependency-audit-phase1.md`
+- release audit doc: `doc/release-audit.md`
+- dependency audit doc: `doc/dependency-audit-phase1.md`
+- release audit log: `doc/logs/20260328_151627_release_audit.log`
+- dependency audit log: `doc/logs/20260328_151627_dependency_audit.log`
+- headless validation log: `doc/logs/20260328_151627_headless_phase1_validation.log`
+- game build log: `doc/logs/20260328_152347_BuildLinux.log`
+- game smoke log: `doc/logs/20260328_152431_smoke_test.log`
+- full release-set clean-project log: `doc/logs/package_validation/20260328_152337_com_hpr_eventbus_com_hpr_composition_com_hpr_save_com_hpr_stats_com_hpr_inventory_com_hpr_interaction_com_hpr_abilities_com_hpr_weapons_com_hpr_ai_com_hpr_world_.log`
 
-Operational rules
-- imported Asset Store content remains local-only and untracked
-- everything under the repo should be owned by `hans`
+Current hardening completed in this run
+- fixed stats runtime clamping/regeneration bug for effective max values
+- removed runtime hierarchy lookups from selected package runtimes
+- added explicit proxy components for collider-to-target bindings
+- moved smoke proof into the repository
+- moved top-level release validation proof into the repository

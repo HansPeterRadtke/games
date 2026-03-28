@@ -62,16 +62,17 @@ public class ActorStatsComponent : MonoBehaviour, ICharacterStats
 
     public virtual void SetHealth(float value)
     {
-        health = Mathf.Clamp(value, 0f, maxHealth);
+        health = Mathf.Clamp(value, 0f, MaxHealth);
     }
 
     public virtual void SetStamina(float value)
     {
-        stamina = Mathf.Clamp(value, 0f, maxStamina);
+        stamina = Mathf.Clamp(value, 0f, MaxStamina);
     }
 
     public virtual bool ConsumeStamina(float amount)
     {
+        amount = Mathf.Max(0f, amount);
         if (stamina < amount)
         {
             return false;
@@ -83,7 +84,7 @@ public class ActorStatsComponent : MonoBehaviour, ICharacterStats
 
     public virtual void RegenerateStamina(float amount)
     {
-        stamina = Mathf.Min(maxStamina, stamina + amount);
+        stamina = Mathf.Min(MaxStamina, stamina + Mathf.Max(0f, amount));
     }
 
     public virtual void Heal(float amount)

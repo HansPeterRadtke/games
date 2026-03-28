@@ -9,6 +9,8 @@ public class StatsDemoController : MonoBehaviour
     private const float HealAmount = 10f;
     private const float StaminaSpendAmount = 15f;
     private const float StaminaRecoverAmount = 12f;
+    private const float MaxHealthBonus = 25f;
+    private const float MaxStaminaBonus = 20f;
 
     public void ValidateDemo()
     {
@@ -40,6 +42,23 @@ public class StatsDemoController : MonoBehaviour
         if (!spentStamina || targetStats.Stamina <= 0f || targetStats.Stamina > targetStats.MaxStamina)
         {
             throw new System.InvalidOperationException("Stats demo stamina flow is invalid.");
+        }
+
+        targetStats.SetRuntimeBonuses(MaxHealthBonus, MaxStaminaBonus);
+        targetStats.SetHealth(targetStats.MaxHealth);
+        targetStats.SetStamina(targetStats.MaxStamina - 1f);
+        targetStats.RegenerateStamina(StaminaRecoverAmount);
+        targetStats.SetHealth(targetStats.MaxHealth - 1f);
+        targetStats.Heal(HealAmount);
+
+        if (Mathf.Abs(targetStats.Health - targetStats.MaxHealth) > 0.01f)
+        {
+            throw new System.InvalidOperationException("Stats demo health clamping ignored runtime max-health bonuses.");
+        }
+
+        if (Mathf.Abs(targetStats.Stamina - targetStats.MaxStamina) > 0.01f)
+        {
+            throw new System.InvalidOperationException("Stats demo stamina clamping ignored runtime max-stamina bonuses.");
         }
 
         targetStats.ResetStats();

@@ -220,7 +220,7 @@ public class AbilityRunnerComponent : MonoBehaviour, IAbilityLoadout
         var seenRoots = new HashSet<GameObject>();
         foreach (Collider collider in Physics.OverlapSphere(origin, Mathf.Max(0.25f, effect.Radius), damageLayers, QueryTriggerInteraction.Collide))
         {
-            IDamageable damageable = collider.GetComponentInParent<IDamageable>();
+            IDamageable damageable = ResolveDamageable(collider);
             if (damageable is not Component component)
             {
                 continue;
@@ -242,6 +242,23 @@ public class AbilityRunnerComponent : MonoBehaviour, IAbilityLoadout
                 HitDirection = hitDirection.sqrMagnitude > 0.001f ? hitDirection : transform.forward
             });
         }
+    }
+
+    private static IDamageable ResolveDamageable(Collider collider)
+    {
+        if (collider == null)
+        {
+            return null;
+        }
+
+        IDamageable directTarget = collider.GetComponents<MonoBehaviour>().OfType<IDamageable>().FirstOrDefault();
+        if (directTarget != null)
+        {
+            return directTarget;
+        }
+
+        DamageableTargetProxy proxy = collider.GetComponent<DamageableTargetProxy>();
+        return proxy != null ? proxy.Resolve() : null;
     }
 
     private void RebuildLookup()

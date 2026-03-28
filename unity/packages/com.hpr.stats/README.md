@@ -12,6 +12,7 @@ Use this package when you want:
 - `IDamageable`
 - `ICharacterStats`
 - `ActorStatsComponent`
+- `DamageableTargetProxy`
 - `DamageEvent`
 
 ## Unity version
@@ -46,6 +47,7 @@ eventBus.Publish(new DamageEvent
 - `Heal(...)`, `ConsumeStamina(...)`, and `RegenerateStamina(...)` mutate vitals directly
 - `SetRuntimeBonuses(...)` applies runtime max-health and max-stamina bonuses
 - `BindRuntimeEventBusSource(...)` wires an explicit `IEventBusSource` without hierarchy lookups
+- `DamageableTargetProxy` lets child colliders forward damage to an explicit `IDamageable` target without parent lookups
 
 ## Demo
 - Scene: `Packages/com.hpr.stats/Demo/StatsDemo.unity`
@@ -62,6 +64,7 @@ eventBus.Publish(new DamageEvent
 - derive from `ActorStatsComponent` to customize damage reactions or death behavior
 - publish `DamageEvent` from your own weapons, traps, or abilities
 - consume `ICharacterStats` from UI, AI, or other gameplay systems
+- place `DamageableTargetProxy` on child colliders when the `IDamageable` target lives on another object
 
 ## Limitations
 - this package does not include armor, resistances, or status-effect stacks
