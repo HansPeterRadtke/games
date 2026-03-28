@@ -5,7 +5,6 @@
     "HPR.FPSDemo.Runtime",
     "HPR.Foundation",
     "HPR.Foundation.Editor",
-    "HPR.Core.Runtime",
     "HPR.Eventbus.Runtime",
     "HPR.Input.Runtime",
     "HPR.Inventory.Runtime",

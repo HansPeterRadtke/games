@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 public class ActorStatsComponent : MonoBehaviour, ICharacterStats
@@ -22,17 +21,12 @@ public class ActorStatsComponent : MonoBehaviour, ICharacterStats
 
     protected virtual void Awake()
     {
-        if (eventBusSourceBehaviour == null)
-        {
-            eventBusSourceBehaviour = GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault(component => component is IEventBusSource);
-        }
-
         eventBusSource = eventBusSourceBehaviour as IEventBusSource;
     }
 
     protected virtual void Start()
     {
-        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
+        RefreshRuntimeBindings();
     }
 
     protected virtual void OnDestroy()
@@ -43,7 +37,12 @@ public class ActorStatsComponent : MonoBehaviour, ICharacterStats
     public void BindRuntimeEventBusSource(MonoBehaviour source)
     {
         eventBusSourceBehaviour = source;
-        eventBusSource = source as IEventBusSource;
+        RefreshRuntimeBindings();
+    }
+
+    public void RefreshRuntimeBindings()
+    {
+        eventBusSource = eventBusSourceBehaviour as IEventBusSource;
         BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
     }
 

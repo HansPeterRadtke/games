@@ -1,36 +1,64 @@
 # HPR Interaction
 
-Reusable interaction contracts and simple runtime components for Unity projects.
+Reusable first-person interaction flow for pickups, keyed doors, and custom world objects.
 
-## What it provides
-- generic `IInteractionActor` and `IInteractable` contracts
-- `InteractionSensor` for prompt probing and interaction execution
-- `InventoryPickupInteractable` for inventory-backed pickups
-- `KeyDoorInteractable` for keyed open/close interactions
-- standalone demo scene and builder
+## Audience
+Use this package when you want:
+- a generic `IInteractionActor` / `IInteractable` contract pair
+- a camera-based `InteractionSensor` for probing and executing interactions
+- ready-made inventory pickup and keyed-door interactables
+
+## Included
+- `IInteractionActor`
+- `IInteractable`
+- `InteractionSensor`
+- `InventoryPickupInteractable`
+- `KeyDoorInteractable`
+- `SimpleInteractionActor`
 
 ## Dependencies
-- `com.hpr.foundation`
-- `com.hpr.core`
 - `com.hpr.eventbus`
 - `com.hpr.inventory`
 
-## Setup
-1. Add the package to a Unity project.
-2. For inventory-backed actors, put `InventoryComponent` on the actor root.
-3. Add `SimpleInteractionActor` or your own `IInteractionActor` implementation.
-4. Add `InteractionSensor` and bind a camera.
+## Installation
+1. Add `com.hpr.interaction`, `com.hpr.inventory`, and `com.hpr.eventbus` to your project.
+2. Reference `HPR.Interaction.Runtime` from dependent asmdefs.
+3. Implement `IInteractionActor` or use `SimpleInteractionActor` for basic setups.
+4. Add `InteractionSensor` and bind a camera explicitly.
 5. Add `IInteractable` components to world objects.
 
+## Quick start
+```csharp
+var actor = playerRoot.AddComponent<SimpleInteractionActor>();
+var sensor = playerRoot.AddComponent<InteractionSensor>();
+sensor.BindCamera(playerCamera);
+
+if (sensor.TryInteract(actor))
+{
+    UnityEngine.Debug.Log(sensor.CurrentPrompt);
+}
+```
+
 ## API overview
-- `IInteractionActor`: exposes the actor transform and inventory service.
-- `IInteractable`: prompt + interaction contract.
-- `InteractionSensor`: probes forward from a camera and caches the active prompt/target.
-- `InventoryPickupInteractable`: adds `ItemData` into inventory and publishes `ItemPickedEvent`.
-- `KeyDoorInteractable`: toggles a door leaf and optionally requires an inventory key item.
+- `InteractionSensor.Probe(...)` caches the current prompt and interactable target
+- `InteractionSensor.TryInteract(...)` executes the active target if one is available
+- `InventoryPickupInteractable` adds `ItemData` into an `IInventoryService` and can publish `ItemPickedEvent`
+- `KeyDoorInteractable` toggles a door leaf and optionally requires a key item id
 
 ## Demo
-- build/open `Packages/com.hpr.interaction/Demo/InteractionDemo.unity`
-- or use `HPR/Interaction/Build Demo Scene`
+- Scene: `Packages/com.hpr.interaction/Demo/InteractionDemo.unity`
+- Builder: `InteractionDemoSceneBuilder.BuildDemoScene`
+- Batch validator: `InteractionPackageValidator.ValidateInBatch`
 
-The demo uses simple primitives only and is safe to distribute.
+## Validation
+- clean-project import + demo validation:
+  - `EXECUTE_METHOD=InteractionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.interaction`
+
+## Extension points
+- implement your own `IInteractable` behaviors for terminals, switches, dialogue, or loot containers
+- implement your own `IInteractionActor` if your project uses a custom inventory service bridge
+- bind `InventoryPickupInteractable` to any explicit `IEventBusSource` without hierarchy-based service lookup
+
+## Limitations
+- this package does not provide a full HUD prompt renderer
+- input polling is demo-only; production projects should trigger `TryInteract(...)` from their own input layer

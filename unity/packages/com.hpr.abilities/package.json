@@ -3,12 +3,11 @@
   "displayName": "HPR Abilities",
   "version": "0.1.0",
   "unity": "6000.4",
-  "description": "Reusable data-driven abilities and effects runtime with event-driven activation and standalone demos.",
+  "description": "Reusable data-driven active abilities with costs, cooldowns, unlocks, and event-driven runtime hooks.",
   "author": {
     "name": "HansPeterRadtke"
   },
   "dependencies": {
-    "com.hpr.core": "0.1.0",
     "com.hpr.eventbus": "0.1.0",
     "com.hpr.stats": "0.1.0"
   }

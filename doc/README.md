@@ -14,6 +14,15 @@ Read in this order:
 9. `local-assets.md` - real local Asset Store inventory and current integration state
 10. `report.txt` - compact technical checkpoint summary
 
+Current sale-ready package set:
+- `com.hpr.eventbus`
+- `com.hpr.composition`
+- `com.hpr.save`
+- `com.hpr.stats`
+- `com.hpr.inventory`
+- `com.hpr.interaction`
+- `com.hpr.abilities`
+
 Key rule for this repo:
 - imported Unity / Asset Store data stays local-only and must not be committed
 - gameplay code, tooling, package docs, release audits, and reproducible setup scripts must be committed

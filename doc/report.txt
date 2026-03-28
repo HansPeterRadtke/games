@@ -1,11 +1,16 @@
-Games repo report - 2026-03-27
+Games repo report - 2026-03-28
 
 Current repo state
 - branch: `main`
-- repo is in a verified release-candidate checkpoint for the first sellable package set
+- repo is in a verified release-candidate checkpoint for the current sellable package set
 - designated sale-ready packages:
   - `unity/packages/com.hpr.eventbus`
   - `unity/packages/com.hpr.composition`
+  - `unity/packages/com.hpr.save`
+  - `unity/packages/com.hpr.stats`
+  - `unity/packages/com.hpr.inventory`
+  - `unity/packages/com.hpr.interaction`
+  - `unity/packages/com.hpr.abilities`
 - full game build and smoke still pass after the package split work
 - imported Unity Asset Store content remains local-only and ignored
 - repo content is runnable and writable as user `hans`
@@ -41,36 +46,82 @@ What is actually sale-ready now
   - `LICENSE.md`
   - `ThirdPartyNotices.md`
 
+3. `com.hpr.save`
+- standalone save primitives and `ISaveableEntity`
+- package-owned demo scene: `unity/packages/com.hpr.save/Demo/SaveDemo.unity`
+- clean-project validator: `SavePackageValidator.ValidateInBatch`
+- no forbidden references in the release audit
+- release docs included:
+  - `README.md`
+  - `CHANGELOG.md`
+  - `LICENSE.md`
+  - `ThirdPartyNotices.md`
+
+4. `com.hpr.stats`
+- standalone health/stamina and damage-event runtime
+- package-owned demo scene: `unity/packages/com.hpr.stats/Demo/StatsDemo.unity`
+- clean-project validator: `StatsPackageValidator.ValidateInBatch`
+- no forbidden references in the release audit
+- release docs included:
+  - `README.md`
+  - `CHANGELOG.md`
+  - `LICENSE.md`
+  - `ThirdPartyNotices.md`
+
+5. `com.hpr.inventory`
+- standalone item/inventory runtime
+- package-owned demo scene: `unity/packages/com.hpr.inventory/Demo/InventoryDemo.unity`
+- clean-project validator: `InventoryPackageValidator.ValidateInBatch`
+- no forbidden references in the release audit
+- release docs included:
+  - `README.md`
+  - `CHANGELOG.md`
+  - `LICENSE.md`
+  - `ThirdPartyNotices.md`
+
+6. `com.hpr.interaction`
+- standalone interaction runtime over explicit interfaces
+- package-owned demo scene: `unity/packages/com.hpr.interaction/Demo/InteractionDemo.unity`
+- clean-project validator: `InteractionPackageValidator.ValidateInBatch`
+- no forbidden references in the release audit
+- release docs included:
+  - `README.md`
+  - `CHANGELOG.md`
+  - `LICENSE.md`
+  - `ThirdPartyNotices.md`
+
+7. `com.hpr.abilities`
+- standalone ability runtime over explicit eventbus/stats dependencies
+- package-owned demo scene: `unity/packages/com.hpr.abilities/Demo/AbilitiesDemo.unity`
+- clean-project validator: `AbilitiesPackageValidator.ValidateInBatch`
+- no forbidden references in the release audit
+- release docs included:
+  - `README.md`
+  - `CHANGELOG.md`
+  - `LICENSE.md`
+  - `ThirdPartyNotices.md`
+
 What is NOT sale-ready yet
 The following packages remain internal/incomplete for external sale in this checkpoint:
 - `com.hpr.fpsdemo`
 - `com.hpr.core`
 - `com.hpr.input`
-- `com.hpr.inventory`
 - `com.hpr.weapons`
 - `com.hpr.ai`
-- `com.hpr.stats`
-- `com.hpr.interaction`
-- `com.hpr.save`
 - `com.hpr.world`
-- `com.hpr.abilities`
 - `com.hpr.ui`
 - `com.hpr.bootstrap`
 - `com.hpr.foundation`
 
 Why they are not sale-ready
-- remaining project-specific ownership is still concentrated in `com.hpr.fpsdemo`
-- additional forbidden lookup patterns still exist in:
-  - `com.hpr.interaction`
-  - `com.hpr.inventory` demo code
-  - `com.hpr.stats`
-- current gameplay-domain events still live in `com.hpr.core`, which is acceptable for the game but not yet fully productized as a separate external product
+- remaining project-specific composition ownership is still concentrated in `com.hpr.fpsdemo`
+- the remaining internal packages do not yet have the same complete release audit, package docs, demo, and clean-project proof level as the current release set
 
 Release-candidate validation that passed
 Single entrypoint:
 - `unity/tools/release/validate_release_candidate.sh`
 
-This passed fully on 2026-03-27 and includes:
+This passed fully on 2026-03-28 and includes:
 1. release audit
 - `doc/release-audit.md`
 
@@ -83,26 +134,35 @@ This passed fully on 2026-03-27 and includes:
 4. clean-project import + demo validation
 - `com.hpr.eventbus`
 - `com.hpr.composition`
-- combination import: `com.hpr.composition + com.hpr.eventbus`
+- `com.hpr.save`
+- `com.hpr.stats`
+- `com.hpr.inventory`
+- `com.hpr.interaction`
+- `com.hpr.abilities`
+- representative package combinations documented in `doc/package-validation.md`
 
 5. full game validation
 - `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
 - `NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh`
 
 Latest concrete proof files
-- package import combo log:
-  - `doc/logs/package_validation/20260327_195113_com_hpr_composition_com_hpr_eventbus_.log`
-- eventbus execute log:
-  - `doc/logs/package_validation/20260327_194854_com_hpr_eventbus__ValidateInBatch.log`
-- composition execute log:
-  - `doc/logs/package_validation/20260327_195023_com_hpr_composition__ValidateInBatch.log`
+- package validation logs:
+  - `doc/logs/package_validation/20260328_113748_com_hpr_eventbus__ValidateInBatch.log`
+  - `doc/logs/package_validation/20260328_113817_com_hpr_composition__ValidateInBatch.log`
+  - `doc/logs/package_validation/20260328_113846_com_hpr_save__ValidateInBatch.log`
+  - `doc/logs/package_validation/20260328_113915_com_hpr_stats__ValidateInBatch.log`
+  - `doc/logs/package_validation/20260328_113945_com_hpr_inventory__ValidateInBatch.log`
+  - `doc/logs/package_validation/20260328_114014_com_hpr_interaction__ValidateInBatch.log`
+  - `doc/logs/package_validation/20260328_114045_com_hpr_abilities__ValidateInBatch.log`
+  - `doc/logs/package_validation/20260328_114236_com_hpr_eventbus_com_hpr_composition_com_hpr_save_com_hpr_stats_com_hpr_inventory_com_hpr_interaction_com_hpr_abilities_.log`
 - latest build log:
-  - `doc/logs/20260327_195141_BuildLinux.log`
+  - `doc/logs/20260328_114247_BuildLinux.log`
 - latest player smoke proof:
   - `/home/hans/.config/unity3d/DefaultCompany/fps_demo/Player.log`
 
 Current smoke proof lines from `Player.log`
 - `[FPSDemo] Smoke test: session started`
+- `[FPSDemo] Repair pulse restored vital systems.`
 - `[FPSDemo] Quest complete: Security Sweep`
 - `[FPSDemo] Quest complete: Supply Recovery`
 - `[FPSDemo] Unlocked Recovery Lattice`

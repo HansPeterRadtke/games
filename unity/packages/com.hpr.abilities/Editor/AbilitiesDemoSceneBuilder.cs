@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -8,6 +9,8 @@ public static class AbilitiesDemoSceneBuilder
 {
     private const string DemoFolder = "Packages/com.hpr.abilities/Demo";
     private const string ScenePath = DemoFolder + "/AbilitiesDemo.unity";
+    private const string TempSceneDirectory = "Assets/__GeneratedPackageDemos";
+    private const string TempScenePath = "Assets/__GeneratedPackageDemos/AbilitiesDemo.unity";
     private const string RepairEffectPath = DemoFolder + "/RepairPulseEffect.asset";
     private const string ShockEffectPath = DemoFolder + "/ShockPulseEffect.asset";
     private const string RepairAbilityPath = DemoFolder + "/RepairPulse.asset";
@@ -51,6 +54,9 @@ public static class AbilitiesDemoSceneBuilder
         actor.GetComponent<Renderer>().sharedMaterial.color = new Color(0.24f, 0.72f, 0.96f, 1f);
         var actorStats = actor.AddComponent<AbilityDemoStats>();
         actorStats.ResetStats();
+        var actorStatsSerialized = new SerializedObject(actorStats);
+        actorStatsSerialized.FindProperty("eventBusSourceBehaviour").objectReferenceValue = eventRoot.GetComponent<EventBusSourceAdapter>();
+        actorStatsSerialized.ApplyModifiedPropertiesWithoutUndo();
         var runner = actor.AddComponent<AbilityRunnerComponent>();
         var runnerSo = new SerializedObject(runner);
         var configured = runnerSo.FindProperty("configuredAbilities");
@@ -69,6 +75,9 @@ public static class AbilitiesDemoSceneBuilder
         dummy.GetComponent<Renderer>().sharedMaterial.color = new Color(0.88f, 0.26f, 0.28f, 1f);
         var dummyStats = dummy.AddComponent<AbilityDemoStats>();
         dummyStats.ResetStats();
+        var dummyStatsSerialized = new SerializedObject(dummyStats);
+        dummyStatsSerialized.FindProperty("eventBusSourceBehaviour").objectReferenceValue = eventRoot.GetComponent<EventBusSourceAdapter>();
+        dummyStatsSerialized.ApplyModifiedPropertiesWithoutUndo();
 
         var canvas = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
         var canvasComponent = canvas.GetComponent<Canvas>();
@@ -94,12 +103,29 @@ public static class AbilitiesDemoSceneBuilder
         var controller = new GameObject("AbilitiesDemoController").AddComponent<AbilitiesDemoController>();
         var controllerSo = new SerializedObject(controller);
         controllerSo.FindProperty("runner").objectReferenceValue = runner;
-        controllerSo.FindProperty("actorStats").objectReferenceValue = actorStats;
-        controllerSo.FindProperty("targetStats").objectReferenceValue = dummyStats;
+        controllerSo.FindProperty("actorRoot").objectReferenceValue = actor;
+        controllerSo.FindProperty("targetRoot").objectReferenceValue = dummy;
         controllerSo.FindProperty("readout").objectReferenceValue = text;
         controllerSo.ApplyModifiedPropertiesWithoutUndo();
 
-        EditorSceneManager.SaveScene(scene, ScenePath);
+        Directory.CreateDirectory(Path.GetDirectoryName(TempScenePath) ?? "Assets");
+        EditorSceneManager.SaveScene(scene, TempScenePath);
+        AssetDatabase.Refresh();
+
+        var sourceAbsolutePath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", TempScenePath));
+        var targetAbsolutePath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", ScenePath));
+        Directory.CreateDirectory(Path.GetDirectoryName(targetAbsolutePath) ?? Path.GetFullPath(Path.Combine(Application.dataPath, "..")));
+        File.Copy(sourceAbsolutePath, targetAbsolutePath, true);
+
+        var sourceMetaPath = $"{sourceAbsolutePath}.meta";
+        var targetMetaPath = $"{targetAbsolutePath}.meta";
+        if (File.Exists(sourceMetaPath))
+        {
+            File.Copy(sourceMetaPath, targetMetaPath, true);
+        }
+
+        AssetDatabase.DeleteAsset(TempScenePath);
+        AssetDatabase.DeleteAsset(TempSceneDirectory);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
         Debug.Log($"Abilities demo scene written to {ScenePath}");

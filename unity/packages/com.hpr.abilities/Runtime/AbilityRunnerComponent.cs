@@ -22,22 +22,16 @@ public class AbilityRunnerComponent : MonoBehaviour, IAbilityLoadout
     private IAbilityResourcePool resourcePool;
 
     public Transform EffectOrigin => effectOrigin != null ? effectOrigin : transform;
+    public string LastStatusMessage { get; private set; } = string.Empty;
 
     private void Awake()
     {
-        effectOrigin = effectOrigin != null ? effectOrigin : transform;
-        eventBusSource = eventBusSourceBehaviour as IEventBusSource;
-        resourcePool = resourcePoolBehaviour as IAbilityResourcePool ?? GetComponent<IAbilityResourcePool>();
-        RebuildLookup();
-        if (unlockAllConfiguredAbilities)
-        {
-            SetUnlockedAbilityIds(configuredAbilities.Where(ability => ability != null).Select(ability => ability.Id));
-        }
+        RefreshRuntimeBindings();
     }
 
     private void Start()
     {
-        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
+        RefreshRuntimeBindings();
     }
 
     private void OnDestroy()
@@ -49,9 +43,7 @@ public class AbilityRunnerComponent : MonoBehaviour, IAbilityLoadout
     {
         eventBusSourceBehaviour = eventBusSourceMono;
         resourcePoolBehaviour = resourcePoolMono;
-        eventBusSource = eventBusSourceBehaviour as IEventBusSource;
-        resourcePool = resourcePoolBehaviour as IAbilityResourcePool ?? GetComponent<IAbilityResourcePool>();
-        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
+        RefreshRuntimeBindings();
     }
 
     public void ConfigureAbilities(IEnumerable<AbilityData> abilities)
@@ -62,6 +54,23 @@ public class AbilityRunnerComponent : MonoBehaviour, IAbilityLoadout
         {
             SetUnlockedAbilityIds(configuredAbilities.Select(ability => ability.Id));
         }
+        else
+        {
+            PublishStateChanged();
+        }
+    }
+
+    public void RefreshRuntimeBindings()
+    {
+        effectOrigin = effectOrigin != null ? effectOrigin : transform;
+        eventBusSource = eventBusSourceBehaviour as IEventBusSource;
+        resourcePool = resourcePoolBehaviour as IAbilityResourcePool ?? GetComponent<IAbilityResourcePool>();
+        RebuildLookup();
+        if (unlockAllConfiguredAbilities)
+        {
+            SetUnlockedAbilityIds(configuredAbilities.Where(ability => ability != null).Select(ability => ability.Id));
+        }
+        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
     }
 
     public void SetUnlockedAbilityIds(IEnumerable<string> abilityIds)
@@ -79,6 +88,7 @@ public class AbilityRunnerComponent : MonoBehaviour, IAbilityLoadout
         }
 
         RefreshUnlockedAbilityIds();
+        PublishStateChanged();
     }
 
     public List<AbilityEntryViewData> BuildEntries()
@@ -153,7 +163,7 @@ public class AbilityRunnerComponent : MonoBehaviour, IAbilityLoadout
             AbilityId = ability.Id,
             AbilityDisplayName = ability.DisplayName
         });
-        eventBus?.Publish(new HudInvalidatedEvent());
+        PublishStateChanged();
         PublishStatus(ability.ActivationStatus);
         return true;
     }
@@ -274,11 +284,20 @@ public class AbilityRunnerComponent : MonoBehaviour, IAbilityLoadout
             return;
         }
 
-        eventBus?.Publish(new StatusMessageEvent { Message = message });
+        LastStatusMessage = message;
+        eventBus?.Publish(new AbilityStatusEvent { Message = message });
     }
 
     private void BindEventBus(IEventBus bus)
     {
         eventBus = bus;
+    }
+
+    private void PublishStateChanged()
+    {
+        eventBus?.Publish(new AbilityStateChangedEvent
+        {
+            SourceRoot = gameObject
+        });
     }
 }

@@ -3,13 +3,11 @@
   "displayName": "HPR Interaction",
   "version": "0.1.0",
   "unity": "6000.4",
-  "description": "Reusable interaction flow for doors, pickups, and other world objects.",
+  "description": "Reusable interaction flow for pickups, keyed doors, and custom world objects.",
   "author": {
     "name": "HansPeterRadtke"
   },
   "dependencies": {
-    "com.hpr.foundation": "0.1.0",
-    "com.hpr.core": "0.1.0",
     "com.hpr.eventbus": "0.1.0",
     "com.hpr.inventory": "0.1.0"
   }

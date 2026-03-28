@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -14,12 +13,13 @@ public class InventoryPickupInteractable : MonoBehaviour, IInteractable
 
     private void Awake()
     {
-        if (eventBusSourceBehaviour == null)
-        {
-            eventBusSourceBehaviour = GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault(component => component is IEventBusSource);
-        }
-
         eventBusSource = eventBusSourceBehaviour as IEventBusSource;
+    }
+
+    public void BindRuntimeEventBusSource(MonoBehaviour source)
+    {
+        eventBusSourceBehaviour = source;
+        eventBusSource = source as IEventBusSource;
     }
 
     public string GetPrompt(IInteractionActor actor)

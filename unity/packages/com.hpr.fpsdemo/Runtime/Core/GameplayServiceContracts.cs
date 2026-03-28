@@ -63,3 +63,4 @@ public interface IGameMenuCommands
     void ExitGame();
     void ShowOptionsMenu(bool visible);
 }
+

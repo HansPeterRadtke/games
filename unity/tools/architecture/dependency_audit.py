@@ -14,8 +14,13 @@ def package_paths():
 
 def grep_hits(package_path: Path, pattern: str):
     hits = []
-    for file_path in sorted(package_path.rglob("*.cs")):
-        for line_number, line in enumerate(file_path.read_text().splitlines(), start=1):
+    for file_path in sorted(package_path.rglob("*")):
+        if file_path.is_dir():
+            continue
+        if file_path.suffix not in {".cs", ".md", ".json", ".asmdef", ".txt"} and file_path.name not in {"package.json", ".gitignore"}:
+            continue
+
+        for line_number, line in enumerate(file_path.read_text(encoding="utf-8").splitlines(), start=1):
             if pattern in line:
                 hits.append((file_path.relative_to(ROOT), line_number, line.strip()))
     return hits

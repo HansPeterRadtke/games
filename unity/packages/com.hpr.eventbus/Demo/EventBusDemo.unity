@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &1344879145
+--- !u!1 &882247797
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,8 +127,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1344879147}
-  - component: {fileID: 1344879146}
+  - component: {fileID: 882247799}
+  - component: {fileID: 882247798}
   m_Layer: 0
   m_Name: EventBusDemoController
   m_TagString: Untagged
@@ -136,26 +136,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1344879146
+--- !u!114 &882247798
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1344879145}
+  m_GameObject: {fileID: 882247797}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f20a3377ce5ba7cdb3d261f0e77c2a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HPR.Eventbus.Demo::EventBusDemoController
-  eventManager: {fileID: 1885423324}
---- !u!4 &1344879147
+  eventManager: {fileID: 1924624077}
+--- !u!4 &882247799
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1344879145}
+  m_GameObject: {fileID: 882247797}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -164,7 +164,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1353024354
+--- !u!1 &1066493047
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,8 +172,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1353024356}
-  - component: {fileID: 1353024355}
+  - component: {fileID: 1066493049}
+  - component: {fileID: 1066493048}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -181,13 +181,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!20 &1353024355
+--- !u!20 &1066493048
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353024354}
+  m_GameObject: {fileID: 1066493047}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
@@ -232,13 +232,13 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!4 &1353024356
+--- !u!4 &1066493049
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353024354}
+  m_GameObject: {fileID: 1066493047}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
@@ -247,7 +247,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1885423323
+--- !u!1 &1924624076
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -255,9 +255,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1885423326}
-  - component: {fileID: 1885423324}
-  - component: {fileID: 1885423325}
+  - component: {fileID: 1924624079}
+  - component: {fileID: 1924624077}
+  - component: {fileID: 1924624078}
   m_Layer: 0
   m_Name: EventBusDemoRoot
   m_TagString: Untagged
@@ -265,37 +265,37 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1885423324
+--- !u!114 &1924624077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885423323}
+  m_GameObject: {fileID: 1924624076}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 635af4f91019f924aab7baa518823983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HPR.Eventbus.Runtime::EventManager
---- !u!114 &1885423325
+--- !u!114 &1924624078
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885423323}
+  m_GameObject: {fileID: 1924624076}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 06d9220e9f10488f96541c56053938c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HPR.Eventbus.Runtime::EventBusSourceAdapter
---- !u!4 &1885423326
+--- !u!4 &1924624079
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885423323}
+  m_GameObject: {fileID: 1924624076}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -308,6 +308,6 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1885423326}
-  - {fileID: 1353024356}
-  - {fileID: 1344879147}
+  - {fileID: 1924624079}
+  - {fileID: 1066493049}
+  - {fileID: 882247799}

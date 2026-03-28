@@ -4,15 +4,24 @@
 Use:
 - `unity/tools/release/validate_release_candidate.sh`
 
-This is the current authoritative validation entrypoint for the sale-ready package set.
+This is the authoritative validation entrypoint for the current sale-ready package set.
 It runs:
 1. release audit
 2. dependency audit
 3. headless validation
 4. clean-project import + demo execution for each sale-ready package
-5. clean-project import for the sale-ready package combination
+5. clean-project import for the sale-ready package combinations
 6. full game build
 7. full game smoke test
+
+## Current sale-ready package set
+- `com.hpr.eventbus`
+- `com.hpr.composition`
+- `com.hpr.save`
+- `com.hpr.stats`
+- `com.hpr.inventory`
+- `com.hpr.interaction`
+- `com.hpr.abilities`
 
 ## Lower-level helpers
 - `unity/tools/packages/validate_local_packages.sh <package-name> [more packages...]`
@@ -30,14 +39,31 @@ For a designated sale-ready package, the repo now requires all of the following:
 - clean-project import succeeds
 - package demo execute method succeeds in that clean project
 - no forbidden architectural references are present in the package
+- package content is legally safe to redistribute
 
 ## Latest verified commands
-Verified through the latest release-candidate pass on 2026-03-27:
+Verified through the latest release-candidate pass on 2026-03-28:
 - `unity/tools/release/validate_release_candidate.sh`
 - `unity/tools/architecture/run_phase1_headless_validation.sh`
 - `unity/tools/packages/validate_local_packages.sh com.hpr.eventbus`
+- `EXECUTE_METHOD=EventBusPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.eventbus`
 - `unity/tools/packages/validate_local_packages.sh com.hpr.composition`
+- `EXECUTE_METHOD=CompositionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.composition`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.save`
+- `EXECUTE_METHOD=SavePackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.save`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.stats`
+- `EXECUTE_METHOD=StatsPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.stats`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.inventory`
+- `EXECUTE_METHOD=InventoryPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.inventory`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.interaction`
+- `EXECUTE_METHOD=InteractionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.interaction`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.abilities`
+- `EXECUTE_METHOD=AbilitiesPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.abilities`
 - `unity/tools/packages/validate_local_packages.sh com.hpr.composition com.hpr.eventbus`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.eventbus com.hpr.stats`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.inventory com.hpr.interaction`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.eventbus com.hpr.stats com.hpr.abilities`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.eventbus com.hpr.composition com.hpr.save com.hpr.stats com.hpr.inventory com.hpr.interaction com.hpr.abilities`
 - `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
 - `NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh`
 
@@ -47,14 +73,28 @@ Verified through the latest release-candidate pass on 2026-03-27:
 - `doc/dependency-audit-phase1.md`
 
 ### Package validation logs
-- `doc/logs/package_validation/20260327_194816_com_hpr_eventbus_.log`
-- `doc/logs/package_validation/20260327_194854_com_hpr_eventbus__ValidateInBatch.log`
-- `doc/logs/package_validation/20260327_194953_com_hpr_composition_.log`
-- `doc/logs/package_validation/20260327_195023_com_hpr_composition__ValidateInBatch.log`
-- `doc/logs/package_validation/20260327_195113_com_hpr_composition_com_hpr_eventbus_.log`
+- `doc/logs/package_validation/20260328_113740_com_hpr_eventbus_.log`
+- `doc/logs/package_validation/20260328_113748_com_hpr_eventbus__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_113809_com_hpr_composition_.log`
+- `doc/logs/package_validation/20260328_113817_com_hpr_composition__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_113838_com_hpr_save_.log`
+- `doc/logs/package_validation/20260328_113846_com_hpr_save__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_113907_com_hpr_stats_.log`
+- `doc/logs/package_validation/20260328_113915_com_hpr_stats__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_113937_com_hpr_inventory_.log`
+- `doc/logs/package_validation/20260328_113945_com_hpr_inventory__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_114006_com_hpr_interaction_.log`
+- `doc/logs/package_validation/20260328_114014_com_hpr_interaction__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_114036_com_hpr_abilities_.log`
+- `doc/logs/package_validation/20260328_114045_com_hpr_abilities__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_114107_com_hpr_composition_com_hpr_eventbus_.log`
+- `doc/logs/package_validation/20260328_114129_com_hpr_eventbus_com_hpr_stats_.log`
+- `doc/logs/package_validation/20260328_114152_com_hpr_inventory_com_hpr_interaction_.log`
+- `doc/logs/package_validation/20260328_114214_com_hpr_eventbus_com_hpr_stats_com_hpr_abilities_.log`
+- `doc/logs/package_validation/20260328_114236_com_hpr_eventbus_com_hpr_composition_com_hpr_save_com_hpr_stats_com_hpr_inventory_com_hpr_interaction_com_hpr_abilities_.log`
 
 ### Full game validation logs
-- `doc/logs/20260327_195141_BuildLinux.log`
+- `doc/logs/20260328_114247_BuildLinux.log`
 - `/home/hans/.config/unity3d/DefaultCompany/fps_demo/Player.log`
 
 ## Current meaning of a pass

@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -7,6 +8,8 @@ public static class InteractionDemoSceneBuilder
 {
     private const string DemoFolder = "Packages/com.hpr.interaction/Demo";
     private const string ScenePath = DemoFolder + "/InteractionDemo.unity";
+    private const string TempSceneDirectory = "Assets/__GeneratedPackageDemos";
+    private const string TempScenePath = "Assets/__GeneratedPackageDemos/InteractionDemo.unity";
     private const string KeyItemPath = DemoFolder + "/DemoBronzeKey.asset";
     private const string MedkitItemPath = DemoFolder + "/DemoMedkit.asset";
 
@@ -17,6 +20,10 @@ public static class InteractionDemoSceneBuilder
         var medkitItem = EnsureItem(MedkitItemPath, "demo_medkit", "Demo Medkit", ItemType.Consumable, 25, new Color(0.7f, 0.15f, 0.15f));
 
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+
+        var eventRoot = new GameObject("EventBus");
+        eventRoot.AddComponent<EventManager>();
+        eventRoot.AddComponent<EventBusSourceAdapter>();
 
         var lightGo = new GameObject("Directional Light");
         var light = lightGo.AddComponent<Light>();
@@ -65,6 +72,7 @@ public static class InteractionDemoSceneBuilder
         var pickupSerialized = new SerializedObject(pickup.GetComponent<InventoryPickupInteractable>());
         pickupSerialized.FindProperty("itemData").objectReferenceValue = medkitItem;
         pickupSerialized.FindProperty("amount").intValue = 1;
+        pickupSerialized.FindProperty("eventBusSourceBehaviour").objectReferenceValue = eventRoot.GetComponent<EventBusSourceAdapter>();
         pickupSerialized.ApplyModifiedPropertiesWithoutUndo();
 
         var keyPickup = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
@@ -75,6 +83,7 @@ public static class InteractionDemoSceneBuilder
         var keyPickupSerialized = new SerializedObject(keyPickup.GetComponent<InventoryPickupInteractable>());
         keyPickupSerialized.FindProperty("itemData").objectReferenceValue = keyItem;
         keyPickupSerialized.FindProperty("amount").intValue = 1;
+        keyPickupSerialized.FindProperty("eventBusSourceBehaviour").objectReferenceValue = eventRoot.GetComponent<EventBusSourceAdapter>();
         keyPickupSerialized.ApplyModifiedPropertiesWithoutUndo();
 
         var doorPivot = new GameObject("Door");
@@ -101,13 +110,33 @@ public static class InteractionDemoSceneBuilder
         demoSerialized.FindProperty("actor").objectReferenceValue = actor;
         demoSerialized.FindProperty("sensor").objectReferenceValue = sensor;
         demoSerialized.FindProperty("actorCamera").objectReferenceValue = camera;
+        demoSerialized.FindProperty("medkitPickup").objectReferenceValue = pickup.GetComponent<InventoryPickupInteractable>();
+        demoSerialized.FindProperty("keyPickup").objectReferenceValue = keyPickup.GetComponent<InventoryPickupInteractable>();
+        demoSerialized.FindProperty("door").objectReferenceValue = door;
         var demoItems = demoSerialized.FindProperty("demoItems");
         demoItems.arraySize = 2;
         demoItems.GetArrayElementAtIndex(0).objectReferenceValue = keyItem;
         demoItems.GetArrayElementAtIndex(1).objectReferenceValue = medkitItem;
         demoSerialized.ApplyModifiedPropertiesWithoutUndo();
 
-        EditorSceneManager.SaveScene(scene, ScenePath);
+        Directory.CreateDirectory(Path.GetDirectoryName(TempScenePath) ?? "Assets");
+        EditorSceneManager.SaveScene(scene, TempScenePath);
+        AssetDatabase.Refresh();
+
+        var sourceAbsolutePath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", TempScenePath));
+        var targetAbsolutePath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", ScenePath));
+        Directory.CreateDirectory(Path.GetDirectoryName(targetAbsolutePath) ?? Path.GetFullPath(Path.Combine(Application.dataPath, "..")));
+        File.Copy(sourceAbsolutePath, targetAbsolutePath, true);
+
+        var sourceMetaPath = $"{sourceAbsolutePath}.meta";
+        var targetMetaPath = $"{targetAbsolutePath}.meta";
+        if (File.Exists(sourceMetaPath))
+        {
+            File.Copy(sourceMetaPath, targetMetaPath, true);
+        }
+
+        AssetDatabase.DeleteAsset(TempScenePath);
+        AssetDatabase.DeleteAsset(TempSceneDirectory);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
         Debug.Log($"Interaction demo scene written to {ScenePath}");

@@ -2,9 +2,6 @@
   "name": "HPR.Inventory.Editor",
   "rootNamespace": "",
   "references": [
-    "HPR.Foundation",
-    "HPR.Core.Runtime",
-    "HPR.Eventbus.Runtime",
     "HPR.Inventory.Runtime",
     "HPR.Inventory.Demo"
   ],

@@ -1,0 +1,16 @@
+{
+  "name": "HPR.Save.Demo",
+  "rootNamespace": "",
+  "references": [
+    "HPR.Save.Runtime"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

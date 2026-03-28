@@ -1,7 +1,7 @@
 # Handoff Guide
 
 ## Start here
-The repo is currently handed off from a release-candidate checkpoint.
+The repo is currently handed off from a verified release-candidate checkpoint.
 Read in this order:
 1. `doc/release-candidate-status.md`
 2. `doc/current-state.md`
@@ -13,6 +13,11 @@ Read in this order:
 ### Sale-ready packages
 - `com.hpr.eventbus`
 - `com.hpr.composition`
+- `com.hpr.save`
+- `com.hpr.stats`
+- `com.hpr.inventory`
+- `com.hpr.interaction`
+- `com.hpr.abilities`
 
 ### Not sale-ready yet
 Everything else under `unity/packages/com.hpr.*` remains internal.
@@ -27,11 +32,9 @@ unity/tools/release/validate_release_candidate.sh
 This is the command to rerun before any release, upload, or architectural checkpoint claim.
 
 ## Current code changes included in this handoff
-- standalone productized package set for:
-  - `com.hpr.eventbus`
-  - `com.hpr.composition`
+- standalone productized package set for the seven packages listed above
 - release audit tooling
-- dependency audit that now fails for forbidden references in the designated sellable set
+- dependency audit that fails for forbidden references in the designated sellable set
 - clean-project package validation with execute-method support
 - package-owned demo scenes and package validators
 - full-game build + smoke still green after the package split work
@@ -65,7 +68,6 @@ NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh
 ```
 
 ## Current open follow-up areas
-- remove remaining forbidden lookup patterns from internal packages
 - shrink `com.hpr.fpsdemo` further until it is only game-specific composition/content
-- decide the next package to productize only after it has a standalone demo, standalone validator, and clean-project proof
+- decide whether `com.hpr.weapons`, `com.hpr.ai`, `com.hpr.world`, or `com.hpr.input` becomes the next sellable package candidate
 - keep local art integration strictly local-only and out of sellable packages

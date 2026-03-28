@@ -2,8 +2,6 @@
   "name": "HPR.Stats.Editor",
   "rootNamespace": "",
   "references": [
-    "HPR.Foundation",
-    "HPR.Core.Runtime",
     "HPR.Eventbus.Runtime",
     "HPR.Stats.Runtime",
     "HPR.Stats.Demo"

@@ -102,8 +102,8 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
     private void Start()
     {
-        EventBus?.Subscribe<StatusMessageEvent>(HandleStatusMessageEvent);
-        EventBus?.Subscribe<HudInvalidatedEvent>(HandleHudInvalidatedEvent);
+        EventBus?.Subscribe<AbilityStatusEvent>(HandleAbilityStatusEvent);
+        EventBus?.Subscribe<AbilityStateChangedEvent>(HandleAbilityStateChangedEvent);
         if (autoStartRequested || smokeTestRequested)
         {
             BeginSession();
@@ -182,8 +182,8 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
 
     private void OnDestroy()
     {
-        EventBus?.Unsubscribe<StatusMessageEvent>(HandleStatusMessageEvent);
-        EventBus?.Unsubscribe<HudInvalidatedEvent>(HandleHudInvalidatedEvent);
+        EventBus?.Unsubscribe<AbilityStatusEvent>(HandleAbilityStatusEvent);
+        EventBus?.Unsubscribe<AbilityStateChangedEvent>(HandleAbilityStateChangedEvent);
         if (mapTexture != null)
         {
             mapTexture.Release();
@@ -926,7 +926,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         return true;
     }
 
-    private void HandleStatusMessageEvent(StatusMessageEvent gameEvent)
+    private void HandleAbilityStatusEvent(AbilityStatusEvent gameEvent)
     {
         if (gameEvent != null && !string.IsNullOrWhiteSpace(gameEvent.Message))
         {
@@ -934,7 +934,7 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         }
     }
 
-    private void HandleHudInvalidatedEvent(HudInvalidatedEvent gameEvent)
+    private void HandleAbilityStateChangedEvent(AbilityStateChangedEvent gameEvent)
     {
         RefreshHud();
     }

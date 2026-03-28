@@ -1,34 +1,60 @@
 # HPR Inventory
 
-Reusable item definitions and runtime inventory services for Unity projects.
+Reusable item definitions and stack-based runtime inventory service for Unity projects.
+
+## Audience
+Use this package when you want:
+- data-driven item definitions through `ItemData`
+- runtime inventory storage keyed by stable item ids
+- a simple inventory component that captures and restores quantities cleanly
 
 ## Included
-- `ItemData` ScriptableObject for item definitions
-- `ItemType` classification enum
-- `IInventoryService` runtime contract
-- `InventoryComponent` MonoBehaviour for item stack storage and save-friendly state capture
+- `ItemData`
+- `ItemType`
+- `ItemQuantitySaveData`
+- `IInventoryService`
+- `InventoryComponent`
+- `ItemPickedEvent`
 
 ## Dependencies
-- `com.hpr.save`
+- no local package dependencies
 
-## Setup
-1. Add the package to `Packages/manifest.json` or embed it locally.
-2. Reference `HPR.Inventory.Runtime` from any dependent asmdef.
+## Installation
+1. Add `com.hpr.inventory` to your Unity project.
+2. Reference `HPR.Inventory.Runtime` from dependent asmdefs.
 3. Create `ItemData` assets via `Assets > Create > HPR > Inventory > Item`.
-4. Add `InventoryComponent` or a derived component to a GameObject and assign known items.
+4. Add `InventoryComponent` or a derived component to the owning GameObject.
+
+## Quick start
+```csharp
+var inventory = actor.AddComponent<InventoryComponent>();
+inventory.ConfigureKnownItems(new[] { healthPotionItem, keyItem });
+inventory.AddItem(healthPotionItem, 1);
+
+bool hasPotion = inventory.HasItem(healthPotionItem.Id);
+int quantity = inventory.GetQuantity(healthPotionItem.Id);
+```
 
 ## API overview
-- `InventoryComponent.ConfigureKnownItems(...)` updates the catalog at runtime.
-- `AddItem`, `RemoveItem`, `HasItem`, and `GetQuantity` operate purely by item id and quantity.
-- `CaptureItemQuantities()` and `RestoreItemQuantities(...)` use `ItemQuantitySaveData` from `com.hpr.save`.
-
-## Extension points
-- Derive from `InventoryComponent` for project-specific HUD or tab rendering helpers.
-- Subscribe to `ItemAdded` and `ItemRemoved` to drive UI or quest logic.
-
-## Validation
-- Clean-project import validation is automated through `unity/tools/packages/validate_local_packages.sh com.hpr.inventory`.
+- `ConfigureKnownItems(...)` replaces the known item catalog and resets quantities
+- `AddItem`, `RemoveItem`, `HasItem`, and `GetQuantity` work purely by item id
+- `CaptureItemQuantities()` and `RestoreItemQuantities(...)` provide save-friendly data
+- `ItemAdded` and `ItemRemoved` events support UI, quest, or analytics listeners
 
 ## Demo
-- Demo scene: `Packages/com.hpr.inventory/Demo/InventoryDemo.unity`
-- Generate or refresh it with `HPR/Inventory/Build Demo Scene` or `InventoryDemoSceneBuilder.BuildDemoScene` in batch mode.
+- Scene: `Packages/com.hpr.inventory/Demo/InventoryDemo.unity`
+- Builder: `InventoryDemoSceneBuilder.BuildDemoScene`
+- Batch validator: `InventoryPackageValidator.ValidateInBatch`
+
+## Validation
+- clean-project import + demo validation:
+  - `EXECUTE_METHOD=InventoryPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.inventory`
+
+## Extension points
+- derive from `InventoryComponent` for project-specific grouping or presentation helpers
+- extend `ItemData` in your own project if you need extra metadata
+- publish or consume `ItemPickedEvent` from your own interaction layer
+
+## Limitations
+- this package does not include inventory UI widgets
+- slot-based equipment and crafting are intentionally out of scope

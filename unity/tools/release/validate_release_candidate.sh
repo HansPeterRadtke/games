@@ -13,6 +13,14 @@ for entry in config["sellable_packages"]:
 PY
 )
 
+mapfile -t package_combinations < <(python3 - <<'PY' "$config_path"
+import json, sys
+config = json.loads(open(sys.argv[1], encoding='utf-8').read())
+for combo in config.get("package_combinations", []):
+    print("|".join(combo))
+PY
+)
+
 run_as_hans() {
   if [[ "$(id -un)" == "hans" ]]; then
     "$@"
@@ -31,7 +39,10 @@ for entry in "${package_entries[@]}"; do
   run_as_hans env EXECUTE_METHOD="$execute_method" bash "$repo_root/unity/tools/packages/validate_local_packages.sh" "$package_name"
 done
 
-run_as_hans bash "$repo_root/unity/tools/packages/validate_local_packages.sh" com.hpr.composition com.hpr.eventbus
+for combo in "${package_combinations[@]}"; do
+  IFS='|' read -r -a combo_packages <<<"$combo"
+  run_as_hans bash "$repo_root/unity/tools/packages/validate_local_packages.sh" "${combo_packages[@]}"
+done
 run_as_hans bash "$repo_root/unity/tools/fps_demo/run_unity_batch.sh" SceneBootstrap.BuildLinux
 run_as_hans env NO_NOTICE=1 bash "$repo_root/unity/tools/fps_demo/smoke_test.sh"
 

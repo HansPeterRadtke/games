@@ -8,13 +8,45 @@ public class InventoryDemoController : MonoBehaviour
 
     private readonly List<string> entries = new();
 
-    private void Awake()
+    public void ValidateDemo()
     {
-        if (inventory == null)
+        if (inventory == null || demoItems.Count == 0)
         {
-            inventory = FindAnyObjectByType<InventoryComponent>();
+            throw new System.InvalidOperationException("Inventory demo is missing serialized references.");
         }
 
+        inventory.ConfigureKnownItems(demoItems);
+        ItemData firstItem = demoItems[0];
+        if (firstItem == null)
+        {
+            throw new System.InvalidOperationException("Inventory demo is missing the first item asset.");
+        }
+
+        int startingQuantity = inventory.GetQuantity(firstItem.Id);
+        if (!inventory.AddItem(firstItem, 1))
+        {
+            throw new System.InvalidOperationException("Inventory demo could not add the first item.");
+        }
+
+        if (inventory.GetQuantity(firstItem.Id) <= startingQuantity)
+        {
+            throw new System.InvalidOperationException("Inventory demo add path did not increase quantity.");
+        }
+
+        if (!inventory.RemoveItem(firstItem.Id, 1))
+        {
+            throw new System.InvalidOperationException("Inventory demo could not remove the first item.");
+        }
+
+        inventory.ResetInventory();
+        if (inventory.GetQuantity(firstItem.Id) != firstItem.StartingPlayerQuantity)
+        {
+            throw new System.InvalidOperationException("Inventory demo reset did not restore starting quantities.");
+        }
+    }
+
+    private void Awake()
+    {
         if (inventory == null)
         {
             return;

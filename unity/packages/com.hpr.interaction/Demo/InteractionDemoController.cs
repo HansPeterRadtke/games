@@ -6,6 +6,9 @@ public class InteractionDemoController : MonoBehaviour
     [SerializeField] private SimpleInteractionActor actor;
     [SerializeField] private InteractionSensor sensor;
     [SerializeField] private Camera actorCamera;
+    [SerializeField] private InventoryPickupInteractable medkitPickup;
+    [SerializeField] private InventoryPickupInteractable keyPickup;
+    [SerializeField] private KeyDoorInteractable door;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private List<ItemData> demoItems = new();
 
@@ -13,16 +16,6 @@ public class InteractionDemoController : MonoBehaviour
 
     private void Awake()
     {
-        if (actor == null)
-        {
-            actor = FindAnyObjectByType<SimpleInteractionActor>();
-        }
-
-        if (sensor == null)
-        {
-            sensor = FindAnyObjectByType<InteractionSensor>();
-        }
-
         if (actorCamera == null)
         {
             actorCamera = Camera.main;
@@ -41,6 +34,43 @@ public class InteractionDemoController : MonoBehaviour
 
         logEntries.Clear();
         logEntries.Add("Move with WASD. Press E to interact.");
+    }
+
+    public void ValidateDemo()
+    {
+        if (actor?.InventoryService is not InventoryComponent inventory || medkitPickup == null || keyPickup == null || door == null || demoItems.Count < 2)
+        {
+            throw new System.InvalidOperationException("Interaction demo is missing serialized references.");
+        }
+
+        inventory.ConfigureKnownItems(demoItems);
+        ItemData keyItem = demoItems[0];
+        ItemData medkitItem = demoItems[1];
+
+        medkitPickup.Interact(actor);
+        if (!inventory.HasItem(medkitItem.Id))
+        {
+            throw new System.InvalidOperationException("Interaction demo medkit pickup did not reach the inventory.");
+        }
+
+        bool openedWithoutKey = door.IsOpen;
+        door.Interact(actor);
+        if (door.IsOpen != openedWithoutKey)
+        {
+            throw new System.InvalidOperationException("Interaction demo door opened without the required key.");
+        }
+
+        keyPickup.Interact(actor);
+        if (!inventory.HasItem(keyItem.Id))
+        {
+            throw new System.InvalidOperationException("Interaction demo key pickup did not reach the inventory.");
+        }
+
+        door.Interact(actor);
+        if (!door.IsOpen)
+        {
+            throw new System.InvalidOperationException("Interaction demo door did not open after the key was collected.");
+        }
     }
 
     private void OnDestroy()

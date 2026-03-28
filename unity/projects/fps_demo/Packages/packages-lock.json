@@ -5,7 +5,6 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.core": "0.1.0",
         "com.hpr.eventbus": "0.1.0",
         "com.hpr.stats": "0.1.0"
       }
@@ -63,7 +62,6 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.core": "0.1.0",
         "com.hpr.eventbus": "0.1.0",
         "com.hpr.foundation": "0.1.0",
         "com.hpr.composition": "0.1.0",
@@ -92,8 +90,6 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.foundation": "0.1.0",
-        "com.hpr.core": "0.1.0",
         "com.hpr.eventbus": "0.1.0",
         "com.hpr.inventory": "0.1.0"
       }
@@ -102,24 +98,19 @@
       "version": "file:com.hpr.inventory",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {
-        "com.hpr.save": "0.1.0"
-      }
+      "dependencies": {}
     },
     "com.hpr.save": {
       "version": "file:com.hpr.save",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {
-        "com.hpr.foundation": "0.1.0"
-      }
+      "dependencies": {}
     },
     "com.hpr.stats": {
       "version": "file:com.hpr.stats",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.hpr.core": "0.1.0",
         "com.hpr.eventbus": "0.1.0"
       }
     },

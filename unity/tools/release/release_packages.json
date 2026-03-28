@@ -17,13 +17,69 @@
         "Editor/CompositionDemoSceneBuilder.cs",
         "Editor/CompositionPackageValidator.cs"
       ]
+    },
+    {
+      "name": "com.hpr.save",
+      "execute_method": "SavePackageValidator.ValidateInBatch",
+      "required_paths": [
+        "Demo/SaveDemo.unity",
+        "Editor/SaveDemoSceneBuilder.cs",
+        "Editor/SavePackageValidator.cs"
+      ]
+    },
+    {
+      "name": "com.hpr.stats",
+      "execute_method": "StatsPackageValidator.ValidateInBatch",
+      "required_paths": [
+        "Demo/StatsDemo.unity",
+        "Editor/StatsDemoSceneBuilder.cs",
+        "Editor/StatsPackageValidator.cs"
+      ]
+    },
+    {
+      "name": "com.hpr.inventory",
+      "execute_method": "InventoryPackageValidator.ValidateInBatch",
+      "required_paths": [
+        "Demo/InventoryDemo.unity",
+        "Editor/InventoryDemoSceneBuilder.cs",
+        "Editor/InventoryPackageValidator.cs"
+      ]
+    },
+    {
+      "name": "com.hpr.interaction",
+      "execute_method": "InteractionPackageValidator.ValidateInBatch",
+      "required_paths": [
+        "Demo/InteractionDemo.unity",
+        "Editor/InteractionDemoSceneBuilder.cs",
+        "Editor/InteractionPackageValidator.cs"
+      ]
+    },
+    {
+      "name": "com.hpr.abilities",
+      "execute_method": "AbilitiesPackageValidator.ValidateInBatch",
+      "required_paths": [
+        "Demo/AbilitiesDemo.unity",
+        "Editor/AbilitiesDemoSceneBuilder.cs",
+        "Editor/AbilitiesPackageValidator.cs"
+      ]
     }
+  ],
+  "package_combinations": [
+    ["com.hpr.composition", "com.hpr.eventbus"],
+    ["com.hpr.eventbus", "com.hpr.stats"],
+    ["com.hpr.inventory", "com.hpr.interaction"],
+    ["com.hpr.eventbus", "com.hpr.stats", "com.hpr.abilities"],
+    ["com.hpr.eventbus", "com.hpr.composition", "com.hpr.save", "com.hpr.stats", "com.hpr.inventory", "com.hpr.interaction", "com.hpr.abilities"]
   ],
   "forbidden_patterns": {
     "GameManager reference": "GameManager",
     "SceneBootstrap reference": "SceneBootstrap",
     "Direct scene search": "FindAnyObjectByType",
+    "Legacy direct scene search": "FindObjectOfType",
+    "Legacy first scene search": "FindFirstObjectByType",
     "Parent MonoBehaviour lookup": "GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault",
+    "Project package reference": "com.hpr.fpsdemo",
+    "Project package path": "Packages/com.hpr.fpsdemo",
     "Hardcoded local path": "/data/",
     "Embedded local file dependency": "file:../"
   },
@@ -42,6 +98,7 @@
     ".unity",
     ".md",
     ".json",
+    ".asset",
     ".meta",
     ".txt",
     ".gitignore"

@@ -1,36 +1,64 @@
 # HPR Abilities
 
-Data-driven ability activation for Unity projects.
+Data-driven active abilities with cooldowns, costs, unlock gating, and event publication.
+
+## Audience
+Use this package when you want:
+- authored `AbilityData` and `AbilityEffectData` assets
+- an ability runner that activates abilities by id or unlocked slot order
+- event-driven ability usage that integrates with an external HUD or analytics layer
 
 ## Included
-- `AbilityData` and `AbilityEffectData` ScriptableObjects
-- `AbilityRunnerComponent` with cooldowns, costs, unlock gating, and event publication
-- `IAbilityResourcePool` and `IAbilityLoadout` interfaces for integration
-- standalone demo scene and scene builder
+- `AbilityData`
+- `AbilityEffectData`
+- `AbilityRunnerComponent`
+- `IAbilityResourcePool`
+- `IAbilityLoadout`
+- `AbilityUsedEvent`
+- `AbilityEffectAppliedEvent`
+- `AbilityStatusEvent`
+- `AbilityStateChangedEvent`
 
 ## Dependencies
 - `com.hpr.eventbus`
 - `com.hpr.stats`
 
-## Setup
-1. Add the package to `Packages/manifest.json`.
+## Installation
+1. Add `com.hpr.abilities`, `com.hpr.eventbus`, and `com.hpr.stats` to your project.
 2. Reference `HPR.Abilities.Runtime` from dependent asmdefs.
 3. Create `AbilityEffectData` and `AbilityData` assets.
 4. Add `AbilityRunnerComponent` to an actor.
-5. Bind an `IAbilityResourcePool` implementation and an `IEventBusSource`.
+5. Bind an `IAbilityResourcePool` and an explicit `IEventBusSource`.
+
+## Quick start
+```csharp
+runner.ConfigureAbilities(new[] { repairPulse, shockPulse });
+runner.SetUnlockedAbilityIds(new[] { repairPulse.Id, shockPulse.Id });
+runner.BindRuntimeServices(eventBusSourceAdapter, abilityResourcePool);
+
+runner.TryActivate(repairPulse.Id);
+```
 
 ## API overview
-- `ConfigureAbilities(...)` updates the catalog at runtime.
-- `SetUnlockedAbilityIds(...)` controls which configured abilities are available.
-- `TryActivate(string abilityId)` and `TryActivateBySlot(int slotIndex)` trigger abilities.
-- `BuildEntries()` and `BuildHudSummary(...)` expose UI-friendly state.
+- `ConfigureAbilities(...)` updates the authored ability catalog
+- `SetUnlockedAbilityIds(...)` controls which abilities are available at runtime
+- `TryActivate(...)` and `TryActivateBySlot(...)` trigger abilities and publish events
+- `BuildEntries()` and `BuildHudSummary(...)` expose UI-friendly snapshots of runtime state
 
-## Extension points
-- Add new effect types in `AbilityEffectType` and handle them in `AbilityRunnerComponent`.
-- Subscribe to `AbilityUsedEvent` or `AbilityEffectAppliedEvent` for UI, analytics, or quests.
-- Implement `IAbilityResourcePool` on custom actors or bridges.
+## Demo
+- Scene: `Packages/com.hpr.abilities/Demo/AbilitiesDemo.unity`
+- Builder: `AbilitiesDemoSceneBuilder.BuildDemoScene`
+- Batch validator: `AbilitiesPackageValidator.ValidateInBatch`
 
 ## Validation
-- Clean-project import validation: `unity/tools/packages/validate_local_packages.sh com.hpr.abilities`
-- Demo scene: `Packages/com.hpr.abilities/Demo/AbilitiesDemo.unity`
-- Rebuild demo scene: `HPR/Abilities/Build Demo Scene`
+- clean-project import + demo validation:
+  - `EXECUTE_METHOD=AbilitiesPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.abilities`
+
+## Extension points
+- add new effect types through `AbilityEffectType` and `AbilityRunnerComponent`
+- subscribe to ability events for UI, telemetry, quests, or combat logs
+- implement `IAbilityResourcePool` on custom actors or wrappers around existing stat systems
+
+## Limitations
+- the included runner supports heal, stamina restore, and area-damage effects only
+- ability targeting UI and input bindings belong in the consuming project

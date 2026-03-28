@@ -1,0 +1,19 @@
+{
+  "name": "HPR.Save.Editor",
+  "rootNamespace": "",
+  "references": [
+    "HPR.Save.Runtime",
+    "HPR.Save.Demo"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

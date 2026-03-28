@@ -1,9 +1,7 @@
 {
   "name": "HPR.Inventory.Runtime",
   "rootNamespace": "",
-  "references": [
-    "HPR.Save.Runtime"
-  ],
+  "references": [],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

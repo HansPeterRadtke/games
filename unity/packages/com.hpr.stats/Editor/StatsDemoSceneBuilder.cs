@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine;
 public static class StatsDemoSceneBuilder
 {
     private const string ScenePath = "Packages/com.hpr.stats/Demo/StatsDemo.unity";
+    private const string TempSceneDirectory = "Assets/__GeneratedPackageDemos";
+    private const string TempScenePath = "Assets/__GeneratedPackageDemos/StatsDemo.unity";
 
     [MenuItem("HPR/Stats/Build Demo Scene")]
     public static void BuildDemoScene()
@@ -19,7 +22,10 @@ public static class StatsDemoSceneBuilder
         var target = new GameObject("StatsTarget");
         target.transform.SetParent(root.transform);
         target.transform.position = Vector3.zero;
-        target.AddComponent<ActorStatsComponent>();
+        var stats = target.AddComponent<ActorStatsComponent>();
+        var statsSerialized = new SerializedObject(stats);
+        statsSerialized.FindProperty("eventBusSourceBehaviour").objectReferenceValue = root.GetComponent<EventBusSourceAdapter>();
+        statsSerialized.ApplyModifiedPropertiesWithoutUndo();
 
         var camera = new GameObject("Main Camera");
         camera.tag = "MainCamera";
@@ -33,7 +39,24 @@ public static class StatsDemoSceneBuilder
         so.FindProperty("eventManager").objectReferenceValue = root.GetComponent<EventManager>();
         so.ApplyModifiedPropertiesWithoutUndo();
 
-        EditorSceneManager.SaveScene(scene, ScenePath);
+        Directory.CreateDirectory(Path.GetDirectoryName(TempScenePath) ?? "Assets");
+        EditorSceneManager.SaveScene(scene, TempScenePath);
+        AssetDatabase.Refresh();
+
+        var sourceAbsolutePath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", TempScenePath));
+        var targetAbsolutePath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", ScenePath));
+        Directory.CreateDirectory(Path.GetDirectoryName(targetAbsolutePath) ?? Path.GetFullPath(Path.Combine(Application.dataPath, "..")));
+        File.Copy(sourceAbsolutePath, targetAbsolutePath, true);
+
+        var sourceMetaPath = $"{sourceAbsolutePath}.meta";
+        var targetMetaPath = $"{targetAbsolutePath}.meta";
+        if (File.Exists(sourceMetaPath))
+        {
+            File.Copy(sourceMetaPath, targetMetaPath, true);
+        }
+
+        AssetDatabase.DeleteAsset(TempScenePath);
+        AssetDatabase.DeleteAsset(TempSceneDirectory);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
         Debug.Log($"Stats demo scene written to {ScenePath}");

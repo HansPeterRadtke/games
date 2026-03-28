@@ -10,6 +10,45 @@ public class StatsDemoController : MonoBehaviour
     private const float StaminaSpendAmount = 15f;
     private const float StaminaRecoverAmount = 12f;
 
+    public void ValidateDemo()
+    {
+        if (targetStats == null || eventManager == null)
+        {
+            throw new System.InvalidOperationException("Stats demo is missing serialized references.");
+        }
+
+        targetStats.ResetStats();
+        float startingHealth = targetStats.Health;
+        float startingStamina = targetStats.Stamina;
+
+        eventManager.Publish(new DamageEvent
+        {
+            TargetRoot = targetStats.gameObject,
+            Amount = DamageAmount,
+            HitPoint = targetStats.transform.position,
+            HitDirection = Vector3.forward
+        });
+        targetStats.Heal(HealAmount);
+        bool spentStamina = targetStats.ConsumeStamina(StaminaSpendAmount);
+        targetStats.RegenerateStamina(StaminaRecoverAmount);
+
+        if (targetStats.Health < startingHealth)
+        {
+            throw new System.InvalidOperationException("Stats demo heal path did not recover health.");
+        }
+
+        if (!spentStamina || targetStats.Stamina <= 0f || targetStats.Stamina > targetStats.MaxStamina)
+        {
+            throw new System.InvalidOperationException("Stats demo stamina flow is invalid.");
+        }
+
+        targetStats.ResetStats();
+        if (Mathf.Abs(targetStats.Health - targetStats.MaxHealth) > 0.01f || Mathf.Abs(targetStats.Stamina - targetStats.MaxStamina) > 0.01f)
+        {
+            throw new System.InvalidOperationException("Stats demo reset did not restore full vitals.");
+        }
+    }
+
     private void OnGUI()
     {
         if (targetStats == null || eventManager == null)

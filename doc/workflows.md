@@ -13,13 +13,18 @@ What it does:
 - runs dependency audit
 - runs headless validation
 - validates clean-project import + demo execution for each sale-ready package
-- validates clean-project import for the sale-ready package combination
+- validates clean-project import for the sale-ready package combinations
 - rebuilds the main game
 - runs the main-game smoke test
 
 Current sale-ready package set:
 - `com.hpr.eventbus`
 - `com.hpr.composition`
+- `com.hpr.save`
+- `com.hpr.stats`
+- `com.hpr.inventory`
+- `com.hpr.interaction`
+- `com.hpr.abilities`
 
 ## 2. Build the Linux player directly
 Run as `hans`:
@@ -70,7 +75,11 @@ Use:
 cd /data/src/github/games
 unity/tools/packages/validate_local_packages.sh com.hpr.eventbus
 unity/tools/packages/validate_local_packages.sh com.hpr.composition
-unity/tools/packages/validate_local_packages.sh com.hpr.composition com.hpr.eventbus
+unity/tools/packages/validate_local_packages.sh com.hpr.save
+unity/tools/packages/validate_local_packages.sh com.hpr.stats
+unity/tools/packages/validate_local_packages.sh com.hpr.inventory
+unity/tools/packages/validate_local_packages.sh com.hpr.interaction
+unity/tools/packages/validate_local_packages.sh com.hpr.abilities
 ```
 
 To execute a package-owned validator inside the clean temp project:
@@ -79,6 +88,22 @@ To execute a package-owned validator inside the clean temp project:
 cd /data/src/github/games
 EXECUTE_METHOD=EventBusPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.eventbus
 EXECUTE_METHOD=CompositionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.composition
+EXECUTE_METHOD=SavePackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.save
+EXECUTE_METHOD=StatsPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.stats
+EXECUTE_METHOD=InventoryPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.inventory
+EXECUTE_METHOD=InteractionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.interaction
+EXECUTE_METHOD=AbilitiesPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.abilities
+```
+
+Representative package combination validations:
+
+```bash
+cd /data/src/github/games
+unity/tools/packages/validate_local_packages.sh com.hpr.composition com.hpr.eventbus
+unity/tools/packages/validate_local_packages.sh com.hpr.eventbus com.hpr.stats
+unity/tools/packages/validate_local_packages.sh com.hpr.inventory com.hpr.interaction
+unity/tools/packages/validate_local_packages.sh com.hpr.eventbus com.hpr.stats com.hpr.abilities
+unity/tools/packages/validate_local_packages.sh com.hpr.eventbus com.hpr.composition com.hpr.save com.hpr.stats com.hpr.inventory com.hpr.interaction com.hpr.abilities
 ```
 
 ## 5. Headless non-Unity validation
@@ -89,7 +114,7 @@ cd /data/src/github/games
 unity/tools/architecture/run_phase1_headless_validation.sh
 ```
 
-This proves the current standalone composition + eventbus core still works outside Unity scene bootstrapping.
+This proves the standalone composition + eventbus core still works outside Unity scene bootstrapping.
 
 ## 6. Focus-sensitive visible tests
 Use:
@@ -112,6 +137,8 @@ Optional output path:
 ```bash
 unity/tools/common/zip_tracked_repo.sh /data/src/github/games /tmp/games_tracked.zip
 ```
+
+You can also pass a tracked subfolder instead of the repo root.
 
 ## 8. Temp-project workflow for Unity lock issues
 If the main project gets stuck in a bad batch/lock state, the fallback workflow is:

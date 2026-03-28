@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -7,6 +8,8 @@ public static class InventoryDemoSceneBuilder
 {
     private const string DemoFolder = "Packages/com.hpr.inventory/Demo";
     private const string ScenePath = DemoFolder + "/InventoryDemo.unity";
+    private const string TempSceneDirectory = "Assets/__GeneratedPackageDemos";
+    private const string TempScenePath = "Assets/__GeneratedPackageDemos/InventoryDemo.unity";
     private const string PotionPath = DemoFolder + "/HealthPotion.asset";
     private const string AmmoPath = DemoFolder + "/RifleAmmo.asset";
     private const string KeyPath = DemoFolder + "/SilverKey.asset";
@@ -51,7 +54,24 @@ public static class InventoryDemoSceneBuilder
         demoItems.GetArrayElementAtIndex(2).objectReferenceValue = key;
         controllerSerialized.ApplyModifiedPropertiesWithoutUndo();
 
-        EditorSceneManager.SaveScene(scene, ScenePath);
+        Directory.CreateDirectory(Path.GetDirectoryName(TempScenePath) ?? "Assets");
+        EditorSceneManager.SaveScene(scene, TempScenePath);
+        AssetDatabase.Refresh();
+
+        var sourceAbsolutePath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", TempScenePath));
+        var targetAbsolutePath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", ScenePath));
+        Directory.CreateDirectory(Path.GetDirectoryName(targetAbsolutePath) ?? Path.GetFullPath(Path.Combine(Application.dataPath, "..")));
+        File.Copy(sourceAbsolutePath, targetAbsolutePath, true);
+
+        var sourceMetaPath = $"{sourceAbsolutePath}.meta";
+        var targetMetaPath = $"{targetAbsolutePath}.meta";
+        if (File.Exists(sourceMetaPath))
+        {
+            File.Copy(sourceMetaPath, targetMetaPath, true);
+        }
+
+        AssetDatabase.DeleteAsset(TempScenePath);
+        AssetDatabase.DeleteAsset(TempSceneDirectory);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
         Debug.Log($"Inventory demo scene written to {ScenePath}");
