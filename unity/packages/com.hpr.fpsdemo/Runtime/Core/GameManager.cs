@@ -1027,24 +1027,6 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
         yield return new WaitForSecondsRealtime(0.1f);
         stateValidator?.ValidatePlayerDamage(player.StatsComponent, previousHealth);
 
-        stateValidator?.ResetCounters();
-        player.WeaponSystemComponent.SelectSlot(1);
-        int previousAmmo = player.WeaponSystemComponent.CurrentState != null ? player.WeaponSystemComponent.CurrentState.MagazineAmmo : 0;
-        player.WeaponSystemComponent.TriggerCurrent(player);
-        yield return new WaitForSecondsRealtime(0.2f);
-        if (player.WeaponSystemComponent.CurrentState != null)
-        {
-            stateValidator?.ValidateWeaponFire(player.WeaponSystemComponent.CurrentState, previousAmmo);
-        }
-
-        player.WeaponSystemComponent.SelectSlot(2);
-        player.WeaponSystemComponent.TriggerCurrent(player);
-        yield return new WaitForSecondsRealtime(0.2f);
-
-        player.WeaponSystemComponent.SelectSlot(3);
-        player.WeaponSystemComponent.TriggerCurrent(player);
-        yield return new WaitForSecondsRealtime(0.2f);
-
         ToggleInventory();
         yield return new WaitForSecondsRealtime(0.2f);
         uiController.SelectInventoryTab(InventoryTab.Keys);
@@ -1189,6 +1171,24 @@ public class GameManager : MonoBehaviour, IInputBindingsSource, IOptionsControll
             stateValidator?.ValidateQuestCompletion(questManager, "quest_supply_recovery");
             stateValidator?.ValidateInventoryQuantityIncrease(player.InventoryComponent, "item_armor_patch", armorPatchBeforeReward);
         }
+
+        stateValidator?.ResetCounters();
+        player.WeaponSystemComponent.SelectSlot(1);
+        int previousAmmo = player.WeaponSystemComponent.CurrentState != null ? player.WeaponSystemComponent.CurrentState.MagazineAmmo : 0;
+        player.WeaponSystemComponent.TriggerCurrent(player);
+        yield return new WaitForSecondsRealtime(0.2f);
+        if (player.WeaponSystemComponent.CurrentState != null)
+        {
+            stateValidator?.ValidateWeaponFire(player.WeaponSystemComponent.CurrentState, previousAmmo);
+        }
+
+        player.WeaponSystemComponent.SelectSlot(2);
+        player.WeaponSystemComponent.TriggerCurrent(player);
+        yield return new WaitForSecondsRealtime(0.2f);
+
+        player.WeaponSystemComponent.SelectSlot(3);
+        player.WeaponSystemComponent.TriggerCurrent(player);
+        yield return new WaitForSecondsRealtime(0.2f);
 
         ToggleSkills();
         yield return new WaitForSecondsRealtime(0.15f);

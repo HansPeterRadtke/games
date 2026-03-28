@@ -19,6 +19,10 @@ Use this package when you want:
 - `AbilityStatusEvent`
 - `AbilityStateChangedEvent`
 
+## Unity version
+- tested with Unity `6000.4` (`6000.4.0f1`)
+- intended minimum Unity editor version: `6000.4`
+
 ## Dependencies
 - `com.hpr.eventbus`
 - `com.hpr.stats`
@@ -51,7 +55,9 @@ runner.TryActivate(repairPulse.Id);
 - Batch validator: `AbilitiesPackageValidator.ValidateInBatch`
 
 ## Validation
-- clean-project import + demo validation:
+- Unity batch mode:
+  - `Unity -batchmode -projectPath <your-project> -executeMethod AbilitiesPackageValidator.ValidateInBatch -quit`
+- repository helper (used inside this repo):
   - `EXECUTE_METHOD=AbilitiesPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.abilities`
 
 ## Extension points

@@ -1,0 +1,16 @@
+{
+  "name": "HPR.Ai.Demo",
+  "rootNamespace": "",
+  "references": [
+    "HPR.Ai.Runtime"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

@@ -18,6 +18,10 @@ Use this package when you want:
 - `ServiceRegistry`
 - `CompositionRoot`
 
+## Unity version
+- tested with Unity `6000.4` (`6000.4.0f1`)
+- intended minimum Unity editor version: `6000.4`
+
 ## Dependencies
 - no local package dependencies
 - Unity only for the package demo scene; the runtime itself is plain C#
@@ -52,9 +56,9 @@ root.Dispose();
 - Batch validator: `CompositionPackageValidator.ValidateInBatch`
 
 ## Validation
-- headless composition validation:
-  - `unity/tools/architecture/run_phase1_headless_validation.sh`
-- clean-project import + demo validation:
+- Unity batch mode:
+  - `Unity -batchmode -projectPath <your-project> -executeMethod CompositionPackageValidator.ValidateInBatch -quit`
+- repository helper (used inside this repo):
   - `EXECUTE_METHOD=CompositionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.composition`
 
 ## Extension points

@@ -62,6 +62,33 @@
         "Editor/AbilitiesDemoSceneBuilder.cs",
         "Editor/AbilitiesPackageValidator.cs"
       ]
+    },
+    {
+      "name": "com.hpr.weapons",
+      "execute_method": "WeaponsPackageValidator.ValidateInBatch",
+      "required_paths": [
+        "Demo/WeaponsDemo.unity",
+        "Editor/WeaponsDemoSceneBuilder.cs",
+        "Editor/WeaponsPackageValidator.cs"
+      ]
+    },
+    {
+      "name": "com.hpr.ai",
+      "execute_method": "AiPackageValidator.ValidateInBatch",
+      "required_paths": [
+        "Demo/AiDemo.unity",
+        "Editor/AiDemoSceneBuilder.cs",
+        "Editor/AiPackageValidator.cs"
+      ]
+    },
+    {
+      "name": "com.hpr.world",
+      "execute_method": "WorldPackageValidator.ValidateInBatch",
+      "required_paths": [
+        "Demo/WorldDemo.unity",
+        "Editor/WorldDemoSceneBuilder.cs",
+        "Editor/WorldPackageValidator.cs"
+      ]
     }
   ],
   "package_combinations": [
@@ -69,7 +96,8 @@
     ["com.hpr.eventbus", "com.hpr.stats"],
     ["com.hpr.inventory", "com.hpr.interaction"],
     ["com.hpr.eventbus", "com.hpr.stats", "com.hpr.abilities"],
-    ["com.hpr.eventbus", "com.hpr.composition", "com.hpr.save", "com.hpr.stats", "com.hpr.inventory", "com.hpr.interaction", "com.hpr.abilities"]
+    ["com.hpr.weapons", "com.hpr.ai", "com.hpr.world"],
+    ["com.hpr.eventbus", "com.hpr.composition", "com.hpr.save", "com.hpr.stats", "com.hpr.inventory", "com.hpr.interaction", "com.hpr.abilities", "com.hpr.weapons", "com.hpr.ai", "com.hpr.world"]
   ],
   "forbidden_patterns": {
     "GameManager reference": "GameManager",

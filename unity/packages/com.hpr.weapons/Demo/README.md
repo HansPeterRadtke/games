@@ -1,3 +1,7 @@
 # HPR Weapons Demo
 
-Standalone demo scene and assets for com.hpr.weapons.
+This demo scene shows authored `WeaponData` assets driving a simple static preview setup.
+
+- Scene: `WeaponsDemo.unity`
+- Builder: `WeaponsDemoSceneBuilder.BuildDemoScene`
+- Validator: `WeaponsPackageValidator.ValidateInBatch`

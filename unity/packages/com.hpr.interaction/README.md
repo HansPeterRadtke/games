@@ -16,6 +16,10 @@ Use this package when you want:
 - `KeyDoorInteractable`
 - `SimpleInteractionActor`
 
+## Unity version
+- tested with Unity `6000.4` (`6000.4.0f1`)
+- intended minimum Unity editor version: `6000.4`
+
 ## Dependencies
 - `com.hpr.eventbus`
 - `com.hpr.inventory`
@@ -51,7 +55,9 @@ if (sensor.TryInteract(actor))
 - Batch validator: `InteractionPackageValidator.ValidateInBatch`
 
 ## Validation
-- clean-project import + demo validation:
+- Unity batch mode:
+  - `Unity -batchmode -projectPath <your-project> -executeMethod InteractionPackageValidator.ValidateInBatch -quit`
+- repository helper (used inside this repo):
   - `EXECUTE_METHOD=InteractionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.interaction`
 
 ## Extension points

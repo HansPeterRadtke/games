@@ -30,6 +30,7 @@ def main():
     sellable_names = {entry["name"] for entry in config["sellable_packages"]}
     required_manifest_keys = ("name", "displayName", "version", "unity", "description", "author")
     required_readme_sections = (
+        "## Unity version",
         "## Installation",
         "## Quick start",
         "## API overview",
@@ -84,6 +85,12 @@ def main():
             lines.append(f"- README missing sections: {', '.join(missing_readme_sections)}")
         else:
             lines.append("- README contains required external-user sections")
+
+        if "-executeMethod" not in readme_text:
+            failures.append(f"{name}: README missing generic Unity batch validation command")
+            lines.append("- README missing generic Unity batch validation command")
+        else:
+            lines.append("- README contains a generic Unity batch validation command")
 
         illegal_files = []
         forbidden_hits = []

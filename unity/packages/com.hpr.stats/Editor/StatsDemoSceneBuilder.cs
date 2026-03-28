@@ -50,9 +50,9 @@ public static class StatsDemoSceneBuilder
 
         var sourceMetaPath = $"{sourceAbsolutePath}.meta";
         var targetMetaPath = $"{targetAbsolutePath}.meta";
-        if (File.Exists(sourceMetaPath))
+        if (!File.Exists(targetMetaPath) && File.Exists(sourceMetaPath))
         {
-            File.Copy(sourceMetaPath, targetMetaPath, true);
+            File.Copy(sourceMetaPath, targetMetaPath, false);
         }
 
         AssetDatabase.DeleteAsset(TempScenePath);

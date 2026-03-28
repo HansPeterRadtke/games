@@ -1,7 +1,7 @@
 # Release-Candidate Package Status
 
-## Sellable package set
-This checkpoint designates these packages as the first external release set:
+## Selected first-release package set
+The first external release candidate is:
 - `com.hpr.eventbus`
 - `com.hpr.composition`
 - `com.hpr.save`
@@ -9,102 +9,68 @@ This checkpoint designates these packages as the first external release set:
 - `com.hpr.inventory`
 - `com.hpr.interaction`
 - `com.hpr.abilities`
+- `com.hpr.weapons`
+- `com.hpr.ai`
+- `com.hpr.world`
 
-## Why these packages qualify
-### `com.hpr.eventbus`
-- standalone runtime API
-- standalone package demo scene
-- standalone package validator
-- clean-project import proof exists
-- no forbidden architecture references in release audit
-- no third-party distributable art/content included
+## Why this is the strongest realistic first release from the current repo
+This set is stronger than the earlier infrastructure-only release set because these packages now meet the same product bar:
+- package metadata is complete
+- package-owned demo content exists
+- package-owned batch validators exist
+- clean-project import validation exists
+- release audit covers them
+- dependency audit covers them
+- no selected package depends on `com.hpr.fpsdemo`, `GameManager`, `SceneBootstrap`, or local-only art content
 
-### `com.hpr.composition`
-- standalone runtime API
-- standalone package demo scene
-- standalone package validator
-- clean-project import proof exists
-- no forbidden architecture references in release audit
-- no third-party distributable art/content included
-
-### `com.hpr.save`
-- standalone save-data/runtime contracts
-- standalone package demo scene
-- standalone package validator
-- clean-project import proof exists
-- no forbidden architecture references in release audit
-- no third-party distributable art/content included
-
-### `com.hpr.stats`
-- standalone health/stamina runtime
-- standalone package demo scene
-- standalone package validator
-- clean-project import proof exists
-- no forbidden architecture references in release audit
-- no third-party distributable art/content included
-
-### `com.hpr.inventory`
-- standalone item/inventory runtime
-- standalone package demo scene and authored demo item assets
-- standalone package validator
-- clean-project import proof exists
-- no forbidden architecture references in release audit
-- no third-party distributable art/content included
-
-### `com.hpr.interaction`
-- standalone interaction runtime over explicit interfaces
-- standalone package demo scene
-- standalone package validator
-- clean-project import proof exists
-- no forbidden architecture references in release audit
-- no third-party distributable art/content included
-
-### `com.hpr.abilities`
-- standalone ability runtime over explicit eventbus/stats dependencies
-- standalone package demo scene and authored demo data assets
-- standalone package validator
-- clean-project import proof exists
-- no forbidden architecture references in release audit
-- no third-party distributable art/content included
-
-## Legal cleanliness statement for this release candidate
-Included in the designated sellable packages:
-- original authored C# code
-- Unity-authored scene metadata generated for package demo scenes
-- package-owned demo ScriptableObject assets we authored
-- package metadata and documentation we authored
-
-Explicitly not included in sellable packages:
-- imported Asset Store art
-- third-party models, textures, animations, sounds, fonts, or icons
-- local machine paths as functional dependencies
-
-See also:
-- `doc/release-audit.md`
-- `unity/packages/com.hpr.eventbus/ThirdPartyNotices.md`
-- `unity/packages/com.hpr.composition/ThirdPartyNotices.md`
-- `unity/packages/com.hpr.save/ThirdPartyNotices.md`
-- `unity/packages/com.hpr.stats/ThirdPartyNotices.md`
-- `unity/packages/com.hpr.inventory/ThirdPartyNotices.md`
-- `unity/packages/com.hpr.interaction/ThirdPartyNotices.md`
-- `unity/packages/com.hpr.abilities/ThirdPartyNotices.md`
-
-## Validation entrypoint
-- `unity/tools/release/validate_release_candidate.sh`
-
-## Latest successful proof artifacts
+## Fresh proof for this release candidate
+### Audits
 - `doc/release-audit.md`
 - `doc/dependency-audit-phase1.md`
-- `doc/logs/package_validation/20260328_113748_com_hpr_eventbus__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_113817_com_hpr_composition__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_113846_com_hpr_save__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_113915_com_hpr_stats__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_113945_com_hpr_inventory__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_114014_com_hpr_interaction__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_114045_com_hpr_abilities__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_114236_com_hpr_eventbus_com_hpr_composition_com_hpr_save_com_hpr_stats_com_hpr_inventory_com_hpr_interaction_com_hpr_abilities_.log`
-- `doc/logs/20260328_114247_BuildLinux.log`
+
+### Standalone package validation
+- `doc/logs/package_validation/20260328_125318_com_hpr_eventbus_.log`
+- `doc/logs/package_validation/20260328_125327_com_hpr_eventbus__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125347_com_hpr_composition_.log`
+- `doc/logs/package_validation/20260328_125356_com_hpr_composition__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125416_com_hpr_save_.log`
+- `doc/logs/package_validation/20260328_125425_com_hpr_save__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125446_com_hpr_stats_.log`
+- `doc/logs/package_validation/20260328_125455_com_hpr_stats__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125516_com_hpr_inventory_.log`
+- `doc/logs/package_validation/20260328_125524_com_hpr_inventory__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125545_com_hpr_interaction_.log`
+- `doc/logs/package_validation/20260328_125554_com_hpr_interaction__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125615_com_hpr_abilities_.log`
+- `doc/logs/package_validation/20260328_125624_com_hpr_abilities__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125646_com_hpr_weapons_.log`
+- `doc/logs/package_validation/20260328_125654_com_hpr_weapons__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125715_com_hpr_ai_.log`
+- `doc/logs/package_validation/20260328_125723_com_hpr_ai__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125744_com_hpr_world_.log`
+- `doc/logs/package_validation/20260328_125753_com_hpr_world__ValidateInBatch.log`
+
+### Combined package-set validation
+- `doc/logs/package_validation/20260328_125814_com_hpr_composition_com_hpr_eventbus_.log`
+- `doc/logs/package_validation/20260328_125835_com_hpr_eventbus_com_hpr_stats_.log`
+- `doc/logs/package_validation/20260328_125856_com_hpr_inventory_com_hpr_interaction_.log`
+- `doc/logs/package_validation/20260328_125918_com_hpr_eventbus_com_hpr_stats_com_hpr_abilities_.log`
+- `doc/logs/package_validation/20260328_125940_com_hpr_weapons_com_hpr_ai_com_hpr_world_.log`
+- `doc/logs/package_validation/20260328_130003_com_hpr_eventbus_com_hpr_composition_com_hpr_save_com_hpr_stats_com_hpr_inventory_com_hpr_interaction_com_hpr_abilities_com_hpr_weapons_com_hpr_ai_com_hpr_world_.log`
+
+### Game proof
+- `doc/logs/20260328_130012_BuildLinux.log`
 - `/home/hans/.config/unity3d/DefaultCompany/fps_demo/Player.log`
 
-## Still excluded from this release candidate
-Everything else in `unity/packages/com.hpr.*` remains internal until it reaches the same proof standard.
+## Excluded packages
+Still excluded from the first release:
+- `com.hpr.foundation`
+- `com.hpr.core`
+- `com.hpr.input`
+- `com.hpr.ui`
+- `com.hpr.bootstrap`
+- `com.hpr.fpsdemo`
+
+Reason for exclusion:
+- these packages are still internal support or game-specific composition layers
+- they are not yet at the same standalone/documented/validated proof standard

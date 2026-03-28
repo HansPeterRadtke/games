@@ -2,12 +2,8 @@
   "name": "HPR.Weapons.Editor",
   "rootNamespace": "",
   "references": [
-    "HPR.Foundation",
-    "HPR.Core.Runtime",
-    "HPR.Eventbus.Runtime",
-    "HPR.Input.Runtime",
-    "HPR.Inventory.Runtime",
-    "HPR.Weapons.Runtime"
+    "HPR.Weapons.Runtime",
+    "HPR.Weapons.Demo"
   ],
   "includePlatforms": [
     "Editor"

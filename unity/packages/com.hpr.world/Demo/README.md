@@ -1,3 +1,7 @@
 # HPR World Demo
 
-Standalone demo scene and assets for com.hpr.world.
+This demo scene shows authored `AssetMetadata` entries resolved through `AssetRegistry`.
+
+- Scene: `WorldDemo.unity`
+- Builder: `WorldDemoSceneBuilder.BuildDemoScene`
+- Validator: `WorldPackageValidator.ValidateInBatch`

@@ -76,7 +76,6 @@ PY
 
 python3 - <<'PY' "$project_path/Packages" "$packages_root" "${resolved_packages[@]}"
 from pathlib import Path
-import os
 import shutil
 import sys
 
@@ -93,8 +92,7 @@ for target in packages_dir.glob("com.hpr.*"):
 for name in package_names:
     source = packages_root / name
     target = packages_dir / name
-    relative_source = Path(os.path.relpath(source, packages_dir))
-    target.symlink_to(relative_source)
+    shutil.copytree(source, target)
 PY
 
 log_file="$log_dir/$(date +%Y%m%d_%H%M%S)_$(printf '%s_' "${requested[@]}" | tr '/.' '__').log"

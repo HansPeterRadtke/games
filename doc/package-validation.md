@@ -1,20 +1,20 @@
 # Package Validation
 
-## Single release-candidate entrypoint
+## Single release entrypoint
 Use:
 - `unity/tools/release/validate_release_candidate.sh`
 
-This is the authoritative validation entrypoint for the current sale-ready package set.
-It runs:
+This is the authoritative validator for the current first-release package set. It runs:
 1. release audit
 2. dependency audit
-3. headless validation
-4. clean-project import + demo execution for each sale-ready package
-5. clean-project import for the sale-ready package combinations
-6. full game build
-7. full game smoke test
+3. headless composition/eventbus validation
+4. clean-project import for every selected package
+5. package demo execution for every selected package
+6. clean-project import for the selected package combinations
+7. full game build
+8. full game smoke validation
 
-## Current sale-ready package set
+## Current first-release package set
 - `com.hpr.eventbus`
 - `com.hpr.composition`
 - `com.hpr.save`
@@ -22,100 +22,88 @@ It runs:
 - `com.hpr.inventory`
 - `com.hpr.interaction`
 - `com.hpr.abilities`
+- `com.hpr.weapons`
+- `com.hpr.ai`
+- `com.hpr.world`
 
-## Lower-level helpers
+## Supporting validators
 - `unity/tools/packages/validate_local_packages.sh <package-name> [more packages...]`
 - `unity/tools/architecture/run_phase1_headless_validation.sh`
 - `unity/tools/architecture/dependency_audit.py`
 - `unity/tools/release/release_audit.py`
 
-The Unity package validator creates a clean temporary Unity project, resolves declared local package dependencies, symlinks only those packages into the temp project, and batch-runs Unity.
-Each invocation uses its own temp project path by default, so multiple validations can run concurrently without Unity project-lock collisions.
+`validate_local_packages.sh` creates a clean temporary Unity project, resolves declared local package dependencies, copies only the requested packages into that project, and runs Unity batch validation there. It does not symlink package folders, so package demo execution cannot mutate the source package folders.
 
-## What currently counts as sale-ready proof
-For a designated sale-ready package, the repo now requires all of the following:
-- package metadata exists and passes release audit
-- README contains installation/quick-start/API/demo/validation sections
-- clean-project import succeeds
-- package demo execute method succeeds in that clean project
-- no forbidden architectural references are present in the package
-- package content is legally safe to redistribute
+## What a release pass proves
+For every package in the first-release set:
+- package metadata is present and consistent
+- the README is external-user-facing and includes install/demo/validation guidance
+- the package imports into a clean Unity project with only its declared dependencies
+- the package demo validator executes successfully in that clean project
+- the package has no forbidden references to `GameManager`, `SceneBootstrap`, `com.hpr.fpsdemo`, parent-service discovery, or local machine paths
+- the package contents are limited to authored code, metadata, and demo assets that are safe to redistribute
 
-## Latest verified commands
-Verified through the latest release-candidate pass on 2026-03-28:
+For the repository as a whole:
+- the selected release packages validate together as a combined import set
+- the game still builds and the canonical smoke path still completes
+
+## Canonical commands
+### Full release candidate
 - `unity/tools/release/validate_release_candidate.sh`
-- `unity/tools/architecture/run_phase1_headless_validation.sh`
-- `unity/tools/packages/validate_local_packages.sh com.hpr.eventbus`
+
+### Individual package validation
 - `EXECUTE_METHOD=EventBusPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.eventbus`
-- `unity/tools/packages/validate_local_packages.sh com.hpr.composition`
 - `EXECUTE_METHOD=CompositionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.composition`
-- `unity/tools/packages/validate_local_packages.sh com.hpr.save`
 - `EXECUTE_METHOD=SavePackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.save`
-- `unity/tools/packages/validate_local_packages.sh com.hpr.stats`
 - `EXECUTE_METHOD=StatsPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.stats`
-- `unity/tools/packages/validate_local_packages.sh com.hpr.inventory`
 - `EXECUTE_METHOD=InventoryPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.inventory`
-- `unity/tools/packages/validate_local_packages.sh com.hpr.interaction`
 - `EXECUTE_METHOD=InteractionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.interaction`
-- `unity/tools/packages/validate_local_packages.sh com.hpr.abilities`
 - `EXECUTE_METHOD=AbilitiesPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.abilities`
+- `EXECUTE_METHOD=WeaponsPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.weapons`
+- `EXECUTE_METHOD=AiPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.ai`
+- `EXECUTE_METHOD=WorldPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.world`
+
+### Package-set combinations
 - `unity/tools/packages/validate_local_packages.sh com.hpr.composition com.hpr.eventbus`
 - `unity/tools/packages/validate_local_packages.sh com.hpr.eventbus com.hpr.stats`
 - `unity/tools/packages/validate_local_packages.sh com.hpr.inventory com.hpr.interaction`
 - `unity/tools/packages/validate_local_packages.sh com.hpr.eventbus com.hpr.stats com.hpr.abilities`
-- `unity/tools/packages/validate_local_packages.sh com.hpr.eventbus com.hpr.composition com.hpr.save com.hpr.stats com.hpr.inventory com.hpr.interaction com.hpr.abilities`
-- `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
-- `NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.weapons com.hpr.ai com.hpr.world`
+- `unity/tools/packages/validate_local_packages.sh com.hpr.eventbus com.hpr.composition com.hpr.save com.hpr.stats com.hpr.inventory com.hpr.interaction com.hpr.abilities com.hpr.weapons com.hpr.ai com.hpr.world`
 
-## Latest proof logs
-### Release audits
+## Latest successful proof artifacts
+### Audits
 - `doc/release-audit.md`
 - `doc/dependency-audit-phase1.md`
 
 ### Package validation logs
-- `doc/logs/package_validation/20260328_113740_com_hpr_eventbus_.log`
-- `doc/logs/package_validation/20260328_113748_com_hpr_eventbus__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_113809_com_hpr_composition_.log`
-- `doc/logs/package_validation/20260328_113817_com_hpr_composition__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_113838_com_hpr_save_.log`
-- `doc/logs/package_validation/20260328_113846_com_hpr_save__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_113907_com_hpr_stats_.log`
-- `doc/logs/package_validation/20260328_113915_com_hpr_stats__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_113937_com_hpr_inventory_.log`
-- `doc/logs/package_validation/20260328_113945_com_hpr_inventory__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_114006_com_hpr_interaction_.log`
-- `doc/logs/package_validation/20260328_114014_com_hpr_interaction__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_114036_com_hpr_abilities_.log`
-- `doc/logs/package_validation/20260328_114045_com_hpr_abilities__ValidateInBatch.log`
-- `doc/logs/package_validation/20260328_114107_com_hpr_composition_com_hpr_eventbus_.log`
-- `doc/logs/package_validation/20260328_114129_com_hpr_eventbus_com_hpr_stats_.log`
-- `doc/logs/package_validation/20260328_114152_com_hpr_inventory_com_hpr_interaction_.log`
-- `doc/logs/package_validation/20260328_114214_com_hpr_eventbus_com_hpr_stats_com_hpr_abilities_.log`
-- `doc/logs/package_validation/20260328_114236_com_hpr_eventbus_com_hpr_composition_com_hpr_save_com_hpr_stats_com_hpr_inventory_com_hpr_interaction_com_hpr_abilities_.log`
+- `doc/logs/package_validation/20260328_125318_com_hpr_eventbus_.log`
+- `doc/logs/package_validation/20260328_125327_com_hpr_eventbus__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125347_com_hpr_composition_.log`
+- `doc/logs/package_validation/20260328_125356_com_hpr_composition__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125416_com_hpr_save_.log`
+- `doc/logs/package_validation/20260328_125425_com_hpr_save__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125446_com_hpr_stats_.log`
+- `doc/logs/package_validation/20260328_125455_com_hpr_stats__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125516_com_hpr_inventory_.log`
+- `doc/logs/package_validation/20260328_125524_com_hpr_inventory__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125545_com_hpr_interaction_.log`
+- `doc/logs/package_validation/20260328_125554_com_hpr_interaction__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125615_com_hpr_abilities_.log`
+- `doc/logs/package_validation/20260328_125624_com_hpr_abilities__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125646_com_hpr_weapons_.log`
+- `doc/logs/package_validation/20260328_125654_com_hpr_weapons__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125715_com_hpr_ai_.log`
+- `doc/logs/package_validation/20260328_125723_com_hpr_ai__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125744_com_hpr_world_.log`
+- `doc/logs/package_validation/20260328_125753_com_hpr_world__ValidateInBatch.log`
+- `doc/logs/package_validation/20260328_125814_com_hpr_composition_com_hpr_eventbus_.log`
+- `doc/logs/package_validation/20260328_125835_com_hpr_eventbus_com_hpr_stats_.log`
+- `doc/logs/package_validation/20260328_125856_com_hpr_inventory_com_hpr_interaction_.log`
+- `doc/logs/package_validation/20260328_125918_com_hpr_eventbus_com_hpr_stats_com_hpr_abilities_.log`
+- `doc/logs/package_validation/20260328_125940_com_hpr_weapons_com_hpr_ai_com_hpr_world_.log`
+- `doc/logs/package_validation/20260328_130003_com_hpr_eventbus_com_hpr_composition_com_hpr_save_com_hpr_stats_com_hpr_inventory_com_hpr_interaction_com_hpr_abilities_com_hpr_weapons_com_hpr_ai_com_hpr_world_.log`
 
-### Full game validation logs
-- `doc/logs/20260328_114247_BuildLinux.log`
+### Full game validation
+- `doc/logs/20260328_130012_BuildLinux.log`
 - `/home/hans/.config/unity3d/DefaultCompany/fps_demo/Player.log`
-
-## Current meaning of a pass
-### Headless validation proves
-- `CompositionRoot` initializes and disposes services without scene wiring
-- `EventBus` supports typed publish/subscribe
-- base-type subscription delivery works
-- disposed subscriptions stop receiving events
-
-### Clean-project package validation proves
-- the selected packages import into an empty Unity project
-- declared local package dependencies resolve correctly
-- Unity script compilation succeeds there
-- the package-owned demo execute method succeeds there
-
-### Full project build + smoke proves
-- the main game still builds after the modularization work
-- the release-candidate packages still compose back into the game cleanly
-- the smoke path still reaches completion
-
-## What this does not prove
-- the internal package set is ready for sale
-- every package in the repo is standalone yet
-- future package candidates are productized automatically

@@ -14,6 +14,10 @@ Use this package when you want:
 - `ActorStatsComponent`
 - `DamageEvent`
 
+## Unity version
+- tested with Unity `6000.4` (`6000.4.0f1`)
+- intended minimum Unity editor version: `6000.4`
+
 ## Dependencies
 - `com.hpr.eventbus`
 
@@ -49,7 +53,9 @@ eventBus.Publish(new DamageEvent
 - Batch validator: `StatsPackageValidator.ValidateInBatch`
 
 ## Validation
-- clean-project import + demo validation:
+- Unity batch mode:
+  - `Unity -batchmode -projectPath <your-project> -executeMethod StatsPackageValidator.ValidateInBatch -quit`
+- repository helper (used inside this repo):
   - `EXECUTE_METHOD=StatsPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.stats`
 
 ## Extension points

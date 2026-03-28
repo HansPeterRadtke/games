@@ -15,6 +15,10 @@ Use this package when you want:
 - `SaveEntityData`
 - `ISaveableEntity`
 
+## Unity version
+- tested with Unity `6000.4` (`6000.4.0f1`)
+- intended minimum Unity editor version: `6000.4`
+
 ## Dependencies
 - no local package dependencies
 
@@ -60,7 +64,9 @@ public sealed class DoorSaveState : UnityEngine.MonoBehaviour, ISaveableEntity
 - Batch validator: `SavePackageValidator.ValidateInBatch`
 
 ## Validation
-- clean-project import + demo validation:
+- Unity batch mode:
+  - `Unity -batchmode -projectPath <your-project> -executeMethod SavePackageValidator.ValidateInBatch -quit`
+- repository helper (used inside this repo):
   - `EXECUTE_METHOD=SavePackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.save`
 
 ## Extension points

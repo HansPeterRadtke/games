@@ -1,16 +1,7 @@
-# Handoff Guide
+# Handoff
 
-## Start here
-The repo is currently handed off from a verified release-candidate checkpoint.
-Read in this order:
-1. `doc/release-candidate-status.md`
-2. `doc/current-state.md`
-3. `doc/package-validation.md`
-4. `doc/package-dependency-map.md`
-5. `doc/local-assets.md` if you need local art state
-
-## Current proven truth
-### Sale-ready packages
+## Current release target
+The current first-release package set is:
 - `com.hpr.eventbus`
 - `com.hpr.composition`
 - `com.hpr.save`
@@ -18,56 +9,26 @@ Read in this order:
 - `com.hpr.inventory`
 - `com.hpr.interaction`
 - `com.hpr.abilities`
+- `com.hpr.weapons`
+- `com.hpr.ai`
+- `com.hpr.world`
 
-### Not sale-ready yet
-Everything else under `unity/packages/com.hpr.*` remains internal.
-Do not market or upload those packages yet.
+## Internal packages still excluded
+- `com.hpr.foundation`
+- `com.hpr.core`
+- `com.hpr.input`
+- `com.hpr.ui`
+- `com.hpr.bootstrap`
+- `com.hpr.fpsdemo`
 
-## Authoritative validation entrypoint
-```bash
-cd /data/src/github/games
-unity/tools/release/validate_release_candidate.sh
-```
+## Current proof entrypoint
+- `unity/tools/release/validate_release_candidate.sh`
 
-This is the command to rerun before any release, upload, or architectural checkpoint claim.
+## Next extraction targets
+1. continue reducing `com.hpr.fpsdemo` to pure game composition/content
+2. decide whether `com.hpr.input` can be brought to the same standalone sale bar
+3. isolate any reusable UI widgets from game-specific menu flow
+4. keep all third-party/imported art local-only and outside sellable packages
 
-## Current code changes included in this handoff
-- standalone productized package set for the seven packages listed above
-- release audit tooling
-- dependency audit that fails for forbidden references in the designated sellable set
-- clean-project package validation with execute-method support
-- package-owned demo scenes and package validators
-- full-game build + smoke still green after the package split work
-
-## What is local-only and not reproducible from git alone
-Not committed:
-- downloaded Unity Asset Store packages
-- imported vendor asset folders in `Assets/`
-- local-only art scene dressing based on those imports
-- generated logs/builds/temp state
-
-If the next developer wants the same art state, they must recreate it locally with the asset pipeline.
-
-## Verified commands
-Release-candidate pass:
-```bash
-cd /data/src/github/games
-unity/tools/release/validate_release_candidate.sh
-```
-
-Full game build only:
-```bash
-cd /data/src/github/games
-unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux
-```
-
-Full game smoke only:
-```bash
-cd /data/src/github/games
-NO_NOTICE=1 unity/tools/fps_demo/smoke_test.sh
-```
-
-## Current open follow-up areas
-- shrink `com.hpr.fpsdemo` further until it is only game-specific composition/content
-- decide whether `com.hpr.weapons`, `com.hpr.ai`, `com.hpr.world`, or `com.hpr.input` becomes the next sellable package candidate
-- keep local art integration strictly local-only and out of sellable packages
+## Local-only art rule
+Never add imported Asset Store data to the sellable packages or to git-tracked package content.
