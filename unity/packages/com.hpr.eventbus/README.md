@@ -56,14 +56,14 @@ subscription.Dispose();
 
 ## Demo
 - Scene: `Packages/com.hpr.eventbus/Demo/EventBusDemo.unity`
-- Builder: `EventBusDemoSceneBuilder.BuildDemoScene`
-- Batch validator: `EventBusPackageValidator.ValidateInBatch`
+- Builder: `HPR.EventBusDemoSceneBuilder.BuildDemoScene`
+- Batch validator: `HPR.EventBusPackageValidator.ValidateInBatch`
 
 ## Validation
 - Unity batch mode:
-  - `Unity -batchmode -projectPath <your-project> -executeMethod EventBusPackageValidator.ValidateInBatch -quit`
+  - `Unity -batchmode -projectPath <your-project> -executeMethod HPR.EventBusPackageValidator.ValidateInBatch -quit`
 - repository helper (used inside this repo):
-  - `EXECUTE_METHOD=EventBusPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.eventbus`
+  - `EXECUTE_METHOD=HPR.EventBusPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.eventbus`
 
 ## Extension points
 - define domain event payloads in your own package
@@ -74,3 +74,15 @@ subscription.Dispose();
 - this package does not define domain events for you
 - subscription ordering is registration-order based and intentionally simple
 - no replay, persistence, or buffering is included
+
+## Samples
+- Import the package sample from Package Manager > Samples > Event Bus Demo.
+- The imported sample contains the demo scene and helper scripts from `Samples~/Demo`.
+
+## Documentation
+- `Documentation~/Overview.md` provides package-specific installation and integration notes.
+- `Documentation~/Support.md` lists the support and issue-reporting path.
+
+## Support
+- issue tracker: https://github.com/HansPeterRadtke/games/issues
+- when reporting a package issue, include the package name, Unity version, and the validator log if available.

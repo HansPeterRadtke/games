@@ -1,6 +1,6 @@
 {
   "name": "HPR.Stats.Runtime",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Eventbus.Runtime"
   ],

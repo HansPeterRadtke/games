@@ -1,6 +1,6 @@
 {
   "name": "HPR.Foundation",
-  "rootNamespace": "HPR.Foundation",
+  "rootNamespace": "HPR",
   "references": [],
   "includePlatforms": [],
   "excludePlatforms": [],

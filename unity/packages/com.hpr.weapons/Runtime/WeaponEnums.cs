@@ -1,28 +1,31 @@
 using UnityEngine;
 
-public enum EquipmentKind
+namespace HPR
 {
-    Hitscan,
-    Scatter,
-    Melee,
-    Explosive,
-    Utility
-}
+    public enum EquipmentKind
+    {
+        Hitscan,
+        Scatter,
+        Melee,
+        Explosive,
+        Utility
+    }
 
-public enum WeaponUtilityAction
-{
-    None,
-    ConsumeItem,
-    ThreatScan,
-    KeyringStatus,
-    RepairTool
-}
+    public enum WeaponUtilityAction
+    {
+        None,
+        ConsumeItem,
+        ThreatScan,
+        KeyringStatus,
+        RepairTool
+    }
 
-public enum FireModeType
-{
-    Hitscan,
-    Projectile,
-    Shotgun,
-    Melee,
-    Utility
+    public enum FireModeType
+    {
+        Hitscan,
+        Projectile,
+        Shotgun,
+        Melee,
+        Utility
+    }
 }

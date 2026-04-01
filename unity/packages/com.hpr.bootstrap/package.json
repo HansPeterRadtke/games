@@ -19,5 +19,6 @@
     "com.hpr.interaction": "0.1.0",
     "com.hpr.ui": "0.1.0",
     "com.hpr.world": "0.1.0"
-  }
+  },
+  "rootNamespace": "HPR"
 }

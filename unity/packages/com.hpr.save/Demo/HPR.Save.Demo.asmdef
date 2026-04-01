@@ -1,6 +1,6 @@
 {
   "name": "HPR.Save.Demo",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Save.Runtime"
   ],

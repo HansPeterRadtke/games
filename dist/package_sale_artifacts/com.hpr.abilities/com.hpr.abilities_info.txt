@@ -1,0 +1,13 @@
+package: com.hpr.abilities
+project: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_abilities
+unitypackage: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.abilities/com.hpr.abilities.unitypackage
+unitypackage_size_bytes: 39599
+upm_zip: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.abilities/com.hpr.abilities_upm.zip
+upm_zip_size_bytes: 38602
+resolved_packages: com.hpr.eventbus com.hpr.stats com.hpr.abilities
+validator_method: HPR.AbilitiesPackageValidator.ValidateInBatch
+validate_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_abilities_validate.log
+refresh_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_abilities_refresh.log
+export_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_abilities_export.log
+screenshot: /data/src/github/games/dist/package_sale_artifacts/com.hpr.abilities/screenshots/com.hpr.abilities.png
+screenshot_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_abilities_screenshot.log

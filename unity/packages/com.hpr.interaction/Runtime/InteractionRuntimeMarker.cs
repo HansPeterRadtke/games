@@ -1,1 +1,4 @@
-internal static class InteractionRuntimeMarker { }
+namespace HPR
+{
+    internal static class InteractionRuntimeMarker { }
+}

@@ -2,7 +2,7 @@
   "sellable_packages": [
     {
       "name": "com.hpr.eventbus",
-      "execute_method": "EventBusPackageValidator.ValidateInBatch",
+      "execute_method": "HPR.EventBusPackageValidator.ValidateInBatch",
       "required_paths": [
         "Demo/EventBusDemo.unity",
         "Editor/EventBusDemoSceneBuilder.cs",
@@ -11,7 +11,7 @@
     },
     {
       "name": "com.hpr.composition",
-      "execute_method": "CompositionPackageValidator.ValidateInBatch",
+      "execute_method": "HPR.CompositionPackageValidator.ValidateInBatch",
       "required_paths": [
         "Demo/CompositionDemo.unity",
         "Editor/CompositionDemoSceneBuilder.cs",
@@ -20,7 +20,7 @@
     },
     {
       "name": "com.hpr.save",
-      "execute_method": "SavePackageValidator.ValidateInBatch",
+      "execute_method": "HPR.SavePackageValidator.ValidateInBatch",
       "required_paths": [
         "Demo/SaveDemo.unity",
         "Editor/SaveDemoSceneBuilder.cs",
@@ -29,7 +29,7 @@
     },
     {
       "name": "com.hpr.stats",
-      "execute_method": "StatsPackageValidator.ValidateInBatch",
+      "execute_method": "HPR.StatsPackageValidator.ValidateInBatch",
       "required_paths": [
         "Demo/StatsDemo.unity",
         "Editor/StatsDemoSceneBuilder.cs",
@@ -38,7 +38,7 @@
     },
     {
       "name": "com.hpr.inventory",
-      "execute_method": "InventoryPackageValidator.ValidateInBatch",
+      "execute_method": "HPR.InventoryPackageValidator.ValidateInBatch",
       "required_paths": [
         "Demo/InventoryDemo.unity",
         "Editor/InventoryDemoSceneBuilder.cs",
@@ -47,7 +47,7 @@
     },
     {
       "name": "com.hpr.interaction",
-      "execute_method": "InteractionPackageValidator.ValidateInBatch",
+      "execute_method": "HPR.InteractionPackageValidator.ValidateInBatch",
       "required_paths": [
         "Demo/InteractionDemo.unity",
         "Editor/InteractionDemoSceneBuilder.cs",
@@ -56,7 +56,7 @@
     },
     {
       "name": "com.hpr.abilities",
-      "execute_method": "AbilitiesPackageValidator.ValidateInBatch",
+      "execute_method": "HPR.AbilitiesPackageValidator.ValidateInBatch",
       "required_paths": [
         "Demo/AbilitiesDemo.unity",
         "Editor/AbilitiesDemoSceneBuilder.cs",
@@ -65,7 +65,7 @@
     },
     {
       "name": "com.hpr.weapons",
-      "execute_method": "WeaponsPackageValidator.ValidateInBatch",
+      "execute_method": "HPR.WeaponsPackageValidator.ValidateInBatch",
       "required_paths": [
         "Demo/WeaponsDemo.unity",
         "Editor/WeaponsDemoSceneBuilder.cs",
@@ -74,7 +74,7 @@
     },
     {
       "name": "com.hpr.ai",
-      "execute_method": "AiPackageValidator.ValidateInBatch",
+      "execute_method": "HPR.AiPackageValidator.ValidateInBatch",
       "required_paths": [
         "Demo/AiDemo.unity",
         "Editor/AiDemoSceneBuilder.cs",
@@ -83,7 +83,7 @@
     },
     {
       "name": "com.hpr.world",
-      "execute_method": "WorldPackageValidator.ValidateInBatch",
+      "execute_method": "HPR.WorldPackageValidator.ValidateInBatch",
       "required_paths": [
         "Demo/WorldDemo.unity",
         "Editor/WorldDemoSceneBuilder.cs",
@@ -92,12 +92,40 @@
     }
   ],
   "package_combinations": [
-    ["com.hpr.composition", "com.hpr.eventbus"],
-    ["com.hpr.eventbus", "com.hpr.stats"],
-    ["com.hpr.inventory", "com.hpr.interaction"],
-    ["com.hpr.eventbus", "com.hpr.stats", "com.hpr.abilities"],
-    ["com.hpr.weapons", "com.hpr.ai", "com.hpr.world"],
-    ["com.hpr.eventbus", "com.hpr.composition", "com.hpr.save", "com.hpr.stats", "com.hpr.inventory", "com.hpr.interaction", "com.hpr.abilities", "com.hpr.weapons", "com.hpr.ai", "com.hpr.world"]
+    [
+      "com.hpr.composition",
+      "com.hpr.eventbus"
+    ],
+    [
+      "com.hpr.eventbus",
+      "com.hpr.stats"
+    ],
+    [
+      "com.hpr.inventory",
+      "com.hpr.interaction"
+    ],
+    [
+      "com.hpr.eventbus",
+      "com.hpr.stats",
+      "com.hpr.abilities"
+    ],
+    [
+      "com.hpr.weapons",
+      "com.hpr.ai",
+      "com.hpr.world"
+    ],
+    [
+      "com.hpr.eventbus",
+      "com.hpr.composition",
+      "com.hpr.save",
+      "com.hpr.stats",
+      "com.hpr.inventory",
+      "com.hpr.interaction",
+      "com.hpr.abilities",
+      "com.hpr.weapons",
+      "com.hpr.ai",
+      "com.hpr.world"
+    ]
   ],
   "forbidden_patterns": {
     "GameManager reference": "GameManager",
@@ -123,8 +151,11 @@
     "CHANGELOG.md",
     "LICENSE.md",
     "ThirdPartyNotices.md",
+    "Documentation~",
+    "Samples~",
     "Runtime",
-    "Demo"
+    "Demo",
+    "Tests"
   ],
   "allowed_extensions": [
     ".cs",

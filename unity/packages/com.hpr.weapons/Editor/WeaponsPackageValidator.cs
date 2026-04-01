@@ -1,30 +1,33 @@
-#if UNITY_EDITOR
-using System.Linq;
-using UnityEditor.SceneManagement;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public static class WeaponsPackageValidator
+namespace HPR
 {
-    private const string ScenePath = "Packages/com.hpr.weapons/Demo/WeaponsDemo.unity";
+    #if UNITY_EDITOR
+    using System.Linq;
+    using UnityEditor.SceneManagement;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
 
-    public static void ValidateInBatch()
+    public static class WeaponsPackageValidator
     {
-        WeaponsDemoSceneBuilder.BuildDemoScene();
-        EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+        private const string ScenePath = "Packages/com.hpr.weapons/Demo/WeaponsDemo.unity";
 
-        var controller = SceneManager
-            .GetActiveScene()
-            .GetRootGameObjects()
-            .Select(root => root.GetComponentInChildren<WeaponsDemoController>(true))
-            .FirstOrDefault(candidate => candidate != null);
-        if (controller == null)
+        public static void ValidateInBatch()
         {
-            throw new System.InvalidOperationException("Weapons demo scene is missing WeaponsDemoController.");
-        }
+            WeaponsDemoSceneBuilder.BuildDemoScene();
+            EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
 
-        controller.ValidateDemo();
-        Debug.Log("WeaponsPackageValidator: OK");
+            var controller = SceneManager
+                .GetActiveScene()
+                .GetRootGameObjects()
+                .Select(root => root.GetComponentInChildren<WeaponsDemoController>(true))
+                .FirstOrDefault(candidate => candidate != null);
+            if (controller == null)
+            {
+                throw new System.InvalidOperationException("Weapons demo scene is missing WeaponsDemoController.");
+            }
+
+            controller.ValidateDemo();
+            Debug.Log("WeaponsPackageValidator: OK");
+        }
     }
+    #endif
 }
-#endif

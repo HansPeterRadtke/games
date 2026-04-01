@@ -6,18 +6,22 @@ repo_root=$(git -C "$script_dir" rev-parse --show-toplevel)
 config_path="$script_dir/release_packages.json"
 packages_root="$repo_root/unity/packages"
 template_runner="$script_dir/HprPackageExportRunner.cs"
+screenshot_runner="$script_dir/HprPackageScreenshotRunner.cs"
+listing_generator="$script_dir/generate_sale_listing_drafts.py"
 
 unity_bin="${UNITY_BIN:-/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity}"
 work_root="${WORK_ROOT:-/data/tmp/hpr_assetstore_sale}"
 projects_root="$work_root/projects"
 artifacts_root="$work_root/artifacts"
+dist_artifacts_root="${DIST_ARTIFACTS_ROOT:-$repo_root/dist/package_sale_artifacts}"
 log_dir="${LOG_DIR:-$repo_root/doc/logs/package_sale_prep}"
 report_path="${REPORT_PATH:-$repo_root/doc/package-sale-prep.md}"
 
-mkdir -p "$projects_root" "$artifacts_root" "$log_dir"
+mkdir -p "$projects_root" "$artifacts_root" "$dist_artifacts_root" "$log_dir"
 if [[ "$(id -un)" != "hans" ]]; then
   chown -R hans:hans "$work_root"
   chown -R hans:hans "$log_dir"
+  chown -R hans:hans "$dist_artifacts_root"
   chown hans:hans "$(dirname "$report_path")"
 fi
 
@@ -105,13 +109,19 @@ for spec in "${package_specs[@]}"; do
   project_name="sale_${package_name//./_}"
   project_path="$projects_root/$project_name"
   artifact_dir="$artifacts_root/$package_name"
+  dist_artifact_dir="$dist_artifacts_root/$package_name"
   unitypackage_path="$artifact_dir/${package_name}.unitypackage"
   zip_path="$artifact_dir/${package_name}_upm.zip"
   info_path="$artifact_dir/${package_name}_info.txt"
+  dist_unitypackage_path="$dist_artifact_dir/${package_name}.unitypackage"
+  dist_zip_path="$dist_artifact_dir/${package_name}_upm.zip"
+  dist_info_path="$dist_artifact_dir/${package_name}_info.txt"
 
-  mkdir -p "$artifact_dir"
+  rm -rf "$artifact_dir" "$dist_artifact_dir"
+  mkdir -p "$artifact_dir" "$dist_artifact_dir"
   if [[ "$(id -un)" != "hans" ]]; then
     chown -R hans:hans "$artifact_dir"
+    chown -R hans:hans "$dist_artifact_dir"
   fi
 
   rm -rf "$project_path"
@@ -122,6 +132,7 @@ for spec in "${package_specs[@]}"; do
       PROJECT_NAME="$project_name" \
       LOG_DIR="$log_dir" \
       EXECUTE_METHOD="$execute_method" \
+      RUN_TESTS=1 \
       bash "$repo_root/unity/tools/packages/validate_local_packages.sh" "$package_name" >"$validate_log" 2>&1; then
     :
   else
@@ -130,7 +141,7 @@ for spec in "${package_specs[@]}"; do
     exit 1
   fi
 
-  run_as_hans python3 - <<'PY' "$project_path" "$packages_root" "$template_runner" "${resolved_packages[@]}"
+  run_as_hans python3 - <<'PY' "$project_path" "$packages_root" "$template_runner" "$screenshot_runner" "${resolved_packages[@]}"
 from pathlib import Path
 import shutil
 import sys
@@ -138,7 +149,8 @@ import sys
 project_path = Path(sys.argv[1])
 packages_root = Path(sys.argv[2])
 template_runner = Path(sys.argv[3])
-resolved_packages = sys.argv[4:]
+screenshot_runner = Path(sys.argv[4])
+resolved_packages = sys.argv[5:]
 
 assets_dir = project_path / "Assets"
 packages_dir = project_path / "Packages"
@@ -148,6 +160,10 @@ shutil.copy2(template_runner, editor_dir / "HprPackageExportRunner.cs")
 meta_template = template_runner.with_suffix(template_runner.suffix + ".meta")
 if meta_template.exists():
     shutil.copy2(meta_template, editor_dir / "HprPackageExportRunner.cs.meta")
+shutil.copy2(screenshot_runner, editor_dir / "HprPackageScreenshotRunner.cs")
+screenshot_meta = screenshot_runner.with_suffix(screenshot_runner.suffix + ".meta")
+if screenshot_meta.exists():
+    shutil.copy2(screenshot_meta, editor_dir / "HprPackageScreenshotRunner.cs.meta")
 
 for existing in assets_dir.glob("com.hpr.*"):
     if existing.is_dir():
@@ -202,7 +218,58 @@ PY
     exit 1
   fi
 
+  screenshot_dir="$dist_artifact_dir/screenshots"
+  screenshot_path="$screenshot_dir/${package_name}.png"
+  screenshot_log="$log_dir/${timestamp}_${package_name//./_}_screenshot.log"
+  mkdir -p "$screenshot_dir"
+
+  sample_scene_rel=$(python3 - <<'PY' "$packages_root" "$package_name"
+import json
+import sys
+from pathlib import Path
+
+packages_root = Path(sys.argv[1])
+package_name = sys.argv[2]
+manifest = json.loads((packages_root / package_name / "package.json").read_text(encoding="utf-8"))
+search_roots = [Path("Demo")]
+search_roots.extend(Path(sample["path"]) for sample in manifest.get("samples", []))
+base = packages_root / package_name
+
+for rel_root in search_roots:
+    root = base / rel_root
+    if not root.exists():
+        continue
+    scenes = sorted(root.rglob("*.unity"))
+    if scenes:
+        relative = Path("Assets") / package_name / scenes[0].relative_to(base)
+        print(str(relative).replace("\\", "/"))
+        raise SystemExit(0)
+
+raise SystemExit(f"No sample or demo scene found for {package_name}")
+PY
+  )
+
+  if run_as_hans env \
+      HPR_SCREENSHOT_SCENE="$sample_scene_rel" \
+      HPR_SCREENSHOT_OUTPUT="$screenshot_path" \
+      HPR_SCREENSHOT_WIDTH=1920 \
+      HPR_SCREENSHOT_HEIGHT=1080 \
+      "$unity_bin" -batchmode -quit -projectPath "$project_path" -executeMethod HPR.HprPackageScreenshotRunner.CaptureFromEnvironment -logFile "$screenshot_log" > /dev/null 2>&1; then
+    :
+  else
+    echo "Screenshot capture failed for $package_name. See $screenshot_log" >&2
+    tail -n 50 "$screenshot_log" >&2 || true
+    exit 1
+  fi
+
+  if [[ ! -s "$screenshot_path" ]]; then
+    echo "Missing screenshot artifact: $screenshot_path" >&2
+    exit 1
+  fi
+
   run_as_hans /data/bin/zip.sh "$packages_root/$package_name" "$zip_path" >/dev/null
+  cp "$unitypackage_path" "$dist_unitypackage_path"
+  cp "$zip_path" "$dist_zip_path"
 
   {
     echo "package: $package_name"
@@ -216,10 +283,16 @@ PY
     echo "validate_log: $validate_log"
     echo "refresh_log: $refresh_log"
     echo "export_log: $export_log"
+    echo "screenshot: $screenshot_path"
+    echo "screenshot_log: $screenshot_log"
   } >"$info_path"
+  cp "$info_path" "$dist_info_path"
 
-  summary_lines+=("- \`$package_name\`: project \`$project_path\`, unitypackage \`$unitypackage_path\`, zip \`$zip_path\`, dependencies \`${resolved_packages[*]}\`")
+  summary_lines+=("- \`$package_name\`: project \`$project_path\`, unitypackage \`$dist_unitypackage_path\`, zip \`$dist_zip_path\`, dependencies \`${resolved_packages[*]}\`")
 done
+
+bash "$script_dir/run_official_asset_store_validator.sh" "${requested_packages[@]}"
+python3 "$listing_generator" "$repo_root" "$config_path" "$dist_artifacts_root"
 
 cat >"$report_path" <<EOF
 # Package Sale Preparation
@@ -232,11 +305,20 @@ $(printf '%s\n' "${summary_lines[@]}")
 ## Artifact root
 - \`$artifacts_root\`
 
+## Tracked artifact root
+- \`$dist_artifacts_root\`
+- each package directory now contains the exported \`.unitypackage\`, UPM zip, screenshot PNG, info file, and listing draft markdown
+
 ## Project root
 - \`$projects_root\`
 
+## Official Asset Store Tools validation
+- Command: \`unity/tools/release/run_official_asset_store_validator.sh\`
+- Logs: \`$repo_root/doc/logs/asset_store_tools_validation\`
+
 ## Human-only steps left
-- Create/update Unity Asset Store publisher listings, pricing, categories, screenshots, promo copy, icons, and support links.
+- Finalize Unity Asset Store publisher listings, pricing, categories, and support/contact identity.
+- Review the generated screenshot and listing draft for each package and replace them only if you want a more polished marketing presentation.
 - Perform a final human review in each clean sale project before upload.
 - Upload the generated \`.unitypackage\` files or package source zips through the publisher portal.
 - Handle publisher-account, payout, tax, and legal acceptance steps outside the repo.

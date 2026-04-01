@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95dd2013ea6d4c4792bbcff57e260953, type: 3}
+  m_Name: DemoRaider
+  m_EditorClassIdentifier: HPR.Ai.Runtime::EnemyData
+  Id: enemy_demo_raider
+  DisplayName: Demo Raider
+  AIType: 2
+  MaxHealth: 120
+  MoveSpeed: 4.8
+  ChaseRange: 10
+  AttackRange: 2.2
+  AttackDamage: 18
+  AttackCooldown: 1.3
+  AttackStyle: 0
+  ChaseSpeed: 6.3
+  ProjectileSpeed: 24
+  ProjectileImpact: 6
+  PreferredRange: 2.2
+  DeathHideDelay: 0.65
+  VisualPrefab: {fileID: 0}
+  VisualLocalPosition: {x: 0, y: 0, z: 0}
+  VisualLocalEuler: {x: 0, y: 0, z: 0}
+  VisualLocalScale: {x: 1.1, y: 2, z: 1.1}

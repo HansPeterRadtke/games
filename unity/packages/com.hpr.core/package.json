@@ -7,5 +7,6 @@
   "author": {
     "name": "HansPeterRadtke"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "rootNamespace": "HPR"
 }

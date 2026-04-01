@@ -1,1 +1,4 @@
-internal static class InteractionEditorMarker { }
+namespace HPR
+{
+    internal static class InteractionEditorMarker { }
+}

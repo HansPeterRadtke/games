@@ -1,6 +1,6 @@
 {
   "name": "HPR.World.Editor",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.World.Runtime",
     "HPR.World.Demo"

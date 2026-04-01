@@ -1,1 +1,4 @@
-internal static class AiEditorMarker { }
+namespace HPR
+{
+    internal static class AiEditorMarker { }
+}

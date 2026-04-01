@@ -128,7 +128,7 @@ If a new developer needs to audit the local art state:
 1. inspect `unity/assetstore/selected_assets.json`
 2. inspect the imported roots listed above under `unity/projects/fps_demo/Assets`
 3. inspect `unity/assetstore/logs`
-4. rebuild with `unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux`
+4. rebuild with `unity/tools/fps_demo/run_unity_batch.sh HPR.SceneBootstrap.BuildLinux`
 5. smoke test with `unity/tools/fps_demo/smoke_test.sh`
 
 ## Current bottom line

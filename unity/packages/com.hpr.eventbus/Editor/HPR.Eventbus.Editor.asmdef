@@ -1,6 +1,6 @@
 {
   "name": "HPR.Eventbus.Editor",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Eventbus.Runtime",
     "HPR.Eventbus.Demo"

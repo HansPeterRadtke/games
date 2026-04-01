@@ -1,0 +1,21 @@
+{
+  "name": "HPR.Inventory.Tests.EditMode",
+  "rootNamespace": "HPR",
+  "references": [
+    "HPR.Inventory.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "noEngineReferences": false
+}

@@ -1,29 +1,32 @@
 using System;
 using UnityEngine;
 
-public class EventManager : MonoBehaviour, IEventBusSource
+namespace HPR
 {
-    private readonly EventBus eventBus = new();
-
-    public IEventBus EventBus => eventBus;
-
-    public IDisposable Subscribe<TEvent>(Action<TEvent> handler) where TEvent : class
+    public class EventManager : MonoBehaviour, IEventBusSource
     {
-        return eventBus.Subscribe(handler);
-    }
+        private readonly EventBus eventBus = new();
 
-    public void Unsubscribe<TEvent>(Action<TEvent> handler) where TEvent : class
-    {
-        eventBus.Unsubscribe(handler);
-    }
+        public IEventBus EventBus => eventBus;
 
-    public void Publish<TEvent>(TEvent eventData) where TEvent : class
-    {
-        eventBus.Publish(eventData);
-    }
+        public IDisposable Subscribe<TEvent>(Action<TEvent> handler) where TEvent : class
+        {
+            return eventBus.Subscribe(handler);
+        }
 
-    private void OnDestroy()
-    {
-        eventBus.Dispose();
+        public void Unsubscribe<TEvent>(Action<TEvent> handler) where TEvent : class
+        {
+            eventBus.Unsubscribe(handler);
+        }
+
+        public void Publish<TEvent>(TEvent eventData) where TEvent : class
+        {
+            eventBus.Publish(eventData);
+        }
+
+        private void OnDestroy()
+        {
+            eventBus.Dispose();
+        }
     }
 }

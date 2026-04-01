@@ -1,6 +1,6 @@
 {
   "name": "HPR.Core.Editor",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Core.Runtime"
   ],

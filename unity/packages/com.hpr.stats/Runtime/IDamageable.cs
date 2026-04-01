@@ -1,7 +1,10 @@
 using UnityEngine;
 
-public interface IDamageable
+namespace HPR
 {
-    bool IsAlive { get; }
-    void ApplyDamage(float amount, Vector3 hitPoint, Vector3 hitDirection);
+    public interface IDamageable
+    {
+        bool IsAlive { get; }
+        void ApplyDamage(float amount, Vector3 hitPoint, Vector3 hitDirection);
+    }
 }

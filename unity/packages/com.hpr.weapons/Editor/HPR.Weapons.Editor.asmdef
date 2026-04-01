@@ -1,6 +1,6 @@
 {
   "name": "HPR.Weapons.Editor",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Weapons.Runtime",
     "HPR.Weapons.Demo"

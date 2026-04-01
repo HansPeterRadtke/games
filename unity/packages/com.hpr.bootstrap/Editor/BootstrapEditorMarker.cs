@@ -1,1 +1,4 @@
-internal static class BootstrapEditorMarker { }
+namespace HPR
+{
+    internal static class BootstrapEditorMarker { }
+}

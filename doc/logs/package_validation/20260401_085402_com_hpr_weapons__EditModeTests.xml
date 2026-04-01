@@ -1,0 +1,5 @@
+<test-run total="1" passed="1" failed="0" result="Passed">
+  <test-suite name="HPR.Weapons.Tests.EditMode">
+    <test-case name="WeaponsEditModeTests.WeaponData_DefaultsRemainStable" result="Passed" duration="0.014" />
+  </test-suite>
+</test-run>

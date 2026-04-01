@@ -1,1 +1,4 @@
-internal static class CoreRuntimeMarker { }
+namespace HPR
+{
+    internal static class CoreRuntimeMarker { }
+}

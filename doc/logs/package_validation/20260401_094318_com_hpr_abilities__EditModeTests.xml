@@ -1,0 +1,13 @@
+<test-run total="5" passed="5" failed="0" result="Passed">
+  <test-suite name="HPR.Abilities.Tests.EditMode">
+    <test-case name="HPR.AbilitiesEditModeTests.AbilityRunner_RequiresUnlockBeforeActivation" result="Passed" duration="0.057" />
+  </test-suite>
+  <test-suite name="HPR.Eventbus.Tests.EditMode">
+    <test-case name="HPR.EventBusEditModeTests.Publish_ReachesBaseTypeSubscribers" result="Passed" duration="0.009" />
+    <test-case name="HPR.EventBusEditModeTests.SubscriptionDispose_RemovesHandler" result="Passed" duration="0.009" />
+  </test-suite>
+  <test-suite name="HPR.Stats.Tests.EditMode">
+    <test-case name="HPR.StatsEditModeTests.ApplyDamage_ReducesHealth" result="Passed" duration="0.009" />
+    <test-case name="HPR.StatsEditModeTests.RuntimeBonuses_ClampHealthAndStaminaAgainstEffectiveMaximums" result="Passed" duration="0.001" />
+  </test-suite>
+</test-run>

@@ -5,7 +5,25 @@
   "unity": "6000.4",
   "description": "Reusable weapon data definitions and fire-mode metadata for combat packages.",
   "author": {
-    "name": "HansPeterRadtke"
+    "name": "HansPeterRadtke",
+    "url": "https://github.com/HansPeterRadtke"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "rootNamespace": "HPR",
+  "documentationUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.weapons/README.md",
+  "changelogUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.weapons/CHANGELOG.md",
+  "licensesUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.weapons/LICENSE.md",
+  "keywords": [
+    "weapons",
+    "combat",
+    "firemodes",
+    "data"
+  ],
+  "samples": [
+    {
+      "displayName": "Weapons Demo",
+      "description": "Import the standalone weapons demo scene and support files.",
+      "path": "Samples~/Demo"
+    }
+  ]
 }

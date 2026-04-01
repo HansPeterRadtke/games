@@ -5,9 +5,27 @@
   "unity": "6000.4",
   "description": "Reusable health, stamina, and damage-event runtime for Unity gameplay actors.",
   "author": {
-    "name": "HansPeterRadtke"
+    "name": "HansPeterRadtke",
+    "url": "https://github.com/HansPeterRadtke"
   },
   "dependencies": {
     "com.hpr.eventbus": "0.1.0"
-  }
+  },
+  "rootNamespace": "HPR",
+  "documentationUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.stats/README.md",
+  "changelogUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.stats/CHANGELOG.md",
+  "licensesUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.stats/LICENSE.md",
+  "keywords": [
+    "stats",
+    "health",
+    "stamina",
+    "damage"
+  ],
+  "samples": [
+    {
+      "displayName": "Stats Demo",
+      "description": "Import the standalone stats demo scene and support files.",
+      "path": "Samples~/Demo"
+    }
+  ]
 }

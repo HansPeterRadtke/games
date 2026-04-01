@@ -1,0 +1,10 @@
+<test-run total="4" passed="4" failed="0" result="Passed">
+  <test-suite name="HPR.Eventbus.Tests.EditMode">
+    <test-case name="HPR.EventBusEditModeTests.Publish_ReachesBaseTypeSubscribers" result="Passed" duration="0.007" />
+    <test-case name="HPR.EventBusEditModeTests.SubscriptionDispose_RemovesHandler" result="Passed" duration="0.005" />
+  </test-suite>
+  <test-suite name="HPR.Stats.Tests.EditMode">
+    <test-case name="HPR.StatsEditModeTests.ApplyDamage_ReducesHealth" result="Passed" duration="0.002" />
+    <test-case name="HPR.StatsEditModeTests.RuntimeBonuses_ClampHealthAndStaminaAgainstEffectiveMaximums" result="Passed" duration="0.000" />
+  </test-suite>
+</test-run>

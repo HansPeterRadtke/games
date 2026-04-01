@@ -2,447 +2,450 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
-public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveableEntity
+namespace HPR
 {
-    private const string AutoVisualName = "__AutoVisual";
-    private const float GravityPull = 4f;
-    private const float RotationLerpSpeed = 8f;
-    private const float ImpactDamping = 7f;
-    private const float PatrolArrivalDistance = 0.5f;
-
-    [SerializeField] private string saveId;
-    [SerializeField] private EnemyData enemyData;
-    [SerializeField] private Transform patrolA;
-    [SerializeField] private Transform patrolB;
-    [SerializeField] private Transform muzzle;
-    [SerializeField] private MonoBehaviour servicesBehaviour;
-
-    private CharacterController controller;
-    private float health;
-    private float lastAttackTime;
-    private bool patrolToA;
-    private Vector3 impactVelocity;
-    private IEnemyBehavior behavior;
-    private IEventBus eventBus;
-    private GameObject lastDamageSourceRoot;
-    private IEventBusSource eventBusSource;
-    private IStatusMessageSink statusSink;
-    private IGameplayStateSource gameplayState;
-    private IPlayerActorSource playerSource;
-    private IEnemyRegistry enemyRegistry;
-    private CharacterVisualAnimator visualAnimator;
-    private Coroutine deathRoutine;
-    private bool isDying;
-
-    public string SaveId => saveId;
-    public bool IsAlive => health > 0f;
-    public float Health => health;
-    public EnemyData Data => enemyData;
-
-    private void Awake()
+    [RequireComponent(typeof(CharacterController))]
+    public class EnemyAgent : MonoBehaviour, IDamageable, IImpactReceiver, ISaveableEntity
     {
-        controller = GetComponent<CharacterController>();
-        servicesBehaviour = servicesBehaviour != null ? servicesBehaviour : GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault(component =>
-            component is IEventBusSource || component is IStatusMessageSink || component is IGameplayStateSource || component is IPlayerActorSource || component is IEnemyRegistry);
-        eventBusSource = servicesBehaviour as IEventBusSource;
-        statusSink = servicesBehaviour as IStatusMessageSink;
-        gameplayState = servicesBehaviour as IGameplayStateSource;
-        playerSource = servicesBehaviour as IPlayerActorSource;
-        enemyRegistry = servicesBehaviour as IEnemyRegistry;
-        health = enemyData != null ? enemyData.MaxHealth : 0f;
-        behavior = EnemyBehaviorFactory.Create(enemyData != null ? enemyData.AIType : EnemyAIType.PatrolChase);
-        RefreshPresentation();
-    }
+        private const string AutoVisualName = "__AutoVisual";
+        private const float GravityPull = 4f;
+        private const float RotationLerpSpeed = 8f;
+        private const float ImpactDamping = 7f;
+        private const float PatrolArrivalDistance = 0.5f;
 
-    private void Start()
-    {
-        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
-    }
+        [SerializeField] private string saveId;
+        [SerializeField] private EnemyData enemyData;
+        [SerializeField] private Transform patrolA;
+        [SerializeField] private Transform patrolB;
+        [SerializeField] private Transform muzzle;
+        [SerializeField] private MonoBehaviour servicesBehaviour;
 
-    public void BindRuntimeServices(MonoBehaviour services)
-    {
-        servicesBehaviour = services;
-        eventBusSource = servicesBehaviour as IEventBusSource;
-        statusSink = servicesBehaviour as IStatusMessageSink;
-        gameplayState = servicesBehaviour as IGameplayStateSource;
-        playerSource = servicesBehaviour as IPlayerActorSource;
-        enemyRegistry = servicesBehaviour as IEnemyRegistry;
-        BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
-    }
+        private CharacterController controller;
+        private float health;
+        private float lastAttackTime;
+        private bool patrolToA;
+        private Vector3 impactVelocity;
+        private IEnemyBehavior behavior;
+        private IEventBus eventBus;
+        private GameObject lastDamageSourceRoot;
+        private IEventBusSource eventBusSource;
+        private IStatusMessageSink statusSink;
+        private IGameplayStateSource gameplayState;
+        private IPlayerActorSource playerSource;
+        private IEnemyRegistry enemyRegistry;
+        private CharacterVisualAnimator visualAnimator;
+        private Coroutine deathRoutine;
+        private bool isDying;
 
-    private void OnEnable()
-    {
-        isDying = false;
-        lastDamageSourceRoot = null;
-        if (controller != null)
+        public string SaveId => saveId;
+        public bool IsAlive => health > 0f;
+        public float Health => health;
+        public EnemyData Data => enemyData;
+
+        private void Awake()
         {
-            controller.enabled = true;
+            controller = GetComponent<CharacterController>();
+            servicesBehaviour = servicesBehaviour != null ? servicesBehaviour : GetComponentsInParent<MonoBehaviour>(true).FirstOrDefault(component =>
+                component is IEventBusSource || component is IStatusMessageSink || component is IGameplayStateSource || component is IPlayerActorSource || component is IEnemyRegistry);
+            eventBusSource = servicesBehaviour as IEventBusSource;
+            statusSink = servicesBehaviour as IStatusMessageSink;
+            gameplayState = servicesBehaviour as IGameplayStateSource;
+            playerSource = servicesBehaviour as IPlayerActorSource;
+            enemyRegistry = servicesBehaviour as IEnemyRegistry;
+            health = enemyData != null ? enemyData.MaxHealth : 0f;
+            behavior = EnemyBehaviorFactory.Create(enemyData != null ? enemyData.AIType : EnemyAIType.PatrolChase);
+            RefreshPresentation();
         }
-        visualAnimator?.ResetPresentation();
-        enemyRegistry?.RegisterEnemy(this);
-    }
 
-    private void OnDisable()
-    {
-        if (deathRoutine != null)
+        private void Start()
         {
-            StopCoroutine(deathRoutine);
+            BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
+        }
+
+        public void BindRuntimeServices(MonoBehaviour services)
+        {
+            servicesBehaviour = services;
+            eventBusSource = servicesBehaviour as IEventBusSource;
+            statusSink = servicesBehaviour as IStatusMessageSink;
+            gameplayState = servicesBehaviour as IGameplayStateSource;
+            playerSource = servicesBehaviour as IPlayerActorSource;
+            enemyRegistry = servicesBehaviour as IEnemyRegistry;
+            BindEventBus(eventBusSource != null ? eventBusSource.EventBus : null);
+        }
+
+        private void OnEnable()
+        {
+            isDying = false;
+            lastDamageSourceRoot = null;
+            if (controller != null)
+            {
+                controller.enabled = true;
+            }
+            visualAnimator?.ResetPresentation();
+            enemyRegistry?.RegisterEnemy(this);
+        }
+
+        private void OnDisable()
+        {
+            if (deathRoutine != null)
+            {
+                StopCoroutine(deathRoutine);
+                deathRoutine = null;
+            }
+            enemyRegistry?.UnregisterEnemy(this);
+            BindEventBus(null);
+        }
+
+        private void Update()
+        {
+            if (!IsAlive || isDying || enemyData == null || gameplayState == null || !gameplayState.IsGameplayRunning)
+            {
+                return;
+            }
+
+            IPlayerActor player = playerSource != null ? playerSource.Player : null;
+            if (player == null)
+            {
+                return;
+            }
+
+            float distanceToPlayer = Vector3.Distance(transform.position, player.ActorTransform.position);
+            bool canSeePlayer = HasLineOfSight(player);
+            behavior?.Tick(this, player, canSeePlayer, distanceToPlayer);
+        }
+
+        public void Configure(string id, EnemyData data, Transform waypointA, Transform waypointB, Transform projectileMuzzle)
+        {
+            saveId = id;
+            enemyData = data;
+            patrolA = waypointA;
+            patrolB = waypointB;
+            muzzle = projectileMuzzle;
+            health = enemyData != null ? enemyData.MaxHealth : 0f;
+            behavior = EnemyBehaviorFactory.Create(enemyData != null ? enemyData.AIType : EnemyAIType.PatrolChase);
+            RefreshPresentation();
+        }
+
+        public void ApplyDamage(float amount, Vector3 hitPoint, Vector3 hitDirection)
+        {
+            if (!IsAlive || isDying)
+            {
+                return;
+            }
+
+            health = Mathf.Max(0f, health - amount);
+            statusSink?.NotifyStatus($"{(enemyData != null ? enemyData.DisplayName : saveId)} hp {health:0}");
+            if (health > 0f)
+            {
+                visualAnimator?.TriggerHit();
+                return;
+            }
+
+            eventBus?.Publish(new EnemyKilledEvent
+            {
+                SourceRoot = lastDamageSourceRoot,
+                EnemyRoot = gameObject,
+                EnemyId = saveId,
+                EnemyDisplayName = enemyData != null ? enemyData.DisplayName : saveId
+            });
+            if (deathRoutine != null)
+            {
+                StopCoroutine(deathRoutine);
+            }
+            deathRoutine = StartCoroutine(PlayDeathAndHide(hitDirection));
+        }
+
+        private IEnumerator PlayDeathAndHide(Vector3 hitDirection)
+        {
+            isDying = true;
+            visualAnimator?.TriggerDeath();
+            impactVelocity += hitDirection * 0.18f;
+            if (controller != null)
+            {
+                controller.enabled = false;
+            }
+
+            float hideDelay = enemyData != null ? Mathf.Max(0.1f, enemyData.DeathHideDelay) : 0.65f;
+            yield return new WaitForSeconds(hideDelay);
+            gameObject.SetActive(false);
             deathRoutine = null;
         }
-        enemyRegistry?.UnregisterEnemy(this);
-        BindEventBus(null);
-    }
 
-    private void Update()
-    {
-        if (!IsAlive || isDying || enemyData == null || gameplayState == null || !gameplayState.IsGameplayRunning)
+        public void ApplyImpact(Vector3 impulse, Vector3 point)
         {
-            return;
+            impactVelocity += impulse;
         }
 
-        IPlayerActor player = playerSource != null ? playerSource.Player : null;
-        if (player == null)
+        public SaveEntityData CaptureState()
         {
-            return;
-        }
-
-        float distanceToPlayer = Vector3.Distance(transform.position, player.ActorTransform.position);
-        bool canSeePlayer = HasLineOfSight(player);
-        behavior?.Tick(this, player, canSeePlayer, distanceToPlayer);
-    }
-
-    public void Configure(string id, EnemyData data, Transform waypointA, Transform waypointB, Transform projectileMuzzle)
-    {
-        saveId = id;
-        enemyData = data;
-        patrolA = waypointA;
-        patrolB = waypointB;
-        muzzle = projectileMuzzle;
-        health = enemyData != null ? enemyData.MaxHealth : 0f;
-        behavior = EnemyBehaviorFactory.Create(enemyData != null ? enemyData.AIType : EnemyAIType.PatrolChase);
-        RefreshPresentation();
-    }
-
-    public void ApplyDamage(float amount, Vector3 hitPoint, Vector3 hitDirection)
-    {
-        if (!IsAlive || isDying)
-        {
-            return;
-        }
-
-        health = Mathf.Max(0f, health - amount);
-        statusSink?.NotifyStatus($"{(enemyData != null ? enemyData.DisplayName : saveId)} hp {health:0}");
-        if (health > 0f)
-        {
-            visualAnimator?.TriggerHit();
-            return;
-        }
-
-        eventBus?.Publish(new EnemyKilledEvent
-        {
-            SourceRoot = lastDamageSourceRoot,
-            EnemyRoot = gameObject,
-            EnemyId = saveId,
-            EnemyDisplayName = enemyData != null ? enemyData.DisplayName : saveId
-        });
-        if (deathRoutine != null)
-        {
-            StopCoroutine(deathRoutine);
-        }
-        deathRoutine = StartCoroutine(PlayDeathAndHide(hitDirection));
-    }
-
-    private IEnumerator PlayDeathAndHide(Vector3 hitDirection)
-    {
-        isDying = true;
-        visualAnimator?.TriggerDeath();
-        impactVelocity += hitDirection * 0.18f;
-        if (controller != null)
-        {
-            controller.enabled = false;
-        }
-
-        float hideDelay = enemyData != null ? Mathf.Max(0.1f, enemyData.DeathHideDelay) : 0.65f;
-        yield return new WaitForSeconds(hideDelay);
-        gameObject.SetActive(false);
-        deathRoutine = null;
-    }
-
-    public void ApplyImpact(Vector3 impulse, Vector3 point)
-    {
-        impactVelocity += impulse;
-    }
-
-    public SaveEntityData CaptureState()
-    {
-        return new SaveEntityData
-        {
-            id = saveId,
-            active = gameObject.activeSelf,
-            health = health,
-            position = new SerializableVector3(transform.position),
-            rotation = new SerializableQuaternion(transform.rotation),
-            boolValue = patrolToA
-        };
-    }
-
-    public void RestoreState(SaveEntityData data)
-    {
-        gameObject.SetActive(data.active);
-        health = data.health;
-        patrolToA = data.boolValue;
-        impactVelocity = Vector3.zero;
-        isDying = false;
-        if (deathRoutine != null)
-        {
-            StopCoroutine(deathRoutine);
-            deathRoutine = null;
-        }
-        controller.enabled = false;
-        transform.position = data.position.ToVector3();
-        transform.rotation = data.rotation.ToQuaternion();
-        controller.enabled = true;
-        visualAnimator?.ResetPresentation();
-    }
-
-    public Transform GetCurrentPatrolTarget()
-    {
-        return patrolToA ? patrolA : patrolB;
-    }
-
-    public void AdvancePatrolIfNeeded(Vector3 patrolTargetPosition)
-    {
-        if (Vector3.Distance(transform.position, patrolTargetPosition) <= PatrolArrivalDistance)
-        {
-            patrolToA = !patrolToA;
-        }
-    }
-
-    public void Face(Vector3 position)
-    {
-        Vector3 direction = position - transform.position;
-        direction.y = 0f;
-        if (direction.sqrMagnitude <= 0.001f)
-        {
-            return;
-        }
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction.normalized), RotationLerpSpeed * Time.deltaTime);
-    }
-
-    public void MoveTowards(Vector3 destination, float speed)
-    {
-        Vector3 move = destination - transform.position;
-        move.y = 0f;
-        Vector3 planarImpact = new Vector3(impactVelocity.x, 0f, impactVelocity.z);
-        float normalizedMove = move.sqrMagnitude > 0.05f
-            ? Mathf.Clamp01(speed / Mathf.Max(0.01f, enemyData != null ? Mathf.Max(enemyData.MoveSpeed, enemyData.ChaseSpeed) : speed))
-            : 0f;
-        visualAnimator?.SetMoveSpeed(normalizedMove);
-        if (move.sqrMagnitude > 0.05f || planarImpact.sqrMagnitude > 0.02f)
-        {
-            Vector3 direction = move.sqrMagnitude > 0.05f ? move.normalized : planarImpact.normalized;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), RotationLerpSpeed * Time.deltaTime);
-            controller.Move((direction * speed + impactVelocity + Vector3.down * GravityPull) * Time.deltaTime);
-        }
-        else
-        {
-            controller.Move((impactVelocity + Vector3.down * GravityPull) * Time.deltaTime);
-        }
-
-        impactVelocity = Vector3.Lerp(impactVelocity, Vector3.zero, ImpactDamping * Time.deltaTime);
-    }
-
-    public void TryAttack(IPlayerActor player, float distanceToPlayer)
-    {
-        if (player == null || enemyData == null || gameplayState == null || !gameplayState.IsCombatLive)
-        {
-            return;
-        }
-
-        if (Time.time < lastAttackTime + enemyData.AttackCooldown)
-        {
-            return;
-        }
-
-        lastAttackTime = Time.time;
-        visualAnimator?.TriggerAttack();
-        if (distanceToPlayer <= enemyData.AttackRange)
-        {
-            Vector3 direction = (player.ActorTransform.position - transform.position).normalized;
-            eventBus?.Publish(new DamageEvent
+            return new SaveEntityData
             {
-                SourceRoot = gameObject,
-                TargetRoot = player.ActorTransform.gameObject,
-                Amount = enemyData.AttackDamage,
-                HitPoint = player.ActorTransform.position,
-                HitDirection = direction
-            });
-            eventBus?.Publish(new ImpactEvent
-            {
-                SourceRoot = gameObject,
-                TargetRoot = player.ActorTransform.gameObject,
-                Impulse = direction * Mathf.Clamp(enemyData.AttackDamage * 0.18f, 1.2f, 6.5f),
-                HitPoint = player.ActorTransform.position
-            });
-            return;
-        }
-
-        if (enemyData.AttackStyle == EnemyAttackStyle.Ranged)
-        {
-            FireProjectile(player);
-        }
-    }
-
-    private bool HasLineOfSight(IPlayerActor player)
-    {
-        Vector3 origin = transform.position + Vector3.up * 1.15f;
-        Vector3 target = player.ActorTransform.position + Vector3.up * 0.9f;
-        if (!Physics.Linecast(origin, target, out RaycastHit hit, ~0, QueryTriggerInteraction.Ignore))
-        {
-            return true;
-        }
-
-        return hit.transform.root == player.ActorTransform;
-    }
-
-    private void FireProjectile(IPlayerActor player)
-    {
-        Vector3 origin = muzzle != null ? muzzle.position : transform.position + Vector3.up * 1.15f;
-        Vector3 direction = ((player.ActorTransform.position + Vector3.up * 0.8f) - origin).normalized;
-
-        GameObject projectile = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        projectile.name = saveId + "_Projectile";
-        projectile.transform.position = origin;
-        projectile.transform.localScale = Vector3.one * 0.12f;
-        Renderer renderer = projectile.GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            renderer.sharedMaterial = new Material(Shader.Find("Standard"))
-            {
-                color = enemyData.AttackStyle == EnemyAttackStyle.Ranged ? new Color(0.95f, 0.42f, 0.22f) : new Color(0.9f, 0.9f, 0.2f)
+                id = saveId,
+                active = gameObject.activeSelf,
+                health = health,
+                position = new SerializableVector3(transform.position),
+                rotation = new SerializableQuaternion(transform.rotation),
+                boolValue = patrolToA
             };
         }
 
-        Rigidbody rigidbody = projectile.AddComponent<Rigidbody>();
-        rigidbody.useGravity = false;
-        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-        rigidbody.mass = 0.08f;
-
-        PhysicsProjectile behaviour = projectile.AddComponent<PhysicsProjectile>();
-        behaviour.Configure(transform, direction, enemyData.AttackDamage, enemyData.ProjectileSpeed, enemyData.ProjectileImpact, 4f, 0f, renderer != null ? renderer.sharedMaterial.color : Color.red, eventBus);
-    }
-
-    private void RefreshPresentation()
-    {
-        visualAnimator = null;
-        Transform autoVisual = transform.Find(AutoVisualName);
-        if (autoVisual != null)
+        public void RestoreState(SaveEntityData data)
         {
-            DestroyUnityObject(autoVisual.gameObject);
+            gameObject.SetActive(data.active);
+            health = data.health;
+            patrolToA = data.boolValue;
+            impactVelocity = Vector3.zero;
+            isDying = false;
+            if (deathRoutine != null)
+            {
+                StopCoroutine(deathRoutine);
+                deathRoutine = null;
+            }
+            controller.enabled = false;
+            transform.position = data.position.ToVector3();
+            transform.rotation = data.rotation.ToQuaternion();
+            controller.enabled = true;
+            visualAnimator?.ResetPresentation();
         }
 
-        GameObject customVisual = enemyData != null ? enemyData.VisualPrefab : null;
-        bool shouldSpawnRuntimeVisual = Application.isPlaying && customVisual != null;
-        foreach (Renderer renderer in GetComponentsInChildren<Renderer>(true))
+        public Transform GetCurrentPatrolTarget()
         {
-            if (renderer.transform != autoVisual)
+            return patrolToA ? patrolA : patrolB;
+        }
+
+        public void AdvancePatrolIfNeeded(Vector3 patrolTargetPosition)
+        {
+            if (Vector3.Distance(transform.position, patrolTargetPosition) <= PatrolArrivalDistance)
             {
-                renderer.enabled = !shouldSpawnRuntimeVisual || renderer.transform == transform.Find("Muzzle");
+                patrolToA = !patrolToA;
             }
         }
 
-        if (!shouldSpawnRuntimeVisual)
+        public void Face(Vector3 position)
         {
-            return;
+            Vector3 direction = position - transform.position;
+            direction.y = 0f;
+            if (direction.sqrMagnitude <= 0.001f)
+            {
+                return;
+            }
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction.normalized), RotationLerpSpeed * Time.deltaTime);
         }
 
-        GameObject visual = Instantiate(customVisual, transform);
-        visual.name = AutoVisualName;
-        visual.transform.localPosition = enemyData.VisualLocalPosition;
-        visual.transform.localEulerAngles = enemyData.VisualLocalEuler;
-        visual.transform.localScale = enemyData.VisualLocalScale;
-
-        foreach (MonoBehaviour behaviourComponent in visual.GetComponentsInChildren<MonoBehaviour>(true))
+        public void MoveTowards(Vector3 destination, float speed)
         {
-            DestroyUnityObject(behaviourComponent);
+            Vector3 move = destination - transform.position;
+            move.y = 0f;
+            Vector3 planarImpact = new Vector3(impactVelocity.x, 0f, impactVelocity.z);
+            float normalizedMove = move.sqrMagnitude > 0.05f
+                ? Mathf.Clamp01(speed / Mathf.Max(0.01f, enemyData != null ? Mathf.Max(enemyData.MoveSpeed, enemyData.ChaseSpeed) : speed))
+                : 0f;
+            visualAnimator?.SetMoveSpeed(normalizedMove);
+            if (move.sqrMagnitude > 0.05f || planarImpact.sqrMagnitude > 0.02f)
+            {
+                Vector3 direction = move.sqrMagnitude > 0.05f ? move.normalized : planarImpact.normalized;
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), RotationLerpSpeed * Time.deltaTime);
+                controller.Move((direction * speed + impactVelocity + Vector3.down * GravityPull) * Time.deltaTime);
+            }
+            else
+            {
+                controller.Move((impactVelocity + Vector3.down * GravityPull) * Time.deltaTime);
+            }
+
+            impactVelocity = Vector3.Lerp(impactVelocity, Vector3.zero, ImpactDamping * Time.deltaTime);
         }
 
-        foreach (Rigidbody rigidbody in visual.GetComponentsInChildren<Rigidbody>(true))
+        public void TryAttack(IPlayerActor player, float distanceToPlayer)
         {
-            DestroyUnityObject(rigidbody);
+            if (player == null || enemyData == null || gameplayState == null || !gameplayState.IsCombatLive)
+            {
+                return;
+            }
+
+            if (Time.time < lastAttackTime + enemyData.AttackCooldown)
+            {
+                return;
+            }
+
+            lastAttackTime = Time.time;
+            visualAnimator?.TriggerAttack();
+            if (distanceToPlayer <= enemyData.AttackRange)
+            {
+                Vector3 direction = (player.ActorTransform.position - transform.position).normalized;
+                eventBus?.Publish(new DamageEvent
+                {
+                    SourceRoot = gameObject,
+                    TargetRoot = player.ActorTransform.gameObject,
+                    Amount = enemyData.AttackDamage,
+                    HitPoint = player.ActorTransform.position,
+                    HitDirection = direction
+                });
+                eventBus?.Publish(new ImpactEvent
+                {
+                    SourceRoot = gameObject,
+                    TargetRoot = player.ActorTransform.gameObject,
+                    Impulse = direction * Mathf.Clamp(enemyData.AttackDamage * 0.18f, 1.2f, 6.5f),
+                    HitPoint = player.ActorTransform.position
+                });
+                return;
+            }
+
+            if (enemyData.AttackStyle == EnemyAttackStyle.Ranged)
+            {
+                FireProjectile(player);
+            }
         }
 
-        foreach (Collider collider in visual.GetComponentsInChildren<Collider>(true))
+        private bool HasLineOfSight(IPlayerActor player)
         {
-            DestroyUnityObject(collider);
+            Vector3 origin = transform.position + Vector3.up * 1.15f;
+            Vector3 target = player.ActorTransform.position + Vector3.up * 0.9f;
+            if (!Physics.Linecast(origin, target, out RaycastHit hit, ~0, QueryTriggerInteraction.Ignore))
+            {
+                return true;
+            }
+
+            return hit.transform.root == player.ActorTransform;
         }
 
-        visualAnimator = visual.GetComponent<CharacterVisualAnimator>();
-        if (visualAnimator == null)
+        private void FireProjectile(IPlayerActor player)
         {
-            visualAnimator = visual.AddComponent<CharacterVisualAnimator>();
-        }
-        visualAnimator.ResetPresentation();
-    }
+            Vector3 origin = muzzle != null ? muzzle.position : transform.position + Vector3.up * 1.15f;
+            Vector3 direction = ((player.ActorTransform.position + Vector3.up * 0.8f) - origin).normalized;
 
-    private void BindEventBus(IEventBus bus)
-    {
-        if (eventBus == bus)
-        {
-            return;
-        }
+            GameObject projectile = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            projectile.name = saveId + "_Projectile";
+            projectile.transform.position = origin;
+            projectile.transform.localScale = Vector3.one * 0.12f;
+            Renderer renderer = projectile.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                renderer.sharedMaterial = new Material(Shader.Find("Standard"))
+                {
+                    color = enemyData.AttackStyle == EnemyAttackStyle.Ranged ? new Color(0.95f, 0.42f, 0.22f) : new Color(0.9f, 0.9f, 0.2f)
+                };
+            }
 
-        if (eventBus != null)
-        {
-            eventBus.Unsubscribe<DamageEvent>(HandleDamageEvent);
-            eventBus.Unsubscribe<ImpactEvent>(HandleImpactEvent);
-        }
+            Rigidbody rigidbody = projectile.AddComponent<Rigidbody>();
+            rigidbody.useGravity = false;
+            rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            rigidbody.mass = 0.08f;
 
-        eventBus = bus;
-        if (eventBus != null)
-        {
-            eventBus.Subscribe<DamageEvent>(HandleDamageEvent);
-            eventBus.Subscribe<ImpactEvent>(HandleImpactEvent);
-        }
-    }
-
-    private void HandleDamageEvent(DamageEvent gameEvent)
-    {
-        if (gameEvent == null || gameEvent.TargetRoot != gameObject)
-        {
-            return;
+            PhysicsProjectile behaviour = projectile.AddComponent<PhysicsProjectile>();
+            behaviour.Configure(transform, direction, enemyData.AttackDamage, enemyData.ProjectileSpeed, enemyData.ProjectileImpact, 4f, 0f, renderer != null ? renderer.sharedMaterial.color : Color.red, eventBus);
         }
 
-        lastDamageSourceRoot = gameEvent.SourceRoot;
-        ApplyDamage(gameEvent.Amount, gameEvent.HitPoint, gameEvent.HitDirection);
-    }
-
-    private void HandleImpactEvent(ImpactEvent gameEvent)
-    {
-        if (gameEvent == null || gameEvent.TargetRoot != gameObject)
+        private void RefreshPresentation()
         {
-            return;
+            visualAnimator = null;
+            Transform autoVisual = transform.Find(AutoVisualName);
+            if (autoVisual != null)
+            {
+                DestroyUnityObject(autoVisual.gameObject);
+            }
+
+            GameObject customVisual = enemyData != null ? enemyData.VisualPrefab : null;
+            bool shouldSpawnRuntimeVisual = Application.isPlaying && customVisual != null;
+            foreach (Renderer renderer in GetComponentsInChildren<Renderer>(true))
+            {
+                if (renderer.transform != autoVisual)
+                {
+                    renderer.enabled = !shouldSpawnRuntimeVisual || renderer.transform == transform.Find("Muzzle");
+                }
+            }
+
+            if (!shouldSpawnRuntimeVisual)
+            {
+                return;
+            }
+
+            GameObject visual = Instantiate(customVisual, transform);
+            visual.name = AutoVisualName;
+            visual.transform.localPosition = enemyData.VisualLocalPosition;
+            visual.transform.localEulerAngles = enemyData.VisualLocalEuler;
+            visual.transform.localScale = enemyData.VisualLocalScale;
+
+            foreach (MonoBehaviour behaviourComponent in visual.GetComponentsInChildren<MonoBehaviour>(true))
+            {
+                DestroyUnityObject(behaviourComponent);
+            }
+
+            foreach (Rigidbody rigidbody in visual.GetComponentsInChildren<Rigidbody>(true))
+            {
+                DestroyUnityObject(rigidbody);
+            }
+
+            foreach (Collider collider in visual.GetComponentsInChildren<Collider>(true))
+            {
+                DestroyUnityObject(collider);
+            }
+
+            visualAnimator = visual.GetComponent<CharacterVisualAnimator>();
+            if (visualAnimator == null)
+            {
+                visualAnimator = visual.AddComponent<CharacterVisualAnimator>();
+            }
+            visualAnimator.ResetPresentation();
         }
 
-        ApplyImpact(gameEvent.Impulse, gameEvent.HitPoint);
-    }
-
-    private static void DestroyUnityObject(Object target)
-    {
-        if (target == null)
+        private void BindEventBus(IEventBus bus)
         {
-            return;
+            if (eventBus == bus)
+            {
+                return;
+            }
+
+            if (eventBus != null)
+            {
+                eventBus.Unsubscribe<DamageEvent>(HandleDamageEvent);
+                eventBus.Unsubscribe<ImpactEvent>(HandleImpactEvent);
+            }
+
+            eventBus = bus;
+            if (eventBus != null)
+            {
+                eventBus.Subscribe<DamageEvent>(HandleDamageEvent);
+                eventBus.Subscribe<ImpactEvent>(HandleImpactEvent);
+            }
         }
 
-        if (Application.isPlaying)
+        private void HandleDamageEvent(DamageEvent gameEvent)
         {
-            Destroy(target);
+            if (gameEvent == null || gameEvent.TargetRoot != gameObject)
+            {
+                return;
+            }
+
+            lastDamageSourceRoot = gameEvent.SourceRoot;
+            ApplyDamage(gameEvent.Amount, gameEvent.HitPoint, gameEvent.HitDirection);
         }
-        else
+
+        private void HandleImpactEvent(ImpactEvent gameEvent)
         {
-            DestroyImmediate(target);
+            if (gameEvent == null || gameEvent.TargetRoot != gameObject)
+            {
+                return;
+            }
+
+            ApplyImpact(gameEvent.Impulse, gameEvent.HitPoint);
+        }
+
+        private static void DestroyUnityObject(Object target)
+        {
+            if (target == null)
+            {
+                return;
+            }
+
+            if (Application.isPlaying)
+            {
+                Destroy(target);
+            }
+            else
+            {
+                DestroyImmediate(target);
+            }
         }
     }
 }

@@ -1,0 +1,13 @@
+package: com.hpr.composition
+project: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_composition
+unitypackage: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.composition/com.hpr.composition.unitypackage
+unitypackage_size_bytes: 10700
+upm_zip: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.composition/com.hpr.composition_upm.zip
+upm_zip_size_bytes: 21500
+resolved_packages: com.hpr.composition
+validator_method: HPR.CompositionPackageValidator.ValidateInBatch
+validate_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_composition_validate.log
+refresh_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_composition_refresh.log
+export_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_composition_export.log
+screenshot: /data/src/github/games/dist/package_sale_artifacts/com.hpr.composition/screenshots/com.hpr.composition.png
+screenshot_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_composition_screenshot.log

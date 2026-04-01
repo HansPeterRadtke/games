@@ -1,5 +1,8 @@
 using UnityEngine;
 
-public sealed class AbilitiesEditorMarker : ScriptableObject
+namespace HPR
 {
+    public sealed class AbilitiesEditorMarker : ScriptableObject
+    {
+    }
 }

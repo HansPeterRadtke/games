@@ -1,20 +1,23 @@
 using UnityEngine;
 
-[RequireComponent(typeof(EventManager))]
-public class EventBusSourceAdapter : MonoBehaviour, IEventBusSource
+namespace HPR
 {
-    private EventManager eventManager;
-
-    public IEventBus EventBus
+    [RequireComponent(typeof(EventManager))]
+    public class EventBusSourceAdapter : MonoBehaviour, IEventBusSource
     {
-        get
-        {
-            if (eventManager == null)
-            {
-                eventManager = GetComponent<EventManager>();
-            }
+        private EventManager eventManager;
 
-            return eventManager != null ? eventManager.EventBus : null;
+        public IEventBus EventBus
+        {
+            get
+            {
+                if (eventManager == null)
+                {
+                    eventManager = GetComponent<EventManager>();
+                }
+
+                return eventManager != null ? eventManager.EventBus : null;
+            }
         }
     }
 }

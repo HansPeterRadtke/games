@@ -1,0 +1,6 @@
+<test-run total="2" passed="2" failed="0" result="Passed">
+  <test-suite name="HPR.Composition.Tests.EditMode">
+    <test-case name="HPR.CompositionEditModeTests.CompositionRoot_InitializesAndTicksRegisteredServices" result="Passed" duration="0.012" />
+    <test-case name="HPR.CompositionEditModeTests.ResolveOptional_ReturnsNullForMissingService" result="Passed" duration="0.001" />
+  </test-suite>
+</test-run>

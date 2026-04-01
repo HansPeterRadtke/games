@@ -1,1 +1,4 @@
-internal static class WorldRuntimeMarker { }
+namespace HPR
+{
+    internal static class WorldRuntimeMarker { }
+}

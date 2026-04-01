@@ -1,0 +1,394 @@
+Unity Editor version:    6000.4.0f1 (8cf496087c8f)
+Branch:                  6000.4/staging
+Build type:              Release
+Batch mode:              YES
+System name:             Linux
+Distro version:          #202511241048~1764607909~24.04~df6b2b6 SMP PREEMPT_DYNAMIC Mon D
+Kernel version:          6.17.9-76061709-generic
+Architecture:            x86_64
+Available memory:        64131 MB
+Date:                    2026-04-01T07:45:59Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Channel LicenseClient-hans doesn't exist
+Initialize udev device monitor.
+[Licensing::Module] Successfully launched the LicensingClient (PId: 491274)
+
+COMMAND LINE ARGUMENTS:
+/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity
+-batchmode
+-nographics
+-quit
+-projectPath
+/data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188
+-executeMethod
+HPR.AiPackageValidator.ValidateInBatch
+-logFile
+/data/src/github/games/doc/logs/package_validation/20260401_094559_com_hpr_ai__ValidateInBatch.log
+Successfully changed project path to: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188
+/data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Player connection [131964196109120]  Target information:
+
+Player connection [131964196109120]  * "[IP] 192.168.0.132 [Port] 55504 [Flags] 2 [Guid] 2752183605 [EditorId] 2752183605 [Version] 1048832 [Id] LinuxEditor(16,192.168.0.132) [Debug] 1 [PackageName] LinuxEditor [ProjectName] Editor" 
+
+Player connection [131964196109120]  * "[IP] 172.17.0.1 [Port] 55504 [Flags] 2 [Guid] 2752183605 [EditorId] 2752183605 [Version] 1048832 [Id] LinuxEditor(16,192.168.0.132) [Debug] 1 [PackageName] LinuxEditor [ProjectName] Editor" 
+
+Player connection [131964196109120]  * "[IP] 10.8.0.2 [Port] 55504 [Flags] 2 [Guid] 2752183605 [EditorId] 2752183605 [Version] 1048832 [Id] LinuxEditor(16,192.168.0.132) [Debug] 1 [PackageName] LinuxEditor [ProjectName] Editor" 
+
+Player connection [131964196109120] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [131964196109120] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-hans" at "2026-04-01T07:46:00.819963Z"
+[SignatureVerifier] Application signature verification not supported on this platform.
+[Package Manager] Connected to IPC stream "Upm-491263" after 0.7 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              2b0eeadcc55d4e7387554e0d2f10d00a
+  Correlation Id:          81c2b2d53ba5e1b75097d74b27f0823b
+  External correlation Id: 1749558558049144120
+  Machine Id:              l9JneE/oSM2w6bwb29/I//rgSro=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-hans" (connect: 0.86s, validation: 0.37s, handshake: 0.00s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-hans-notifications" at "2026-04-01T07:46:01.188302Z"
+[Licensing::Module] Connected to LicensingClient (PId: 491274, launch time: 0.00, total connection time: 1.23s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 9072370782505-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.05
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 1.48s
+[Licensing::Module] Licensing is initialized (took 0.58s).
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+FMOD failed to initialize the output device.: "Error initializing output device. " (60)
+Forced to initialize FMOD to to the device driver's system output rate 48000, this may impact performance and/or give inconsistent experiences compared to selected sample rate 48000
+FMOD failed to initialize the output device.: "Error initializing output device. " (60)
+FMOD initialized on nosound output
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.4.0f1 (8cf496087c8f)
+[Subsystems] Discovering subsystems at path /data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Initialize mono
+Mono path[0] = '/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/Managed'
+Mono path[1] = '/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux'
+Mono config path = '/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56263
+CodeReloadManager initialized
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
+Registered in 0.002307 seconds.
+Native extension for LinuxStandalone target not found
+Package Manager log level set to [2]
+[Licensing::Client] Successfully resolved entitlement details
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:False
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  3.071 seconds
+Domain Reload Profiling: 4259ms
+	BeginReloadAssembly (319ms)
+		CreateAndSetChildDomain (19ms)
+	RebuildCommonClasses (170ms)
+	RebuildNativeTypeToScriptingClass (42ms)
+	initialDomainReloadingComplete (200ms)
+	LoadAllAssembliesAndSetupDomain (448ms)
+		LoadAssemblies (294ms)
+		AnalyzeDomain (421ms)
+			TypeCache.Refresh (419ms)
+				TypeCache.ScanAssembly (390ms)
+	FinalizeReload (3081ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (85ms)
+			BeforeProcessingInitializeOnLoad (365ms)
+			ProcessInitializeOnLoadAttributes (456ms)
+			ProcessInitializeOnLoadMethodAttributes (1964ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 41 packages:
+  Built-in packages:
+    com.unity.multiplayer.center@1.0.1 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.multiplayer.center@53ad5a5c2bfb)
+    com.unity.modules.accessibility@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.xr)
+    com.unity.ugui@2.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.ugui@288051c775ab)
+    com.unity.test-framework@1.6.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.test-framework@f63be82e0d2e)
+    com.unity.ext.nunit@2.0.5 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.ext.nunit@ec2d0043d6fc)
+    com.unity.modules.subsystems@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Library/PackageCache/com.unity.modules.hierarchycore)
+  Embedded packages:
+    com.hpr.ai@file:/data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Packages/com.hpr.ai (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188/Packages/com.hpr.ai)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://unix:/tmp/ilpp.sock-1b3910dffcf92ca250968d2c2bdb827c
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - 200 - application/grpc 76.1389ms
+Starting: /data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/Tools/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/2400b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_ai__489188
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 0s290ms
+*** Tundra build success (0.21 seconds), 0 items updated, 272 evaluated
+AssetDatabase: script compilation time: 1.370481s
+Begin MonoManager ReloadAssembly
+Assembly Assembly-CSharp-Editor-firstpass.dll at Library/ScriptAssemblies/Assembly-CSharp-Editor-firstpass.dll not valid. Loading of assembly skipped.
+Assembly Assembly-CSharp-firstpass.dll at Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll not valid. Loading of assembly skipped.
+Assembly Assembly-CSharp.dll at Library/ScriptAssemblies/Assembly-CSharp.dll not valid. Loading of assembly skipped.
+Assembly TestNewCustomAssembly.dll at Library/ScriptAssemblies/TestNewCustomAssembly.dll not valid. Loading of assembly skipped.
+Assembly Unity.Multiplayer.Center.Editor.Tests.dll at Library/ScriptAssemblies/Unity.Multiplayer.Center.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Multiplayer.Center.Tests.dll at Library/ScriptAssemblies/Unity.Multiplayer.Center.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.TextMeshPro.Editor.Tests.dll at Library/ScriptAssemblies/Unity.TextMeshPro.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.TextMeshPro.Tests.dll at Library/ScriptAssemblies/Unity.TextMeshPro.Tests.dll not valid. Loading of assembly skipped.
+Assembly UnityEditor.UI.Common.Tests.dll at Library/ScriptAssemblies/UnityEditor.UI.Common.Tests.dll not valid. Loading of assembly skipped.
+Assembly UnityEditor.UI.EditorTests.dll at Library/ScriptAssemblies/UnityEditor.UI.EditorTests.dll not valid. Loading of assembly skipped.
+Assembly UnityEngine.UI.Tests.dll at Library/ScriptAssemblies/UnityEngine.UI.Tests.dll not valid. Loading of assembly skipped.
+Native extension for LinuxStandalone target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.616 seconds
+Domain Reload Profiling: 2988ms
+	BeginReloadAssembly (657ms)
+		DisableScriptedObjects (44ms)
+		CreateAndSetChildDomain (273ms)
+	RebuildCommonClasses (151ms)
+	RebuildNativeTypeToScriptingClass (30ms)
+	initialDomainReloadingComplete (75ms)
+	LoadAllAssembliesAndSetupDomain (455ms)
+		LoadAssemblies (446ms)
+		AnalyzeDomain (136ms)
+			TypeCache.Refresh (74ms)
+				TypeCache.ScanAssembly (60ms)
+			BuildScriptInfoCaches (45ms)
+			ResolveRequiredComponents (10ms)
+	FinalizeReload (1620ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (33ms)
+			BeforeProcessingInitializeOnLoad (570ms)
+			ProcessInitializeOnLoadAttributes (196ms)
+			ProcessInitializeOnLoadMethodAttributes (237ms)
+			AfterProcessingInitializeOnLoad (15ms)
+		AwakeInstancesAfterBackupRestoration (20ms)
+(Values over 0.050ms)
+Asset Pipeline Refresh (id=c289a7c44cf6419c59320482df3dbbfc): Total: 5.158 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=2281 ms
+		Asset DB Callback time: managed=73 ms, native=17 ms
+		Scripting: domain reloads=1, domain reload time=1369 ms, compile time=1375 ms, other=39 ms
+		Project Asset Count: scripts=265, non-scripts=140
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokePackagesCallback: 20.284ms
+	ApplyChangesToAssetFolders: 0.465ms
+	Scan: 360.208ms
+	CategorizeScriptCompilationAssets: 24.896ms
+	ProcessAssetsWithTransientArtifactChanges: 55.289ms
+	CategorizeAssets: 10.714ms
+	CompileScripts: 1374.988ms
+	ImportOutOfDateAssets: 1623.489ms (1622.680ms without children)
+		UnloadImportedAssets: 0.388ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.137ms
+		OnDemandSchedulerStart: 0.283ms
+	PostProcessAllAssets: 73.548ms
+		MonoPostProcessAllAssets: 73.436ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 26.493ms
+			SyncVS.PostprocessSyncProject 2.340ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.231ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.721ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.309ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.288ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.158ms
+	UnloadStreamsBegin: 4.382ms
+	GenerateScriptTypeHashes: 0.449ms
+	GenerateScriptTypeSerializationHashes: 1.019ms
+	Untracked: 1608.677ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 3.329ms
+Initializing Unity extensions:
+UpdateMenuTitleForLanguage: 10
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-clean_package_project_com_hpr_ai__489188
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 833 unused Assets / (1.0 MB). Loaded Objects now: 1433.
+Memory consumption went from 89.1 MB to 88.2 MB.
+Total: 12.417605 ms (FindLiveObjects: 0.148034 ms CreateObjectMapping: 0.080634 ms MarkObjects: 10.748130 ms  DeleteObjects: 1.439062 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (6.0 KB). Loaded Objects now: 1440.
+Memory consumption went from 85.6 MB to 85.6 MB.
+Total: 22.495439 ms (FindLiveObjects: 0.107900 ms CreateObjectMapping: 0.046141 ms MarkObjects: 22.324957 ms  DeleteObjects: 0.014898 ms)
+
+Start importing Packages/com.hpr.ai/Demo/DemoRaider.asset using Guid(84869da03b3bbad13b2a0cd760aa70f0) (NativeFormatImporter) -> (Import Result ID: 'f94a8010a87af6415130e08acf8d2ed1') in 0.019232445 seconds [static dependencies only]. Details - ImportResultOutputID=99c1a866173bcd5110c446c5a580a7dd DependenciesID=5d995cc1c811d4ef92f13d7a016499a2 StaticDependenciesID=992147d2189a9d1cc7f86c210ce9f978 
+Start importing Packages/com.hpr.ai/Demo/DemoSentry.asset using Guid(262a9d2ce2c2c2706b2b4ba1f0c41d5c) (NativeFormatImporter) -> (Import Result ID: 'c12fcf76b294158375e7bb0fe12ad946') in 0.00112909 seconds [static dependencies only]. Details - ImportResultOutputID=adc7431a83081c913e4fc3df9396c2cb DependenciesID=ff6f977825573450ab5aa4f40941ef0c StaticDependenciesID=fc3fc3b42199c9535b09220e3c189bf6 
+Asset Pipeline Refresh (id=043ffa1529342ffe59336c0d9c60e3c6): Total: 0.177 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/__GeneratedPackageDemos using Guid(2db8c35aef10a56cdb2c942cb092fbd0) (DefaultImporter) -> (Import Result ID: '96a8cf756409276ff308e547390f3e50') in 0.004196459 seconds [static dependencies only]. Details - ImportResultOutputID=a585f7baaa1bd860b5c1376844312ddb DependenciesID=85f1cabfed326c7a858e98ca8335d788 StaticDependenciesID=f0066295ebd680587bcf2eb836e3556b 
+Start importing Assets/__GeneratedPackageDemos/AiDemo.unity using Guid(daaae8604ec01b53391f7f374557b48b) (DefaultImporter) -> (Import Result ID: '15c7f125c86e2415ffc65fb7f5d9c608') in 0.001259375 seconds [static dependencies only]. Details - ImportResultOutputID=8a9e6171a3a0a476802f33632ede3f41 DependenciesID=069aceeee822ca174a924df6a5ebcdde StaticDependenciesID=a19d2d7faf7c43c52061656647db240e 
+Asset Pipeline Refresh (id=3fc4a4b5f1e005c85a26bbbdaf535de8): Total: 0.049 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=46dd49d4ca13996039a18f7cfbd49a51): Total: 0.075 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=701a73b0afa3b1901a6c8f41bbe81cc9): Total: 0.038 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=6c6b593d8670c598a835149d841d0fe3): Total: 0.029 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Packages/com.hpr.ai/Demo/AiDemo.unity using Guid(45d16ee11d545fbd591e4f0fecff46d1) (DefaultImporter) -> (Import Result ID: '2a2df421cb183b76b822b333c030e4a5') in 0.001445551 seconds [static dependencies only]. Details - ImportResultOutputID=c04d47ca94e9522cfff3a19acd55c407 DependenciesID=6f2b4241e167d2780d4c778041617bd0 StaticDependenciesID=dd6cefba62d433cb58a5f89e5d925763 
+Asset Pipeline Refresh (id=16baea9d7423a0070b25f4e0c89c4b47): Total: 0.099 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+AI demo scene written to Packages/com.hpr.ai/Demo/AiDemo.unity
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /home/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+HPR.AiDemoSceneBuilder:BuildDemoScene () (at ./Packages/com.hpr.ai/Editor/AiDemoSceneBuilder.cs:60)
+HPR.AiPackageValidator:ValidateInBatch () (at ./Packages/com.hpr.ai/Editor/AiPackageValidator.cs:15)
+
+(Filename: ./Packages/com.hpr.ai/Editor/AiDemoSceneBuilder.cs Line: 60)
+
+Opening scene 'Packages/com.hpr.ai/Demo/AiDemo.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Packages/com.hpr.ai/Demo/AiDemo.unity'
+	Deserialize:            0.929 ms
+	Integration:            16.457 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.031 ms
+	Total Operation Time:   17.417 ms
+Unloading 1 unused Assets / (27.7 KB). Loaded Objects now: 1470.
+Memory consumption went from 86.3 MB to 86.2 MB.
+Total: 27.672008 ms (FindLiveObjects: 0.107900 ms CreateObjectMapping: 0.044076 ms MarkObjects: 27.480719 ms  DeleteObjects: 0.037974 ms)
+
+AiPackageValidator: validated 2 enemy assets.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /home/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+HPR.AiDemoController:ValidateDemo () (at ./Packages/com.hpr.ai/Demo/AiDemoController.cs:48)
+HPR.AiPackageValidator:ValidateInBatch () (at ./Packages/com.hpr.ai/Editor/AiPackageValidator.cs:28)
+
+(Filename: ./Packages/com.hpr.ai/Demo/AiDemoController.cs Line: 48)
+
+AiPackageValidator: OK
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /home/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+HPR.AiPackageValidator:ValidateInBatch () (at ./Packages/com.hpr.ai/Editor/AiPackageValidator.cs:29)
+
+(Filename: ./Packages/com.hpr.ai/Editor/AiPackageValidator.cs Line: 29)
+
+Batchmode quit successfully invoked - shutting down!
+Curl error 42: Callback aborted
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-hans-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-hans channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+Cleanup mono
+CodeReloadManager destroyed
+debugger-agent: Unable to listen on 39
+Exiting batchmode successfully now!

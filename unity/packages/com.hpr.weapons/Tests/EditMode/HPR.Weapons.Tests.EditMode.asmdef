@@ -1,0 +1,21 @@
+{
+  "name": "HPR.Weapons.Tests.EditMode",
+  "rootNamespace": "HPR",
+  "references": [
+    "HPR.Weapons.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "noEngineReferences": false
+}

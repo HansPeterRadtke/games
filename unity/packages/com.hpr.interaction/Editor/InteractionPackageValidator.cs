@@ -1,30 +1,33 @@
-#if UNITY_EDITOR
-using System.Linq;
-using UnityEditor.SceneManagement;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public static class InteractionPackageValidator
+namespace HPR
 {
-    private const string ScenePath = "Packages/com.hpr.interaction/Demo/InteractionDemo.unity";
+    #if UNITY_EDITOR
+    using System.Linq;
+    using UnityEditor.SceneManagement;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
 
-    public static void ValidateInBatch()
+    public static class InteractionPackageValidator
     {
-        InteractionDemoSceneBuilder.BuildDemoScene();
-        EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+        private const string ScenePath = "Packages/com.hpr.interaction/Demo/InteractionDemo.unity";
 
-        var controller = SceneManager
-            .GetActiveScene()
-            .GetRootGameObjects()
-            .Select(root => root.GetComponentInChildren<InteractionDemoController>(true))
-            .FirstOrDefault(candidate => candidate != null);
-        if (controller == null)
+        public static void ValidateInBatch()
         {
-            throw new System.InvalidOperationException("Interaction demo scene is missing InteractionDemoController.");
-        }
+            InteractionDemoSceneBuilder.BuildDemoScene();
+            EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
 
-        controller.ValidateDemo();
-        Debug.Log("InteractionPackageValidator: OK");
+            var controller = SceneManager
+                .GetActiveScene()
+                .GetRootGameObjects()
+                .Select(root => root.GetComponentInChildren<InteractionDemoController>(true))
+                .FirstOrDefault(candidate => candidate != null);
+            if (controller == null)
+            {
+                throw new System.InvalidOperationException("Interaction demo scene is missing InteractionDemoController.");
+            }
+
+            controller.ValidateDemo();
+            Debug.Log("InteractionPackageValidator: OK");
+        }
     }
+    #endif
 }
-#endif

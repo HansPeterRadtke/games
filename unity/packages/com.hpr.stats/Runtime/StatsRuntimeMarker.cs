@@ -1,1 +1,4 @@
-internal static class StatsRuntimeMarker { }
+namespace HPR
+{
+    internal static class StatsRuntimeMarker { }
+}

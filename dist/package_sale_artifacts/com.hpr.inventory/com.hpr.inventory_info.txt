@@ -1,0 +1,13 @@
+package: com.hpr.inventory
+project: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory
+unitypackage: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.inventory/com.hpr.inventory.unitypackage
+unitypackage_size_bytes: 13813
+upm_zip: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.inventory/com.hpr.inventory_upm.zip
+upm_zip_size_bytes: 29188
+resolved_packages: com.hpr.inventory
+validator_method: HPR.InventoryPackageValidator.ValidateInBatch
+validate_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_inventory_validate.log
+refresh_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_inventory_refresh.log
+export_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_inventory_export.log
+screenshot: /data/src/github/games/dist/package_sale_artifacts/com.hpr.inventory/screenshots/com.hpr.inventory.png
+screenshot_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_inventory_screenshot.log

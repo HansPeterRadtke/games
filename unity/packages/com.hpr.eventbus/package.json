@@ -5,7 +5,8 @@
   "unity": "6000.4",
   "description": "Strongly typed publish/subscribe infrastructure for Unity projects with a pure C# event bus, Unity adapter, and standalone demo validation.",
   "author": {
-    "name": "HansPeterRadtke"
+    "name": "HansPeterRadtke",
+    "url": "https://github.com/HansPeterRadtke"
   },
   "keywords": [
     "eventbus",
@@ -13,5 +14,16 @@
     "architecture",
     "messaging"
   ],
-  "dependencies": {}
+  "dependencies": {},
+  "rootNamespace": "HPR",
+  "documentationUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.eventbus/README.md",
+  "changelogUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.eventbus/CHANGELOG.md",
+  "licensesUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.eventbus/LICENSE.md",
+  "samples": [
+    {
+      "displayName": "Event Bus Demo",
+      "description": "Import the standalone event bus demo scene and support files.",
+      "path": "Samples~/Demo"
+    }
+  ]
 }

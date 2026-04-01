@@ -1,6 +1,9 @@
-public interface ISaveableEntity
+namespace HPR
 {
-    string SaveId { get; }
-    SaveEntityData CaptureState();
-    void RestoreState(SaveEntityData data);
+    public interface ISaveableEntity
+    {
+        string SaveId { get; }
+        SaveEntityData CaptureState();
+        void RestoreState(SaveEntityData data);
+    }
 }

@@ -1,1 +1,4 @@
-internal static class FpsdemoRuntimeMarker { }
+namespace HPR
+{
+    internal static class FpsdemoRuntimeMarker { }
+}

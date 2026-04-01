@@ -1,1 +1,4 @@
-internal static class WorldEditorMarker { }
+namespace HPR
+{
+    internal static class WorldEditorMarker { }
+}

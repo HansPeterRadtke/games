@@ -31,7 +31,7 @@ Run as `hans`:
 
 ```bash
 cd /data/src/github/games
-unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux
+unity/tools/fps_demo/run_unity_batch.sh HPR.SceneBootstrap.BuildLinux
 ```
 
 What it does:
@@ -45,7 +45,7 @@ Default Unity editor path:
 Override if needed:
 
 ```bash
-UNITY_BIN=/path/to/Unity unity/tools/fps_demo/run_unity_batch.sh SceneBootstrap.BuildLinux
+UNITY_BIN=/path/to/Unity unity/tools/fps_demo/run_unity_batch.sh HPR.SceneBootstrap.BuildLinux
 ```
 
 ## 3. Run the full-game smoke test
@@ -86,13 +86,13 @@ To execute a package-owned validator inside the clean temp project:
 
 ```bash
 cd /data/src/github/games
-EXECUTE_METHOD=EventBusPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.eventbus
-EXECUTE_METHOD=CompositionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.composition
-EXECUTE_METHOD=SavePackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.save
-EXECUTE_METHOD=StatsPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.stats
-EXECUTE_METHOD=InventoryPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.inventory
-EXECUTE_METHOD=InteractionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.interaction
-EXECUTE_METHOD=AbilitiesPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.abilities
+EXECUTE_METHOD=HPR.EventBusPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.eventbus
+EXECUTE_METHOD=HPR.CompositionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.composition
+EXECUTE_METHOD=HPR.SavePackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.save
+EXECUTE_METHOD=HPR.StatsPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.stats
+EXECUTE_METHOD=HPR.InventoryPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.inventory
+EXECUTE_METHOD=HPR.InteractionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.interaction
+EXECUTE_METHOD=HPR.AbilitiesPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.abilities
 ```
 
 Representative package combination validations:
@@ -179,3 +179,6 @@ If ownership drifts again, the safe correction is:
 ```bash
 sudo chown -R hans:hans /data/src/github/games
 ```
+
+## Publisher validation
+- official Asset Store Tools validation: `unity/tools/release/run_official_asset_store_validator.sh`

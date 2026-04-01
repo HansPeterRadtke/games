@@ -1,1 +1,4 @@
-internal static class EventbusEditorMarker { }
+namespace HPR
+{
+    internal static class EventbusEditorMarker { }
+}

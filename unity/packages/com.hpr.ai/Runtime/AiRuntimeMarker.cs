@@ -1,1 +1,4 @@
-internal static class AiRuntimeMarker { }
+namespace HPR
+{
+    internal static class AiRuntimeMarker { }
+}

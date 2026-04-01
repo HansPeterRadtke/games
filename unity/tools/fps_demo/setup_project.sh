@@ -52,9 +52,9 @@ for name in package_names:
     target.symlink_to(relative_source)
 PY
 
-"$UNITY_BIN" -batchmode -nographics -quit -projectPath "$PROJECT_DIR" -executeMethod SceneBootstrap.EnsureProjectSetup -logFile -
+"$UNITY_BIN" -batchmode -nographics -quit -projectPath "$PROJECT_DIR" -executeMethod HPR.SceneBootstrap.EnsureProjectSetup -logFile -
 mkdir -p "$BUILD_DIR"
-"$UNITY_BIN" -batchmode -nographics -quit -projectPath "$PROJECT_DIR" -executeMethod SceneBootstrap.BuildLinux -logFile -
+"$UNITY_BIN" -batchmode -nographics -quit -projectPath "$PROJECT_DIR" -executeMethod HPR.SceneBootstrap.BuildLinux -logFile -
 
 echo "Project ready: $PROJECT_DIR"
 echo "Build output: $BUILD_DIR/FPSDemo.x86_64"

@@ -1,30 +1,33 @@
-#if UNITY_EDITOR
-using System.Linq;
-using UnityEditor.SceneManagement;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public static class AiPackageValidator
+namespace HPR
 {
-    private const string ScenePath = "Packages/com.hpr.ai/Demo/AiDemo.unity";
+    #if UNITY_EDITOR
+    using System.Linq;
+    using UnityEditor.SceneManagement;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
 
-    public static void ValidateInBatch()
+    public static class AiPackageValidator
     {
-        AiDemoSceneBuilder.BuildDemoScene();
-        EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+        private const string ScenePath = "Packages/com.hpr.ai/Demo/AiDemo.unity";
 
-        var controller = SceneManager
-            .GetActiveScene()
-            .GetRootGameObjects()
-            .Select(root => root.GetComponentInChildren<AiDemoController>(true))
-            .FirstOrDefault(candidate => candidate != null);
-        if (controller == null)
+        public static void ValidateInBatch()
         {
-            throw new System.InvalidOperationException("AI demo scene is missing AiDemoController.");
-        }
+            AiDemoSceneBuilder.BuildDemoScene();
+            EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
 
-        controller.ValidateDemo();
-        Debug.Log("AiPackageValidator: OK");
+            var controller = SceneManager
+                .GetActiveScene()
+                .GetRootGameObjects()
+                .Select(root => root.GetComponentInChildren<AiDemoController>(true))
+                .FirstOrDefault(candidate => candidate != null);
+            if (controller == null)
+            {
+                throw new System.InvalidOperationException("AI demo scene is missing AiDemoController.");
+            }
+
+            controller.ValidateDemo();
+            Debug.Log("AiPackageValidator: OK");
+        }
     }
+    #endif
 }
-#endif

@@ -1,6 +1,6 @@
 {
   "name": "HPR.Composition.Demo",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Composition.Runtime"
   ],

@@ -1,1 +1,4 @@
-internal static class CoreEditorMarker { }
+namespace HPR
+{
+    internal static class CoreEditorMarker { }
+}

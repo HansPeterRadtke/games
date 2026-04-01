@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class AbilityDemoStats : ActorStatsComponent, IAbilityResourcePool
+namespace HPR
 {
-    public bool SpendAbilityCost(float amount)
+    public class AbilityDemoStats : ActorStatsComponent, IAbilityResourcePool
     {
-        return ConsumeStamina(amount);
-    }
+        public bool SpendAbilityCost(float amount)
+        {
+            return ConsumeStamina(amount);
+        }
 
-    public void RestoreStamina(float amount)
-    {
-        RegenerateStamina(amount);
-    }
+        public void RestoreStamina(float amount)
+        {
+            RegenerateStamina(amount);
+        }
 
-    public void ResetVitals()
-    {
-        ResetStats();
+        public void ResetVitals()
+        {
+            ResetStats();
+        }
     }
 }

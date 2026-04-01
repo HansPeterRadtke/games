@@ -1,6 +1,6 @@
 {
   "name": "HPR.Interaction.Editor",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Eventbus.Runtime",
     "HPR.Inventory.Runtime",

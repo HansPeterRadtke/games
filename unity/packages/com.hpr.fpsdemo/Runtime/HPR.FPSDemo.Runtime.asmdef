@@ -1,6 +1,6 @@
 {
   "name": "HPR.FPSDemo.Runtime",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Foundation",
     "HPR.Composition.Runtime",

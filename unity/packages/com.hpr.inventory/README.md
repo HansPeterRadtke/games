@@ -47,14 +47,14 @@ int quantity = inventory.GetQuantity(healthPotionItem.Id);
 
 ## Demo
 - Scene: `Packages/com.hpr.inventory/Demo/InventoryDemo.unity`
-- Builder: `InventoryDemoSceneBuilder.BuildDemoScene`
-- Batch validator: `InventoryPackageValidator.ValidateInBatch`
+- Builder: `HPR.InventoryDemoSceneBuilder.BuildDemoScene`
+- Batch validator: `HPR.InventoryPackageValidator.ValidateInBatch`
 
 ## Validation
 - Unity batch mode:
-  - `Unity -batchmode -projectPath <your-project> -executeMethod InventoryPackageValidator.ValidateInBatch -quit`
+  - `Unity -batchmode -projectPath <your-project> -executeMethod HPR.InventoryPackageValidator.ValidateInBatch -quit`
 - repository helper (used inside this repo):
-  - `EXECUTE_METHOD=InventoryPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.inventory`
+  - `EXECUTE_METHOD=HPR.InventoryPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.inventory`
 
 ## Extension points
 - derive from `InventoryComponent` for project-specific grouping or presentation helpers
@@ -64,3 +64,15 @@ int quantity = inventory.GetQuantity(healthPotionItem.Id);
 ## Limitations
 - this package does not include inventory UI widgets
 - slot-based equipment and crafting are intentionally out of scope
+
+## Samples
+- Import the package sample from Package Manager > Samples > Inventory Demo.
+- The imported sample contains the demo scene and helper scripts from `Samples~/Demo`.
+
+## Documentation
+- `Documentation~/Overview.md` provides package-specific installation and integration notes.
+- `Documentation~/Support.md` lists the support and issue-reporting path.
+
+## Support
+- issue tracker: https://github.com/HansPeterRadtke/games/issues
+- when reporting a package issue, include the package name, Unity version, and the validator log if available.

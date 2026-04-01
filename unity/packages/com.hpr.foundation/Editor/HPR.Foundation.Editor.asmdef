@@ -1,6 +1,6 @@
 {
   "name": "HPR.Foundation.Editor",
-  "rootNamespace": "HPR.Foundation.Editor",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Foundation"
   ],

@@ -1,0 +1,393 @@
+Unity Editor version:    6000.4.0f1 (8cf496087c8f)
+Branch:                  6000.4/staging
+Build type:              Release
+Batch mode:              YES
+System name:             Linux
+Distro version:          #202511241048~1764607909~24.04~df6b2b6 SMP PREEMPT_DYNAMIC Mon D
+Kernel version:          6.17.9-76061709-generic
+Architecture:            x86_64
+Available memory:        64131 MB
+Date:                    2026-04-01T06:53:53Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Initialize udev device monitor.
+[Licensing::IpcConnector] Channel LicenseClient-hans doesn't exist
+[Licensing::Module] Successfully launched the LicensingClient (PId: 396372)
+
+COMMAND LINE ARGUMENTS:
+/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity
+-batchmode
+-nographics
+-quit
+-projectPath
+/data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386
+-executeMethod
+WeaponsPackageValidator.ValidateInBatch
+-logFile
+/data/src/github/games/doc/logs/package_validation/20260401_085353_com_hpr_weapons__ValidateInBatch.log
+Successfully changed project path to: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386
+/data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Player connection [124322641066816]  Target information:
+
+Player connection [124322641066816]  * "[IP] 192.168.0.132 [Port] 55504 [Flags] 2 [Guid] 3356252975 [EditorId] 3356252975 [Version] 1048832 [Id] LinuxEditor(16,192.168.0.132) [Debug] 1 [PackageName] LinuxEditor [ProjectName] Editor" 
+
+Player connection [124322641066816]  * "[IP] 172.17.0.1 [Port] 55504 [Flags] 2 [Guid] 3356252975 [EditorId] 3356252975 [Version] 1048832 [Id] LinuxEditor(16,192.168.0.132) [Debug] 1 [PackageName] LinuxEditor [ProjectName] Editor" 
+
+Player connection [124322641066816]  * "[IP] 10.8.0.2 [Port] 55504 [Flags] 2 [Guid] 3356252975 [EditorId] 3356252975 [Version] 1048832 [Id] LinuxEditor(16,192.168.0.132) [Debug] 1 [PackageName] LinuxEditor [ProjectName] Editor" 
+
+Player connection [124322641066816] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [124322641066816] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-396361" after 0.3 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-hans" at "2026-04-01T06:53:54.338398Z"
+[SignatureVerifier] Application signature verification not supported on this platform.
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              2e243bf6e61a45ae92f46272a864515e
+  Correlation Id:          357a31779350fa5fbc104d34470c261f
+  External correlation Id: 8691972548180101625
+  Machine Id:              l9JneE/oSM2w6bwb29/I//rgSro=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-hans" (connect: 0.57s, validation: 0.08s, handshake: 0.00s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-hans-notifications" at "2026-04-01T06:53:54.418984Z"
+[Licensing::Module] Connected to LicensingClient (PId: 396372, launch time: 0.00, total connection time: 0.65s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 9072370782505-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.69s
+[Licensing::Module] Licensing is initialized (took 0.27s).
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+FMOD failed to initialize the output device.: "Error initializing output device. " (60)
+Forced to initialize FMOD to to the device driver's system output rate 48000, this may impact performance and/or give inconsistent experiences compared to selected sample rate 48000
+FMOD failed to initialize the output device.: "Error initializing output device. " (60)
+FMOD initialized on nosound output
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.4.0f1 (8cf496087c8f)
+[Subsystems] Discovering subsystems at path /data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Initialize mono
+Mono path[0] = '/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/Managed'
+Mono path[1] = '/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux'
+Mono config path = '/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56361
+CodeReloadManager initialized
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
+Registered in 0.001740 seconds.
+Native extension for LinuxStandalone target not found
+Package Manager log level set to [2]
+[Licensing::Client] Successfully resolved entitlement details
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:False
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.594 seconds
+Domain Reload Profiling: 2284ms
+	BeginReloadAssembly (138ms)
+	RebuildCommonClasses (107ms)
+	RebuildNativeTypeToScriptingClass (26ms)
+	initialDomainReloadingComplete (87ms)
+	LoadAllAssembliesAndSetupDomain (330ms)
+		LoadAssemblies (136ms)
+		AnalyzeDomain (312ms)
+			TypeCache.Refresh (310ms)
+				TypeCache.ScanAssembly (289ms)
+	FinalizeReload (1597ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (62ms)
+			BeforeProcessingInitializeOnLoad (143ms)
+			ProcessInitializeOnLoadAttributes (186ms)
+			ProcessInitializeOnLoadMethodAttributes (1089ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 41 packages:
+  Built-in packages:
+    com.unity.multiplayer.center@1.0.1 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.multiplayer.center@53ad5a5c2bfb)
+    com.unity.modules.accessibility@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.xr)
+    com.unity.ugui@2.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.ugui@288051c775ab)
+    com.unity.test-framework@1.6.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.test-framework@f63be82e0d2e)
+    com.unity.ext.nunit@2.0.5 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.ext.nunit@ec2d0043d6fc)
+    com.unity.modules.subsystems@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Library/PackageCache/com.unity.modules.hierarchycore)
+  Embedded packages:
+    com.hpr.weapons@file:/data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Packages/com.hpr.weapons (location: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386/Packages/com.hpr.weapons)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://unix:/tmp/ilpp.sock-565ced7556f8fdf8d3e33edc6627c115
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - 200 - application/grpc 66.4808ms
+Starting: /data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/Tools/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/2400b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /data/tmp/hpr_package_validation/clean_package_project_com_hpr_weapons__394386
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 0s115ms
+*** Tundra build success (0.09 seconds), 0 items updated, 272 evaluated
+AssetDatabase: script compilation time: 0.678522s
+Begin MonoManager ReloadAssembly
+Assembly Assembly-CSharp-Editor-firstpass.dll at Library/ScriptAssemblies/Assembly-CSharp-Editor-firstpass.dll not valid. Loading of assembly skipped.
+Assembly Assembly-CSharp-firstpass.dll at Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll not valid. Loading of assembly skipped.
+Assembly Assembly-CSharp.dll at Library/ScriptAssemblies/Assembly-CSharp.dll not valid. Loading of assembly skipped.
+Assembly TestNewCustomAssembly.dll at Library/ScriptAssemblies/TestNewCustomAssembly.dll not valid. Loading of assembly skipped.
+Assembly Unity.Multiplayer.Center.Editor.Tests.dll at Library/ScriptAssemblies/Unity.Multiplayer.Center.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Multiplayer.Center.Tests.dll at Library/ScriptAssemblies/Unity.Multiplayer.Center.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.TextMeshPro.Editor.Tests.dll at Library/ScriptAssemblies/Unity.TextMeshPro.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.TextMeshPro.Tests.dll at Library/ScriptAssemblies/Unity.TextMeshPro.Tests.dll not valid. Loading of assembly skipped.
+Assembly UnityEditor.UI.Common.Tests.dll at Library/ScriptAssemblies/UnityEditor.UI.Common.Tests.dll not valid. Loading of assembly skipped.
+Assembly UnityEditor.UI.EditorTests.dll at Library/ScriptAssemblies/UnityEditor.UI.EditorTests.dll not valid. Loading of assembly skipped.
+Assembly UnityEngine.UI.Tests.dll at Library/ScriptAssemblies/UnityEngine.UI.Tests.dll not valid. Loading of assembly skipped.
+Native extension for LinuxStandalone target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.753 seconds
+Domain Reload Profiling: 1421ms
+	BeginReloadAssembly (341ms)
+		DisableScriptedObjects (17ms)
+		CreateAndSetChildDomain (165ms)
+	RebuildCommonClasses (57ms)
+	RebuildNativeTypeToScriptingClass (14ms)
+	initialDomainReloadingComplete (47ms)
+	LoadAllAssembliesAndSetupDomain (207ms)
+		LoadAssemblies (225ms)
+		AnalyzeDomain (52ms)
+			TypeCache.Refresh (31ms)
+				TypeCache.ScanAssembly (23ms)
+			BuildScriptInfoCaches (15ms)
+			ResolveRequiredComponents (4ms)
+	FinalizeReload (755ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (30ms)
+			BeforeProcessingInitializeOnLoad (239ms)
+			ProcessInitializeOnLoadAttributes (135ms)
+			ProcessInitializeOnLoadMethodAttributes (96ms)
+			AfterProcessingInitializeOnLoad (9ms)
+		AwakeInstancesAfterBackupRestoration (11ms)
+(Values over 0.050ms)
+Asset Pipeline Refresh (id=86d45bae7b808ab298acf1720ac94085): Total: 2.496 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=1086 ms
+		Asset DB Callback time: managed=30 ms, native=11 ms
+		Scripting: domain reloads=1, domain reload time=667 ms, compile time=682 ms, other=15 ms
+		Project Asset Count: scripts=265, non-scripts=140
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokePackagesCallback: 12.262ms
+	ApplyChangesToAssetFolders: 0.449ms
+	Scan: 216.427ms
+	CategorizeScriptCompilationAssets: 9.318ms
+	ProcessAssetsWithTransientArtifactChanges: 13.802ms
+	CategorizeAssets: 3.591ms
+	CompileScripts: 681.825ms
+	ImportOutOfDateAssets: 757.001ms (756.159ms without children)
+		UnloadImportedAssets: 0.375ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.127ms
+		OnDemandSchedulerStart: 0.340ms
+	PostProcessAllAssets: 30.831ms
+		MonoPostProcessAllAssets: 30.771ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 12.412ms
+			SyncVS.PostprocessSyncProject 1.999ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.168ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.551ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.297ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.270ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.123ms
+	UnloadStreamsBegin: 2.717ms
+	GenerateScriptTypeHashes: 0.440ms
+	GenerateScriptTypeSerializationHashes: 0.878ms
+	Untracked: 766.603ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 4.009ms
+Initializing Unity extensions:
+UpdateMenuTitleForLanguage: 10
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-clean_package_project_com_hpr_weapons__394386
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 833 unused Assets / (1.3 MB). Loaded Objects now: 1433.
+Memory consumption went from 90.7 MB to 89.4 MB.
+Total: 11.074500 ms (FindLiveObjects: 0.159151 ms CreateObjectMapping: 0.105928 ms MarkObjects: 9.597587 ms  DeleteObjects: 1.210469 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (6.6 KB). Loaded Objects now: 1440.
+Memory consumption went from 87.2 MB to 87.2 MB.
+Total: 7.224899 ms (FindLiveObjects: 0.116507 ms CreateObjectMapping: 0.056389 ms MarkObjects: 7.043305 ms  DeleteObjects: 0.007672 ms)
+
+Start importing Packages/com.hpr.weapons/Demo/DemoScattergun.asset using Guid(5aebf1ce36c60cfa6a633c67e429e439) (NativeFormatImporter) -> (Import Result ID: 'aaf3887ccfc286246a28b11c80cd2532') in 0.006838824 seconds [static dependencies only]. Details - ImportResultOutputID=f5c3e6f32bd551eaf6a501e2f3b6977c DependenciesID=3892c81772dfb3fd5aca75cdb9792b28 StaticDependenciesID=f56e2ca3448bcf3f1f86595ebe120ea6 
+Start importing Packages/com.hpr.weapons/Demo/DemoRifle.asset using Guid(1f1460815868c2b298d06fd08c353851) (NativeFormatImporter) -> (Import Result ID: 'e3866bbe0d44d0c9027abbf5dba32c56') in 0.001122821 seconds [static dependencies only]. Details - ImportResultOutputID=d73a07790769802bd9e824c4e2fdc56a DependenciesID=a6e725d2f0e815ef891252c4b76a2e82 StaticDependenciesID=f7ccc5b3ada76b0e7eb607e6e8637843 
+Asset Pipeline Refresh (id=ccb7a02a294893babb44184c5fd0d0a6): Total: 0.063 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/__GeneratedPackageDemos using Guid(b59297fbdad15b3a39c49929730e21a8) (DefaultImporter) -> (Import Result ID: 'ed8891f6c0b6218cb02729bb703170f6') in 0.001280018 seconds [static dependencies only]. Details - ImportResultOutputID=82de3807ad94d7c50c3b63501a9f4a27 DependenciesID=2aa814a71d8af53f2adc64110b608c70 StaticDependenciesID=4b2b8392aa08c6c7c639b016f8ca52ca 
+Start importing Assets/__GeneratedPackageDemos/WeaponsDemo.unity using Guid(eba5ba19952726ef48c0203c79c6a7d7) (DefaultImporter) -> (Import Result ID: '1ca02c658d70657ac341192a82085bca') in 0.001025391 seconds [static dependencies only]. Details - ImportResultOutputID=da0c14c4ea316cca322c967d505b0e88 DependenciesID=c7dcd3226ba7c2f144e02e8da5620174 StaticDependenciesID=8190b5768bf4fb407df546af09ba6f8c 
+Asset Pipeline Refresh (id=71f9812a41f37b3fead95722188bc4d4): Total: 0.014 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=9342c7b27752a1961b8b1b6511ea3a97): Total: 0.035 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=d67cb340859973931a8c15d1557a3275): Total: 0.008 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=50f08f4988df2c19c8c697920754a634): Total: 0.009 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Packages/com.hpr.weapons/Demo/WeaponsDemo.unity using Guid(5aa5fa6f293e8d46fae2e53267ac3a55) (DefaultImporter) -> (Import Result ID: '7222cb3913d816541259de574dff0ad1') in 0.000646053 seconds [static dependencies only]. Details - ImportResultOutputID=6c7def77b9199aac9a38b5fc654217a8 DependenciesID=6ec932f38ef9517466ff4ad06a3fd351 StaticDependenciesID=4ddbb580c55622a49d61b4f38ab8ff83 
+Asset Pipeline Refresh (id=a5d083f654ac9fd6bab789cd4dbde61c): Total: 0.021 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Weapons demo scene written to Packages/com.hpr.weapons/Demo/WeaponsDemo.unity
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /home/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+WeaponsDemoSceneBuilder:BuildDemoScene () (at ./Packages/com.hpr.weapons/Editor/WeaponsDemoSceneBuilder.cs:84)
+WeaponsPackageValidator:ValidateInBatch () (at ./Packages/com.hpr.weapons/Editor/WeaponsPackageValidator.cs:13)
+
+(Filename: ./Packages/com.hpr.weapons/Editor/WeaponsDemoSceneBuilder.cs Line: 84)
+
+Opening scene 'Packages/com.hpr.weapons/Demo/WeaponsDemo.unity'
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Packages/com.hpr.weapons/Demo/WeaponsDemo.unity'
+	Deserialize:            0.827 ms
+	Integration:            7.518 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.013 ms
+	Total Operation Time:   8.359 ms
+Unloading 1 unused Assets / (26.9 KB). Loaded Objects now: 1470.
+Memory consumption went from 87.8 MB to 87.8 MB.
+Total: 7.634348 ms (FindLiveObjects: 0.122383 ms CreateObjectMapping: 0.106114 ms MarkObjects: 7.385753 ms  DeleteObjects: 0.019253 ms)
+
+WeaponsPackageValidator: validated 2 weapon assets.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /home/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+WeaponsDemoController:ValidateDemo () (at ./Packages/com.hpr.weapons/Demo/WeaponsDemoController.cs:51)
+WeaponsPackageValidator:ValidateInBatch () (at ./Packages/com.hpr.weapons/Editor/WeaponsPackageValidator.cs:26)
+
+(Filename: ./Packages/com.hpr.weapons/Demo/WeaponsDemoController.cs Line: 51)
+
+WeaponsPackageValidator: OK
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /home/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+WeaponsPackageValidator:ValidateInBatch () (at ./Packages/com.hpr.weapons/Editor/WeaponsPackageValidator.cs:27)
+
+(Filename: ./Packages/com.hpr.weapons/Editor/WeaponsPackageValidator.cs Line: 27)
+
+Batchmode quit successfully invoked - shutting down!
+Curl error 42: Callback aborted
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-hans-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-hans channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+Cleanup mono
+CodeReloadManager destroyed
+debugger-agent: Unable to listen on 39
+Exiting batchmode successfully now!

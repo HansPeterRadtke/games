@@ -1,0 +1,13 @@
+package: com.hpr.ai
+project: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_ai
+unitypackage: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.ai/com.hpr.ai.unitypackage
+unitypackage_size_bytes: 12730
+upm_zip: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.ai/com.hpr.ai_upm.zip
+upm_zip_size_bytes: 26352
+resolved_packages: com.hpr.ai
+validator_method: HPR.AiPackageValidator.ValidateInBatch
+validate_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_ai_validate.log
+refresh_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_ai_refresh.log
+export_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_ai_export.log
+screenshot: /data/src/github/games/dist/package_sale_artifacts/com.hpr.ai/screenshots/com.hpr.ai.png
+screenshot_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_ai_screenshot.log

@@ -1,0 +1,6 @@
+<test-run total="2" passed="2" failed="0" result="Passed">
+  <test-suite name="HPR.Save.Tests.EditMode">
+    <test-case name="SaveEditModeTests.SerializableQuaternion_RoundTripsValues" result="Passed" duration="0.013" />
+    <test-case name="SaveEditModeTests.SerializableVector3_RoundTripsValues" result="Passed" duration="0.001" />
+  </test-suite>
+</test-run>

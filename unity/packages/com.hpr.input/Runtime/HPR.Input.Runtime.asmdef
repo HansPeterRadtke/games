@@ -1,6 +1,6 @@
 {
   "name": "HPR.Input.Runtime",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Foundation"
   ],

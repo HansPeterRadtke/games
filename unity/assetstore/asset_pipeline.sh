@@ -81,7 +81,7 @@ run_unity_method() {
 
 build_and_smoke() {
   local label="$1"
-  run_unity_method "build_${label}.log" SceneBootstrap.BuildLinux
+  run_unity_method "build_${label}.log" HPR.SceneBootstrap.BuildLinux
   sudo -u hans -H env DISPLAY=:1 XAUTHORITY=/home/hans/.Xauthority XDG_RUNTIME_DIR=/run/user/1000 \
     bash -lc "cd '$BUILD_DIR' && timeout 60 ./FPSDemo.x86_64 -logFile '$LOG_DIR/smoke_${label}.log' -smoketest"
 }

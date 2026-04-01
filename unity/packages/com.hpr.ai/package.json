@@ -5,7 +5,25 @@
   "unity": "6000.4",
   "description": "Reusable enemy and agent data definitions for AI-driven gameplay packages.",
   "author": {
-    "name": "HansPeterRadtke"
+    "name": "HansPeterRadtke",
+    "url": "https://github.com/HansPeterRadtke"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "rootNamespace": "HPR",
+  "documentationUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.ai/README.md",
+  "changelogUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.ai/CHANGELOG.md",
+  "licensesUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.ai/LICENSE.md",
+  "keywords": [
+    "ai",
+    "enemy",
+    "agent",
+    "data"
+  ],
+  "samples": [
+    {
+      "displayName": "AI Demo",
+      "description": "Import the standalone ai demo scene and support files.",
+      "path": "Samples~/Demo"
+    }
+  ]
 }

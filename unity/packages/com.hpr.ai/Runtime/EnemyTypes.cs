@@ -1,12 +1,15 @@
-public enum EnemyAttackStyle
+namespace HPR
 {
-    Melee,
-    Ranged
-}
+    public enum EnemyAttackStyle
+    {
+        Melee,
+        Ranged
+    }
 
-public enum EnemyAIType
-{
-    PatrolChase,
-    StationaryAttack,
-    AggressiveChase
+    public enum EnemyAIType
+    {
+        PatrolChase,
+        StationaryAttack,
+        AggressiveChase
+    }
 }

@@ -1,18 +1,21 @@
 using UnityEngine;
 
-[DisallowMultipleComponent]
-public class SimpleInteractionActor : MonoBehaviour, IInteractionActor
+namespace HPR
 {
-    [SerializeField] private InventoryComponent inventory;
-
-    public Transform ActorTransform => transform;
-    public IInventoryService InventoryService => inventory;
-
-    private void Awake()
+    [DisallowMultipleComponent]
+    public class SimpleInteractionActor : MonoBehaviour, IInteractionActor
     {
-        if (inventory == null)
+        [SerializeField] private InventoryComponent inventory;
+
+        public Transform ActorTransform => transform;
+        public IInventoryService InventoryService => inventory;
+
+        private void Awake()
         {
-            inventory = GetComponent<InventoryComponent>();
+            if (inventory == null)
+            {
+                inventory = GetComponent<InventoryComponent>();
+            }
         }
     }
 }

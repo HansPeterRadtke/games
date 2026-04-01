@@ -1,5 +1,8 @@
 using UnityEngine;
 
-public sealed class AbilityRuntimeMarker : MonoBehaviour
+namespace HPR
 {
+    public sealed class AbilityRuntimeMarker : MonoBehaviour
+    {
+    }
 }

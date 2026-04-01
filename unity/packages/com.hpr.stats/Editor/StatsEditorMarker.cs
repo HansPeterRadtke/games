@@ -1,1 +1,4 @@
-internal static class StatsEditorMarker { }
+namespace HPR
+{
+    internal static class StatsEditorMarker { }
+}

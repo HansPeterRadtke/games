@@ -5,7 +5,7 @@ namespace HPR.Foundation.Editor
 {
     public static class PackageMenu
     {
-        [MenuItem("HPR/Foundation/Ping")]
+        [MenuItem("Tools/HPR/Foundation/Ping")]
         public static void Ping()
         {
             Debug.Log("HPR Foundation package loaded");

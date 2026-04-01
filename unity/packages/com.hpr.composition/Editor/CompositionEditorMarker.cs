@@ -1,1 +1,4 @@
-internal static class CompositionEditorMarker { }
+namespace HPR
+{
+    internal static class CompositionEditorMarker { }
+}

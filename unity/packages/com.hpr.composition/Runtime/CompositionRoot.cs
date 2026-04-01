@@ -1,47 +1,50 @@
 using System;
 using System.Linq;
 
-public sealed class CompositionRoot : IDisposable
+namespace HPR
 {
-    private bool initialized;
-
-    public CompositionRoot()
+    public sealed class CompositionRoot : IDisposable
     {
-        Services = new ServiceRegistry();
-    }
+        private bool initialized;
 
-    public ServiceRegistry Services { get; }
-
-    public void Initialize()
-    {
-        if (initialized)
+        public CompositionRoot()
         {
-            return;
+            Services = new ServiceRegistry();
         }
 
-        foreach (IInitializable service in Services.GetOrderedServices().OfType<IInitializable>())
-        {
-            service.Initialize(Services);
-        }
+        public ServiceRegistry Services { get; }
 
-        initialized = true;
-    }
-
-    public void Tick(float deltaTime)
-    {
-        foreach (IUpdatableService service in Services.GetOrderedServices().OfType<IUpdatableService>())
+        public void Initialize()
         {
-            service.Tick(deltaTime);
-        }
-    }
-
-    public void Dispose()
-    {
-        foreach (object service in Services.GetOrderedServices().Reverse())
-        {
-            if (service is IDisposable disposable)
+            if (initialized)
             {
-                disposable.Dispose();
+                return;
+            }
+
+            foreach (IInitializable service in Services.GetOrderedServices().OfType<IInitializable>())
+            {
+                service.Initialize(Services);
+            }
+
+            initialized = true;
+        }
+
+        public void Tick(float deltaTime)
+        {
+            foreach (IUpdatableService service in Services.GetOrderedServices().OfType<IUpdatableService>())
+            {
+                service.Tick(deltaTime);
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (object service in Services.GetOrderedServices().Reverse())
+            {
+                if (service is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
             }
         }
     }

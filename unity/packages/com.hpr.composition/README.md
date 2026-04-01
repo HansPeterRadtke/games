@@ -52,14 +52,14 @@ root.Dispose();
 
 ## Demo
 - Scene: `Packages/com.hpr.composition/Demo/CompositionDemo.unity`
-- Builder: `CompositionDemoSceneBuilder.BuildDemoScene`
-- Batch validator: `CompositionPackageValidator.ValidateInBatch`
+- Builder: `HPR.CompositionDemoSceneBuilder.BuildDemoScene`
+- Batch validator: `HPR.CompositionPackageValidator.ValidateInBatch`
 
 ## Validation
 - Unity batch mode:
-  - `Unity -batchmode -projectPath <your-project> -executeMethod CompositionPackageValidator.ValidateInBatch -quit`
+  - `Unity -batchmode -projectPath <your-project> -executeMethod HPR.CompositionPackageValidator.ValidateInBatch -quit`
 - repository helper (used inside this repo):
-  - `EXECUTE_METHOD=CompositionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.composition`
+  - `EXECUTE_METHOD=HPR.CompositionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.composition`
 
 ## Extension points
 - implement `IInitializable` for services that need dependency resolution
@@ -70,3 +70,15 @@ root.Dispose();
 - this package does not discover services automatically
 - it intentionally does not include reflection-based auto-registration
 - scene binding remains the responsibility of the consuming project
+
+## Samples
+- Import the package sample from Package Manager > Samples > Composition Demo.
+- The imported sample contains the demo scene and helper scripts from `Samples~/Demo`.
+
+## Documentation
+- `Documentation~/Overview.md` provides package-specific installation and integration notes.
+- `Documentation~/Support.md` lists the support and issue-reporting path.
+
+## Support
+- issue tracker: https://github.com/HansPeterRadtke/games/issues
+- when reporting a package issue, include the package name, Unity version, and the validator log if available.

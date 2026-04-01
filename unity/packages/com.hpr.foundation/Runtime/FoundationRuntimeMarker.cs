@@ -1,1 +1,4 @@
-internal static class FoundationRuntimeMarker { }
+namespace HPR
+{
+    internal static class FoundationRuntimeMarker { }
+}

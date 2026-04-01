@@ -1,6 +1,6 @@
 {
   "name": "HPR.Ai.Editor",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Ai.Runtime",
     "HPR.Ai.Demo"

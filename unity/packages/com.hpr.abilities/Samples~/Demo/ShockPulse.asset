@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346beff0d3510006f857dbfb7fc00b73, type: 3}
+  m_Name: ShockPulse
+  m_EditorClassIdentifier: HPR.Abilities.Runtime::AbilityData
+  Id: ability_shock_demo
+  DisplayName: Shock Pulse
+  Description: Emits an area burst that damages nearby targets.
+  TargetType: 1
+  Cooldown: 12
+  Cost: 24
+  Effects:
+  - {fileID: 11400000, guid: c330203f8e8eb0bdea51b783e71085c3, type: 2}
+  ActivationStatus: Shock pulse emitted.
+  FailureStatus: Shock pulse unavailable.
+  ThemeColor: {r: 0.95, g: 0.6, b: 0.2, a: 1}

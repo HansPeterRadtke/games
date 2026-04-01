@@ -1,1 +1,4 @@
-internal static class WeaponsRuntimeMarker { }
+namespace HPR
+{
+    internal static class WeaponsRuntimeMarker { }
+}

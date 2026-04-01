@@ -20,7 +20,16 @@
 - `com.hpr.bootstrap`: thin internal bootstrap helper; missing release metadata/docs and not marketed as a standalone product
 - `com.hpr.fpsdemo`: game-specific composition/content package; not reusable product code
 
-## Fresh proof from the current run
+
+## Latest 2026-04-01 proof
+- release audit: `doc/logs/20260401_095205_release_audit.log`
+- dependency audit: `doc/logs/20260401_095205_dependency_audit.log`
+- headless validation: `doc/logs/20260401_095205_headless_phase1_validation.log`
+- official Asset Store Tools validation root: `doc/logs/asset_store_tools_validation/20260401_110033_*`
+- sale-prep report: `doc/package-sale-prep.md`
+- tracked sale artifacts: `dist/package_sale_artifacts`
+
+## Historical proof snapshots
 ### Audit logs
 - `doc/logs/20260328_151627_release_audit.log`
 - `doc/logs/20260328_151627_dependency_audit.log`

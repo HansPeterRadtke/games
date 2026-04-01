@@ -1,19 +1,22 @@
-public enum AssetType
+namespace HPR
 {
-    Environment,
-    Prop,
-    Enemy,
-    Weapon,
-    Decoration
-}
+    public enum AssetType
+    {
+        Environment,
+        Prop,
+        Enemy,
+        Weapon,
+        Decoration
+    }
 
-public enum MaterialType
-{
-    Unknown,
-    Metal,
-    Wood,
-    Concrete,
-    Fabric,
-    Organic,
-    Energy
+    public enum MaterialType
+    {
+        Unknown,
+        Metal,
+        Wood,
+        Concrete,
+        Fabric,
+        Organic,
+        Energy
+    }
 }

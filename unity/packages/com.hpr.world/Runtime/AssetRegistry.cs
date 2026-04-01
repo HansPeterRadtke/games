@@ -2,61 +2,64 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "HPR/World/Asset Registry", fileName = "AssetRegistry")]
-public class AssetRegistry : ScriptableObject
+namespace HPR
 {
-    [SerializeField] private List<AssetMetadata> entries = new List<AssetMetadata>();
-
-    private readonly Dictionary<string, AssetMetadata> lookup = new Dictionary<string, AssetMetadata>(StringComparer.Ordinal);
-    private bool isBuilt;
-
-    public IReadOnlyList<AssetMetadata> Entries => entries;
-
-    public void SetEntries(IEnumerable<AssetMetadata> metadata)
+    [CreateAssetMenu(menuName = "HPR/World/Asset Registry", fileName = "AssetRegistry")]
+    public class AssetRegistry : ScriptableObject
     {
-        entries = metadata != null ? new List<AssetMetadata>(metadata) : new List<AssetMetadata>();
-        isBuilt = false;
-    }
+        [SerializeField] private List<AssetMetadata> entries = new List<AssetMetadata>();
 
-    public bool TryGet(string assetId, out AssetMetadata metadata)
-    {
-        metadata = null;
-        EnsureLookup();
-        return !string.IsNullOrWhiteSpace(assetId) && lookup.TryGetValue(assetId, out metadata);
-    }
+        private readonly Dictionary<string, AssetMetadata> lookup = new Dictionary<string, AssetMetadata>(StringComparer.Ordinal);
+        private bool isBuilt;
 
-    public AssetMetadata Get(string assetId)
-    {
-        TryGet(assetId, out AssetMetadata metadata);
-        return metadata;
-    }
+        public IReadOnlyList<AssetMetadata> Entries => entries;
 
-    public void EnsureLookup()
-    {
-        if (isBuilt)
+        public void SetEntries(IEnumerable<AssetMetadata> metadata)
         {
-            return;
+            entries = metadata != null ? new List<AssetMetadata>(metadata) : new List<AssetMetadata>();
+            isBuilt = false;
         }
 
-        lookup.Clear();
-        foreach (AssetMetadata metadata in entries)
+        public bool TryGet(string assetId, out AssetMetadata metadata)
         {
-            if (metadata == null || string.IsNullOrWhiteSpace(metadata.AssetId))
+            metadata = null;
+            EnsureLookup();
+            return !string.IsNullOrWhiteSpace(assetId) && lookup.TryGetValue(assetId, out metadata);
+        }
+
+        public AssetMetadata Get(string assetId)
+        {
+            TryGet(assetId, out AssetMetadata metadata);
+            return metadata;
+        }
+
+        public void EnsureLookup()
+        {
+            if (isBuilt)
             {
-                continue;
+                return;
             }
 
-            lookup[metadata.AssetId] = metadata;
+            lookup.Clear();
+            foreach (AssetMetadata metadata in entries)
+            {
+                if (metadata == null || string.IsNullOrWhiteSpace(metadata.AssetId))
+                {
+                    continue;
+                }
+
+                lookup[metadata.AssetId] = metadata;
+            }
+
+            isBuilt = true;
         }
 
-        isBuilt = true;
+    #if UNITY_EDITOR
+        private void OnValidate()
+        {
+            isBuilt = false;
+            EnsureLookup();
+        }
+    #endif
     }
-
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        isBuilt = false;
-        EnsureLookup();
-    }
-#endif
 }

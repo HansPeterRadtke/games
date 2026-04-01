@@ -1,1 +1,4 @@
-internal static class InventoryEditorMarker { }
+namespace HPR
+{
+    internal static class InventoryEditorMarker { }
+}

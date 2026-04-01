@@ -1,6 +1,6 @@
 {
   "name": "HPR.Input.Editor",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Foundation",
     "HPR.Eventbus.Runtime",

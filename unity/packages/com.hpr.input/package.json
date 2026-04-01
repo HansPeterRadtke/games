@@ -9,5 +9,6 @@
   },
   "dependencies": {
     "com.hpr.foundation": "0.1.0"
-  }
+  },
+  "rootNamespace": "HPR"
 }

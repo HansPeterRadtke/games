@@ -1,1 +1,4 @@
-internal static class InputRuntimeMarker { }
+namespace HPR
+{
+    internal static class InputRuntimeMarker { }
+}

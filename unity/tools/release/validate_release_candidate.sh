@@ -52,7 +52,7 @@ run_logged headless_phase1_validation bash "$repo_root/unity/tools/architecture/
 for entry in "${package_entries[@]}"; do
   package_name=${entry%%|*}
   execute_method=${entry#*|}
-  run_logged "package_${package_name//./_}" env EXECUTE_METHOD="$execute_method" bash "$repo_root/unity/tools/packages/validate_local_packages.sh" "$package_name"
+  run_logged "package_${package_name//./_}" env EXECUTE_METHOD="$execute_method" RUN_TESTS=1 bash "$repo_root/unity/tools/packages/validate_local_packages.sh" "$package_name"
 done
 
 for combo in "${package_combinations[@]}"; do
@@ -60,7 +60,7 @@ for combo in "${package_combinations[@]}"; do
   combo_name="$(printf '%s_' "${combo_packages[@]}" | tr '.-' '__')"
   run_logged "combo_${combo_name%_}" bash "$repo_root/unity/tools/packages/validate_local_packages.sh" "${combo_packages[@]}"
 done
-run_logged game_build bash "$repo_root/unity/tools/fps_demo/run_unity_batch.sh" SceneBootstrap.BuildLinux
+run_logged game_build bash "$repo_root/unity/tools/fps_demo/run_unity_batch.sh" HPR.SceneBootstrap.BuildLinux
 run_logged game_smoke env NO_NOTICE=1 bash "$repo_root/unity/tools/fps_demo/smoke_test.sh"
 
 echo "release candidate validation: OK"

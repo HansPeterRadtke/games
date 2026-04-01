@@ -1,1 +1,4 @@
-internal static class BootstrapRuntimeMarker { }
+namespace HPR
+{
+    internal static class BootstrapRuntimeMarker { }
+}

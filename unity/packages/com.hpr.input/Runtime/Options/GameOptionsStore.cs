@@ -1,122 +1,125 @@
 using UnityEngine;
 
-public static class GameOptionsStore
+namespace HPR
 {
-    private const string PlayerPrefsKey = "fps_demo_options";
-
-    public static GameOptionsData Load()
+    public static class GameOptionsStore
     {
-        if (!PlayerPrefs.HasKey(PlayerPrefsKey))
+        private const string PlayerPrefsKey = "fps_demo_options";
+
+        public static GameOptionsData Load()
         {
-            return GameOptionsData.CreateDefault();
+            if (!PlayerPrefs.HasKey(PlayerPrefsKey))
+            {
+                return GameOptionsData.CreateDefault();
+            }
+
+            var json = PlayerPrefs.GetString(PlayerPrefsKey, string.Empty);
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return GameOptionsData.CreateDefault();
+            }
+
+            var data = JsonUtility.FromJson<GameOptionsData>(json);
+            if (data == null)
+            {
+                return GameOptionsData.CreateDefault();
+            }
+
+            var defaults = GameOptionsData.CreateDefault();
+            if (data.journal == KeyCode.None)
+            {
+                data.journal = defaults.journal;
+            }
+            if (data.abilityPrimary == KeyCode.None)
+            {
+                data.abilityPrimary = defaults.abilityPrimary;
+            }
+            if (data.abilitySecondary == KeyCode.None)
+            {
+                data.abilitySecondary = defaults.abilitySecondary;
+            }
+            if (data.skills == KeyCode.None)
+            {
+                data.skills = defaults.skills;
+            }
+
+            return data;
         }
 
-        var json = PlayerPrefs.GetString(PlayerPrefsKey, string.Empty);
-        if (string.IsNullOrWhiteSpace(json))
+        public static void Save(GameOptionsData data)
         {
-            return GameOptionsData.CreateDefault();
+            PlayerPrefs.SetString(PlayerPrefsKey, JsonUtility.ToJson(data));
+            PlayerPrefs.Save();
         }
 
-        var data = JsonUtility.FromJson<GameOptionsData>(json);
-        if (data == null)
+        public static KeyCode GetBinding(GameOptionsData options, GameAction action)
         {
-            return GameOptionsData.CreateDefault();
+            options ??= GameOptionsData.CreateDefault();
+            return action switch
+            {
+                GameAction.MoveForward => options.moveForward,
+                GameAction.MoveBackward => options.moveBackward,
+                GameAction.MoveLeft => options.moveLeft,
+                GameAction.MoveRight => options.moveRight,
+                GameAction.Jump => options.jump,
+                GameAction.Run => options.run,
+                GameAction.Interact => options.interact,
+                GameAction.AbilityPrimary => options.abilityPrimary,
+                GameAction.AbilitySecondary => options.abilitySecondary,
+                GameAction.Inventory => options.inventory,
+                GameAction.Journal => options.journal,
+                GameAction.Skills => options.skills,
+                GameAction.Map => options.map,
+                GameAction.Pause => options.pause,
+                GameAction.Flashlight => options.flashlight,
+                GameAction.Reload => options.reload,
+                _ => KeyCode.None
+            };
         }
 
-        var defaults = GameOptionsData.CreateDefault();
-        if (data.journal == KeyCode.None)
+        public static void SetBinding(GameOptionsData options, GameAction action, KeyCode key)
         {
-            data.journal = defaults.journal;
-        }
-        if (data.abilityPrimary == KeyCode.None)
-        {
-            data.abilityPrimary = defaults.abilityPrimary;
-        }
-        if (data.abilitySecondary == KeyCode.None)
-        {
-            data.abilitySecondary = defaults.abilitySecondary;
-        }
-        if (data.skills == KeyCode.None)
-        {
-            data.skills = defaults.skills;
-        }
+            if (options == null)
+            {
+                return;
+            }
 
-        return data;
-    }
-
-    public static void Save(GameOptionsData data)
-    {
-        PlayerPrefs.SetString(PlayerPrefsKey, JsonUtility.ToJson(data));
-        PlayerPrefs.Save();
-    }
-
-    public static KeyCode GetBinding(GameOptionsData options, GameAction action)
-    {
-        options ??= GameOptionsData.CreateDefault();
-        return action switch
-        {
-            GameAction.MoveForward => options.moveForward,
-            GameAction.MoveBackward => options.moveBackward,
-            GameAction.MoveLeft => options.moveLeft,
-            GameAction.MoveRight => options.moveRight,
-            GameAction.Jump => options.jump,
-            GameAction.Run => options.run,
-            GameAction.Interact => options.interact,
-            GameAction.AbilityPrimary => options.abilityPrimary,
-            GameAction.AbilitySecondary => options.abilitySecondary,
-            GameAction.Inventory => options.inventory,
-            GameAction.Journal => options.journal,
-            GameAction.Skills => options.skills,
-            GameAction.Map => options.map,
-            GameAction.Pause => options.pause,
-            GameAction.Flashlight => options.flashlight,
-            GameAction.Reload => options.reload,
-            _ => KeyCode.None
-        };
-    }
-
-    public static void SetBinding(GameOptionsData options, GameAction action, KeyCode key)
-    {
-        if (options == null)
-        {
-            return;
+            switch (action)
+            {
+                case GameAction.MoveForward: options.moveForward = key; break;
+                case GameAction.MoveBackward: options.moveBackward = key; break;
+                case GameAction.MoveLeft: options.moveLeft = key; break;
+                case GameAction.MoveRight: options.moveRight = key; break;
+                case GameAction.Jump: options.jump = key; break;
+                case GameAction.Run: options.run = key; break;
+                case GameAction.Interact: options.interact = key; break;
+                case GameAction.AbilityPrimary: options.abilityPrimary = key; break;
+                case GameAction.AbilitySecondary: options.abilitySecondary = key; break;
+                case GameAction.Inventory: options.inventory = key; break;
+                case GameAction.Journal: options.journal = key; break;
+                case GameAction.Skills: options.skills = key; break;
+                case GameAction.Map: options.map = key; break;
+                case GameAction.Pause: options.pause = key; break;
+                case GameAction.Flashlight: options.flashlight = key; break;
+                case GameAction.Reload: options.reload = key; break;
+            }
         }
 
-        switch (action)
+        public static void Apply(GameOptionsData options, Camera playerCamera)
         {
-            case GameAction.MoveForward: options.moveForward = key; break;
-            case GameAction.MoveBackward: options.moveBackward = key; break;
-            case GameAction.MoveLeft: options.moveLeft = key; break;
-            case GameAction.MoveRight: options.moveRight = key; break;
-            case GameAction.Jump: options.jump = key; break;
-            case GameAction.Run: options.run = key; break;
-            case GameAction.Interact: options.interact = key; break;
-            case GameAction.AbilityPrimary: options.abilityPrimary = key; break;
-            case GameAction.AbilitySecondary: options.abilitySecondary = key; break;
-            case GameAction.Inventory: options.inventory = key; break;
-            case GameAction.Journal: options.journal = key; break;
-            case GameAction.Skills: options.skills = key; break;
-            case GameAction.Map: options.map = key; break;
-            case GameAction.Pause: options.pause = key; break;
-            case GameAction.Flashlight: options.flashlight = key; break;
-            case GameAction.Reload: options.reload = key; break;
-        }
-    }
+            options ??= GameOptionsData.CreateDefault();
+            if (!Application.isPlaying)
+            {
+                return;
+            }
 
-    public static void Apply(GameOptionsData options, Camera playerCamera)
-    {
-        options ??= GameOptionsData.CreateDefault();
-        if (!Application.isPlaying)
-        {
-            return;
-        }
+            if (playerCamera != null)
+            {
+                playerCamera.fieldOfView = options.fieldOfView;
+            }
 
-        if (playerCamera != null)
-        {
-            playerCamera.fieldOfView = options.fieldOfView;
+            AudioListener.volume = Mathf.Clamp01(options.masterVolume);
+            QualitySettings.SetQualityLevel(Mathf.Clamp(options.qualityLevel, 0, QualitySettings.names.Length - 1), true);
         }
-
-        AudioListener.volume = Mathf.Clamp01(options.masterVolume);
-        QualitySettings.SetQualityLevel(Mathf.Clamp(options.qualityLevel, 0, QualitySettings.names.Length - 1), true);
     }
 }

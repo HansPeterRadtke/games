@@ -18,7 +18,7 @@ find "$TEMP_PROJECT/Library" -maxdepth 1 \( -name '*lock*' -o -name '*.pid' \) -
 rm -f "$TEMP_PROJECT/Temp/UnityLockfile" || true
 
 run_unity ThirdPartyAssetIntegrator.ApplySelectedLocalPacksFromBatch
-run_unity SceneBootstrap.BuildLinux
+run_unity HPR.SceneBootstrap.BuildLinux
 
 install -d "$MAIN_PROJECT/Assets/Scenes" "$MAIN_BUILD_DIR"
 cp -a "$TEMP_PROJECT/Assets/Scenes/Gameplay.unity" "$MAIN_PROJECT/Assets/Scenes/Gameplay.unity"

@@ -1,0 +1,14 @@
+<test-run total="6" passed="6" failed="0" result="Passed">
+  <test-suite name="HPR.Eventbus.Tests.EditMode">
+    <test-case name="HPR.EventBusEditModeTests.Publish_ReachesBaseTypeSubscribers" result="Passed" duration="0.009" />
+    <test-case name="HPR.EventBusEditModeTests.SubscriptionDispose_RemovesHandler" result="Passed" duration="0.005" />
+  </test-suite>
+  <test-suite name="HPR.Interaction.Tests.EditMode">
+    <test-case name="HPR.InteractionEditModeTests.InteractionTargetProxy_ReturnsExplicitBinding" result="Passed" duration="0.002" />
+    <test-case name="HPR.InteractionEditModeTests.KeyDoorInteractable_StaysClosedWithoutRequiredKey" result="Passed" duration="0.002" />
+  </test-suite>
+  <test-suite name="HPR.Inventory.Tests.EditMode">
+    <test-case name="HPR.InventoryEditModeTests.AmmoItems_UseValueMultiplierWhenAdded" result="Passed" duration="0.004" />
+    <test-case name="HPR.InventoryEditModeTests.RemoveItem_DecrementsStoredQuantity" result="Passed" duration="0.001" />
+  </test-suite>
+</test-run>

@@ -5,7 +5,8 @@
   "unity": "6000.4",
   "description": "Explicit service registration, lifecycle management, and composition root primitives for modular Unity packages with standalone demo validation.",
   "author": {
-    "name": "HansPeterRadtke"
+    "name": "HansPeterRadtke",
+    "url": "https://github.com/HansPeterRadtke"
   },
   "keywords": [
     "composition",
@@ -13,5 +14,16 @@
     "bootstrap",
     "architecture"
   ],
-  "dependencies": {}
+  "dependencies": {},
+  "rootNamespace": "HPR",
+  "documentationUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.composition/README.md",
+  "changelogUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.composition/CHANGELOG.md",
+  "licensesUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.composition/LICENSE.md",
+  "samples": [
+    {
+      "displayName": "Composition Demo",
+      "description": "Import the standalone composition demo scene and support files.",
+      "path": "Samples~/Demo"
+    }
+  ]
 }

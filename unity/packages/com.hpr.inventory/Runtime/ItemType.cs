@@ -1,7 +1,10 @@
-public enum ItemType
+namespace HPR
 {
-    Ammo,
-    Consumable,
-    Key,
-    Utility
+    public enum ItemType
+    {
+        Ammo,
+        Consumable,
+        Key,
+        Utility
+    }
 }

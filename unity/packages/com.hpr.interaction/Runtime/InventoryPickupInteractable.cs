@@ -1,62 +1,65 @@
 using UnityEngine;
 
-[DisallowMultipleComponent]
-public class InventoryPickupInteractable : MonoBehaviour, IInteractable
+namespace HPR
 {
-    [SerializeField] private ItemData itemData;
-    [SerializeField] private int amount = 1;
-    [SerializeField] private MonoBehaviour eventBusSourceBehaviour;
-
-    private IEventBusSource eventBusSource;
-
-    public InteractionType InteractionType => InteractionType.Loot;
-
-    private void Awake()
+    [DisallowMultipleComponent]
+    public class InventoryPickupInteractable : MonoBehaviour, IInteractable
     {
-        eventBusSource = eventBusSourceBehaviour as IEventBusSource;
-    }
+        [SerializeField] private ItemData itemData;
+        [SerializeField] private int amount = 1;
+        [SerializeField] private MonoBehaviour eventBusSourceBehaviour;
 
-    public void BindRuntimeEventBusSource(MonoBehaviour source)
-    {
-        eventBusSourceBehaviour = source;
-        eventBusSource = source as IEventBusSource;
-    }
+        private IEventBusSource eventBusSource;
 
-    public string GetPrompt(IInteractionActor actor)
-    {
-        if (itemData == null)
+        public InteractionType InteractionType => InteractionType.Loot;
+
+        private void Awake()
         {
-            return string.Empty;
+            eventBusSource = eventBusSourceBehaviour as IEventBusSource;
         }
 
-        return string.IsNullOrWhiteSpace(itemData.PickupPrompt)
-            ? $"Pick up {itemData.DisplayName}"
-            : itemData.PickupPrompt;
-    }
-
-    public void Interact(IInteractionActor actor)
-    {
-        if (actor?.InventoryService == null || itemData == null)
+        public void BindRuntimeEventBusSource(MonoBehaviour source)
         {
-            return;
+            eventBusSourceBehaviour = source;
+            eventBusSource = source as IEventBusSource;
         }
 
-        if (!actor.InventoryService.AddItem(itemData, Mathf.Max(1, amount)))
+        public string GetPrompt(IInteractionActor actor)
         {
-            return;
+            if (itemData == null)
+            {
+                return string.Empty;
+            }
+
+            return string.IsNullOrWhiteSpace(itemData.PickupPrompt)
+                ? $"Pick up {itemData.DisplayName}"
+                : itemData.PickupPrompt;
         }
 
-        eventBusSource?.EventBus?.Publish(new ItemPickedEvent
+        public void Interact(IInteractionActor actor)
         {
-            PickerRoot = actor.ActorTransform != null ? actor.ActorTransform.gameObject : null,
-            ItemId = itemData.Id,
-            ItemDisplayName = itemData.DisplayName,
-            LinkedWeaponId = itemData.LinkedWeaponId,
-            PickupStatus = itemData.PickupStatus,
-            ItemType = (int)itemData.ItemType,
-            Amount = Mathf.Max(1, amount)
-        });
+            if (actor?.InventoryService == null || itemData == null)
+            {
+                return;
+            }
 
-        gameObject.SetActive(false);
+            if (!actor.InventoryService.AddItem(itemData, Mathf.Max(1, amount)))
+            {
+                return;
+            }
+
+            eventBusSource?.EventBus?.Publish(new ItemPickedEvent
+            {
+                PickerRoot = actor.ActorTransform != null ? actor.ActorTransform.gameObject : null,
+                ItemId = itemData.Id,
+                ItemDisplayName = itemData.DisplayName,
+                LinkedWeaponId = itemData.LinkedWeaponId,
+                PickupStatus = itemData.PickupStatus,
+                ItemType = (int)itemData.ItemType,
+                Amount = Mathf.Max(1, amount)
+            });
+
+            gameObject.SetActive(false);
+        }
     }
 }

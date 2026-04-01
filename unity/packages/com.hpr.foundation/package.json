@@ -6,5 +6,6 @@
   "description": "Shared runtime and editor code for HansPeterRadtke Unity projects.",
   "author": {
     "name": "HansPeterRadtke"
-  }
+  },
+  "rootNamespace": "HPR"
 }

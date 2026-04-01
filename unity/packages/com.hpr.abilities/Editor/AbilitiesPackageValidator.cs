@@ -1,30 +1,33 @@
-#if UNITY_EDITOR
-using System.Linq;
-using UnityEditor.SceneManagement;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public static class AbilitiesPackageValidator
+namespace HPR
 {
-    private const string ScenePath = "Packages/com.hpr.abilities/Demo/AbilitiesDemo.unity";
+    #if UNITY_EDITOR
+    using System.Linq;
+    using UnityEditor.SceneManagement;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
 
-    public static void ValidateInBatch()
+    public static class AbilitiesPackageValidator
     {
-        AbilitiesDemoSceneBuilder.BuildDemoScene();
-        EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+        private const string ScenePath = "Packages/com.hpr.abilities/Demo/AbilitiesDemo.unity";
 
-        var controller = SceneManager
-            .GetActiveScene()
-            .GetRootGameObjects()
-            .Select(root => root.GetComponentInChildren<AbilitiesDemoController>(true))
-            .FirstOrDefault(candidate => candidate != null);
-        if (controller == null)
+        public static void ValidateInBatch()
         {
-            throw new System.InvalidOperationException("Abilities demo scene is missing AbilitiesDemoController.");
-        }
+            AbilitiesDemoSceneBuilder.BuildDemoScene();
+            EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
 
-        controller.ValidateDemo();
-        Debug.Log("AbilitiesPackageValidator: OK");
+            var controller = SceneManager
+                .GetActiveScene()
+                .GetRootGameObjects()
+                .Select(root => root.GetComponentInChildren<AbilitiesDemoController>(true))
+                .FirstOrDefault(candidate => candidate != null);
+            if (controller == null)
+            {
+                throw new System.InvalidOperationException("Abilities demo scene is missing AbilitiesDemoController.");
+            }
+
+            controller.ValidateDemo();
+            Debug.Log("AbilitiesPackageValidator: OK");
+        }
     }
+    #endif
 }
-#endif

@@ -1,0 +1,430 @@
+Unity Editor version:    6000.4.0f1 (8cf496087c8f)
+Branch:                  6000.4/staging
+Build type:              Release
+Batch mode:              YES
+System name:             Linux
+Distro version:          #202511241048~1764607909~24.04~df6b2b6 SMP PREEMPT_DYNAMIC Mon D
+Kernel version:          6.17.9-76061709-generic
+Architecture:            x86_64
+Available memory:        64131 MB
+Date:                    2026-04-01T07:10:09Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Initialize udev device monitor.
+[Licensing::IpcConnector] Channel LicenseClient-hans doesn't exist
+[Licensing::Module] Successfully launched the LicensingClient (PId: 439425)
+
+COMMAND LINE ARGUMENTS:
+/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity
+-batchmode
+-nographics
+-quit
+-projectPath
+/data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory
+-executeMethod
+HprPackageExportRunner.ExportFromEnvironment
+-logFile
+/data/src/github/games/doc/logs/package_sale_prep/20260401_090335_com_hpr_inventory_export.log
+Successfully changed project path to: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory
+/data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Player connection [131102877178688]  Target information:
+
+Player connection [131102877178688]  * "[IP] 192.168.0.132 [Port] 55504 [Flags] 2 [Guid] 3466884120 [EditorId] 3466884120 [Version] 1048832 [Id] LinuxEditor(16,192.168.0.132) [Debug] 1 [PackageName] LinuxEditor [ProjectName] Editor" 
+
+Player connection [131102877178688]  * "[IP] 172.17.0.1 [Port] 55504 [Flags] 2 [Guid] 3466884120 [EditorId] 3466884120 [Version] 1048832 [Id] LinuxEditor(16,192.168.0.132) [Debug] 1 [PackageName] LinuxEditor [ProjectName] Editor" 
+
+Player connection [131102877178688]  * "[IP] 10.8.0.2 [Port] 55504 [Flags] 2 [Guid] 3466884120 [EditorId] 3466884120 [Version] 1048832 [Id] LinuxEditor(16,192.168.0.132) [Debug] 1 [PackageName] LinuxEditor [ProjectName] Editor" 
+
+Player connection [131102877178688] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [131102877178688] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-439414" after 0.4 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-hans" at "2026-04-01T07:10:10.456027Z"
+[SignatureVerifier] Application signature verification not supported on this platform.
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              1074e2e27a2f4986b082fdde433c2af9
+  Correlation Id:          97eae871438e99286c934a7c8b6f41a5
+  External correlation Id: 3176721117054892537
+  Machine Id:              l9JneE/oSM2w6bwb29/I//rgSro=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-hans" (connect: 0.57s, validation: 0.08s, handshake: 0.00s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-hans-notifications" at "2026-04-01T07:10:10.536068Z"
+[Licensing::Module] Connected to LicensingClient (PId: 439425, launch time: 0.00, total connection time: 0.65s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 9072370782505-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.02
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.69s
+[Licensing::Module] Licensing is initialized (took 0.24s).
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+FMOD failed to initialize the output device.: "Error initializing output device. " (60)
+Forced to initialize FMOD to to the device driver's system output rate 48000, this may impact performance and/or give inconsistent experiences compared to selected sample rate 48000
+FMOD failed to initialize the output device.: "Error initializing output device. " (60)
+FMOD initialized on nosound output
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.4.0f1 (8cf496087c8f)
+[Subsystems] Discovering subsystems at path /data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Initialize mono
+Mono path[0] = '/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/Managed'
+Mono path[1] = '/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux'
+Mono config path = '/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56414
+CodeReloadManager initialized
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
+Registered in 0.002043 seconds.
+Native extension for LinuxStandalone target not found
+Package Manager log level set to [2]
+[Licensing::Client] Successfully resolved entitlement details
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:False
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  2.394 seconds
+Domain Reload Profiling: 3033ms
+	BeginReloadAssembly (116ms)
+		CreateAndSetChildDomain (9ms)
+	RebuildCommonClasses (58ms)
+	RebuildNativeTypeToScriptingClass (15ms)
+	initialDomainReloadingComplete (84ms)
+	LoadAllAssembliesAndSetupDomain (363ms)
+		LoadAssemblies (107ms)
+		AnalyzeDomain (349ms)
+			TypeCache.Refresh (347ms)
+				TypeCache.ScanAssembly (325ms)
+	FinalizeReload (2396ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (63ms)
+			BeforeProcessingInitializeOnLoad (156ms)
+			ProcessInitializeOnLoadAttributes (179ms)
+			ProcessInitializeOnLoadMethodAttributes (1893ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 40 packages:
+  Built-in packages:
+    com.unity.multiplayer.center@1.0.1 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.multiplayer.center@53ad5a5c2bfb)
+    com.unity.modules.accessibility@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.xr)
+    com.unity.ugui@2.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.ugui@288051c775ab)
+    com.unity.test-framework@1.6.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.test-framework@f63be82e0d2e)
+    com.unity.ext.nunit@2.0.5 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.ext.nunit@ec2d0043d6fc)
+    com.unity.modules.subsystems@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Library/PackageCache/com.unity.modules.hierarchycore)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://unix:/tmp/ilpp.sock-1c3d298d53e80f4c24a3af53f2c981b9
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - 200 - application/grpc 47.5264ms
+Starting: /data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Data/Tools/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/2400b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 0s125ms
+*** Tundra build success (0.09 seconds), 0 items updated, 272 evaluated
+AssetDatabase: script compilation time: 0.662103s
+Begin MonoManager ReloadAssembly
+Assembly Assembly-CSharp-Editor-firstpass.dll at Library/ScriptAssemblies/Assembly-CSharp-Editor-firstpass.dll not valid. Loading of assembly skipped.
+Assembly Assembly-CSharp-firstpass.dll at Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll not valid. Loading of assembly skipped.
+Assembly Assembly-CSharp.dll at Library/ScriptAssemblies/Assembly-CSharp.dll not valid. Loading of assembly skipped.
+Assembly TestNewCustomAssembly.dll at Library/ScriptAssemblies/TestNewCustomAssembly.dll not valid. Loading of assembly skipped.
+Assembly Unity.Multiplayer.Center.Editor.Tests.dll at Library/ScriptAssemblies/Unity.Multiplayer.Center.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.Multiplayer.Center.Tests.dll at Library/ScriptAssemblies/Unity.Multiplayer.Center.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.TextMeshPro.Editor.Tests.dll at Library/ScriptAssemblies/Unity.TextMeshPro.Editor.Tests.dll not valid. Loading of assembly skipped.
+Assembly Unity.TextMeshPro.Tests.dll at Library/ScriptAssemblies/Unity.TextMeshPro.Tests.dll not valid. Loading of assembly skipped.
+Assembly UnityEditor.UI.Common.Tests.dll at Library/ScriptAssemblies/UnityEditor.UI.Common.Tests.dll not valid. Loading of assembly skipped.
+Assembly UnityEditor.UI.EditorTests.dll at Library/ScriptAssemblies/UnityEditor.UI.EditorTests.dll not valid. Loading of assembly skipped.
+Assembly UnityEngine.UI.Tests.dll at Library/ScriptAssemblies/UnityEngine.UI.Tests.dll not valid. Loading of assembly skipped.
+Native extension for LinuxStandalone target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.706 seconds
+Domain Reload Profiling: 1373ms
+	BeginReloadAssembly (320ms)
+		DisableScriptedObjects (18ms)
+		CreateAndSetChildDomain (150ms)
+	RebuildCommonClasses (61ms)
+	RebuildNativeTypeToScriptingClass (16ms)
+	initialDomainReloadingComplete (48ms)
+	LoadAllAssembliesAndSetupDomain (221ms)
+		LoadAssemblies (240ms)
+		AnalyzeDomain (46ms)
+			TypeCache.Refresh (26ms)
+				TypeCache.ScanAssembly (19ms)
+			BuildScriptInfoCaches (13ms)
+			ResolveRequiredComponents (5ms)
+	FinalizeReload (708ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (28ms)
+			BeforeProcessingInitializeOnLoad (209ms)
+			ProcessInitializeOnLoadAttributes (124ms)
+			ProcessInitializeOnLoadMethodAttributes (96ms)
+			AfterProcessingInitializeOnLoad (6ms)
+		AwakeInstancesAfterBackupRestoration (7ms)
+(Values over 0.050ms)
+Asset Pipeline Refresh (id=88684cc4b675f78ceb85192017eae6a1): Total: 2.380 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=988 ms
+		Asset DB Callback time: managed=33 ms, native=7 ms
+		Scripting: domain reloads=1, domain reload time=665 ms, compile time=666 ms, other=16 ms
+		Project Asset Count: scripts=265, non-scripts=141
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokePackagesCallback: 7.812ms
+	ApplyChangesToAssetFolders: 0.330ms
+	Scan: 161.351ms
+	CategorizeScriptCompilationAssets: 9.692ms
+	ProcessAssetsWithTransientArtifactChanges: 16.687ms
+	CategorizeAssets: 4.129ms
+	CompileScripts: 665.574ms
+	ImportOutOfDateAssets: 710.243ms (709.223ms without children)
+		UnloadImportedAssets: 0.561ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.148ms
+		OnDemandSchedulerStart: 0.309ms
+	PostProcessAllAssets: 33.907ms
+		MonoPostProcessAllAssets: 33.815ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 13.860ms
+			SyncVS.PostprocessSyncProject 1.855ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.143ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.762ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.329ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.323ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.211ms
+	UnloadStreamsBegin: 1.936ms
+	GenerateScriptTypeHashes: 0.528ms
+	GenerateScriptTypeSerializationHashes: 1.149ms
+	Untracked: 767.138ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 3.909ms
+Initializing Unity extensions:
+UpdateMenuTitleForLanguage: 10
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-sale_com_hpr_inventory
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 837 unused Assets / (1.2 MB). Loaded Objects now: 1437.
+Memory consumption went from 90.7 MB to 89.5 MB.
+Total: 7.609260 ms (FindLiveObjects: 0.149233 ms CreateObjectMapping: 0.076136 ms MarkObjects: 6.319478 ms  DeleteObjects: 1.063273 ms)
+
+Asset Pipeline Refresh (id=d6bb7bdb31a33db47b70e973e52aee5f): Total: 0.066 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Starting new worker id: 0 with log in /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Logs/AssetImportWorker0.log
+Starting new worker id: 1 with log in /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_inventory/Logs/AssetImportWorker1.log
+Worker ready: AssetImportWorker0 0
+Worker ready: AssetImportWorker1 1
+[Worker0] Start importing Assets/com.hpr.inventory/Tests/EditMode/HPR.Inventory.Tests.EditMode.asmdef using Guid(e1f5b60f990b436fadd2151bb1441970) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: 'd0769728733b205e5881c06887769635') in 0.003755106 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=96c13bb7a617a1179cdfaae06a5ff918 DependenciesID=7a850c250d846f053ed9fa0dda3129b6 StaticDependenciesID=3826db4c03784c8d3b7c22ad8739128e 
+[Worker0] Start importing Assets/com.hpr.inventory/README.md using Guid(9e42e1d446e1315a09fd8f3f46f0d3bd) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: 'c62d81df11ecac9a5d2e5043e3eb5914') in 0.027914642 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=d7cc24698367cd7c4444c01533193e86 DependenciesID=27d17463aaa8917b92edcf8584237ee3 StaticDependenciesID=574ac7ec46485cd329b2f059c64638b8 
+[Worker0] Start importing Assets/com.hpr.inventory/Demo/RifleAmmo.asset using Guid(edb22b7593e79ed86a2934cebbf3b51e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '6c6155422e5a294161c5f3dfc6dfc687') in 0.001539728 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ea0b2d129b2641879542256dda97f6c5 DependenciesID=d2e3a03f821b167c826e67593b39efb4 StaticDependenciesID=09c2eb5e62dd4e73a2d6c60bd108d682 
+[Worker0] Start importing Assets/com.hpr.inventory/Demo/SilverKey.asset using Guid(fb73fc940785b949383cff87ed4d7581) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: 'e392cbc949a815c2493f96bee330872e') in 0.000924623 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=b48ee77fff6d24c59f3a53ed5787e9bb DependenciesID=0883d6948212ddb3524bb5f283433ac0 StaticDependenciesID=5f997653af381ace35fbaf51f36a046c 
+[Worker0] Start importing Assets/com.hpr.inventory/Editor/HPR.Inventory.Editor.asmdef using Guid(a7ef89c7b53b15927a11ae37cb739de2) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '734f67ff0b43b661c937a8db7fa4fbd8') in 0.000346903 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=608a525a89af7ae02cd278d44e999072 DependenciesID=e8a99aae712c56118beca1f636e97c1a StaticDependenciesID=d121842754630690514c705648172d9e 
+[Worker0] Start importing Assets/com.hpr.inventory/Demo using Guid(fe3e9c5870f3cba97b364ac229704579) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: 'b3f6a174a6a3aeecb19416b8d659584d') in 0.000307088 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=cd99fddd352930bd2866a1e5877ef0ea DependenciesID=7ae73f5c8753d782091cda97fbd88fc0 StaticDependenciesID=b095d3be0d1f9f60bea2c187071579d2 
+[Worker0] Start importing Assets/com.hpr.inventory/LICENSE.md using Guid(6ef4710662ee3b4b6acd90555e52499b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '06a4119d36fa1d06d88880405c0a69a4') in 0.000744304 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=4b2a09120a92cb0a9b33fd2bd8738deb DependenciesID=caff81441ab8878765f1bdef89a875ff StaticDependenciesID=07937b1f6519dba27211749e9d45437d 
+[Worker0] Start importing Assets/com.hpr.inventory/Runtime/ItemData.cs using Guid(5336d2857dd642379c26746c83dfc55e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '625c63320d55c9502ae5f7cad48751df') in 0.000311795 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ef8122945f49eb11040bba9f7cbec09e DependenciesID=dce4f80f5868472c0695922fe6c3501f StaticDependenciesID=a8ff12e94e1bb8cf1281350ea679df04 
+[Worker0] Start importing Assets/com.hpr.inventory/package.json using Guid(bd7db5db0ffbdc846abdac7870eb0b21) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '8988999f4de09a48561a2655658f00f7') in 0.000644605 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=73b15c318f921b40b1a612cad39e93ae DependenciesID=d21e07ec7955ee962951aec919218629 StaticDependenciesID=296f00a35fe92a493707ed2c5c91894c 
+[Worker0] Start importing Assets/com.hpr.inventory/Editor using Guid(2e0a13754aefc3d948a9eb5a4bd6de27) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '93a886a0027dc4cfde457f25e3046338') in 0.000274195 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=69b49085749cb2b65b09a287e460e238 DependenciesID=d7ca49b694737924a11154e8762478e3 StaticDependenciesID=cffaa7b1d5b571ac2cc4f589e20d0669 
+[Worker0] Start importing Assets/com.hpr.inventory/Tests using Guid(91b22100f89b42e5bff4951708625629) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '802ae6cd0677af38cf49464d63d2e22d') in 0.000254344 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=caf8641976440dd2b5b6a10149f31070 DependenciesID=b7627198395e89b3143aa4b276937b23 StaticDependenciesID=5b12f09fe41c038a9ab561aee1ff9c82 
+[Worker0] Start importing Assets/com.hpr.inventory/Demo/HealthPotion.asset using Guid(0174a67eca5470dc383226ce493d8610) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: 'b91f58b05002877e90b38005acc2a786') in 0.00070626 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=7af0f79c03b073e65cfcd4876b0f8397 DependenciesID=b2b29087d237ef631d1c26debaf0beed StaticDependenciesID=5437e3461e9c4eed9afaa5aa1cf247b2 
+[Worker0] Start importing Assets/com.hpr.inventory/Tests/EditMode/InventoryEditModeTests.cs using Guid(8f1c0f2e9d1a4e449a37e341878b78f1) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '85589b4ebc30951bb230e282344a2279') in 0.00031339 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=33d83a6df2d32cfc5566cfbcbf9e70af DependenciesID=7ffad8d289b6176bb00392af80cb7837 StaticDependenciesID=b630d5e5e85052be6d7d7c97fc852808 
+[Worker0] Start importing Assets/com.hpr.inventory/Demo/README.md using Guid(43108ff3f1abfc3af24dc88ce2e44435) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: 'a6d8b4d34bf87ea478a64b3a394fbdfe') in 0.000890235 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=d018da84cfd62354f086b5a0286ed9e7 DependenciesID=cab2da20059f293dc9c43ca7a2be46b3 StaticDependenciesID=e11e1e5d3a050ead8959666614a2af75 
+[Worker0] Start importing Assets/com.hpr.inventory/Runtime/IInventoryService.cs using Guid(605469dc95294b228f8983f1079825f1) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '9b7d42ceec29871451fd734f60d58f5a') in 0.00041758 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=3558db098250a26b82724c9fcee3ef09 DependenciesID=9c4be6d80d33eb30a01a66cbbb54d76e StaticDependenciesID=13fc554a51155947514685078d51ecc0 
+[Worker0] Start importing Assets/com.hpr.inventory/Runtime/InventoryRuntimeMarker.cs using Guid(260ca8e6427f36c9dcd1bcfdd3a58c46) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: 'c78bb5c328f86ef226a430182f14f762') in 0.000434589 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=57be7f65279cead4972ce737d34a1976 DependenciesID=d133e0f144c65715c211b5bc4702254a StaticDependenciesID=e1638659c900283b845c683aaad377a5 
+[Worker0] Start importing Assets/com.hpr.inventory/Demo/InventoryDemo.unity using Guid(438dd347e4ad5aba5b2b2ecb621917d4) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '9f2a5ee86945af5f307a6023a0f510f9') in 0.000400145 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=86ecb6edf4ee88ebc5de142becdd8026 DependenciesID=71caf0a9e2d91d61cdeb3e150a604be1 StaticDependenciesID=5e7a4f63dbb70f12b04da5b1fa0d7537 
+[Worker0] Start importing Assets/com.hpr.inventory/Runtime/ItemType.cs using Guid(e2d62a5b08024e099aac1855f371e5f5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '5fc5d558a214e5e1384b827bd0669dec') in 0.000302077 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=8ad5b1bbb61782fdadf8176bd716bdce DependenciesID=e40e7cd90b4d282718dcd421696b4f4a StaticDependenciesID=d4960d8a2834a7ca7a696bf56bb9120b 
+[Worker0] Start importing Assets/com.hpr.inventory/Runtime/InventoryComponent.cs using Guid(3862978a151c4f0cb6684cc3e9c884ff) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: 'd62f1549e22cf92c23bb023ffd768691') in 0.000283929 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=c2e3a8fa75a7f95b5e57e4dc8ded40b6 DependenciesID=4dc37fb017556ad654e89d5b406c1e50 StaticDependenciesID=35f67099fd5735483a21933b8ef290e1 
+[Worker0] Start importing Assets/com.hpr.inventory/Editor/InventoryEditorMarker.cs using Guid(694d5bde2135fa5f44c080deb67d275c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '931772137a2708cf30e3246395f19e00') in 0.000324977 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=6f330d295579d3dc9f230a6cac1e8297 DependenciesID=25756274309de3ef1a2155959f9c5d77 StaticDependenciesID=f3062d36704a45e08ee1d52aa4cba6d3 
+[Worker0] Start importing Assets/com.hpr.inventory/Editor/InventoryDemoSceneBuilder.cs using Guid(09022e8556df26c95be2c6e4a6b20f34) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '8d0ee08694dc18a99dce3c69a9b2ba32') in 0.00033524 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=b693458f459092debff0a5934fddcff7 DependenciesID=8f266e4878af17ef9a898132736e327b StaticDependenciesID=07bb7e77144821b7fcf344e34a1cba09 
+[Worker0] Start importing Assets/com.hpr.inventory/ThirdPartyNotices.md using Guid(e45262362d53fc841883c335e848f9b4) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '558f8f9ff4fa3ae95f8a462b9a5121e3') in 0.000593904 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=7efd39fdaf75087609b572f51f0cdcac DependenciesID=8314509da56121713390a621118d5014 StaticDependenciesID=78723773ce184cad2d9462e338cb49b7 
+[Worker0] Start importing Assets/com.hpr.inventory/Runtime/HPR.Inventory.Runtime.asmdef using Guid(3cad601b8101bae82f84e463b237cea4) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '5d3e9f9b89ca7c838adf2a2fcaec7c3d') in 0.000341957 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=655dab1d5863bea9ce5cc40fc0596142 DependenciesID=8d395ca25ce9a5d0af4e2d654ba306fc StaticDependenciesID=95bbc5be51693871ebeff0da8cf8bc50 
+[Worker0] Start importing Assets/com.hpr.inventory/CHANGELOG.md using Guid(517b1753f15285519a734e0c0e28668d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '742be75f23c05ae24402f544a7906957') in 0.000583354 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=7bf52f7d1e6b6afd1b007489f0bcc478 DependenciesID=dcfc9a46309318a96ce681d628a27acd StaticDependenciesID=2ab135cb68d068663b5a996ac8219b09 
+[Worker0] Start importing Assets/com.hpr.inventory/Demo/InventoryDemoController.cs using Guid(42c069a1b7a471e708c1c323fc5efb2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '3c77dd9cca22179cacb72ef1790e6907') in 0.000373182 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=a355f4691fa4e3e3fbfe4ee54d113c6a DependenciesID=01f8474e84e6b16f5ff5c3ac739887b2 StaticDependenciesID=8a265bb106116478da00ef0be6fbcd57 
+[Worker0] Start importing Assets/com.hpr.inventory using Guid(d7bf7f9862eaf392fa3e77c46bd732b7) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '7b11a360b83e5fec81e8fd0dcf5865c0') in 0.000380071 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=1cdefd3702087779a6d49682e8526f23 DependenciesID=219e4df321e4d3c3e48f71f3953a231a StaticDependenciesID=76c10b4a376569dc6c6e86e299011eaa 
+[Worker0] Start importing Assets/com.hpr.inventory/Editor/InventoryPackageValidator.cs using Guid(6cf51bf7771f2de0ba0d13a69ce937a6) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '524dc8af625e71bec8ac41db35f5c0a1') in 0.000279875 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=f7e9a9ca9899c41647f5b3adbb0a1be0 DependenciesID=3fce9e5ec3aa64d5bfeef6417c8bdc06 StaticDependenciesID=64bbd71fd51310165a9e70cdbc45aa53 
+[Worker0] Start importing Assets/com.hpr.inventory/Tests/EditMode using Guid(aa2f57407a554bbea4c003783233fcc0) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '08c5e77eb5b9e83284f4c0237ec66506') in 0.000522287 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=997b229ed3f7e9a5bb18710ffbaeec44 DependenciesID=6fbefd8950c7ab64bc1976eff17ee44c StaticDependenciesID=cb4552efd1b6d64bbb8e57e4a454c37a 
+[Worker0] Start importing Assets/com.hpr.inventory/Runtime using Guid(2fd7875aa3cbce396b7a05b947d6f649) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: 'b2e5b8d2ae9b48a52f61d20049a5608f') in 0.000460287 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=0266c6962e46a634f9fe2a1c078bd8af DependenciesID=26e5f330c630eedc2d5af1c8165de1d7 StaticDependenciesID=091d0fa4bde37349c98362b88d9238de 
+[Worker0] Start importing Assets/com.hpr.inventory/Demo/HPR.Inventory.Demo.asmdef using Guid(0f479510da8c0a267860354d43c12a0d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: '52c4c45b40a42d6c422888092e43f8ad') in 0.000320958 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=5d4ec929bed4009e8adc9ac990a25ed7 DependenciesID=efe7ab2758b3c82a6cd74d291528a4c0 StaticDependenciesID=e299de0db7fe1dc920eccd2e6f2361ed 
+[Worker0] Start importing Assets/com.hpr.inventory/Runtime/InventoryEvents.cs using Guid(e23b9cf99e0b9060b8a8f52ef95cc241) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker0] (PreviewImporter)
+[Worker0]  -> (Import Result ID: 'bb3a6a10473f88817a142bd7fb223950') in 0.000317346 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=0e9634d1855e90864ecf1eb1760eebd5 DependenciesID=14cfdc7f9e811063d037444e48744690 StaticDependenciesID=07b06b89fbde23d140d517c8058b0772 
+Exported package: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.inventory/com.hpr.inventory.unitypackage
+Export size: 13710 bytes
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-hans-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-hans channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+Cleanup mono
+CodeReloadManager destroyed
+debugger-agent: Unable to listen on 39
+Checking for leaked weakptr:
+  Found no leaked weakptrs.
+[Package Manager] Server process was shutdown
+##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1775027434381,"processId":439414,"allocatedMemory":8013504,"memoryLabels":[{"Default":175504},{"Permanent":16000},{"Thread":1084656},{"Manager":24349},{"VertexData":8},{"Geometry":408},{"Texture":24},{"Shader":842835},{"Material":24},{"GfxDevice":36088},{"Animation":456},{"Audio":3008},{"FreeType":8},{"FontEngine":736},{"Physics":2090},{"Physics2D":16},{"Serialization":536},{"Input":27232},{"JobScheduler":33024},{"TextLib":216},{"Mono":32},{"ScriptingNativeRuntime":155088},{"BaseObject":1622976},{"Resource":1008},{"Renderer":3000},{"Transform":4717},{"File":828},{"WebCam":80},{"Culling":32},{"Terrain":11298},{"Wind":24},{"String":16627},{"StaticString":7050},{"Utility":2672848},{"Curl":2511},{"PoolAlloc":1864},{"AI":80},{"TypeTree":5341},{"ScriptManager":448},{"RuntimeInitializeOnLoadManager":64},{"SpriteAtlas":120},{"GI":7384},{"Director":8288},{"CloudService":7936},{"WebRequest":845},{"VR":47810},{"SceneManager":536},{"Video":64},{"LazyScriptCache":32},{"Camera":17},{"Secure":12185},{"SerializationCache":1576},{"APIUpdating":10320},{"Subsystems":336},{"VirtualTexturing":57552},{"StaticSafetyDebugInfo":278528},{"Analytics":464},{"Hierarchy":1416},{"CoreStats":13032},{"Identifiers":12960},{"Gui":160},{"EditorUtility":73137},{"VersionControl":4},{"Undo":963},{"AssetDatabase":670955},{"EditorGi":328},{"UnityConnect":37761},{"Upm":1752},{"AssetCompliance":64},{"DrivenProperties":72},{"LocalIPC":147},{"ProfilerEditor":9746},{"CoreBusinessMetrics":2344},{"Windowing":480},{"Licensing":1096},{"AssetReference":32},{"IPCStream":32}]}

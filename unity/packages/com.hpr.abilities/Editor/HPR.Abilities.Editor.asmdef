@@ -1,6 +1,6 @@
 {
   "name": "HPR.Abilities.Editor",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Abilities.Runtime",
     "HPR.Abilities.Demo",

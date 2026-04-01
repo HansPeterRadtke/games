@@ -1,76 +1,80 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-public sealed class ServiceRegistry : IServiceRegistry
+namespace HPR
 {
-    private readonly Dictionary<Type, object> services = new();
-    private readonly List<object> serviceOrder = new();
-
-    public void Register<TService>(TService service) where TService : class
+    public sealed class ServiceRegistry : IServiceRegistry
     {
-        Register(typeof(TService), service);
-    }
+        private readonly Dictionary<Type, object> services = new();
+        private readonly List<object> serviceOrder = new();
 
-    public void Register(Type serviceType, object service)
-    {
-        if (serviceType == null)
+        public void Register<TService>(TService service) where TService : class
         {
-            throw new ArgumentNullException(nameof(serviceType));
+            Register(typeof(TService), service);
         }
 
-        if (service == null)
+        public void Register(Type serviceType, object service)
         {
-            throw new ArgumentNullException(nameof(service));
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException(nameof(serviceType));
+            }
+
+            if (service == null)
+            {
+                throw new ArgumentNullException(nameof(service));
+            }
+
+            if (!serviceType.IsInstanceOfType(service))
+            {
+                throw new ArgumentException($"Service does not implement '{serviceType.FullName}'.", nameof(service));
+            }
+
+            services[serviceType] = service;
+            if (!serviceOrder.Contains(service))
+            {
+                serviceOrder.Add(service);
+            }
         }
 
-        if (!serviceType.IsInstanceOfType(service))
+        public TService Resolve<TService>() where TService : class
         {
-            throw new ArgumentException($"Service does not implement '{serviceType.FullName}'.", nameof(service));
+            if (TryResolve(out TService? service))
+            {
+                return service;
+            }
+
+            throw new InvalidOperationException($"Service '{typeof(TService).FullName}' is not registered.");
         }
 
-        services[serviceType] = service;
-        if (!serviceOrder.Contains(service))
+        public bool TryResolve<TService>([NotNullWhen(true)] out TService? service) where TService : class
         {
-            serviceOrder.Add(service);
-        }
-    }
+            if (services.TryGetValue(typeof(TService), out object? instance) && instance is TService typed)
+            {
+                service = typed;
+                return true;
+            }
 
-    public TService Resolve<TService>() where TService : class
-    {
-        if (TryResolve(out TService? service))
-        {
-            return service;
+            service = serviceOrder.OfType<TService>().FirstOrDefault();
+            return service != null;
         }
 
-        throw new InvalidOperationException($"Service '{typeof(TService).FullName}' is not registered.");
-    }
-
-    public bool TryResolve<TService>([NotNullWhen(true)] out TService? service) where TService : class
-    {
-        if (services.TryGetValue(typeof(TService), out object? instance) && instance is TService typed)
+        public IReadOnlyList<TService> ResolveAll<TService>() where TService : class
         {
-            service = typed;
-            return true;
+            return serviceOrder.OfType<TService>().ToList();
         }
 
-        service = serviceOrder.OfType<TService>().FirstOrDefault();
-        return service != null;
-    }
+        public bool IsRegistered<TService>() where TService : class
+        {
+            return services.ContainsKey(typeof(TService)) || serviceOrder.OfType<TService>().Any();
+        }
 
-    public IReadOnlyList<TService> ResolveAll<TService>() where TService : class
-    {
-        return serviceOrder.OfType<TService>().ToList();
-    }
-
-    public bool IsRegistered<TService>() where TService : class
-    {
-        return services.ContainsKey(typeof(TService)) || serviceOrder.OfType<TService>().Any();
-    }
-
-    internal IReadOnlyList<object> GetOrderedServices()
-    {
-        return serviceOrder;
+        internal IReadOnlyList<object> GetOrderedServices()
+        {
+            return serviceOrder;
+        }
     }
 }

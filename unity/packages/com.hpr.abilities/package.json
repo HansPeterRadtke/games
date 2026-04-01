@@ -5,10 +5,28 @@
   "unity": "6000.4",
   "description": "Reusable data-driven active abilities with costs, cooldowns, unlocks, and event-driven runtime hooks.",
   "author": {
-    "name": "HansPeterRadtke"
+    "name": "HansPeterRadtke",
+    "url": "https://github.com/HansPeterRadtke"
   },
   "dependencies": {
     "com.hpr.eventbus": "0.1.0",
     "com.hpr.stats": "0.1.0"
-  }
+  },
+  "rootNamespace": "HPR",
+  "documentationUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.abilities/README.md",
+  "changelogUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.abilities/CHANGELOG.md",
+  "licensesUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.abilities/LICENSE.md",
+  "keywords": [
+    "abilities",
+    "cooldown",
+    "effects",
+    "gameplay"
+  ],
+  "samples": [
+    {
+      "displayName": "Abilities Demo",
+      "description": "Import the standalone abilities demo scene and support files.",
+      "path": "Samples~/Demo"
+    }
+  ]
 }

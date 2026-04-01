@@ -1,23 +1,26 @@
 using System.Linq;
 using UnityEngine;
 
-[DisallowMultipleComponent]
-public class InteractionTargetProxy : MonoBehaviour
+namespace HPR
 {
-    [SerializeField] private MonoBehaviour interactableBehaviour;
-
-    public IInteractable Resolve()
+    [DisallowMultipleComponent]
+    public class InteractionTargetProxy : MonoBehaviour
     {
-        if (interactableBehaviour is IInteractable explicitTarget)
+        [SerializeField] private MonoBehaviour interactableBehaviour;
+
+        public IInteractable Resolve()
         {
-            return explicitTarget;
+            if (interactableBehaviour is IInteractable explicitTarget)
+            {
+                return explicitTarget;
+            }
+
+            return GetComponents<MonoBehaviour>().OfType<IInteractable>().FirstOrDefault();
         }
 
-        return GetComponents<MonoBehaviour>().OfType<IInteractable>().FirstOrDefault();
-    }
-
-    public void Bind(MonoBehaviour source)
-    {
-        interactableBehaviour = source;
+        public void Bind(MonoBehaviour source)
+        {
+            interactableBehaviour = source;
+        }
     }
 }

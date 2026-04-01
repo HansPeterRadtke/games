@@ -1,1 +1,4 @@
-internal static class InventoryRuntimeMarker { }
+namespace HPR
+{
+    internal static class InventoryRuntimeMarker { }
+}

@@ -12,5 +12,6 @@
     "com.hpr.core": "0.1.0",
     "com.hpr.eventbus": "0.1.0",
     "com.unity.ugui": "2.0.0"
-  }
+  },
+  "rootNamespace": "HPR"
 }

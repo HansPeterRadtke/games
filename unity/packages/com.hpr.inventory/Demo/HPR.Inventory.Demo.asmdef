@@ -1,6 +1,6 @@
 {
   "name": "HPR.Inventory.Demo",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Inventory.Runtime"
   ],

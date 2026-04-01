@@ -1,30 +1,33 @@
-#if UNITY_EDITOR
-using System.Linq;
-using UnityEditor.SceneManagement;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public static class StatsPackageValidator
+namespace HPR
 {
-    private const string ScenePath = "Packages/com.hpr.stats/Demo/StatsDemo.unity";
+    #if UNITY_EDITOR
+    using System.Linq;
+    using UnityEditor.SceneManagement;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
 
-    public static void ValidateInBatch()
+    public static class StatsPackageValidator
     {
-        StatsDemoSceneBuilder.BuildDemoScene();
-        EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+        private const string ScenePath = "Packages/com.hpr.stats/Demo/StatsDemo.unity";
 
-        var controller = SceneManager
-            .GetActiveScene()
-            .GetRootGameObjects()
-            .Select(root => root.GetComponentInChildren<StatsDemoController>(true))
-            .FirstOrDefault(candidate => candidate != null);
-        if (controller == null)
+        public static void ValidateInBatch()
         {
-            throw new System.InvalidOperationException("Stats demo scene is missing StatsDemoController.");
-        }
+            StatsDemoSceneBuilder.BuildDemoScene();
+            EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
 
-        controller.ValidateDemo();
-        Debug.Log("StatsPackageValidator: OK");
+            var controller = SceneManager
+                .GetActiveScene()
+                .GetRootGameObjects()
+                .Select(root => root.GetComponentInChildren<StatsDemoController>(true))
+                .FirstOrDefault(candidate => candidate != null);
+            if (controller == null)
+            {
+                throw new System.InvalidOperationException("Stats demo scene is missing StatsDemoController.");
+            }
+
+            controller.ValidateDemo();
+            Debug.Log("StatsPackageValidator: OK");
+        }
     }
+    #endif
 }
-#endif

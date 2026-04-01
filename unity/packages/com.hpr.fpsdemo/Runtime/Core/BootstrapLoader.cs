@@ -1,23 +1,26 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class BootstrapLoader : MonoBehaviour
+namespace HPR
 {
-    [SerializeField] private string gameplaySceneName = "Gameplay";
-
-    private void Start()
+    public class BootstrapLoader : MonoBehaviour
     {
-        if (string.IsNullOrWhiteSpace(gameplaySceneName))
-        {
-            return;
-        }
+        [SerializeField] private string gameplaySceneName = "Gameplay";
 
-        Scene activeScene = SceneManager.GetActiveScene();
-        if (activeScene.name == gameplaySceneName)
+        private void Start()
         {
-            return;
-        }
+            if (string.IsNullOrWhiteSpace(gameplaySceneName))
+            {
+                return;
+            }
 
-        SceneManager.LoadScene(gameplaySceneName, LoadSceneMode.Single);
+            Scene activeScene = SceneManager.GetActiveScene();
+            if (activeScene.name == gameplaySceneName)
+            {
+                return;
+            }
+
+            SceneManager.LoadScene(gameplaySceneName, LoadSceneMode.Single);
+        }
     }
 }

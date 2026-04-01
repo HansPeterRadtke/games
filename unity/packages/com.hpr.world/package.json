@@ -5,7 +5,25 @@
   "unity": "6000.4",
   "description": "Reusable asset metadata and registry types for world and placement workflows.",
   "author": {
-    "name": "HansPeterRadtke"
+    "name": "HansPeterRadtke",
+    "url": "https://github.com/HansPeterRadtke"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "rootNamespace": "HPR",
+  "documentationUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.world/README.md",
+  "changelogUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.world/CHANGELOG.md",
+  "licensesUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.world/LICENSE.md",
+  "keywords": [
+    "world",
+    "registry",
+    "metadata",
+    "placement"
+  ],
+  "samples": [
+    {
+      "displayName": "World Demo",
+      "description": "Import the standalone world demo scene and support files.",
+      "path": "Samples~/Demo"
+    }
+  ]
 }

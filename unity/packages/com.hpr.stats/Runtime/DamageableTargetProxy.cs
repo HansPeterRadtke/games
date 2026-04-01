@@ -1,23 +1,26 @@
 using System.Linq;
 using UnityEngine;
 
-[DisallowMultipleComponent]
-public class DamageableTargetProxy : MonoBehaviour
+namespace HPR
 {
-    [SerializeField] private MonoBehaviour damageableBehaviour;
-
-    public IDamageable Resolve()
+    [DisallowMultipleComponent]
+    public class DamageableTargetProxy : MonoBehaviour
     {
-        if (damageableBehaviour is IDamageable explicitTarget)
+        [SerializeField] private MonoBehaviour damageableBehaviour;
+
+        public IDamageable Resolve()
         {
-            return explicitTarget;
+            if (damageableBehaviour is IDamageable explicitTarget)
+            {
+                return explicitTarget;
+            }
+
+            return GetComponents<MonoBehaviour>().OfType<IDamageable>().FirstOrDefault();
         }
 
-        return GetComponents<MonoBehaviour>().OfType<IDamageable>().FirstOrDefault();
-    }
-
-    public void Bind(MonoBehaviour source)
-    {
-        damageableBehaviour = source;
+        public void Bind(MonoBehaviour source)
+        {
+            damageableBehaviour = source;
+        }
     }
 }

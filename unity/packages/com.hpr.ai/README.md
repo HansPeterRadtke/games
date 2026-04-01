@@ -45,14 +45,14 @@ private void Start()
 
 ## Demo
 - Scene: `Packages/com.hpr.ai/Demo/AiDemo.unity`
-- Builder: `AiDemoSceneBuilder.BuildDemoScene`
-- Batch validator: `AiPackageValidator.ValidateInBatch`
+- Builder: `HPR.AiDemoSceneBuilder.BuildDemoScene`
+- Batch validator: `HPR.AiPackageValidator.ValidateInBatch`
 
 ## Validation
 - Unity batch mode:
-  - `Unity -batchmode -projectPath <your-project> -executeMethod AiPackageValidator.ValidateInBatch -quit`
+  - `Unity -batchmode -projectPath <your-project> -executeMethod HPR.AiPackageValidator.ValidateInBatch -quit`
 - repository helper (used inside this repo):
-  - `EXECUTE_METHOD=AiPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.ai`
+  - `EXECUTE_METHOD=HPR.AiPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.ai`
 
 ## Extension points
 - add custom editor tooling that consumes `EnemyData`
@@ -62,3 +62,15 @@ private void Start()
 ## Limitations
 - this package defines AI data only; it does not include a full runtime behavior tree or navigation system
 - combat execution and target selection remain the responsibility of the consuming project
+
+## Samples
+- Import the package sample from Package Manager > Samples > AI Demo.
+- The imported sample contains the demo scene and helper scripts from `Samples~/Demo`.
+
+## Documentation
+- `Documentation~/Overview.md` provides package-specific installation and integration notes.
+- `Documentation~/Support.md` lists the support and issue-reporting path.
+
+## Support
+- issue tracker: https://github.com/HansPeterRadtke/games/issues
+- when reporting a package issue, include the package name, Unity version, and the validator log if available.

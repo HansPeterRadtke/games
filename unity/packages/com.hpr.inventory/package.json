@@ -5,7 +5,25 @@
   "unity": "6000.4",
   "description": "Reusable item definitions and stack-based inventory runtime services for Unity projects.",
   "author": {
-    "name": "HansPeterRadtke"
+    "name": "HansPeterRadtke",
+    "url": "https://github.com/HansPeterRadtke"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "rootNamespace": "HPR",
+  "documentationUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.inventory/README.md",
+  "changelogUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.inventory/CHANGELOG.md",
+  "licensesUrl": "https://github.com/HansPeterRadtke/games/blob/main/unity/packages/com.hpr.inventory/LICENSE.md",
+  "keywords": [
+    "inventory",
+    "items",
+    "pickup",
+    "loot"
+  ],
+  "samples": [
+    {
+      "displayName": "Inventory Demo",
+      "description": "Import the standalone inventory demo scene and support files.",
+      "path": "Samples~/Demo"
+    }
+  ]
 }

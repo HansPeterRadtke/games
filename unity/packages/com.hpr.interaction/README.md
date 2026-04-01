@@ -54,14 +54,14 @@ if (sensor.TryInteract(actor))
 
 ## Demo
 - Scene: `Packages/com.hpr.interaction/Demo/InteractionDemo.unity`
-- Builder: `InteractionDemoSceneBuilder.BuildDemoScene`
-- Batch validator: `InteractionPackageValidator.ValidateInBatch`
+- Builder: `HPR.InteractionDemoSceneBuilder.BuildDemoScene`
+- Batch validator: `HPR.InteractionPackageValidator.ValidateInBatch`
 
 ## Validation
 - Unity batch mode:
-  - `Unity -batchmode -projectPath <your-project> -executeMethod InteractionPackageValidator.ValidateInBatch -quit`
+  - `Unity -batchmode -projectPath <your-project> -executeMethod HPR.InteractionPackageValidator.ValidateInBatch -quit`
 - repository helper (used inside this repo):
-  - `EXECUTE_METHOD=InteractionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.interaction`
+  - `EXECUTE_METHOD=HPR.InteractionPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.interaction`
 
 ## Extension points
 - implement your own `IInteractable` behaviors for terminals, switches, dialogue, or loot containers
@@ -71,3 +71,15 @@ if (sensor.TryInteract(actor))
 ## Limitations
 - this package does not provide a full HUD prompt renderer
 - input polling is demo-only; production projects should trigger `TryInteract(...)` from their own input layer
+
+## Samples
+- Import the package sample from Package Manager > Samples > Interaction Demo.
+- The imported sample contains the demo scene and helper scripts from `Samples~/Demo`.
+
+## Documentation
+- `Documentation~/Overview.md` provides package-specific installation and integration notes.
+- `Documentation~/Support.md` lists the support and issue-reporting path.
+
+## Support
+- issue tracker: https://github.com/HansPeterRadtke/games/issues
+- when reporting a package issue, include the package name, Unity version, and the validator log if available.

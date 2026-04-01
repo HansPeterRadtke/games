@@ -1,11 +1,13 @@
 using UnityEngine;
 
-public sealed class DamageEvent
+namespace HPR
 {
-    public GameObject SourceRoot;
-    public GameObject TargetRoot;
-    public float Amount;
-    public Vector3 HitPoint;
-    public Vector3 HitDirection;
+    public sealed class DamageEvent
+    {
+        public GameObject SourceRoot;
+        public GameObject TargetRoot;
+        public float Amount;
+        public Vector3 HitPoint;
+        public Vector3 HitDirection;
+    }
 }
-

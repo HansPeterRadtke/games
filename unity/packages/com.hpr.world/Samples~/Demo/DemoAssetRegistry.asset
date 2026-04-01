@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2241bb7784ed7c19b02a749e2949ff7, type: 3}
+  m_Name: DemoAssetRegistry
+  m_EditorClassIdentifier: HPR.World.Runtime::AssetRegistry
+  entries:
+  - {fileID: 11400000, guid: 044f9eb95bc42519ba8a296677d71f35, type: 2}
+  - {fileID: 11400000, guid: 28fdf5e3e0d9eab41af6366b76713242, type: 2}

@@ -1,6 +1,6 @@
 {
   "name": "HPR.Save.Editor",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Save.Runtime",
     "HPR.Save.Demo"

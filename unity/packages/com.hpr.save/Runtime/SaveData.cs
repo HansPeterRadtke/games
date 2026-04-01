@@ -1,50 +1,53 @@
 using System;
 using UnityEngine;
 
-[Serializable]
-public struct SerializableVector3
+namespace HPR
 {
-    public float x;
-    public float y;
-    public float z;
-
-    public SerializableVector3(Vector3 value)
+    [Serializable]
+    public struct SerializableVector3
     {
-        x = value.x;
-        y = value.y;
-        z = value.z;
+        public float x;
+        public float y;
+        public float z;
+
+        public SerializableVector3(Vector3 value)
+        {
+            x = value.x;
+            y = value.y;
+            z = value.z;
+        }
+
+        public Vector3 ToVector3() => new Vector3(x, y, z);
     }
 
-    public Vector3 ToVector3() => new Vector3(x, y, z);
-}
-
-[Serializable]
-public struct SerializableQuaternion
-{
-    public float x;
-    public float y;
-    public float z;
-    public float w;
-
-    public SerializableQuaternion(Quaternion value)
+    [Serializable]
+    public struct SerializableQuaternion
     {
-        x = value.x;
-        y = value.y;
-        z = value.z;
-        w = value.w;
+        public float x;
+        public float y;
+        public float z;
+        public float w;
+
+        public SerializableQuaternion(Quaternion value)
+        {
+            x = value.x;
+            y = value.y;
+            z = value.z;
+            w = value.w;
+        }
+
+        public Quaternion ToQuaternion() => new Quaternion(x, y, z, w);
     }
 
-    public Quaternion ToQuaternion() => new Quaternion(x, y, z, w);
-}
-
-[Serializable]
-public class SaveEntityData
-{
-    public string id;
-    public bool active = true;
-    public bool boolValue;
-    public int intValue;
-    public float health;
-    public SerializableVector3 position;
-    public SerializableQuaternion rotation;
+    [Serializable]
+    public class SaveEntityData
+    {
+        public string id;
+        public bool active = true;
+        public bool boolValue;
+        public int intValue;
+        public float health;
+        public SerializableVector3 position;
+        public SerializableQuaternion rotation;
+    }
 }

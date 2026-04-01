@@ -1,4 +1,7 @@
-public interface IEventBusSource
+namespace HPR
 {
-    IEventBus EventBus { get; }
+    public interface IEventBusSource
+    {
+        IEventBus EventBus { get; }
+    }
 }

@@ -1,6 +1,6 @@
 {
   "name": "HPR.Interaction.Demo",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.Interaction.Runtime",
     "HPR.Inventory.Runtime",

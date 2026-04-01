@@ -47,14 +47,14 @@ private void Start()
 
 ## Demo
 - Scene: `Packages/com.hpr.weapons/Demo/WeaponsDemo.unity`
-- Builder: `WeaponsDemoSceneBuilder.BuildDemoScene`
-- Batch validator: `WeaponsPackageValidator.ValidateInBatch`
+- Builder: `HPR.WeaponsDemoSceneBuilder.BuildDemoScene`
+- Batch validator: `HPR.WeaponsPackageValidator.ValidateInBatch`
 
 ## Validation
 - Unity batch mode:
-  - `Unity -batchmode -projectPath <your-project> -executeMethod WeaponsPackageValidator.ValidateInBatch -quit`
+  - `Unity -batchmode -projectPath <your-project> -executeMethod HPR.WeaponsPackageValidator.ValidateInBatch -quit`
 - repository helper (used inside this repo):
-  - `EXECUTE_METHOD=WeaponsPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.weapons`
+  - `EXECUTE_METHOD=HPR.WeaponsPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.weapons`
 
 ## Extension points
 - derive custom editor tooling that reads `WeaponData`
@@ -64,3 +64,15 @@ private void Start()
 ## Limitations
 - this package defines weapon data only; it does not include a complete shooting runtime
 - projectile prefabs and combat execution remain the responsibility of the consuming project
+
+## Samples
+- Import the package sample from Package Manager > Samples > Weapons Demo.
+- The imported sample contains the demo scene and helper scripts from `Samples~/Demo`.
+
+## Documentation
+- `Documentation~/Overview.md` provides package-specific installation and integration notes.
+- `Documentation~/Support.md` lists the support and issue-reporting path.
+
+## Support
+- issue tracker: https://github.com/HansPeterRadtke/games/issues
+- when reporting a package issue, include the package name, Unity version, and the validator log if available.

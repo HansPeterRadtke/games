@@ -1,6 +1,6 @@
 {
   "name": "HPR.World.Demo",
-  "rootNamespace": "",
+  "rootNamespace": "HPR",
   "references": [
     "HPR.World.Runtime"
   ],

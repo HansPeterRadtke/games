@@ -1,1 +1,4 @@
-internal static class UiEditorMarker { }
+namespace HPR
+{
+    internal static class UiEditorMarker { }
+}

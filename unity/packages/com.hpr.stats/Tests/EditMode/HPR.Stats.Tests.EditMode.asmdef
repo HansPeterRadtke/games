@@ -1,0 +1,22 @@
+{
+  "name": "HPR.Stats.Tests.EditMode",
+  "rootNamespace": "HPR",
+  "references": [
+    "HPR.Eventbus.Runtime",
+    "HPR.Stats.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "noEngineReferences": false
+}

@@ -21,5 +21,6 @@
     "com.hpr.ai": "0.1.0",
     "com.hpr.stats": "0.1.0",
     "com.hpr.world": "0.1.0"
-  }
+  },
+  "rootNamespace": "HPR"
 }

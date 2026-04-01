@@ -1,1 +1,4 @@
-internal static class WeaponsEditorMarker { }
+namespace HPR
+{
+    internal static class WeaponsEditorMarker { }
+}

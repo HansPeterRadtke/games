@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57dcabfcc66b42818d7f4a0173933788, type: 3}
+  m_Name: DemoRifle
+  m_EditorClassIdentifier: HPR.Weapons.Runtime::WeaponData
+  Id: weapon_demo_rifle
+  DisplayName: Demo Rifle
+  FireModeType: 0
+  IncludeInDefaultLoadout: 1
+  DefaultSlot: -1
+  Damage: 18
+  Range: 64
+  FireDelay: 0.2
+  MaxAmmo: 180
+  AmmoPerPickup: 30
+  ProjectilePrefab: {fileID: 0}
+  Kind: 0
+  UtilityAction: 0
+  LinkedItemId: 
+  UtilityMessage: 
+  ViewShape: 3
+  ViewPrefab: {fileID: 0}
+  ViewColor: {r: 1, g: 1, b: 1, a: 1}
+  ViewLocalPosition: {x: 0, y: 0, z: 0}
+  ViewLocalEuler: {x: 0, y: 0, z: 0}
+  ViewLocalScale: {x: 1.6, y: 0.18, z: 0.25}
+  AimLocalPosition: {x: 0, y: 0, z: 0}
+  ViewMuzzleLocalPosition: {x: 0, y: 0, z: 0}
+  Spread: 0.01
+  Pellets: 1
+  MagazineSize: 30
+  StartingMagazineAmmo: 30
+  StartingReserveAmmo: 90
+  UsesAmmo: 1
+  ProjectileSpeed: 42
+  ImpactForce: 10
+  ProjectileScale: 0.08
+  ExplosiveRadius: 0

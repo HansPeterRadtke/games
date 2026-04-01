@@ -1,188 +1,191 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class FpsDemoServiceAdapter : MonoBehaviour, IInputBindingsSource, IOptionsController, IEventBusSource, IGameplayStateSource, IStatusMessageSink, IInteractionPromptSink, IHudRefreshSink, IThreatScanner, IGameplayFlowCommands, IGameMenuCommands, IPlayerDeathHandler, IPlayerActorSource, IEnemyRegistry, ISkillTreeCommands, IQuestJournalSource, IDialogueFlowCommands, ISkillPointRewardSink, IQuestStateQuery, IInventoryItemUseCommands
+namespace HPR
 {
-    private IServiceResolver services;
-
-    public GameOptionsData CurrentOptions => services.ResolveOptional<IInputBindingsSource>()?.CurrentOptions ?? GameOptionsData.CreateDefault();
-    public IEventBus EventBus => services.ResolveOptional<IEventBus>();
-    public bool AllowsGameplayInput => services.ResolveOptional<IGameplayStateSource>()?.AllowsGameplayInput ?? false;
-    public bool IsGameplayRunning => services.ResolveOptional<IGameplayStateSource>()?.IsGameplayRunning ?? false;
-    public bool IsMapVisible => services.ResolveOptional<IGameplayStateSource>()?.IsMapVisible ?? false;
-    public bool IsInventoryVisible => services.ResolveOptional<IGameplayStateSource>()?.IsInventoryVisible ?? false;
-    public bool IsJournalVisible => services.ResolveOptional<IGameplayStateSource>()?.IsJournalVisible ?? false;
-    public bool IsSkillsVisible => services.ResolveOptional<IGameplayStateSource>()?.IsSkillsVisible ?? false;
-    public bool IsDialogueVisible => services.ResolveOptional<IGameplayStateSource>()?.IsDialogueVisible ?? false;
-    public bool IsPauseVisible => services.ResolveOptional<IGameplayStateSource>()?.IsPauseVisible ?? false;
-    public bool IsOptionsVisible => services.ResolveOptional<IGameplayStateSource>()?.IsOptionsVisible ?? false;
-    public bool IsRebindingKey => services.ResolveOptional<IGameplayStateSource>()?.IsRebindingKey ?? false;
-    public bool IsCombatLive => services.ResolveOptional<IGameplayStateSource>()?.IsCombatLive ?? false;
-    public bool HasSaveGame => services.ResolveOptional<IGameMenuCommands>()?.HasSaveGame ?? false;
-    public IPlayerActor Player => services.ResolveOptional<IPlayerActorSource>()?.Player;
-
-    public void Configure(IServiceResolver serviceResolver)
+    public sealed class FpsDemoServiceAdapter : MonoBehaviour, IInputBindingsSource, IOptionsController, IEventBusSource, IGameplayStateSource, IStatusMessageSink, IInteractionPromptSink, IHudRefreshSink, IThreatScanner, IGameplayFlowCommands, IGameMenuCommands, IPlayerDeathHandler, IPlayerActorSource, IEnemyRegistry, ISkillTreeCommands, IQuestJournalSource, IDialogueFlowCommands, ISkillPointRewardSink, IQuestStateQuery, IInventoryItemUseCommands
     {
-        services = serviceResolver;
-    }
+        private IServiceResolver services;
 
-    public void ApplyOptions(GameOptionsData updatedOptions)
-    {
-        services.ResolveOptional<IOptionsController>()?.ApplyOptions(updatedOptions);
-    }
+        public GameOptionsData CurrentOptions => services.ResolveOptional<IInputBindingsSource>()?.CurrentOptions ?? GameOptionsData.CreateDefault();
+        public IEventBus EventBus => services.ResolveOptional<IEventBus>();
+        public bool AllowsGameplayInput => services.ResolveOptional<IGameplayStateSource>()?.AllowsGameplayInput ?? false;
+        public bool IsGameplayRunning => services.ResolveOptional<IGameplayStateSource>()?.IsGameplayRunning ?? false;
+        public bool IsMapVisible => services.ResolveOptional<IGameplayStateSource>()?.IsMapVisible ?? false;
+        public bool IsInventoryVisible => services.ResolveOptional<IGameplayStateSource>()?.IsInventoryVisible ?? false;
+        public bool IsJournalVisible => services.ResolveOptional<IGameplayStateSource>()?.IsJournalVisible ?? false;
+        public bool IsSkillsVisible => services.ResolveOptional<IGameplayStateSource>()?.IsSkillsVisible ?? false;
+        public bool IsDialogueVisible => services.ResolveOptional<IGameplayStateSource>()?.IsDialogueVisible ?? false;
+        public bool IsPauseVisible => services.ResolveOptional<IGameplayStateSource>()?.IsPauseVisible ?? false;
+        public bool IsOptionsVisible => services.ResolveOptional<IGameplayStateSource>()?.IsOptionsVisible ?? false;
+        public bool IsRebindingKey => services.ResolveOptional<IGameplayStateSource>()?.IsRebindingKey ?? false;
+        public bool IsCombatLive => services.ResolveOptional<IGameplayStateSource>()?.IsCombatLive ?? false;
+        public bool HasSaveGame => services.ResolveOptional<IGameMenuCommands>()?.HasSaveGame ?? false;
+        public IPlayerActor Player => services.ResolveOptional<IPlayerActorSource>()?.Player;
 
-    public void RebindAction(GameAction action, KeyCode key)
-    {
-        services.ResolveOptional<IOptionsController>()?.RebindAction(action, key);
-    }
+        public void Configure(IServiceResolver serviceResolver)
+        {
+            services = serviceResolver;
+        }
 
-    public void NotifyStatus(string message)
-    {
-        services.ResolveOptional<IStatusMessageSink>()?.NotifyStatus(message);
-    }
+        public void ApplyOptions(GameOptionsData updatedOptions)
+        {
+            services.ResolveOptional<IOptionsController>()?.ApplyOptions(updatedOptions);
+        }
 
-    public void SetInteractionPrompt(string prompt)
-    {
-        services.ResolveOptional<IInteractionPromptSink>()?.SetInteractionPrompt(prompt);
-    }
+        public void RebindAction(GameAction action, KeyCode key)
+        {
+            services.ResolveOptional<IOptionsController>()?.RebindAction(action, key);
+        }
 
-    public void RefreshHud()
-    {
-        services.ResolveOptional<IHudRefreshSink>()?.RefreshHud();
-    }
+        public void NotifyStatus(string message)
+        {
+            services.ResolveOptional<IStatusMessageSink>()?.NotifyStatus(message);
+        }
 
-    public string DescribeNearbyThreats(Vector3 position)
-    {
-        return services.ResolveOptional<IThreatScanner>()?.DescribeNearbyThreats(position) ?? string.Empty;
-    }
+        public void SetInteractionPrompt(string prompt)
+        {
+            services.ResolveOptional<IInteractionPromptSink>()?.SetInteractionPrompt(prompt);
+        }
 
-    public void MarkCombatReady()
-    {
-        services.ResolveOptional<IGameplayFlowCommands>()?.MarkCombatReady();
-    }
+        public void RefreshHud()
+        {
+            services.ResolveOptional<IHudRefreshSink>()?.RefreshHud();
+        }
 
-    public void TogglePauseMenu()
-    {
-        services.ResolveOptional<IGameplayFlowCommands>()?.TogglePauseMenu();
-    }
+        public string DescribeNearbyThreats(Vector3 position)
+        {
+            return services.ResolveOptional<IThreatScanner>()?.DescribeNearbyThreats(position) ?? string.Empty;
+        }
 
-    public void ToggleInventory()
-    {
-        services.ResolveOptional<IGameplayFlowCommands>()?.ToggleInventory();
-    }
+        public void MarkCombatReady()
+        {
+            services.ResolveOptional<IGameplayFlowCommands>()?.MarkCombatReady();
+        }
 
-    public void ToggleJournal()
-    {
-        services.ResolveOptional<IGameplayFlowCommands>()?.ToggleJournal();
-    }
+        public void TogglePauseMenu()
+        {
+            services.ResolveOptional<IGameplayFlowCommands>()?.TogglePauseMenu();
+        }
 
-    public void ToggleSkills()
-    {
-        services.ResolveOptional<IGameplayFlowCommands>()?.ToggleSkills();
-    }
+        public void ToggleInventory()
+        {
+            services.ResolveOptional<IGameplayFlowCommands>()?.ToggleInventory();
+        }
 
-    public void ToggleMap()
-    {
-        services.ResolveOptional<IGameplayFlowCommands>()?.ToggleMap();
-    }
+        public void ToggleJournal()
+        {
+            services.ResolveOptional<IGameplayFlowCommands>()?.ToggleJournal();
+        }
 
-    public void ShowOptionsMenu(bool visible)
-    {
-        services.ResolveOptional<IGameplayFlowCommands>()?.ShowOptionsMenu(visible);
-    }
+        public void ToggleSkills()
+        {
+            services.ResolveOptional<IGameplayFlowCommands>()?.ToggleSkills();
+        }
 
-    public void CloseDialogue()
-    {
-        services.ResolveOptional<IGameplayFlowCommands>()?.CloseDialogue();
-    }
+        public void ToggleMap()
+        {
+            services.ResolveOptional<IGameplayFlowCommands>()?.ToggleMap();
+        }
 
-    public void ActivatePrimaryMenuAction()
-    {
-        services.ResolveOptional<IGameMenuCommands>()?.ActivatePrimaryMenuAction();
-    }
+        public void ShowOptionsMenu(bool visible)
+        {
+            services.ResolveOptional<IGameplayFlowCommands>()?.ShowOptionsMenu(visible);
+        }
 
-    public void ResumeSession()
-    {
-        services.ResolveOptional<IGameMenuCommands>()?.ResumeSession();
-    }
+        public void CloseDialogue()
+        {
+            services.ResolveOptional<IGameplayFlowCommands>()?.CloseDialogue();
+        }
 
-    public void SaveGame()
-    {
-        services.ResolveOptional<IGameMenuCommands>()?.SaveGame();
-    }
+        public void ActivatePrimaryMenuAction()
+        {
+            services.ResolveOptional<IGameMenuCommands>()?.ActivatePrimaryMenuAction();
+        }
 
-    public void LoadGame()
-    {
-        services.ResolveOptional<IGameMenuCommands>()?.LoadGame();
-    }
+        public void ResumeSession()
+        {
+            services.ResolveOptional<IGameMenuCommands>()?.ResumeSession();
+        }
 
-    public void StartNewGame()
-    {
-        services.ResolveOptional<IGameMenuCommands>()?.StartNewGame();
-    }
+        public void SaveGame()
+        {
+            services.ResolveOptional<IGameMenuCommands>()?.SaveGame();
+        }
 
-    public void ExitGame()
-    {
-        services.ResolveOptional<IGameMenuCommands>()?.ExitGame();
-    }
+        public void LoadGame()
+        {
+            services.ResolveOptional<IGameMenuCommands>()?.LoadGame();
+        }
 
-    public void HandlePlayerDeath()
-    {
-        services.ResolveOptional<IPlayerDeathHandler>()?.HandlePlayerDeath();
-    }
+        public void StartNewGame()
+        {
+            services.ResolveOptional<IGameMenuCommands>()?.StartNewGame();
+        }
 
-    public void RegisterEnemy(EnemyAgent enemy)
-    {
-        services.ResolveOptional<IEnemyRegistry>()?.RegisterEnemy(enemy);
-    }
+        public void ExitGame()
+        {
+            services.ResolveOptional<IGameMenuCommands>()?.ExitGame();
+        }
 
-    public void UnregisterEnemy(EnemyAgent enemy)
-    {
-        services.ResolveOptional<IEnemyRegistry>()?.UnregisterEnemy(enemy);
-    }
+        public void HandlePlayerDeath()
+        {
+            services.ResolveOptional<IPlayerDeathHandler>()?.HandlePlayerDeath();
+        }
 
-    public bool TryUnlockSkill(string skillId)
-    {
-        return services.ResolveOptional<ISkillTreeCommands>()?.TryUnlockSkill(skillId) ?? false;
-    }
+        public void RegisterEnemy(EnemyAgent enemy)
+        {
+            services.ResolveOptional<IEnemyRegistry>()?.RegisterEnemy(enemy);
+        }
 
-    public void AwardSkillPoints(int amount, string reason)
-    {
-        services.ResolveOptional<ISkillPointRewardSink>()?.AwardSkillPoints(amount, reason);
-    }
+        public void UnregisterEnemy(EnemyAgent enemy)
+        {
+            services.ResolveOptional<IEnemyRegistry>()?.UnregisterEnemy(enemy);
+        }
 
-    public bool IsQuestActive(string questId)
-    {
-        return services.ResolveOptional<IQuestStateQuery>()?.IsQuestActive(questId) ?? false;
-    }
+        public bool TryUnlockSkill(string skillId)
+        {
+            return services.ResolveOptional<ISkillTreeCommands>()?.TryUnlockSkill(skillId) ?? false;
+        }
 
-    public bool IsQuestCompleted(string questId)
-    {
-        return services.ResolveOptional<IQuestStateQuery>()?.IsQuestCompleted(questId) ?? false;
-    }
+        public void AwardSkillPoints(int amount, string reason)
+        {
+            services.ResolveOptional<ISkillPointRewardSink>()?.AwardSkillPoints(amount, reason);
+        }
 
-    public bool IsObjectiveComplete(string questId, string objectiveId)
-    {
-        return services.ResolveOptional<IQuestStateQuery>()?.IsObjectiveComplete(questId, objectiveId) ?? false;
-    }
+        public bool IsQuestActive(string questId)
+        {
+            return services.ResolveOptional<IQuestStateQuery>()?.IsQuestActive(questId) ?? false;
+        }
 
-    public List<QuestJournalEntryViewData> BuildJournalEntries()
-    {
-        return services.ResolveOptional<IQuestJournalSource>()?.BuildJournalEntries() ?? new List<QuestJournalEntryViewData>();
-    }
+        public bool IsQuestCompleted(string questId)
+        {
+            return services.ResolveOptional<IQuestStateQuery>()?.IsQuestCompleted(questId) ?? false;
+        }
 
-    public bool TryUseInventoryItem(string itemId)
-    {
-        return services.ResolveOptional<IInventoryItemUseCommands>()?.TryUseInventoryItem(itemId) ?? false;
-    }
+        public bool IsObjectiveComplete(string questId, string objectiveId)
+        {
+            return services.ResolveOptional<IQuestStateQuery>()?.IsObjectiveComplete(questId, objectiveId) ?? false;
+        }
 
-    public bool StartDialogue(string npcId, string speakerName, DialogueData dialogueData)
-    {
-        return services.ResolveOptional<IDialogueFlowCommands>()?.StartDialogue(npcId, speakerName, dialogueData) ?? false;
-    }
+        public List<QuestJournalEntryViewData> BuildJournalEntries()
+        {
+            return services.ResolveOptional<IQuestJournalSource>()?.BuildJournalEntries() ?? new List<QuestJournalEntryViewData>();
+        }
 
-    public void SelectDialogueChoice(string choiceId)
-    {
-        services.ResolveOptional<IDialogueFlowCommands>()?.SelectDialogueChoice(choiceId);
+        public bool TryUseInventoryItem(string itemId)
+        {
+            return services.ResolveOptional<IInventoryItemUseCommands>()?.TryUseInventoryItem(itemId) ?? false;
+        }
+
+        public bool StartDialogue(string npcId, string speakerName, DialogueData dialogueData)
+        {
+            return services.ResolveOptional<IDialogueFlowCommands>()?.StartDialogue(npcId, speakerName, dialogueData) ?? false;
+        }
+
+        public void SelectDialogueChoice(string choiceId)
+        {
+            services.ResolveOptional<IDialogueFlowCommands>()?.SelectDialogueChoice(choiceId);
+        }
     }
 }

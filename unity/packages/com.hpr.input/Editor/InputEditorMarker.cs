@@ -1,1 +1,4 @@
-internal static class InputEditorMarker { }
+namespace HPR
+{
+    internal static class InputEditorMarker { }
+}

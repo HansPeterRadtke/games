@@ -51,14 +51,14 @@ runner.TryActivate(repairPulse.Id);
 
 ## Demo
 - Scene: `Packages/com.hpr.abilities/Demo/AbilitiesDemo.unity`
-- Builder: `AbilitiesDemoSceneBuilder.BuildDemoScene`
-- Batch validator: `AbilitiesPackageValidator.ValidateInBatch`
+- Builder: `HPR.AbilitiesDemoSceneBuilder.BuildDemoScene`
+- Batch validator: `HPR.AbilitiesPackageValidator.ValidateInBatch`
 
 ## Validation
 - Unity batch mode:
-  - `Unity -batchmode -projectPath <your-project> -executeMethod AbilitiesPackageValidator.ValidateInBatch -quit`
+  - `Unity -batchmode -projectPath <your-project> -executeMethod HPR.AbilitiesPackageValidator.ValidateInBatch -quit`
 - repository helper (used inside this repo):
-  - `EXECUTE_METHOD=AbilitiesPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.abilities`
+  - `EXECUTE_METHOD=HPR.AbilitiesPackageValidator.ValidateInBatch unity/tools/packages/validate_local_packages.sh com.hpr.abilities`
 
 ## Extension points
 - add new effect types through `AbilityEffectType` and `AbilityRunnerComponent`
@@ -69,3 +69,15 @@ runner.TryActivate(repairPulse.Id);
 ## Limitations
 - the included runner supports heal, stamina restore, and area-damage effects only
 - ability targeting UI and input bindings belong in the consuming project
+
+## Samples
+- Import the package sample from Package Manager > Samples > Abilities Demo.
+- The imported sample contains the demo scene and helper scripts from `Samples~/Demo`.
+
+## Documentation
+- `Documentation~/Overview.md` provides package-specific installation and integration notes.
+- `Documentation~/Support.md` lists the support and issue-reporting path.
+
+## Support
+- issue tracker: https://github.com/HansPeterRadtke/games/issues
+- when reporting a package issue, include the package name, Unity version, and the validator log if available.
