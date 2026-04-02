@@ -1,13 +1,20 @@
 package: com.hpr.stats
 project: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_stats
 unitypackage: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.stats/com.hpr.stats.unitypackage
-unitypackage_size_bytes: 22124
+unitypackage_size_bytes: 22129
 upm_zip: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.stats/com.hpr.stats_upm.zip
 upm_zip_size_bytes: 22968
 resolved_packages: com.hpr.eventbus com.hpr.stats
 validator_method: HPR.StatsPackageValidator.ValidateInBatch
-validate_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_stats_validate.log
-refresh_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_stats_refresh.log
-export_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_stats_export.log
-screenshot: /data/src/github/games/dist/package_sale_artifacts/com.hpr.stats/screenshots/com.hpr.stats.png
-screenshot_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_stats_screenshot.log
+validate_log: /data/src/github/games/doc/logs/package_sale_prep/20260402_111427_com_hpr_stats_validate.log
+refresh_log: /data/src/github/games/doc/logs/package_sale_prep/20260402_111427_com_hpr_stats_refresh.log
+export_log: /data/src/github/games/doc/logs/package_sale_prep/20260402_111427_com_hpr_stats_export.log
+screenshots:
+  - /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.stats/screenshots/01_overview.png
+  - /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.stats/screenshots/02_workflow.png
+  - /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.stats/screenshots/03_details.png
+tracked_screenshots:
+  - /data/src/github/games/dist/package_sale_artifacts/com.hpr.stats/screenshots/01_overview.png
+  - /data/src/github/games/dist/package_sale_artifacts/com.hpr.stats/screenshots/02_workflow.png
+  - /data/src/github/games/dist/package_sale_artifacts/com.hpr.stats/screenshots/03_details.png
+screenshot_log: /data/src/github/games/doc/logs/package_sale_prep/20260402_111427_com_hpr_stats_screenshot.log

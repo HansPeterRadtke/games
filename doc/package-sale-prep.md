@@ -1,6 +1,6 @@
 # Package Sale Preparation
 
-Generated on 2026-04-01T11:03:17+02:00
+Generated on 2026-04-02T11:31:37+02:00
 
 ## Prepared sellable packages
 - `com.hpr.eventbus`: project `/data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_eventbus`, unitypackage `/data/src/github/games/dist/package_sale_artifacts/com.hpr.eventbus/com.hpr.eventbus.unitypackage`, zip `/data/src/github/games/dist/package_sale_artifacts/com.hpr.eventbus/com.hpr.eventbus_upm.zip`, dependencies `com.hpr.eventbus`
@@ -19,7 +19,7 @@ Generated on 2026-04-01T11:03:17+02:00
 
 ## Tracked artifact root
 - `/data/src/github/games/dist/package_sale_artifacts`
-- each package directory now contains the exported `.unitypackage`, UPM zip, screenshot PNG, info file, and listing draft markdown
+- each package directory now contains the exported `.unitypackage`, UPM zip, three storefront screenshots, info file, and listing draft markdown
 
 ## Project root
 - `/data/tmp/hpr_assetstore_sale/projects`
@@ -29,11 +29,7 @@ Generated on 2026-04-01T11:03:17+02:00
 - Logs: `/data/src/github/games/doc/logs/asset_store_tools_validation`
 
 ## Human-only steps left
-- Finalize Unity Asset Store publisher listings, pricing, categories, and support/contact identity.
-- Review the generated screenshot and listing draft for each package and replace them only if you want a more polished marketing presentation.
-- Perform a final human review in each clean sale project before upload.
-- Upload the generated `.unitypackage` files or package source zips through the publisher portal.
-- Handle publisher-account, payout, tax, and legal acceptance steps outside the repo.
+- See `doc/human-only-final-steps.md`.
 
 ## Not prepared for sale
 - Packages outside the frozen sellable set in `unity/tools/release/release_packages.json` remain excluded for engineering reasons and are not included in these artifacts.

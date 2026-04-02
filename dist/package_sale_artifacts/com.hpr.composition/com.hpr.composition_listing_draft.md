@@ -1,60 +1,83 @@
-# HPR Composition Asset Store Listing Draft
+# HPR Composition Root Listing Draft
+
+## Release recommendation
+- Status: `launch_now`
+- Reason: Architecturally clean, independently useful, validated headless, and strong companion product for teams building modular Unity runtime composition.
 
 ## Title
-HPR Composition
+HPR Composition Root
 
 ## Short description
-Explicit service registration, lifecycle management, and composition root primitives for modular Unity packages with standalone demo validation.
+Explicit service registration and lifecycle orchestration for modular Unity runtime systems.
+
+## Positioning
+An explicit composition root and service registry for Unity teams that want deterministic startup, ticking, and teardown without DI container magic.
 
 ## Long description
-Explicit service registration and lifecycle primitives for Unity projects that want composition without hidden singletons, scene hierarchy assumptions, or reflection magic.
+HPR Composition Root packages the minimum runtime orchestration needed to register services, initialize them in a predictable order, tick them explicitly, and dispose them cleanly. It is intentionally small and readable so it can serve as a real composition layer instead of another hidden framework core.
+This package is strongest for teams that want to build around package boundaries, headless validation, and thin scene adapters. It avoids reflection-based discovery, hidden singletons, and scene-hierarchy service lookup.
 
-Use this package when you want:
-- explicit runtime service registration
-- deterministic initialization and disposal ordering
-- the same composition model in Unity and headless validation tools
+## Feature bullets
+- IService, IInitializable, IUpdatableService, IServiceResolver, and IServiceRegistry contracts.
+- Explicit ServiceRegistry and CompositionRoot implementation.
+- Headless-friendly lifecycle orchestration for tests and command-line validation.
+- Works cleanly with thin scene adapters instead of acting as a global manager.
+- Includes demo scene, validator, and EditMode test coverage.
 
-Included:
-- `IService`
-- `IServiceResolver`
-- `IServiceRegistry`
-- `IInitializable`
-- `IUpdatableService`
-- `ServiceRegistry`
-- `CompositionRoot`
+## Use cases
+- Build scene bootstraps that only wire package-owned services together.
+- Run the same service graph in headless tests and live scenes.
+- Replace ad-hoc update hubs with explicit composition code.
 
-Installation summary:
-- Add `com.hpr.composition` to your Unity project.
-- Reference `HPR.Composition.Runtime` from any dependent asmdef.
-- Register services explicitly in a bootstrap layer.
-- Call `CompositionRoot.Initialize()` after registration.
-
-Documentation summary:
-Explicit service registration, lifecycle management, and composition root primitives for modular Unity packages with standalone demo validation.
-
-Known product limits:
-- this package does not discover services automatically
-- it intentionally does not include reflection-based auto-registration
-- scene binding remains the responsibility of the consuming project
+## Installation summary
+- Import the .unitypackage and open the included demo scene for the sample lifecycle flow.
+- Register service instances explicitly through ServiceRegistry.
+- Drive initialization and ticking through CompositionRoot or your own thin adapter.
+- Demo/sample path after import: `Assets/com.hpr.composition/Samples~/Demo`
 
 ## Technical details
-- Package name: `com.hpr.composition`
+- Package id: `com.hpr.composition`
 - Version: `0.1.0`
 - Unity version: `6000.4`
-- Dependencies: none
-- Sample import path: `Samples~/Demo`
-- Screenshot: `screenshots/com.hpr.composition.png`
-- Artifact info: `com.hpr.composition_info.txt`
+- Category recommendation: `Tools / Scripting`
+- Price recommendation: `$9.99`
+- Explicit dependencies: `none`
+- No reflection-based service discovery.
+- No dependency on GameManager, SceneBootstrap, or scene hierarchy assumptions.
+- Validated headlessly and in clean Unity projects.
+- Artifact info file: `com.hpr.composition_info.txt`
 
-## Human-only fields to fill before upload
-- Price
-- Category/subcategory
-- Support email or support URL
-- Marketing screenshots selection and ordering
-- Package icon / cover art if you want a bespoke visual instead of the captured demo screenshot
+## Known limits / non-goals
+- No scoped containers or nested composition graphs.
+- No attribute injection or automatic construction.
+- No serialization or persistence layer.
 
-## Suggested keywords
-- composition
-- services
-- bootstrap
-- architecture
+## Screenshot order recommendation
+- `screenshots/01_overview.png` — Overview of the composition root, registry, and service contracts.
+- `screenshots/02_workflow.png` — Registration, initialization, ticking, and disposal workflow.
+- `screenshots/03_details.png` — Boundaries, non-goals, and package-safe composition guidance.
+
+## Cover art recommendation
+Use screenshots/01_overview.png as the initial store cover image.
+
+## Keywords
+- composition root
+- service registry
+- dependency wiring
+- unity architecture
+- modular runtime
+
+## Cross-sell / bundle recommendation
+- com.hpr.eventbus
+- com.hpr.save
+- com.hpr.stats
+- com.hpr.abilities
+
+## Naming recommendation
+Use 'HPR Composition Root' as the storefront title.
+
+## Pricing strategy note
+Paid low-ticket first-wave package.
+
+## Support field
+Set one publisher support email address or support URL in the Asset Store portal before upload. Keep it consistent across every listing.

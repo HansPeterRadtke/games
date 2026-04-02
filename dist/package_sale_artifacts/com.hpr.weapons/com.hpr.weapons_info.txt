@@ -1,13 +1,20 @@
 package: com.hpr.weapons
 project: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_weapons
 unitypackage: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.weapons/com.hpr.weapons.unitypackage
-unitypackage_size_bytes: 13312
+unitypackage_size_bytes: 13290
 upm_zip: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.weapons/com.hpr.weapons_upm.zip
 upm_zip_size_bytes: 27628
 resolved_packages: com.hpr.weapons
 validator_method: HPR.WeaponsPackageValidator.ValidateInBatch
-validate_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_weapons_validate.log
-refresh_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_weapons_refresh.log
-export_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_weapons_export.log
-screenshot: /data/src/github/games/dist/package_sale_artifacts/com.hpr.weapons/screenshots/com.hpr.weapons.png
-screenshot_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_weapons_screenshot.log
+validate_log: /data/src/github/games/doc/logs/package_sale_prep/20260402_111427_com_hpr_weapons_validate.log
+refresh_log: /data/src/github/games/doc/logs/package_sale_prep/20260402_111427_com_hpr_weapons_refresh.log
+export_log: /data/src/github/games/doc/logs/package_sale_prep/20260402_111427_com_hpr_weapons_export.log
+screenshots:
+  - /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.weapons/screenshots/01_overview.png
+  - /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.weapons/screenshots/02_workflow.png
+  - /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.weapons/screenshots/03_details.png
+tracked_screenshots:
+  - /data/src/github/games/dist/package_sale_artifacts/com.hpr.weapons/screenshots/01_overview.png
+  - /data/src/github/games/dist/package_sale_artifacts/com.hpr.weapons/screenshots/02_workflow.png
+  - /data/src/github/games/dist/package_sale_artifacts/com.hpr.weapons/screenshots/03_details.png
+screenshot_log: /data/src/github/games/doc/logs/package_sale_prep/20260402_111427_com_hpr_weapons_screenshot.log

@@ -1,55 +1,82 @@
-# HPR AI Asset Store Listing Draft
+# HPR Enemy Archetype Data Listing Draft
+
+## Release recommendation
+- Status: `second_wave`
+- Reason: The package is technically solid, but buyer-facing value is narrower because it defines AI archetype data without a stronger runtime behavior/controller story.
 
 ## Title
-HPR AI
+HPR Enemy Archetype Data
 
 ## Short description
-Reusable enemy and agent data definitions for AI-driven gameplay packages.
+Reusable enemy archetype data for melee, ranged, chase, and stationary attack behaviors in Unity combat projects.
+
+## Positioning
+Enemy archetype data assets for teams that already have or plan to add their own AI controller layer.
 
 ## Long description
-Reusable enemy-definition assets for Unity projects that want authored AI archetypes without hardcoding enemy tuning directly into runtime scripts.
+HPR Enemy Archetype Data packages enemy tuning into reusable ScriptableObject assets. Buyers get clean fields for health, speed, chase range, attack range, damage, and high-level behavior categories that a separate AI runtime can consume.
+That makes it technically clean and reusable, but commercially it is better positioned as a follow-on release or a bundle companion until the runtime story is stronger.
 
-Use this package when you want:
-- enemy archetypes authored as `ScriptableObject` assets
-- stable ids and behavior categories for AI-driven runtime systems
-- a reusable data schema for health, speed, range, and attack tuning
+## Feature bullets
+- EnemyData assets for melee and ranged archetypes.
+- Aggressive chase and stationary attack behavior categories.
+- Sample raider and sentry content included.
+- Designed for teams that want data-driven enemy tuning.
+- Isolated validation, docs, samples, and tests included.
 
-Included:
-- `EnemyData`
-- `EnemyAIType`
-- `EnemyAttackStyle`
+## Use cases
+- Move enemy balance out of scripts and into authored assets.
+- Share AI archetype data across multiple scenes or modes.
+- Pair with your own navigation and behavior execution layer.
 
-Installation summary:
-- Add `com.hpr.ai` to your Unity project.
-- Reference `HPR.Ai.Runtime` from dependent asmdefs.
-- Create enemy assets via `Assets > Create > HPR > AI > Enemy`.
-- Feed those assets into your own runtime enemy/agent system.
-
-Documentation summary:
-Reusable enemy and agent data definitions for AI-driven gameplay packages.
-
-Known product limits:
-- this package defines AI data only; it does not include a full runtime behavior tree or navigation system
-- combat execution and target selection remain the responsibility of the consuming project
+## Installation summary
+- Import the .unitypackage and open the included AI demo/sample content.
+- Create EnemyData assets for each archetype you want to expose.
+- Consume those assets from your own behavior controller or combat runtime.
+- Demo/sample path after import: `Assets/com.hpr.ai/Samples~/Demo`
 
 ## Technical details
-- Package name: `com.hpr.ai`
+- Package id: `com.hpr.ai`
 - Version: `0.1.0`
 - Unity version: `6000.4`
-- Dependencies: none
-- Sample import path: `Samples~/Demo`
-- Screenshot: `screenshots/com.hpr.ai.png`
-- Artifact info: `com.hpr.ai_info.txt`
+- Category recommendation: `Templates / Systems`
+- Price recommendation: `$9.99`
+- Explicit dependencies: `none`
+- Enemy data layer only; no navigation or behavior-tree runtime included.
+- Package boundaries are clean and independently validated.
+- Best paired with combat or controller packages.
+- Artifact info file: `com.hpr.ai_info.txt`
 
-## Human-only fields to fill before upload
-- Price
-- Category/subcategory
-- Support email or support URL
-- Marketing screenshots selection and ordering
-- Package icon / cover art if you want a bespoke visual instead of the captured demo screenshot
+## Known limits / non-goals
+- No pathfinding or navigation controller.
+- No perception/senses runtime.
+- No spawner system or animation layer.
 
-## Suggested keywords
+## Screenshot order recommendation
+- `screenshots/01_overview.png` — Overview of enemy archetype assets and included behavior categories.
+- `screenshots/02_workflow.png` — How the data flows into a consuming runtime controller.
+- `screenshots/03_details.png` — Why the package is better as a later-wave or bundled product.
+
+## Cover art recommendation
+Use screenshots/01_overview.png only if launching it later as a standalone SKU.
+
+## Keywords
 - ai
 - enemy
-- agent
-- data
+- archetype
+- scriptable object
+- combat data
+
+## Cross-sell / bundle recommendation
+- com.hpr.weapons
+- com.hpr.stats
+- com.hpr.world
+
+## Naming recommendation
+Use 'HPR Enemy Archetype Data' as the storefront title.
+
+## Pricing strategy note
+Paid second-wave package or bundle component.
+
+## Support field
+Set one publisher support email address or support URL in the Asset Store portal before upload. Keep it consistent across every listing.

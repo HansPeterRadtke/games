@@ -1,62 +1,83 @@
-# HPR Abilities Asset Store Listing Draft
+# HPR Ability Runtime Listing Draft
+
+## Release recommendation
+- Status: `launch_now`
+- Reason: The package already reads like a real product: ability assets, effect assets, cooldowns, unlock tracking, and visible runtime behavior backed by clean validations.
 
 ## Title
-HPR Abilities
+HPR Ability Runtime
 
 ## Short description
-Reusable data-driven active abilities with costs, cooldowns, unlocks, and event-driven runtime hooks.
+Author reusable Unity abilities through data assets, effect assets, cooldowns, and a runtime component instead of one-off scripts.
+
+## Positioning
+A reusable ability layer for self and area abilities with authorable data assets, effect assets, cooldowns, and unlock tracking.
 
 ## Long description
-Data-driven active abilities with cooldowns, costs, unlock gating, and event publication.
+HPR Ability Runtime gives Unity projects a compact ability stack built around authorable AbilityData and AbilityEffectData assets. Buyers get self-target and area-target examples, cooldown handling, unlock tracking, runtime execution, and a clean integration story with stats and event-driven systems.
+The package is intentionally not a whole combat game. It ships the reusable ability layer that teams can plug into their own input, VFX, animation, and UI stack.
 
-Use this package when you want:
-- authored `AbilityData` and `AbilityEffectData` assets
-- an ability runner that activates abilities by id or unlocked slot order
-- event-driven ability usage that integrates with an external HUD or analytics layer
+## Feature bullets
+- AbilityData assets with cooldown, cost, target type, and presentation fields.
+- AbilityRunnerComponent for configured abilities and unlock state.
+- Heal and area-damage effect asset examples included.
+- Explicit resource-pool and stats integration points.
+- Demo scene, validator, and tests included.
 
-Included:
-- `AbilityData`
-- `AbilityEffectData`
-- `AbilityRunnerComponent`
-- `IAbilityResourcePool`
-- `IAbilityLoadout`
-- `AbilityUsedEvent`
-- `AbilityEffectAppliedEvent`
-- `AbilityStatusEvent`
-- `AbilityStateChangedEvent`
+## Use cases
+- Prototype ability-driven combat without building an ability runtime from zero.
+- Author ability content as assets instead of scattered scripts.
+- Integrate cooldown and unlock logic into an existing combat stack.
 
-Installation summary:
-- Add `com.hpr.abilities`, `com.hpr.eventbus`, and `com.hpr.stats` to your project.
-- Reference `HPR.Abilities.Runtime` from dependent asmdefs.
-- Create `AbilityEffectData` and `AbilityData` assets.
-- Add `AbilityRunnerComponent` to an actor.
-- Bind an `IAbilityResourcePool` and an explicit `IEventBusSource`.
-
-Documentation summary:
-Reusable data-driven active abilities with costs, cooldowns, unlocks, and event-driven runtime hooks.
-
-Known product limits:
-- the included runner supports heal, stamina restore, and area-damage effects only
-- ability targeting UI and input bindings belong in the consuming project
+## Installation summary
+- Import the .unitypackage and open the included ability demo.
+- Create or reuse AbilityData and AbilityEffectData assets.
+- Configure AbilityRunnerComponent on your actor and connect it to your own input and presentation code.
+- Demo/sample path after import: `Assets/com.hpr.abilities/Samples~/Demo`
 
 ## Technical details
-- Package name: `com.hpr.abilities`
+- Package id: `com.hpr.abilities`
 - Version: `0.1.0`
 - Unity version: `6000.4`
-- Dependencies: com.hpr.eventbus, com.hpr.stats
-- Sample import path: `Samples~/Demo`
-- Screenshot: `screenshots/com.hpr.abilities.png`
-- Artifact info: `com.hpr.abilities_info.txt`
+- Category recommendation: `Templates / Systems`
+- Price recommendation: `$19.99`
+- Explicit dependencies: `com.hpr.eventbus, com.hpr.stats`
+- No runtime parent lookup remains in the package.
+- Integrates cleanly with stats, save, and eventbus packages.
+- Validated in clean projects, tests, and official Asset Store Tools runs.
+- Artifact info file: `com.hpr.abilities_info.txt`
 
-## Human-only fields to fill before upload
-- Price
-- Category/subcategory
-- Support email or support URL
-- Marketing screenshots selection and ordering
-- Package icon / cover art if you want a bespoke visual instead of the captured demo screenshot
+## Known limits / non-goals
+- No animation system or cast-bar UI.
+- No multiplayer authority layer.
+- No full combo or talent-tree system.
 
-## Suggested keywords
+## Screenshot order recommendation
+- `screenshots/01_overview.png` — Overview of the ability assets, runner, and effect assets.
+- `screenshots/02_workflow.png` — Ability asset to effect asset to runtime result workflow.
+- `screenshots/03_details.png` — Sample content, extension points, and package boundaries.
+
+## Cover art recommendation
+Use screenshots/01_overview.png as the initial store cover image.
+
+## Keywords
 - abilities
-- cooldown
+- cooldowns
 - effects
-- gameplay
+- combat
+- scriptable objects
+
+## Cross-sell / bundle recommendation
+- com.hpr.stats
+- com.hpr.eventbus
+- com.hpr.save
+- com.hpr.interaction
+
+## Naming recommendation
+Use 'HPR Ability Runtime' as the storefront title.
+
+## Pricing strategy note
+Paid first-wave package.
+
+## Support field
+Set one publisher support email address or support URL in the Asset Store portal before upload. Keep it consistent across every listing.

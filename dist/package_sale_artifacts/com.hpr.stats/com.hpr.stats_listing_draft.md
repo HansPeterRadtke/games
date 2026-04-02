@@ -1,57 +1,83 @@
-# HPR Stats Asset Store Listing Draft
+# HPR Stats & Damage Listing Draft
+
+## Release recommendation
+- Status: `launch_now`
+- Reason: Clear gameplay-system value, real runtime behavior, validated bugs already fixed, and an easy buyer story around health, stamina, damage, and healing.
 
 ## Title
-HPR Stats
+HPR Stats & Damage
 
 ## Short description
-Reusable health, stamina, and damage-event runtime for Unity gameplay actors.
+Health, stamina, damage, healing, and runtime max-value bonuses in a small reusable Unity gameplay package.
+
+## Positioning
+A compact gameplay runtime for health, stamina, damage, healing, and runtime max-value modifiers without a full RPG framework.
 
 ## Long description
-Reusable health, stamina, and damage-event runtime for Unity gameplay actors.
+HPR Stats & Damage gives Unity projects a focused runtime for the stat loops buyers usually need first: take damage, heal, spend stamina, regenerate stamina, and clamp values against effective maximums. The package ships with demo content, event integration, and clean-project validation instead of just data shells.
+It is intentionally narrow. You get working health and stamina logic with damageable targets and event-driven integration, not a giant character framework or full RPG progression system.
 
-Use this package when you want:
-- a lightweight actor stats component with health and stamina handling
-- event-driven damage application through a standalone event bus
-- a reusable `IDamageable` / `ICharacterStats` contract for gameplay actors
+## Feature bullets
+- Actor stats runtime with health and stamina values.
+- Damage, healing, spending, and regeneration flows included.
+- Runtime max-value modifiers with correct clamping behavior.
+- Damageable target proxy and event bus integration hooks.
+- Package-owned demo scene, validator, and tests.
 
-Included:
-- `IDamageable`
-- `ICharacterStats`
-- `ActorStatsComponent`
-- `DamageableTargetProxy`
-- `DamageEvent`
+## Use cases
+- Add health and stamina loops to a prototype without writing them from scratch.
+- Drive combat or ability systems through explicit damage events.
+- Use a reusable stat core beneath your own UI and VFX layers.
 
-Installation summary:
-- Add `com.hpr.stats` and `com.hpr.eventbus` to your Unity project.
-- Reference `HPR.Stats.Runtime` from dependent asmdefs.
-- Add `ActorStatsComponent` or a derived component to an actor GameObject.
-- Bind an `IEventBusSource` explicitly if you want damage to arrive through events.
-
-Documentation summary:
-Reusable health, stamina, and damage-event runtime for Unity gameplay actors.
-
-Known product limits:
-- this package does not include armor, resistances, or status-effect stacks
-- stamina regeneration policy is left to the consuming project
+## Installation summary
+- Import the .unitypackage and open the included stats demo.
+- Attach the runtime components to your own actors or target dummies.
+- Hook UI, combat, or ability systems into the exposed methods and events.
+- Demo/sample path after import: `Assets/com.hpr.stats/Samples~/Demo`
 
 ## Technical details
-- Package name: `com.hpr.stats`
+- Package id: `com.hpr.stats`
 - Version: `0.1.0`
 - Unity version: `6000.4`
-- Dependencies: com.hpr.eventbus
-- Sample import path: `Samples~/Demo`
-- Screenshot: `screenshots/com.hpr.stats.png`
-- Artifact info: `com.hpr.stats_info.txt`
+- Category recommendation: `Templates / Systems`
+- Price recommendation: `$14.99`
+- Explicit dependencies: `com.hpr.eventbus`
+- Runtime behavior, not just ScriptableObject definitions.
+- Clean integration path with eventbus and abilities packages.
+- Validated in clean projects, EditMode tests, and official Asset Store Tools runs.
+- Artifact info file: `com.hpr.stats_info.txt`
 
-## Human-only fields to fill before upload
-- Price
-- Category/subcategory
-- Support email or support URL
-- Marketing screenshots selection and ordering
-- Package icon / cover art if you want a bespoke visual instead of the captured demo screenshot
+## Known limits / non-goals
+- No buff/debuff stacking system.
+- No RPG progression or talent tree.
+- No built-in UI skin.
 
-## Suggested keywords
+## Screenshot order recommendation
+- `screenshots/01_overview.png` — Overview of the packaged health, stamina, damage, and healing runtime.
+- `screenshots/02_workflow.png` — Damage, heal, spend, and regenerate workflow in one view.
+- `screenshots/03_details.png` — Runtime hooks, boundaries, and integration details.
+
+## Cover art recommendation
+Use screenshots/01_overview.png as the initial store cover image.
+
+## Keywords
 - stats
+- damage
 - health
 - stamina
-- damage
+- combat systems
+
+## Cross-sell / bundle recommendation
+- com.hpr.abilities
+- com.hpr.eventbus
+- com.hpr.save
+- com.hpr.interaction
+
+## Naming recommendation
+Use 'HPR Stats & Damage' as the storefront title.
+
+## Pricing strategy note
+Paid first-wave package.
+
+## Support field
+Set one publisher support email address or support URL in the Asset Store portal before upload. Keep it consistent across every listing.

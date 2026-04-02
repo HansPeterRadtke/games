@@ -1,13 +1,20 @@
 package: com.hpr.interaction
 project: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_interaction
 unitypackage: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.interaction/com.hpr.interaction.unitypackage
-unitypackage_size_bytes: 40726
+unitypackage_size_bytes: 40635
 upm_zip: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.interaction/com.hpr.interaction_upm.zip
 upm_zip_size_bytes: 34189
 resolved_packages: com.hpr.eventbus com.hpr.inventory com.hpr.interaction
 validator_method: HPR.InteractionPackageValidator.ValidateInBatch
-validate_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_interaction_validate.log
-refresh_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_interaction_refresh.log
-export_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_interaction_export.log
-screenshot: /data/src/github/games/dist/package_sale_artifacts/com.hpr.interaction/screenshots/com.hpr.interaction.png
-screenshot_log: /data/src/github/games/doc/logs/package_sale_prep/20260401_104418_com_hpr_interaction_screenshot.log
+validate_log: /data/src/github/games/doc/logs/package_sale_prep/20260402_111427_com_hpr_interaction_validate.log
+refresh_log: /data/src/github/games/doc/logs/package_sale_prep/20260402_111427_com_hpr_interaction_refresh.log
+export_log: /data/src/github/games/doc/logs/package_sale_prep/20260402_111427_com_hpr_interaction_export.log
+screenshots:
+  - /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.interaction/screenshots/01_overview.png
+  - /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.interaction/screenshots/02_workflow.png
+  - /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.interaction/screenshots/03_details.png
+tracked_screenshots:
+  - /data/src/github/games/dist/package_sale_artifacts/com.hpr.interaction/screenshots/01_overview.png
+  - /data/src/github/games/dist/package_sale_artifacts/com.hpr.interaction/screenshots/02_workflow.png
+  - /data/src/github/games/dist/package_sale_artifacts/com.hpr.interaction/screenshots/03_details.png
+screenshot_log: /data/src/github/games/doc/logs/package_sale_prep/20260402_111427_com_hpr_interaction_screenshot.log

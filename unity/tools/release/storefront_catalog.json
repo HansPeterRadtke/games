@@ -1,0 +1,531 @@
+{
+  "support_contact_note": "Set one publisher support email address or support URL in the Asset Store portal before upload. Keep it consistent across every listing.",
+  "first_wave": [
+    "com.hpr.eventbus",
+    "com.hpr.composition",
+    "com.hpr.save",
+    "com.hpr.stats",
+    "com.hpr.inventory",
+    "com.hpr.interaction",
+    "com.hpr.abilities"
+  ],
+  "second_wave": [
+    "com.hpr.weapons",
+    "com.hpr.ai"
+  ],
+  "bundle_only": [
+    "com.hpr.world"
+  ],
+  "packages": {
+    "com.hpr.eventbus": {
+      "title": "HPR Typed Event Bus",
+      "status": "launch_now",
+      "reason": "Clear standalone value, isolated API surface, strong reusable fit across gameplay and tool layers, and easy screenshotable story once event flow is visualized.",
+      "price_usd": 9.99,
+      "category": "Tools",
+      "subcategory": "Scripting",
+      "positioning": "A lightweight typed event transport for modular Unity projects that want explicit publish/subscribe flow without global managers.",
+      "short_description": "Strongly typed publish/subscribe routing for Unity projects that want modular runtime systems without manager coupling.",
+      "long_description": [
+        "HPR Typed Event Bus gives Unity projects a small, explicit event transport that stays usable in clean scene setups, runtime services, and headless validation code. It is built for teams that want strongly typed publish/subscribe flow without wiring everything through a central GameManager.",
+        "The package ships with a pure C# event bus, a Unity MonoBehaviour adapter, isolated demos, and validation tooling. It is a good fit when you want UI, gameplay, and tools to communicate through contracts instead of direct references."
+      ],
+      "feature_bullets": [
+        "Strongly typed Publish<T> and Subscribe<T> API.",
+        "Pure C# EventBus plus optional Unity EventManager adapter.",
+        "Supports exact-type and base-type dispatch.",
+        "Disposable subscription handling and explicit unsubscribe flow.",
+        "Clean-project demo scene, validator, and EditMode tests included."
+      ],
+      "use_cases": [
+        "Decouple gameplay systems from UI reactions.",
+        "Drive tool and editor workflows from runtime events.",
+        "Share the same event contracts between headless tests and scene code."
+      ],
+      "installation_summary": [
+        "Import the .unitypackage into a clean Unity project.",
+        "Open the included demo scene from the package folder to review the sample flow.",
+        "Instantiate EventBus directly in pure C# code or add EventManager to a scene as the Unity adapter."
+      ],
+      "technical_summary": [
+        "Pure C# core plus Unity adapter.",
+        "No dependency on GameManager, SceneBootstrap, or fpsdemo code.",
+        "Validated in clean projects and official Asset Store Tools runs."
+      ],
+      "known_limits": [
+        "No replay buffer or queued delivery layer.",
+        "No persistence or message recording system.",
+        "Delivery order follows subscription order only."
+      ],
+      "keywords": ["event bus", "typed events", "publish subscribe", "modular architecture", "unity scripting"],
+      "screenshot_captions": [
+        "Overview of the typed event bus architecture and included API surface.",
+        "Publisher to event transport to multiple subscriber workflow.",
+        "Headless and Unity scene integration details and boundaries."
+      ],
+      "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
+      "cross_sell": ["com.hpr.composition", "com.hpr.stats", "com.hpr.abilities", "com.hpr.interaction"],
+      "rename_recommendation": "Use 'HPR Typed Event Bus' as the storefront title; keep the package id unchanged.",
+      "free_vs_paid_recommendation": "Paid low-ticket first-wave package."
+    },
+    "com.hpr.composition": {
+      "title": "HPR Composition Root",
+      "status": "launch_now",
+      "reason": "Architecturally clean, independently useful, validated headless, and strong companion product for teams building modular Unity runtime composition.",
+      "price_usd": 9.99,
+      "category": "Tools",
+      "subcategory": "Scripting",
+      "positioning": "An explicit composition root and service registry for Unity teams that want deterministic startup, ticking, and teardown without DI container magic.",
+      "short_description": "Explicit service registration and lifecycle orchestration for modular Unity runtime systems.",
+      "long_description": [
+        "HPR Composition Root packages the minimum runtime orchestration needed to register services, initialize them in a predictable order, tick them explicitly, and dispose them cleanly. It is intentionally small and readable so it can serve as a real composition layer instead of another hidden framework core.",
+        "This package is strongest for teams that want to build around package boundaries, headless validation, and thin scene adapters. It avoids reflection-based discovery, hidden singletons, and scene-hierarchy service lookup."
+      ],
+      "feature_bullets": [
+        "IService, IInitializable, IUpdatableService, IServiceResolver, and IServiceRegistry contracts.",
+        "Explicit ServiceRegistry and CompositionRoot implementation.",
+        "Headless-friendly lifecycle orchestration for tests and command-line validation.",
+        "Works cleanly with thin scene adapters instead of acting as a global manager.",
+        "Includes demo scene, validator, and EditMode test coverage."
+      ],
+      "use_cases": [
+        "Build scene bootstraps that only wire package-owned services together.",
+        "Run the same service graph in headless tests and live scenes.",
+        "Replace ad-hoc update hubs with explicit composition code."
+      ],
+      "installation_summary": [
+        "Import the .unitypackage and open the included demo scene for the sample lifecycle flow.",
+        "Register service instances explicitly through ServiceRegistry.",
+        "Drive initialization and ticking through CompositionRoot or your own thin adapter."
+      ],
+      "technical_summary": [
+        "No reflection-based service discovery.",
+        "No dependency on GameManager, SceneBootstrap, or scene hierarchy assumptions.",
+        "Validated headlessly and in clean Unity projects."
+      ],
+      "known_limits": [
+        "No scoped containers or nested composition graphs.",
+        "No attribute injection or automatic construction.",
+        "No serialization or persistence layer."
+      ],
+      "keywords": ["composition root", "service registry", "dependency wiring", "unity architecture", "modular runtime"],
+      "screenshot_captions": [
+        "Overview of the composition root, registry, and service contracts.",
+        "Registration, initialization, ticking, and disposal workflow.",
+        "Boundaries, non-goals, and package-safe composition guidance."
+      ],
+      "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
+      "cross_sell": ["com.hpr.eventbus", "com.hpr.save", "com.hpr.stats", "com.hpr.abilities"],
+      "rename_recommendation": "Use 'HPR Composition Root' as the storefront title.",
+      "free_vs_paid_recommendation": "Paid low-ticket first-wave package."
+    },
+    "com.hpr.save": {
+      "title": "HPR Save Snapshots",
+      "status": "launch_now",
+      "reason": "Narrow, understandable product scope: snapshot contracts and restore flow that buyers can integrate into their own persistence layer without framework lock-in.",
+      "price_usd": 9.99,
+      "category": "Tools",
+      "subcategory": "Utilities",
+      "positioning": "Backend-agnostic snapshot contracts for Unity projects that want save/restore behavior without adopting a monolithic save framework.",
+      "short_description": "Capture and restore runtime state through reusable save snapshot contracts instead of a hard-coded save manager.",
+      "long_description": [
+        "HPR Save Snapshots focuses on one job: capture runtime state into explicit save data objects and restore that state back into scene entities later. It does not force a storage backend, slot UI, cloud sync layer, or project-wide manager pattern on the buyer.",
+        "That narrow scope makes it useful as a building block. You can pair it with your own JSON, binary, encryption, or platform persistence code while keeping gameplay state capture inside reusable package contracts."
+      ],
+      "feature_bullets": [
+        "SaveData base contract and sample entity state types.",
+        "Explicit capture, mutate, and restore flow in the included demo.",
+        "Transform, active state, and gameplay value restore examples.",
+        "No forced persistence backend or project singleton.",
+        "Clean-project validator and EditMode tests included."
+      ],
+      "use_cases": [
+        "Prototype a save system without adopting a full framework.",
+        "Package state capture contracts separately from storage policy.",
+        "Round-trip object state in tests and gameplay demos."
+      ],
+      "installation_summary": [
+        "Import the .unitypackage and open the included demo scene.",
+        "Implement CaptureState and RestoreState on your own entities.",
+        "Serialize the generated SaveData objects with your preferred storage backend."
+      ],
+      "technical_summary": [
+        "Snapshot contracts only; storage backend stays external.",
+        "No cross-scene manager dependency.",
+        "Validated in isolated clean-project demos and tests."
+      ],
+      "known_limits": [
+        "No serialization backend, slot management, or encryption layer.",
+        "No cross-device sync.",
+        "No save menu UI."
+      ],
+      "keywords": ["save system", "snapshot", "restore state", "persistence", "unity utilities"],
+      "screenshot_captions": [
+        "Overview of capture, mutate, and restore contracts.",
+        "The sample capture -> runtime mutation -> restore flow.",
+        "Technical boundaries and extension points for backend integration."
+      ],
+      "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
+      "cross_sell": ["com.hpr.stats", "com.hpr.inventory", "com.hpr.interaction", "com.hpr.abilities"],
+      "rename_recommendation": "Use 'HPR Save Snapshots' as the storefront title for clearer buyer-facing value.",
+      "free_vs_paid_recommendation": "Paid low-ticket first-wave package."
+    },
+    "com.hpr.stats": {
+      "title": "HPR Stats & Damage",
+      "status": "launch_now",
+      "reason": "Clear gameplay-system value, real runtime behavior, validated bugs already fixed, and an easy buyer story around health, stamina, damage, and healing.",
+      "price_usd": 14.99,
+      "category": "Templates",
+      "subcategory": "Systems",
+      "positioning": "A compact gameplay runtime for health, stamina, damage, healing, and runtime max-value modifiers without a full RPG framework.",
+      "short_description": "Health, stamina, damage, healing, and runtime max-value bonuses in a small reusable Unity gameplay package.",
+      "long_description": [
+        "HPR Stats & Damage gives Unity projects a focused runtime for the stat loops buyers usually need first: take damage, heal, spend stamina, regenerate stamina, and clamp values against effective maximums. The package ships with demo content, event integration, and clean-project validation instead of just data shells.",
+        "It is intentionally narrow. You get working health and stamina logic with damageable targets and event-driven integration, not a giant character framework or full RPG progression system."
+      ],
+      "feature_bullets": [
+        "Actor stats runtime with health and stamina values.",
+        "Damage, healing, spending, and regeneration flows included.",
+        "Runtime max-value modifiers with correct clamping behavior.",
+        "Damageable target proxy and event bus integration hooks.",
+        "Package-owned demo scene, validator, and tests."
+      ],
+      "use_cases": [
+        "Add health and stamina loops to a prototype without writing them from scratch.",
+        "Drive combat or ability systems through explicit damage events.",
+        "Use a reusable stat core beneath your own UI and VFX layers."
+      ],
+      "installation_summary": [
+        "Import the .unitypackage and open the included stats demo.",
+        "Attach the runtime components to your own actors or target dummies.",
+        "Hook UI, combat, or ability systems into the exposed methods and events."
+      ],
+      "technical_summary": [
+        "Runtime behavior, not just ScriptableObject definitions.",
+        "Clean integration path with eventbus and abilities packages.",
+        "Validated in clean projects, EditMode tests, and official Asset Store Tools runs."
+      ],
+      "known_limits": [
+        "No buff/debuff stacking system.",
+        "No RPG progression or talent tree.",
+        "No built-in UI skin."
+      ],
+      "keywords": ["stats", "damage", "health", "stamina", "combat systems"],
+      "screenshot_captions": [
+        "Overview of the packaged health, stamina, damage, and healing runtime.",
+        "Damage, heal, spend, and regenerate workflow in one view.",
+        "Runtime hooks, boundaries, and integration details."
+      ],
+      "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
+      "cross_sell": ["com.hpr.abilities", "com.hpr.eventbus", "com.hpr.save", "com.hpr.interaction"],
+      "rename_recommendation": "Use 'HPR Stats & Damage' as the storefront title.",
+      "free_vs_paid_recommendation": "Paid first-wave package."
+    },
+    "com.hpr.inventory": {
+      "title": "HPR Inventory Core",
+      "status": "launch_now",
+      "reason": "Clear reusable runtime value with actual quantity tracking, sample items, and straightforward integration into pickups, save systems, and gameplay logic.",
+      "price_usd": 14.99,
+      "category": "Templates",
+      "subcategory": "Systems",
+      "positioning": "A lean inventory runtime for item definitions, keys, consumables, and ammo counts without dragging in UI skins or economy systems.",
+      "short_description": "Reusable item definitions and runtime quantity tracking for keys, consumables, and ammo in Unity projects.",
+      "long_description": [
+        "HPR Inventory Core gives you the part of inventory work that should stay generic: item definitions, known-item registration, runtime quantity tracking, ammo counts, and simple queries. It is designed for teams that want a dependable core before they add their own UI, save flow, or economy logic.",
+        "The package includes sample items and a clean standalone demo. It keeps scope disciplined by avoiding grid UIs, drag-and-drop skins, crafting trees, and vendor systems."
+      ],
+      "feature_bullets": [
+        "ItemData assets for consumables, keys, ammo, and similar item types.",
+        "InventoryComponent runtime with explicit known-item setup.",
+        "Correct per-item quantity and ammo state tracking.",
+        "Simple runtime queries for counts and item presence.",
+        "Clean-project sample scene, validator, and tests."
+      ],
+      "use_cases": [
+        "Track keys and consumables in a first-person or survival prototype.",
+        "Store ammo counts without writing inventory logic from scratch.",
+        "Pair a lightweight inventory runtime with your own UI and save system."
+      ],
+      "installation_summary": [
+        "Import the .unitypackage and open the included inventory demo.",
+        "Create or reuse ItemData assets inside the package structure.",
+        "Configure your known items on InventoryComponent and call its runtime methods from pickups, UI, or save code."
+      ],
+      "technical_summary": [
+        "Deliberately avoids UI and economy coupling.",
+        "Integrates cleanly with interaction and save packages.",
+        "Validated in isolated clean projects and tests."
+      ],
+      "known_limits": [
+        "No built-in inventory UI.",
+        "No drag-and-drop equipment grid.",
+        "No crafting or vendor subsystem."
+      ],
+      "keywords": ["inventory", "items", "ammo", "keys", "consumables"],
+      "screenshot_captions": [
+        "Overview of item definitions, runtime storage, and package scope.",
+        "Pickup to stored-quantity workflow for keys, potions, and ammo.",
+        "Detailed runtime features, sample items, and non-goals."
+      ],
+      "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
+      "cross_sell": ["com.hpr.interaction", "com.hpr.save", "com.hpr.abilities"],
+      "rename_recommendation": "Use 'HPR Inventory Core' as the storefront title.",
+      "free_vs_paid_recommendation": "Paid first-wave package."
+    },
+    "com.hpr.interaction": {
+      "title": "HPR Interaction Toolkit",
+      "status": "launch_now",
+      "reason": "Buyer-facing value is easy to understand from demos and screenshots: sensors, pickups, keys, and doors with explicit bindings and package-safe runtime boundaries.",
+      "price_usd": 14.99,
+      "category": "Templates",
+      "subcategory": "Systems",
+      "positioning": "A focused interaction layer for pickups, key-door logic, and actor sensors that avoids hidden hierarchy lookup and project-specific glue.",
+      "short_description": "Sensor-driven pickups and key-door interactions for Unity projects that want explicit bindings instead of hierarchy hacks.",
+      "long_description": [
+        "HPR Interaction Toolkit packages a reusable interaction layer around three concrete patterns: actor sensors, inventory pickups, and key-gated doors. The runtime stays explicit about its dependencies, so buyers can integrate it without parent-lookup service locators or scene-specific glue code.",
+        "It is a practical first-wave product because the included sample content demonstrates real behavior immediately: see an interactable, use it, pick it up, and unlock a door."
+      ],
+      "feature_bullets": [
+        "InteractionSensor with explicit source camera binding.",
+        "Pickup interactables for inventory item collection.",
+        "Key-door interaction flow with proxy bindings already validated.",
+        "Designed to integrate with inventory and event-driven systems.",
+        "Package demo, validator, and EditMode tests included."
+      ],
+      "use_cases": [
+        "Add pickups and locked doors to a first-person prototype.",
+        "Reuse explicit sensor logic across multiple scenes.",
+        "Wire an inventory-based interaction flow without custom scene lookup code."
+      ],
+      "installation_summary": [
+        "Import the .unitypackage and open the included interaction demo.",
+        "Bind InteractionSensor to a source camera explicitly.",
+        "Assign pickup or door interactables and connect them to your inventory/runtime flow."
+      ],
+      "technical_summary": [
+        "No parent-hierarchy service discovery.",
+        "Works cleanly alongside inventory, stats, and eventbus packages.",
+        "Validated in clean projects and official Asset Store Tools runs."
+      ],
+      "known_limits": [
+        "No dialogue system or cinematic interaction layer.",
+        "No animation graph integration.",
+        "No quest scripting or controller-specific input wrappers."
+      ],
+      "keywords": ["interaction", "pickup", "door", "key system", "unity gameplay"],
+      "screenshot_captions": [
+        "Overview of sensors, pickups, and key-door runtime components.",
+        "Actor sensor to interactable to result workflow.",
+        "Included runtime pieces, package boundaries, and non-goals."
+      ],
+      "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
+      "cross_sell": ["com.hpr.inventory", "com.hpr.stats", "com.hpr.abilities", "com.hpr.eventbus"],
+      "rename_recommendation": "Use 'HPR Interaction Toolkit' as the storefront title.",
+      "free_vs_paid_recommendation": "Paid first-wave package."
+    },
+    "com.hpr.abilities": {
+      "title": "HPR Ability Runtime",
+      "status": "launch_now",
+      "reason": "The package already reads like a real product: ability assets, effect assets, cooldowns, unlock tracking, and visible runtime behavior backed by clean validations.",
+      "price_usd": 19.99,
+      "category": "Templates",
+      "subcategory": "Systems",
+      "positioning": "A reusable ability layer for self and area abilities with authorable data assets, effect assets, cooldowns, and unlock tracking.",
+      "short_description": "Author reusable Unity abilities through data assets, effect assets, cooldowns, and a runtime component instead of one-off scripts.",
+      "long_description": [
+        "HPR Ability Runtime gives Unity projects a compact ability stack built around authorable AbilityData and AbilityEffectData assets. Buyers get self-target and area-target examples, cooldown handling, unlock tracking, runtime execution, and a clean integration story with stats and event-driven systems.",
+        "The package is intentionally not a whole combat game. It ships the reusable ability layer that teams can plug into their own input, VFX, animation, and UI stack."
+      ],
+      "feature_bullets": [
+        "AbilityData assets with cooldown, cost, target type, and presentation fields.",
+        "AbilityRunnerComponent for configured abilities and unlock state.",
+        "Heal and area-damage effect asset examples included.",
+        "Explicit resource-pool and stats integration points.",
+        "Demo scene, validator, and tests included."
+      ],
+      "use_cases": [
+        "Prototype ability-driven combat without building an ability runtime from zero.",
+        "Author ability content as assets instead of scattered scripts.",
+        "Integrate cooldown and unlock logic into an existing combat stack."
+      ],
+      "installation_summary": [
+        "Import the .unitypackage and open the included ability demo.",
+        "Create or reuse AbilityData and AbilityEffectData assets.",
+        "Configure AbilityRunnerComponent on your actor and connect it to your own input and presentation code."
+      ],
+      "technical_summary": [
+        "No runtime parent lookup remains in the package.",
+        "Integrates cleanly with stats, save, and eventbus packages.",
+        "Validated in clean projects, tests, and official Asset Store Tools runs."
+      ],
+      "known_limits": [
+        "No animation system or cast-bar UI.",
+        "No multiplayer authority layer.",
+        "No full combo or talent-tree system."
+      ],
+      "keywords": ["abilities", "cooldowns", "effects", "combat", "scriptable objects"],
+      "screenshot_captions": [
+        "Overview of the ability assets, runner, and effect assets.",
+        "Ability asset to effect asset to runtime result workflow.",
+        "Sample content, extension points, and package boundaries."
+      ],
+      "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
+      "cross_sell": ["com.hpr.stats", "com.hpr.eventbus", "com.hpr.save", "com.hpr.interaction"],
+      "rename_recommendation": "Use 'HPR Ability Runtime' as the storefront title.",
+      "free_vs_paid_recommendation": "Paid first-wave package."
+    },
+    "com.hpr.weapons": {
+      "title": "HPR Weapon Data Kit",
+      "status": "second_wave",
+      "reason": "Technically clean, but the current value proposition is data-definition heavy and weaker than the first-wave systems unless paired with a stronger runtime controller or bundle story.",
+      "price_usd": 9.99,
+      "category": "Templates",
+      "subcategory": "Systems",
+      "positioning": "A data-definition layer for hitscan and scatter weapons that is better pitched as a follow-on product or bundle companion than a first-wave standalone SKU.",
+      "short_description": "Reusable weapon definition assets for hitscan, scatter, ammo, and preview geometry in Unity shooter prototypes.",
+      "long_description": [
+        "HPR Weapon Data Kit packages WeaponData assets for common shooter fields such as damage, range, ammo, fire mode, scatter count, and preview geometry. It is useful when a team already owns the runtime shooting controller and wants to move weapon tuning into clean reusable assets.",
+        "The package is technically sellable, but it is not the strongest first-wave storefront product because it does not yet lead with a full runtime weapon controller."
+      ],
+      "feature_bullets": [
+        "WeaponData assets for hitscan and scatter weapons.",
+        "Damage, range, ammo, pellet, and preview fields.",
+        "Rifle and scattergun sample content included.",
+        "Clean package boundary and isolated validation.",
+        "Good companion product to stats and AI content."
+      ],
+      "use_cases": [
+        "Move weapon tuning into assets in a shooter prototype.",
+        "Share weapon definitions across multiple runtime controllers.",
+        "Use as a data layer inside a broader combat bundle."
+      ],
+      "installation_summary": [
+        "Import the .unitypackage and review the included weapon data samples.",
+        "Create WeaponData assets for each weapon profile you need.",
+        "Consume the assets from your own firing, reload, and presentation code."
+      ],
+      "technical_summary": [
+        "Focused on data assets rather than a full runtime controller.",
+        "Cleanly isolated from fpsdemo-specific code.",
+        "Validated in clean projects and tests."
+      ],
+      "known_limits": [
+        "No recoil system or input/controller layer.",
+        "No muzzle flash or combat VFX pipeline.",
+        "No equip flow or reload animation system."
+      ],
+      "keywords": ["weapons", "shooter", "data assets", "hitscan", "scattergun"],
+      "screenshot_captions": [
+        "Overview of authored weapon data, fire modes, and scope.",
+        "Weapon data authored once and consumed by runtime systems.",
+        "Commercial recommendation and non-goals for the package."
+      ],
+      "cover_art_recommendation": "Use screenshots/01_overview.png as the initial cover only if you launch it later as a standalone SKU.",
+      "cross_sell": ["com.hpr.stats", "com.hpr.ai", "com.hpr.world"],
+      "rename_recommendation": "Use 'HPR Weapon Data Kit' as the storefront title.",
+      "free_vs_paid_recommendation": "Paid second-wave package or bundle component."
+    },
+    "com.hpr.ai": {
+      "title": "HPR Enemy Archetype Data",
+      "status": "second_wave",
+      "reason": "The package is technically solid, but buyer-facing value is narrower because it defines AI archetype data without a stronger runtime behavior/controller story.",
+      "price_usd": 9.99,
+      "category": "Templates",
+      "subcategory": "Systems",
+      "positioning": "Enemy archetype data assets for teams that already have or plan to add their own AI controller layer.",
+      "short_description": "Reusable enemy archetype data for melee, ranged, chase, and stationary attack behaviors in Unity combat projects.",
+      "long_description": [
+        "HPR Enemy Archetype Data packages enemy tuning into reusable ScriptableObject assets. Buyers get clean fields for health, speed, chase range, attack range, damage, and high-level behavior categories that a separate AI runtime can consume.",
+        "That makes it technically clean and reusable, but commercially it is better positioned as a follow-on release or a bundle companion until the runtime story is stronger."
+      ],
+      "feature_bullets": [
+        "EnemyData assets for melee and ranged archetypes.",
+        "Aggressive chase and stationary attack behavior categories.",
+        "Sample raider and sentry content included.",
+        "Designed for teams that want data-driven enemy tuning.",
+        "Isolated validation, docs, samples, and tests included."
+      ],
+      "use_cases": [
+        "Move enemy balance out of scripts and into authored assets.",
+        "Share AI archetype data across multiple scenes or modes.",
+        "Pair with your own navigation and behavior execution layer."
+      ],
+      "installation_summary": [
+        "Import the .unitypackage and open the included AI demo/sample content.",
+        "Create EnemyData assets for each archetype you want to expose.",
+        "Consume those assets from your own behavior controller or combat runtime."
+      ],
+      "technical_summary": [
+        "Enemy data layer only; no navigation or behavior-tree runtime included.",
+        "Package boundaries are clean and independently validated.",
+        "Best paired with combat or controller packages."
+      ],
+      "known_limits": [
+        "No pathfinding or navigation controller.",
+        "No perception/senses runtime.",
+        "No spawner system or animation layer."
+      ],
+      "keywords": ["ai", "enemy", "archetype", "scriptable object", "combat data"],
+      "screenshot_captions": [
+        "Overview of enemy archetype assets and included behavior categories.",
+        "How the data flows into a consuming runtime controller.",
+        "Why the package is better as a later-wave or bundled product."
+      ],
+      "cover_art_recommendation": "Use screenshots/01_overview.png only if launching it later as a standalone SKU.",
+      "cross_sell": ["com.hpr.weapons", "com.hpr.stats", "com.hpr.world"],
+      "rename_recommendation": "Use 'HPR Enemy Archetype Data' as the storefront title.",
+      "free_vs_paid_recommendation": "Paid second-wave package or bundle component."
+    },
+    "com.hpr.world": {
+      "title": "HPR World Asset Registry",
+      "status": "bundle_only",
+      "reason": "Useful supporting code, but too thin to lead as a standalone paid Asset Store listing today; best packaged inside a broader world-authoring or gameplay-data bundle.",
+      "price_usd": 0.0,
+      "category": "Tools",
+      "subcategory": "Utilities",
+      "positioning": "A lightweight metadata and registry layer that should support a broader world-building offer rather than ship alone.",
+      "short_description": "Asset metadata and registry contracts for world props, materials, and scale defaults in data-driven Unity pipelines.",
+      "long_description": [
+        "HPR World Asset Registry packages lightweight metadata and registry assets for prop ids, types, materials, and default scale values. It is clean, reusable, and technically ready, but it does not carry enough standalone buyer value to justify a first-wave paid listing on its own.",
+        "The strongest commercial use is as a bundle component or companion layer inside a larger world-authoring or import/placement product."
+      ],
+      "feature_bullets": [
+        "AssetMetadata and AssetRegistry data assets.",
+        "Prop id, display name, type, material, and scale fields.",
+        "Sample entries and isolated validation included.",
+        "Works cleanly in isolated projects and editor tooling.",
+        "Best used as support infrastructure instead of a headlining SKU."
+      ],
+      "use_cases": [
+        "Keep prop metadata in a reusable registry asset.",
+        "Feed registry data into placement or import tooling.",
+        "Ship as part of a broader environment-authoring bundle."
+      ],
+      "installation_summary": [
+        "Import the .unitypackage only if you want the registry layer in your own tools or runtime.",
+        "Create AssetMetadata assets and add them to an AssetRegistry asset.",
+        "Consume registry lookups from your own editor tooling or runtime systems."
+      ],
+      "technical_summary": [
+        "Registry and metadata layer only.",
+        "Cleanly isolated and validated, but commercially thin on its own.",
+        "Best held for bundles or a later broader product."
+      ],
+      "known_limits": [
+        "No placement system or scene-authoring UI.",
+        "No world streaming or procedural generation.",
+        "No import normalization or batch tooling included here."
+      ],
+      "keywords": ["world", "registry", "metadata", "props", "asset catalog"],
+      "screenshot_captions": [
+        "Overview of world metadata and registry assets.",
+        "Metadata-to-registry-to-consumer workflow.",
+        "Bundle-only commercial recommendation and current non-goals."
+      ],
+      "cover_art_recommendation": "Do not allocate standalone cover art; keep this package as a bundle/supporting component.",
+      "cross_sell": ["com.hpr.ai", "com.hpr.weapons"],
+      "rename_recommendation": "Use 'HPR World Asset Registry' if it is ever surfaced directly.",
+      "free_vs_paid_recommendation": "Bundle-only; do not prioritize a standalone paid upload in wave one."
+    }
+  }
+}
