@@ -126,7 +126,7 @@ catalog_if_present() {
     log "Skipping catalog for missing folder $asset_folder"
     return 0
   fi
-  run_unity_method "catalog_${label}.log" PrefabCatalogReporter.ReportPrefabCatalogFromArgs -assetFolder "$asset_folder"
+  run_unity_method "catalog_${label}.log" HPR.PrefabCatalogReporter.ReportPrefabCatalogFromArgs -assetFolder "$asset_folder"
 }
 
 integrate_group() {

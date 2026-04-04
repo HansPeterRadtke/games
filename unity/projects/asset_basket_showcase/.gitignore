@@ -1,0 +1,11 @@
+/Assets/*
+!/Assets/Editor/
+!/Assets/Editor.meta
+!/Assets/Editor/**
+!/Assets/Scenes/
+!/Assets/Scenes.meta
+/Assets/Scenes/*
+!/Assets/Scenes/AssetBasketShowcase.unity.meta
+!/Assets/Generated/
+!/Assets/Generated.meta
+/Assets/Generated/**

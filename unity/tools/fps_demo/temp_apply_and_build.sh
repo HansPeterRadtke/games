@@ -17,7 +17,7 @@ run_unity() {
 find "$TEMP_PROJECT/Library" -maxdepth 1 \( -name '*lock*' -o -name '*.pid' \) -delete 2>/dev/null || true
 rm -f "$TEMP_PROJECT/Temp/UnityLockfile" || true
 
-run_unity ThirdPartyAssetIntegrator.ApplySelectedLocalPacksFromBatch
+run_unity HPR.ThirdPartyAssetIntegrator.ApplySelectedLocalPacksFromBatch
 run_unity HPR.SceneBootstrap.BuildLinux
 
 install -d "$MAIN_PROJECT/Assets/Scenes" "$MAIN_BUILD_DIR"

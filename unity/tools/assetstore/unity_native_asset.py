@@ -74,7 +74,7 @@ def maybe_recover_import_with_known_fixes(log_name: str) -> bool:
 
     fix_result = run_unity(
         MAIN_PROJECT,
-        "AssetStoreImportTools.ApplyKnownCompatibilityFixes",
+        "HPR.AssetStoreImportTools.ApplyKnownCompatibilityFixes",
         [],
         f"{Path(log_name).stem}_fixup.log",
     )
@@ -137,6 +137,32 @@ def resolve_final_path(final_path: Path) -> Path:
         return final_path
     parent = final_path.parent
     if not parent.exists():
+        expected_name = _normalize_asset_name(final_path.stem)
+        expected_category = _normalize_asset_name(final_path.parent.name)
+        expected_publisher = _normalize_asset_name(final_path.parent.parent.name) if final_path.parent.parent != final_path.parent else ""
+        cache_root = DOWNLOAD_CACHE
+        if cache_root.exists():
+            exact_matches: list[Path] = []
+            partial_matches: list[Path] = []
+            loose_matches: list[Path] = []
+            for candidate in cache_root.glob("**/*.unitypackage"):
+                candidate_name = _normalize_asset_name(candidate.stem)
+                if candidate_name != expected_name:
+                    continue
+
+                candidate_category = _normalize_asset_name(candidate.parent.name)
+                candidate_publisher = _normalize_asset_name(candidate.parent.parent.name) if candidate.parent.parent != candidate.parent else ""
+                if candidate_category == expected_category and candidate_publisher == expected_publisher:
+                    exact_matches.append(candidate)
+                elif candidate_publisher == expected_publisher:
+                    partial_matches.append(candidate)
+                else:
+                    loose_matches.append(candidate)
+
+            for matches in (exact_matches, partial_matches, loose_matches):
+                if matches:
+                    return sorted(matches, key=lambda p: p.stat().st_mtime_ns, reverse=True)[0]
+
         return final_path
     expected = _normalize_asset_name(final_path.stem)
     for candidate in sorted(parent.glob("*.unitypackage")):
@@ -288,7 +314,7 @@ def cmd_download(args: argparse.Namespace) -> int:
     returncode, stdout, stderr = run_unity_download_with_monitoring(
         args.package_id,
         final_path,
-        "AssetStoreImportTools.DirectAssetStoreContextDownloadFromArgs",
+        "HPR.AssetStoreImportTools.DirectAssetStoreContextDownloadFromArgs",
         extra_args,
         f"native_download_{args.package_id}.log",
         args.timeout,
@@ -312,7 +338,7 @@ def cmd_download(args: argparse.Namespace) -> int:
 def cmd_import(args: argparse.Namespace) -> int:
     package_path = Path(args.package_path).expanduser().resolve()
     log_name = f"native_import_{package_path.stem}.log"
-    result = run_unity(MAIN_PROJECT, "AssetStoreImportTools.ImportFromArgs", ["-assetPackage", str(package_path)], log_name)
+    result = run_unity(MAIN_PROJECT, "HPR.AssetStoreImportTools.ImportFromArgs", ["-assetPackage", str(package_path)], log_name)
     if result.returncode != 0:
         if maybe_recover_import_with_known_fixes(log_name):
             print(package_path)
@@ -331,7 +357,7 @@ def cmd_download_import(args: argparse.Namespace) -> int:
         final_path.unlink(missing_ok=True)
     cleanup_stale_download_artifacts(final_path, args.package_id)
     if is_probably_unitypackage(final_path):
-        import_result = run_unity(MAIN_PROJECT, "AssetStoreImportTools.ImportFromArgs", ["-assetPackage", str(final_path)], f"native_import_{args.package_id}.log")
+        import_result = run_unity(MAIN_PROJECT, "HPR.AssetStoreImportTools.ImportFromArgs", ["-assetPackage", str(final_path)], f"native_import_{args.package_id}.log")
         if import_result.returncode != 0:
             sys.stderr.write(import_result.stderr)
             sys.stderr.write((LOG_DIR / f"native_import_{args.package_id}.log").read_text())
@@ -351,7 +377,7 @@ def cmd_download_import(args: argparse.Namespace) -> int:
     returncode, stdout, stderr = run_unity_download_with_monitoring(
         args.package_id,
         final_path,
-        "AssetStoreImportTools.DirectAssetStoreContextDownloadFromArgs",
+        "HPR.AssetStoreImportTools.DirectAssetStoreContextDownloadFromArgs",
         extra_args,
         f"native_download_{args.package_id}.log",
         args.timeout,
@@ -363,7 +389,7 @@ def cmd_download_import(args: argparse.Namespace) -> int:
         sys.stderr.write((LOG_DIR / f"native_download_{args.package_id}.log").read_text())
         return returncode
 
-    import_result = run_unity(MAIN_PROJECT, "AssetStoreImportTools.ImportFromArgs", ["-assetPackage", str(final_path)], f"native_import_{args.package_id}.log")
+    import_result = run_unity(MAIN_PROJECT, "HPR.AssetStoreImportTools.ImportFromArgs", ["-assetPackage", str(final_path)], f"native_import_{args.package_id}.log")
     if import_result.returncode != 0:
         log_name = f"native_import_{args.package_id}.log"
         if maybe_recover_import_with_known_fixes(log_name):

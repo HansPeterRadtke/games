@@ -18,6 +18,7 @@ Assets/AssetStoreTools*
 *.csproj
 *.unityproj
 *.sln
+*.slnx
 *.suo
 *.tmp
 *.user
@@ -36,15 +37,15 @@ Assets/AssetStoreTools*
 
 # local Unity assetstore workflow state
 unity/assetstore/downloads/
+unity/assetstore/manual_downloads/
 unity/assetstore/logs/
-unity/assetstore/metadata/*.json
-unity/assetstore/metadata/pipeline/*.json
-unity/assetstore/metadata/pipeline/*.done
+unity/assetstore/metadata/
 unity/projects/fps_demo/Packages/com.hpr.*
 unity/projects/fps_demo/Assets/Data/AssetRegistry.asset
 unity/projects/fps_demo/Assets/Data/AssetRegistry.asset.meta
 unity/projects/fps_demo/Assets/Data/AssetMetadata/Imported/
 unity/projects/fps_demo/Assets/Data/AssetMetadata/Imported.meta
+unity/projects/.asset_basket_showcase_backup/
 
 # BEGIN local Unity imported assets
 unity/projects/fps_demo/Assets/Free Wood Door Pack/

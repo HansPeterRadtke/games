@@ -3,97 +3,97 @@
     "package_id": 280509,
     "asset_folder": "Assets/Free Wood Door Pack",
     "integration_label": "doors",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyDoorPackFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyDoorPackFromBatch"
   },
   {
     "package_id": 151980,
     "asset_folder": "Assets/Low Poly Weapons VOL.1",
     "integration_label": "weapons",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyWeaponPackFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyWeaponPackFromBatch"
   },
   {
     "package_id": 258782,
     "asset_folder": "Assets/nappin/HouseInteriorPack",
     "integration_label": "house",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 330002,
     "asset_folder": "Assets/Furniture Mega Pack",
     "integration_label": "furniture",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyFurniturePackFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyFurniturePackFromBatch"
   },
   {
     "package_id": 71426,
     "asset_folder": "Assets/FurnishedCabin",
     "integration_label": "environment",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 124055,
     "asset_folder": "Assets/Brick Project Studio",
     "integration_label": "environment",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 107224,
     "asset_folder": "Assets/POLYGON city pack",
     "integration_label": "environment",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 326131,
     "asset_folder": "Assets/npc_casual_set_00",
     "integration_label": "characters",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyCharacterPacksFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyCharacterPacksFromBatch"
   },
   {
     "package_id": 181470,
     "asset_folder": "Assets/Survivalist",
     "integration_label": "characters",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyCharacterPacksFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyCharacterPacksFromBatch"
   },
   {
     "package_id": 157920,
     "asset_folder": "Assets/Kevin Iglesias/Human Animations",
     "integration_label": "animations",
-    "integration_method": "LocalCharacterAnimationTools.ApplyAnimationPacksFromBatch"
+    "integration_method": "HPR.LocalCharacterAnimationTools.ApplyAnimationPacksFromBatch"
   },
   {
     "package_id": 288783,
     "asset_folder": "Assets/DoubleL",
     "integration_label": "animations",
-    "integration_method": "LocalCharacterAnimationTools.ApplyAnimationPacksFromBatch"
+    "integration_method": "HPR.LocalCharacterAnimationTools.ApplyAnimationPacksFromBatch"
   },
   {
     "package_id": 52977,
     "asset_folder": "Assets/NatureStarterKit2",
     "integration_label": "environment",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 138810,
     "asset_folder": "Assets/ALP_Assets",
     "integration_label": "environment",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 279940,
     "asset_folder": "Assets/ALP_Assets",
     "integration_label": "environment",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 48529,
     "asset_folder": "Assets/Flooded_Grounds",
     "integration_label": "environment",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 213197,
     "asset_folder": "Assets/TerrainDemoScene_URP",
     "integration_label": "environment",
-    "integration_method": "ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
+    "integration_method": "HPR.ThirdPartyAssetIntegrator.ApplyHousePackFromBatch"
   },
   {
     "package_id": 267961,
