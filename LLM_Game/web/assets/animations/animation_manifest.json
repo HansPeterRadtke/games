@@ -1,0 +1,117 @@
+{
+  "ok": true,
+  "llm": {
+    "ok": true,
+    "wall_seconds": 194.908,
+    "tokens_predicted": 979
+  },
+  "llm_errors": [
+    "player_idle frame 0: too few opaque pixels",
+    "player_idle frame 1: too few opaque pixels",
+    "player_walk frame 0: too few opaque pixels",
+    "player_walk frame 1: too few opaque pixels",
+    "player_walk frame 2: too few opaque pixels",
+    "player_walk frame 3: too few opaque pixels"
+  ],
+  "player_animation_source": "fallback_after_llm_validation",
+  "assets": [
+    {
+      "id": "player_idle",
+      "source": "fallback_after_llm_validation",
+      "frames": 2,
+      "frame_size": [
+        64,
+        64
+      ],
+      "sheet_size": [
+        128,
+        64
+      ],
+      "opaque_pixels_per_frame": [
+        1024,
+        944
+      ],
+      "gif_sha256": "fc32c8db4dac4474328f3916cec4a605cf0077f5b4957dadfc121d1f411da6a7",
+      "sheet_sha256": "cb5765b94381167f139a9c122b062e0f227bd635a22e6a193ef803e2deaa46d7"
+    },
+    {
+      "id": "player_walk",
+      "source": "fallback_after_llm_validation",
+      "frames": 4,
+      "frame_size": [
+        64,
+        64
+      ],
+      "sheet_size": [
+        256,
+        64
+      ],
+      "opaque_pixels_per_frame": [
+        1040,
+        960,
+        1056,
+        960
+      ],
+      "gif_sha256": "c5804050ba232b48b59ddc66063a6e6c68f1b07d690549adcd9094dd1349c3e1",
+      "sheet_sha256": "09f4502ffef2f3603f088df274062ec2fc97977841541edb8fbe5a126df76899"
+    },
+    {
+      "id": "spark_spin",
+      "source": "handmade_test_animation",
+      "frames": 3,
+      "frame_size": [
+        64,
+        64
+      ],
+      "sheet_size": [
+        192,
+        64
+      ],
+      "opaque_pixels_per_frame": [
+        1360,
+        1120,
+        1296
+      ],
+      "gif_sha256": "5de089b7a2bb11c3994522d0fdcf89900f90583e1d1931daa198885205a88d55",
+      "sheet_sha256": "f67a20866988b04f73a22f8946e94175ecdbe9e5986fedb9c69debd265aa553b"
+    },
+    {
+      "id": "void_pulse",
+      "source": "handmade_test_animation",
+      "frames": 2,
+      "frame_size": [
+        64,
+        64
+      ],
+      "sheet_size": [
+        128,
+        64
+      ],
+      "opaque_pixels_per_frame": [
+        1936,
+        2576
+      ],
+      "gif_sha256": "e0b9a97d09207a990e66ad0230e962e33a5fc5f4f48ef2ff0ce83b43c4495eed",
+      "sheet_sha256": "ada57b3ad0cadb69fa3d5625f5823407e6012dc7ddf26a9ba89cb2ca9787bb4b"
+    },
+    {
+      "id": "gate_shimmer",
+      "source": "handmade_test_animation",
+      "frames": 2,
+      "frame_size": [
+        64,
+        64
+      ],
+      "sheet_size": [
+        128,
+        64
+      ],
+      "opaque_pixels_per_frame": [
+        1360,
+        1360
+      ],
+      "gif_sha256": "7287d8ad80421db8885a7be7d87bde4a2fd5803190025da05597205dcebccfcd",
+      "sheet_sha256": "22e92b3888e08523b7342dc97785b04ff9f347c06912dc4721117bcdc6fc0489"
+    }
+  ]
+}

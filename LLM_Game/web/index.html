@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>
+if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+  location.replace('https://' + location.host + location.pathname + location.search + location.hash);
+}
+</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#070a12">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="LLM Game">
+  <title>LLM_Game Prototype</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=20260712-voice-recovery-v1">
+</head>
+<body>
+  <main id="shell">
+    <canvas id="game" aria-label="LLM Game canvas"></canvas>
+    <section id="hud">
+      <div class="title">LLM_Game: Perception Drift</div>
+      <div id="stats">loading</div>
+      <div id="build">build 20260712-voice-recovery-v1</div>
+      <div id="log">Move through the field. Collect semantic sparks. Avoid the void.</div>
+      <div id="actions">
+        <button id="fullscreen">fullscreen</button>
+        <button id="pulse">pulse</button>
+        <button id="reset">reset</button>
+      </div>
+    </section>
+    <section id="mic-panel" aria-label="speech to text panel"><div class="mic-title">speech input</div><div id="mic-status">Press start mic. The status will show capture, transcription, and world updates.</div><div id="mic-text">debug print ready
+Scene planner active: structured layout, depth, scale, and motion.</div><select id="mic-device" aria-label="microphone input"><option value="auto">auto microphone</option></select><button id="mic-toggle">start mic</button><button id="mic-copy" type="button">copy log</button><button id="mic-hide" type="button">hide debug</button><input id="topic-input" value="cats dogs horses flowers trees" aria-label="topic test words"><button id="topic-test" type="button">diagnostic spawn</button></section>
+    <section id="stick" aria-label="movement joystick">
+      <div id="stick-base"><div id="stick-thumb"></div></div>
+      <div id="stick-label">move</div>
+    </section>
+  </main>
+  <script src="app.js?v=20260712-voice-recovery-v1"></script>
+<button id="mic-show" type="button" hidden>debug</button></body>
+</html>

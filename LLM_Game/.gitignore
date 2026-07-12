@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+.coverage
+coverage.xml
+*.wav
+*.raw
+*.log
+.DS_Store
+results/
+generated_sprites/
+llama8b_speed_benchmark_*.json

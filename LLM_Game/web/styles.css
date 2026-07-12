@@ -1,0 +1,221 @@
+:root { color-scheme: dark; --bg:#070a12; --fg:#edf5ff; --muted:#9fb4c8; --accent:#7cf9ff; --danger:#ff4d8d; --good:#a3ff8f; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
+html, body { margin:0; min-height:100%; width:100%; overflow:hidden; background:radial-gradient(circle at 50% 10%, #172037 0, var(--bg) 55%, #02030a 100%); color:var(--fg); font:15px system-ui, sans-serif; touch-action:none; overscroll-behavior:none; }
+button, canvas, #shell, #stick, #stick-base, #stick-thumb { touch-action:none; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
+#shell { position:fixed; inset:0; overflow:hidden; }
+#game { position:absolute; inset:0; width:100vw; height:100vh; display:block; }
+#hud { position:absolute; left:max(12px, env(safe-area-inset-left)); top:max(10px, env(safe-area-inset-top)); right:max(12px, env(safe-area-inset-right)); pointer-events:none; text-shadow:0 1px 8px #000; }
+.title { font-weight:800; letter-spacing:.04em; color:var(--accent); }
+#stats { margin-top:4px; color:var(--muted); }
+#log { margin-top:8px; max-width:760px; line-height:1.35; }
+#actions { margin-top:10px; display:flex; gap:8px; pointer-events:auto; }
+button { border:1px solid rgba(124,249,255,.35); color:var(--fg); background:rgba(7,10,18,.62); border-radius:14px; padding:10px 14px; font-weight:700; backdrop-filter: blur(8px); }
+button:active { transform:scale(.96); background:rgba(124,249,255,.22); }
+#stick { position:absolute; left:max(18px, env(safe-area-inset-left)); bottom:max(18px, env(safe-area-inset-bottom)); width:132px; height:158px; display:flex; flex-direction:column; align-items:center; gap:7px; opacity:.92; }
+#stick-base { width:118px; height:118px; border-radius:999px; border:2px solid rgba(124,249,255,.38); background:radial-gradient(circle, rgba(124,249,255,.16), rgba(7,10,18,.58)); box-shadow:0 0 28px rgba(124,249,255,.14), inset 0 0 30px rgba(0,0,0,.45); position:relative; backdrop-filter: blur(8px); }
+#stick-thumb { position:absolute; left:50%; top:50%; width:48px; height:48px; margin-left:-24px; margin-top:-24px; border-radius:999px; background:radial-gradient(circle at 35% 30%, #edf5ff, #7cf9ff 48%, #22384f 100%); border:2px solid rgba(237,245,255,.9); box-shadow:0 6px 22px rgba(0,0,0,.45); transform:translate(0,0); }
+#stick-label { font-size:12px; color:var(--muted); letter-spacing:.12em; text-transform:uppercase; text-shadow:0 1px 6px #000; }
+@media (min-width: 900px) { #stick { width:150px; height:176px; } #hud { max-width:800px; } }
+
+#build { margin-top:3px; font-size:11px; color:#7cf9ff; opacity:.75; }
+
+#mic-panel{position:absolute;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));width:min(340px,calc(100vw - 24px));max-height:38vh;overflow:hidden;padding:10px 12px;border:1px solid rgba(124,249,255,.34);border-radius:16px;background:rgba(7,10,18,.68);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.35);pointer-events:auto;text-shadow:0 1px 8px #000}.mic-title{font-weight:800;color:#7cf9ff;letter-spacing:.08em;text-transform:uppercase;font-size:12px}#mic-status{margin-top:4px;color:#9fb4c8;font-size:12px}#mic-text{margin-top:6px;min-height:52px;max-height:110px;overflow:hidden;white-space:pre-wrap;line-height:1.28;font-size:13px;color:#edf5ff}#mic-toggle{margin-top:8px;padding:8px 11px;font-size:13px}@media(max-width:720px){#mic-panel{top:auto;right:max(10px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));width:42vw;min-width:170px;max-height:31vh;padding:8px 9px}#mic-text{min-height:44px;max-height:76px;font-size:12px}#mic-toggle{padding:7px 9px}}
+
+/* 20260705-1732-mic-scroll */
+
+#mic-panel{max-height:46vh;}
+#mic-text{overflow-y:auto!important;overflow-x:hidden!important;max-height:160px!important;touch-action:pan-y!important;-webkit-overflow-scrolling:touch;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;overscroll-behavior:contain;padding-right:4px;}
+#mic-text *{touch-action:pan-y!important;}
+@media(max-width:720px){#mic-panel{width:48vw;max-height:42vh;}#mic-text{max-height:132px!important;}}
+
+/* 20260705-1738-mic-fixed */
+#mic-panel,#mic-panel button{pointer-events:auto!important;touch-action:manipulation!important;}#mic-toggle{position:relative;z-index:20;}#mic-text{pointer-events:auto!important;overflow-y:auto!important;touch-action:pan-y!important;-webkit-overflow-scrolling:touch;}
+
+/* 20260705-1750-event-horizon-topics */
+#mic-panel{max-height:22vh!important;width:min(310px,48vw)!important;}#mic-text{min-height:26px!important;max-height:48px!important;font-size:12px!important;overflow:hidden!important;user-select:none!important;-webkit-user-select:none!important;-webkit-touch-callout:none!important;}
+
+
+/* 20260706-0559-visible-debug-print visible full STT/LLM debug print window */
+#mic-panel{top:max(10px,env(safe-area-inset-top))!important;right:max(10px,env(safe-area-inset-right))!important;bottom:auto!important;width:min(560px,calc(100vw - 20px))!important;max-height:72vh!important;padding:10px 12px!important;overflow:hidden!important;z-index:50!important;}
+#mic-text{display:block!important;min-height:220px!important;max-height:58vh!important;overflow-y:auto!important;overflow-x:hidden!important;white-space:pre-wrap!important;line-height:1.25!important;font:12px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;color:#edf5ff!important;background:rgba(0,0,0,.22)!important;border-radius:10px!important;padding:8px!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;touch-action:pan-y!important;}
+@media(max-width:720px){#mic-panel{left:8px!important;right:8px!important;top:8px!important;bottom:auto!important;width:auto!important;max-height:74vh!important;}#mic-text{min-height:260px!important;max-height:60vh!important;font-size:11px!important;}}
+
+
+/* 20260706-0605-visible-debug-print-fixed visible full STT/LLM debug print window */
+#mic-panel{top:max(10px,env(safe-area-inset-top))!important;right:max(10px,env(safe-area-inset-right))!important;bottom:auto!important;width:min(560px,calc(100vw - 20px))!important;max-height:72vh!important;padding:10px 12px!important;overflow:hidden!important;z-index:50!important;}
+#mic-text{display:block!important;min-height:220px!important;max-height:58vh!important;overflow-y:auto!important;overflow-x:hidden!important;white-space:pre-wrap!important;line-height:1.25!important;font:12px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;color:#edf5ff!important;background:rgba(0,0,0,.22)!important;border-radius:10px!important;padding:8px!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;touch-action:pan-y!important;}
+@media(max-width:720px){#mic-panel{left:8px!important;right:8px!important;top:8px!important;bottom:auto!important;width:auto!important;max-height:74vh!important;}#mic-text{min-height:260px!important;max-height:60vh!important;font-size:11px!important;}}
+
+
+/* 20260706-0614-compact-debug-print compact STT/LLM debug print window */
+#mic-panel{top:max(10px,env(safe-area-inset-top))!important;right:max(10px,env(safe-area-inset-right))!important;left:auto!important;bottom:auto!important;width:min(390px,46vw)!important;max-height:38vh!important;padding:8px 9px!important;overflow:hidden!important;z-index:50!important;}
+#mic-text{display:block!important;min-height:96px!important;max-height:26vh!important;overflow-y:auto!important;overflow-x:hidden!important;white-space:pre-wrap!important;line-height:1.22!important;font:11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;color:#edf5ff!important;background:rgba(0,0,0,.24)!important;border-radius:9px!important;padding:6px!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;touch-action:pan-y!important;}
+#mic-status{font-size:11px!important;}
+#mic-toggle{margin-top:6px!important;padding:6px 8px!important;font-size:12px!important;}
+@media(max-width:720px){#mic-panel{top:8px!important;right:8px!important;left:auto!important;bottom:auto!important;width:46vw!important;min-width:168px!important;max-height:36vh!important;padding:7px 7px!important;}#mic-text{min-height:88px!important;max-height:24vh!important;font-size:10px!important;}.mic-title{font-size:10px!important;}}
+
+
+/* 20260706-0634-tap-start-mic-compact compact debug window; tap field starts mic */
+#mic-panel{top:auto!important;right:max(8px,env(safe-area-inset-right))!important;left:auto!important;bottom:max(8px,env(safe-area-inset-bottom))!important;width:min(390px,46vw)!important;max-height:34vh!important;padding:7px 8px!important;overflow:hidden!important;z-index:50!important;}
+#mic-text{display:block!important;min-height:82px!important;max-height:22vh!important;overflow-y:auto!important;overflow-x:hidden!important;white-space:pre-wrap!important;line-height:1.2!important;font:10.5px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;color:#edf5ff!important;background:rgba(0,0,0,.24)!important;border-radius:8px!important;padding:6px!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;touch-action:pan-y!important;}
+#mic-status{font-size:10px!important;}
+#mic-toggle{margin-top:5px!important;padding:5px 7px!important;font-size:11px!important;}
+@media(max-width:720px){#mic-panel{right:8px!important;bottom:8px!important;width:45vw!important;min-width:160px!important;max-height:32vh!important;}#mic-text{min-height:74px!important;max-height:20vh!important;font-size:10px!important;}.mic-title{font-size:10px!important;}}
+
+
+/* 20260706-0646-restore-visible-stt restored compact visible STT print window */
+#mic-panel{top:auto!important;right:max(8px,env(safe-area-inset-right))!important;left:auto!important;bottom:max(8px,env(safe-area-inset-bottom))!important;width:min(400px,48vw)!important;max-height:36vh!important;padding:7px 8px!important;overflow:hidden!important;z-index:50!important;}
+#mic-text{display:block!important;min-height:96px!important;max-height:24vh!important;overflow-y:auto!important;overflow-x:hidden!important;white-space:pre-wrap!important;line-height:1.2!important;font:10.5px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;color:#edf5ff!important;background:rgba(0,0,0,.24)!important;border-radius:8px!important;padding:6px!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;touch-action:pan-y!important;}
+#mic-status{font-size:10px!important;}
+#mic-toggle{margin-top:5px!important;padding:5px 7px!important;font-size:11px!important;}
+@media(max-width:720px){#mic-panel{right:8px!important;bottom:8px!important;width:48vw!important;min-width:168px!important;max-height:34vh!important;}#mic-text{min-height:86px!important;max-height:22vh!important;font-size:10px!important;}.mic-title{font-size:10px!important;}}
+
+
+/* 20260706-0652-visible-stt-fixed final visible STT print window */
+#mic-panel{top:auto!important;right:max(8px,env(safe-area-inset-right))!important;left:auto!important;bottom:max(8px,env(safe-area-inset-bottom))!important;width:min(400px,48vw)!important;max-height:36vh!important;padding:7px 8px!important;overflow:hidden!important;z-index:50!important;}
+#mic-text{display:block!important;min-height:96px!important;max-height:24vh!important;overflow-y:auto!important;overflow-x:hidden!important;white-space:pre-wrap!important;line-height:1.2!important;font:10.5px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;color:#edf5ff!important;background:rgba(0,0,0,.24)!important;border-radius:8px!important;padding:6px!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;touch-action:pan-y!important;}
+@media(max-width:720px){#mic-panel{right:8px!important;bottom:8px!important;width:48vw!important;min-width:168px!important;max-height:34vh!important;}#mic-text{min-height:86px!important;max-height:22vh!important;font-size:10px!important;}}
+
+
+/* 20260706-1702-copyable-error-log selectable/copyable mic log */
+#mic-panel,#mic-panel *,#mic-text{user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;}
+#mic-panel{pointer-events:auto!important;}
+#mic-text{cursor:text!important;overflow-y:auto!important;white-space:pre-wrap!important;}
+#mic-copy{margin-top:5px!important;margin-left:6px!important;padding:5px 7px!important;font-size:11px!important;pointer-events:auto!important;touch-action:manipulation!important;}
+
+
+/* 20260706-1722-safe-copy-target safe copy target remains selectable */
+#mic-panel,#mic-panel *,#mic-text{user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;}
+#mic-copy{pointer-events:auto!important;}
+
+
+/* 20260706-1738-wss-trailing-slash-debug keep mic log copyable */
+#mic-panel,#mic-panel *,#mic-text{user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;}
+
+
+/* 20260706-1756-http-audio-fallback keep mic log copyable */
+#mic-panel,#mic-panel *,#mic-text{user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;}
+
+
+/* 20260706-1828-force-https keep mic log copyable */
+#mic-panel,#mic-panel *,#mic-text{user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;}
+
+
+/* 20260706-2025-topic-animated-gifs keep mic log copyable */
+#mic-panel,#mic-panel *,#mic-text{user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;}
+
+
+/* 20260706-2140-gif-manual-topic-test manual topic test controls */
+#topic-input{margin-top:5px!important;margin-left:6px!important;width:180px!important;max-width:42vw!important;background:rgba(255,255,255,.12)!important;color:#edf5ff!important;border:1px solid rgba(124,249,255,.35)!important;border-radius:8px!important;padding:5px!important;font-size:11px!important;user-select:text!important;-webkit-user-select:text!important;}
+#topic-test{margin-top:5px!important;margin-left:6px!important;padding:5px 7px!important;font-size:11px!important;pointer-events:auto!important;touch-action:manipulation!important;}
+#mic-panel,#mic-panel *,#mic-text{user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;}
+
+
+/* 20260706-2148-auto-small-sparse-gifs smaller sparse GIF topic controls */
+#topic-test{opacity:.85!important;}
+#mic-panel,#mic-panel *,#mic-text{user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;}
+
+/* 20260706-2230-llm-pixel-json-gifs LLM pixel JSON GIF generation active */
+
+/* 20260706-2240-llm-gif-background-retry async LLM pixel JSON GIF generation */
+
+/* 20260706-2340-llm-pixel-coordinate-gifs coordinate LLM pixel GIF generation */
+
+/* 20260706-2348-llm-pixel-12coords exact 12 coordinate LLM pixel GIFs */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices exact 12 coordinate LLM pixel GIFs */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices silent mic auto retry */
+
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices make log copy/select always work */
+#mic-panel{z-index:9999!important;pointer-events:auto!important;touch-action:auto!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;}
+#mic-panel *{pointer-events:auto!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;}
+#mic-text{white-space:pre-wrap!important;cursor:text!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;touch-action:auto!important;pointer-events:auto!important;}
+#mic-copy,#mic-toggle,#topic-test,#topic-input{pointer-events:auto!important;touch-action:manipulation!important;user-select:auto!important;-webkit-user-select:auto!important;position:relative!important;z-index:10000!important;}
+canvas#game{z-index:0!important;}
+
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices force copyable/selectable mic log */
+#mic-panel{z-index:9999!important;pointer-events:auto!important;touch-action:auto!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;}
+#mic-panel *{pointer-events:auto!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;}
+#mic-text{white-space:pre-wrap!important;cursor:text!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;touch-action:auto!important;pointer-events:auto!important;overflow-y:auto!important;}
+#mic-copy,#mic-toggle,#topic-test,#topic-input{pointer-events:auto!important;touch-action:manipulation!important;position:relative!important;z-index:10000!important;}
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices fix mic downsample name */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices default mic first and zero callback retry */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices accept all concrete LLM topics */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices GIF queue and no empty LLM boxes */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices real GIF queue and retry errors */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices real GIF queue directory fix */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices Thor Qwen2.5-14B 16x16 LLM GIFs */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices compact Thor 14B 16x16 LLM GIFs */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices Thor 14B row-grid LLM GIFs */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices Thor 14B compact 12x12 coordinate GIFs */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices Thor 14B shape-validated compact coordinate GIFs */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices Thor 14B compact coordinate GIFs working */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices Thor semantic sprite plans */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices semantic plan kind locked */
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices high-resolution topic sprites */
+
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices final debug GUI */
+#mic-panel{position:fixed!important;right:12px!important;bottom:12px!important;left:auto!important;top:auto!important;width:min(640px,calc(100vw - 24px))!important;max-height:min(76vh,760px)!important;display:flex!important;flex-direction:column!important;gap:8px!important;box-sizing:border-box!important;z-index:9999!important;padding:12px!important;overflow:hidden!important;pointer-events:auto!important;user-select:text!important;-webkit-user-select:text!important;}
+#mic-panel.hidden{display:none!important;}
+#mic-panel button,#mic-panel input{font-size:14px!important;line-height:1.2!important;min-height:34px!important;box-sizing:border-box!important;}
+#mic-panel button{padding:7px 10px!important;white-space:nowrap!important;pointer-events:auto!important;touch-action:manipulation!important;}
+#topic-input{width:min(360px,100%)!important;max-width:100%!important;min-width:180px!important;}
+#mic-text{flex:1 1 auto!important;min-height:190px!important;max-height:44vh!important;overflow:auto!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important;cursor:text!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;padding:8px!important;}
+#mic-status{overflow-wrap:anywhere!important;}
+#mic-hide,#mic-show{pointer-events:auto!important;touch-action:manipulation!important;z-index:10000!important;}
+#mic-show{position:fixed!important;right:12px!important;bottom:12px!important;display:block!important;padding:10px 14px!important;border-radius:999px!important;z-index:10000!important;}
+#mic-show[hidden]{display:none!important;}
+@media (max-width:760px){#mic-panel{left:8px!important;right:8px!important;bottom:8px!important;width:auto!important;max-height:72vh!important;}#mic-text{max-height:38vh!important;min-height:150px!important;}}
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices JS mic fallback matched to GUI build */
+
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices reliable single-button debug panel toggle */
+#mic-panel{position:fixed!important;right:12px!important;bottom:12px!important;left:auto!important;top:auto!important;width:min(680px,calc(100vw - 24px))!important;max-height:min(78vh,780px)!important;display:flex!important;flex-direction:column!important;gap:8px!important;z-index:99999!important;padding:12px!important;overflow:hidden!important;pointer-events:auto!important;background:rgba(7,10,18,.82)!important;}
+#mic-panel #mic-hide{align-self:flex-end!important;order:-10!important;min-width:96px!important;background:rgba(124,249,255,.18)!important;}
+#mic-panel.debug-collapsed{width:auto!important;min-width:0!important;max-width:calc(100vw - 24px)!important;height:auto!important;max-height:none!important;padding:8px!important;display:block!important;}
+#mic-panel.debug-collapsed > *:not(#mic-hide){display:none!important;}
+#mic-panel.debug-collapsed #mic-hide{display:block!important;margin:0!important;min-height:40px!important;font-size:14px!important;border-radius:999px!important;}
+#mic-show{display:none!important;}
+#mic-text{min-height:220px!important;max-height:48vh!important;overflow:auto!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;touch-action:pan-y!important;}
+#mic-panel button,#mic-panel input{pointer-events:auto!important;touch-action:manipulation!important;}
+#topic-input{width:min(420px,100%)!important;max-width:100%!important;}
+@media(max-width:760px){#mic-panel{left:8px!important;right:8px!important;bottom:8px!important;width:auto!important;max-height:76vh!important;}#mic-text{min-height:170px!important;max-height:42vh!important;}}
+
+
+/* 20260711-1254-utterance-vad-no-tiny-whisper-slices bottom-right debug toggle and browser-managed mic audio */
+#mic-panel{left:auto!important;right:12px!important;bottom:12px!important;top:auto!important;width:min(680px,calc(100vw - 24px))!important;max-height:min(78vh,780px)!important;z-index:99999!important;}
+#mic-panel.debug-collapsed{left:auto!important;right:12px!important;bottom:12px!important;top:auto!important;width:auto!important;min-width:0!important;max-width:220px!important;padding:8px!important;display:block!important;}
+#mic-panel.debug-collapsed > *:not(#mic-hide){display:none!important;}
+#mic-panel.debug-collapsed #mic-hide{display:block!important;margin:0!important;min-width:112px!important;min-height:42px!important;border-radius:999px!important;}
+#mic-show{display:none!important;}
+@media(max-width:760px){#mic-panel{left:auto!important;right:8px!important;bottom:8px!important;width:min(92vw,620px)!important;max-height:74vh!important;}#mic-panel.debug-collapsed{left:auto!important;right:8px!important;bottom:8px!important;width:auto!important;max-width:200px!important;}}
+
+#mic-device{max-width:260px;min-height:36px;border-radius:10px;background:#07111f;color:#eaffff;border:1px solid rgba(124,249,255,.45);padding:6px 8px;}
+
+
+/* voice recovery status states */
+#mic-status { border-left: 3px solid rgba(168,183,214,.55); padding-left: .65rem; }
+#mic-status[data-state="busy"] { border-color: #ffd36a; color: #ffe6a8; }
+#mic-status[data-state="speech"] { border-color: #69f0ae; color: #b6ffd7; }
+#mic-status[data-state="success"] { border-color: #7aa7ff; color: #c9dcff; }
+#mic-status[data-state="error"] { border-color: #ff7373; color: #ffc0c0; }

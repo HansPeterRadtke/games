@@ -1,0 +1,50 @@
+[
+  {
+    "id": "player",
+    "source": "validated_procedural_after_llm_blank_test",
+    "opaque_pixels": 1024,
+    "sha256": "5b0f4db2e5788e2fe9e5b07fd8832bbc08e8494892c08c472b203f2f3efc5981"
+  },
+  {
+    "id": "spark",
+    "source": "validated_procedural_after_llm_blank_test",
+    "opaque_pixels": 1360,
+    "sha256": "ba852fad413f2d907099a7ee9bf87de72afbd95cc114fe034e5f2fbc99d2d4a3"
+  },
+  {
+    "id": "void",
+    "source": "validated_procedural_after_llm_blank_test",
+    "opaque_pixels": 1936,
+    "sha256": "d2e83425c083e18294199487cbae6679bf6129c579db8420f7d98110ab4e3019"
+  },
+  {
+    "id": "echo",
+    "source": "validated_procedural_after_llm_blank_test",
+    "opaque_pixels": 1712,
+    "sha256": "66cea255b30dee0d68e0809969b30c026ef6a0e79b5e2c016a84926648840dcc"
+  },
+  {
+    "id": "gate",
+    "source": "validated_procedural_after_llm_blank_test",
+    "opaque_pixels": 1360,
+    "sha256": "2a7638a2ff7a5c45e9f06a195ee1f0b97e41d2ce05e69d2e4ea251bdcf8583db"
+  },
+  {
+    "id": "wisp",
+    "source": "validated_procedural_after_llm_blank_test",
+    "opaque_pixels": 1216,
+    "sha256": "63c3526fca55906acbf3b08890873812994b7a1d6b0457a7efce2a8bf50a3d8a"
+  },
+  {
+    "id": "stone",
+    "source": "validated_procedural_after_llm_blank_test",
+    "opaque_pixels": 1824,
+    "sha256": "aed25cf80b51f0458ff044389e72f0189dadfcf6bb9ba228d7b45773bfd3b09a"
+  },
+  {
+    "id": "glyph",
+    "source": "validated_procedural_after_llm_blank_test",
+    "opaque_pixels": 1168,
+    "sha256": "686670cc8c5e8b0a69816072a58571fd967a24c00c4079c09dc7d4a2c4171f56"
+  }
+]

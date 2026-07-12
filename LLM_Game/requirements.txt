@@ -1,0 +1,6 @@
+aiohttp
+faster-whisper
+numpy
+Pillow
+requests
+websockets

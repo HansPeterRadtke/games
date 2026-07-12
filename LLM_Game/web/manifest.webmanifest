@@ -1,0 +1,10 @@
+{
+  "name": "LLM_Game Perception Drift",
+  "short_name": "LLM_Game",
+  "start_url": "/llm_game/",
+  "display": "fullscreen",
+  "background_color": "#070a12",
+  "theme_color": "#070a12",
+  "orientation": "landscape",
+  "icons": []
+}
