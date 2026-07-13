@@ -3,9 +3,8 @@ set -euo pipefail
 DATA=/data
 APP=$DATA/src/github/games/LLM_Game
 PY=$DATA/venv/bin/python3
-CFG=$DATA/infra/libexec/config_value.py
-WS_PORT=$($PY "$CFG" port "$DATA" llm_game 0)
-HTTP_PORT=$($PY "$CFG" port "$DATA" llm_game 1)
+WS_PORT=${LLM_GAME_WS_PORT:-15301}
+HTTP_PORT=${LLM_GAME_HTTP_PORT:-15302}
 [[ $(hostname -s) == nitro ]]
 systemctl is-active --quiet llm-game-stt.service
 apache2ctl configtest >/dev/null

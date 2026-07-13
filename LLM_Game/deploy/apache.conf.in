@@ -1,0 +1,36 @@
+# Generated from /data/infra for Nitro. Do not edit the installed copy.
+ProxyPreserveHost On
+ProxyTimeout 120
+
+RedirectMatch 302 ^/llm_game$ /llm_game/
+Alias /llm_game/ "/data/src/github/games/LLM_Game/web/"
+<Directory "/data/src/github/games/LLM_Game/web/">
+    Options -Indexes +FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+
+ProxyPass /llm_game_stt/ws ws://127.0.0.1:@WS_PORT@/
+ProxyPassReverse /llm_game_stt/ws ws://127.0.0.1:@WS_PORT@/
+ProxyPass /llm_game_stt/http/ http://127.0.0.1:@HTTP_PORT@/http/
+ProxyPassReverse /llm_game_stt/http/ http://127.0.0.1:@HTTP_PORT@/http/
+ProxyPass /llm_game_topic_gif/ http://127.0.0.1:@HTTP_PORT@/gif/
+ProxyPassReverse /llm_game_topic_gif/ http://127.0.0.1:@HTTP_PORT@/gif/
+
+<Location "/llm_game/">
+    Require all granted
+    Header always set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header always set Pragma "no-cache"
+    Header always set Expires "0"
+</Location>
+<Location "/llm_game_stt/ws">
+    Require all granted
+    Header always set Cache-Control "no-store"
+</Location>
+<Location "/llm_game_stt/http/">
+    Require all granted
+    Header always set Cache-Control "no-store"
+</Location>
+<Location "/llm_game_topic_gif/">
+    Require all granted
+</Location>

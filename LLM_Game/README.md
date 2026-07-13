@@ -10,4 +10,4 @@ Nitro uses the installed multilingual tiny model as the low-latency primary reco
 
 Project code and static assets live in this repository. Runtime logs, session metadata, generated topic images, and deployment reports live under `/data/var/llm_game` and are ignored by Git.
 
-Run `./tests/run_all.sh` for repository checks. Nitro deployment is installed through `/data/bin/install_llm_game.sh`; direct system files are never symlinked into `/data`.
+Run `./tests/run_all.sh` for repository checks. Nitro deployment is installed through `sudo ./deploy/install-nitro.sh`; direct system files are never symlinked into `/data`.
