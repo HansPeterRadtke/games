@@ -122,7 +122,7 @@ def compact(value: Any, maximum: int) -> str:
 
 def request_key(payload: dict[str, Any]) -> str:
     material = json.dumps({
-        "version": "sdxl-grounded-v3",
+        "version": "sdxl-grounded-v4-clean-alpha",
         "kind": payload.get("kind"),
         "name": payload.get("name"),
         "structural_prompt": payload.get("structural_prompt"),
@@ -131,65 +131,142 @@ def request_key(payload: dict[str, Any]) -> str:
         "animation_description": payload.get("animation_description"),
         "expected_labels": payload.get("expected_labels"),
         "review_requirements": payload.get("review_requirements"),
+        "asset_usage": payload.get("asset_usage", "isolated_sprite"),
     }, sort_keys=True, ensure_ascii=False)
     return hashlib.sha256(material.encode("utf-8")).hexdigest()[:24]
 
 
+def asset_usage(payload: dict[str, Any]) -> str:
+    return compact(payload.get("asset_usage", "isolated_sprite"), 40) or "isolated_sprite"
+
+
+def opaque_asset(payload: dict[str, Any]) -> bool:
+    return asset_usage(payload) in {"tileable_texture", "background_layer"}
+
+
 def background_color(rgb: Any) -> Any:
     import numpy as np
-    edge = max(6, min(rgb.shape[0], rgb.shape[1]) // 40)
+    edge = max(10, min(rgb.shape[0], rgb.shape[1]) // 32)
     samples = np.concatenate([
         rgb[:edge, :, :].reshape(-1, 3), rgb[-edge:, :, :].reshape(-1, 3),
         rgb[:, :edge, :].reshape(-1, 3), rgb[:, -edge:, :].reshape(-1, 3),
     ], axis=0)
+    bright = samples[np.min(samples, axis=1) > 180]
+    if bright.shape[0] >= max(100, samples.shape[0] // 5):
+        samples = bright
     return np.median(samples, axis=0)
 
 
-def alpha_for_frame(image: Any) -> tuple[Any, tuple[int, int, int, int]]:
+def alpha_quality(rgba: Any, bg: Any) -> dict[str, Any]:
+    import numpy as np
+    from scipy import ndimage
+    array = np.asarray(rgba, dtype=np.uint8)
+    rgb = array[:, :, :3].astype(np.float32)
+    alpha = array[:, :, 3]
+    h, w = alpha.shape
+    border = np.concatenate([alpha[:4, :].ravel(), alpha[-4:, :].ravel(), alpha[:, :4].ravel(), alpha[:, -4:].ravel()])
+    visible = alpha > 8
+    partial = (alpha > 8) & (alpha < 247)
+    boundary = visible & ~ndimage.binary_erosion(visible, structure=np.ones((3, 3), dtype=bool))
+    matte_distance = np.linalg.norm(rgb - bg[None, None, :], axis=2)
+    labels, count = ndimage.label(visible, structure=np.ones((3, 3), dtype=bool))
+    areas = [int(np.sum(labels == index)) for index in range(1, count + 1)]
+    largest = max(areas, default=0)
+    total = int(np.sum(visible))
+    bbox_y, bbox_x = np.where(visible)
+    bbox = [int(bbox_x.min()), int(bbox_y.min()), int(bbox_x.max()) + 1, int(bbox_y.max()) + 1] if total else [0, 0, 0, 0]
+    return {
+        "transparent_ratio": round(float(np.mean(alpha == 0)), 5),
+        "partial_alpha_ratio": round(float(np.mean(partial)), 5),
+        "border_visible_ratio": round(float(np.mean(border > 8)), 5),
+        "foreground_components": count,
+        "largest_component_ratio": round(float(largest) / float(max(1, total)), 5),
+        "boundary_matte_ratio": round(float(np.mean(matte_distance[boundary] < 28.0)) if np.any(boundary) else 0.0, 5),
+        "bbox": bbox,
+    }
+
+
+def alpha_for_frame(image: Any) -> tuple[Any, tuple[int, int, int, int], dict[str, Any]]:
     import numpy as np
     from PIL import Image
     from scipy import ndimage
 
     rgb = np.asarray(image.convert("RGB"), dtype=np.uint8)
-    bg = background_color(rgb).astype(np.float32)
     pixels = rgb.astype(np.float32)
+    bg = background_color(rgb).astype(np.float32)
     distance = np.linalg.norm(pixels - bg[None, None, :], axis=2)
-    foreground = distance > 30.0
-    foreground = ndimage.binary_opening(foreground, structure=np.ones((3, 3), dtype=bool))
-    foreground = ndimage.binary_closing(foreground, structure=np.ones((5, 5), dtype=bool))
+    brightness = pixels.mean(axis=2)
+    saturation = pixels.max(axis=2) - pixels.min(axis=2)
+    # Only border-connected background is removed. This preserves white clothing and highlights inside the subject.
+    traversable = (distance < 72.0) | ((brightness > 224.0) & (saturation < 28.0) & (distance < 105.0))
+    seeds = np.zeros(traversable.shape, dtype=bool)
+    seeds[0, :] = traversable[0, :]
+    seeds[-1, :] = traversable[-1, :]
+    seeds[:, 0] = traversable[:, 0]
+    seeds[:, -1] = traversable[:, -1]
+    background = ndimage.binary_propagation(seeds, mask=traversable, structure=np.ones((3, 3), dtype=bool))
+    foreground = ~background
+    foreground = ndimage.binary_opening(foreground, structure=np.ones((2, 2), dtype=bool))
+    foreground = ndimage.binary_closing(foreground, structure=np.ones((3, 3), dtype=bool))
+    foreground = ndimage.binary_fill_holes(foreground)
     labels, count = ndimage.label(foreground, structure=np.ones((3, 3), dtype=bool))
     h, w = foreground.shape
-    candidates: list[tuple[float, int]] = []
+    candidates: list[tuple[float, int, int, float, float]] = []
     for index in range(1, count + 1):
         ys, xs = np.where(labels == index)
         area = int(xs.size)
-        if area < max(60, h * w // 5000):
+        if area < max(90, h * w // 3500):
             continue
         cx, cy = float(xs.mean()), float(ys.mean())
         centrality = math.hypot((cx - w / 2) / w, (cy - h / 2) / h)
-        candidates.append((area * (1.3 - min(centrality, 0.9)), index))
-    keep = np.zeros(foreground.shape, dtype=bool)
-    if candidates:
-        candidates.sort(reverse=True)
-        best = candidates[0][0]
-        for score, index in candidates:
-            if score >= best * 0.10:
-                keep |= labels == index
-    else:
-        keep = foreground
-    keep = ndimage.binary_dilation(keep, structure=np.ones((3, 3), dtype=bool), iterations=1)
-    soft = ndimage.gaussian_filter(keep.astype(np.float32) * 255.0, sigma=1.25)
-    soft[soft < 7] = 0
-    soft[soft > 247] = 255
-    soft = np.clip(soft, 0, 255).astype(np.uint8)
-    ys, xs = np.where(soft > 12)
-    if len(xs) == 0:
-        raise RuntimeError("chroma extraction found no subject")
-    bbox = (int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1)
-    area_ratio = float(len(xs)) / float(h * w)
-    if area_ratio < 0.025 or area_ratio > 0.86:
-        raise RuntimeError(f"subject area ratio is implausible: {area_ratio:.4f}")
-    return Image.fromarray(np.dstack([rgb, soft]).astype(np.uint8), "RGBA"), bbox
+        score = area * (1.45 - min(centrality, 1.0))
+        candidates.append((score, index, area, cx, cy))
+    if not candidates:
+        raise RuntimeError("connected background extraction found no subject")
+    candidates.sort(reverse=True)
+    best_score, best_index, best_area, best_cx, best_cy = candidates[0]
+    keep = labels == best_index
+    # Preserve meaningful components close to the main subject; discard detached background speckle.
+    for score, index, area, cx, cy in candidates[1:]:
+        distance_to_main = math.hypot((cx - best_cx) / w, (cy - best_cy) / h)
+        if area >= best_area * 0.035 and distance_to_main < 0.30:
+            keep |= labels == index
+    keep = ndimage.binary_closing(keep, structure=np.ones((3, 3), dtype=bool))
+    keep = ndimage.binary_fill_holes(keep)
+    # Erode the matte by roughly one pixel and feather inward, eliminating white halos.
+    inside = ndimage.distance_transform_edt(keep)
+    outside = ndimage.distance_transform_edt(~keep)
+    signed = inside - outside
+    alpha_f = np.clip((signed - 0.35) / 1.55, 0.0, 1.0)
+    alpha_f = ndimage.gaussian_filter(alpha_f, sigma=0.35)
+    alpha_f[alpha_f < 0.025] = 0.0
+    alpha_f[alpha_f > 0.975] = 1.0
+    alpha = np.round(alpha_f * 255.0).astype(np.uint8)
+    # Remove white matte color from antialiased edge pixels.
+    a = alpha_f[:, :, None]
+    denominator = np.maximum(a, 0.08)
+    unmatte = (pixels - bg[None, None, :] * (1.0 - a)) / denominator
+    unmatte = np.clip(unmatte, 0, 255)
+    core = alpha >= 245
+    if np.any(core):
+        _dist, nearest = ndimage.distance_transform_edt(~core, return_indices=True)
+        nearest_rgb = unmatte[nearest[0], nearest[1]]
+        edge_weight = np.clip((245.0 - alpha.astype(np.float32)) / 180.0, 0.0, 0.72)[:, :, None]
+        unmatte = unmatte * (1.0 - edge_weight) + nearest_rgb * edge_weight
+    unmatte[alpha == 0] = 0
+    rgba = Image.fromarray(np.dstack([unmatte.astype(np.uint8), alpha]), "RGBA")
+    quality = alpha_quality(rgba, bg)
+    bbox = tuple(quality["bbox"])
+    area_ratio = 1.0 - quality["transparent_ratio"]
+    if area_ratio < 0.018 or area_ratio > 0.72:
+        raise RuntimeError(f"subject area ratio is implausible after cleanup: {area_ratio:.4f}")
+    if quality["border_visible_ratio"] > 0.01:
+        raise RuntimeError(f"subject or background touches frame border: {quality['border_visible_ratio']:.4f}")
+    if quality["largest_component_ratio"] < 0.94:
+        raise RuntimeError(f"foreground is fragmented: {quality['largest_component_ratio']:.4f}")
+    if quality["boundary_matte_ratio"] > 0.18:
+        raise RuntimeError(f"white matte remains on subject boundary: {quality['boundary_matte_ratio']:.4f}")
+    return rgba, bbox, quality
 
 
 def parse_json_from_log(text: str) -> dict[str, Any]:
@@ -212,7 +289,10 @@ def finalize_review(review: dict[str, Any], payload: dict[str, Any]) -> dict[str
     kind = compact(payload.get("kind"), 30)
     expected = [compact(value, 80) for value in payload.get("expected_labels", []) if compact(value, 80)]
     character_kind = kind in CHARACTER_KINDS
+    usage = asset_usage(payload)
+    opaque_mode = opaque_asset(payload)
     materials_pass = review.get("grounded_materials") is True or character_kind
+    background_pass = True if opaque_mode else review.get("clean_plain_background") is True
     pass_fields = [
         review.get("recognizable") is True,
         review.get("single_subject") is True,
@@ -231,6 +311,9 @@ def finalize_review(review: dict[str, Any], payload: dict[str, Any]) -> dict[str
     label_pass = not primary_labels or any(label in recognized for label in primary_labels)
     review["materials_required"] = not character_kind
     review["materials_pass"] = materials_pass
+    review["asset_usage"] = usage
+    review["background_mode"] = "opaque_full_frame" if opaque_mode else "transparent_isolated"
+    review["background_pass"] = background_pass
     review["deterministic_pass"] = all(pass_fields) and label_pass
     review["label_pass"] = label_pass
     return review
@@ -242,8 +325,14 @@ def review_candidate(image: Any, payload: dict[str, Any], key: str, index: int) 
     kind = compact(payload.get("kind"), 30)
     expected = [compact(value, 80) for value in payload.get("expected_labels", []) if compact(value, 80)]
     requirements = compact(payload.get("review_requirements"), 900)
+    usage = asset_usage(payload)
+    usage_instruction = (
+        "This is an opaque seamless full-frame material texture; clean_plain_background means the frame contains only the requested material with no border, white margin, scenery, object, or text. "
+        if usage in {"tileable_texture", "background_layer"}
+        else "This is a transparent isolated asset source; clean_plain_background means a uniform pure-white extraction background with no noise, scenery, shadow field, or gradient. "
+    )
     prompt = (
-        "Inspect this generated game asset using visible evidence only. The intended asset kind is " + kind + ". "
+        "Inspect this generated game asset using visible evidence only. The intended asset kind is " + kind + " and usage is " + usage + ". " + usage_instruction +
         "Expected labels: " + ", ".join(expected) + ". Requirements: " + requirements + ". "
         "Set each boolean independently. correct_category is true only if the subject is immediately recognizable as the intended kind. grounded_materials is true for plausible human anatomy, skin, hair, clothing, and accessories on characters, or physically plausible materials on objects. "
         "required_elements_visible is true only if every explicitly required visible element is present and clear. "
@@ -269,9 +358,15 @@ def generate_canonical(payload: dict[str, Any], key: str) -> tuple[Any, dict[str
 
     kind = compact(payload.get("kind"), 30)
     width, height, _fw, _fh, _fc = dimensions_for(kind)
-    structural = compact(payload.get("structural_prompt"), 390) + ", isolated on a pure solid white background"
-    semantic = compact(payload.get("semantic_prompt"), 820) + " The complete subject is isolated on a plain pure white background."
-    negative = compact(payload.get("negative_prompt"), 900)
+    usage = asset_usage(payload)
+    if opaque_asset(payload):
+        structural = compact(payload.get("structural_prompt"), 390) + ", seamless edge-to-edge full-frame texture, no border, no margin"
+        semantic = compact(payload.get("semantic_prompt"), 820) + " Fill the entire frame with one continuous seamless material sample. No white background, border, perspective scene, isolated object, or text."
+        negative = compact(payload.get("negative_prompt"), 900) + ", white border, white margin, frame, isolated object, room scene, horizon, text"
+    else:
+        structural = compact(payload.get("structural_prompt"), 390) + ", isolated on a pure solid white background"
+        semantic = compact(payload.get("semantic_prompt"), 820) + " The complete subject is isolated on a uniform pure white background with no shadow field, scenery, gradient, or noise."
+        negative = compact(payload.get("negative_prompt"), 900) + ", gray halo, white halo, noisy background, textured background, shadow field"
     seed_base = int(hashlib.sha256((key + "canonical").encode()).hexdigest()[:8], 16)
     reviews: list[dict[str, Any]] = []
     with generation_lock:
@@ -292,12 +387,17 @@ def generate_canonical(payload: dict[str, Any], key: str) -> tuple[Any, dict[str
             ).images[0]
             review = review_candidate(image, payload, key, index)
             try:
-                _rgba, bbox = alpha_for_frame(image)
+                if opaque_asset(payload):
+                    bbox = (0, 0, image.width, image.height)
+                    extraction_quality = {"mode": "opaque_full_frame"}
+                else:
+                    _rgba, bbox, extraction_quality = alpha_for_frame(image)
                 extraction_error = ""
             except Exception as exc:
                 bbox = (0, 0, 0, 0)
+                extraction_quality = {}
                 extraction_error = f"{type(exc).__name__}: {exc}"
-            review.update({"candidate_index": index, "seed": seed, "seconds": round(time.monotonic() - started, 3), "bbox": list(bbox), "extraction_error": extraction_error})
+            review.update({"candidate_index": index, "seed": seed, "seconds": round(time.monotonic() - started, 3), "bbox": list(bbox), "extraction_quality": extraction_quality, "extraction_error": extraction_error})
             reviews.append(review)
             (CACHE / f"{key}.candidate-{index}.review.json").write_text(json.dumps(review, indent=2) + "\n")
             if review["deterministic_pass"] and not extraction_error:
@@ -334,9 +434,14 @@ def generate_animation(canonical: Any, payload: dict[str, Any], key: str, seed: 
 
     kind = compact(payload.get("kind"), 30)
     width, height, _fw, _fh, frame_count = dimensions_for(kind)
-    structural = compact(payload.get("structural_prompt"), 390) + ", isolated on a pure solid white background"
-    semantic = compact(payload.get("semantic_prompt"), 820) + " The complete subject is isolated on a plain pure white background."
-    negative = compact(payload.get("negative_prompt"), 900) + ", changed identity, changed equipment, duplicate subject, camera movement, background change"
+    if opaque_asset(payload):
+        structural = compact(payload.get("structural_prompt"), 390) + ", seamless edge-to-edge full-frame texture, no border, no margin"
+        semantic = compact(payload.get("semantic_prompt"), 820) + " Fill the complete frame with the same seamless material."
+        negative = compact(payload.get("negative_prompt"), 900) + ", white border, white margin, frame, isolated object, room scene, camera movement, text"
+    else:
+        structural = compact(payload.get("structural_prompt"), 390) + ", isolated on a pure solid white background"
+        semantic = compact(payload.get("semantic_prompt"), 820) + " The complete subject is isolated on a uniform pure white background with no shadow field, scenery, gradient, or noise."
+        negative = compact(payload.get("negative_prompt"), 900) + ", changed identity, changed equipment, duplicate subject, camera movement, background change, gray halo, white halo, noisy background"
     phases = animation_phases(kind, compact(payload.get("animation_description"), 350), frame_count)
     frames: list[Any] = [canonical]
     strengths = {"player": 0.16, "npc": 0.16, "creature": 0.16, "enemy": 0.16, "weapon": 0.09, "armor": 0.10, "consumable": 0.10, "terrain": 0.08, "surface": 0.08, "structure": 0.08, "static_prop": 0.10, "vegetation": 0.12, "water": 0.12, "light": 0.14, "particle_emitter": 0.14, "hazard": 0.12, "portal": 0.14}
@@ -368,39 +473,70 @@ def generate_animation(canonical: Any, payload: dict[str, Any], key: str, seed: 
     return frames, {"frame_diff_from_source": [round(value, 4) for value in differences], "mid_frame_review": mid_review, "img2img_strength": strength}
 
 
-def process_frames(raw_frames: list[Any], kind: str) -> tuple[list[Any], dict[str, Any]]:
+def process_frames(raw_frames: list[Any], kind: str, usage: str) -> tuple[list[Any], dict[str, Any]]:
     import numpy as np
     from PIL import Image
 
+    _w, _h, frame_width, frame_height, _count = dimensions_for(kind)
+    if usage in {"tileable_texture", "background_layer"}:
+        output = [frame.convert("RGB").resize((frame_width, frame_height), Image.Resampling.LANCZOS).convert("RGBA") for frame in raw_frames]
+        arrays = [np.asarray(frame, dtype=np.int16) for frame in output]
+        diffs = [float(np.abs(arrays[i] - arrays[i - 1]).mean()) for i in range(1, len(arrays))]
+        if max(diffs, default=0.0) < 0.12:
+            raise RuntimeError(f"opaque texture frames contain no measurable motion: {diffs}")
+        return output, {
+            "mode": "opaque_full_frame",
+            "source_crop": [0, 0, raw_frames[0].width, raw_frames[0].height],
+            "alpha_extrema": [[255, 255] for _ in output],
+            "processed_frame_diff": [round(value, 4) for value in diffs],
+        }
     keyed: list[Any] = []
     boxes: list[tuple[int, int, int, int]] = []
+    qualities: list[dict[str, Any]] = []
     for frame in raw_frames:
-        rgba, bbox = alpha_for_frame(frame)
+        rgba, bbox, quality = alpha_for_frame(frame)
         keyed.append(rgba)
         boxes.append(bbox)
-    x0 = max(0, min(box[0] for box in boxes) - 12)
-    y0 = max(0, min(box[1] for box in boxes) - 12)
-    x1 = min(keyed[0].width, max(box[2] for box in boxes) + 12)
-    y1 = min(keyed[0].height, max(box[3] for box in boxes) + 12)
-    _w, _h, frame_width, frame_height, _count = dimensions_for(kind)
+        qualities.append(quality)
+    x0 = max(0, min(box[0] for box in boxes) - 18)
+    y0 = max(0, min(box[1] for box in boxes) - 18)
+    x1 = min(keyed[0].width, max(box[2] for box in boxes) + 18)
+    y1 = min(keyed[0].height, max(box[3] for box in boxes) + 18)
     crop_width, crop_height = max(1, x1 - x0), max(1, y1 - y0)
-    scale = min((frame_width - 10) / crop_width, (frame_height - 10) / crop_height)
+    margin = 28 if kind in CHARACTER_KINDS else 24
+    scale = min((frame_width - margin * 2) / crop_width, (frame_height - margin * 2) / crop_height)
     target_width = max(1, int(round(crop_width * scale)))
     target_height = max(1, int(round(crop_height * scale)))
     output: list[Any] = []
+    final_qualities: list[dict[str, Any]] = []
     for rgba in keyed:
         crop = rgba.crop((x0, y0, x1, y1)).resize((target_width, target_height), Image.Resampling.LANCZOS)
         canvas = Image.new("RGBA", (frame_width, frame_height), (0, 0, 0, 0))
-        canvas.alpha_composite(crop, ((frame_width - target_width) // 2, frame_height - target_height - 4))
+        canvas.alpha_composite(crop, ((frame_width - target_width) // 2, frame_height - target_height - margin))
         output.append(canvas)
+        final_qualities.append(alpha_quality(canvas, np.array([255.0, 255.0, 255.0], dtype=np.float32)))
     alpha = [frame.getchannel("A").getextrema() for frame in output]
     if not all(value == (0, 255) for value in alpha):
         raise RuntimeError(f"transparent frame validation failed: {alpha}")
+    for index, quality in enumerate(final_qualities):
+        if quality["border_visible_ratio"] > 0.0:
+            raise RuntimeError(f"processed frame {index} touches border: {quality}")
+        if quality["boundary_matte_ratio"] > 0.12:
+            raise RuntimeError(f"processed frame {index} retains matte contamination: {quality}")
+        if quality["largest_component_ratio"] < 0.96:
+            raise RuntimeError(f"processed frame {index} remains fragmented: {quality}")
     arrays = [np.asarray(frame, dtype=np.int16) for frame in output]
     diffs = [float(np.abs(arrays[i] - arrays[i - 1]).mean()) for i in range(1, len(arrays))]
     if max(diffs, default=0.0) < 0.15:
         raise RuntimeError(f"processed frames contain no measurable motion: {diffs}")
-    return output, {"source_crop": [x0, y0, x1, y1], "alpha_extrema": [[0, 255] for _ in output], "processed_frame_diff": [round(value, 4) for value in diffs]}
+    return output, {
+        "mode": "transparent_isolated_clean",
+        "source_crop": [x0, y0, x1, y1],
+        "alpha_extrema": [[0, 255] for _ in output],
+        "source_alpha_quality": qualities,
+        "final_alpha_quality": final_qualities,
+        "processed_frame_diff": [round(value, 4) for value in diffs],
+    }
 
 
 def encode_assets(frames: list[Any]) -> tuple[bytes, bytes, bytes]:
@@ -414,7 +550,7 @@ def encode_assets(frames: list[Any]) -> tuple[bytes, bytes, bytes]:
     return png.getvalue(), gif.getvalue(), sheet_buffer.getvalue()
 
 
-def validate_encoded(gif: bytes, sheet: bytes, expected_frames: int, frame_width: int, frame_height: int) -> dict[str, Any]:
+def validate_encoded(gif: bytes, sheet: bytes, expected_frames: int, frame_width: int, frame_height: int, usage: str) -> dict[str, Any]:
     from PIL import Image
     with Image.open(io.BytesIO(gif)) as image:
         if image.n_frames != expected_frames or image.info.get("loop") != 0:
@@ -425,14 +561,16 @@ def validate_encoded(gif: bytes, sheet: bytes, expected_frames: int, frame_width
             image.seek(index); frame = image.convert("RGBA")
             alpha.append(frame.getchannel("A").getextrema())
             hashes.append(hashlib.sha256(frame.tobytes()).hexdigest())
-        if not all(value == (0, 255) for value in alpha):
-            raise RuntimeError("GIF lost transparency")
+        expected_alpha = (255, 255) if usage in {"tileable_texture", "background_layer"} else (0, 255)
+        if not all(value == expected_alpha for value in alpha):
+            raise RuntimeError(f"GIF alpha mode failed: expected {expected_alpha}, got {alpha}")
         if len(set(hashes)) < max(3, expected_frames // 2):
             raise RuntimeError("GIF does not contain enough distinct generated frames")
     with Image.open(io.BytesIO(sheet)) as image:
-        if image.mode != "RGBA" or image.size != (frame_width * expected_frames, frame_height) or image.getchannel("A").getextrema() != (0, 255):
-            raise RuntimeError("sprite sheet validation failed")
-    return {"gif_frames": expected_frames, "distinct_gif_frames": len(set(hashes)), "gif_alpha": [[0, 255] for _ in alpha], "sheet_alpha": [0, 255]}
+        expected_alpha = (255, 255) if usage in {"tileable_texture", "background_layer"} else (0, 255)
+        if image.mode != "RGBA" or image.size != (frame_width * expected_frames, frame_height) or image.getchannel("A").getextrema() != expected_alpha:
+            raise RuntimeError(f"sprite sheet validation failed for usage {usage}")
+    return {"gif_frames": expected_frames, "distinct_gif_frames": len(set(hashes)), "gif_alpha": [list(expected_alpha) for _ in alpha], "sheet_alpha": list(expected_alpha), "asset_usage": usage}
 
 
 def paths_for(key: str) -> dict[str, Path]:
@@ -449,13 +587,14 @@ def generate(payload: dict[str, Any]) -> tuple[bytes, bytes, bytes, dict[str, An
     canonical, review_meta, seed = generate_canonical(payload, key)
     raw_frames, animation_meta = generate_animation(canonical, payload, key, seed)
     kind = compact(payload.get("kind"), 30)
-    frames, processing_meta = process_frames(raw_frames, kind)
+    usage = asset_usage(payload)
+    frames, processing_meta = process_frames(raw_frames, kind, usage)
     png, gif, sheet = encode_assets(frames)
     _w, _h, fw, fh, count = dimensions_for(kind)
-    encoded_meta = validate_encoded(gif, sheet, count, fw, fh)
+    encoded_meta = validate_encoded(gif, sheet, count, fw, fh, usage)
     meta = {
         "ok": True, "cached": False, "key": key, "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-        "identity_anchored": True, "motion_generated": True, "kind": kind, "name": compact(payload.get("name"), 100),
+        "identity_anchored": True, "motion_generated": True, "kind": kind, "asset_usage": usage, "name": compact(payload.get("name"), 100),
         "frame_count": count, "frame_width": fw, "frame_height": fh, "frame_duration_ms": 120,
         "generation_seconds": round(time.monotonic() - started, 3), "canonical_seed": seed,
         "canonical_review": review_meta, "animation": animation_meta, "processing": processing_meta, "validation": encoded_meta,
@@ -483,6 +622,7 @@ class Handler(BaseHTTPRequestHandler):
             if length < 1 or length > MAX_BODY_BYTES:
                 send_json(self, 413, {"ok": False, "error": "invalid request size"}); return
             payload = json.loads(self.rfile.read(length).decode("utf-8"))
+            payload.setdefault("asset_usage", "isolated_sprite")
             required = ["kind", "name", "structural_prompt", "semantic_prompt", "negative_prompt", "animation_description", "expected_labels", "review_requirements"]
             missing = [key for key in required if key not in payload]
             if missing:
