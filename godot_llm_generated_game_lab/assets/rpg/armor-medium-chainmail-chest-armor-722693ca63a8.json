@@ -1,0 +1,221 @@
+{
+  "ok": true,
+  "slug": "armor-medium-chainmail-chest-armor-722693ca63a8",
+  "kind": "armor",
+  "content": {
+    "kind": "armor",
+    "name": "Medium Chainmail Chest Armor",
+    "armor_slot": "chest",
+    "armor_weight": "medium",
+    "material": "chainmail",
+    "primary_color": "steel gray",
+    "quality": "well_made",
+    "equip_slot": "chest",
+    "stats": {
+      "defense": 8,
+      "weight": 7,
+      "speed_modifier": 0
+    },
+    "description": "A standard issue chainmail chest armor piece for a beginning warrior.",
+    "asset": {
+      "structural_prompt": "one standard medieval chainmail chest armor piece, steel gray, full object, realistic proportions, practical construction",
+      "semantic_prompt": "A steel-gray chainmail chest armor piece with interlocking rings and dark brown leather edging and backing, designed for practicality and durability.",
+      "visual_prompt": "A steel-gray chainmail chest armor piece with interlocking rings and dark brown leather edging and backing, designed for practicality and durability. One standard recognizable medieval chest armor piece made from chainmail, steel gray, practical construction, realistic proportions, full object visible, clean silhouette, centered on plain white background, no person, no mannequin, no scenery.",
+      "negative_prompt": "surreal, abstract, magical glow, ornate fantasy, multiple armor pieces, person, mannequin, scenery, floor, shadow, text, watermark, green object",
+      "idle_animation_description": "The armor hangs naturally while rings, straps, or fabric settle with a small physically plausible movement.",
+      "equip_description": "The chest armor is fitted to its matching body slot and secured using its practical straps or fastenings.",
+      "display_style": "hanging",
+      "expected_labels": [
+        "chest",
+        "chainmail",
+        "medieval armor"
+      ],
+      "review_requirements": "Exactly one recognizable medieval chest armor piece made from chainmail. The complete wearable piece is visible with normal practical geometry. No person, mannequin, extra armor pieces, magical glow, scenery, text, or watermark. Clean plain solid white extraction background."
+    }
+  },
+  "generation": {
+    "provider": "nitro-llama.cpp-constrained",
+    "model": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+    "seconds": 32.729,
+    "strict_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "armor_slot": {
+          "type": "string",
+          "enum": [
+            "chest"
+          ]
+        },
+        "armor_weight": {
+          "type": "string",
+          "enum": [
+            "medium"
+          ]
+        },
+        "material": {
+          "type": "string",
+          "enum": [
+            "chainmail"
+          ]
+        },
+        "primary_color": {
+          "type": "string",
+          "enum": [
+            "steel gray"
+          ]
+        },
+        "quality": {
+          "type": "string",
+          "enum": [
+            "well_made"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 45,
+          "maxLength": 170,
+          "pattern": "^.*[.!?]$"
+        },
+        "visual_description": {
+          "type": "string",
+          "minLength": 60,
+          "maxLength": 230,
+          "pattern": "^.*[.!?]$"
+        },
+        "display_style": {
+          "type": "string",
+          "enum": [
+            "hanging",
+            "laid_flat"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "armor_slot",
+        "armor_weight",
+        "material",
+        "primary_color",
+        "quality",
+        "description",
+        "visual_description",
+        "display_style"
+      ],
+      "additionalProperties": false
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "seconds": 32.729,
+        "errors": []
+      }
+    ],
+    "base_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "armor_slot": {
+          "type": "string",
+          "enum": [
+            "head",
+            "chest",
+            "hands",
+            "legs",
+            "feet",
+            "back"
+          ]
+        },
+        "armor_weight": {
+          "type": "string",
+          "enum": [
+            "light",
+            "medium",
+            "heavy"
+          ]
+        },
+        "material": {
+          "type": "string",
+          "enum": [
+            "cloth",
+            "leather",
+            "chainmail",
+            "steel_plate",
+            "iron_plate"
+          ]
+        },
+        "primary_color": {
+          "type": "string",
+          "enum": [
+            "dark brown",
+            "black",
+            "steel gray",
+            "charcoal",
+            "cream",
+            "burgundy"
+          ]
+        },
+        "quality": {
+          "type": "string",
+          "enum": [
+            "common",
+            "well_made",
+            "fine"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 45,
+          "maxLength": 170,
+          "pattern": "^.*[.!?]$"
+        },
+        "visual_description": {
+          "type": "string",
+          "minLength": 60,
+          "maxLength": 230,
+          "pattern": "^.*[.!?]$"
+        },
+        "display_style": {
+          "type": "string",
+          "enum": [
+            "hanging",
+            "laid_flat"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "armor_slot",
+        "armor_weight",
+        "material",
+        "primary_color",
+        "quality",
+        "description",
+        "visual_description",
+        "display_style"
+      ],
+      "additionalProperties": false
+    },
+    "plan": {
+      "name": "Medium Chainmail Chest Armor",
+      "armor_slot": "chest",
+      "armor_weight": "medium",
+      "material": "chainmail",
+      "primary_color": "steel gray",
+      "quality": "well_made",
+      "description": "A standard issue chainmail chest armor piece for a beginning warrior.",
+      "visual_description": "A steel-gray chainmail chest armor piece with interlocking rings and dark brown leather edging and backing, designed for practicality and durability.",
+      "display_style": "hanging"
+    },
+    "kind": "armor"
+  },
+  "created_at": 1784910906.4584377
+}

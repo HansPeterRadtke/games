@@ -1,0 +1,444 @@
+{
+  "ok": true,
+  "slug": "player-eryndor-thorne-8eb300d6eb2c",
+  "kind": "player",
+  "content": {
+    "kind": "player_character",
+    "game_description": "A grounded medieval fantasy role-playing game with standard recognizable equipment, practical steel, iron, wood, leather, chainmail, cloth, stone, glass, and ceramic materials. Objects use realistic proportions and construction. No surreal forms, abstract creatures, ornamental overload, or magical effects unless the selected item type explicitly requires them.",
+    "name": "Eryndor Thorne",
+    "role": "warrior",
+    "presentation": "androgynous",
+    "body_type": "athletic",
+    "level": 1,
+    "experience_level": "beginner",
+    "stats": {
+      "max_hp": 120,
+      "max_stamina": 90,
+      "max_mana": 10,
+      "strength": 14,
+      "dexterity": 9,
+      "intelligence": 5,
+      "defense": 12,
+      "speed": 8,
+      "hp": 120,
+      "stamina": 90,
+      "mana": 10
+    },
+    "equipment": {
+      "head": "none",
+      "chest": "chainmail",
+      "hands": "leather_gloves",
+      "legs": "trousers",
+      "feet": "leather_boots",
+      "main_hand": "sword",
+      "off_hand": "none",
+      "back": "none",
+      "neck": "none",
+      "ring_left": "none",
+      "ring_right": "none"
+    },
+    "actions": {
+      "basic_attack": "slash",
+      "secondary_action": "parry",
+      "mobility_action": "jump"
+    },
+    "appearance": {
+      "hair": "short dark brown hair",
+      "face": "oval, with prominent cheekbones and a small nose",
+      "armor_style": "chainmail",
+      "armor_colors": [
+        "steel gray",
+        "muted red"
+      ],
+      "silhouette": "athletic warrior with sword and none",
+      "visual_description": "He wears steel-gray chainmail over a dark brown leather gambeson with muted red cloth accents, and he holds a plain steel longsword in his main hand."
+    },
+    "description": "Eryndor Thorne is a young adult warrior with athletic build and dark brown short hair.",
+    "asset": {
+      "structural_prompt": "full body strict side profile adult human warrior facing right, one plain steel sword, empty off hand",
+      "semantic_prompt": "He wears steel-gray chainmail over a dark brown leather gambeson with muted red cloth accents, and he holds a plain steel longsword in his main hand.",
+      "visual_prompt": "He wears steel-gray chainmail over a dark brown leather gambeson with muted red cloth accents, and he holds a plain steel longsword in his main hand. Full body strict side profile facing right. One sword only. Empty off hand. Grounded medieval RPG character, realistic human anatomy and proportions, practical construction, steel leather chainmail cloth and wood only, clean readable silhouette, entire body and both feet visible, centered, solid bright chroma green background, no scenery.",
+      "negative_prompt": "surreal, abstract, monster, extra limbs, extra weapons, duplicate equipment, cropped feet, front view, rear view, three quarter view, anime, chibi, cartoon, toy, icon, text, watermark, scenery, floor, shadow, green clothing",
+      "idle_animation_description": "The warrior breathes steadily with a balanced posture while the equipped weapon remains controlled and cloth settles naturally.",
+      "walk_animation_description": "The warrior walks with measured heel-to-toe steps while chainmail, leather, and cloth respond naturally to each stride.",
+      "idle_style": "relaxed",
+      "movement_style": "steady",
+      "expected_labels": [
+        "adult human",
+        "medieval fighter",
+        "sword",
+        "chainmail"
+      ],
+      "review_requirements": "Exactly one recognizable adult human medieval warrior in a complete side profile facing right. The whole body and both feet are visible. Exactly one sword is visible. The off hand is empty. Arms and legs are normal. Practical chainmail, leather, cloth, and metal equipment. No duplicate body, extra limb, extra weapon, scenery, text, or watermark. Clean plain solid white extraction background."
+    }
+  },
+  "generation": {
+    "provider": "nitro-llama.cpp-constrained",
+    "model": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+    "seconds": 165.722,
+    "strict_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 36
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "warrior"
+          ]
+        },
+        "experience_level": {
+          "type": "string",
+          "enum": [
+            "beginner"
+          ]
+        },
+        "presentation": {
+          "type": "string",
+          "enum": [
+            "masculine",
+            "feminine",
+            "androgynous"
+          ]
+        },
+        "body_type": {
+          "type": "string",
+          "enum": [
+            "athletic"
+          ]
+        },
+        "hair_color": {
+          "type": "string",
+          "enum": [
+            "dark brown"
+          ]
+        },
+        "hair_style": {
+          "type": "string",
+          "enum": [
+            "short"
+          ]
+        },
+        "face_description": {
+          "type": "string",
+          "minLength": 12,
+          "maxLength": 90
+        },
+        "armor_style": {
+          "type": "string",
+          "enum": [
+            "chainmail"
+          ]
+        },
+        "armor_primary_color": {
+          "type": "string",
+          "enum": [
+            "steel gray"
+          ]
+        },
+        "armor_secondary_color": {
+          "type": "string",
+          "enum": [
+            "muted red"
+          ]
+        },
+        "main_hand": {
+          "type": "string",
+          "enum": [
+            "sword"
+          ]
+        },
+        "off_hand": {
+          "type": "string",
+          "enum": [
+            "none"
+          ]
+        },
+        "back_item": {
+          "type": "string",
+          "enum": [
+            "none"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 80,
+          "maxLength": 180,
+          "pattern": "^.*[.!?]$"
+        },
+        "visual_description": {
+          "type": "string",
+          "minLength": 110,
+          "maxLength": 240,
+          "pattern": "^.*[.!?]$"
+        },
+        "idle_style": {
+          "type": "string",
+          "enum": [
+            "relaxed",
+            "guarded",
+            "alert"
+          ]
+        },
+        "movement_style": {
+          "type": "string",
+          "enum": [
+            "steady",
+            "agile",
+            "heavy"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "role",
+        "experience_level",
+        "presentation",
+        "body_type",
+        "hair_color",
+        "hair_style",
+        "face_description",
+        "armor_style",
+        "armor_primary_color",
+        "armor_secondary_color",
+        "main_hand",
+        "off_hand",
+        "back_item",
+        "description",
+        "visual_description",
+        "idle_style",
+        "movement_style"
+      ],
+      "additionalProperties": false
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "seconds": 64.027,
+        "errors": [
+          "'A sturdy, athletic young man with short, dark brown hair and plain features, dressed in practical steel-gray chainmail over a dark brown leather gambeson, with muted red cloth accents.' is too long"
+        ]
+      },
+      {
+        "attempt": 2,
+        "seconds": 45.987,
+        "errors": [
+          "'A sturdy young man.' is too short",
+          "'He wears steel-gray chainmail over a dark brown leather gambeson with muted red cloth accents.' is too short",
+          "visual_description must explicitly mention selected main_hand sword"
+        ]
+      },
+      {
+        "attempt": 3,
+        "seconds": 55.708,
+        "errors": []
+      }
+    ],
+    "base_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 36
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "warrior",
+            "ranger",
+            "rogue",
+            "mage",
+            "cleric"
+          ]
+        },
+        "experience_level": {
+          "type": "string",
+          "enum": [
+            "beginner",
+            "trained",
+            "veteran"
+          ]
+        },
+        "presentation": {
+          "type": "string",
+          "enum": [
+            "masculine",
+            "feminine",
+            "androgynous"
+          ]
+        },
+        "body_type": {
+          "type": "string",
+          "enum": [
+            "slim",
+            "average",
+            "athletic",
+            "heavy"
+          ]
+        },
+        "hair_color": {
+          "type": "string",
+          "enum": [
+            "black",
+            "dark brown",
+            "chestnut",
+            "auburn",
+            "blond",
+            "gray"
+          ]
+        },
+        "hair_style": {
+          "type": "string",
+          "enum": [
+            "short",
+            "shoulder length",
+            "braided",
+            "cropped",
+            "tied back"
+          ]
+        },
+        "face_description": {
+          "type": "string",
+          "minLength": 12,
+          "maxLength": 90
+        },
+        "armor_style": {
+          "type": "string",
+          "enum": [
+            "leather",
+            "chainmail",
+            "plate",
+            "robe"
+          ]
+        },
+        "armor_primary_color": {
+          "type": "string",
+          "enum": [
+            "dark brown",
+            "black",
+            "steel gray",
+            "charcoal",
+            "undyed linen",
+            "navy"
+          ]
+        },
+        "armor_secondary_color": {
+          "type": "string",
+          "enum": [
+            "muted red",
+            "cream",
+            "dark blue",
+            "brown",
+            "gray",
+            "burgundy"
+          ]
+        },
+        "main_hand": {
+          "type": "string",
+          "enum": [
+            "sword",
+            "axe",
+            "spear",
+            "dagger",
+            "bow",
+            "mace",
+            "staff"
+          ]
+        },
+        "off_hand": {
+          "type": "string",
+          "enum": [
+            "round_shield",
+            "kite_shield",
+            "dagger",
+            "none"
+          ]
+        },
+        "back_item": {
+          "type": "string",
+          "enum": [
+            "cape",
+            "quiver",
+            "backpack",
+            "none"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 80,
+          "maxLength": 180,
+          "pattern": "^.*[.!?]$"
+        },
+        "visual_description": {
+          "type": "string",
+          "minLength": 110,
+          "maxLength": 240,
+          "pattern": "^.*[.!?]$"
+        },
+        "idle_style": {
+          "type": "string",
+          "enum": [
+            "relaxed",
+            "guarded",
+            "alert"
+          ]
+        },
+        "movement_style": {
+          "type": "string",
+          "enum": [
+            "steady",
+            "agile",
+            "heavy"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "role",
+        "experience_level",
+        "presentation",
+        "body_type",
+        "hair_color",
+        "hair_style",
+        "face_description",
+        "armor_style",
+        "armor_primary_color",
+        "armor_secondary_color",
+        "main_hand",
+        "off_hand",
+        "back_item",
+        "description",
+        "visual_description",
+        "idle_style",
+        "movement_style"
+      ],
+      "additionalProperties": false
+    },
+    "plan": {
+      "name": "Eryndor Thorne",
+      "role": "warrior",
+      "experience_level": "beginner",
+      "presentation": "androgynous",
+      "body_type": "athletic",
+      "hair_color": "dark brown",
+      "hair_style": "short",
+      "face_description": "oval, with prominent cheekbones and a small nose",
+      "armor_style": "chainmail",
+      "armor_primary_color": "steel gray",
+      "armor_secondary_color": "muted red",
+      "main_hand": "sword",
+      "off_hand": "none",
+      "back_item": "none",
+      "description": "Eryndor Thorne is a young adult warrior with athletic build and dark brown short hair.",
+      "visual_description": "He wears steel-gray chainmail over a dark brown leather gambeson with muted red cloth accents, and he holds a plain steel longsword in his main hand.",
+      "idle_style": "relaxed",
+      "movement_style": "steady"
+    },
+    "kind": "player"
+  },
+  "created_at": 1784910207.8265831
+}

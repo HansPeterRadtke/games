@@ -1,0 +1,119 @@
+{
+  "id": "wall_finish",
+  "kind": "surface",
+  "name": "Wall Finish",
+  "png_path": "generated/world_assets/wall-finish/canonical.png",
+  "gif_path": "generated/world_assets/wall-finish/animation.gif",
+  "sheet_path": "generated/world_assets/wall-finish/animation.sheet.png",
+  "frame_count": 6,
+  "frame_width": 160,
+  "frame_height": 160,
+  "frame_duration_ms": 120,
+  "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+  "key": "9bedc4f21e2e611cd35dc092",
+  "cached": false,
+  "generation_seconds": 35.021,
+  "identity_anchored": true,
+  "motion_generated": true,
+  "verification": {
+    "png_mode": "RGBA",
+    "png_size": [
+      160,
+      160
+    ],
+    "png_alpha": [
+      0,
+      255
+    ],
+    "gif_frames": 6,
+    "gif_distinct_frames": 6,
+    "gif_alpha": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ]
+    ],
+    "sheet_mode": "RGBA",
+    "sheet_size": [
+      960,
+      160
+    ],
+    "sheet_alpha": [
+      0,
+      255
+    ],
+    "canonical_subject": "Wall Finish",
+    "canonical_pass": true,
+    "animation_pass": true
+  },
+  "review": {
+    "canonical": {
+      "recognizable": true,
+      "single_subject": true,
+      "full_subject": true,
+      "correct_category": true,
+      "required_elements_visible": true,
+      "forbidden_elements_absent": true,
+      "anatomy_or_geometry": "normal",
+      "grounded_materials": true,
+      "clean_plain_background": true,
+      "clear_silhouette": true,
+      "recognized_subject": "Wall Finish",
+      "critical_defects": [],
+      "description": "A seamless sample of dull beige wall finish with a sense of oppression and control, isolated on a clean plain white extraction background.",
+      "materials_required": true,
+      "materials_pass": true,
+      "deterministic_pass": true,
+      "label_pass": true,
+      "candidate_index": 1,
+      "seed": 377985579,
+      "seconds": 12.394,
+      "bbox": [
+        0,
+        8,
+        640,
+        640
+      ],
+      "extraction_error": ""
+    },
+    "animation": {
+      "recognizable": true,
+      "single_subject": true,
+      "full_subject": true,
+      "correct_category": true,
+      "required_elements_visible": true,
+      "forbidden_elements_absent": true,
+      "anatomy_or_geometry": "normal",
+      "grounded_materials": true,
+      "clean_plain_background": true,
+      "clear_silhouette": true,
+      "recognized_subject": "Wall Finish",
+      "critical_defects": [],
+      "description": "A seamless sample of dull beige wall finish with a sense of oppression and control, isolated on a clean plain white extraction background.",
+      "materials_required": true,
+      "materials_pass": true,
+      "deterministic_pass": true,
+      "label_pass": true
+    }
+  }
+}

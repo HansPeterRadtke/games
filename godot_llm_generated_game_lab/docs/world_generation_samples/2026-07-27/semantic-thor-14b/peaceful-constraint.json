@@ -1,0 +1,32 @@
+{
+  "user_prompt": "A quiet cooperative gardening game on floating islands with no combat, where rainwater is currency and every plant remembers who cared for it.",
+  "game_description": "Rainwater Rhapsody\n\nIn Rainwater Rhapsody, players assume the role of cooperative gardeners on serene, floating islands, nurturing a world where life blossoms from the skies. The central conflict revolves around sustaining these islands against a backdrop of scarcity, where every drop of rainwater is precious and no combat is allowed. Players must work together, collecting rainwater as their primary currency, to irrigate, plant, and care for an array of exotic flora. Each plant in the game remembers its caretakers, storing memories of the players who tended to it, fostering a deep connection between gardeners and their environment. Progression is measured by the health and variety of the islands' gardens, and players can expand their territories by trading rainwater to unlock new seeds and tools. The visual identity of the game features lush, vibrant gardens against a backdrop of endless skies, with each island adorned with unique flora and fauna. The audio identity includes the gentle sound of rain and the soothing whispers of plants recognizing their caretakers. Over time, play changes as players develop deeper relationships with their islands and the plants they cultivate, leading to a more personalized and interconnected experience.",
+  "opening_scene": null,
+  "scene_plan": null,
+  "generation": {
+    "game_description": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 234,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 31.971,
+          "ok": false,
+          "error": "ValueError: game description omitted concrete detail terms ['cooperative'] from 'A quiet cooperative gardening game on floating islands'; game description omitted concrete detail terms ['combat', 'no'] from 'no combat'; raw_preview=\"Rainwater Rhapsody  In Rainwater Rhapsody, players assume the role of gardeners on serene, floating islands, nurturing a world where life blossoms from the skies. The central conflict revolves around sustaining these islands against the backdrop of a world where water is scarce, making every drop of rainwater precious. Players must work together, collecting rainwater as their primary currency, to irrigate, plant, and care for an array of exotic flora.  Each plant in the game remembers its caretakers, storing memories of the players who tended to it. This personalization fosters a deep connection between the gardeners and their environment, encouraging a nurturing and communal gameplay experience. Progression is measured by the health and variety of the islands' gardens, and players can expand their territories by trading rainwater to unlock new seeds and tools.  The visual identity of th\""
+        },
+        {
+          "attempt": 2,
+          "seconds": 26.536,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    }
+  },
+  "saved_at_unix": 1785179873.7679985
+}

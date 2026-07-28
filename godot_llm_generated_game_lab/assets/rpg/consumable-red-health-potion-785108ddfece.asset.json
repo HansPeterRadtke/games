@@ -1,0 +1,202 @@
+{
+  "ok": true,
+  "status": "ready",
+  "slug": "consumable-red-health-potion-785108ddfece",
+  "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+  "identity_anchored": true,
+  "motion_generated": true,
+  "frame_count": 6,
+  "frame_width": 160,
+  "frame_height": 160,
+  "frame_duration_ms": 120,
+  "generation_seconds": 49.068,
+  "gateway_seconds": 49.728,
+  "validation": {
+    "validated": true,
+    "distinct_sheet_frames": 6,
+    "gif_frames": 6,
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "thor": {
+    "ok": true,
+    "cached": false,
+    "key": "5730c07c4f54ca66b408f47c",
+    "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+    "identity_anchored": true,
+    "motion_generated": true,
+    "kind": "consumable",
+    "name": "Red Health Potion",
+    "frame_count": 6,
+    "frame_width": 160,
+    "frame_height": 160,
+    "frame_duration_ms": 120,
+    "generation_seconds": 49.068,
+    "canonical_seed": 23585737,
+    "canonical_review": {
+      "reviews": [
+        {
+          "recognizable": true,
+          "single_subject": true,
+          "full_subject": true,
+          "correct_category": true,
+          "required_elements_visible": true,
+          "forbidden_elements_absent": true,
+          "anatomy_or_geometry": "normal",
+          "grounded_materials": true,
+          "clean_plain_background": true,
+          "clear_silhouette": true,
+          "recognized_subject": "health potion",
+          "critical_defects": [],
+          "description": "A glass bottle with a cork stopper, containing a red liquid, with a stream of the liquid being poured into it.",
+          "deterministic_pass": true,
+          "label_pass": true,
+          "candidate_index": 0,
+          "seed": 23585737,
+          "seconds": 26.087,
+          "bbox": [
+            0,
+            0,
+            640,
+            640
+          ],
+          "extraction_error": ""
+        }
+      ],
+      "selected_review": {
+        "recognizable": true,
+        "single_subject": true,
+        "full_subject": true,
+        "correct_category": true,
+        "required_elements_visible": true,
+        "forbidden_elements_absent": true,
+        "anatomy_or_geometry": "normal",
+        "grounded_materials": true,
+        "clean_plain_background": true,
+        "clear_silhouette": true,
+        "recognized_subject": "health potion",
+        "critical_defects": [],
+        "description": "A glass bottle with a cork stopper, containing a red liquid, with a stream of the liquid being poured into it.",
+        "deterministic_pass": true,
+        "label_pass": true,
+        "candidate_index": 0,
+        "seed": 23585737,
+        "seconds": 26.087,
+        "bbox": [
+          0,
+          0,
+          640,
+          640
+        ],
+        "extraction_error": ""
+      }
+    },
+    "animation": {
+      "frame_diff_from_source": [
+        1.7817,
+        1.7283,
+        1.7139,
+        1.7503,
+        1.7749
+      ],
+      "mid_frame_review": {
+        "recognizable": true,
+        "single_subject": true,
+        "full_subject": true,
+        "correct_category": true,
+        "required_elements_visible": true,
+        "forbidden_elements_absent": true,
+        "anatomy_or_geometry": "normal",
+        "grounded_materials": true,
+        "clean_plain_background": true,
+        "clear_silhouette": true,
+        "recognized_subject": "health potion",
+        "critical_defects": [],
+        "description": "A glass bottle with a cork stopper, containing a red liquid, likely a health potion, with a clean, plain white background.",
+        "deterministic_pass": true,
+        "label_pass": true
+      },
+      "img2img_strength": 0.1
+    },
+    "processing": {
+      "source_crop": [
+        0,
+        0,
+        640,
+        640
+      ],
+      "alpha_extrema": [
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ]
+      ],
+      "processed_frame_diff": [
+        4.6646,
+        4.5258,
+        4.7654,
+        4.9685,
+        4.4467
+      ]
+    },
+    "validation": {
+      "gif_frames": 6,
+      "distinct_gif_frames": 6,
+      "gif_alpha": [
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ]
+      ],
+      "sheet_alpha": [
+        0,
+        255
+      ]
+    },
+    "png_path": "/data/var/llm_game/grounded_asset_cache/5730c07c4f54ca66b408f47c.png",
+    "gif_path": "/data/var/llm_game/grounded_asset_cache/5730c07c4f54ca66b408f47c.gif",
+    "sheet_path": "/data/var/llm_game/grounded_asset_cache/5730c07c4f54ca66b408f47c.sheet.png"
+  }
+}

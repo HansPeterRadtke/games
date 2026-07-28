@@ -1,0 +1,44 @@
+{
+  "user_prompt": "RPG medieval game",
+  "design": {
+    "user_prompt_verbatim": "RPG medieval game",
+    "title": "Chivalrous Crusade",
+    "game_category": "RPG",
+    "tone": "Chivalrous",
+    "player_role": "A Crusader Knight",
+    "complete_game_description": "In the world of Eridoria, where chivalry and honor reign supreme, you are a Crusader Knight, tasked with rebuilding the fallen Kingdom of Eldrador. Explore the vast and treacherous landscapes of the medieval world, forging alliances with rival lords and battling fearsome enemies. Your quest will take you across scorching deserts, snow-capped mountains, and mysterious forests. As you progress, uncover ancient secrets and confront the dark forces threatening your kingdom. The fate of Eldrador rests in your hands, and the choice is yours to decide the path of your crusade.",
+    "core_gameplay_loop": [
+      "Explore the medieval world, discovering new locations and characters.",
+      "Forge alliances with rival lords, each with their own agendas and motivations.",
+      "Battle fearsome enemies, from goblins to dark sorcerers.",
+      "Uncover ancient secrets and relics, hidden across the kingdom."
+    ],
+    "visual_identity": "A medieval world, with castles, forests, and rolling hills. Think Game of Thrones meets The Lord of the Rings.",
+    "audio_identity": "A soundtrack of choral hymns and Celtic-inspired folk music, accompanied by the sound of clashing steel and the howling wind.",
+    "detail_bindings": {
+      "RPG medieval game": "The player must explore and interact with the medieval world, forging alliances and battling enemies to progress."
+    }
+  },
+  "opening_scene": null,
+  "scene_plan": null,
+  "generation": {
+    "design": {
+      "provider": "thor-llama.cpp-native-constrained-completion",
+      "endpoint": "http://127.0.0.1:14829/completion",
+      "expected_model": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+      "reported_model": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+      "tokens_predicted": 367,
+      "stop": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 86.907,
+          "ok": true
+        }
+      ],
+      "schema_constrained": true,
+      "fallback_used": false
+    }
+  },
+  "saved_at_unix": 1785174404.9351726
+}

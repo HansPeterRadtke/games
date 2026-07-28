@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#17130f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Your Mom">
+  <meta name="llm-game-build" content="your-mom-generated-world-v1">
+  <title>Your Mom</title>
+  <link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
+<link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --panel:#17130f;
+      --panel-2:#211a12;
+      --border:#806744;
+      --gold:#e7c27d;
+      --text:#eadfc9;
+      --muted:#b9aa91;
+      --stage:#8fb8c6;
+      --deck:#15110d;
+      --safe-top:env(safe-area-inset-top, 0px);
+      --safe-right:env(safe-area-inset-right, 0px);
+      --safe-bottom:env(safe-area-inset-bottom, 0px);
+      --safe-left:env(safe-area-inset-left, 0px);
+    }
+    * { box-sizing:border-box; }
+    html,body { width:100%; height:100%; margin:0; overflow:hidden; background:#090806; color:var(--text); font:14px/1.25 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; overscroll-behavior:none; }
+    body { min-height:100dvh; -webkit-text-size-adjust:100%; }
+    button,select,input { font:inherit; }
+    #app {
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100dvh;
+      display:grid;
+      grid-template-columns:clamp(176px,20vw,230px) minmax(320px,1fr) clamp(196px,22vw,250px);
+      grid-template-rows:minmax(0,1fr);
+      grid-template-areas:"hud stage controls";
+      background:#090806;
+    }
+    .panel {
+      min-width:0;
+      min-height:0;
+      overflow:auto;
+      background:linear-gradient(180deg,rgba(33,26,18,.99),rgba(23,19,15,.99));
+      border-color:var(--border);
+      scrollbar-width:thin;
+      scrollbar-color:var(--border) transparent;
+      touch-action:pan-y;
+      -webkit-overflow-scrolling:touch;
+      user-select:text;
+      -webkit-user-select:text;
+    }
+    #hud-panel { grid-area:hud; border-right:2px solid var(--border); padding:max(12px,var(--safe-top)) 13px max(12px,var(--safe-bottom)) max(13px,var(--safe-left)); }
+    #controls-panel { grid-area:controls; border-left:2px solid var(--border); padding:max(12px,var(--safe-top)) max(13px,var(--safe-right)) max(12px,var(--safe-bottom)) 13px; }
+    #stage { grid-area:stage; position:relative; min-width:0; min-height:0; overflow:hidden; background:var(--stage); touch-action:none; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; }
+    #canvas { position:absolute; inset:0; display:block; width:100%; height:100%; margin:0; border:0; outline:0; background:var(--stage); touch-action:none; }
+    .panel-title { margin:0 0 4px; color:#f1dfbd; font-size:19px; font-weight:800; letter-spacing:.055em; }
+    .eyebrow { color:var(--gold); font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    #player-name,#content-name { color:var(--gold); font-size:15px; font-weight:800; margin:4px 0 9px; overflow-wrap:anywhere; }
+    .stat-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px 8px; margin:8px 0 10px; padding:8px; border:1px solid rgba(128,103,68,.48); border-radius:12px; background:rgba(0,0,0,.15); }
+    .stat { min-width:0; }
+    .stat b { display:block; color:var(--gold); font-size:11px; letter-spacing:.08em; }
+    .stat span { display:block; color:var(--text); font-size:13px; white-space:nowrap; }
+    .block { margin-top:9px; padding-top:8px; border-top:1px solid rgba(128,103,68,.45); }
+    .line { color:var(--muted); margin:2px 0; overflow-wrap:anywhere; }
+    #event-text,#forge-status,#content-detail { color:var(--text); overflow-wrap:anywhere; }
+    #content-detail { max-height:8.5em; overflow:auto; }
+    select,input,button {
+      width:100%;
+      min-height:44px;
+      border:1px solid rgba(231,194,125,.48);
+      border-radius:12px;
+      color:var(--text);
+      background:#0d0b08;
+      padding:9px 11px;
+      outline:none;
+      touch-action:manipulation;
+      user-select:auto;
+      -webkit-user-select:auto;
+      -webkit-touch-callout:default;
+    }
+    input:focus,select:focus,button:focus-visible { border-color:var(--gold); box-shadow:0 0 0 2px rgba(231,194,125,.18); }
+    button { color:#17130f; background:linear-gradient(#e7c27d,#b98f4e); font-weight:850; letter-spacing:.035em; cursor:pointer; }
+    button:active { transform:translateY(1px) scale(.985); }
+    button:disabled { opacity:.55; cursor:wait; }
+    #controls-hint { margin-top:10px; color:var(--muted); font-size:12px; white-space:pre-line; }
+    #control-deck { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; min-height:0; height:100%; }
+    #control-status { width:100%; color:var(--muted); font-size:12px; text-align:center; overflow-wrap:anywhere; }
+    #touch-controls { display:none; width:100%; min-height:0; align-items:center; justify-content:center; flex-direction:column; gap:10px; }
+    .touch-enabled #touch-controls { display:flex; }
+    #stick { width:132px; height:150px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; flex:0 0 auto; }
+    #stick-base { width:118px; height:118px; flex:0 0 118px; border-radius:999px; border:2px solid rgba(231,194,125,.72); background:radial-gradient(circle,rgba(231,194,125,.18),rgba(23,19,15,.64)); box-shadow:0 0 26px rgba(231,194,125,.13),inset 0 0 28px rgba(0,0,0,.46); position:relative; touch-action:none; }
+    #stick-thumb { position:absolute; left:50%; top:50%; width:48px; height:48px; margin-left:-24px; margin-top:-24px; border-radius:999px; background:radial-gradient(circle at 35% 30%,#fff4d6,#e7c27d 48%,#6b4e28 100%); border:2px solid rgba(255,244,214,.94); box-shadow:0 6px 22px rgba(0,0,0,.45); transform:translate(0,0); pointer-events:none; }
+    #stick-label { color:var(--text); font-size:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+    #action-pad { display:grid; grid-template-columns:repeat(2,62px); grid-template-rows:repeat(2,62px); gap:9px; flex:0 0 auto; }
+    .action-button { width:62px; height:62px; min-height:62px; padding:0; border-radius:999px; font-size:11px; line-height:1; color:#fff4d6; background:rgba(23,19,15,.92); border:2px solid rgba(231,194,125,.72); box-shadow:0 5px 16px rgba(0,0,0,.35); touch-action:none; }
+    .action-button.primary { background:rgba(126,62,39,.92); }
+    #reset-button { width:auto; min-width:74px; min-height:42px; padding:7px 12px; border-radius:999px; color:var(--text); background:rgba(23,19,15,.92); }
+    #loading { position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; background:#17130f; color:var(--text); }
+    #loading[hidden] { display:none; }
+    #loading progress { width:min(420px,70vw); }
+    #loading-notice { max-width:min(620px,86vw); padding:12px; text-align:center; color:#f2c3b7; }
+    @media (max-width:899px) and (orientation:landscape) {
+      #app { grid-template-columns:clamp(136px,18vw,170px) minmax(320px,1fr) clamp(154px,20vw,190px); }
+      .panel { padding-top:max(8px,var(--safe-top)); padding-bottom:max(8px,var(--safe-bottom)); }
+      .panel-title { font-size:15px; }
+      #player-name,#content-name { font-size:12px; margin-bottom:5px; }
+      .stat-grid { gap:3px 5px; margin:5px 0; padding:5px; }
+      .stat span,.line,#event-text,#forge-status,#content-detail { font-size:10px; }
+      #content-detail { display:none; }
+      select,input,button { min-height:36px; padding:6px 8px; font-size:11px; }
+      #controls-hint { display:none; }
+      #touch-controls { flex-direction:column; gap:6px; }
+      #stick { width:112px; height:124px; }
+      #stick-base { width:102px; height:102px; flex-basis:102px; }
+      #action-pad { grid-template-columns:repeat(2,50px); grid-template-rows:repeat(2,50px); gap:6px; }
+      .action-button { width:50px; height:50px; min-height:50px; }
+    }
+    @media (orientation:portrait) {
+      #app {
+        grid-template-columns:minmax(0,1fr);
+        grid-template-rows:clamp(112px,18dvh,162px) minmax(250px,1fr) clamp(144px,23dvh,205px);
+        grid-template-areas:"hud" "stage" "controls";
+      }
+      #hud-panel { border-right:0; border-bottom:2px solid var(--border); padding:max(8px,var(--safe-top)) max(10px,var(--safe-right)) 7px max(10px,var(--safe-left)); display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); grid-template-rows:auto 1fr auto; gap:2px 10px; }
+      #hud-panel .panel-title { grid-column:1; margin:0; font-size:15px; }
+      #player-name { grid-column:1; margin:1px 0 2px; font-size:12px; }
+      #hud-stats { grid-column:1; grid-row:2 / span 2; align-self:start; margin:1px 0 0; padding:5px; gap:2px 6px; }
+      #equipment-block { grid-column:2; grid-row:1 / span 2; margin:0; padding:0; border:0; font-size:10px; }
+      #event-block { grid-column:2; grid-row:3; margin:0; padding:3px 0 0; font-size:10px; max-height:3.2em; overflow:hidden; }
+      #hud-panel .eyebrow { font-size:9px; }
+      .stat b { font-size:9px; }
+      .stat span { font-size:10px; }
+      #controls-panel { border-left:0; border-top:2px solid var(--border); padding:6px max(10px,var(--safe-right)) max(7px,var(--safe-bottom)) max(10px,var(--safe-left)); overflow:hidden; }
+      #controls-panel .panel-title { display:none; }
+      #control-deck { gap:4px; }
+      #control-status { font-size:10px; max-height:2.5em; overflow:hidden; }
+      #touch-controls { flex-direction:row; justify-content:space-around; gap:10px; }
+      #stick { width:126px; height:130px; }
+      #action-pad { grid-template-columns:repeat(2,56px); grid-template-rows:repeat(2,56px); gap:7px; }
+      .action-button { width:56px; height:56px; min-height:56px; }
+      #reset-button { min-height:38px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <aside id="hud-panel" class="panel" aria-label="player status">
+      <h1 class="panel-title">YOUR MOM</h1>
+      <div id="player-name">Loading generated player…</div>
+      <div id="hud-stats" class="stat-grid">
+        <div class="stat"><b>HP</b><span id="stat-hp">—</span></div>
+        <div class="stat"><b>STAMINA</b><span id="stat-stamina">—</span></div>
+        <div class="stat"><b>MANA</b><span id="stat-mana">—</span></div>
+        <div class="stat"><b>DEF / DMG</b><span id="stat-combat">—</span></div>
+        <div class="stat"><b>STR / DEX</b><span id="stat-attributes">—</span></div>
+        <div class="stat"><b>SCORE / DIST</b><span id="stat-progress">—</span></div>
+      </div>
+      <section id="equipment-block" class="block">
+        <div class="eyebrow">Equipment</div>
+        <div class="line" id="equipment-main">Main: —</div>
+        <div class="line" id="equipment-chest">Chest: —</div>
+        <div class="line" id="equipment-off">Off: —</div>
+        <div class="line" id="inventory-text">Pack: Empty</div>
+      </section>
+      <section id="event-block" class="block">
+        <div class="eyebrow">Last event</div>
+        <div id="event-text">Loading the generated dining room…</div>
+      </section>
+    </aside>
+
+    <main id="stage" aria-label="game stage">
+      <canvas id="canvas" tabindex="0" aria-label="Your Mom generated game canvas">Your browser does not support canvas.</canvas>
+    </main>
+
+    <aside id="controls-panel" class="panel" aria-label="game controls and world status">
+      <h2 class="panel-title">CONTROLS</h2>
+      <div id="control-deck">
+        <div id="control-status">Loading ten reviewed Thor SDXL animations.</div>
+        <div id="touch-controls" aria-label="touch game controls">
+          <section id="stick" aria-label="movement joystick">
+            <div id="stick-base"><div id="stick-thumb"></div></div>
+            <div id="stick-label">move</div>
+          </section>
+          <section id="action-pad" aria-label="action controls">
+            <button class="action-button primary" data-action="attack" aria-label="attack">ATK</button>
+            <button class="action-button" data-action="jump" aria-label="jump">JUMP</button>
+            <button class="action-button" data-action="parry" aria-label="parry">PARRY</button>
+            <button class="action-button" data-action="potion" aria-label="use potion">POTION</button>
+          </section>
+          <button id="reset-button" data-action="reset" aria-label="reset player">RESET</button>
+        </div>
+        <div id="controls-hint">Keyboard: arrows or WASD move · Enter interacts</div>
+      </div>
+    </aside>
+  </div>
+
+  <div id="loading">
+    <strong>Loading Your Mom — generated entirely by models</strong>
+    <progress id="loading-progress"></progress>
+    <div id="loading-notice"></div>
+  </div>
+
+  <noscript>JavaScript is required to run this game.</noscript>
+  <script src="index.js"></script>
+  <script>
+    (() => {
+      'use strict';
+      const config = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":5162768,"index.wasm":37685705},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+      const canvas = document.getElementById('canvas');
+      const stage = document.getElementById('stage');
+      const app = document.getElementById('app');
+      const loading = document.getElementById('loading');
+      const progress = document.getElementById('loading-progress');
+      const notice = document.getElementById('loading-notice');
+      const stickBase = document.getElementById('stick-base');
+      const stickThumb = document.getElementById('stick-thumb');
+      const touchQuery = new URLSearchParams(location.search).get('touch') === '1';
+      const touchCapable = touchQuery || navigator.maxTouchPoints > 0 || matchMedia('(pointer:coarse)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (touchCapable) app.classList.add('touch-enabled');
+
+      let lastMove = {x:0,y:0};
+      let stick = {active:false,id:null,dx:0,dy:0,max:44};
+      let resizeQueued = false;
+      let startupComplete = false;
+      const startupStartedAt = performance.now();
+      const startupTimeout = setTimeout(() => {
+        if (startupComplete) return;
+        loading.hidden = false;
+        progress.hidden = true;
+        notice.textContent = 'The generated scene did not start within 45 seconds. Reload the page. If it still fails, report this exact message.';
+        app.dataset.startupError = 'timeout';
+      }, 45000);
+
+      function finishStartup(source) {
+        if (startupComplete) return;
+        startupComplete = true;
+        clearTimeout(startupTimeout);
+        loading.hidden = true;
+        loading.dataset.finishedBy = source;
+        app.dataset.startupComplete = 'true';
+        app.dataset.startupMilliseconds = String(Math.round(performance.now() - startupStartedAt));
+        requestCanvasResize();
+        canvas.focus({preventScroll:true});
+      }
+
+      function callGodot(name, ...args) {
+        const fn = window[name];
+        if (typeof fn === 'function') {
+          fn(...args);
+          return true;
+        }
+        return false;
+      }
+
+      function sendMove(x, y) {
+        x = Math.max(-1, Math.min(1, Number(x) || 0));
+        y = Math.max(-1, Math.min(1, Number(y) || 0));
+        if (Math.abs(x - lastMove.x) < .005 && Math.abs(y - lastMove.y) < .005) return;
+        lastMove = {x,y};
+        callGodot('llmGameGodotMove', x, y);
+      }
+
+      function sendAction(action) {
+        callGodot('llmGameGodotAction', String(action));
+      }
+
+      function updateStickVisual() {
+        stickThumb.style.transform = `translate(${stick.dx}px,${stick.dy}px)`;
+      }
+
+      function setStickFromEvent(event) {
+        const rect = stickBase.getBoundingClientRect();
+        let dx = event.clientX - (rect.left + rect.width / 2);
+        let dy = event.clientY - (rect.top + rect.height / 2);
+        const length = Math.hypot(dx, dy);
+        if (length > stick.max) {
+          dx = dx / length * stick.max;
+          dy = dy / length * stick.max;
+        }
+        stick.dx = dx;
+        stick.dy = dy;
+        updateStickVisual();
+        const normalizedLength = Math.hypot(dx, dy) / stick.max;
+        if (normalizedLength < .10) sendMove(0, 0);
+        else sendMove(dx / stick.max, dy / stick.max);
+      }
+
+      function endStick(event) {
+        if (!stick.active || event.pointerId !== stick.id) return;
+        event.preventDefault();
+        stick.active = false;
+        stick.id = null;
+        stick.dx = 0;
+        stick.dy = 0;
+        updateStickVisual();
+        sendMove(0, 0);
+      }
+
+      stickBase.addEventListener('pointerdown', event => {
+        event.preventDefault();
+        stick.active = true;
+        stick.id = event.pointerId;
+        stickBase.setPointerCapture(event.pointerId);
+        setStickFromEvent(event);
+      }, {passive:false});
+      stickBase.addEventListener('pointermove', event => {
+        if (stick.active && event.pointerId === stick.id) {
+          event.preventDefault();
+          setStickFromEvent(event);
+        }
+      }, {passive:false});
+      stickBase.addEventListener('pointerup', endStick, {passive:false});
+      stickBase.addEventListener('pointercancel', endStick, {passive:false});
+      stickBase.addEventListener('lostpointercapture', event => {
+        if (stick.active && event.pointerId === stick.id) endStick(event);
+      }, {passive:false});
+
+      document.querySelectorAll('[data-action]').forEach(button => {
+        button.addEventListener('pointerdown', event => {
+          event.preventDefault();
+          button.setPointerCapture?.(event.pointerId);
+          sendAction(button.dataset.action);
+        }, {passive:false});
+      });
+
+      stage.addEventListener('pointerdown', event => {
+        canvas.focus({preventScroll:true});
+      }, {passive:true});
+      document.addEventListener('contextmenu', event => {
+        if (stage.contains(event.target)) event.preventDefault();
+      });
+
+      function text(id, value) {
+        const element = document.getElementById(id);
+        if (element) element.textContent = value == null ? '' : String(value);
+      }
+
+      window.llmGameShell = {
+        godotReady() {
+          app.dataset.godotReady = 'true';
+          finishStartup('godotReady');
+        },
+        updateState(raw) {
+          let state;
+          try { state = typeof raw === 'string' ? JSON.parse(raw) : raw; }
+          catch (error) { console.error('Invalid Godot shell state', error); return; }
+          text('player-name', `${state.player_name || 'Player'} · LV ${state.level || 1} ${state.role || ''}`);
+          text('stat-hp', `${state.health ?? 0} / ${state.max_health ?? 0}`);
+          text('stat-stamina', `${Math.round(state.stamina ?? 0)} / ${Math.round(state.max_stamina ?? 0)}`);
+          text('stat-mana', `${state.mana ?? 0} / ${state.max_mana ?? 0}`);
+          text('stat-combat', `${state.defense ?? 0} / ${state.damage ?? 0}`);
+          text('stat-attributes', `${state.strength ?? 0} / ${state.dexterity ?? 0}`);
+          text('stat-progress', `${state.score ?? 0} / ${state.distance ?? 0}m`);
+          text('equipment-main', `Main: ${state.main_hand || 'None'}`);
+          text('equipment-chest', `Chest: ${state.chest || 'None'}`);
+          text('equipment-off', `Off: ${state.off_hand || 'None'}`);
+          text('inventory-text', `Pack: ${(state.inventory || []).join(', ') || 'Empty'}`);
+          text('event-text', state.event || 'Ready.');
+          text('control-status', state.forge_busy ? (state.forge_status || 'Generating reviewed world object…') : (state.event || state.forge_status || 'World ready.'));
+          app.dataset.layout = matchMedia('(orientation:portrait)').matches ? 'portrait' : 'landscape';
+        }
+      };
+
+      function resizeCanvas() {
+        resizeQueued = false;
+        const rect = stage.getBoundingClientRect();
+        const width = Math.max(1, Math.round(rect.width));
+        const height = Math.max(1, Math.round(rect.height));
+        if (canvas.width !== width || canvas.height !== height) {
+          canvas.width = width;
+          canvas.height = height;
+          canvas.style.width = `${width}px`;
+          canvas.style.height = `${height}px`;
+          window.dispatchEvent(new Event('resize'));
+        }
+      }
+      function requestCanvasResize() {
+        if (resizeQueued) return;
+        resizeQueued = true;
+        requestAnimationFrame(resizeCanvas);
+      }
+      new ResizeObserver(requestCanvasResize).observe(stage);
+      addEventListener('resize', requestCanvasResize, {passive:true});
+      addEventListener('orientationchange', () => setTimeout(requestCanvasResize, 60), {passive:true});
+      visualViewport?.addEventListener('resize', requestCanvasResize, {passive:true});
+      requestCanvasResize();
+
+      const engine = new Engine(config);
+      loading.hidden = false;
+      engine.startGame({
+        canvas,
+        canvasResizePolicy:0,
+        onProgress(current, total) {
+          if (current > 0 && total > 0) {
+            progress.value = current;
+            progress.max = total;
+          } else {
+            progress.removeAttribute('value');
+            progress.removeAttribute('max');
+          }
+        }
+      }).then(() => {
+        finishStartup('enginePromise');
+      }).catch(error => {
+        clearTimeout(startupTimeout);
+        console.error(error);
+        progress.hidden = true;
+        loading.hidden = false;
+        app.dataset.startupError = 'engine';
+        notice.textContent = `Your Mom failed to start: ${error instanceof Error ? error.message : String(error)}`;
+      });
+    })();
+  </script>
+</body>
+</html>
+

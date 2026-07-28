@@ -1,0 +1,13 @@
+{
+  "kind": "surface",
+  "name": "Wall Finish",
+  "structural_prompt": "single square game texture asset representing Wall Finish, complete material sample visible, orthographic view, centered, clean readable edges, no surrounding scene",
+  "semantic_prompt": "A seamless sample of dull beige wall finish with a sense of oppression and control, isolated on a clean plain white extraction background.",
+  "negative_prompt": "second subject, duplicate subject, extra limbs, missing limbs, malformed anatomy, malformed geometry, cropped subject, cut off edges, scenery, room background, landscape background, text, letters, numbers, logo, watermark, blur, low detail, abstract replacement, wrong category",
+  "animation_description": "The wall finish subtly shifts and repositions itself.",
+  "expected_labels": [
+    "Wall Finish",
+    "surface"
+  ],
+  "review_requirements": "Exactly one immediately recognizable surface named Wall Finish. The complete subject must be visible. It must satisfy this visual request: A seamless sample of dull beige wall finish with a sense of oppression and control, isolated on a clean plain white extraction background.. Normal anatomy or geometry, plausible materials, clean plain white extraction background, clear silhouette, no second subject, scenery, text, logo, watermark, cropped subject, duplicate parts, or malformed structure."
+}

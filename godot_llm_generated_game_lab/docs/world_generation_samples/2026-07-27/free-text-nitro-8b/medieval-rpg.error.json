@@ -1,0 +1,6 @@
+{
+  "label": "medieval-rpg",
+  "user_prompt": "RPG medieval game",
+  "error": "RuntimeError: real author-model generation failed; no fallback was used: [{\"attempt\": 1, \"seconds\": 127.334, \"ok\": false, \"error\": \"ValueError: missing text section TITLE:; game description does not end with END GAME DESCRIPTION; TITLE is empty\"}, {\"attempt\": 2, \"seconds\": 140.991, \"ok\": false, \"error\": \"ValueError: missing text section TITLE:; missing text section GAME CATEGORY:; missing text section COMPLETE GAME DESCRIPTION:; missing text section CORE GAMEPLAY LOOP:; missing text section SOURCE FIDELITY:; game description does not end with END GAME DESCRIPTION; TITLE is empty; GAME CATEGORY is empty\"}]",
+  "fallback": false
+}

@@ -1,0 +1,6 @@
+{
+  "label": "medieval-rpg",
+  "user_prompt": "RPG medieval game",
+  "error": "RuntimeError: real author-model generation failed; no fallback was used: [{\"attempt\": 1, \"seconds\": 101.548, \"ok\": false, \"error\": \"ValueError: game description appears incomplete or truncated; required source fragment was omitted: 'RPG medieval game'; raw_preview='The medieval fantasy RPG \\\"Aurelian\\\\'s Quest for the Holy Chalice\\\" unfolds in the sprawling, snow-capped Kingdom of Everia, where knights, wizards, and mythical creatures vie for power in a land of crumbling castles and ancient lore. As the chosen hero, Aurelian, the player takes on the role of a humble blacksmith\\\\'s apprentice, tasked with retrieving the legendary Holy Chalice. This ancient artifact is said to have the power to heal the kingdom\\\\'s ailing people and bring prosperity back to its war-torn lands.  As the player delves deeper into the world of Everia, they must navigate the complex web of alliances and rivalries between the kingdom\\\\'s powerful factions. The player must master the art of combat, diplomacy, and magic to overcome formidable foes and unlock the secrets of the ancient world. The game\\\\'s central conflict revolves around the player\\\\'s quest to unite the warring factions a'\"}]",
+  "fallback": false
+}

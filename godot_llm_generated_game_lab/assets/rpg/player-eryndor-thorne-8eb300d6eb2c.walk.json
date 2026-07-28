@@ -1,0 +1,77 @@
+{
+  "ok": true,
+  "frame_count": 8,
+  "frame_width": 192,
+  "frame_height": 256,
+  "frame_duration_ms": 120,
+  "union_bbox": [
+    0,
+    0,
+    506,
+    704
+  ],
+  "records": [
+    {
+      "index": 0,
+      "phase": "right_contact",
+      "seconds": 10.127,
+      "source_mean_abs": 14.303
+    },
+    {
+      "index": 1,
+      "phase": "right_down",
+      "seconds": 9.214,
+      "source_mean_abs": 12.868
+    },
+    {
+      "index": 2,
+      "phase": "right_passing",
+      "seconds": 9.184,
+      "source_mean_abs": 15.176
+    },
+    {
+      "index": 3,
+      "phase": "left_up",
+      "seconds": 9.22,
+      "source_mean_abs": 17.921
+    },
+    {
+      "index": 4,
+      "phase": "left_contact",
+      "seconds": 9.184,
+      "source_mean_abs": 14.462
+    },
+    {
+      "index": 5,
+      "phase": "left_down",
+      "seconds": 9.193,
+      "source_mean_abs": 17.37
+    },
+    {
+      "index": 6,
+      "phase": "left_passing",
+      "seconds": 9.197,
+      "source_mean_abs": 17.067
+    },
+    {
+      "index": 7,
+      "phase": "right_up",
+      "seconds": 9.178,
+      "source_mean_abs": 18.705
+    }
+  ],
+  "adjacent_mean_abs": [
+    15.636,
+    16.638,
+    17.309,
+    18.7,
+    18.549,
+    17.89,
+    17.493,
+    19.881
+  ],
+  "adjacent_min": 15.636,
+  "adjacent_max": 19.881,
+  "engine": "sdxl-controlnet-openpose-img2img-walk-v1",
+  "identity_source": "7979fe68ef0700e620a44fbc"
+}

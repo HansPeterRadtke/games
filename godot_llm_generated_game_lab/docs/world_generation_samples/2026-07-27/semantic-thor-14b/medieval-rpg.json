@@ -1,0 +1,26 @@
+{
+  "user_prompt": "RPG medieval game",
+  "game_description": "Medieval Quest\n\nIn the RPG medieval game \"Medieval Quest,\" players embody a knight or sorceress in a richly detailed, high-fantasy world. The central conflict is the resurgence of an ancient evil that threatens to plunge the realm into eternal darkness. The major systems include character development through quests, combat, and magic; alliances with factions such as the dwarves, elves, and dragons; and resource management to maintain a stronghold or castle.\n\nProgression involves exploring dungeons, completing quests, and engaging in battles to gain experience, gold, and rare artifacts. The stakes are high, as failure could mean the collapse of kingdoms and the destruction of the world. The visual identity is a blend of intricate hand-drawn art and detailed 3D environments, with vibrant colors and lush landscapes. Audio includes a robust orchestral score and authentic medieval sound effects.\n\nAs the game evolves, the narrative deepens, and the player's decisions have greater consequences, altering the fate of the world and the characters within it.",
+  "opening_scene": null,
+  "scene_plan": null,
+  "generation": {
+    "game_description": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 205,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 23.312,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    }
+  },
+  "saved_at_unix": 1785179450.536823
+}

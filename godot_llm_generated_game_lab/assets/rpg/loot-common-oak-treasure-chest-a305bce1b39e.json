@@ -1,0 +1,216 @@
+{
+  "ok": true,
+  "slug": "loot-common-oak-treasure-chest-a305bce1b39e",
+  "kind": "loot",
+  "content": {
+    "kind": "loot",
+    "name": "Common Oak Treasure Chest",
+    "loot_type": "treasure_chest",
+    "interaction": "open",
+    "material": "oak",
+    "rarity": "common",
+    "contents_hint": "mixed",
+    "description": "A sturdy, handcrafted oak chest with an arched lid and iron bands.",
+    "asset": {
+      "structural_prompt": "one standard medieval oak treasure chest, full object, realistic proportions, practical construction",
+      "semantic_prompt": "A rectangular chest with an arched lid, made from a single piece of oak wood, with four iron bands along the sides, and a simple front lock with a small iron keyhole.",
+      "visual_prompt": "A rectangular chest with an arched lid, made from a single piece of oak wood, with four iron bands along the sides, and a simple front lock with a small iron keyhole. One standard recognizable medieval treasure chest made from oak, practical construction, realistic proportions, full object visible, clean silhouette, centered on plain white background, no scenery.",
+      "negative_prompt": "surreal, abstract, magical glow, excessive ornament, creature, person, extra objects, scenery, floor, shadow, text, watermark, green object",
+      "idle_animation_description": "The loot object remains closed and still in a neutral display position.",
+      "open_animation_description": "The lid rotates upward on its hinges and stops in a stable open position.",
+      "display_style": "still",
+      "open_style": "hinged_lid",
+      "expected_labels": [
+        "treasure chest",
+        "oak",
+        "medieval loot"
+      ],
+      "review_requirements": "Exactly one recognizable medieval treasure chest made from oak. The complete object and practical construction are visible. No creature, person, extra object, magical glow, scenery, text, or watermark. Clean plain solid white extraction background."
+    }
+  },
+  "generation": {
+    "provider": "nitro-llama.cpp-constrained",
+    "model": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+    "seconds": 37.413,
+    "strict_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "loot_type": {
+          "type": "string",
+          "enum": [
+            "treasure_chest"
+          ]
+        },
+        "material": {
+          "type": "string",
+          "enum": [
+            "oak"
+          ]
+        },
+        "rarity": {
+          "type": "string",
+          "enum": [
+            "common"
+          ]
+        },
+        "contents_hint": {
+          "type": "string",
+          "enum": [
+            "mixed"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 30,
+          "maxLength": 170,
+          "pattern": "^.*[.!?]$"
+        },
+        "visual_description": {
+          "type": "string",
+          "minLength": 60,
+          "maxLength": 230,
+          "pattern": "^.*[.!?]$"
+        },
+        "display_style": {
+          "type": "string",
+          "enum": [
+            "still",
+            "restrained_highlight"
+          ]
+        },
+        "open_style": {
+          "type": "string",
+          "enum": [
+            "hinged_lid",
+            "collect_vanish"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "loot_type",
+        "material",
+        "rarity",
+        "contents_hint",
+        "description",
+        "visual_description",
+        "display_style",
+        "open_style"
+      ],
+      "additionalProperties": false
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "seconds": 37.413,
+        "errors": []
+      }
+    ],
+    "base_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "loot_type": {
+          "type": "string",
+          "enum": [
+            "treasure_chest",
+            "coin_pouch",
+            "gem",
+            "relic",
+            "key_item"
+          ]
+        },
+        "material": {
+          "type": "string",
+          "enum": [
+            "oak",
+            "iron",
+            "steel",
+            "bronze",
+            "leather",
+            "velvet",
+            "crystal"
+          ]
+        },
+        "rarity": {
+          "type": "string",
+          "enum": [
+            "common",
+            "uncommon",
+            "rare"
+          ]
+        },
+        "contents_hint": {
+          "type": "string",
+          "enum": [
+            "gold",
+            "equipment",
+            "potion",
+            "key",
+            "mixed"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 30,
+          "maxLength": 170,
+          "pattern": "^.*[.!?]$"
+        },
+        "visual_description": {
+          "type": "string",
+          "minLength": 60,
+          "maxLength": 230,
+          "pattern": "^.*[.!?]$"
+        },
+        "display_style": {
+          "type": "string",
+          "enum": [
+            "still",
+            "restrained_highlight"
+          ]
+        },
+        "open_style": {
+          "type": "string",
+          "enum": [
+            "hinged_lid",
+            "collect_vanish"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "loot_type",
+        "material",
+        "rarity",
+        "contents_hint",
+        "description",
+        "visual_description",
+        "display_style",
+        "open_style"
+      ],
+      "additionalProperties": false
+    },
+    "plan": {
+      "name": "Common Oak Treasure Chest",
+      "loot_type": "treasure_chest",
+      "material": "oak",
+      "rarity": "common",
+      "contents_hint": "mixed",
+      "description": "A sturdy, handcrafted oak chest with an arched lid and iron bands.",
+      "visual_description": "A rectangular chest with an arched lid, made from a single piece of oak wood, with four iron bands along the sides, and a simple front lock with a small iron keyhole.",
+      "display_style": "still",
+      "open_style": "hinged_lid"
+    },
+    "kind": "loot"
+  },
+  "created_at": 1784911290.4887214
+}

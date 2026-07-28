@@ -1,0 +1,205 @@
+{
+  "ok": true,
+  "slug": "weapon-warrior-s-blade-3fc23b6be63b",
+  "kind": "weapon",
+  "content": {
+    "kind": "weapon",
+    "name": "Warrior's Blade",
+    "weapon_type": "sword",
+    "handedness": "one_handed",
+    "damage_type": "slash",
+    "material": "steel",
+    "quality": "well_made",
+    "equip_slot": "main_hand",
+    "actions": {
+      "primary": "slash",
+      "secondary": "parry"
+    },
+    "stats": {
+      "damage": 12,
+      "speed": 10,
+      "range": 2
+    },
+    "description": "A standard, practical longsword for a beginner warrior.",
+    "asset": {
+      "structural_prompt": "one standard medieval steel sword, full object, realistic proportions, practical construction",
+      "semantic_prompt": "A plain, straight double-edged steel blade with a simple steel crossguard, brown leather-wrapped grip, and small round pommel.",
+      "visual_prompt": "A plain, straight double-edged steel blade with a simple steel crossguard, brown leather-wrapped grip, and small round pommel. One standard recognizable medieval sword made from steel, realistic proportions and practical construction, full object visible, clean silhouette, centered on plain white background, no hands, no person, no scenery.",
+      "negative_prompt": "surreal, abstract, magical glow, ornate hilt, decorative engraving, jewel, gem, sheath, scabbard, extra weapons, duplicate, bent blade, malformed, character, hands, scenery, floor, shadow, text, watermark, green object",
+      "idle_animation_description": "The weapon remains still in a neutral display position with no camera movement.",
+      "use_animation_description": "The sword performs one controlled slash action and returns to its starting position.",
+      "display_style": "still",
+      "expected_labels": [
+        "sword",
+        "steel",
+        "medieval weapon"
+      ],
+      "review_requirements": "Exactly one recognizable medieval sword. The complete object and every functional part are visible. Realistic steel construction with a plain practical hilt or handle. No sheath, scabbard, ornate decoration, engraving, jewels, person, hand, second weapon, malformed geometry, magical glow, scenery, text, or watermark. Clean plain solid white extraction background."
+    }
+  },
+  "generation": {
+    "provider": "nitro-llama.cpp-constrained",
+    "model": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+    "seconds": 30.884,
+    "strict_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "weapon_type": {
+          "type": "string",
+          "enum": [
+            "sword"
+          ]
+        },
+        "handedness": {
+          "type": "string",
+          "enum": [
+            "one_handed"
+          ]
+        },
+        "material": {
+          "type": "string",
+          "enum": [
+            "steel"
+          ]
+        },
+        "quality": {
+          "type": "string",
+          "enum": [
+            "well_made"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 30,
+          "maxLength": 170,
+          "pattern": "^.*[.!?]$"
+        },
+        "visual_description": {
+          "type": "string",
+          "minLength": 60,
+          "maxLength": 230,
+          "pattern": "^.*[.!?]$"
+        },
+        "display_style": {
+          "type": "string",
+          "enum": [
+            "still",
+            "restrained_highlight"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "weapon_type",
+        "handedness",
+        "material",
+        "quality",
+        "description",
+        "visual_description",
+        "display_style"
+      ],
+      "additionalProperties": false
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "seconds": 30.884,
+        "errors": []
+      }
+    ],
+    "base_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "weapon_type": {
+          "type": "string",
+          "enum": [
+            "sword",
+            "axe",
+            "spear",
+            "dagger",
+            "bow",
+            "mace",
+            "staff"
+          ]
+        },
+        "handedness": {
+          "type": "string",
+          "enum": [
+            "one_handed",
+            "two_handed"
+          ]
+        },
+        "material": {
+          "type": "string",
+          "enum": [
+            "steel",
+            "iron",
+            "bronze",
+            "oak",
+            "ash wood"
+          ]
+        },
+        "quality": {
+          "type": "string",
+          "enum": [
+            "common",
+            "well_made",
+            "fine"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 30,
+          "maxLength": 170,
+          "pattern": "^.*[.!?]$"
+        },
+        "visual_description": {
+          "type": "string",
+          "minLength": 60,
+          "maxLength": 230,
+          "pattern": "^.*[.!?]$"
+        },
+        "display_style": {
+          "type": "string",
+          "enum": [
+            "still",
+            "restrained_highlight"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "weapon_type",
+        "handedness",
+        "material",
+        "quality",
+        "description",
+        "visual_description",
+        "display_style"
+      ],
+      "additionalProperties": false
+    },
+    "plan": {
+      "name": "Warrior's Blade",
+      "weapon_type": "sword",
+      "handedness": "one_handed",
+      "material": "steel",
+      "quality": "well_made",
+      "description": "A standard, practical longsword for a beginner warrior.",
+      "visual_description": "A plain, straight double-edged steel blade with a simple steel crossguard, brown leather-wrapped grip, and small round pommel.",
+      "display_style": "still"
+    },
+    "kind": "weapon"
+  },
+  "created_at": 1784911253.0638294
+}

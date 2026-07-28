@@ -1,0 +1,88 @@
+{
+  "complete": true,
+  "fallback_used": false,
+  "asset_engine": "thor-sdxl-reviewed-identity-anchored-animation",
+  "scene_name": "Dining Room",
+  "assets": {
+    "player": {
+      "gif": "generated_assets/player.gif",
+      "png": "generated_assets/player.png",
+      "sheet": "generated_assets/player.sheet.png",
+      "frames": 8,
+      "canonical_pass": true,
+      "animation_pass": true
+    },
+    "mom": {
+      "gif": "generated_assets/mom.gif",
+      "png": "generated_assets/mom.png",
+      "sheet": "generated_assets/mom.sheet.png",
+      "frames": 8,
+      "canonical_pass": true,
+      "animation_pass": true
+    },
+    "dining_table": {
+      "gif": "generated_assets/dining_table.gif",
+      "png": "generated_assets/dining_table.png",
+      "sheet": "generated_assets/dining_table.sheet.png",
+      "frames": 6,
+      "canonical_pass": true,
+      "animation_pass": true
+    },
+    "chandelier": {
+      "gif": "generated_assets/chandelier.gif",
+      "png": "generated_assets/chandelier.png",
+      "sheet": "generated_assets/chandelier.sheet.png",
+      "frames": 6,
+      "canonical_pass": true,
+      "animation_pass": true
+    },
+    "sideboard": {
+      "gif": "generated_assets/sideboard.gif",
+      "png": "generated_assets/sideboard.png",
+      "sheet": "generated_assets/sideboard.sheet.png",
+      "frames": 6,
+      "canonical_pass": true,
+      "animation_pass": true
+    },
+    "curtains": {
+      "gif": "generated_assets/curtains.gif",
+      "png": "generated_assets/curtains.png",
+      "sheet": "generated_assets/curtains.sheet.png",
+      "frames": 6,
+      "canonical_pass": true,
+      "animation_pass": true
+    },
+    "wall_finish": {
+      "gif": "generated_assets/wall_finish.gif",
+      "png": "generated_assets/wall_finish.png",
+      "sheet": "generated_assets/wall_finish.sheet.png",
+      "frames": 6,
+      "canonical_pass": true,
+      "animation_pass": true
+    },
+    "floor_carpet": {
+      "gif": "generated_assets/floor_carpet.gif",
+      "png": "generated_assets/floor_carpet.png",
+      "sheet": "generated_assets/floor_carpet.sheet.png",
+      "frames": 6,
+      "canonical_pass": true,
+      "animation_pass": true
+    },
+    "kitchen_door": {
+      "gif": "generated_assets/kitchen_door.gif",
+      "png": "generated_assets/kitchen_door.png",
+      "sheet": "generated_assets/kitchen_door.sheet.png",
+      "frames": 6,
+      "canonical_pass": true,
+      "animation_pass": true
+    },
+    "cookies": {
+      "gif": "generated_assets/cookies.gif",
+      "png": "generated_assets/cookies.png",
+      "sheet": "generated_assets/cookies.sheet.png",
+      "frames": 6,
+      "canonical_pass": true,
+      "animation_pass": true
+    }
+  }
+}

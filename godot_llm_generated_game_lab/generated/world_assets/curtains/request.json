@@ -1,0 +1,13 @@
+{
+  "kind": "static_prop",
+  "name": "Curtains",
+  "structural_prompt": "single isolated static prop game asset representing Curtains, complete object visible, front three-quarter view, centered, realistic proportions, clean readable silhouette",
+  "semantic_prompt": "Heavy curtains blocking out natural light, leaving the area in artificial brightness, isolated on a clean plain white extraction background.",
+  "negative_prompt": "second subject, duplicate subject, extra limbs, missing limbs, malformed anatomy, malformed geometry, cropped subject, cut off edges, scenery, room background, landscape background, text, letters, numbers, logo, watermark, blur, low detail, abstract replacement, wrong category",
+  "animation_description": "The heavy curtains gently sway and shift.",
+  "expected_labels": [
+    "Curtains",
+    "static prop"
+  ],
+  "review_requirements": "Exactly one immediately recognizable static prop named Curtains. The complete subject must be visible. It must satisfy this visual request: Heavy curtains blocking out natural light, leaving the area in artificial brightness, isolated on a clean plain white extraction background.. Normal anatomy or geometry, plausible materials, clean plain white extraction background, clear silhouette, no second subject, scenery, text, logo, watermark, cropped subject, duplicate parts, or malformed structure."
+}

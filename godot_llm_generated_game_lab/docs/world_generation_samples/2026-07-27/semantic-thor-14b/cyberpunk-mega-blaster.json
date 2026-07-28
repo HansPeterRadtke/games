@@ -1,0 +1,32 @@
+{
+  "user_prompt": "An RPG game with cyberpunk elements. The player carries a super mega blaster weapon that is exactly 2.3 meters long and produces 32 gigawatts of power. The blaster has a matte black titanium body, three cyan cooling rings, a shoulder brace, and a dangerous overcharge mode. Keep all of these details.",
+  "game_description": "Super Mega Blaster\n\nAn RPG game set in a dystopian future where cyberpunk elements dominate the landscape. Blurred lines between man and machine, neon-lit cities, and sprawling urban sprawl create a gritty backdrop for your adventures. You play as a lone operative known as the \"Blaster,\" a mercenary hired by competing factions to retrieve data, eliminate threats, and navigate the chaotic underworld. The central conflict revolves around Synthax Industries, a powerful corporation seeking to monopolize cybernetic augmentation and control the city's power grid.\n\nYour super mega blaster weapon, which is exactly 2.3 meters long and produces 32 gigawatts of power, is your primary tool in this conflict. The blaster has a matte black titanium body, three cyan cooling rings, and a shoulder brace for stability. You can use its dangerous overcharge mode to unleash devastating attacks, but this comes at the risk of overheating and possibly damaging your weapon.\n\nAs you progress through the game, you'll encounter various factions and missions, each offering different rewards and allegiances. Your choices will impact the city's fate and determine the balance of power. The stakes are high as Synthax Industries' grip tightens, and only you can stand against their ambitions.\n\nThe visual identity of the game features a blend of dark, neon-lit environments, sleek futuristic designs, and cyberpunk aesthetics. Audio identity includes a mix of electronic music, ambient soundscapes, and dramatic sound effects to enhance the immersive experience. As you advance, the city's situation deteriorates, and your actions will shape the world around you.",
+  "opening_scene": null,
+  "scene_plan": null,
+  "generation": {
+    "game_description": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 328,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 38.265,
+          "ok": false,
+          "error": "ValueError: game description omitted concrete detail terms ['element'] from 'cyberpunk elements'; game description omitted concrete detail terms ['produc'] from 'produces 32 gigawatts of power'; game description omitted concrete detail terms ['body'] from 'The blaster has a matte black titanium body'; raw_preview='Super Mega Blaster  An RPG game set in a dystopian future where the line between man and machine is blurred by cybernetic enhancements and sprawling neon-lit cities. You play as a lone operative known as the \"Blaster,\" a mercenary hired by competing factions to retrieve data, eliminate threats, and navigate the chaotic underworld.  The central conflict revolves around a powerful corporation called Synthax Industries, which seeks to monopolize cybernetic augmentation and control the city\\'s power grid. As you navigate the neon-lit streets, you must choose between factions, each offering different missions and rewards, while balancing your loyalty against the greater danger of Synthax\\'s ambitions.  Your super mega blaster weapon, a matte black titanium behemoth exactly 2.3 meters long, serves as both a tool and a symbol of your power. With three cyan cooling rings and a shoulder brace for s'"
+        },
+        {
+          "attempt": 2,
+          "seconds": 37.611,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    }
+  },
+  "saved_at_unix": 1785179600.6528978
+}

@@ -1,0 +1,13 @@
+{
+  "kind": "npc",
+  "name": "Your Mom",
+  "structural_prompt": "single full-body npc game character representing Your Mom, readable side or three-quarter view, complete body and feet visible, centered composition, normal anatomy, clean silhouette",
+  "semantic_prompt": "A stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze.. A stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze.",
+  "negative_prompt": "second subject, duplicate subject, extra limbs, missing limbs, malformed anatomy, malformed geometry, cropped subject, cut off edges, scenery, room background, landscape background, text, letters, numbers, logo, watermark, blur, low detail, abstract replacement, wrong category",
+  "animation_description": "idle seated",
+  "expected_labels": [
+    "mother",
+    "adult woman"
+  ],
+  "review_requirements": "Exactly one immediately recognizable npc named Your Mom. The complete subject must be visible, matching this definition: A stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze.. It must satisfy this visual request: A stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze.. Normal anatomy or geometry, plausible materials, clean plain white extraction background, clear silhouette, no second subject, scenery, text, logo, watermark, cropped subject, duplicate parts, or malformed structure."
+}

@@ -1,0 +1,13 @@
+{
+  "kind": "player",
+  "name": "Player",
+  "structural_prompt": "single full-body player game character representing Player, readable side or three-quarter view, complete body and feet visible, centered composition, normal anatomy, clean silhouette",
+  "semantic_prompt": "An adult child with a determined look, standing in a dimly lit dining room, wearing casual clothes, with a sense of urgency and defiance.. An adult child trapped in an endless cycle of familial responsibility.",
+  "negative_prompt": "second subject, duplicate subject, extra limbs, missing limbs, malformed anatomy, malformed geometry, cropped subject, cut off edges, scenery, room background, landscape background, text, letters, numbers, logo, watermark, blur, low detail, abstract replacement, wrong category",
+  "animation_description": "idle standing",
+  "expected_labels": [
+    "adult human",
+    "adult child"
+  ],
+  "review_requirements": "Exactly one immediately recognizable player named Player. The complete subject must be visible, matching this definition: An adult child trapped in an endless cycle of familial responsibility.. It must satisfy this visual request: An adult child with a determined look, standing in a dimly lit dining room, wearing casual clothes, with a sense of urgency and defiance.. Normal anatomy or geometry, plausible materials, clean plain white extraction background, clear silhouette, no second subject, scenery, text, logo, watermark, cropped subject, duplicate parts, or malformed structure."
+}

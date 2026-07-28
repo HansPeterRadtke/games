@@ -1,0 +1,26 @@
+{
+  "user_prompt": "Your Mom",
+  "game_description": "Your Mom\n\nIn a world where reality blurs with the digital, \"Your Mom\" is a surreal exploration game where the player takes the role of a digital entity tasked with uncovering the mysteries of a virtual realm created by a grieving programmer. The programmer, in an attempt to keep his deceased mother alive in the digital world, has crafted a complex, interactive environment that mirrors her life and memories. The player navigates through this space, interacting with digital representations of her life, from childhood memories to her last moments.\n\nThe central conflict arises when the player discovers that the digital world is slowly decaying, with memories fading and glitches becoming more frequent. The player must find a way to stabilize the digital realm and perhaps even grant the programmer a form of closure.\n\nMajor systems include memory recovery, where the player must piece together fragmented digital memories to understand the full scope of the mother's life, and glitch repair, where the player must mend the fabric of the digital world to prevent total collapse. Progression involves unlocking new areas of the digital realm, each revealing deeper layers of the programmer's emotional journey and the mother's life.\n\nThe stakes are personal and profound, as the player’s actions directly influence the emotional and digital integrity of the programmer’s tribute to his mother. The visual identity is a blend of nostalgic, hand-drawn digital art and glitch aesthetics, capturing the warmth of remembered moments while hinting at the fragility of digital existence. Audio identity includes a mix of ambient sounds, glitch sounds, and nostalgic music that evokes a sense of longing and reflection. Over time, the game evolves as the player delves deeper into the complex emotional landscape of \"Your Mom,\" revealing the bittersweet reality of digital immortality.",
+  "opening_scene": null,
+  "scene_plan": null,
+  "generation": {
+    "game_description": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 347,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 38.241,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    }
+  },
+  "saved_at_unix": 1785179026.7349777
+}

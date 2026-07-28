@@ -1,0 +1,1616 @@
+{
+  "version": 2,
+  "game_description": "A grounded medieval fantasy RPG with standard recognizable equipment and practical materials.",
+  "player": {
+    "slug": "player-eryndor-thorne-8eb300d6eb2c",
+    "kind": "player",
+    "content": {
+      "kind": "player_character",
+      "game_description": "A grounded medieval fantasy role-playing game with standard recognizable equipment, practical steel, iron, wood, leather, chainmail, cloth, stone, glass, and ceramic materials. Objects use realistic proportions and construction. No surreal forms, abstract creatures, ornamental overload, or magical effects unless the selected item type explicitly requires them.",
+      "name": "Eryndor Thorne",
+      "role": "warrior",
+      "presentation": "androgynous",
+      "body_type": "athletic",
+      "level": 1,
+      "experience_level": "beginner",
+      "stats": {
+        "max_hp": 120,
+        "max_stamina": 90,
+        "max_mana": 10,
+        "strength": 14,
+        "dexterity": 9,
+        "intelligence": 5,
+        "defense": 12,
+        "speed": 8,
+        "hp": 120,
+        "stamina": 90,
+        "mana": 10
+      },
+      "equipment": {
+        "head": "none",
+        "chest": "chainmail",
+        "hands": "leather_gloves",
+        "legs": "trousers",
+        "feet": "leather_boots",
+        "main_hand": "sword",
+        "off_hand": "none",
+        "back": "none",
+        "neck": "none",
+        "ring_left": "none",
+        "ring_right": "none"
+      },
+      "actions": {
+        "basic_attack": "slash",
+        "secondary_action": "parry",
+        "mobility_action": "jump"
+      },
+      "appearance": {
+        "hair": "short dark brown hair",
+        "face": "oval, with prominent cheekbones and a small nose",
+        "armor_style": "chainmail",
+        "armor_colors": [
+          "steel gray",
+          "muted red"
+        ],
+        "silhouette": "athletic warrior with sword and none",
+        "visual_description": "He wears steel-gray chainmail over a dark brown leather gambeson with muted red cloth accents, and he holds a plain steel longsword in his main hand."
+      },
+      "description": "Eryndor Thorne is a young adult warrior with athletic build and dark brown short hair.",
+      "asset": {
+        "structural_prompt": "full body strict side profile adult human warrior facing right, one plain steel sword, empty off hand",
+        "semantic_prompt": "He wears steel-gray chainmail over a dark brown leather gambeson with muted red cloth accents, and he holds a plain steel longsword in his main hand.",
+        "visual_prompt": "He wears steel-gray chainmail over a dark brown leather gambeson with muted red cloth accents, and he holds a plain steel longsword in his main hand. Full body strict side profile facing right. One sword only. Empty off hand. Grounded medieval RPG character, realistic human anatomy and proportions, practical construction, steel leather chainmail cloth and wood only, clean readable silhouette, entire body and both feet visible, centered, solid bright chroma green background, no scenery.",
+        "negative_prompt": "surreal, abstract, monster, extra limbs, extra weapons, duplicate equipment, cropped feet, front view, rear view, three quarter view, anime, chibi, cartoon, toy, icon, text, watermark, scenery, floor, shadow, green clothing",
+        "idle_animation_description": "The warrior breathes steadily with a balanced posture while the equipped weapon remains controlled and cloth settles naturally.",
+        "walk_animation_description": "The warrior walks with measured heel-to-toe steps while chainmail, leather, and cloth respond naturally to each stride.",
+        "idle_style": "relaxed",
+        "movement_style": "steady",
+        "expected_labels": [
+          "adult human",
+          "medieval fighter",
+          "sword",
+          "chainmail"
+        ],
+        "review_requirements": "Exactly one recognizable adult human medieval warrior in a complete side profile facing right. The whole body and both feet are visible. Exactly one sword is visible. The off hand is empty. Arms and legs are normal. Practical chainmail, leather, cloth, and metal equipment. No duplicate body, extra limb, extra weapon, scenery, text, or watermark. Clean plain solid white extraction background."
+      }
+    },
+    "generation": {
+      "provider": "nitro-llama.cpp-constrained",
+      "model": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+      "seconds": 165.722,
+      "strict_schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 36
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "warrior"
+            ]
+          },
+          "experience_level": {
+            "type": "string",
+            "enum": [
+              "beginner"
+            ]
+          },
+          "presentation": {
+            "type": "string",
+            "enum": [
+              "masculine",
+              "feminine",
+              "androgynous"
+            ]
+          },
+          "body_type": {
+            "type": "string",
+            "enum": [
+              "athletic"
+            ]
+          },
+          "hair_color": {
+            "type": "string",
+            "enum": [
+              "dark brown"
+            ]
+          },
+          "hair_style": {
+            "type": "string",
+            "enum": [
+              "short"
+            ]
+          },
+          "face_description": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 90
+          },
+          "armor_style": {
+            "type": "string",
+            "enum": [
+              "chainmail"
+            ]
+          },
+          "armor_primary_color": {
+            "type": "string",
+            "enum": [
+              "steel gray"
+            ]
+          },
+          "armor_secondary_color": {
+            "type": "string",
+            "enum": [
+              "muted red"
+            ]
+          },
+          "main_hand": {
+            "type": "string",
+            "enum": [
+              "sword"
+            ]
+          },
+          "off_hand": {
+            "type": "string",
+            "enum": [
+              "none"
+            ]
+          },
+          "back_item": {
+            "type": "string",
+            "enum": [
+              "none"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 80,
+            "maxLength": 180,
+            "pattern": "^.*[.!?]$"
+          },
+          "visual_description": {
+            "type": "string",
+            "minLength": 110,
+            "maxLength": 240,
+            "pattern": "^.*[.!?]$"
+          },
+          "idle_style": {
+            "type": "string",
+            "enum": [
+              "relaxed",
+              "guarded",
+              "alert"
+            ]
+          },
+          "movement_style": {
+            "type": "string",
+            "enum": [
+              "steady",
+              "agile",
+              "heavy"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "role",
+          "experience_level",
+          "presentation",
+          "body_type",
+          "hair_color",
+          "hair_style",
+          "face_description",
+          "armor_style",
+          "armor_primary_color",
+          "armor_secondary_color",
+          "main_hand",
+          "off_hand",
+          "back_item",
+          "description",
+          "visual_description",
+          "idle_style",
+          "movement_style"
+        ],
+        "additionalProperties": false
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 64.027,
+          "errors": [
+            "'A sturdy, athletic young man with short, dark brown hair and plain features, dressed in practical steel-gray chainmail over a dark brown leather gambeson, with muted red cloth accents.' is too long"
+          ]
+        },
+        {
+          "attempt": 2,
+          "seconds": 45.987,
+          "errors": [
+            "'A sturdy young man.' is too short",
+            "'He wears steel-gray chainmail over a dark brown leather gambeson with muted red cloth accents.' is too short",
+            "visual_description must explicitly mention selected main_hand sword"
+          ]
+        },
+        {
+          "attempt": 3,
+          "seconds": 55.708,
+          "errors": []
+        }
+      ],
+      "base_schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 36
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "warrior",
+              "ranger",
+              "rogue",
+              "mage",
+              "cleric"
+            ]
+          },
+          "experience_level": {
+            "type": "string",
+            "enum": [
+              "beginner",
+              "trained",
+              "veteran"
+            ]
+          },
+          "presentation": {
+            "type": "string",
+            "enum": [
+              "masculine",
+              "feminine",
+              "androgynous"
+            ]
+          },
+          "body_type": {
+            "type": "string",
+            "enum": [
+              "slim",
+              "average",
+              "athletic",
+              "heavy"
+            ]
+          },
+          "hair_color": {
+            "type": "string",
+            "enum": [
+              "black",
+              "dark brown",
+              "chestnut",
+              "auburn",
+              "blond",
+              "gray"
+            ]
+          },
+          "hair_style": {
+            "type": "string",
+            "enum": [
+              "short",
+              "shoulder length",
+              "braided",
+              "cropped",
+              "tied back"
+            ]
+          },
+          "face_description": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 90
+          },
+          "armor_style": {
+            "type": "string",
+            "enum": [
+              "leather",
+              "chainmail",
+              "plate",
+              "robe"
+            ]
+          },
+          "armor_primary_color": {
+            "type": "string",
+            "enum": [
+              "dark brown",
+              "black",
+              "steel gray",
+              "charcoal",
+              "undyed linen",
+              "navy"
+            ]
+          },
+          "armor_secondary_color": {
+            "type": "string",
+            "enum": [
+              "muted red",
+              "cream",
+              "dark blue",
+              "brown",
+              "gray",
+              "burgundy"
+            ]
+          },
+          "main_hand": {
+            "type": "string",
+            "enum": [
+              "sword",
+              "axe",
+              "spear",
+              "dagger",
+              "bow",
+              "mace",
+              "staff"
+            ]
+          },
+          "off_hand": {
+            "type": "string",
+            "enum": [
+              "round_shield",
+              "kite_shield",
+              "dagger",
+              "none"
+            ]
+          },
+          "back_item": {
+            "type": "string",
+            "enum": [
+              "cape",
+              "quiver",
+              "backpack",
+              "none"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 80,
+            "maxLength": 180,
+            "pattern": "^.*[.!?]$"
+          },
+          "visual_description": {
+            "type": "string",
+            "minLength": 110,
+            "maxLength": 240,
+            "pattern": "^.*[.!?]$"
+          },
+          "idle_style": {
+            "type": "string",
+            "enum": [
+              "relaxed",
+              "guarded",
+              "alert"
+            ]
+          },
+          "movement_style": {
+            "type": "string",
+            "enum": [
+              "steady",
+              "agile",
+              "heavy"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "role",
+          "experience_level",
+          "presentation",
+          "body_type",
+          "hair_color",
+          "hair_style",
+          "face_description",
+          "armor_style",
+          "armor_primary_color",
+          "armor_secondary_color",
+          "main_hand",
+          "off_hand",
+          "back_item",
+          "description",
+          "visual_description",
+          "idle_style",
+          "movement_style"
+        ],
+        "additionalProperties": false
+      },
+      "plan": {
+        "name": "Eryndor Thorne",
+        "role": "warrior",
+        "experience_level": "beginner",
+        "presentation": "androgynous",
+        "body_type": "athletic",
+        "hair_color": "dark brown",
+        "hair_style": "short",
+        "face_description": "oval, with prominent cheekbones and a small nose",
+        "armor_style": "chainmail",
+        "armor_primary_color": "steel gray",
+        "armor_secondary_color": "muted red",
+        "main_hand": "sword",
+        "off_hand": "none",
+        "back_item": "none",
+        "description": "Eryndor Thorne is a young adult warrior with athletic build and dark brown short hair.",
+        "visual_description": "He wears steel-gray chainmail over a dark brown leather gambeson with muted red cloth accents, and he holds a plain steel longsword in his main hand.",
+        "idle_style": "relaxed",
+        "movement_style": "steady"
+      },
+      "kind": "player"
+    },
+    "asset": {
+      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+      "identity_anchored": true,
+      "motion_generated": true,
+      "frame_count": 8,
+      "frame_width": 192,
+      "frame_height": 256,
+      "frame_duration_ms": 120,
+      "generation_seconds": 144.593,
+      "png_path": "res://assets/rpg/player-eryndor-thorne-8eb300d6eb2c.png",
+      "gif_path": "res://assets/rpg/player-eryndor-thorne-8eb300d6eb2c.gif",
+      "sheet_path": "res://assets/rpg/player-eryndor-thorne-8eb300d6eb2c.sheet.png",
+      "metadata_path": "res://assets/rpg/player-eryndor-thorne-8eb300d6eb2c.asset.json",
+      "distinct_frames": 8,
+      "canonical_review": {
+        "recognizable": true,
+        "single_subject": true,
+        "full_subject": true,
+        "correct_category": true,
+        "required_elements_visible": true,
+        "forbidden_elements_absent": true,
+        "anatomy_or_geometry": "normal",
+        "grounded_materials": true,
+        "clean_plain_background": true,
+        "clear_silhouette": true,
+        "recognized_subject": "adult human",
+        "critical_defects": [],
+        "description": "A man in medieval armor, holding a sword in his right hand, standing in a side profile facing right. He is wearing chainmail, leather, cloth, and metal equipment. His left hand is empty. The background is a clean, plain solid white.",
+        "deterministic_pass": true,
+        "label_pass": true,
+        "candidate_index": 2,
+        "seed": 4152422395,
+        "seconds": 35.898,
+        "bbox": [
+          0,
+          0,
+          640,
+          896
+        ],
+        "extraction_error": ""
+      },
+      "mid_frame_review": {
+        "recognizable": true,
+        "single_subject": true,
+        "full_subject": true,
+        "correct_category": true,
+        "required_elements_visible": true,
+        "forbidden_elements_absent": true,
+        "anatomy_or_geometry": "normal",
+        "grounded_materials": true,
+        "clean_plain_background": true,
+        "clear_silhouette": true,
+        "recognized_subject": "adult human",
+        "critical_defects": [],
+        "description": "A medieval warrior in full armor, holding a sword in a side profile pose. The warrior is wearing practical chainmail, leather, cloth, and metal equipment. The background is a clean, plain solid white.",
+        "deterministic_pass": true,
+        "label_pass": true
+      },
+      "walk_sheet_path": "res://assets/rpg/player-eryndor-thorne-8eb300d6eb2c.walk.sheet.png",
+      "walk_gif_path": "res://assets/rpg/player-eryndor-thorne-8eb300d6eb2c.walk.gif",
+      "walk_png_path": "res://assets/rpg/player-eryndor-thorne-8eb300d6eb2c.walk.png",
+      "walk_metadata_path": "res://assets/rpg/player-eryndor-thorne-8eb300d6eb2c.walk.json",
+      "walk_frame_count": 8,
+      "walk_frame_width": 192,
+      "walk_frame_height": 256,
+      "walk_frame_duration_ms": 120,
+      "walk_engine": "sdxl-controlnet-openpose-img2img-walk-v1",
+      "walk_identity_source": "7979fe68ef0700e620a44fbc",
+      "walk_adjacent_mean_abs_min": 15.636,
+      "walk_adjacent_mean_abs_max": 19.881,
+      "walk_review": {
+        "same_identity_all_frames": true,
+        "full_body_all_frames": true,
+        "one_sword_all_frames": true,
+        "no_extra_limbs": true,
+        "alternating_legs_visible": true,
+        "counter_swing_visible": true,
+        "genuine_walk_cycle": true,
+        "any_bad_frame_indices": []
+      }
+    }
+  },
+  "world_items": [
+    {
+      "slug": "weapon-warrior-s-blade-3fc23b6be63b",
+      "kind": "weapon",
+      "content": {
+        "kind": "weapon",
+        "name": "Warrior's Blade",
+        "weapon_type": "sword",
+        "handedness": "one_handed",
+        "damage_type": "slash",
+        "material": "steel",
+        "quality": "well_made",
+        "equip_slot": "main_hand",
+        "actions": {
+          "primary": "slash",
+          "secondary": "parry"
+        },
+        "stats": {
+          "damage": 12,
+          "speed": 10,
+          "range": 2
+        },
+        "description": "A standard, practical longsword for a beginner warrior.",
+        "asset": {
+          "structural_prompt": "one standard medieval steel sword, full object, realistic proportions, practical construction",
+          "semantic_prompt": "A plain, straight double-edged steel blade with a simple steel crossguard, brown leather-wrapped grip, and small round pommel.",
+          "visual_prompt": "A plain, straight double-edged steel blade with a simple steel crossguard, brown leather-wrapped grip, and small round pommel. One standard recognizable medieval sword made from steel, realistic proportions and practical construction, full object visible, clean silhouette, centered on plain white background, no hands, no person, no scenery.",
+          "negative_prompt": "surreal, abstract, magical glow, ornate hilt, decorative engraving, jewel, gem, sheath, scabbard, extra weapons, duplicate, bent blade, malformed, character, hands, scenery, floor, shadow, text, watermark, green object",
+          "idle_animation_description": "The weapon remains still in a neutral display position with no camera movement.",
+          "use_animation_description": "The sword performs one controlled slash action and returns to its starting position.",
+          "display_style": "still",
+          "expected_labels": [
+            "sword",
+            "steel",
+            "medieval weapon"
+          ],
+          "review_requirements": "Exactly one recognizable medieval sword. The complete object and every functional part are visible. Realistic steel construction with a plain practical hilt or handle. No sheath, scabbard, ornate decoration, engraving, jewels, person, hand, second weapon, malformed geometry, magical glow, scenery, text, or watermark. Clean plain solid white extraction background."
+        }
+      },
+      "generation": {
+        "provider": "nitro-llama.cpp-constrained",
+        "model": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+        "seconds": 30.884,
+        "strict_schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50
+            },
+            "weapon_type": {
+              "type": "string",
+              "enum": [
+                "sword"
+              ]
+            },
+            "handedness": {
+              "type": "string",
+              "enum": [
+                "one_handed"
+              ]
+            },
+            "material": {
+              "type": "string",
+              "enum": [
+                "steel"
+              ]
+            },
+            "quality": {
+              "type": "string",
+              "enum": [
+                "well_made"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 30,
+              "maxLength": 170,
+              "pattern": "^.*[.!?]$"
+            },
+            "visual_description": {
+              "type": "string",
+              "minLength": 60,
+              "maxLength": 230,
+              "pattern": "^.*[.!?]$"
+            },
+            "display_style": {
+              "type": "string",
+              "enum": [
+                "still",
+                "restrained_highlight"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "weapon_type",
+            "handedness",
+            "material",
+            "quality",
+            "description",
+            "visual_description",
+            "display_style"
+          ],
+          "additionalProperties": false
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "seconds": 30.884,
+            "errors": []
+          }
+        ],
+        "base_schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50
+            },
+            "weapon_type": {
+              "type": "string",
+              "enum": [
+                "sword",
+                "axe",
+                "spear",
+                "dagger",
+                "bow",
+                "mace",
+                "staff"
+              ]
+            },
+            "handedness": {
+              "type": "string",
+              "enum": [
+                "one_handed",
+                "two_handed"
+              ]
+            },
+            "material": {
+              "type": "string",
+              "enum": [
+                "steel",
+                "iron",
+                "bronze",
+                "oak",
+                "ash wood"
+              ]
+            },
+            "quality": {
+              "type": "string",
+              "enum": [
+                "common",
+                "well_made",
+                "fine"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 30,
+              "maxLength": 170,
+              "pattern": "^.*[.!?]$"
+            },
+            "visual_description": {
+              "type": "string",
+              "minLength": 60,
+              "maxLength": 230,
+              "pattern": "^.*[.!?]$"
+            },
+            "display_style": {
+              "type": "string",
+              "enum": [
+                "still",
+                "restrained_highlight"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "weapon_type",
+            "handedness",
+            "material",
+            "quality",
+            "description",
+            "visual_description",
+            "display_style"
+          ],
+          "additionalProperties": false
+        },
+        "plan": {
+          "name": "Warrior's Blade",
+          "weapon_type": "sword",
+          "handedness": "one_handed",
+          "material": "steel",
+          "quality": "well_made",
+          "description": "A standard, practical longsword for a beginner warrior.",
+          "visual_description": "A plain, straight double-edged steel blade with a simple steel crossguard, brown leather-wrapped grip, and small round pommel.",
+          "display_style": "still"
+        },
+        "kind": "weapon"
+      },
+      "asset": {
+        "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+        "identity_anchored": true,
+        "motion_generated": true,
+        "frame_count": 6,
+        "frame_width": 160,
+        "frame_height": 160,
+        "frame_duration_ms": 120,
+        "generation_seconds": 53.714,
+        "png_path": "res://assets/rpg/weapon-warrior-s-blade-3fc23b6be63b.png",
+        "gif_path": "res://assets/rpg/weapon-warrior-s-blade-3fc23b6be63b.gif",
+        "sheet_path": "res://assets/rpg/weapon-warrior-s-blade-3fc23b6be63b.sheet.png",
+        "metadata_path": "res://assets/rpg/weapon-warrior-s-blade-3fc23b6be63b.asset.json",
+        "distinct_frames": 6,
+        "canonical_review": {
+          "recognizable": true,
+          "single_subject": true,
+          "full_subject": true,
+          "correct_category": true,
+          "required_elements_visible": true,
+          "forbidden_elements_absent": true,
+          "anatomy_or_geometry": "normal",
+          "grounded_materials": true,
+          "clean_plain_background": true,
+          "clear_silhouette": true,
+          "recognized_subject": "sword",
+          "critical_defects": [],
+          "description": "A realistic steel construction sword with a plain practical hilt. The blade is long and straight, with a pointed tip and a slightly curved edge. The hilt is made of a dark brown material, possibly leather or wood, and has a simple, functional design. The handle is ergonomically shaped for easy grip, and the overall design suggests it is intended for practical use rather than ceremonial or decorative purposes.",
+          "deterministic_pass": true,
+          "label_pass": true,
+          "candidate_index": 0,
+          "seed": 3824819385,
+          "seconds": 29.117,
+          "bbox": [
+            0,
+            0,
+            640,
+            640
+          ],
+          "extraction_error": ""
+        },
+        "mid_frame_review": {
+          "recognizable": true,
+          "single_subject": true,
+          "full_subject": true,
+          "correct_category": true,
+          "required_elements_visible": true,
+          "forbidden_elements_absent": true,
+          "anatomy_or_geometry": "normal",
+          "grounded_materials": true,
+          "clean_plain_background": true,
+          "clear_silhouette": true,
+          "recognized_subject": "sword",
+          "critical_defects": [],
+          "description": "A long, straight-edged sword with a plain, practical hilt. The blade is metallic and the handle is made of a dark, possibly leather or wood material. The background is a plain, solid color, and there are no other objects or elements present.",
+          "deterministic_pass": true,
+          "label_pass": true
+        }
+      },
+      "spawn_x": 620.0
+    },
+    {
+      "slug": "armor-medium-chainmail-chest-armor-722693ca63a8",
+      "kind": "armor",
+      "content": {
+        "kind": "armor",
+        "name": "Medium Chainmail Chest Armor",
+        "armor_slot": "chest",
+        "armor_weight": "medium",
+        "material": "chainmail",
+        "primary_color": "steel gray",
+        "quality": "well_made",
+        "equip_slot": "chest",
+        "stats": {
+          "defense": 8,
+          "weight": 7,
+          "speed_modifier": 0
+        },
+        "description": "A standard issue chainmail chest armor piece for a beginning warrior.",
+        "asset": {
+          "structural_prompt": "one standard medieval chainmail chest armor piece, steel gray, full object, realistic proportions, practical construction",
+          "semantic_prompt": "A steel-gray chainmail chest armor piece with interlocking rings and dark brown leather edging and backing, designed for practicality and durability.",
+          "visual_prompt": "A steel-gray chainmail chest armor piece with interlocking rings and dark brown leather edging and backing, designed for practicality and durability. One standard recognizable medieval chest armor piece made from chainmail, steel gray, practical construction, realistic proportions, full object visible, clean silhouette, centered on plain white background, no person, no mannequin, no scenery.",
+          "negative_prompt": "surreal, abstract, magical glow, ornate fantasy, multiple armor pieces, person, mannequin, scenery, floor, shadow, text, watermark, green object",
+          "idle_animation_description": "The armor hangs naturally while rings, straps, or fabric settle with a small physically plausible movement.",
+          "equip_description": "The chest armor is fitted to its matching body slot and secured using its practical straps or fastenings.",
+          "display_style": "hanging",
+          "expected_labels": [
+            "chest",
+            "chainmail",
+            "medieval armor"
+          ],
+          "review_requirements": "Exactly one recognizable medieval chest armor piece made from chainmail. The complete wearable piece is visible with normal practical geometry. No person, mannequin, extra armor pieces, magical glow, scenery, text, or watermark. Clean plain solid white extraction background."
+        }
+      },
+      "generation": {
+        "provider": "nitro-llama.cpp-constrained",
+        "model": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+        "seconds": 32.729,
+        "strict_schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50
+            },
+            "armor_slot": {
+              "type": "string",
+              "enum": [
+                "chest"
+              ]
+            },
+            "armor_weight": {
+              "type": "string",
+              "enum": [
+                "medium"
+              ]
+            },
+            "material": {
+              "type": "string",
+              "enum": [
+                "chainmail"
+              ]
+            },
+            "primary_color": {
+              "type": "string",
+              "enum": [
+                "steel gray"
+              ]
+            },
+            "quality": {
+              "type": "string",
+              "enum": [
+                "well_made"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 45,
+              "maxLength": 170,
+              "pattern": "^.*[.!?]$"
+            },
+            "visual_description": {
+              "type": "string",
+              "minLength": 60,
+              "maxLength": 230,
+              "pattern": "^.*[.!?]$"
+            },
+            "display_style": {
+              "type": "string",
+              "enum": [
+                "hanging",
+                "laid_flat"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "armor_slot",
+            "armor_weight",
+            "material",
+            "primary_color",
+            "quality",
+            "description",
+            "visual_description",
+            "display_style"
+          ],
+          "additionalProperties": false
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "seconds": 32.729,
+            "errors": []
+          }
+        ],
+        "base_schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50
+            },
+            "armor_slot": {
+              "type": "string",
+              "enum": [
+                "head",
+                "chest",
+                "hands",
+                "legs",
+                "feet",
+                "back"
+              ]
+            },
+            "armor_weight": {
+              "type": "string",
+              "enum": [
+                "light",
+                "medium",
+                "heavy"
+              ]
+            },
+            "material": {
+              "type": "string",
+              "enum": [
+                "cloth",
+                "leather",
+                "chainmail",
+                "steel_plate",
+                "iron_plate"
+              ]
+            },
+            "primary_color": {
+              "type": "string",
+              "enum": [
+                "dark brown",
+                "black",
+                "steel gray",
+                "charcoal",
+                "cream",
+                "burgundy"
+              ]
+            },
+            "quality": {
+              "type": "string",
+              "enum": [
+                "common",
+                "well_made",
+                "fine"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 45,
+              "maxLength": 170,
+              "pattern": "^.*[.!?]$"
+            },
+            "visual_description": {
+              "type": "string",
+              "minLength": 60,
+              "maxLength": 230,
+              "pattern": "^.*[.!?]$"
+            },
+            "display_style": {
+              "type": "string",
+              "enum": [
+                "hanging",
+                "laid_flat"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "armor_slot",
+            "armor_weight",
+            "material",
+            "primary_color",
+            "quality",
+            "description",
+            "visual_description",
+            "display_style"
+          ],
+          "additionalProperties": false
+        },
+        "plan": {
+          "name": "Medium Chainmail Chest Armor",
+          "armor_slot": "chest",
+          "armor_weight": "medium",
+          "material": "chainmail",
+          "primary_color": "steel gray",
+          "quality": "well_made",
+          "description": "A standard issue chainmail chest armor piece for a beginning warrior.",
+          "visual_description": "A steel-gray chainmail chest armor piece with interlocking rings and dark brown leather edging and backing, designed for practicality and durability.",
+          "display_style": "hanging"
+        },
+        "kind": "armor"
+      },
+      "asset": {
+        "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+        "identity_anchored": true,
+        "motion_generated": true,
+        "frame_count": 6,
+        "frame_width": 160,
+        "frame_height": 160,
+        "frame_duration_ms": 120,
+        "generation_seconds": 44.79,
+        "png_path": "res://assets/rpg/armor-medium-chainmail-chest-armor-722693ca63a8.png",
+        "gif_path": "res://assets/rpg/armor-medium-chainmail-chest-armor-722693ca63a8.gif",
+        "sheet_path": "res://assets/rpg/armor-medium-chainmail-chest-armor-722693ca63a8.sheet.png",
+        "metadata_path": "res://assets/rpg/armor-medium-chainmail-chest-armor-722693ca63a8.asset.json",
+        "distinct_frames": 6,
+        "canonical_review": {
+          "recognizable": true,
+          "single_subject": true,
+          "full_subject": true,
+          "correct_category": true,
+          "required_elements_visible": true,
+          "forbidden_elements_absent": true,
+          "anatomy_or_geometry": "normal",
+          "grounded_materials": true,
+          "clean_plain_background": true,
+          "clear_silhouette": true,
+          "recognized_subject": "medieval chest armor",
+          "critical_defects": [],
+          "description": "A medieval chest armor piece made from chainmail, with a clean plain solid white extraction background.",
+          "deterministic_pass": true,
+          "label_pass": true,
+          "candidate_index": 0,
+          "seed": 3725565717,
+          "seconds": 22.593,
+          "bbox": [
+            21,
+            0,
+            619,
+            640
+          ],
+          "extraction_error": ""
+        },
+        "mid_frame_review": {
+          "recognizable": true,
+          "single_subject": true,
+          "full_subject": true,
+          "correct_category": true,
+          "required_elements_visible": true,
+          "forbidden_elements_absent": true,
+          "anatomy_or_geometry": "normal",
+          "grounded_materials": true,
+          "clean_plain_background": true,
+          "clear_silhouette": true,
+          "recognized_subject": "medieval chest armor",
+          "critical_defects": [],
+          "description": "A medieval chest armor piece made from chainmail, featuring a clean plain solid white extraction background.",
+          "deterministic_pass": true,
+          "label_pass": true
+        }
+      },
+      "spawn_x": 900.0
+    },
+    {
+      "slug": "loot-common-oak-treasure-chest-a305bce1b39e",
+      "kind": "loot",
+      "content": {
+        "kind": "loot",
+        "name": "Common Oak Treasure Chest",
+        "loot_type": "treasure_chest",
+        "interaction": "open",
+        "material": "oak",
+        "rarity": "common",
+        "contents_hint": "mixed",
+        "description": "A sturdy, handcrafted oak chest with an arched lid and iron bands.",
+        "asset": {
+          "structural_prompt": "one standard medieval oak treasure chest, full object, realistic proportions, practical construction",
+          "semantic_prompt": "A rectangular chest with an arched lid, made from a single piece of oak wood, with four iron bands along the sides, and a simple front lock with a small iron keyhole.",
+          "visual_prompt": "A rectangular chest with an arched lid, made from a single piece of oak wood, with four iron bands along the sides, and a simple front lock with a small iron keyhole. One standard recognizable medieval treasure chest made from oak, practical construction, realistic proportions, full object visible, clean silhouette, centered on plain white background, no scenery.",
+          "negative_prompt": "surreal, abstract, magical glow, excessive ornament, creature, person, extra objects, scenery, floor, shadow, text, watermark, green object",
+          "idle_animation_description": "The loot object remains closed and still in a neutral display position.",
+          "open_animation_description": "The lid rotates upward on its hinges and stops in a stable open position.",
+          "display_style": "still",
+          "open_style": "hinged_lid",
+          "expected_labels": [
+            "treasure chest",
+            "oak",
+            "medieval loot"
+          ],
+          "review_requirements": "Exactly one recognizable medieval treasure chest made from oak. The complete object and practical construction are visible. No creature, person, extra object, magical glow, scenery, text, or watermark. Clean plain solid white extraction background."
+        }
+      },
+      "generation": {
+        "provider": "nitro-llama.cpp-constrained",
+        "model": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+        "seconds": 37.413,
+        "strict_schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50
+            },
+            "loot_type": {
+              "type": "string",
+              "enum": [
+                "treasure_chest"
+              ]
+            },
+            "material": {
+              "type": "string",
+              "enum": [
+                "oak"
+              ]
+            },
+            "rarity": {
+              "type": "string",
+              "enum": [
+                "common"
+              ]
+            },
+            "contents_hint": {
+              "type": "string",
+              "enum": [
+                "mixed"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 30,
+              "maxLength": 170,
+              "pattern": "^.*[.!?]$"
+            },
+            "visual_description": {
+              "type": "string",
+              "minLength": 60,
+              "maxLength": 230,
+              "pattern": "^.*[.!?]$"
+            },
+            "display_style": {
+              "type": "string",
+              "enum": [
+                "still",
+                "restrained_highlight"
+              ]
+            },
+            "open_style": {
+              "type": "string",
+              "enum": [
+                "hinged_lid",
+                "collect_vanish"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "loot_type",
+            "material",
+            "rarity",
+            "contents_hint",
+            "description",
+            "visual_description",
+            "display_style",
+            "open_style"
+          ],
+          "additionalProperties": false
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "seconds": 37.413,
+            "errors": []
+          }
+        ],
+        "base_schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50
+            },
+            "loot_type": {
+              "type": "string",
+              "enum": [
+                "treasure_chest",
+                "coin_pouch",
+                "gem",
+                "relic",
+                "key_item"
+              ]
+            },
+            "material": {
+              "type": "string",
+              "enum": [
+                "oak",
+                "iron",
+                "steel",
+                "bronze",
+                "leather",
+                "velvet",
+                "crystal"
+              ]
+            },
+            "rarity": {
+              "type": "string",
+              "enum": [
+                "common",
+                "uncommon",
+                "rare"
+              ]
+            },
+            "contents_hint": {
+              "type": "string",
+              "enum": [
+                "gold",
+                "equipment",
+                "potion",
+                "key",
+                "mixed"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 30,
+              "maxLength": 170,
+              "pattern": "^.*[.!?]$"
+            },
+            "visual_description": {
+              "type": "string",
+              "minLength": 60,
+              "maxLength": 230,
+              "pattern": "^.*[.!?]$"
+            },
+            "display_style": {
+              "type": "string",
+              "enum": [
+                "still",
+                "restrained_highlight"
+              ]
+            },
+            "open_style": {
+              "type": "string",
+              "enum": [
+                "hinged_lid",
+                "collect_vanish"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "loot_type",
+            "material",
+            "rarity",
+            "contents_hint",
+            "description",
+            "visual_description",
+            "display_style",
+            "open_style"
+          ],
+          "additionalProperties": false
+        },
+        "plan": {
+          "name": "Common Oak Treasure Chest",
+          "loot_type": "treasure_chest",
+          "material": "oak",
+          "rarity": "common",
+          "contents_hint": "mixed",
+          "description": "A sturdy, handcrafted oak chest with an arched lid and iron bands.",
+          "visual_description": "A rectangular chest with an arched lid, made from a single piece of oak wood, with four iron bands along the sides, and a simple front lock with a small iron keyhole.",
+          "display_style": "still",
+          "open_style": "hinged_lid"
+        },
+        "kind": "loot"
+      },
+      "asset": {
+        "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+        "identity_anchored": true,
+        "motion_generated": true,
+        "frame_count": 6,
+        "frame_width": 160,
+        "frame_height": 160,
+        "frame_duration_ms": 120,
+        "generation_seconds": 102.226,
+        "png_path": "res://assets/rpg/loot-common-oak-treasure-chest-a305bce1b39e.png",
+        "gif_path": "res://assets/rpg/loot-common-oak-treasure-chest-a305bce1b39e.gif",
+        "sheet_path": "res://assets/rpg/loot-common-oak-treasure-chest-a305bce1b39e.sheet.png",
+        "metadata_path": "res://assets/rpg/loot-common-oak-treasure-chest-a305bce1b39e.asset.json",
+        "distinct_frames": 6,
+        "canonical_review": {
+          "recognizable": true,
+          "single_subject": true,
+          "full_subject": true,
+          "correct_category": true,
+          "required_elements_visible": true,
+          "forbidden_elements_absent": true,
+          "anatomy_or_geometry": "normal",
+          "grounded_materials": true,
+          "clean_plain_background": true,
+          "clear_silhouette": true,
+          "recognized_subject": "medieval treasure chest",
+          "critical_defects": [],
+          "description": "A wooden chest with a lid, made from oak, and designed in a medieval style. The chest has a rectangular shape with vertical slats and a lid that can be closed. There are visible screws and nails securing the structure, and the chest is standing upright.",
+          "deterministic_pass": true,
+          "label_pass": true,
+          "candidate_index": 2,
+          "seed": 2850487997,
+          "seconds": 26.004,
+          "bbox": [
+            0,
+            26,
+            632,
+            640
+          ],
+          "extraction_error": ""
+        },
+        "mid_frame_review": {
+          "recognizable": true,
+          "single_subject": true,
+          "full_subject": true,
+          "correct_category": true,
+          "required_elements_visible": true,
+          "forbidden_elements_absent": true,
+          "anatomy_or_geometry": "normal",
+          "grounded_materials": true,
+          "clean_plain_background": true,
+          "clear_silhouette": true,
+          "recognized_subject": "treasure chest",
+          "critical_defects": [],
+          "description": "A wooden treasure chest made from oak, with a lid and a small compartment on top. The chest is detailed with visible nails and a decorative top.",
+          "deterministic_pass": true,
+          "label_pass": true
+        }
+      },
+      "spawn_x": 1200.0
+    },
+    {
+      "slug": "consumable-red-health-potion-785108ddfece",
+      "kind": "consumable",
+      "content": {
+        "kind": "consumable",
+        "name": "Red Health Potion",
+        "consumable_type": "health_potion",
+        "use_action": "drink",
+        "container": "glass_bottle",
+        "primary_color": "red",
+        "quality": "common",
+        "effect": {
+          "stat": "health",
+          "amount": 25
+        },
+        "description": "A liquid health potion to restore vitality.",
+        "asset": {
+          "structural_prompt": "one standard medieval RPG health potion in a glass bottle, red, full object, practical construction",
+          "semantic_prompt": "A small clear glass bottle with a cork stopper and a simple leather cord, containing a red liquid.",
+          "visual_prompt": "A small clear glass bottle with a cork stopper and a simple leather cord, containing a red liquid. One standard recognizable medieval RPG health potion in a glass bottle, red, practical construction, full object visible, clean silhouette, centered on plain white background, no scenery.",
+          "negative_prompt": "surreal, abstract, magical aura, extra bottles, person, hands, scenery, floor, shadow, text, watermark, green object",
+          "idle_animation_description": "The consumable remains upright and still in a neutral display position.",
+          "use_animation_description": "The character drinks the consumable and the container is removed after use.",
+          "display_style": "still",
+          "expected_labels": [
+            "health potion",
+            "glass bottle"
+          ],
+          "review_requirements": "Exactly one recognizable medieval RPG health potion in one glass bottle. The complete container and closure are visible. No person, hand, extra bottle, magical aura, scenery, text, or watermark. Clean plain solid white extraction background."
+        }
+      },
+      "generation": {
+        "provider": "nitro-llama.cpp-constrained",
+        "model": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+        "seconds": 93.75,
+        "strict_schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50
+            },
+            "consumable_type": {
+              "type": "string",
+              "enum": [
+                "health_potion"
+              ]
+            },
+            "container": {
+              "type": "string",
+              "enum": [
+                "glass_bottle"
+              ]
+            },
+            "primary_color": {
+              "type": "string",
+              "enum": [
+                "red"
+              ]
+            },
+            "quality": {
+              "type": "string",
+              "enum": [
+                "common"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 30,
+              "maxLength": 170,
+              "pattern": "^.*[.!?]$"
+            },
+            "visual_description": {
+              "type": "string",
+              "minLength": 60,
+              "maxLength": 230,
+              "pattern": "^.*[.!?]$"
+            },
+            "display_style": {
+              "type": "string",
+              "enum": [
+                "still",
+                "restrained_highlight"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "consumable_type",
+            "container",
+            "primary_color",
+            "quality",
+            "description",
+            "visual_description",
+            "display_style"
+          ],
+          "additionalProperties": false
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "seconds": 36.721,
+            "errors": [
+              "'A small, transparent glass bottle with a cork stopper and a simple leather cord, the bottle is about 5 inches tall and 2 inches wide, with a rounded body and a narrow neck, the cork is made of natural wood and tied with a leather cord.' is too long",
+              "combined semantic description must mention consumable_type health potion"
+            ]
+          },
+          {
+            "attempt": 2,
+            "seconds": 30.695,
+            "errors": [
+              "combined semantic description must mention consumable_type health potion"
+            ]
+          },
+          {
+            "attempt": 3,
+            "seconds": 26.334,
+            "errors": []
+          }
+        ],
+        "base_schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50
+            },
+            "consumable_type": {
+              "type": "string",
+              "enum": [
+                "health_potion",
+                "mana_potion",
+                "antidote",
+                "food"
+              ]
+            },
+            "container": {
+              "type": "string",
+              "enum": [
+                "glass_bottle",
+                "ceramic_flask",
+                "cloth_wrap",
+                "wooden_bowl"
+              ]
+            },
+            "primary_color": {
+              "type": "string",
+              "enum": [
+                "red",
+                "blue",
+                "amber",
+                "clear",
+                "brown",
+                "cream"
+              ]
+            },
+            "quality": {
+              "type": "string",
+              "enum": [
+                "common",
+                "well_made",
+                "fine"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 30,
+              "maxLength": 170,
+              "pattern": "^.*[.!?]$"
+            },
+            "visual_description": {
+              "type": "string",
+              "minLength": 60,
+              "maxLength": 230,
+              "pattern": "^.*[.!?]$"
+            },
+            "display_style": {
+              "type": "string",
+              "enum": [
+                "still",
+                "restrained_highlight"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "consumable_type",
+            "container",
+            "primary_color",
+            "quality",
+            "description",
+            "visual_description",
+            "display_style"
+          ],
+          "additionalProperties": false
+        },
+        "plan": {
+          "name": "Red Health Potion",
+          "consumable_type": "health_potion",
+          "container": "glass_bottle",
+          "primary_color": "red",
+          "quality": "common",
+          "description": "A liquid health potion to restore vitality.",
+          "visual_description": "A small clear glass bottle with a cork stopper and a simple leather cord, containing a red liquid.",
+          "display_style": "still"
+        },
+        "kind": "consumable"
+      },
+      "asset": {
+        "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+        "identity_anchored": true,
+        "motion_generated": true,
+        "frame_count": 6,
+        "frame_width": 160,
+        "frame_height": 160,
+        "frame_duration_ms": 120,
+        "generation_seconds": 49.068,
+        "png_path": "res://assets/rpg/consumable-red-health-potion-785108ddfece.png",
+        "gif_path": "res://assets/rpg/consumable-red-health-potion-785108ddfece.gif",
+        "sheet_path": "res://assets/rpg/consumable-red-health-potion-785108ddfece.sheet.png",
+        "metadata_path": "res://assets/rpg/consumable-red-health-potion-785108ddfece.asset.json",
+        "distinct_frames": 6,
+        "canonical_review": {
+          "recognizable": true,
+          "single_subject": true,
+          "full_subject": true,
+          "correct_category": true,
+          "required_elements_visible": true,
+          "forbidden_elements_absent": true,
+          "anatomy_or_geometry": "normal",
+          "grounded_materials": true,
+          "clean_plain_background": true,
+          "clear_silhouette": true,
+          "recognized_subject": "health potion",
+          "critical_defects": [],
+          "description": "A glass bottle with a cork stopper, containing a red liquid, with a stream of the liquid being poured into it.",
+          "deterministic_pass": true,
+          "label_pass": true,
+          "candidate_index": 0,
+          "seed": 23585737,
+          "seconds": 26.087,
+          "bbox": [
+            0,
+            0,
+            640,
+            640
+          ],
+          "extraction_error": ""
+        },
+        "mid_frame_review": {
+          "recognizable": true,
+          "single_subject": true,
+          "full_subject": true,
+          "correct_category": true,
+          "required_elements_visible": true,
+          "forbidden_elements_absent": true,
+          "anatomy_or_geometry": "normal",
+          "grounded_materials": true,
+          "clean_plain_background": true,
+          "clear_silhouette": true,
+          "recognized_subject": "health potion",
+          "critical_defects": [],
+          "description": "A glass bottle with a cork stopper, containing a red liquid, likely a health potion, with a clean, plain white background.",
+          "deterministic_pass": true,
+          "label_pass": true
+        }
+      },
+      "spawn_x": 1500.0
+    }
+  ]
+}

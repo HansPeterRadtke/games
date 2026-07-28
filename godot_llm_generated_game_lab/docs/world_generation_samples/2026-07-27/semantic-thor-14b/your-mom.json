@@ -1,0 +1,26 @@
+{
+  "user_prompt": "Your Mom",
+  "game_description": "Your Mom\n\nYour Mom is a darkly humorous simulation game where the player takes on the role of an adult child trapped in an endless cycle of familial responsibility. The game world is a hyper-realistic, exaggerated version of a suburban household, complete with a demanding and often bizarrely controlling mother. The central conflict revolves around balancing daily chores, social obligations, and personal desires while dealing with your mother's unreasonable expectations and constant interference.\n\nThe major systems include a task management system, where the player must juggle a never-ending list of household duties, from washing dishes to doing laundry, all while trying to maintain a semblance of personal life. The progression is a cycle of increasingly complex and absurd demands from your mother, pushing the player to their limits. The stakes are high; failure to meet your mother's demands can result in escalating consequences, from verbal abuse to physical neglect.\n\nThe visual identity is a mix of vibrant, almost cartoon-like aesthetics for the household items and characters, contrasted with muted, oppressive tones that reflect the psychological pressure of the environment. The audio identity includes a soundtrack of eerie, unsettling melodies and the constant background noise of your mother's nagging voice.\n\nOver time, play changes as the player discovers hidden, darkly comedic ways to subvert your mother's expectations, creating a sense of rebellion and empowerment. The game encourages players to navigate the absurdity of domestic life with a blend of frustration and humor, ultimately finding a way to break free from the cycle of obligation.",
+  "opening_scene": null,
+  "scene_plan": null,
+  "generation": {
+    "game_description": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 300,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 33.299,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    }
+  },
+  "saved_at_unix": 1785179524.7746556
+}

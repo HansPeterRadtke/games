@@ -1,0 +1,26 @@
+{
+  "user_prompt": "fuck you",
+  "game_description": "Fuck You\n\nFuck You is a satirical, darkly comedic first-person perspective video game that subverts the conventions of typical social interactions and relationships. The player embodies a character who is perpetually confronted by various antagonists in a surreal, dystopian world. This world is populated by hyper-realistic, exaggerated caricatures of everyday people and situations that are designed to be frustrating, absurd, and often ridiculous.\n\nThe central conflict of the game revolves around the player's ability to navigate through a series of increasingly complex social and moral scenarios, each of which escalates in intensity and absurdity. The player's primary objective is to survive these encounters by employing various tactics such as passive-aggressive responses, absurd humor, and outright defiance. The player can also choose to embrace the game's nihilistic theme by rejecting every form of social interaction, which leads to a different set of challenges and outcomes.\n\nProgression in the game is determined by the player's ability to maintain their sanity and resolve in the face of relentless provocation. The major systems include a sanity meter that fluctuates based on the player's interactions, and a reputation system that tracks how the player is perceived by the world around them. As the player progresses, they unlock new tools and abilities that allow them to confront their antagonists more creatively and effectively.\n\nVisually, the game is characterized by a dark, surreal art style with exaggerated features and distorted environments. The audio identity is defined by a mix of dark humor, distorted voices, and a soundtrack that shifts from eerie to chaotic.\n\nOver time, the game's tone and mechanics shift to reflect the player's deteriorating mental state, with scenarios becoming more surreal and unpredictable. The game ultimately challenges players to question the nature of social norms and the value of maintaining civility in a world that seems to reward and punish such behavior in unexpected ways.",
+  "opening_scene": null,
+  "scene_plan": null,
+  "generation": {
+    "game_description": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 371,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 40.936,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    }
+  },
+  "saved_at_unix": 1785179491.4746602
+}

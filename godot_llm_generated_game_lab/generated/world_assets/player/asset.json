@@ -1,0 +1,127 @@
+{
+  "id": "player",
+  "kind": "player",
+  "name": "Player",
+  "png_path": "generated/world_assets/player/canonical.png",
+  "gif_path": "generated/world_assets/player/animation.gif",
+  "sheet_path": "generated/world_assets/player/animation.sheet.png",
+  "frame_count": 8,
+  "frame_width": 192,
+  "frame_height": 256,
+  "frame_duration_ms": 120,
+  "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+  "key": "1d00e9128b477cf57f4db374",
+  "cached": false,
+  "generation_seconds": 141.643,
+  "identity_anchored": true,
+  "motion_generated": true,
+  "verification": {
+    "png_mode": "RGBA",
+    "png_size": [
+      192,
+      256
+    ],
+    "png_alpha": [
+      0,
+      255
+    ],
+    "gif_frames": 8,
+    "gif_distinct_frames": 8,
+    "gif_alpha": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ]
+    ],
+    "sheet_mode": "RGBA",
+    "sheet_size": [
+      1536,
+      256
+    ],
+    "sheet_alpha": [
+      0,
+      255
+    ],
+    "canonical_subject": "adult human",
+    "canonical_pass": true,
+    "animation_pass": true
+  },
+  "review": {
+    "canonical": {
+      "recognizable": true,
+      "single_subject": true,
+      "full_subject": true,
+      "correct_category": true,
+      "required_elements_visible": true,
+      "forbidden_elements_absent": true,
+      "anatomy_or_geometry": "normal",
+      "grounded_materials": true,
+      "clean_plain_background": true,
+      "clear_silhouette": true,
+      "recognized_subject": "adult human",
+      "critical_defects": [],
+      "description": "An adult human standing with hands in pockets, wearing casual clothes, with a determined look.",
+      "materials_required": false,
+      "materials_pass": true,
+      "deterministic_pass": true,
+      "label_pass": true,
+      "candidate_index": 2,
+      "seed": 3637169226,
+      "seconds": 34.531,
+      "bbox": [
+        0,
+        0,
+        640,
+        896
+      ],
+      "extraction_error": ""
+    },
+    "animation": {
+      "recognizable": true,
+      "single_subject": true,
+      "full_subject": true,
+      "correct_category": true,
+      "required_elements_visible": true,
+      "forbidden_elements_absent": true,
+      "anatomy_or_geometry": "normal",
+      "grounded_materials": true,
+      "clean_plain_background": true,
+      "clear_silhouette": true,
+      "recognized_subject": "adult human",
+      "critical_defects": [],
+      "description": "An adult human with a determined look, standing in a dimly lit room, wearing casual clothes, with a sense of urgency and defiance.",
+      "materials_required": false,
+      "materials_pass": true,
+      "deterministic_pass": true,
+      "label_pass": true
+    }
+  }
+}

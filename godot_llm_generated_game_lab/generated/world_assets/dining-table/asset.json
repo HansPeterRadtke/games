@@ -1,0 +1,119 @@
+{
+  "id": "dining_table",
+  "kind": "static_prop",
+  "name": "Dining Table",
+  "png_path": "generated/world_assets/dining-table/canonical.png",
+  "gif_path": "generated/world_assets/dining-table/animation.gif",
+  "sheet_path": "generated/world_assets/dining-table/animation.sheet.png",
+  "frame_count": 6,
+  "frame_width": 160,
+  "frame_height": 160,
+  "frame_duration_ms": 120,
+  "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+  "key": "48945c769d03274583495bea",
+  "cached": false,
+  "generation_seconds": 101.306,
+  "identity_anchored": true,
+  "motion_generated": true,
+  "verification": {
+    "png_mode": "RGBA",
+    "png_size": [
+      160,
+      160
+    ],
+    "png_alpha": [
+      0,
+      255
+    ],
+    "gif_frames": 6,
+    "gif_distinct_frames": 6,
+    "gif_alpha": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ]
+    ],
+    "sheet_mode": "RGBA",
+    "sheet_size": [
+      960,
+      160
+    ],
+    "sheet_alpha": [
+      0,
+      255
+    ],
+    "canonical_subject": "Dining Table",
+    "canonical_pass": true,
+    "animation_pass": true
+  },
+  "review": {
+    "canonical": {
+      "recognizable": true,
+      "single_subject": true,
+      "full_subject": true,
+      "correct_category": true,
+      "required_elements_visible": true,
+      "forbidden_elements_absent": true,
+      "anatomy_or_geometry": "normal",
+      "grounded_materials": true,
+      "clean_plain_background": true,
+      "clear_silhouette": true,
+      "recognized_subject": "Dining Table",
+      "critical_defects": [],
+      "description": "A long oak dining table with matching chairs, meticulously arranged, in a dimly lit dining room, with a sense of oppression and control.",
+      "materials_required": true,
+      "materials_pass": true,
+      "deterministic_pass": true,
+      "label_pass": true,
+      "candidate_index": 2,
+      "seed": 1304853175,
+      "seconds": 26.194,
+      "bbox": [
+        0,
+        0,
+        640,
+        625
+      ],
+      "extraction_error": ""
+    },
+    "animation": {
+      "recognizable": true,
+      "single_subject": true,
+      "full_subject": true,
+      "correct_category": true,
+      "required_elements_visible": true,
+      "forbidden_elements_absent": true,
+      "anatomy_or_geometry": "normal",
+      "grounded_materials": true,
+      "clean_plain_background": true,
+      "clear_silhouette": true,
+      "recognized_subject": "Dining Table",
+      "critical_defects": [],
+      "description": "A long oak dining table with matching chairs, meticulously arranged, in a dimly lit dining room, with a sense of oppression and control.",
+      "materials_required": true,
+      "materials_pass": true,
+      "deterministic_pass": true,
+      "label_pass": true
+    }
+  }
+}

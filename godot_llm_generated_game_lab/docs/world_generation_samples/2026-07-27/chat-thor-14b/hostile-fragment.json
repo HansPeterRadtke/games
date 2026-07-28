@@ -1,0 +1,26 @@
+{
+  "user_prompt": "fuck you",
+  "game_description": "Fuck You\n\nAction-Adventure\n\nIn a dystopian future, society has collapsed into a chaotic battleground where the phrase \"fuck you\" is the ultimate expression of defiance and resistance. The player takes on the role of a scavenger, navigating the ruins of a once-great city, scavenging for resources, and fighting against the oppressive remnants of the old order.\n\nThe central conflict revolves around the player's journey from a solitary survivor to a leader of a resistance movement. As the player gathers allies and resources, they must confront powerful factions that seek to crush any rebellion with brutal efficiency. The game is filled with morally grey choices and consequences that affect the player's relationships and the city's fate.\n\nThe major systems include scavenging and crafting, where the player must find and combine materials to create weapons, tools, and shelter. The player also engages in turn-based combat, where the phrase \"fuck you\" can be used as a powerful taunt to weaken enemies or rally allies. Progression involves unlocking new abilities, expanding the resistance, and uncovering secrets about the collapse of society.\n\nThe stakes are high: the player's actions determine whether the resistance can overthrow the oppressors and rebuild a new, fairer society, or if the city will remain in chaos and despair.\n\nVisually, the game features a gritty, post-apocalyptic aesthetic with muted colors, cracked buildings, and the occasional glimmer of hope in the form of makeshift shelters and hidden gardens. Audio is filled with the sounds of battle, scavenging, and the distant echoes of the city's former glory.\n\nOver time, the game becomes more complex as the player's choices shape the world and the narrative, leading to multiple endings based on the player's actions and alliances.",
+  "opening_scene": null,
+  "scene_plan": null,
+  "generation": {
+    "game_description": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 352,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 38.571,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    }
+  },
+  "saved_at_unix": 1785178988.4926174
+}

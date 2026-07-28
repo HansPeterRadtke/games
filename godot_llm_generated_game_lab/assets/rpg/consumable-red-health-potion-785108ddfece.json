@@ -1,0 +1,213 @@
+{
+  "ok": true,
+  "slug": "consumable-red-health-potion-785108ddfece",
+  "kind": "consumable",
+  "content": {
+    "kind": "consumable",
+    "name": "Red Health Potion",
+    "consumable_type": "health_potion",
+    "use_action": "drink",
+    "container": "glass_bottle",
+    "primary_color": "red",
+    "quality": "common",
+    "effect": {
+      "stat": "health",
+      "amount": 25
+    },
+    "description": "A liquid health potion to restore vitality.",
+    "asset": {
+      "structural_prompt": "one standard medieval RPG health potion in a glass bottle, red, full object, practical construction",
+      "semantic_prompt": "A small clear glass bottle with a cork stopper and a simple leather cord, containing a red liquid.",
+      "visual_prompt": "A small clear glass bottle with a cork stopper and a simple leather cord, containing a red liquid. One standard recognizable medieval RPG health potion in a glass bottle, red, practical construction, full object visible, clean silhouette, centered on plain white background, no scenery.",
+      "negative_prompt": "surreal, abstract, magical aura, extra bottles, person, hands, scenery, floor, shadow, text, watermark, green object",
+      "idle_animation_description": "The consumable remains upright and still in a neutral display position.",
+      "use_animation_description": "The character drinks the consumable and the container is removed after use.",
+      "display_style": "still",
+      "expected_labels": [
+        "health potion",
+        "glass bottle"
+      ],
+      "review_requirements": "Exactly one recognizable medieval RPG health potion in one glass bottle. The complete container and closure are visible. No person, hand, extra bottle, magical aura, scenery, text, or watermark. Clean plain solid white extraction background."
+    }
+  },
+  "generation": {
+    "provider": "nitro-llama.cpp-constrained",
+    "model": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+    "seconds": 93.75,
+    "strict_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "consumable_type": {
+          "type": "string",
+          "enum": [
+            "health_potion"
+          ]
+        },
+        "container": {
+          "type": "string",
+          "enum": [
+            "glass_bottle"
+          ]
+        },
+        "primary_color": {
+          "type": "string",
+          "enum": [
+            "red"
+          ]
+        },
+        "quality": {
+          "type": "string",
+          "enum": [
+            "common"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 30,
+          "maxLength": 170,
+          "pattern": "^.*[.!?]$"
+        },
+        "visual_description": {
+          "type": "string",
+          "minLength": 60,
+          "maxLength": 230,
+          "pattern": "^.*[.!?]$"
+        },
+        "display_style": {
+          "type": "string",
+          "enum": [
+            "still",
+            "restrained_highlight"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "consumable_type",
+        "container",
+        "primary_color",
+        "quality",
+        "description",
+        "visual_description",
+        "display_style"
+      ],
+      "additionalProperties": false
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "seconds": 36.721,
+        "errors": [
+          "'A small, transparent glass bottle with a cork stopper and a simple leather cord, the bottle is about 5 inches tall and 2 inches wide, with a rounded body and a narrow neck, the cork is made of natural wood and tied with a leather cord.' is too long",
+          "combined semantic description must mention consumable_type health potion"
+        ]
+      },
+      {
+        "attempt": 2,
+        "seconds": 30.695,
+        "errors": [
+          "combined semantic description must mention consumable_type health potion"
+        ]
+      },
+      {
+        "attempt": 3,
+        "seconds": 26.334,
+        "errors": []
+      }
+    ],
+    "base_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50
+        },
+        "consumable_type": {
+          "type": "string",
+          "enum": [
+            "health_potion",
+            "mana_potion",
+            "antidote",
+            "food"
+          ]
+        },
+        "container": {
+          "type": "string",
+          "enum": [
+            "glass_bottle",
+            "ceramic_flask",
+            "cloth_wrap",
+            "wooden_bowl"
+          ]
+        },
+        "primary_color": {
+          "type": "string",
+          "enum": [
+            "red",
+            "blue",
+            "amber",
+            "clear",
+            "brown",
+            "cream"
+          ]
+        },
+        "quality": {
+          "type": "string",
+          "enum": [
+            "common",
+            "well_made",
+            "fine"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 30,
+          "maxLength": 170,
+          "pattern": "^.*[.!?]$"
+        },
+        "visual_description": {
+          "type": "string",
+          "minLength": 60,
+          "maxLength": 230,
+          "pattern": "^.*[.!?]$"
+        },
+        "display_style": {
+          "type": "string",
+          "enum": [
+            "still",
+            "restrained_highlight"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "consumable_type",
+        "container",
+        "primary_color",
+        "quality",
+        "description",
+        "visual_description",
+        "display_style"
+      ],
+      "additionalProperties": false
+    },
+    "plan": {
+      "name": "Red Health Potion",
+      "consumable_type": "health_potion",
+      "container": "glass_bottle",
+      "primary_color": "red",
+      "quality": "common",
+      "description": "A liquid health potion to restore vitality.",
+      "visual_description": "A small clear glass bottle with a cork stopper and a simple leather cord, containing a red liquid.",
+      "display_style": "still"
+    },
+    "kind": "consumable"
+  },
+  "created_at": 1784911384.2453496
+}

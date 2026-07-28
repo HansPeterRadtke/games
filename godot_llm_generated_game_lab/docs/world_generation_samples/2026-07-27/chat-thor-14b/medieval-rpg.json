@@ -1,0 +1,26 @@
+{
+  "user_prompt": "RPG medieval game",
+  "game_description": "RPG medieval game\n\nImmersed in the sweeping landscapes of a medieval world, you assume the role of a wandering hero, bound by the ancient laws of chivalry and the quest for personal honor. Your journey is fraught with peril, from the towering spires of feudal castles to the verdant depths of enchanted forests, each step drawing you closer to the central conflict of restoring peace to a realm torn apart by warring factions.\n\nAt the heart of your adventure lie the major systems of combat, diplomacy, and exploration. Engage in turn-based battles where strategic choices can mean the difference between triumph and defeat. Forge alliances and negotiate with powerful lords and mystical creatures, shaping the political landscape with every decision. Unravel the mysteries of ancient ruins and hidden temples, uncovering powerful artifacts that can shift the balance of power.\n\nProgression in this RPG medieval game is marked by leveling up, acquiring new abilities, and gaining followers. The stakes are high as your actions determine the fate of the kingdom. Will you become a revered hero, a feared warlord, or a venerated sage?\n\nVisually, the game is a masterpiece of medieval aesthetics, with detailed character designs, intricate castle fortresses, and lush, hand-painted environments. The audio identity is rich with orchestral scores, medieval chants, and the ambient sounds of a living world. Over time, the game evolves, with new quests, side stories, and deeper interactions that keep the world vibrant and alive.",
+  "opening_scene": null,
+  "scene_plan": null,
+  "generation": {
+    "game_description": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 299,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 34.218,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    }
+  },
+  "saved_at_unix": 1785178949.920772
+}

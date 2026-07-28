@@ -1,0 +1,32 @@
+{
+  "user_prompt": "a broken umbrella, the smell of cinnamon, and Tuesday at 4:17 AM",
+  "game_description": "A Broken Umbrella\n\nA surreal puzzle-adventure game set in a dreamlike world where mundane objects hold the key to unraveling the mysteries of a forgotten past. The player takes on the role of an amnesiac wanderer who awakens in a city shrouded in perpetual twilight on Tuesday at 4:17 AM, where the streets are lined with abandoned buildings and the air is filled with the faint smell of cinnamon. The central conflict revolves around the search for identity and the restoration of a broken umbrella, which is the only tangible link to the player’s lost memories. Major systems include environmental puzzles, memory fragments, and interactions with enigmatic characters. Progression involves collecting clues scattered throughout the city, repairing the umbrella piece by piece, and unlocking the player’s suppressed memories. The stakes are high as the city begins to crumble around the player, with each puzzle solved leading to the revelation of a hidden truth.\n\nThe visual identity of the game features a muted color palette with soft, dreamy lighting. The audio identity includes ambient sounds and a haunting, melodic soundtrack that enhances the eerie atmosphere. Over time, the gameplay evolves as the player gains more insights into the world and the characters, leading to more complex puzzles and a deeper understanding of the narrative.",
+  "opening_scene": null,
+  "scene_plan": null,
+  "generation": {
+    "game_description": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 257,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 28.377,
+          "ok": false,
+          "error": "ValueError: game description omitted concrete detail terms ['4:17', 'am', 'smell', 'tuesday'] from 'a broken umbrella, the smell of cinnamon, and Tuesday at 4:17 AM'; game description omitted numeric user detail '4'; game description omitted numeric user detail '17'; raw_preview='A Broken Umbrella  A surreal puzzle-adventure game set in a dreamlike world where mundane objects hold the key to unraveling the mysteries of a forgotten past. The player takes on the role of an amnesiac wanderer who awakens in a city shrouded in perpetual twilight, where the streets are lined with abandoned buildings and the air is filled with the faint scent of cinnamon. The central conflict revolves around the search for identity and the restoration of a broken umbrella, which is the only tangible link to the player’s lost memories.  The major systems include environmental puzzles, memory fragments, and interactions with enigmatic characters. Progression involves collecting clues scattered throughout the city, repairing the umbrella piece by piece, and unlocking the player’s suppressed memories. The stakes are high as the city begins to crumble around the player, with each puzzle solv'"
+        },
+        {
+          "attempt": 2,
+          "seconds": 29.684,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    }
+  },
+  "saved_at_unix": 1785179658.714801
+}

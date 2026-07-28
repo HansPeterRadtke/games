@@ -1,0 +1,13 @@
+{
+  "kind": "static_prop",
+  "name": "Sideboard",
+  "structural_prompt": "single isolated static prop game asset representing Sideboard, complete object visible, front three-quarter view, centered, realistic proportions, clean readable silhouette",
+  "semantic_prompt": "A sideboard with a stack of clean dishes demanding attention, isolated on a clean plain white extraction background.",
+  "negative_prompt": "second subject, duplicate subject, extra limbs, missing limbs, malformed anatomy, malformed geometry, cropped subject, cut off edges, scenery, room background, landscape background, text, letters, numbers, logo, watermark, blur, low detail, abstract replacement, wrong category",
+  "animation_description": "The stack of clean dishes on the sideboard subtly shifts and repositions itself.",
+  "expected_labels": [
+    "Sideboard",
+    "static prop"
+  ],
+  "review_requirements": "Exactly one immediately recognizable static prop named Sideboard. The complete subject must be visible. It must satisfy this visual request: A sideboard with a stack of clean dishes demanding attention, isolated on a clean plain white extraction background.. Normal anatomy or geometry, plausible materials, clean plain white extraction background, clear silhouette, no second subject, scenery, text, logo, watermark, cropped subject, duplicate parts, or malformed structure."
+}

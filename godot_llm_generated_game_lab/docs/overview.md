@@ -1,0 +1,32 @@
+# Grounded RPG architecture
+
+The existing Nitro portal route `/llm_game/` remains unchanged. Apache serves the Godot WebAssembly export and provides same-origin proxies for constrained RPG generation and generated assets.
+
+Nitro owns Godot gameplay, physics, UI, Web export, Apache deployment, local llama.cpp constrained decoding, request-specific schema narrowing, semantic compilation, cross-field validation, job orchestration, persistent RPG records, and the public status and asset APIs. The service is managed by `llm-game-objects.service` on localhost port 15303.
+
+Thor owns visual generation. The repository-backed `thor_grounded_rpg_asset_service.py` is managed by `llm-game-image.service`, binds only to Thor's VPN address on port 15310, and uses the local SDXL base checkpoint. Its Python compatibility overlay is isolated under runtime storage and does not alter Thor's shared Python environment.
+
+Five public content structures are fixed: player, weapon, armor, loot, and consumable. Every schema is a closed JSON object with every property required and `additionalProperties: false`. Explicit request details such as beginner experience, body type, hair, armor construction, colors, weapon type, handedness, armor slot, material, rarity, container, and consumable color are narrowed into single-value enums before constrained decoding where applicable.
+
+The LLM writes semantic descriptions and selects allowed enums. Deterministic compilation owns numeric stats, levels, equipment slots, weapon damage types and actions, armor defense and weight, consumable effects, object interactions, structural visual prompts, negative prompts, physically appropriate animation descriptions, and machine-checkable review requirements.
+
+Player semantics are checked for equipment contradictions, negated required items, occupied empty slots, incorrect armor colors, two-handed weapon conflicts, and experience-level language. Item semantics are checked for type, material, handedness, slot, weight, rarity, container, color, and effect compatibility. Prose is required to be complete and grounded.
+
+The current player record is Eryndor Thorne, a beginner warrior with 120 HP, 90 stamina, 10 mana, 14 strength, 9 dexterity, 5 intelligence, 12 base defense, and speed 8. His equipment is chainmail, gloves, trousers, boots, one sword, and an empty off hand. His legal actions compile to slash, parry, and jump.
+
+The checked-in reviewed content set is Warrior's Blade at x=1050, Medium Chainmail Chest Armor at x=1550, Common Oak Treasure Chest at x=2150, and Red Health Potion at x=2750. Touching items equips, opens, or consumes them according to their deterministic type logic.
+
+The visual pipeline first generates a canonical SDXL image on a plain extraction background. A local multimodal Qwen reviewer evaluates recognizability, single-subject composition, complete subject visibility, correct category, required elements, forbidden elements, anatomy or geometry, grounded materials, background cleanliness, and silhouette. Only a candidate with a deterministic pass continues. SDXL image-to-image generates restrained animation frames anchored to that source. A middle frame is reviewed under the same requirements. Alpha extraction and output validation then produce transparent PNG, GIF, and sprite-sheet files.
+
+The current player has eight reviewed frames at 192 by 256 pixels. Each item has six reviewed frames at 160 by 160 pixels. All 32 frames are distinct, retain transparent and opaque pixels, and passed canonical and mid-animation review.
+
+The final Web build uses the cache marker `godot-dom-shell-rpg-v7` and an official Godot custom HTML shell. The shell owns the responsive browser interface; the Web build sets canvas resize policy to project-controlled mode, and Godot stretch mode is disabled so the Godot viewport follows the stage canvas dimensions.
+
+The page is a CSS grid containing three sibling elements: HUD, stage, and forge. The canvas is the only child render surface in the stage, and no HUD, form, joystick, or action button is a child of the canvas. The Godot CanvasLayer is hidden for Web builds. Landscape declares `hud stage forge`; portrait declares `hud`, `stage`, and `forge` as three rows. Safe-area environment variables pad notches and system bars. The HUD and forge permit vertical browser scrolling, selection, and normal form behavior; only the stage disables touch panning and browser callouts.
+
+The joystick directly ports the earlier LLM Game browser interaction model. Its DOM base is exactly 118 by 118 pixels in both tested orientations, its thumb is 48 by 48 pixels, and it uses Pointer Events, `setPointerCapture`, move, up, cancel, and lost-capture handling. The browser normalizes displacement before calling `llmGameGodotMove`, and sends zero when released. Five independent DOM action controls call `llmGameGodotAction`. The browser forge form calls `llmGameGodotForge`, while the actual HTML input remains outside the canvas and supports Android's soft keyboard.
+
+Godot creates JavaScriptBridge callback objects and publishes them on `window` for movement, actions, and forge requests. It sends a JSON state snapshot back to `window.llmGameShell.updateState` ten times per second. That snapshot contains player identity, level, HP, stamina, mana, strength, dexterity, defense, damage, score, distance, equipment, inventory, event text, forge status, content details, and busy state. A source-level bridge test exercises normalized movement, zero release, upward jump, Attack, Parry, Potion, Reset, busy-forge rejection, and invalid-kind rejection.
+
+A live Firefox WebGL2 test loaded the public page at 500 by 895 portrait. The measured DOM rectangles were 161.1 pixels for the HUD, 528.9 for the stage, and 205 for the forge. The canvas exactly filled the stage and had zero child controls. The joystick measured 118 by 118 pixels, a trusted drag changed distance from 36 m to 109 m, Attack and Parry updated the live DOM event text, and the forge input focused with `enterkeyhint=send` while remaining outside the canvas. The same session rotated without reload to 980 by 435 landscape, where the measured columns were 196 pixels for HUD, 568.4 for stage, and 215.6 for forge; the joystick remained exactly 118 by 118. Public deployment verification rejects builds missing the external panels, stage, single canvas, joystick, action pad, bridge functions, pointer capture, or either orientation grid.
+

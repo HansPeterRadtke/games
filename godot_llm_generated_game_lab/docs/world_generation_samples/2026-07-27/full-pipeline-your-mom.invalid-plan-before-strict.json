@@ -1,0 +1,282 @@
+{
+  "user_prompt": "Your Mom",
+  "game_description": "Your Mom\n\nYour Mom is a darkly humorous simulation game where the player takes on the role of an adult child trapped in an endless cycle of familial responsibility. The game world is a hyper-realistic, exaggerated version of a suburban household, complete with a demanding and often bizarrely controlling mother. The central conflict revolves around balancing daily chores, social obligations, and personal desires while dealing with your mother's unreasonable expectations and constant interference.\n\nThe major systems include a task management system, where the player must juggle a never-ending list of household duties, from washing dishes to doing laundry, all while trying to maintain a semblance of personal life. The progression is a cycle of increasingly complex and absurd demands from your mother, pushing the player to their limits. The stakes are high; failure to meet your mother's demands can result in escalating consequences, from verbal abuse to physical neglect.\n\nThe visual identity is a mix of vibrant, almost cartoon-like aesthetics for the household items and characters, contrasted with muted, oppressive tones that reflect the psychological pressure of the environment. The audio identity includes a soundtrack of eerie, unsettling melodies and the constant background noise of your mother's nagging voice.\n\nOver time, play changes as the player discovers hidden, darkly comedic ways to subvert your mother's expectations, creating a sense of rebellion and empowerment. The game encourages players to navigate the absurdity of domestic life with a blend of frustration and humor, ultimately finding a way to break free from the cycle of obligation.",
+  "opening_scene": "Dining Room\n\nYou stand in the middle of an immaculately clean yet oppressively cluttered dining room. The floor is covered in a soft, cream-colored carpet that muffles your footsteps. The walls are painted a dull beige, adorned with framed family photos that seem to leer down at you. A long oak dining table dominates the space, surrounded by matching chairs, each meticulously arranged. A chandelier hangs above, casting an eerie, flickering light that seems to mock the silence.\n\nThe air is heavy with the scent of fresh baked cookies, though they sit untouched on the counter, a constant reminder of your mother’s meticulous control over the household. Your mother herself is seated at the head of the table, her eyes narrowing as she scrutinizes you. She’s wearing an overly cheerful floral dress that clashes with her stern demeanor.\n\nThe windows are covered with heavy curtains, blocking out any natural light, leaving the room in a perpetual state of artificial brightness. The only other exit is a door leading to the kitchen, which creaks ominously when you attempt to open it.\n\nNearby, a stack of clean dishes waits on the sideboard, demanding your attention. Your mother’s voice echoes through the room, nagging you to complete your chores and reminding you of the endless list of tasks you’ve neglected.\n\nHazards include the risk of verbal abuse and physical neglect if you fail to meet your mother’s unreasonable demands. The immediate dramatic hook is the need to either placate her or find a way to subvert her control, setting the stage for a tense and humorous struggle.",
+  "scene_plan": {
+    "scene_id": "scene_01",
+    "scene_name": "Dining Room",
+    "units": "meters",
+    "visual_generator": "thor_sdxl",
+    "bounds": {
+      "min": [
+        -5,
+        0,
+        -5
+      ],
+      "max": [
+        5,
+        3,
+        5
+      ]
+    },
+    "player": {
+      "position": [
+        0,
+        1.5,
+        0
+      ],
+      "yaw_degrees": 0,
+      "facing": "forward_left"
+    },
+    "objects": [
+      {
+        "id": "chandelier",
+        "type": "light",
+        "name": "Chandelier",
+        "description": "A large, ornate chandelier hanging from the ceiling, casting eerie, flickering light.",
+        "position": [
+          0,
+          3.5,
+          0
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          1,
+          1,
+          1
+        ],
+        "collision": "none",
+        "mobility": "static",
+        "visual_usage": "none",
+        "asset_prompt": "none",
+        "animation": "none",
+        "interaction": "none",
+        "behavior": "none"
+      },
+      {
+        "id": "dining_table",
+        "type": "static_prop",
+        "name": "Dining Table",
+        "description": "A long oak dining table, surrounded by matching chairs, all meticulously arranged.",
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          2,
+          0.8,
+          2
+        ],
+        "collision": "box",
+        "mobility": "static",
+        "visual_usage": "background_layer",
+        "asset_prompt": "long oak dining table with matching chairs, meticulously arranged, viewed from above, lit by flickering chandelier light, with a sense of oppressive clutter and order.",
+        "animation": "none",
+        "interaction": "none",
+        "behavior": "none"
+      },
+      {
+        "id": "sideboard",
+        "type": "static_prop",
+        "name": "Sideboard",
+        "description": "A sideboard filled with a stack of clean dishes, waiting to be put away.",
+        "position": [
+          1,
+          0.5,
+          -1
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          1,
+          1.5,
+          0.5
+        ],
+        "collision": "box",
+        "mobility": "static",
+        "visual_usage": "background_layer",
+        "asset_prompt": "sideboard filled with clean dishes, viewed from a side angle, lit by flickering chandelier light, with a sense of oppressive tidiness and order.",
+        "animation": "none",
+        "interaction": "none",
+        "behavior": "none"
+      },
+      {
+        "id": "mother",
+        "type": "npc",
+        "name": "Your Mother",
+        "description": "Your mother, seated at the head of the table, wearing an overly cheerful floral dress that clashes with her stern demeanor.",
+        "position": [
+          0,
+          0.5,
+          0
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          0.5,
+          1.5,
+          0.5
+        ],
+        "collision": "box",
+        "mobility": "static",
+        "visual_usage": "character_sprite",
+        "asset_prompt": "mother seated at dining table, wearing overly cheerful floral dress, stern demeanor, viewed from a side angle, lit by flickering chandelier light, with a sense of oppressive control and scrutiny.",
+        "animation": "none",
+        "interaction": "none",
+        "behavior": "none"
+      },
+      {
+        "id": "carpet",
+        "type": "static_prop",
+        "name": "Carpet",
+        "description": "A soft, cream-colored carpet covering the floor, muffling your footsteps.",
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          10,
+          0.1,
+          10
+        ],
+        "collision": "box",
+        "mobility": "static",
+        "visual_usage": "background_layer",
+        "asset_prompt": "soft cream-colored carpet, covering the floor, muffling footsteps, viewed from above, lit by flickering chandelier light, with a sense of oppressive comfort and silence.",
+        "animation": "none",
+        "interaction": "none",
+        "behavior": "none"
+      },
+      {
+        "id": "window_north",
+        "type": "static_prop",
+        "name": "Window North",
+        "description": "A window covered with heavy curtains, blocking out any natural light.",
+        "position": [
+          0,
+          1.5,
+          5
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          2,
+          2,
+          0.5
+        ],
+        "collision": "box",
+        "mobility": "static",
+        "visual_usage": "background_layer",
+        "asset_prompt": "window covered with heavy curtains, blocking out natural light, viewed from a side angle, lit by flickering chandelier light, with a sense of oppressive darkness and mystery.",
+        "animation": "none",
+        "interaction": "none",
+        "behavior": "none"
+      },
+      {
+        "id": "kitchen_door",
+        "type": "static_prop",
+        "name": "Kitchen Door",
+        "description": "A door leading to the kitchen, creaking ominously when you attempt to open it.",
+        "position": [
+          0,
+          1.5,
+          -2
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          0.5,
+          2,
+          0.5
+        ],
+        "collision": "box",
+        "mobility": "static",
+        "visual_usage": "background_layer",
+        "asset_prompt": "door leading to the kitchen, creaking ominously when opened, viewed from a side angle, lit by flickering chandelier light, with a sense of oppressive darkness and mystery.",
+        "animation": "none",
+        "interaction": "none",
+        "behavior": "none"
+      }
+    ],
+    "exits": [
+      {
+        "id": "kitchen_door",
+        "position": [
+          0,
+          1.5,
+          -2
+        ],
+        "direction": "south",
+        "next_environment": "kitchen_01_name_not_provided"
+      }
+    ],
+    "source_trace": [
+      {
+        "detail": "Your Mom",
+        "object_ids": [
+          "mother"
+        ],
+        "implementation": "none}, {id: "
+      }
+    ]
+  },
+  "generation": {
+    "game_description": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 300,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 33.299,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    },
+    "opening_scene": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 320,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 35.752,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    },
+    "scene_plan": {
+      "provider": "llama.cpp-native-constrained-completion",
+      "endpoint": "http://10.8.0.7:14831/completion",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 1261,
+      "stop": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 210.062,
+          "ok": false,
+          "error": "ValueError: model returned incomplete JSON chars=6240 stop=True suffix='n, creaking ominously when you attempt to open it.\", \"position\": [0, 1.5, -2], \"yaw_degrees\": 0, \"size\": [0.5, 2, 0.5], \"collision\": \"box\", \"mobility\": \"static\", \"visual_usage\": \"background_layer\", \"asset_prompt\": \"door leading to the kitchen in a dining room, creaking ominously when opened, viewed from a side angle, lit by flickering chandelier light, with a sense of oppressive darkness and mystery.\",\"animation\": \"none\", \"interaction\": \"none\", \"behavior\": \"none\"}, {\"id\": \"window_north\", \"type\":'"
+        },
+        {
+          "attempt": 2,
+          "seconds": 146.722,
+          "ok": true
+        }
+      ],
+      "schema_constrained": true,
+      "fallback_used": false
+    }
+  }
+}

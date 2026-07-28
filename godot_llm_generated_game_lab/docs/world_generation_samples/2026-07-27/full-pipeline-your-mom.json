@@ -1,0 +1,364 @@
+{
+  "user_prompt": "Your Mom",
+  "game_description": "Your Mom\n\nYour Mom is a darkly humorous simulation game where the player takes on the role of an adult child trapped in an endless cycle of familial responsibility. The game world is a hyper-realistic, exaggerated version of a suburban household, complete with a demanding and often bizarrely controlling mother. The central conflict revolves around balancing daily chores, social obligations, and personal desires while dealing with your mother's unreasonable expectations and constant interference.\n\nThe major systems include a task management system, where the player must juggle a never-ending list of household duties, from washing dishes to doing laundry, all while trying to maintain a semblance of personal life. The progression is a cycle of increasingly complex and absurd demands from your mother, pushing the player to their limits. The stakes are high; failure to meet your mother's demands can result in escalating consequences, from verbal abuse to physical neglect.\n\nThe visual identity is a mix of vibrant, almost cartoon-like aesthetics for the household items and characters, contrasted with muted, oppressive tones that reflect the psychological pressure of the environment. The audio identity includes a soundtrack of eerie, unsettling melodies and the constant background noise of your mother's nagging voice.\n\nOver time, play changes as the player discovers hidden, darkly comedic ways to subvert your mother's expectations, creating a sense of rebellion and empowerment. The game encourages players to navigate the absurdity of domestic life with a blend of frustration and humor, ultimately finding a way to break free from the cycle of obligation.",
+  "opening_scene": "Dining Room\n\nYou stand in the middle of an immaculately clean yet oppressively cluttered dining room. The floor is covered in a soft, cream-colored carpet that muffles your footsteps. The walls are painted a dull beige, adorned with framed family photos that seem to leer down at you. A long oak dining table dominates the space, surrounded by matching chairs, each meticulously arranged. A chandelier hangs above, casting an eerie, flickering light that seems to mock the silence.\n\nThe air is heavy with the scent of fresh baked cookies, though they sit untouched on the counter, a constant reminder of your mother’s meticulous control over the household. Your mother herself is seated at the head of the table, her eyes narrowing as she scrutinizes you. She’s wearing an overly cheerful floral dress that clashes with her stern demeanor.\n\nThe windows are covered with heavy curtains, blocking out any natural light, leaving the room in a perpetual state of artificial brightness. The only other exit is a door leading to the kitchen, which creaks ominously when you attempt to open it.\n\nNearby, a stack of clean dishes waits on the sideboard, demanding your attention. Your mother’s voice echoes through the room, nagging you to complete your chores and reminding you of the endless list of tasks you’ve neglected.\n\nHazards include the risk of verbal abuse and physical neglect if you fail to meet your mother’s unreasonable demands. The immediate dramatic hook is the need to either placate her or find a way to subvert her control, setting the stage for a tense and humorous struggle.",
+  "scene_plan": {
+    "scene_id": "dining_room",
+    "scene_name": "Dining Room",
+    "units": "meters",
+    "visual_generator": "thor_sdxl",
+    "bounds": {
+      "min": [
+        -10,
+        -1,
+        -10
+      ],
+      "max": [
+        10,
+        5,
+        10
+      ]
+    },
+    "player": {
+      "id": "player",
+      "name": "Player",
+      "description": "An adult child trapped in an endless cycle of familial responsibility.",
+      "position": [
+        -1.5,
+        0,
+        0
+      ],
+      "yaw_degrees": 0,
+      "facing": "northwest",
+      "size": [
+        0.5,
+        1.8,
+        0.5
+      ],
+      "collision": "box",
+      "visual_usage": "character_sprite",
+      "asset_prompt": "An adult child with a determined look, standing in a dimly lit dining room, wearing casual clothes, with a sense of urgency and defiance.",
+      "animation": "idle_standing",
+      "interaction": "talk_to_mom",
+      "behavior": "idle_waiting"
+    },
+    "objects": [
+      {
+        "id": "mom",
+        "type": "npc",
+        "name": "Your Mom",
+        "description": "A stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze.",
+        "position": [
+          0,
+          0.9,
+          2
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          0.5,
+          1.8,
+          0.5
+        ],
+        "collision": "box",
+        "mobility": "static",
+        "visual_usage": "character_sprite",
+        "asset_prompt": "A stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze.",
+        "animation": "idle_seated",
+        "interaction": "talk_to_mom",
+        "behavior": "idle_waiting"
+      },
+      {
+        "id": "dining_table",
+        "type": "static_prop",
+        "name": "Dining Table",
+        "description": "A long oak dining table with matching chairs, meticulously arranged.",
+        "position": [
+          0,
+          0.8,
+          0
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          2.5,
+          0.8,
+          2.5
+        ],
+        "collision": "box",
+        "mobility": "static",
+        "visual_usage": "isolated_sprite",
+        "asset_prompt": "A long oak dining table with matching chairs, meticulously arranged, in a dimly lit dining room, with a sense of oppression and control.",
+        "animation": "slight_vibration",
+        "interaction": "sit_down",
+        "behavior": "idle_waiting"
+      },
+      {
+        "id": "chandelier",
+        "type": "static_prop",
+        "name": "Chandelier",
+        "description": "An eerie, flickering chandelier hanging above the dining table.",
+        "position": [
+          0,
+          3.5,
+          0
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "collision": "none",
+        "mobility": "static",
+        "visual_usage": "isolated_sprite",
+        "asset_prompt": "An eerie, flickering chandelier with a sense of mockery and unease, isolated on a clean plain white extraction background.",
+        "animation": "The chandelier's lights pulse erratically, casting an unsettling glow that dances across the background, preserving the identity and never creating duplicate parts.",
+        "interaction": "none",
+        "behavior": "idle_waiting"
+      },
+      {
+        "id": "sideboard",
+        "type": "static_prop",
+        "name": "Sideboard",
+        "description": "A sideboard with a stack of clean dishes, demanding attention.",
+        "position": [
+          3,
+          0.7,
+          -2
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          1,
+          1,
+          1
+        ],
+        "collision": "box",
+        "mobility": "static",
+        "visual_usage": "isolated_sprite",
+        "asset_prompt": "A sideboard with a stack of clean dishes demanding attention, isolated on a clean plain white extraction background.",
+        "animation": "The stack of clean dishes on the sideboard subtly shifts and repositions itself.",
+        "interaction": "clean_dishes",
+        "behavior": "idle_waiting"
+      },
+      {
+        "id": "curtains",
+        "type": "static_prop",
+        "name": "Curtains",
+        "description": "Heavy curtains blocking out natural light, leaving the room in artificial brightness.",
+        "position": [
+          0,
+          1.5,
+          0
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          10,
+          2,
+          10
+        ],
+        "collision": "none",
+        "mobility": "static",
+        "visual_usage": "isolated_sprite",
+        "asset_prompt": "Heavy curtains blocking out natural light, leaving the area in artificial brightness, isolated on a clean plain white extraction background.",
+        "animation": "The heavy curtains gently sway and shift.",
+        "interaction": "none",
+        "behavior": "idle_waiting"
+      },
+      {
+        "id": "wall_finish",
+        "type": "surface",
+        "name": "Wall Finish",
+        "description": "Dull beige walls adorned with framed family photos that seem to leer down at you.",
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          20,
+          3,
+          20
+        ],
+        "collision": "none",
+        "mobility": "static",
+        "visual_usage": "tileable_texture",
+        "asset_prompt": "A seamless sample of dull beige wall finish with a sense of oppression and control, isolated on a clean plain white extraction background.",
+        "animation": "The wall finish subtly shifts and repositions itself.",
+        "interaction": "none",
+        "behavior": "idle_waiting"
+      },
+      {
+        "id": "floor_carpet",
+        "type": "surface",
+        "name": "Floor Carpet",
+        "description": "A soft, cream-colored carpet that muffles your footsteps.",
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          20,
+          0.05,
+          20
+        ],
+        "collision": "none",
+        "mobility": "static",
+        "visual_usage": "tileable_texture",
+        "asset_prompt": "A soft, cream-colored carpet that muffles your footsteps, isolated on a clean plain white extraction background.",
+        "animation": "The carpet gently shifts and repositions itself.",
+        "interaction": "none",
+        "behavior": "idle_waiting"
+      },
+      {
+        "id": "kitchen_door",
+        "type": "static_prop",
+        "name": "Kitchen Door",
+        "description": "A door leading to the kitchen, which creaks ominously when you attempt to open it.",
+        "position": [
+          -2,
+          1.1,
+          -2
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          0.7,
+          2,
+          0.7
+        ],
+        "collision": "box",
+        "mobility": "static",
+        "visual_usage": "isolated_sprite",
+        "asset_prompt": "A kitchen door that creaks ominously when you attempt to open it, isolated on a clean plain white extraction background.",
+        "animation": "The kitchen door gently creaks and shifts.",
+        "interaction": "open_door",
+        "behavior": "idle_waiting"
+      },
+      {
+        "id": "cookies",
+        "type": "static_prop",
+        "name": "Cookies",
+        "description": "A plate of fresh baked cookies sitting untouched on the counter, a constant reminder of your mother’s meticulous control over the household.",
+        "position": [
+          2,
+          0.7,
+          -2
+        ],
+        "yaw_degrees": 0,
+        "size": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "collision": "box",
+        "mobility": "static",
+        "visual_usage": "isolated_sprite",
+        "asset_prompt": "A plate of fresh baked cookies sitting untouched, a constant reminder of meticulous control, isolated on a clean plain white extraction background.",
+        "animation": "The plate of fresh baked cookies gently shifts and repositions itself.",
+        "interaction": "eat_cookie",
+        "behavior": "idle_waiting"
+      }
+    ],
+    "exits": [
+      {
+        "id": "kitchen_door",
+        "position": [
+          -2,
+          1.1,
+          -2
+        ],
+        "direction": "northwest",
+        "next_environment": "kitchen_dining_room"
+      }
+    ],
+    "source_trace": [
+      {
+        "detail": "Your Mom",
+        "object_ids": [
+          "mom"
+        ],
+        "implementation": "Your Mom is the stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze."
+      }
+    ]
+  },
+  "generation": {
+    "game_description": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 300,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 33.299,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    },
+    "opening_scene": {
+      "provider": "llama.cpp-openai-chat-completions",
+      "endpoint": "http://10.8.0.7:14831/v1/chat/completions",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 320,
+      "stop": "stop",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 35.752,
+          "ok": true
+        }
+      ],
+      "schema_constrained": false,
+      "fallback_used": false
+    },
+    "scene_plan": {
+      "provider": "llama.cpp-native-constrained-completion",
+      "endpoint": "http://10.8.0.7:14831/completion",
+      "expected_model": "qwen2.5-14b-world-author",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 1382,
+      "stop": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "seconds": 204.326,
+          "ok": false,
+          "error": "player spawn intersects collidable object dining_table"
+        },
+        {
+          "attempt": 2,
+          "seconds": 173.352,
+          "ok": true
+        }
+      ],
+      "schema_constrained": true,
+      "repair_used": true,
+      "fallback_used": false
+    },
+    "scene_plan_animation_repair": {
+      "provider": "llama.cpp-native-constrained-completion",
+      "endpoint": "http://10.8.0.7:14831/completion",
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 33,
+      "seconds": 4.416,
+      "fallback_used": false,
+      "salvaged_candidate": true
+    },
+    "chandelier_animation_repair": {
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 35,
+      "fallback_used": false
+    },
+    "remaining_asset_prompt_repair": {
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 397,
+      "fallback_used": false
+    }
+  }
+}
