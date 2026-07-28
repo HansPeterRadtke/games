@@ -122,7 +122,7 @@ def compact(value: Any, maximum: int) -> str:
 
 def request_key(payload: dict[str, Any]) -> str:
     material = json.dumps({
-        "version": "sdxl-grounded-v4-clean-alpha",
+        "version": "sdxl-grounded-v5-segmented-alpha",
         "kind": payload.get("kind"),
         "name": payload.get("name"),
         "structural_prompt": payload.get("structural_prompt"),
@@ -186,85 +186,146 @@ def alpha_quality(rgba: Any, bg: Any) -> dict[str, Any]:
     }
 
 
-def alpha_for_frame(image: Any) -> tuple[Any, tuple[int, int, int, int], dict[str, Any]]:
+def minimum_subject_area(kind: str) -> float:
+    return 0.055 if kind in CHARACTER_KINDS else 0.012
+
+
+def _bridge_mask_components(mask: Any, component: Any, radius: int = 5) -> Any:
+    import numpy as np
+    from scipy import ndimage
+    if not np.any(mask):
+        return component.copy()
+    distance, nearest = ndimage.distance_transform_edt(~mask, return_indices=True)
+    ys, xs = np.where(component)
+    if len(xs) == 0:
+        return mask
+    values = distance[ys, xs]
+    index = int(np.argmin(values))
+    y1, x1 = int(ys[index]), int(xs[index])
+    y0, x0 = int(nearest[0, y1, x1]), int(nearest[1, y1, x1])
+    steps = max(abs(y1 - y0), abs(x1 - x0), 1)
+    bridge = np.zeros(mask.shape, dtype=bool)
+    for step in range(steps + 1):
+        fraction = step / steps
+        y = int(round(y0 + (y1 - y0) * fraction))
+        x = int(round(x0 + (x1 - x0) * fraction))
+        y_start, y_end = max(0, y - radius), min(mask.shape[0], y + radius + 1)
+        x_start, x_end = max(0, x - radius), min(mask.shape[1], x + radius + 1)
+        yy, xx = np.ogrid[y_start:y_end, x_start:x_end]
+        bridge[y_start:y_end, x_start:x_end] |= (yy - y) ** 2 + (xx - x) ** 2 <= radius ** 2
+    return mask | component | bridge
+
+
+def alpha_for_frame(image: Any, kind: str = "static_prop") -> tuple[Any, tuple[int, int, int, int], dict[str, Any]]:
     import numpy as np
     from PIL import Image
     from scipy import ndimage
 
     rgb = np.asarray(image.convert("RGB"), dtype=np.uint8)
     pixels = rgb.astype(np.float32)
+    h, w = rgb.shape[:2]
+    border_width = max(6, min(h, w) // 80)
+    border_pixels = np.concatenate([
+        pixels[:border_width, :, :].reshape(-1, 3), pixels[-border_width:, :, :].reshape(-1, 3),
+        pixels[:, :border_width, :].reshape(-1, 3), pixels[:, -border_width:, :].reshape(-1, 3),
+    ], axis=0)
+    border_brightness = border_pixels.mean(axis=1)
+    border_saturation = border_pixels.max(axis=1) - border_pixels.min(axis=1)
+    bright_neutral_border_ratio = float(np.mean((border_brightness > 145.0) & (border_saturation < 95.0)))
+    if bright_neutral_border_ratio < 0.80:
+        raise RuntimeError(f"extraction background border is not bright and neutral: {bright_neutral_border_ratio:.4f}")
+
     bg = background_color(rgb).astype(np.float32)
     distance = np.linalg.norm(pixels - bg[None, None, :], axis=2)
     brightness = pixels.mean(axis=2)
     saturation = pixels.max(axis=2) - pixels.min(axis=2)
-    # Only border-connected background is removed. This preserves white clothing and highlights inside the subject.
-    traversable = (distance < 72.0) | ((brightness > 224.0) & (saturation < 28.0) & (distance < 105.0))
+    # Only border-connected light neutral pixels are background. White subject details enclosed by the subject survive.
+    traversable = (distance < 100.0) | ((brightness > 175.0) & (saturation < 70.0))
     seeds = np.zeros(traversable.shape, dtype=bool)
-    seeds[0, :] = traversable[0, :]
-    seeds[-1, :] = traversable[-1, :]
-    seeds[:, 0] = traversable[:, 0]
-    seeds[:, -1] = traversable[:, -1]
+    seeds[:border_width, :] = traversable[:border_width, :]
+    seeds[-border_width:, :] = traversable[-border_width:, :]
+    seeds[:, :border_width] = traversable[:, :border_width]
+    seeds[:, -border_width:] = traversable[:, -border_width:]
     background = ndimage.binary_propagation(seeds, mask=traversable, structure=np.ones((3, 3), dtype=bool))
     foreground = ~background
     foreground = ndimage.binary_opening(foreground, structure=np.ones((2, 2), dtype=bool))
     foreground = ndimage.binary_closing(foreground, structure=np.ones((3, 3), dtype=bool))
-    foreground = ndimage.binary_fill_holes(foreground)
     labels, count = ndimage.label(foreground, structure=np.ones((3, 3), dtype=bool))
-    h, w = foreground.shape
-    candidates: list[tuple[float, int, int, float, float]] = []
+    components: list[tuple[float, int, int, float, float]] = []
+    minimum_component = max(90, h * w // 5000)
     for index in range(1, count + 1):
         ys, xs = np.where(labels == index)
         area = int(xs.size)
-        if area < max(90, h * w // 3500):
+        if area < minimum_component:
+            continue
+        # Background residue and clipped subjects touching the source frame are never accepted.
+        if xs.min() < border_width or xs.max() >= w - border_width or ys.min() < border_width or ys.max() >= h - border_width:
             continue
         cx, cy = float(xs.mean()), float(ys.mean())
+        if abs(cx - w / 2) > w * 0.30:
+            continue
         centrality = math.hypot((cx - w / 2) / w, (cy - h / 2) / h)
-        score = area * (1.45 - min(centrality, 1.0))
-        candidates.append((score, index, area, cx, cy))
-    if not candidates:
-        raise RuntimeError("connected background extraction found no subject")
-    candidates.sort(reverse=True)
-    best_score, best_index, best_area, best_cx, best_cy = candidates[0]
-    keep = labels == best_index
-    # Preserve meaningful components close to the main subject; discard detached background speckle.
-    for score, index, area, cx, cy in candidates[1:]:
-        distance_to_main = math.hypot((cx - best_cx) / w, (cy - best_cy) / h)
-        if area >= best_area * 0.035 and distance_to_main < 0.30:
-            keep |= labels == index
-    keep = ndimage.binary_closing(keep, structure=np.ones((3, 3), dtype=bool))
+        score = area * (1.4 - min(centrality, 0.9))
+        components.append((score, index, area, cx, cy))
+    if not components:
+        raise RuntimeError("segmentation found no centered non-border subject")
+    components.sort(reverse=True)
+    _main_score, main_index, main_area, main_cx, _main_cy = components[0]
+    keep = labels == main_index
+    selected_components = 1
+    for _score, index, area, cx, _cy in components[1:]:
+        if area < main_area * 0.05 or abs(cx - main_cx) >= w * 0.28:
+            continue
+        component = labels == index
+        distance_to_subject = float(np.min(ndimage.distance_transform_edt(~keep)[component]))
+        if distance_to_subject > max(h, w) * 0.12:
+            continue
+        keep = _bridge_mask_components(keep, component, radius=max(3, min(h, w) // 100))
+        selected_components += 1
+    keep = ndimage.binary_closing(keep, structure=np.ones((5, 5), dtype=bool), iterations=2)
     keep = ndimage.binary_fill_holes(keep)
+    labels_final, final_count = ndimage.label(keep, structure=np.ones((3, 3), dtype=bool))
+    final_areas = [int(np.sum(labels_final == index)) for index in range(1, final_count + 1)]
+    if not final_areas:
+        raise RuntimeError("segmentation produced an empty subject")
+    largest_index = int(np.argmax(final_areas)) + 1
+    keep = labels_final == largest_index
+
     # Erode the matte by roughly one pixel and feather inward, eliminating white halos.
     inside = ndimage.distance_transform_edt(keep)
     outside = ndimage.distance_transform_edt(~keep)
     signed = inside - outside
-    alpha_f = np.clip((signed - 0.35) / 1.55, 0.0, 1.0)
-    alpha_f = ndimage.gaussian_filter(alpha_f, sigma=0.35)
+    alpha_f = np.clip((signed - 0.45) / 1.45, 0.0, 1.0)
+    alpha_f = ndimage.gaussian_filter(alpha_f, sigma=0.30)
     alpha_f[alpha_f < 0.025] = 0.0
     alpha_f[alpha_f > 0.975] = 1.0
     alpha = np.round(alpha_f * 255.0).astype(np.uint8)
-    # Remove white matte color from antialiased edge pixels.
+
+    # Remove the estimated background matte from antialiased edge pixels.
     a = alpha_f[:, :, None]
     denominator = np.maximum(a, 0.08)
     unmatte = (pixels - bg[None, None, :] * (1.0 - a)) / denominator
     unmatte = np.clip(unmatte, 0, 255)
     core = alpha >= 245
     if np.any(core):
-        _dist, nearest = ndimage.distance_transform_edt(~core, return_indices=True)
+        _distance, nearest = ndimage.distance_transform_edt(~core, return_indices=True)
         nearest_rgb = unmatte[nearest[0], nearest[1]]
         edge_weight = np.clip((245.0 - alpha.astype(np.float32)) / 180.0, 0.0, 0.72)[:, :, None]
         unmatte = unmatte * (1.0 - edge_weight) + nearest_rgb * edge_weight
     unmatte[alpha == 0] = 0
     rgba = Image.fromarray(np.dstack([unmatte.astype(np.uint8), alpha]), "RGBA")
     quality = alpha_quality(rgba, bg)
+    quality["bright_neutral_border_ratio"] = round(bright_neutral_border_ratio, 5)
+    quality["selected_components"] = selected_components
     bbox = tuple(quality["bbox"])
     area_ratio = 1.0 - quality["transparent_ratio"]
-    if area_ratio < 0.018 or area_ratio > 0.72:
-        raise RuntimeError(f"subject area ratio is implausible after cleanup: {area_ratio:.4f}")
-    if quality["border_visible_ratio"] > 0.01:
-        raise RuntimeError(f"subject or background touches frame border: {quality['border_visible_ratio']:.4f}")
-    if quality["largest_component_ratio"] < 0.94:
-        raise RuntimeError(f"foreground is fragmented: {quality['largest_component_ratio']:.4f}")
-    if quality["boundary_matte_ratio"] > 0.18:
+    if area_ratio < minimum_subject_area(kind) or area_ratio > 0.58:
+        raise RuntimeError(f"subject area ratio is implausible for {kind}: {area_ratio:.4f}")
+    if quality["border_visible_ratio"] > 0.0:
+        raise RuntimeError(f"subject touches frame border: {quality['border_visible_ratio']:.4f}")
+    if quality["largest_component_ratio"] < 0.995:
+        raise RuntimeError(f"foreground remains fragmented: {quality['largest_component_ratio']:.4f}")
+    if quality["boundary_matte_ratio"] > 0.12:
         raise RuntimeError(f"white matte remains on subject boundary: {quality['boundary_matte_ratio']:.4f}")
     return rgba, bbox, quality
 
@@ -391,7 +452,7 @@ def generate_canonical(payload: dict[str, Any], key: str) -> tuple[Any, dict[str
                     bbox = (0, 0, image.width, image.height)
                     extraction_quality = {"mode": "opaque_full_frame"}
                 else:
-                    _rgba, bbox, extraction_quality = alpha_for_frame(image)
+                    _rgba, bbox, extraction_quality = alpha_for_frame(image, kind)
                 extraction_error = ""
             except Exception as exc:
                 bbox = (0, 0, 0, 0)
@@ -494,7 +555,7 @@ def process_frames(raw_frames: list[Any], kind: str, usage: str) -> tuple[list[A
     boxes: list[tuple[int, int, int, int]] = []
     qualities: list[dict[str, Any]] = []
     for frame in raw_frames:
-        rgba, bbox, quality = alpha_for_frame(frame)
+        rgba, bbox, quality = alpha_for_frame(frame, kind)
         keyed.append(rgba)
         boxes.append(bbox)
         qualities.append(quality)
