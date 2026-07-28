@@ -502,8 +502,11 @@ def validate_scene_plan(value: dict[str, Any], user_prompt: str) -> list[str]:
         usage = obj.get("visual_usage")
         expected_usage = VISUAL_USAGE_BY_TYPE.get(str(object_type))
         prompt = str(obj.get("asset_prompt", ""))
-        if expected_usage is not None and usage != expected_usage:
-            errors.append(f"object {object_id} type {object_type} requires visual_usage {expected_usage}, not {usage}")
+        allowed_usages = {expected_usage} if expected_usage is not None else set()
+        if object_type == "static_prop":
+            allowed_usages.add("background_layer")
+        if allowed_usages and usage not in allowed_usages:
+            errors.append(f"object {object_id} type {object_type} requires one of {sorted(allowed_usages)}, not {usage}")
         if visible:
             if usage == "none":
                 errors.append(f"visible object {object_id} has no visual usage")

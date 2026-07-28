@@ -1,7 +1,9 @@
 {
   "id": "kitchen_door",
   "kind": "static_prop",
+  "asset_usage": "background_layer",
   "name": "Kitchen Door",
+  "request_sha256": "6c4e2f902e4202a1f30481a48c2a38c522bbc7897367e9e8ce2311cbfaff8346",
   "png_path": "generated/world_assets/kitchen-door/canonical.png",
   "gif_path": "generated/world_assets/kitchen-door/animation.gif",
   "sheet_path": "generated/world_assets/kitchen-door/animation.sheet.png",
@@ -10,46 +12,90 @@
   "frame_height": 160,
   "frame_duration_ms": 120,
   "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-  "key": "bd7437b23a246246e3b797fd",
+  "key": "88c859e2b5edfdebd6618416",
   "cached": false,
-  "generation_seconds": 22.775,
+  "generation_seconds": 53.144,
   "identity_anchored": true,
   "motion_generated": true,
+  "processing": {
+    "mode": "opaque_full_frame",
+    "source_crop": [
+      0,
+      0,
+      640,
+      640
+    ],
+    "alpha_extrema": [
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ]
+    ],
+    "processed_frame_diff": [
+      1.2054,
+      1.2119,
+      1.198,
+      1.2125,
+      1.2174
+    ]
+  },
   "verification": {
+    "asset_usage": "background_layer",
+    "alpha_mode": "opaque",
     "png_mode": "RGBA",
     "png_size": [
       160,
       160
     ],
     "png_alpha": [
-      0,
+      255,
       255
     ],
     "gif_frames": 6,
     "gif_distinct_frames": 6,
     "gif_alpha": [
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ]
     ],
@@ -59,12 +105,14 @@
       160
     ],
     "sheet_alpha": [
-      0,
+      255,
       255
     ],
     "canonical_subject": "Kitchen Door",
     "canonical_pass": true,
-    "animation_pass": true
+    "animation_pass": true,
+    "processing_mode": "opaque_full_frame",
+    "alpha_quality": []
   },
   "review": {
     "canonical": {
@@ -80,20 +128,26 @@
       "clear_silhouette": true,
       "recognized_subject": "Kitchen Door",
       "critical_defects": [],
-      "description": "A kitchen door that creaks ominously when you attempt to open it, isolated on a clean plain white extraction background.",
+      "description": "A full-frame front view of a closed kitchen door, filled with a plausible wood or painted material, a visible handle, no white background, no transparent margin, no surrounding wall, no room scene, no text, and no camera perspective. The material must remain recognizable, continuous at every edge, physically plausible, and suitable for tiling across a game surface.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "background_layer",
+      "background_mode": "opaque_full_frame",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true,
       "candidate_index": 0,
-      "seed": 1108111816,
-      "seconds": 12.088,
+      "seed": 4194617559,
+      "seconds": 28.747,
       "bbox": [
         0,
         0,
         640,
         640
       ],
+      "extraction_quality": {
+        "mode": "opaque_full_frame"
+      },
       "extraction_error": ""
     },
     "animation": {
@@ -109,9 +163,12 @@
       "clear_silhouette": true,
       "recognized_subject": "Kitchen Door",
       "critical_defects": [],
-      "description": "A kitchen door that creaks ominously when you attempt to open it, isolated on a clean plain white extraction background.",
+      "description": "A full-frame front view of a closed kitchen door, filled with a plausible wood or painted material, a visible handle, no white background, no transparent margin, no surrounding wall, no room scene, no text, and no camera perspective. The material must remain recognizable, continuous at every edge, physically plausible, and suitable for tiling across a game surface.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "background_layer",
+      "background_mode": "opaque_full_frame",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true
     }

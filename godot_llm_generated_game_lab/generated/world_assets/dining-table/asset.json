@@ -1,7 +1,9 @@
 {
   "id": "dining_table",
   "kind": "static_prop",
+  "asset_usage": "isolated_sprite",
   "name": "Dining Table",
+  "request_sha256": "deec1ba54193d91074b7803bd6de43764b9aaacb7543c5002654a2daec900663",
   "png_path": "generated/world_assets/dining-table/canonical.png",
   "gif_path": "generated/world_assets/dining-table/animation.gif",
   "sheet_path": "generated/world_assets/dining-table/animation.sheet.png",
@@ -10,12 +12,240 @@
   "frame_height": 160,
   "frame_duration_ms": 120,
   "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-  "key": "48945c769d03274583495bea",
+  "key": "9b5e2d174a8649b6623f45d8",
   "cached": false,
-  "generation_seconds": 101.306,
+  "generation_seconds": 74.733,
   "identity_anchored": true,
   "motion_generated": true,
+  "processing": {
+    "mode": "transparent_isolated_clean",
+    "source_crop": [
+      0,
+      302,
+      410,
+      640
+    ],
+    "alpha_extrema": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ]
+    ],
+    "source_alpha_quality": [
+      {
+        "transparent_ratio": 0.83989,
+        "partial_alpha_ratio": 0.00569,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02618,
+        "bbox": [
+          16,
+          320,
+          392,
+          629
+        ],
+        "bright_neutral_border_ratio": 0.99531,
+        "selected_components": 3
+      },
+      {
+        "transparent_ratio": 0.83966,
+        "partial_alpha_ratio": 0.00567,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0267,
+        "bbox": [
+          16,
+          320,
+          392,
+          628
+        ],
+        "bright_neutral_border_ratio": 0.99531,
+        "selected_components": 3
+      },
+      {
+        "transparent_ratio": 0.83979,
+        "partial_alpha_ratio": 0.00566,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02373,
+        "bbox": [
+          16,
+          320,
+          392,
+          629
+        ],
+        "bright_neutral_border_ratio": 0.99585,
+        "selected_components": 3
+      },
+      {
+        "transparent_ratio": 0.8399,
+        "partial_alpha_ratio": 0.00567,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0241,
+        "bbox": [
+          16,
+          320,
+          392,
+          629
+        ],
+        "bright_neutral_border_ratio": 0.99536,
+        "selected_components": 3
+      },
+      {
+        "transparent_ratio": 0.83973,
+        "partial_alpha_ratio": 0.00565,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02375,
+        "bbox": [
+          16,
+          320,
+          392,
+          628
+        ],
+        "bright_neutral_border_ratio": 0.99531,
+        "selected_components": 3
+      },
+      {
+        "transparent_ratio": 0.83986,
+        "partial_alpha_ratio": 0.00568,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02448,
+        "bbox": [
+          16,
+          320,
+          392,
+          629
+        ],
+        "bright_neutral_border_ratio": 0.99531,
+        "selected_components": 3
+      }
+    ],
+    "final_alpha_quality": [
+      {
+        "transparent_ratio": 0.7766,
+        "partial_alpha_ratio": 0.02664,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02344,
+        "bbox": [
+          28,
+          48,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.77594,
+        "partial_alpha_ratio": 0.02715,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02212,
+        "bbox": [
+          28,
+          48,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.77672,
+        "partial_alpha_ratio": 0.02676,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02044,
+        "bbox": [
+          28,
+          48,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.77656,
+        "partial_alpha_ratio": 0.02656,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02208,
+        "bbox": [
+          28,
+          48,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.77633,
+        "partial_alpha_ratio": 0.02687,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02219,
+        "bbox": [
+          28,
+          48,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.77652,
+        "partial_alpha_ratio": 0.02684,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02187,
+        "bbox": [
+          28,
+          48,
+          131,
+          133
+        ]
+      }
+    ],
+    "processed_frame_diff": [
+      1.2558,
+      0.8088,
+      0.5816,
+      0.6749,
+      0.6461
+    ]
+  },
   "verification": {
+    "asset_usage": "isolated_sprite",
+    "alpha_mode": "transparent_clean",
     "png_mode": "RGBA",
     "png_size": [
       160,
@@ -64,7 +294,94 @@
     ],
     "canonical_subject": "Dining Table",
     "canonical_pass": true,
-    "animation_pass": true
+    "animation_pass": true,
+    "processing_mode": "transparent_isolated_clean",
+    "alpha_quality": [
+      {
+        "transparent_ratio": 0.7766,
+        "partial_alpha_ratio": 0.02664,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02344,
+        "bbox": [
+          28,
+          48,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.77594,
+        "partial_alpha_ratio": 0.02715,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02212,
+        "bbox": [
+          28,
+          48,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.77672,
+        "partial_alpha_ratio": 0.02676,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02044,
+        "bbox": [
+          28,
+          48,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.77656,
+        "partial_alpha_ratio": 0.02656,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02208,
+        "bbox": [
+          28,
+          48,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.77633,
+        "partial_alpha_ratio": 0.02687,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02219,
+        "bbox": [
+          28,
+          48,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.77652,
+        "partial_alpha_ratio": 0.02684,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02187,
+        "bbox": [
+          28,
+          48,
+          131,
+          133
+        ]
+      }
+    ]
   },
   "review": {
     "canonical": {
@@ -80,20 +397,39 @@
       "clear_silhouette": true,
       "recognized_subject": "Dining Table",
       "critical_defects": [],
-      "description": "A long oak dining table with matching chairs, meticulously arranged, in a dimly lit dining room, with a sense of oppression and control.",
+      "description": "A long oak dining table with matching chairs, meticulously arranged, isolated on a uniform pure-white extraction background.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "isolated_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true,
-      "candidate_index": 2,
-      "seed": 1304853175,
-      "seconds": 26.194,
+      "candidate_index": 1,
+      "seed": 4045133773,
+      "seconds": 26.067,
       "bbox": [
-        0,
-        0,
-        640,
-        625
+        16,
+        320,
+        392,
+        629
       ],
+      "extraction_quality": {
+        "transparent_ratio": 0.83989,
+        "partial_alpha_ratio": 0.00569,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02618,
+        "bbox": [
+          16,
+          320,
+          392,
+          629
+        ],
+        "bright_neutral_border_ratio": 0.99531,
+        "selected_components": 3
+      },
       "extraction_error": ""
     },
     "animation": {
@@ -109,9 +445,12 @@
       "clear_silhouette": true,
       "recognized_subject": "Dining Table",
       "critical_defects": [],
-      "description": "A long oak dining table with matching chairs, meticulously arranged, in a dimly lit dining room, with a sense of oppression and control.",
+      "description": "A long oak dining table with matching chairs, meticulously arranged, isolated on a uniform pure-white extraction background.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "isolated_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true
     }

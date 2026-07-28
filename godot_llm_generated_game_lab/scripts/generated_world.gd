@@ -1,8 +1,8 @@
 extends Node2D
 
 const DATA_PATH := "res://data/generated_world.json"
-const VIEW_SIZE := Vector2(1152.0, 648.0)
-const WORLD_MARGIN := Vector2(72.0, 82.0)
+const FALLBACK_VIEW_SIZE := Vector2(1152.0, 648.0)
+const WORLD_MARGIN := Vector2(48.0, 48.0)
 const PLAYER_SPEED := 220.0
 
 var manifest: Dictionary = {}
@@ -17,6 +17,7 @@ var plan_min := Vector3.ZERO
 var plan_max := Vector3.ONE
 var touch_move := Vector2.ZERO
 var nearby_entry: Dictionary = {}
+var generated_animations: Dictionary = {}
 var title_label: Label
 var status_label: Label
 var detail_label: Label
@@ -43,6 +44,10 @@ func _physics_process(_delta: float) -> void:
         return
     var direction := touch_move
     direction += Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+    direction += Vector2(
+        float(Input.is_physical_key_pressed(KEY_D)) - float(Input.is_physical_key_pressed(KEY_A)),
+        float(Input.is_physical_key_pressed(KEY_S)) - float(Input.is_physical_key_pressed(KEY_W))
+    )
     if direction.length() > 1.0:
         direction = direction.normalized()
     player.velocity = direction * PLAYER_SPEED
@@ -92,6 +97,12 @@ func _load_generated_manifest() -> bool:
             return false
     return true
 
+func _layout_view_size() -> Vector2:
+    var size := get_viewport_rect().size
+    if size.x < 100.0 or size.y < 100.0:
+        return FALLBACK_VIEW_SIZE
+    return size
+
 func _configure_projection() -> void:
     var bounds: Dictionary = plan.get("bounds", {})
     var minimum: Array = bounds.get("min", [-5.0, 0.0, -5.0])
@@ -100,13 +111,51 @@ func _configure_projection() -> void:
     plan_max = Vector3(float(maximum[0]), float(maximum[1]), float(maximum[2]))
     var span_x := maxf(1.0, plan_max.x - plan_min.x)
     var span_z := maxf(1.0, plan_max.z - plan_min.z)
-    var usable := VIEW_SIZE - WORLD_MARGIN * 2.0
+    var view_size := _layout_view_size()
+    var usable := Vector2(maxf(100.0, view_size.x - WORLD_MARGIN.x * 2.0), maxf(100.0, view_size.y - WORLD_MARGIN.y * 2.0))
     projection_scale = minf(usable.x / span_x, usable.y / span_z)
-    projection_origin = WORLD_MARGIN - Vector2(plan_min.x, plan_min.z) * projection_scale
+    var projected_size := Vector2(span_x, span_z) * projection_scale
+    var centering := (usable - projected_size) * 0.5
+    projection_origin = WORLD_MARGIN + centering - Vector2(plan_min.x, plan_min.z) * projection_scale
 
 func _project(position_value: Variant) -> Vector2:
     var position: Array = position_value if position_value is Array else [0.0, 0.0, 0.0]
     return projection_origin + Vector2(float(position[0]), float(position[2])) * projection_scale
+
+func _room_rect() -> Rect2:
+    var top_left := _project([plan_min.x, 0.0, plan_min.z])
+    var bottom_right := _project([plan_max.x, 0.0, plan_max.z])
+    return Rect2(top_left, bottom_right - top_left)
+
+func _entry_role(entry: Dictionary) -> String:
+    var object_id := str(entry.get("id", "")).to_lower()
+    var name := str(entry.get("name", "")).to_lower()
+    var description := str(entry.get("description", "")).to_lower()
+    var combined := object_id + " " + name + " " + description
+    if str(entry.get("visual_usage", "")) == "tileable_texture":
+        return "wall" if "wall" in combined else "floor"
+    if "curtain" in combined:
+        return "wall_hanging"
+    if "door" in combined:
+        return "wall_object"
+    if "chandelier" in combined or "ceiling" in combined:
+        return "ceiling_fixture"
+    return "world_object"
+
+func _screen_position(entry: Dictionary) -> Vector2:
+    var role := _entry_role(entry)
+    var room := _room_rect()
+    var wall_height := room.size.y * 0.34
+    var projected := _project(entry.get("position", [0.0, 0.0, 0.0]))
+    if role == "wall":
+        return Vector2(room.get_center().x, room.position.y + wall_height * 0.5)
+    if role == "floor":
+        return Vector2(room.get_center().x, room.position.y + wall_height + (room.size.y - wall_height) * 0.5)
+    if role == "wall_hanging":
+        return Vector2(room.get_center().x, room.position.y + wall_height * 0.56)
+    if role == "wall_object":
+        return Vector2(projected.x, room.position.y + wall_height * 0.64)
+    return projected
 
 func _build_room_background() -> void:
     world_layer = Node2D.new()
@@ -116,7 +165,7 @@ func _build_room_background() -> void:
     var background := ColorRect.new()
     background.name = "GeneratedRoomBackdrop"
     background.position = Vector2.ZERO
-    background.size = VIEW_SIZE
+    background.size = _layout_view_size()
     background.color = Color("151112")
     background.mouse_filter = Control.MOUSE_FILTER_IGNORE
     add_child(background)
@@ -145,26 +194,23 @@ func _build_generated_objects() -> void:
         var asset: Dictionary = assets.get(object_id, {})
         var holder := Node2D.new()
         holder.name = ("Generated_%s" % object_id).validate_node_name()
-        holder.position = _project(entry.get("position", [0.0, 0.0, 0.0]))
+        holder.position = _screen_position(entry)
         holder.set_meta("entry", entry.duplicate(true))
         holder.set_meta("generated_asset", asset.duplicate(true))
-        if str(entry.get("visual_usage", "")) == "tileable_texture":
-            holder.z_index = -100
+        var role := _entry_role(entry)
+        if role == "wall":
+            holder.z_index = -140
+        elif role == "floor":
+            holder.z_index = -130
+        elif role == "wall_hanging":
+            holder.z_index = -90
         else:
             holder.z_index = int(holder.position.y)
         world_layer.add_child(holder)
         var animation := _make_animation(asset, entry)
         animation.name = "GeneratedAnimation"
         holder.add_child(animation)
-        var label := Label.new()
-        label.name = "GeneratedLabel"
-        label.text = str(entry.get("name", object_id))
-        label.position = Vector2(-80.0, -_display_height(entry) * 0.55 - 20.0)
-        label.size = Vector2(160.0, 22.0)
-        label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-        label.add_theme_font_size_override("font_size", 12)
-        label.modulate = Color("f6e8cf")
-        holder.add_child(label)
+        generated_animations[object_id] = {"node": animation, "entry": entry.duplicate(true)}
         var blocking_type := str(entry.get("type", "")) not in ["terrain", "surface", "water"]
         if str(entry.get("collision", "none")) != "none" and blocking_type:
             _add_static_collision(holder, entry)
@@ -184,6 +230,7 @@ func _build_generated_player() -> void:
     player_sprite = _make_animation(asset, entry)
     player_sprite.name = "GeneratedPlayerAnimation"
     player.add_child(player_sprite)
+    generated_animations[object_id] = {"node": player_sprite, "entry": entry.duplicate(true)}
     var collision := CollisionShape2D.new()
     collision.name = "GeneratedPlayerCollision"
     var shape := CapsuleShape2D.new()
@@ -208,7 +255,7 @@ func _make_animation(asset: Dictionary, entry: Dictionary) -> AnimatedSprite2D:
     frames.remove_animation("default")
     frames.add_animation("generated")
     frames.set_animation_loop("generated", true)
-    frames.set_animation_speed("generated", 1000.0 / float(max(60, int(asset.get("frame_duration_ms", 120)))))
+    frames.set_animation_speed("generated", maxf(6.0, 1000.0 / float(max(60, int(asset.get("frame_duration_ms", 120))))))
     if texture != null:
         for index in range(count):
             var atlas := AtlasTexture.new()
@@ -218,11 +265,16 @@ func _make_animation(asset: Dictionary, entry: Dictionary) -> AnimatedSprite2D:
     var animation := AnimatedSprite2D.new()
     animation.sprite_frames = frames
     animation.centered = true
+    animation.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     var desired := _display_size(entry)
     animation.scale = Vector2(desired.x / maxf(1.0, float(width)), desired.y / maxf(1.0, float(height)))
-    var model_position: Array = entry.get("position", [0.0, 0.0, 0.0])
-    var vertical_offset := float(model_position[1]) * projection_scale * 0.45
-    animation.position.y = -desired.y * 0.42 - vertical_offset
+    var role := _entry_role(entry)
+    if role in ["wall", "floor", "wall_hanging"]:
+        animation.position = Vector2.ZERO
+    else:
+        var model_position: Array = entry.get("position", [0.0, 0.0, 0.0])
+        var vertical_offset := float(model_position[1]) * projection_scale * 0.45
+        animation.position.y = -desired.y * 0.42 - vertical_offset
     animation.play("generated")
     return animation
 
@@ -233,11 +285,23 @@ func _size_vector(entry: Dictionary) -> Vector3:
 func _display_size(entry: Dictionary) -> Vector2:
     var size := _size_vector(entry)
     var usage := str(entry.get("visual_usage", "isolated_sprite"))
+    var role := _entry_role(entry)
+    var room := _room_rect()
+    var wall_height := room.size.y * 0.34
+    if role == "wall":
+        return Vector2(room.size.x, wall_height)
+    if role == "floor":
+        return Vector2(room.size.x, room.size.y - wall_height)
+    if role == "wall_hanging":
+        return Vector2(minf(room.size.x * 0.72, maxf(180.0, size.x * projection_scale)), wall_height * 0.78)
+    if role == "wall_object":
+        return Vector2(maxf(82.0, size.x * projection_scale * 2.2), maxf(138.0, size.y * projection_scale * 2.8))
     if usage == "character_sprite":
-        return Vector2(maxf(44.0, size.x * projection_scale), maxf(78.0, size.y * projection_scale))
-    if usage == "tileable_texture":
-        return Vector2(maxf(72.0, size.x * projection_scale), maxf(54.0, size.z * projection_scale))
-    return Vector2(maxf(46.0, size.x * projection_scale), maxf(46.0, maxf(size.y, size.z) * projection_scale))
+        return Vector2(maxf(96.0, size.x * projection_scale * 2.0), maxf(158.0, size.y * projection_scale * 2.0))
+    if role == "ceiling_fixture":
+        return Vector2(maxf(76.0, size.x * projection_scale * 2.0), maxf(76.0, size.y * projection_scale * 2.0))
+    return Vector2(maxf(68.0, size.x * projection_scale * 1.45), maxf(68.0, size.y * projection_scale * 1.45))
+
 
 func _display_height(entry: Dictionary) -> float:
     return _display_size(entry).y
@@ -256,36 +320,22 @@ func _add_static_collision(holder: Node2D, entry: Dictionary) -> void:
     body.add_child(collision)
 
 func _build_overlay() -> void:
-    var canvas := CanvasLayer.new()
-    canvas.name = "GeneratedWorldInterface"
-    canvas.layer = 20
-    add_child(canvas)
-    var panel := ColorRect.new()
-    panel.position = Vector2(16.0, 14.0)
-    panel.size = Vector2(490.0, 116.0)
-    panel.color = Color(0.04, 0.03, 0.035, 0.88)
-    canvas.add_child(panel)
     title_label = Label.new()
-    title_label.position = Vector2(16.0, 10.0)
-    title_label.size = Vector2(458.0, 26.0)
+    title_label.name = "GeneratedTitleState"
     title_label.text = "%s · %s" % [str(manifest.get("user_prompt", "Generated Game")), str(plan.get("scene_name", "Generated Scene"))]
-    title_label.add_theme_font_size_override("font_size", 20)
-    title_label.modulate = Color("f1c782")
-    panel.add_child(title_label)
+    title_label.visible = false
+    add_child(title_label)
     status_label = Label.new()
-    status_label.position = Vector2(16.0, 42.0)
-    status_label.size = Vector2(458.0, 24.0)
+    status_label.name = "GeneratedStatusState"
     status_label.text = "All visible assets are reviewed Thor SDXL animations. Move with WASD or arrows; Enter interacts."
-    status_label.add_theme_font_size_override("font_size", 13)
-    panel.add_child(status_label)
+    status_label.visible = false
+    add_child(status_label)
     detail_label = Label.new()
-    detail_label.position = Vector2(16.0, 70.0)
-    detail_label.size = Vector2(458.0, 38.0)
-    detail_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    detail_label.name = "GeneratedDetailState"
     detail_label.text = str(plan.get("player", {}).get("interaction", "Explore the generated scene."))
-    detail_label.add_theme_font_size_override("font_size", 12)
-    detail_label.modulate = Color("d8cbb8")
-    panel.add_child(detail_label)
+    detail_label.visible = false
+    add_child(detail_label)
+
 
 func _update_nearby_interaction() -> void:
     if player == null:
@@ -345,6 +395,38 @@ func _on_web_forge(_args: Array) -> void:
     if status_label != null:
         status_label.text = "This build displays the fully generated opening scene; runtime continuation generation is the next environment step."
 
+func _visible_object_state() -> Array:
+    var result: Array = []
+    for object_id in generated_animations.keys():
+        var record: Dictionary = generated_animations[object_id]
+        var animation: AnimatedSprite2D = record.get("node")
+        var entry: Dictionary = record.get("entry", {})
+        if animation == null:
+            continue
+        var size := _display_size(entry)
+        var center := animation.global_position
+        var frame_count := 0
+        var texture_loaded := false
+        if animation.sprite_frames != null and animation.sprite_frames.has_animation("generated"):
+            frame_count = animation.sprite_frames.get_frame_count("generated")
+            if frame_count > 0:
+                texture_loaded = animation.sprite_frames.get_frame_texture("generated", clampi(animation.frame, 0, frame_count - 1)) != null
+        result.append({
+            "id": str(object_id),
+            "name": str(entry.get("name", object_id)),
+            "x": center.x - size.x * 0.5,
+            "y": center.y - size.y * 0.5,
+            "width": size.x,
+            "height": size.y,
+            "frame": animation.frame,
+            "frame_count": frame_count,
+            "playing": animation.is_playing(),
+            "visible": animation.visible and animation.modulate.a > 0.01,
+            "texture_loaded": texture_loaded,
+            "usage": str(entry.get("visual_usage", "")),
+        })
+    return result
+
 func _publish_web_state() -> void:
     if not OS.has_feature("web") or player == null:
         return
@@ -379,6 +461,10 @@ func _publish_web_state() -> void:
         "forge_busy": false,
         "viewport_width": int(get_viewport_rect().size.x),
         "viewport_height": int(get_viewport_rect().size.y),
+        "player_x": player.position.x,
+        "player_y": player.position.y,
+        "animation_frame": player_sprite.frame if player_sprite != null else -1,
+        "visible_objects": _visible_object_state(),
     }
     shell.updateState(JSON.stringify(payload))
 

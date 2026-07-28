@@ -114,7 +114,7 @@ usage_plan = json.loads(json.dumps(compact_plan))
 usage_plan["objects"][0]["type"] = "npc"
 usage_plan["objects"][0]["visual_usage"] = "isolated_sprite"
 usage_errors = world.validate_scene_plan(usage_plan, "Your Mom")
-assert any("requires visual_usage character_sprite" in error for error in usage_errors)
+assert any("requires one of" in error and "character_sprite" in error for error in usage_errors)
 overlap_plan = json.loads(json.dumps(compact_plan))
 overlap_plan["player"]["position"] = overlap_plan["objects"][0]["position"]
 overlap_errors = world.validate_scene_plan(overlap_plan, "Your Mom")
@@ -137,6 +137,12 @@ no_animation_plan = json.loads(json.dumps(compact_plan))
 no_animation_plan["objects"][0]["animation"] = "none"
 no_animation_errors = world.validate_scene_plan(no_animation_plan, "Your Mom")
 assert any("lacks a concrete generated animation description" in error for error in no_animation_errors)
+
+
+background_prop = json.loads(json.dumps(compact_plan))
+background_prop["objects"][0]["visual_usage"] = "background_layer"
+background_prop["objects"][0]["asset_prompt"] = "opaque full-frame curtain wall layer with stable dark fabric folds"
+assert world.validate_scene_plan(background_prop, "Your Mom") == []
 
 assert world.SCENE_PLAN_SCHEMA["additionalProperties"] is False
 source = (ROOT / "server/world_generation.py").read_text()

@@ -64,8 +64,8 @@ def _structural_prompt(entry: dict[str, Any], kind: str) -> str:
         )
     if usage == "tileable_texture":
         return (
-            f"single square game texture asset representing {name}, complete material sample visible, "
-            "orthographic view, centered, clean readable edges, no surrounding scene"
+            f"seamless square game material texture representing {name}, edge-to-edge continuous surface, "
+            "orthographic flat view, no border, no margin, no surrounding scene, no isolated object"
         )
     if usage == "effect_sprite":
         return (
@@ -85,6 +85,9 @@ def build_asset_payload(entry: dict[str, Any], *, is_player: bool = False) -> di
     name = _compact(entry.get("name"), 100)
     if len(name) < 2:
         raise ValueError("generated visual is missing a usable name")
+    usage = "character_sprite" if is_player else _compact(entry.get("visual_usage"), 40)
+    if usage not in {"character_sprite", "isolated_sprite", "effect_sprite", "tileable_texture", "background_layer"}:
+        raise ValueError(f"unsupported generated visual usage {usage!r}")
     asset_prompt = _compact(entry.get("asset_prompt"), 700)
     description = _compact(entry.get("description"), 360)
     animation = _compact(entry.get("animation"), 300).replace("_", " ")
@@ -94,25 +97,39 @@ def build_asset_payload(entry: dict[str, Any], *, is_player: bool = False) -> di
         raise ValueError(f"{name} has an underspecified animation description")
     expected = _expected_labels(entry, kind)
     readable_kind = kind.replace("_", " ")
-    review = (
-        f"Exactly one immediately recognizable {readable_kind} named {name}. The complete subject must be visible. "
-        f"It must satisfy this visual request: {asset_prompt}. "
-        "Normal anatomy or geometry, plausible materials, clean plain white extraction background, clear silhouette, "
-        "no second subject, scenery, text, logo, watermark, cropped subject, duplicate parts, or malformed structure."
-    )
+    if usage in {"tileable_texture", "background_layer"}:
+        review = (
+            f"One seamless edge-to-edge full-frame material texture for {name}. The entire frame must contain only the requested material: {asset_prompt}. "
+            "No white border, white margin, transparent cutout, isolated object, perspective room scene, horizon, text, logo, watermark, or framing. "
+            "The material must remain recognizable, continuous at every edge, physically plausible, and suitable for tiling across a game surface."
+        )
+        negative = (
+            "white border, white margin, transparent cutout, isolated object, centered object, room scene, landscape, horizon, "
+            "perspective, frame, text, letters, numbers, logo, watermark, blur, low detail, broken tiling, seam"
+        )
+    else:
+        review = (
+            f"Exactly one immediately recognizable {readable_kind} named {name}. The complete subject must be visible. "
+            f"It must satisfy this visual request: {asset_prompt}. "
+            "Normal anatomy or geometry, plausible materials, uniform pure-white extraction background, clean silhouette, "
+            "no halo, background noise, shadow field, second subject, scenery, text, logo, watermark, cropped subject, duplicate parts, or malformed structure."
+        )
+        negative = (
+            "second subject, duplicate subject, extra limbs, missing limbs, malformed anatomy, malformed geometry, cropped subject, cut off edges, "
+            "scenery, room background, landscape background, gray halo, white halo, background noise, textured background, shadow field, gradient, "
+            "text, letters, numbers, logo, watermark, blur, low detail, abstract replacement, wrong category"
+        )
     return {
         "kind": kind,
+        "asset_usage": usage,
         "name": name,
         "structural_prompt": _structural_prompt(entry, kind),
         "semantic_prompt": asset_prompt,
-        "negative_prompt": (
-            "second subject, duplicate subject, extra limbs, missing limbs, malformed anatomy, malformed geometry, "
-            "cropped subject, cut off edges, scenery, room background, landscape background, text, letters, numbers, "
-            "logo, watermark, blur, low detail, abstract replacement, wrong category"
-        ),
+        "negative_prompt": negative,
         "animation_description": animation,
         "expected_labels": expected,
         "review_requirements": review,
+        "source_description": description,
     }
 
 
@@ -138,12 +155,16 @@ def verify_asset_files(png_path: Path, gif_path: Path, sheet_path: Path, meta: d
     frame_count = int(meta.get("frame_count", 0))
     frame_width = int(meta.get("frame_width", 0))
     frame_height = int(meta.get("frame_height", 0))
+    usage = str(meta.get("asset_usage", "isolated_sprite"))
+    opaque = usage in {"tileable_texture", "background_layer"}
+    expected_alpha = (255, 255) if opaque else (0, 255)
     if frame_count < 6 or frame_width < 64 or frame_height < 64:
         raise RuntimeError("Thor asset metadata has invalid frame geometry")
     with Image.open(png_path) as image:
         png_mode = image.mode
         png_size = image.size
-        png_alpha = image.convert("RGBA").getchannel("A").getextrema()
+        png_rgba = image.convert("RGBA")
+        png_alpha = png_rgba.getchannel("A").getextrema()
     with Image.open(gif_path) as image:
         frames = [frame.copy().convert("RGBA") for frame in ImageSequence.Iterator(image)]
         gif_loop = image.info.get("loop")
@@ -152,21 +173,49 @@ def verify_asset_files(png_path: Path, gif_path: Path, sheet_path: Path, meta: d
     with Image.open(sheet_path) as image:
         sheet_mode = image.mode
         sheet_size = image.size
-        sheet_alpha = image.convert("RGBA").getchannel("A").getextrema()
+        sheet_rgba = image.convert("RGBA")
+        sheet_alpha = sheet_rgba.getchannel("A").getextrema()
     canonical = meta.get("canonical_review", {}).get("selected_review", {})
     animation = meta.get("animation", {}).get("mid_frame_review", {})
+    processing = meta.get("processing", {})
     failures: list[str] = []
-    if png_mode != "RGBA" or png_alpha != (0, 255): failures.append("canonical PNG transparency failed")
-    if len(frames) != frame_count or gif_loop != 0: failures.append("GIF frame count or loop failed")
-    if len(hashes) < max(3, frame_count // 2): failures.append("GIF lacks enough distinct generated frames")
-    if any(alpha != (0, 255) for alpha in gif_alpha): failures.append("GIF transparency failed")
-    if sheet_mode != "RGBA" or sheet_size != (frame_count * frame_width, frame_height) or sheet_alpha != (0, 255): failures.append("sprite sheet validation failed")
-    if canonical.get("deterministic_pass") is not True: failures.append("canonical visual review failed")
-    if animation.get("deterministic_pass") is not True: failures.append("animation visual review failed")
-    if meta.get("identity_anchored") is not True or meta.get("motion_generated") is not True: failures.append("identity-anchored generated motion metadata failed")
+    if png_mode != "RGBA" or png_alpha != expected_alpha:
+        failures.append(f"canonical PNG alpha mode failed for {usage}: {png_alpha}")
+    if len(frames) != frame_count or gif_loop != 0:
+        failures.append("GIF frame count or loop failed")
+    if len(hashes) < max(3, frame_count // 2):
+        failures.append("GIF lacks enough distinct generated frames")
+    if any(alpha != expected_alpha for alpha in gif_alpha):
+        failures.append(f"GIF alpha mode failed for {usage}: {gif_alpha}")
+    if sheet_mode != "RGBA" or sheet_size != (frame_count * frame_width, frame_height) or sheet_alpha != expected_alpha:
+        failures.append(f"sprite sheet validation failed for {usage}")
+    if canonical.get("deterministic_pass") is not True:
+        failures.append("canonical visual review failed")
+    if animation.get("deterministic_pass") is not True:
+        failures.append("animation visual review failed")
+    if meta.get("identity_anchored") is not True or meta.get("motion_generated") is not True:
+        failures.append("identity-anchored generated motion metadata failed")
+    if opaque:
+        if processing.get("mode") != "opaque_full_frame":
+            failures.append("surface texture was not processed as opaque full-frame")
+    else:
+        if processing.get("mode") != "transparent_isolated_clean":
+            failures.append("isolated asset was not processed with clean transparency")
+        quality = processing.get("final_alpha_quality", [])
+        if len(quality) != frame_count:
+            failures.append("clean-alpha quality metadata is missing")
+        for index, item in enumerate(quality):
+            if float(item.get("border_visible_ratio", 1.0)) > 0.0:
+                failures.append(f"frame {index} touches the border")
+            if float(item.get("boundary_matte_ratio", 1.0)) > 0.12:
+                failures.append(f"frame {index} retains white matte")
+            if float(item.get("largest_component_ratio", 0.0)) < 0.96:
+                failures.append(f"frame {index} contains detached background noise")
     if failures:
         raise RuntimeError("; ".join(failures))
     return {
+        "asset_usage": usage,
+        "alpha_mode": "opaque" if opaque else "transparent_clean",
         "png_mode": png_mode,
         "png_size": list(png_size),
         "png_alpha": list(png_alpha),
@@ -179,6 +228,8 @@ def verify_asset_files(png_path: Path, gif_path: Path, sheet_path: Path, meta: d
         "canonical_subject": canonical.get("recognized_subject"),
         "canonical_pass": True,
         "animation_pass": True,
+        "processing_mode": processing.get("mode"),
+        "alpha_quality": processing.get("final_alpha_quality", []),
     }
 
 
@@ -189,25 +240,30 @@ def generate_one(entry: dict[str, Any], output_dir: Path, *, is_player: bool = F
     target = output_dir / safe_id(object_id)
     target.mkdir(parents=True, exist_ok=True)
     payload = build_asset_payload(entry, is_player=is_player)
+    payload_text = json.dumps(payload, ensure_ascii=False, sort_keys=True, indent=2) + "\n"
+    payload_hash = hashlib.sha256(payload_text.encode("utf-8")).hexdigest()
     request_path = target / "request.json"
     png_path = target / "canonical.png"
     gif_path = target / "animation.gif"
     sheet_path = target / "animation.sheet.png"
     metadata_path = target / "asset.json"
-    if metadata_path.exists() and png_path.exists() and gif_path.exists() and sheet_path.exists():
+    existing_request = request_path.read_text(encoding="utf-8") if request_path.exists() else ""
+    if metadata_path.exists() and png_path.exists() and gif_path.exists() and sheet_path.exists() and existing_request == payload_text:
         existing = json.loads(metadata_path.read_text(encoding="utf-8"))
         verify_asset_files(png_path, gif_path, sheet_path, {
             "frame_count": existing.get("frame_count"),
             "frame_width": existing.get("frame_width"),
             "frame_height": existing.get("frame_height"),
+            "asset_usage": existing.get("asset_usage"),
             "canonical_review": {"selected_review": existing.get("review", {}).get("canonical", {})},
             "animation": {"mid_frame_review": existing.get("review", {}).get("animation", {})},
+            "processing": existing.get("processing", {}),
             "identity_anchored": existing.get("identity_anchored"),
             "motion_generated": existing.get("motion_generated"),
         })
         existing["cached_local"] = True
         return existing
-    request_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    request_path.write_text(payload_text, encoding="utf-8")
     value = _post_generate(payload)
     png_path.write_bytes(base64.b64decode(value.pop("png_b64"), validate=True))
     gif_path.write_bytes(base64.b64decode(value.pop("gif_b64"), validate=True))
@@ -216,7 +272,9 @@ def generate_one(entry: dict[str, Any], output_dir: Path, *, is_player: bool = F
     metadata = {
         "id": object_id,
         "kind": payload["kind"],
+        "asset_usage": payload["asset_usage"],
         "name": payload["name"],
+        "request_sha256": payload_hash,
         "png_path": str(png_path),
         "gif_path": str(gif_path),
         "sheet_path": str(sheet_path),
@@ -230,6 +288,7 @@ def generate_one(entry: dict[str, Any], output_dir: Path, *, is_player: bool = F
         "generation_seconds": value.get("generation_seconds"),
         "identity_anchored": value.get("identity_anchored"),
         "motion_generated": value.get("motion_generated"),
+        "processing": value.get("processing", {}),
         "verification": verification,
         "review": {
             "canonical": value.get("canonical_review", {}).get("selected_review", {}),

@@ -8,6 +8,7 @@ for token in ['res://data/generated_world.json','thor-sdxl-reviewed-identity-anc
 assert 'res://scripts/generated_world.gd' in scene
 assert 'Placeholder' not in script
 assert 'fallback scene' in script
-assert 'holder.z_index = -100' in script
+assert 'holder.z_index = -140' in script
+assert 'holder.z_index = -130' in script
 assert 'vertical_offset' in script
 print('generated world runtime contracts passed')

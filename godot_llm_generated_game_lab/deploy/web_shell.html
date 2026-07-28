@@ -363,6 +363,12 @@
           text('event-text', state.event || 'Ready.');
           text('control-status', state.forge_busy ? (state.forge_status || 'Generating reviewed world object…') : (state.event || state.forge_status || 'World ready.'));
           app.dataset.layout = matchMedia('(orientation:portrait)').matches ? 'portrait' : 'landscape';
+          app.dataset.playerX = String(state.player_x ?? '');
+          app.dataset.playerY = String(state.player_y ?? '');
+          app.dataset.animationFrame = String(state.animation_frame ?? '');
+          app.dataset.internalWidth = String(state.viewport_width ?? '');
+          app.dataset.internalHeight = String(state.viewport_height ?? '');
+          app.dataset.visibleObjects = JSON.stringify(state.visible_objects || []);
         }
       };
 

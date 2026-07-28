@@ -37,8 +37,8 @@
       ],
       "collision": "box",
       "visual_usage": "character_sprite",
-      "asset_prompt": "An adult child with a determined look, standing in a dimly lit dining room, wearing casual clothes, with a sense of urgency and defiance.",
-      "animation": "idle_standing",
+      "asset_prompt": "An adult child with a determined look, standing alone, wearing casual clothes, on a uniform pure-white extraction background, with a sense of urgency and defiance.",
+      "animation": "The adult child shifts slightly, maintaining a determined look and stance, in a short loop.",
       "interaction": "talk_to_mom",
       "behavior": "idle_waiting"
     },
@@ -62,8 +62,8 @@
         "collision": "box",
         "mobility": "static",
         "visual_usage": "character_sprite",
-        "asset_prompt": "A stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze.",
-        "animation": "idle_seated",
+        "asset_prompt": "A stern woman in a cheerful floral dress, seated alone, with a critical gaze, on a uniform pure-white extraction background.",
+        "animation": "The stern woman shifts slightly in her seated position, maintaining her critical gaze, in a short loop.",
         "interaction": "talk_to_mom",
         "behavior": "idle_waiting"
       },
@@ -86,8 +86,8 @@
         "collision": "box",
         "mobility": "static",
         "visual_usage": "isolated_sprite",
-        "asset_prompt": "A long oak dining table with matching chairs, meticulously arranged, in a dimly lit dining room, with a sense of oppression and control.",
-        "animation": "slight_vibration",
+        "asset_prompt": "A long oak dining table with matching chairs, meticulously arranged, isolated on a uniform pure-white extraction background.",
+        "animation": "The dining table and chairs subtly shift and reposition themselves.",
         "interaction": "sit_down",
         "behavior": "idle_waiting"
       },
@@ -110,8 +110,8 @@
         "collision": "none",
         "mobility": "static",
         "visual_usage": "isolated_sprite",
-        "asset_prompt": "An eerie, flickering chandelier with a sense of mockery and unease, isolated on a clean plain white extraction background.",
-        "animation": "The chandelier's lights pulse erratically, casting an unsettling glow that dances across the background, preserving the identity and never creating duplicate parts.",
+        "asset_prompt": "One isolated complete chandelier on a uniform pure-white extraction background with no room or scenery.",
+        "animation": "The chandelier's body sways gently while its bulbs brighten and dim in a continuous loop, maintaining its exact identity and geometry.",
         "interaction": "none",
         "behavior": "idle_waiting"
       },
@@ -134,7 +134,7 @@
         "collision": "box",
         "mobility": "static",
         "visual_usage": "isolated_sprite",
-        "asset_prompt": "A sideboard with a stack of clean dishes demanding attention, isolated on a clean plain white extraction background.",
+        "asset_prompt": "A sideboard with a stack of clean dishes, isolated on a uniform pure-white extraction background.",
         "animation": "The stack of clean dishes on the sideboard subtly shifts and repositions itself.",
         "interaction": "clean_dishes",
         "behavior": "idle_waiting"
@@ -157,9 +157,9 @@
         ],
         "collision": "none",
         "mobility": "static",
-        "visual_usage": "isolated_sprite",
-        "asset_prompt": "Heavy curtains blocking out natural light, leaving the area in artificial brightness, isolated on a clean plain white extraction background.",
-        "animation": "The heavy curtains gently sway and shift.",
+        "visual_usage": "background_layer",
+        "asset_prompt": "Opaque full-frame wall layer of heavy closed curtains in dark fabric, edge-to-edge across the frame, no white background, no border, no margin, no transparency, no isolated cutout, no room scenery, no text.",
+        "animation": "The curtain fabric ripples gently across the full frame in a restrained loop while its folds, color, edges, and identity remain stable.",
         "interaction": "none",
         "behavior": "idle_waiting"
       },
@@ -182,8 +182,8 @@
         "collision": "none",
         "mobility": "static",
         "visual_usage": "tileable_texture",
-        "asset_prompt": "A seamless sample of dull beige wall finish with a sense of oppression and control, isolated on a clean plain white extraction background.",
-        "animation": "The wall finish subtly shifts and repositions itself.",
+        "asset_prompt": "Opaque seamless edge-to-edge full-frame texture of a dull beige wall finish, no white background, no border, no margin, no transparency, no isolated object, and no perspective scene.",
+        "animation": "Subtle material-only movement with no camera movement and no edges changing.",
         "interaction": "none",
         "behavior": "idle_waiting"
       },
@@ -206,8 +206,8 @@
         "collision": "none",
         "mobility": "static",
         "visual_usage": "tileable_texture",
-        "asset_prompt": "A soft, cream-colored carpet that muffles your footsteps, isolated on a clean plain white extraction background.",
-        "animation": "The carpet gently shifts and repositions itself.",
+        "asset_prompt": "Opaque seamless edge-to-edge full-frame texture of a soft, cream-colored carpet, no white background, no border, no margin, no transparency, no isolated object, and no perspective scene.",
+        "animation": "Subtle material-only movement with no camera movement and no edges changing.",
         "interaction": "none",
         "behavior": "idle_waiting"
       },
@@ -229,9 +229,9 @@
         ],
         "collision": "box",
         "mobility": "static",
-        "visual_usage": "isolated_sprite",
-        "asset_prompt": "A kitchen door that creaks ominously when you attempt to open it, isolated on a clean plain white extraction background.",
-        "animation": "The kitchen door gently creaks and shifts.",
+        "visual_usage": "background_layer",
+        "asset_prompt": "A full-frame front view of a closed kitchen door, filling the entire rectangular image with a plausible wood or painted material, a visible handle, no white background, no transparent margin, no surrounding wall, no room scene, no text, and no camera perspective.",
+        "animation": "A short loop where the kitchen door opens a few centimeters and closes again, preserving the same door, handle, colors, rectangular edges, and camera.",
         "interaction": "open_door",
         "behavior": "idle_waiting"
       },
@@ -254,7 +254,7 @@
         "collision": "box",
         "mobility": "static",
         "visual_usage": "isolated_sprite",
-        "asset_prompt": "A plate of fresh baked cookies sitting untouched, a constant reminder of meticulous control, isolated on a clean plain white extraction background.",
+        "asset_prompt": "A plate of fresh baked cookies, isolated on a uniform pure-white extraction background.",
         "animation": "The plate of fresh baked cookies gently shifts and repositions itself.",
         "interaction": "eat_cookie",
         "behavior": "idle_waiting"
@@ -358,6 +358,30 @@
     "remaining_asset_prompt_repair": {
       "reported_model": "qwen2.5-14b-world-author",
       "tokens_predicted": 397,
+      "fallback_used": false
+    },
+    "clean_asset_prompt_repair": {
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 530,
+      "fallback_used": false
+    },
+    "surface_and_chandelier_prompt_repair": {
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 197,
+      "fallback_used": false
+    },
+    "chandelier_clean_animation_repair": {
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 33,
+      "fallback_used": false
+    },
+    "curtain_background_layer_repair": {
+      "reason": "wall-sized hanging requires opaque generated layer rather than transparent cutout",
+      "fallback_used": false
+    },
+    "kitchen_door_wall_object_repair": {
+      "reported_model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 94,
       "fallback_used": false
     }
   }

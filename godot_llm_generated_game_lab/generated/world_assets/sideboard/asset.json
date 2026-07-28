@@ -1,7 +1,9 @@
 {
   "id": "sideboard",
   "kind": "static_prop",
+  "asset_usage": "isolated_sprite",
   "name": "Sideboard",
+  "request_sha256": "d3326ebb0e0485b18625e2f45f3fa03cd834824df77b8ffcab5fceef5646fa21",
   "png_path": "generated/world_assets/sideboard/canonical.png",
   "gif_path": "generated/world_assets/sideboard/animation.gif",
   "sheet_path": "generated/world_assets/sideboard/animation.sheet.png",
@@ -10,12 +12,240 @@
   "frame_height": 160,
   "frame_duration_ms": 120,
   "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-  "key": "00cf91003d18cf9faada4a39",
+  "key": "a912edf20b0fea08df57e83c",
   "cached": false,
-  "generation_seconds": 23.019,
+  "generation_seconds": 99.156,
   "identity_anchored": true,
   "motion_generated": true,
+  "processing": {
+    "mode": "transparent_isolated_clean",
+    "source_crop": [
+      43,
+      185,
+      505,
+      619
+    ],
+    "alpha_extrema": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ]
+    ],
+    "source_alpha_quality": [
+      {
+        "transparent_ratio": 0.72321,
+        "partial_alpha_ratio": 0.00594,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          246,
+          486,
+          600
+        ],
+        "bright_neutral_border_ratio": 0.85537,
+        "selected_components": 2
+      },
+      {
+        "transparent_ratio": 0.70768,
+        "partial_alpha_ratio": 0.00699,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0014,
+        "bbox": [
+          61,
+          203,
+          487,
+          600
+        ],
+        "bright_neutral_border_ratio": 0.85371,
+        "selected_components": 3
+      },
+      {
+        "transparent_ratio": 0.70773,
+        "partial_alpha_ratio": 0.00699,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00175,
+        "bbox": [
+          62,
+          203,
+          487,
+          601
+        ],
+        "bright_neutral_border_ratio": 0.85435,
+        "selected_components": 3
+      },
+      {
+        "transparent_ratio": 0.70768,
+        "partial_alpha_ratio": 0.00701,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00348,
+        "bbox": [
+          61,
+          203,
+          487,
+          601
+        ],
+        "bright_neutral_border_ratio": 0.85469,
+        "selected_components": 3
+      },
+      {
+        "transparent_ratio": 0.70776,
+        "partial_alpha_ratio": 0.00701,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00105,
+        "bbox": [
+          61,
+          203,
+          487,
+          600
+        ],
+        "bright_neutral_border_ratio": 0.85591,
+        "selected_components": 3
+      },
+      {
+        "transparent_ratio": 0.70763,
+        "partial_alpha_ratio": 0.00699,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0021,
+        "bbox": [
+          61,
+          203,
+          486,
+          600
+        ],
+        "bright_neutral_border_ratio": 0.85786,
+        "selected_components": 3
+      }
+    ],
+    "final_alpha_quality": [
+      {
+        "transparent_ratio": 0.7107,
+        "partial_alpha_ratio": 0.02453,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0051,
+        "bbox": [
+          28,
+          45,
+          132,
+          132
+        ]
+      },
+      {
+        "transparent_ratio": 0.6923,
+        "partial_alpha_ratio": 0.0291,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 2,
+        "largest_component_ratio": 0.99986,
+        "boundary_matte_ratio": 0.01445,
+        "bbox": [
+          28,
+          35,
+          132,
+          132
+        ]
+      },
+      {
+        "transparent_ratio": 0.69234,
+        "partial_alpha_ratio": 0.02875,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.01293,
+        "bbox": [
+          28,
+          35,
+          132,
+          132
+        ]
+      },
+      {
+        "transparent_ratio": 0.69277,
+        "partial_alpha_ratio": 0.02844,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 2,
+        "largest_component_ratio": 0.99986,
+        "boundary_matte_ratio": 0.01441,
+        "bbox": [
+          28,
+          35,
+          132,
+          132
+        ]
+      },
+      {
+        "transparent_ratio": 0.69223,
+        "partial_alpha_ratio": 0.02902,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 2,
+        "largest_component_ratio": 0.99986,
+        "boundary_matte_ratio": 0.01301,
+        "bbox": [
+          28,
+          35,
+          132,
+          132
+        ]
+      },
+      {
+        "transparent_ratio": 0.69199,
+        "partial_alpha_ratio": 0.02914,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0159,
+        "bbox": [
+          28,
+          35,
+          132,
+          132
+        ]
+      }
+    ],
+    "processed_frame_diff": [
+      3.8402,
+      0.9949,
+      0.986,
+      0.6428,
+      0.9046
+    ]
+  },
   "verification": {
+    "asset_usage": "isolated_sprite",
+    "alpha_mode": "transparent_clean",
     "png_mode": "RGBA",
     "png_size": [
       160,
@@ -64,7 +294,94 @@
     ],
     "canonical_subject": "Sideboard",
     "canonical_pass": true,
-    "animation_pass": true
+    "animation_pass": true,
+    "processing_mode": "transparent_isolated_clean",
+    "alpha_quality": [
+      {
+        "transparent_ratio": 0.7107,
+        "partial_alpha_ratio": 0.02453,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0051,
+        "bbox": [
+          28,
+          45,
+          132,
+          132
+        ]
+      },
+      {
+        "transparent_ratio": 0.6923,
+        "partial_alpha_ratio": 0.0291,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 2,
+        "largest_component_ratio": 0.99986,
+        "boundary_matte_ratio": 0.01445,
+        "bbox": [
+          28,
+          35,
+          132,
+          132
+        ]
+      },
+      {
+        "transparent_ratio": 0.69234,
+        "partial_alpha_ratio": 0.02875,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.01293,
+        "bbox": [
+          28,
+          35,
+          132,
+          132
+        ]
+      },
+      {
+        "transparent_ratio": 0.69277,
+        "partial_alpha_ratio": 0.02844,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 2,
+        "largest_component_ratio": 0.99986,
+        "boundary_matte_ratio": 0.01441,
+        "bbox": [
+          28,
+          35,
+          132,
+          132
+        ]
+      },
+      {
+        "transparent_ratio": 0.69223,
+        "partial_alpha_ratio": 0.02902,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 2,
+        "largest_component_ratio": 0.99986,
+        "boundary_matte_ratio": 0.01301,
+        "bbox": [
+          28,
+          35,
+          132,
+          132
+        ]
+      },
+      {
+        "transparent_ratio": 0.69199,
+        "partial_alpha_ratio": 0.02914,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0159,
+        "bbox": [
+          28,
+          35,
+          132,
+          132
+        ]
+      }
+    ]
   },
   "review": {
     "canonical": {
@@ -80,20 +397,39 @@
       "clear_silhouette": true,
       "recognized_subject": "Sideboard",
       "critical_defects": [],
-      "description": "A sideboard with a stack of clean dishes demanding attention, isolated on a clean plain white extraction background.",
+      "description": "A sideboard with a stack of clean dishes, isolated on a uniform pure-white extraction background.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "isolated_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true,
-      "candidate_index": 0,
-      "seed": 2402994185,
-      "seconds": 12.333,
+      "candidate_index": 2,
+      "seed": 3580411935,
+      "seconds": 25.824,
       "bbox": [
-        8,
-        0,
-        640,
-        640
+        61,
+        246,
+        486,
+        600
       ],
+      "extraction_quality": {
+        "transparent_ratio": 0.72321,
+        "partial_alpha_ratio": 0.00594,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          246,
+          486,
+          600
+        ],
+        "bright_neutral_border_ratio": 0.85537,
+        "selected_components": 2
+      },
       "extraction_error": ""
     },
     "animation": {
@@ -109,9 +445,12 @@
       "clear_silhouette": true,
       "recognized_subject": "Sideboard",
       "critical_defects": [],
-      "description": "A sideboard with a stack of clean dishes demanding attention, isolated on a clean plain white extraction background.",
+      "description": "A sideboard with a stack of clean dishes, isolated on a uniform pure-white extraction background.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "isolated_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true
     }

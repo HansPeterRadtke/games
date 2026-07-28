@@ -1,7 +1,9 @@
 {
   "id": "cookies",
   "kind": "static_prop",
+  "asset_usage": "isolated_sprite",
   "name": "Cookies",
+  "request_sha256": "7168d2f36282e62743eea02e34df7fc2a4234dbcc8ce21f8f5fe32ccc1a869d5",
   "png_path": "generated/world_assets/cookies/canonical.png",
   "gif_path": "generated/world_assets/cookies/animation.gif",
   "sheet_path": "generated/world_assets/cookies/animation.sheet.png",
@@ -10,12 +12,240 @@
   "frame_height": 160,
   "frame_duration_ms": 120,
   "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-  "key": "504137896972c7b6e01751a5",
+  "key": "f840e116047c5d3b5753823f",
   "cached": false,
-  "generation_seconds": 22.344,
+  "generation_seconds": 73.115,
   "identity_anchored": true,
   "motion_generated": true,
+  "processing": {
+    "mode": "transparent_isolated_clean",
+    "source_crop": [
+      31,
+      22,
+      619,
+      634
+    ],
+    "alpha_extrema": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ]
+    ],
+    "source_alpha_quality": [
+      {
+        "transparent_ratio": 0.44031,
+        "partial_alpha_ratio": 0.00622,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00392,
+        "bbox": [
+          50,
+          40,
+          601,
+          616
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.44011,
+        "partial_alpha_ratio": 0.00622,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00196,
+        "bbox": [
+          49,
+          40,
+          601,
+          616
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.44028,
+        "partial_alpha_ratio": 0.00624,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00117,
+        "bbox": [
+          50,
+          40,
+          601,
+          616
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.44017,
+        "partial_alpha_ratio": 0.00622,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00078,
+        "bbox": [
+          49,
+          40,
+          601,
+          616
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.44005,
+        "partial_alpha_ratio": 0.00621,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00197,
+        "bbox": [
+          49,
+          40,
+          601,
+          616
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.44008,
+        "partial_alpha_ratio": 0.00621,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00079,
+        "bbox": [
+          50,
+          40,
+          601,
+          616
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      }
+    ],
+    "final_alpha_quality": [
+      {
+        "transparent_ratio": 0.67719,
+        "partial_alpha_ratio": 0.01609,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00214,
+        "bbox": [
+          29,
+          27,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.67676,
+        "partial_alpha_ratio": 0.01605,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          29,
+          27,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.67703,
+        "partial_alpha_ratio": 0.01602,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          29,
+          27,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.67691,
+        "partial_alpha_ratio": 0.01617,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          29,
+          27,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.67711,
+        "partial_alpha_ratio": 0.01605,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          29,
+          27,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.67707,
+        "partial_alpha_ratio": 0.01637,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          29,
+          27,
+          131,
+          133
+        ]
+      }
+    ],
+    "processed_frame_diff": [
+      1.1399,
+      1.1655,
+      1.108,
+      1.1258,
+      1.1013
+    ]
+  },
   "verification": {
+    "asset_usage": "isolated_sprite",
+    "alpha_mode": "transparent_clean",
     "png_mode": "RGBA",
     "png_size": [
       160,
@@ -64,7 +294,94 @@
     ],
     "canonical_subject": "Cookies",
     "canonical_pass": true,
-    "animation_pass": true
+    "animation_pass": true,
+    "processing_mode": "transparent_isolated_clean",
+    "alpha_quality": [
+      {
+        "transparent_ratio": 0.67719,
+        "partial_alpha_ratio": 0.01609,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00214,
+        "bbox": [
+          29,
+          27,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.67676,
+        "partial_alpha_ratio": 0.01605,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          29,
+          27,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.67703,
+        "partial_alpha_ratio": 0.01602,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          29,
+          27,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.67691,
+        "partial_alpha_ratio": 0.01617,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          29,
+          27,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.67711,
+        "partial_alpha_ratio": 0.01605,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          29,
+          27,
+          131,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.67707,
+        "partial_alpha_ratio": 0.01637,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          29,
+          27,
+          131,
+          133
+        ]
+      }
+    ]
   },
   "review": {
     "canonical": {
@@ -80,20 +397,39 @@
       "clear_silhouette": true,
       "recognized_subject": "Cookies",
       "critical_defects": [],
-      "description": "A plate of fresh baked cookies sitting untouched, a constant reminder of meticulous control, isolated on a clean plain white extraction background.",
+      "description": "A plate of fresh baked cookies, isolated on a uniform pure-white extraction background.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "isolated_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true,
-      "candidate_index": 0,
-      "seed": 2021416417,
-      "seconds": 11.98,
+      "candidate_index": 1,
+      "seed": 619445667,
+      "seconds": 25.74,
       "bbox": [
-        0,
-        0,
-        640,
-        640
+        50,
+        40,
+        601,
+        616
       ],
+      "extraction_quality": {
+        "transparent_ratio": 0.44031,
+        "partial_alpha_ratio": 0.00622,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00392,
+        "bbox": [
+          50,
+          40,
+          601,
+          616
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
       "extraction_error": ""
     },
     "animation": {
@@ -109,9 +445,12 @@
       "clear_silhouette": true,
       "recognized_subject": "Cookies",
       "critical_defects": [],
-      "description": "A plate of fresh baked cookies sitting untouched, a constant reminder of meticulous control, isolated on a clean plain white extraction background.",
+      "description": "A plate of fresh baked cookies, isolated on a uniform pure-white extraction background.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "isolated_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true
     }

@@ -1,7 +1,9 @@
 {
   "id": "curtains",
   "kind": "static_prop",
+  "asset_usage": "background_layer",
   "name": "Curtains",
+  "request_sha256": "9c0b26189cb21581d11d0285ef9bad6eb1eed3fc752c51ebf64b63a9db045d88",
   "png_path": "generated/world_assets/curtains/canonical.png",
   "gif_path": "generated/world_assets/curtains/animation.gif",
   "sheet_path": "generated/world_assets/curtains/animation.sheet.png",
@@ -10,46 +12,90 @@
   "frame_height": 160,
   "frame_duration_ms": 120,
   "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-  "key": "d01c199257eb8963799ebeff",
+  "key": "582acf6fddeb5b4fecac8c0a",
   "cached": false,
-  "generation_seconds": 47.454,
+  "generation_seconds": 52.154,
   "identity_anchored": true,
   "motion_generated": true,
+  "processing": {
+    "mode": "opaque_full_frame",
+    "source_crop": [
+      0,
+      0,
+      640,
+      640
+    ],
+    "alpha_extrema": [
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ]
+    ],
+    "processed_frame_diff": [
+      1.7893,
+      1.705,
+      1.7487,
+      1.7199,
+      1.7409
+    ]
+  },
   "verification": {
+    "asset_usage": "background_layer",
+    "alpha_mode": "opaque",
     "png_mode": "RGBA",
     "png_size": [
       160,
       160
     ],
     "png_alpha": [
-      0,
+      255,
       255
     ],
     "gif_frames": 6,
     "gif_distinct_frames": 6,
     "gif_alpha": [
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ]
     ],
@@ -59,12 +105,14 @@
       160
     ],
     "sheet_alpha": [
-      0,
+      255,
       255
     ],
     "canonical_subject": "Curtains",
     "canonical_pass": true,
-    "animation_pass": true
+    "animation_pass": true,
+    "processing_mode": "opaque_full_frame",
+    "alpha_quality": []
   },
   "review": {
     "canonical": {
@@ -80,20 +128,26 @@
       "clear_silhouette": true,
       "recognized_subject": "Curtains",
       "critical_defects": [],
-      "description": "Heavy curtains blocking out natural light, leaving the area in artificial brightness, isolated on a clean plain white extraction background.",
+      "description": "A seamless full-frame material texture of heavy closed curtains in dark fabric, edge-to-edge across the frame, no white background, no border, no margin, no transparency, no isolated cutout, no room scenery, no text.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "background_layer",
+      "background_mode": "opaque_full_frame",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true,
-      "candidate_index": 2,
-      "seed": 628714660,
-      "seconds": 12.161,
+      "candidate_index": 0,
+      "seed": 1642650044,
+      "seconds": 28.385,
       "bbox": [
         0,
         0,
         640,
         640
       ],
+      "extraction_quality": {
+        "mode": "opaque_full_frame"
+      },
       "extraction_error": ""
     },
     "animation": {
@@ -109,9 +163,12 @@
       "clear_silhouette": true,
       "recognized_subject": "Curtains",
       "critical_defects": [],
-      "description": "Heavy curtains blocking out natural light, leaving the area in artificial brightness, isolated on a clean plain white extraction background.",
+      "description": "A seamless full-frame material texture of heavy closed curtains in dark fabric, edge-to-edge across the frame, no white background, no border, no margin, no transparency, no isolated cutout, no room scenery, no text.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "background_layer",
+      "background_mode": "opaque_full_frame",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true
     }

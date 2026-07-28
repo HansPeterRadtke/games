@@ -1,7 +1,9 @@
 {
   "id": "mom",
   "kind": "npc",
+  "asset_usage": "character_sprite",
   "name": "Your Mom",
+  "request_sha256": "9b4e33017e1e96d8a162f761237cc05348248cacd70e1050e020eefa97905ecd",
   "png_path": "generated/world_assets/mom/canonical.png",
   "gif_path": "generated/world_assets/mom/animation.gif",
   "sheet_path": "generated/world_assets/mom/animation.sheet.png",
@@ -10,12 +12,310 @@
   "frame_height": 256,
   "frame_duration_ms": 120,
   "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-  "key": "08105e4e54c400bd323113e9",
+  "key": "410a75e9a5aa1da32c346b83",
   "cached": false,
-  "generation_seconds": 70.252,
+  "generation_seconds": 212.087,
   "identity_anchored": true,
   "motion_generated": true,
+  "processing": {
+    "mode": "transparent_isolated_clean",
+    "source_crop": [
+      49,
+      0,
+      602,
+      896
+    ],
+    "alpha_extrema": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ]
+    ],
+    "source_alpha_quality": [
+      {
+        "transparent_ratio": 0.56418,
+        "partial_alpha_ratio": 0.00822,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00424,
+        "bbox": [
+          67,
+          17,
+          584,
+          884
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.56416,
+        "partial_alpha_ratio": 0.00824,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00296,
+        "bbox": [
+          67,
+          17,
+          584,
+          884
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.56412,
+        "partial_alpha_ratio": 0.00822,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00318,
+        "bbox": [
+          67,
+          17,
+          584,
+          884
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.56411,
+        "partial_alpha_ratio": 0.00823,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00339,
+        "bbox": [
+          67,
+          17,
+          584,
+          884
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.56481,
+        "partial_alpha_ratio": 0.00826,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00359,
+        "bbox": [
+          67,
+          17,
+          584,
+          884
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.56407,
+        "partial_alpha_ratio": 0.00821,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00403,
+        "bbox": [
+          67,
+          17,
+          584,
+          884
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.56412,
+        "partial_alpha_ratio": 0.00823,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00382,
+        "bbox": [
+          67,
+          17,
+          584,
+          884
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.56409,
+        "partial_alpha_ratio": 0.00822,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00339,
+        "bbox": [
+          67,
+          17,
+          584,
+          884
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      }
+    ],
+    "final_alpha_quality": [
+      {
+        "transparent_ratio": 0.72121,
+        "partial_alpha_ratio": 0.02012,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0019,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72113,
+        "partial_alpha_ratio": 0.02014,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00189,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72144,
+        "partial_alpha_ratio": 0.02012,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00095,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72115,
+        "partial_alpha_ratio": 0.02028,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00095,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72176,
+        "partial_alpha_ratio": 0.02012,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00283,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72117,
+        "partial_alpha_ratio": 0.02032,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0038,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72109,
+        "partial_alpha_ratio": 0.02006,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00285,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72111,
+        "partial_alpha_ratio": 0.02008,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00095,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      }
+    ],
+    "processed_frame_diff": [
+      1.1256,
+      1.2531,
+      1.2337,
+      1.3303,
+      1.3434,
+      1.2994,
+      1.2751
+    ]
+  },
   "verification": {
+    "asset_usage": "character_sprite",
+    "alpha_mode": "transparent_clean",
     "png_mode": "RGBA",
     "png_size": [
       192,
@@ -72,7 +372,122 @@
     ],
     "canonical_subject": "mother",
     "canonical_pass": true,
-    "animation_pass": true
+    "animation_pass": true,
+    "processing_mode": "transparent_isolated_clean",
+    "alpha_quality": [
+      {
+        "transparent_ratio": 0.72121,
+        "partial_alpha_ratio": 0.02012,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0019,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72113,
+        "partial_alpha_ratio": 0.02014,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00189,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72144,
+        "partial_alpha_ratio": 0.02012,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00095,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72115,
+        "partial_alpha_ratio": 0.02028,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00095,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72176,
+        "partial_alpha_ratio": 0.02012,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00283,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72117,
+        "partial_alpha_ratio": 0.02032,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0038,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72109,
+        "partial_alpha_ratio": 0.02006,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00285,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      },
+      {
+        "transparent_ratio": 0.72111,
+        "partial_alpha_ratio": 0.02008,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00095,
+        "bbox": [
+          38,
+          31,
+          153,
+          226
+        ]
+      }
+    ]
   },
   "review": {
     "canonical": {
@@ -88,20 +503,39 @@
       "clear_silhouette": true,
       "recognized_subject": "mother",
       "critical_defects": [],
-      "description": "A stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze.",
+      "description": "A stern woman in a cheerful floral dress, seated alone, with a critical gaze, on a uniform pure-white extraction background.",
       "materials_required": false,
       "materials_pass": true,
+      "asset_usage": "character_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true,
-      "candidate_index": 0,
-      "seed": 2383159894,
-      "seconds": 34.125,
+      "candidate_index": 4,
+      "seed": 518544971,
+      "seconds": 34.76,
       "bbox": [
-        19,
-        11,
-        621,
-        896
+        67,
+        17,
+        584,
+        884
       ],
+      "extraction_quality": {
+        "transparent_ratio": 0.56418,
+        "partial_alpha_ratio": 0.00822,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00424,
+        "bbox": [
+          67,
+          17,
+          584,
+          884
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
       "extraction_error": ""
     },
     "animation": {
@@ -117,9 +551,12 @@
       "clear_silhouette": true,
       "recognized_subject": "mother",
       "critical_defects": [],
-      "description": "A stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze.",
+      "description": "A stern woman in a cheerful floral dress, seated alone, with a critical gaze, on a uniform pure-white extraction background.",
       "materials_required": false,
       "materials_pass": true,
+      "asset_usage": "character_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true
     }

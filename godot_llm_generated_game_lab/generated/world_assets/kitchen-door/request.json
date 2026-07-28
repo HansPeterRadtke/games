@@ -1,13 +1,15 @@
 {
-  "kind": "static_prop",
-  "name": "Kitchen Door",
-  "structural_prompt": "single isolated static prop game asset representing Kitchen Door, complete object visible, front three-quarter view, centered, realistic proportions, clean readable silhouette",
-  "semantic_prompt": "A kitchen door that creaks ominously when you attempt to open it, isolated on a clean plain white extraction background.",
-  "negative_prompt": "second subject, duplicate subject, extra limbs, missing limbs, malformed anatomy, malformed geometry, cropped subject, cut off edges, scenery, room background, landscape background, text, letters, numbers, logo, watermark, blur, low detail, abstract replacement, wrong category",
-  "animation_description": "The kitchen door gently creaks and shifts.",
+  "animation_description": "A short loop where the kitchen door opens a few centimeters and closes again, preserving the same door, handle, colors, rectangular edges, and camera.",
+  "asset_usage": "background_layer",
   "expected_labels": [
     "Kitchen Door",
     "static prop"
   ],
-  "review_requirements": "Exactly one immediately recognizable static prop named Kitchen Door. The complete subject must be visible. It must satisfy this visual request: A kitchen door that creaks ominously when you attempt to open it, isolated on a clean plain white extraction background.. Normal anatomy or geometry, plausible materials, clean plain white extraction background, clear silhouette, no second subject, scenery, text, logo, watermark, cropped subject, duplicate parts, or malformed structure."
+  "kind": "static_prop",
+  "name": "Kitchen Door",
+  "negative_prompt": "white border, white margin, transparent cutout, isolated object, centered object, room scene, landscape, horizon, perspective, frame, text, letters, numbers, logo, watermark, blur, low detail, broken tiling, seam",
+  "review_requirements": "One seamless edge-to-edge full-frame material texture for Kitchen Door. The entire frame must contain only the requested material: A full-frame front view of a closed kitchen door, filling the entire rectangular image with a plausible wood or painted material, a visible handle, no white background, no transparent margin, no surrounding wall, no room scene, no text, and no camera perspective.. No white border, white margin, transparent cutout, isolated object, perspective room scene, horizon, text, logo, watermark, or framing. The material must remain recognizable, continuous at every edge, physically plausible, and suitable for tiling across a game surface.",
+  "semantic_prompt": "A full-frame front view of a closed kitchen door, filling the entire rectangular image with a plausible wood or painted material, a visible handle, no white background, no transparent margin, no surrounding wall, no room scene, no text, and no camera perspective.",
+  "source_description": "A door leading to the kitchen, which creaks ominously when you attempt to open it.",
+  "structural_prompt": "single isolated static prop game asset representing Kitchen Door, complete object visible, front three-quarter view, centered, realistic proportions, clean readable silhouette"
 }

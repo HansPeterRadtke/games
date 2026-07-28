@@ -1,13 +1,15 @@
 {
-  "kind": "static_prop",
-  "name": "Chandelier",
-  "structural_prompt": "single isolated static prop game asset representing Chandelier, complete object visible, front three-quarter view, centered, realistic proportions, clean readable silhouette",
-  "semantic_prompt": "An eerie, flickering chandelier with a sense of mockery and unease, isolated on a clean plain white extraction background.",
-  "negative_prompt": "second subject, duplicate subject, extra limbs, missing limbs, malformed anatomy, malformed geometry, cropped subject, cut off edges, scenery, room background, landscape background, text, letters, numbers, logo, watermark, blur, low detail, abstract replacement, wrong category",
-  "animation_description": "The chandelier's lights pulse erratically, casting an unsettling glow that dances across the background, preserving the identity and never creating duplicate parts.",
+  "animation_description": "The chandelier's body sways gently while its bulbs brighten and dim in a continuous loop, maintaining its exact identity and geometry.",
+  "asset_usage": "isolated_sprite",
   "expected_labels": [
     "Chandelier",
     "static prop"
   ],
-  "review_requirements": "Exactly one immediately recognizable static prop named Chandelier. The complete subject must be visible. It must satisfy this visual request: An eerie, flickering chandelier with a sense of mockery and unease, isolated on a clean plain white extraction background.. Normal anatomy or geometry, plausible materials, clean plain white extraction background, clear silhouette, no second subject, scenery, text, logo, watermark, cropped subject, duplicate parts, or malformed structure."
+  "kind": "static_prop",
+  "name": "Chandelier",
+  "negative_prompt": "second subject, duplicate subject, extra limbs, missing limbs, malformed anatomy, malformed geometry, cropped subject, cut off edges, scenery, room background, landscape background, gray halo, white halo, background noise, textured background, shadow field, gradient, text, letters, numbers, logo, watermark, blur, low detail, abstract replacement, wrong category",
+  "review_requirements": "Exactly one immediately recognizable static prop named Chandelier. The complete subject must be visible. It must satisfy this visual request: One isolated complete chandelier on a uniform pure-white extraction background with no room or scenery.. Normal anatomy or geometry, plausible materials, uniform pure-white extraction background, clean silhouette, no halo, background noise, shadow field, second subject, scenery, text, logo, watermark, cropped subject, duplicate parts, or malformed structure.",
+  "semantic_prompt": "One isolated complete chandelier on a uniform pure-white extraction background with no room or scenery.",
+  "source_description": "An eerie, flickering chandelier hanging above the dining table.",
+  "structural_prompt": "single isolated static prop game asset representing Chandelier, complete object visible, front three-quarter view, centered, realistic proportions, clean readable silhouette"
 }

@@ -63,3 +63,5 @@ for asset_id,asset in manifest['assets'].items():
     public['assets'][asset_id]={'gif':'generated_assets/'+gif_target.name,'png':'generated_assets/'+png_target.name,'sheet':'generated_assets/'+sheet_target.name,'frames':asset['frame_count'],'canonical_pass':asset['verification']['canonical_pass'],'animation_pass':asset['verification']['animation_pass']}
 Path('web/generated_assets/manifest.json').write_text(json.dumps(public,ensure_ascii=False,indent=2)+'\n')
 PY_ASSETS
+/data/venv/bin/python3 tests/test_world_asset_quality.py
+/data/venv/bin/python3 tests/test_generated_world_layout.py

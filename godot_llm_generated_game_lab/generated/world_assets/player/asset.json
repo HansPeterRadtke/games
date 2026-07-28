@@ -1,7 +1,9 @@
 {
   "id": "player",
   "kind": "player",
+  "asset_usage": "character_sprite",
   "name": "Player",
+  "request_sha256": "e680dec1b5e6963558faeccf46e34df9d6477d0b4c63c3899fe84986f94c9005",
   "png_path": "generated/world_assets/player/canonical.png",
   "gif_path": "generated/world_assets/player/animation.gif",
   "sheet_path": "generated/world_assets/player/animation.sheet.png",
@@ -10,12 +12,294 @@
   "frame_height": 256,
   "frame_duration_ms": 120,
   "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-  "key": "1d00e9128b477cf57f4db374",
+  "key": "ec6bcd4c1e8b020148be7015",
   "cached": false,
-  "generation_seconds": 141.643,
+  "generation_seconds": 211.856,
   "identity_anchored": true,
   "motion_generated": true,
+  "processing": {
+    "mode": "transparent_isolated_clean",
+    "source_crop": [
+      190,
+      192,
+      452,
+      858
+    ],
+    "alpha_extrema": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ]
+    ],
+    "source_alpha_quality": [
+      {
+        "transparent_ratio": 0.87865,
+        "partial_alpha_ratio": 0.00581,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0003,
+        "bbox": [
+          208,
+          210,
+          433,
+          840
+        ]
+      },
+      {
+        "transparent_ratio": 0.87983,
+        "partial_alpha_ratio": 0.00531,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00066,
+        "bbox": [
+          208,
+          210,
+          433,
+          840
+        ]
+      },
+      {
+        "transparent_ratio": 0.87786,
+        "partial_alpha_ratio": 0.00548,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          208,
+          210,
+          433,
+          840
+        ]
+      },
+      {
+        "transparent_ratio": 0.88018,
+        "partial_alpha_ratio": 0.0055,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00063,
+        "bbox": [
+          208,
+          211,
+          433,
+          840
+        ]
+      },
+      {
+        "transparent_ratio": 0.87891,
+        "partial_alpha_ratio": 0.00582,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0003,
+        "bbox": [
+          208,
+          210,
+          433,
+          840
+        ]
+      },
+      {
+        "transparent_ratio": 0.88028,
+        "partial_alpha_ratio": 0.00564,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00062,
+        "bbox": [
+          208,
+          211,
+          434,
+          840
+        ]
+      },
+      {
+        "transparent_ratio": 0.88014,
+        "partial_alpha_ratio": 0.0056,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00062,
+        "bbox": [
+          208,
+          210,
+          433,
+          840
+        ]
+      },
+      {
+        "transparent_ratio": 0.87829,
+        "partial_alpha_ratio": 0.00563,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00031,
+        "bbox": [
+          208,
+          210,
+          433,
+          840
+        ]
+      }
+    ],
+    "final_alpha_quality": [
+      {
+        "transparent_ratio": 0.85065,
+        "partial_alpha_ratio": 0.01957,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.8524,
+        "partial_alpha_ratio": 0.01837,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.85026,
+        "partial_alpha_ratio": 0.01849,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0011,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.85193,
+        "partial_alpha_ratio": 0.01884,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.85089,
+        "partial_alpha_ratio": 0.0198,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.85211,
+        "partial_alpha_ratio": 0.01939,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.85232,
+        "partial_alpha_ratio": 0.01904,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.85046,
+        "partial_alpha_ratio": 0.01963,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00107,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      }
+    ],
+    "processed_frame_diff": [
+      1.3929,
+      1.6971,
+      1.6691,
+      1.4446,
+      1.3147,
+      1.2015,
+      1.4421
+    ]
+  },
   "verification": {
+    "asset_usage": "character_sprite",
+    "alpha_mode": "transparent_clean",
     "png_mode": "RGBA",
     "png_size": [
       192,
@@ -70,9 +354,124 @@
       0,
       255
     ],
-    "canonical_subject": "adult human",
+    "canonical_subject": "adult child",
     "canonical_pass": true,
-    "animation_pass": true
+    "animation_pass": true,
+    "processing_mode": "transparent_isolated_clean",
+    "alpha_quality": [
+      {
+        "transparent_ratio": 0.85065,
+        "partial_alpha_ratio": 0.01957,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.8524,
+        "partial_alpha_ratio": 0.01837,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.85026,
+        "partial_alpha_ratio": 0.01849,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0011,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.85193,
+        "partial_alpha_ratio": 0.01884,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.85089,
+        "partial_alpha_ratio": 0.0198,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.85211,
+        "partial_alpha_ratio": 0.01939,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.85232,
+        "partial_alpha_ratio": 0.01904,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      },
+      {
+        "transparent_ratio": 0.85046,
+        "partial_alpha_ratio": 0.01963,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00107,
+        "bbox": [
+          61,
+          33,
+          130,
+          223
+        ]
+      }
+    ]
   },
   "review": {
     "canonical": {
@@ -86,22 +485,39 @@
       "grounded_materials": true,
       "clean_plain_background": true,
       "clear_silhouette": true,
-      "recognized_subject": "adult human",
+      "recognized_subject": "adult child",
       "critical_defects": [],
-      "description": "An adult human standing with hands in pockets, wearing casual clothes, with a determined look.",
+      "description": "An adult child with a determined look, standing alone, wearing casual clothes, on a uniform pure-white extraction background, with a sense of urgency and defiance.",
       "materials_required": false,
       "materials_pass": true,
+      "asset_usage": "character_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true,
-      "candidate_index": 2,
-      "seed": 3637169226,
-      "seconds": 34.531,
+      "candidate_index": 4,
+      "seed": 2879952597,
+      "seconds": 34.607,
       "bbox": [
-        0,
-        0,
-        640,
-        896
+        208,
+        210,
+        433,
+        840
       ],
+      "extraction_quality": {
+        "transparent_ratio": 0.87865,
+        "partial_alpha_ratio": 0.00581,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0003,
+        "bbox": [
+          208,
+          210,
+          433,
+          840
+        ]
+      },
       "extraction_error": ""
     },
     "animation": {
@@ -115,11 +531,14 @@
       "grounded_materials": true,
       "clean_plain_background": true,
       "clear_silhouette": true,
-      "recognized_subject": "adult human",
+      "recognized_subject": "adult child",
       "critical_defects": [],
-      "description": "An adult human with a determined look, standing in a dimly lit room, wearing casual clothes, with a sense of urgency and defiance.",
+      "description": "An adult child with a determined look, standing alone, wearing casual clothes, on a uniform pure-white extraction background, with a sense of urgency and defiance.",
       "materials_required": false,
       "materials_pass": true,
+      "asset_usage": "character_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true
     }

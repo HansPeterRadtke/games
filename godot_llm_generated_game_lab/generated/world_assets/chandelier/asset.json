@@ -1,7 +1,9 @@
 {
   "id": "chandelier",
   "kind": "static_prop",
+  "asset_usage": "isolated_sprite",
   "name": "Chandelier",
+  "request_sha256": "440304ecfe47b36ba8a745f23efb43c0dd4e605e969e0d70c5c95cc07bd1291b",
   "png_path": "generated/world_assets/chandelier/canonical.png",
   "gif_path": "generated/world_assets/chandelier/animation.gif",
   "sheet_path": "generated/world_assets/chandelier/animation.sheet.png",
@@ -10,12 +12,240 @@
   "frame_height": 160,
   "frame_duration_ms": 120,
   "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-  "key": "b575a028bf9920b9f466bc9c",
+  "key": "2b0344a0b61f7d37bcff9377",
   "cached": false,
-  "generation_seconds": 48.542,
+  "generation_seconds": 183.521,
   "identity_anchored": true,
   "motion_generated": true,
+  "processing": {
+    "mode": "transparent_isolated_clean",
+    "source_crop": [
+      0,
+      300,
+      640,
+      605
+    ],
+    "alpha_extrema": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ]
+    ],
+    "source_alpha_quality": [
+      {
+        "transparent_ratio": 0.90875,
+        "partial_alpha_ratio": 0.00479,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0301,
+        "bbox": [
+          12,
+          350,
+          320,
+          562
+        ],
+        "bright_neutral_border_ratio": 0.96992,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.90879,
+        "partial_alpha_ratio": 0.00479,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02548,
+        "bbox": [
+          12,
+          350,
+          320,
+          562
+        ],
+        "bright_neutral_border_ratio": 0.96958,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.90833,
+        "partial_alpha_ratio": 0.00496,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02707,
+        "bbox": [
+          12,
+          350,
+          320,
+          587
+        ],
+        "bright_neutral_border_ratio": 0.96973,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.90832,
+        "partial_alpha_ratio": 0.00495,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0311,
+        "bbox": [
+          12,
+          350,
+          320,
+          587
+        ],
+        "bright_neutral_border_ratio": 0.96963,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.90279,
+        "partial_alpha_ratio": 0.00461,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.03708,
+        "bbox": [
+          341,
+          318,
+          630,
+          580
+        ],
+        "bright_neutral_border_ratio": 0.96968,
+        "selected_components": 1
+      },
+      {
+        "transparent_ratio": 0.90865,
+        "partial_alpha_ratio": 0.00479,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.02902,
+        "bbox": [
+          12,
+          350,
+          320,
+          562
+        ],
+        "bright_neutral_border_ratio": 0.96963,
+        "selected_components": 1
+      }
+    ],
+    "final_alpha_quality": [
+      {
+        "transparent_ratio": 0.94078,
+        "partial_alpha_ratio": 0.01227,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00901,
+        "bbox": [
+          26,
+          91,
+          80,
+          129
+        ]
+      },
+      {
+        "transparent_ratio": 0.94102,
+        "partial_alpha_ratio": 0.0123,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00898,
+        "bbox": [
+          26,
+          91,
+          80,
+          129
+        ]
+      },
+      {
+        "transparent_ratio": 0.9402,
+        "partial_alpha_ratio": 0.01277,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.01163,
+        "bbox": [
+          26,
+          91,
+          80,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.94016,
+        "partial_alpha_ratio": 0.01266,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.01159,
+        "bbox": [
+          26,
+          91,
+          80,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.93848,
+        "partial_alpha_ratio": 0.01215,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 2,
+        "largest_component_ratio": 0.99925,
+        "boundary_matte_ratio": 0.01212,
+        "bbox": [
+          83,
+          86,
+          135,
+          132
+        ]
+      },
+      {
+        "transparent_ratio": 0.94082,
+        "partial_alpha_ratio": 0.0123,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00906,
+        "bbox": [
+          26,
+          91,
+          80,
+          129
+        ]
+      }
+    ],
+    "processed_frame_diff": [
+      0.1112,
+      0.1521,
+      0.1179,
+      10.4338,
+      10.4061
+    ]
+  },
   "verification": {
+    "asset_usage": "isolated_sprite",
+    "alpha_mode": "transparent_clean",
     "png_mode": "RGBA",
     "png_size": [
       160,
@@ -64,7 +294,94 @@
     ],
     "canonical_subject": "Chandelier",
     "canonical_pass": true,
-    "animation_pass": true
+    "animation_pass": true,
+    "processing_mode": "transparent_isolated_clean",
+    "alpha_quality": [
+      {
+        "transparent_ratio": 0.94078,
+        "partial_alpha_ratio": 0.01227,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00901,
+        "bbox": [
+          26,
+          91,
+          80,
+          129
+        ]
+      },
+      {
+        "transparent_ratio": 0.94102,
+        "partial_alpha_ratio": 0.0123,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00898,
+        "bbox": [
+          26,
+          91,
+          80,
+          129
+        ]
+      },
+      {
+        "transparent_ratio": 0.9402,
+        "partial_alpha_ratio": 0.01277,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.01163,
+        "bbox": [
+          26,
+          91,
+          80,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.94016,
+        "partial_alpha_ratio": 0.01266,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.01159,
+        "bbox": [
+          26,
+          91,
+          80,
+          133
+        ]
+      },
+      {
+        "transparent_ratio": 0.93848,
+        "partial_alpha_ratio": 0.01215,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 2,
+        "largest_component_ratio": 0.99925,
+        "boundary_matte_ratio": 0.01212,
+        "bbox": [
+          83,
+          86,
+          135,
+          132
+        ]
+      },
+      {
+        "transparent_ratio": 0.94082,
+        "partial_alpha_ratio": 0.0123,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00906,
+        "bbox": [
+          26,
+          91,
+          80,
+          129
+        ]
+      }
+    ]
   },
   "review": {
     "canonical": {
@@ -80,20 +397,39 @@
       "clear_silhouette": true,
       "recognized_subject": "Chandelier",
       "critical_defects": [],
-      "description": "An eerie, flickering chandelier with a sense of mockery and unease, isolated on a clean plain white extraction background.",
+      "description": "A black silhouette of a chandelier against a white background, with clear details of the lampshades and hanging crystals.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "isolated_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true,
-      "candidate_index": 2,
-      "seed": 1715344602,
-      "seconds": 12.375,
+      "candidate_index": 5,
+      "seed": 2424138214,
+      "seconds": 25.888,
       "bbox": [
-        0,
-        0,
-        640,
-        554
+        12,
+        350,
+        320,
+        562
       ],
+      "extraction_quality": {
+        "transparent_ratio": 0.90875,
+        "partial_alpha_ratio": 0.00479,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.0301,
+        "bbox": [
+          12,
+          350,
+          320,
+          562
+        ],
+        "bright_neutral_border_ratio": 0.96992,
+        "selected_components": 1
+      },
       "extraction_error": ""
     },
     "animation": {
@@ -109,9 +445,12 @@
       "clear_silhouette": true,
       "recognized_subject": "Chandelier",
       "critical_defects": [],
-      "description": "An eerie, flickering chandelier with a sense of mockery and unease, isolated on a clean plain white extraction background.",
+      "description": "A black silhouette of a chandelier with multiple arms and hanging crystals against a clean, white background.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "isolated_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true
     }

@@ -1,7 +1,9 @@
 {
   "id": "wall_finish",
   "kind": "surface",
+  "asset_usage": "tileable_texture",
   "name": "Wall Finish",
+  "request_sha256": "3eba575c42adb3e36a1c45c650eab8a63fff0366abd33c9b6e012e572f7c5252",
   "png_path": "generated/world_assets/wall-finish/canonical.png",
   "gif_path": "generated/world_assets/wall-finish/animation.gif",
   "sheet_path": "generated/world_assets/wall-finish/animation.sheet.png",
@@ -10,46 +12,90 @@
   "frame_height": 160,
   "frame_duration_ms": 120,
   "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-  "key": "9bedc4f21e2e611cd35dc092",
+  "key": "0b773323f02e1ec1755ca261",
   "cached": false,
-  "generation_seconds": 35.021,
+  "generation_seconds": 51.05,
   "identity_anchored": true,
   "motion_generated": true,
+  "processing": {
+    "mode": "opaque_full_frame",
+    "source_crop": [
+      0,
+      0,
+      640,
+      640
+    ],
+    "alpha_extrema": [
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ],
+      [
+        255,
+        255
+      ]
+    ],
+    "processed_frame_diff": [
+      1.0802,
+      1.0787,
+      1.0859,
+      1.0919,
+      1.0998
+    ]
+  },
   "verification": {
+    "asset_usage": "tileable_texture",
+    "alpha_mode": "opaque",
     "png_mode": "RGBA",
     "png_size": [
       160,
       160
     ],
     "png_alpha": [
-      0,
+      255,
       255
     ],
     "gif_frames": 6,
     "gif_distinct_frames": 6,
     "gif_alpha": [
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ],
       [
-        0,
+        255,
         255
       ]
     ],
@@ -59,12 +105,14 @@
       160
     ],
     "sheet_alpha": [
-      0,
+      255,
       255
     ],
-    "canonical_subject": "Wall Finish",
+    "canonical_subject": "wall finish",
     "canonical_pass": true,
-    "animation_pass": true
+    "animation_pass": true,
+    "processing_mode": "opaque_full_frame",
+    "alpha_quality": []
   },
   "review": {
     "canonical": {
@@ -78,22 +126,28 @@
       "grounded_materials": true,
       "clean_plain_background": true,
       "clear_silhouette": true,
-      "recognized_subject": "Wall Finish",
+      "recognized_subject": "wall finish",
       "critical_defects": [],
-      "description": "A seamless sample of dull beige wall finish with a sense of oppression and control, isolated on a clean plain white extraction background.",
+      "description": "A seamless, full-frame texture of a dull beige wall finish, suitable for tiling across a game surface. The texture features a rough, textured pattern that mimics the appearance of a wall with a worn, weathered finish. The color is a consistent, muted beige, and the pattern is consistent across the entire frame, ensuring a seamless edge-to-edge appearance.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "tileable_texture",
+      "background_mode": "opaque_full_frame",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true,
-      "candidate_index": 1,
-      "seed": 377985579,
-      "seconds": 12.394,
+      "candidate_index": 0,
+      "seed": 3949719306,
+      "seconds": 28.646,
       "bbox": [
         0,
-        8,
+        0,
         640,
         640
       ],
+      "extraction_quality": {
+        "mode": "opaque_full_frame"
+      },
       "extraction_error": ""
     },
     "animation": {
@@ -107,11 +161,14 @@
       "grounded_materials": true,
       "clean_plain_background": true,
       "clear_silhouette": true,
-      "recognized_subject": "Wall Finish",
+      "recognized_subject": "wall finish",
       "critical_defects": [],
-      "description": "A seamless sample of dull beige wall finish with a sense of oppression and control, isolated on a clean plain white extraction background.",
+      "description": "A seamless, full-frame texture of a dull beige wall finish, suitable for tiling across a game surface. The texture features a rough, textured pattern that mimics the appearance of a wall with a worn, weathered finish. The color is a consistent, muted beige, and the pattern is consistent across the entire frame, ensuring a seamless edge-to-edge appearance.",
       "materials_required": true,
       "materials_pass": true,
+      "asset_usage": "tileable_texture",
+      "background_mode": "opaque_full_frame",
+      "background_pass": true,
       "deterministic_pass": true,
       "label_pass": true
     }

@@ -38,8 +38,8 @@
       ],
       "collision": "box",
       "visual_usage": "character_sprite",
-      "asset_prompt": "An adult child with a determined look, standing in a dimly lit dining room, wearing casual clothes, with a sense of urgency and defiance.",
-      "animation": "idle_standing",
+      "asset_prompt": "An adult child with a determined look, standing alone, wearing casual clothes, on a uniform pure-white extraction background, with a sense of urgency and defiance.",
+      "animation": "The adult child shifts slightly, maintaining a determined look and stance, in a short loop.",
       "interaction": "talk_to_mom",
       "behavior": "idle_waiting"
     },
@@ -63,8 +63,8 @@
         "collision": "box",
         "mobility": "static",
         "visual_usage": "character_sprite",
-        "asset_prompt": "A stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze.",
-        "animation": "idle_seated",
+        "asset_prompt": "A stern woman in a cheerful floral dress, seated alone, with a critical gaze, on a uniform pure-white extraction background.",
+        "animation": "The stern woman shifts slightly in her seated position, maintaining her critical gaze, in a short loop.",
         "interaction": "talk_to_mom",
         "behavior": "idle_waiting"
       },
@@ -87,8 +87,8 @@
         "collision": "box",
         "mobility": "static",
         "visual_usage": "isolated_sprite",
-        "asset_prompt": "A long oak dining table with matching chairs, meticulously arranged, in a dimly lit dining room, with a sense of oppression and control.",
-        "animation": "slight_vibration",
+        "asset_prompt": "A long oak dining table with matching chairs, meticulously arranged, isolated on a uniform pure-white extraction background.",
+        "animation": "The dining table and chairs subtly shift and reposition themselves.",
         "interaction": "sit_down",
         "behavior": "idle_waiting"
       },
@@ -111,8 +111,8 @@
         "collision": "none",
         "mobility": "static",
         "visual_usage": "isolated_sprite",
-        "asset_prompt": "An eerie, flickering chandelier with a sense of mockery and unease, isolated on a clean plain white extraction background.",
-        "animation": "The chandelier's lights pulse erratically, casting an unsettling glow that dances across the background, preserving the identity and never creating duplicate parts.",
+        "asset_prompt": "One isolated complete chandelier on a uniform pure-white extraction background with no room or scenery.",
+        "animation": "The chandelier's body sways gently while its bulbs brighten and dim in a continuous loop, maintaining its exact identity and geometry.",
         "interaction": "none",
         "behavior": "idle_waiting"
       },
@@ -135,7 +135,7 @@
         "collision": "box",
         "mobility": "static",
         "visual_usage": "isolated_sprite",
-        "asset_prompt": "A sideboard with a stack of clean dishes demanding attention, isolated on a clean plain white extraction background.",
+        "asset_prompt": "A sideboard with a stack of clean dishes, isolated on a uniform pure-white extraction background.",
         "animation": "The stack of clean dishes on the sideboard subtly shifts and repositions itself.",
         "interaction": "clean_dishes",
         "behavior": "idle_waiting"
@@ -158,9 +158,9 @@
         ],
         "collision": "none",
         "mobility": "static",
-        "visual_usage": "isolated_sprite",
-        "asset_prompt": "Heavy curtains blocking out natural light, leaving the area in artificial brightness, isolated on a clean plain white extraction background.",
-        "animation": "The heavy curtains gently sway and shift.",
+        "visual_usage": "background_layer",
+        "asset_prompt": "Opaque full-frame wall layer of heavy closed curtains in dark fabric, edge-to-edge across the frame, no white background, no border, no margin, no transparency, no isolated cutout, no room scenery, no text.",
+        "animation": "The curtain fabric ripples gently across the full frame in a restrained loop while its folds, color, edges, and identity remain stable.",
         "interaction": "none",
         "behavior": "idle_waiting"
       },
@@ -183,8 +183,8 @@
         "collision": "none",
         "mobility": "static",
         "visual_usage": "tileable_texture",
-        "asset_prompt": "A seamless sample of dull beige wall finish with a sense of oppression and control, isolated on a clean plain white extraction background.",
-        "animation": "The wall finish subtly shifts and repositions itself.",
+        "asset_prompt": "Opaque seamless edge-to-edge full-frame texture of a dull beige wall finish, no white background, no border, no margin, no transparency, no isolated object, and no perspective scene.",
+        "animation": "Subtle material-only movement with no camera movement and no edges changing.",
         "interaction": "none",
         "behavior": "idle_waiting"
       },
@@ -207,8 +207,8 @@
         "collision": "none",
         "mobility": "static",
         "visual_usage": "tileable_texture",
-        "asset_prompt": "A soft, cream-colored carpet that muffles your footsteps, isolated on a clean plain white extraction background.",
-        "animation": "The carpet gently shifts and repositions itself.",
+        "asset_prompt": "Opaque seamless edge-to-edge full-frame texture of a soft, cream-colored carpet, no white background, no border, no margin, no transparency, no isolated object, and no perspective scene.",
+        "animation": "Subtle material-only movement with no camera movement and no edges changing.",
         "interaction": "none",
         "behavior": "idle_waiting"
       },
@@ -230,9 +230,9 @@
         ],
         "collision": "box",
         "mobility": "static",
-        "visual_usage": "isolated_sprite",
-        "asset_prompt": "A kitchen door that creaks ominously when you attempt to open it, isolated on a clean plain white extraction background.",
-        "animation": "The kitchen door gently creaks and shifts.",
+        "visual_usage": "background_layer",
+        "asset_prompt": "A full-frame front view of a closed kitchen door, filling the entire rectangular image with a plausible wood or painted material, a visible handle, no white background, no transparent margin, no surrounding wall, no room scene, no text, and no camera perspective.",
+        "animation": "A short loop where the kitchen door opens a few centimeters and closes again, preserving the same door, handle, colors, rectangular edges, and camera.",
         "interaction": "open_door",
         "behavior": "idle_waiting"
       },
@@ -255,7 +255,7 @@
         "collision": "box",
         "mobility": "static",
         "visual_usage": "isolated_sprite",
-        "asset_prompt": "A plate of fresh baked cookies sitting untouched, a constant reminder of meticulous control, isolated on a clean plain white extraction background.",
+        "asset_prompt": "A plate of fresh baked cookies, isolated on a uniform pure-white extraction background.",
         "animation": "The plate of fresh baked cookies gently shifts and repositions itself.",
         "interaction": "eat_cookie",
         "behavior": "idle_waiting"
@@ -287,7 +287,9 @@
     "player": {
       "id": "player",
       "kind": "player",
+      "asset_usage": "character_sprite",
       "name": "Player",
+      "request_sha256": "e680dec1b5e6963558faeccf46e34df9d6477d0b4c63c3899fe84986f94c9005",
       "png_path": "generated/world_assets/player/canonical.png",
       "gif_path": "generated/world_assets/player/animation.gif",
       "sheet_path": "generated/world_assets/player/animation.sheet.png",
@@ -296,12 +298,294 @@
       "frame_height": 256,
       "frame_duration_ms": 120,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "key": "1d00e9128b477cf57f4db374",
+      "key": "ec6bcd4c1e8b020148be7015",
       "cached": false,
-      "generation_seconds": 141.643,
+      "generation_seconds": 211.856,
       "identity_anchored": true,
       "motion_generated": true,
+      "processing": {
+        "mode": "transparent_isolated_clean",
+        "source_crop": [
+          190,
+          192,
+          452,
+          858
+        ],
+        "alpha_extrema": [
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ]
+        ],
+        "source_alpha_quality": [
+          {
+            "transparent_ratio": 0.87865,
+            "partial_alpha_ratio": 0.00581,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0003,
+            "bbox": [
+              208,
+              210,
+              433,
+              840
+            ]
+          },
+          {
+            "transparent_ratio": 0.87983,
+            "partial_alpha_ratio": 0.00531,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00066,
+            "bbox": [
+              208,
+              210,
+              433,
+              840
+            ]
+          },
+          {
+            "transparent_ratio": 0.87786,
+            "partial_alpha_ratio": 0.00548,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              208,
+              210,
+              433,
+              840
+            ]
+          },
+          {
+            "transparent_ratio": 0.88018,
+            "partial_alpha_ratio": 0.0055,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00063,
+            "bbox": [
+              208,
+              211,
+              433,
+              840
+            ]
+          },
+          {
+            "transparent_ratio": 0.87891,
+            "partial_alpha_ratio": 0.00582,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0003,
+            "bbox": [
+              208,
+              210,
+              433,
+              840
+            ]
+          },
+          {
+            "transparent_ratio": 0.88028,
+            "partial_alpha_ratio": 0.00564,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00062,
+            "bbox": [
+              208,
+              211,
+              434,
+              840
+            ]
+          },
+          {
+            "transparent_ratio": 0.88014,
+            "partial_alpha_ratio": 0.0056,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00062,
+            "bbox": [
+              208,
+              210,
+              433,
+              840
+            ]
+          },
+          {
+            "transparent_ratio": 0.87829,
+            "partial_alpha_ratio": 0.00563,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00031,
+            "bbox": [
+              208,
+              210,
+              433,
+              840
+            ]
+          }
+        ],
+        "final_alpha_quality": [
+          {
+            "transparent_ratio": 0.85065,
+            "partial_alpha_ratio": 0.01957,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.8524,
+            "partial_alpha_ratio": 0.01837,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.85026,
+            "partial_alpha_ratio": 0.01849,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0011,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.85193,
+            "partial_alpha_ratio": 0.01884,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.85089,
+            "partial_alpha_ratio": 0.0198,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.85211,
+            "partial_alpha_ratio": 0.01939,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.85232,
+            "partial_alpha_ratio": 0.01904,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.85046,
+            "partial_alpha_ratio": 0.01963,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00107,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          }
+        ],
+        "processed_frame_diff": [
+          1.3929,
+          1.6971,
+          1.6691,
+          1.4446,
+          1.3147,
+          1.2015,
+          1.4421
+        ]
+      },
       "verification": {
+        "asset_usage": "character_sprite",
+        "alpha_mode": "transparent_clean",
         "png_mode": "RGBA",
         "png_size": [
           192,
@@ -356,9 +640,124 @@
           0,
           255
         ],
-        "canonical_subject": "adult human",
+        "canonical_subject": "adult child",
         "canonical_pass": true,
-        "animation_pass": true
+        "animation_pass": true,
+        "processing_mode": "transparent_isolated_clean",
+        "alpha_quality": [
+          {
+            "transparent_ratio": 0.85065,
+            "partial_alpha_ratio": 0.01957,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.8524,
+            "partial_alpha_ratio": 0.01837,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.85026,
+            "partial_alpha_ratio": 0.01849,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0011,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.85193,
+            "partial_alpha_ratio": 0.01884,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.85089,
+            "partial_alpha_ratio": 0.0198,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.85211,
+            "partial_alpha_ratio": 0.01939,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.85232,
+            "partial_alpha_ratio": 0.01904,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          },
+          {
+            "transparent_ratio": 0.85046,
+            "partial_alpha_ratio": 0.01963,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00107,
+            "bbox": [
+              61,
+              33,
+              130,
+              223
+            ]
+          }
+        ]
       },
       "review": {
         "canonical": {
@@ -372,22 +771,39 @@
           "grounded_materials": true,
           "clean_plain_background": true,
           "clear_silhouette": true,
-          "recognized_subject": "adult human",
+          "recognized_subject": "adult child",
           "critical_defects": [],
-          "description": "An adult human standing with hands in pockets, wearing casual clothes, with a determined look.",
+          "description": "An adult child with a determined look, standing alone, wearing casual clothes, on a uniform pure-white extraction background, with a sense of urgency and defiance.",
           "materials_required": false,
           "materials_pass": true,
+          "asset_usage": "character_sprite",
+          "background_mode": "transparent_isolated",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true,
-          "candidate_index": 2,
-          "seed": 3637169226,
-          "seconds": 34.531,
+          "candidate_index": 4,
+          "seed": 2879952597,
+          "seconds": 34.607,
           "bbox": [
-            0,
-            0,
-            640,
-            896
+            208,
+            210,
+            433,
+            840
           ],
+          "extraction_quality": {
+            "transparent_ratio": 0.87865,
+            "partial_alpha_ratio": 0.00581,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0003,
+            "bbox": [
+              208,
+              210,
+              433,
+              840
+            ]
+          },
           "extraction_error": ""
         },
         "animation": {
@@ -401,11 +817,14 @@
           "grounded_materials": true,
           "clean_plain_background": true,
           "clear_silhouette": true,
-          "recognized_subject": "adult human",
+          "recognized_subject": "adult child",
           "critical_defects": [],
-          "description": "An adult human with a determined look, standing in a dimly lit room, wearing casual clothes, with a sense of urgency and defiance.",
+          "description": "An adult child with a determined look, standing alone, wearing casual clothes, on a uniform pure-white extraction background, with a sense of urgency and defiance.",
           "materials_required": false,
           "materials_pass": true,
+          "asset_usage": "character_sprite",
+          "background_mode": "transparent_isolated",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true
         }
@@ -418,7 +837,9 @@
     "mom": {
       "id": "mom",
       "kind": "npc",
+      "asset_usage": "character_sprite",
       "name": "Your Mom",
+      "request_sha256": "9b4e33017e1e96d8a162f761237cc05348248cacd70e1050e020eefa97905ecd",
       "png_path": "generated/world_assets/mom/canonical.png",
       "gif_path": "generated/world_assets/mom/animation.gif",
       "sheet_path": "generated/world_assets/mom/animation.sheet.png",
@@ -427,12 +848,310 @@
       "frame_height": 256,
       "frame_duration_ms": 120,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "key": "08105e4e54c400bd323113e9",
+      "key": "410a75e9a5aa1da32c346b83",
       "cached": false,
-      "generation_seconds": 70.252,
+      "generation_seconds": 212.087,
       "identity_anchored": true,
       "motion_generated": true,
+      "processing": {
+        "mode": "transparent_isolated_clean",
+        "source_crop": [
+          49,
+          0,
+          602,
+          896
+        ],
+        "alpha_extrema": [
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ]
+        ],
+        "source_alpha_quality": [
+          {
+            "transparent_ratio": 0.56418,
+            "partial_alpha_ratio": 0.00822,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00424,
+            "bbox": [
+              67,
+              17,
+              584,
+              884
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.56416,
+            "partial_alpha_ratio": 0.00824,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00296,
+            "bbox": [
+              67,
+              17,
+              584,
+              884
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.56412,
+            "partial_alpha_ratio": 0.00822,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00318,
+            "bbox": [
+              67,
+              17,
+              584,
+              884
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.56411,
+            "partial_alpha_ratio": 0.00823,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00339,
+            "bbox": [
+              67,
+              17,
+              584,
+              884
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.56481,
+            "partial_alpha_ratio": 0.00826,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00359,
+            "bbox": [
+              67,
+              17,
+              584,
+              884
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.56407,
+            "partial_alpha_ratio": 0.00821,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00403,
+            "bbox": [
+              67,
+              17,
+              584,
+              884
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.56412,
+            "partial_alpha_ratio": 0.00823,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00382,
+            "bbox": [
+              67,
+              17,
+              584,
+              884
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.56409,
+            "partial_alpha_ratio": 0.00822,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00339,
+            "bbox": [
+              67,
+              17,
+              584,
+              884
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          }
+        ],
+        "final_alpha_quality": [
+          {
+            "transparent_ratio": 0.72121,
+            "partial_alpha_ratio": 0.02012,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0019,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72113,
+            "partial_alpha_ratio": 0.02014,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00189,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72144,
+            "partial_alpha_ratio": 0.02012,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00095,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72115,
+            "partial_alpha_ratio": 0.02028,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00095,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72176,
+            "partial_alpha_ratio": 0.02012,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00283,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72117,
+            "partial_alpha_ratio": 0.02032,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0038,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72109,
+            "partial_alpha_ratio": 0.02006,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00285,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72111,
+            "partial_alpha_ratio": 0.02008,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00095,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          }
+        ],
+        "processed_frame_diff": [
+          1.1256,
+          1.2531,
+          1.2337,
+          1.3303,
+          1.3434,
+          1.2994,
+          1.2751
+        ]
+      },
       "verification": {
+        "asset_usage": "character_sprite",
+        "alpha_mode": "transparent_clean",
         "png_mode": "RGBA",
         "png_size": [
           192,
@@ -489,7 +1208,122 @@
         ],
         "canonical_subject": "mother",
         "canonical_pass": true,
-        "animation_pass": true
+        "animation_pass": true,
+        "processing_mode": "transparent_isolated_clean",
+        "alpha_quality": [
+          {
+            "transparent_ratio": 0.72121,
+            "partial_alpha_ratio": 0.02012,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0019,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72113,
+            "partial_alpha_ratio": 0.02014,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00189,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72144,
+            "partial_alpha_ratio": 0.02012,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00095,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72115,
+            "partial_alpha_ratio": 0.02028,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00095,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72176,
+            "partial_alpha_ratio": 0.02012,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00283,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72117,
+            "partial_alpha_ratio": 0.02032,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0038,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72109,
+            "partial_alpha_ratio": 0.02006,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00285,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          },
+          {
+            "transparent_ratio": 0.72111,
+            "partial_alpha_ratio": 0.02008,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00095,
+            "bbox": [
+              38,
+              31,
+              153,
+              226
+            ]
+          }
+        ]
       },
       "review": {
         "canonical": {
@@ -505,20 +1339,39 @@
           "clear_silhouette": true,
           "recognized_subject": "mother",
           "critical_defects": [],
-          "description": "A stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze.",
+          "description": "A stern woman in a cheerful floral dress, seated alone, with a critical gaze, on a uniform pure-white extraction background.",
           "materials_required": false,
           "materials_pass": true,
+          "asset_usage": "character_sprite",
+          "background_mode": "transparent_isolated",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true,
-          "candidate_index": 0,
-          "seed": 2383159894,
-          "seconds": 34.125,
+          "candidate_index": 4,
+          "seed": 518544971,
+          "seconds": 34.76,
           "bbox": [
-            19,
-            11,
-            621,
-            896
+            67,
+            17,
+            584,
+            884
           ],
+          "extraction_quality": {
+            "transparent_ratio": 0.56418,
+            "partial_alpha_ratio": 0.00822,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00424,
+            "bbox": [
+              67,
+              17,
+              584,
+              884
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
           "extraction_error": ""
         },
         "animation": {
@@ -534,9 +1387,12 @@
           "clear_silhouette": true,
           "recognized_subject": "mother",
           "critical_defects": [],
-          "description": "A stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze.",
+          "description": "A stern woman in a cheerful floral dress, seated alone, with a critical gaze, on a uniform pure-white extraction background.",
           "materials_required": false,
           "materials_pass": true,
+          "asset_usage": "character_sprite",
+          "background_mode": "transparent_isolated",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true
         }
@@ -549,7 +1405,9 @@
     "dining_table": {
       "id": "dining_table",
       "kind": "static_prop",
+      "asset_usage": "isolated_sprite",
       "name": "Dining Table",
+      "request_sha256": "deec1ba54193d91074b7803bd6de43764b9aaacb7543c5002654a2daec900663",
       "png_path": "generated/world_assets/dining-table/canonical.png",
       "gif_path": "generated/world_assets/dining-table/animation.gif",
       "sheet_path": "generated/world_assets/dining-table/animation.sheet.png",
@@ -558,12 +1416,240 @@
       "frame_height": 160,
       "frame_duration_ms": 120,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "key": "48945c769d03274583495bea",
+      "key": "9b5e2d174a8649b6623f45d8",
       "cached": false,
-      "generation_seconds": 101.306,
+      "generation_seconds": 74.733,
       "identity_anchored": true,
       "motion_generated": true,
+      "processing": {
+        "mode": "transparent_isolated_clean",
+        "source_crop": [
+          0,
+          302,
+          410,
+          640
+        ],
+        "alpha_extrema": [
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ]
+        ],
+        "source_alpha_quality": [
+          {
+            "transparent_ratio": 0.83989,
+            "partial_alpha_ratio": 0.00569,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02618,
+            "bbox": [
+              16,
+              320,
+              392,
+              629
+            ],
+            "bright_neutral_border_ratio": 0.99531,
+            "selected_components": 3
+          },
+          {
+            "transparent_ratio": 0.83966,
+            "partial_alpha_ratio": 0.00567,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0267,
+            "bbox": [
+              16,
+              320,
+              392,
+              628
+            ],
+            "bright_neutral_border_ratio": 0.99531,
+            "selected_components": 3
+          },
+          {
+            "transparent_ratio": 0.83979,
+            "partial_alpha_ratio": 0.00566,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02373,
+            "bbox": [
+              16,
+              320,
+              392,
+              629
+            ],
+            "bright_neutral_border_ratio": 0.99585,
+            "selected_components": 3
+          },
+          {
+            "transparent_ratio": 0.8399,
+            "partial_alpha_ratio": 0.00567,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0241,
+            "bbox": [
+              16,
+              320,
+              392,
+              629
+            ],
+            "bright_neutral_border_ratio": 0.99536,
+            "selected_components": 3
+          },
+          {
+            "transparent_ratio": 0.83973,
+            "partial_alpha_ratio": 0.00565,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02375,
+            "bbox": [
+              16,
+              320,
+              392,
+              628
+            ],
+            "bright_neutral_border_ratio": 0.99531,
+            "selected_components": 3
+          },
+          {
+            "transparent_ratio": 0.83986,
+            "partial_alpha_ratio": 0.00568,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02448,
+            "bbox": [
+              16,
+              320,
+              392,
+              629
+            ],
+            "bright_neutral_border_ratio": 0.99531,
+            "selected_components": 3
+          }
+        ],
+        "final_alpha_quality": [
+          {
+            "transparent_ratio": 0.7766,
+            "partial_alpha_ratio": 0.02664,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02344,
+            "bbox": [
+              28,
+              48,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.77594,
+            "partial_alpha_ratio": 0.02715,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02212,
+            "bbox": [
+              28,
+              48,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.77672,
+            "partial_alpha_ratio": 0.02676,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02044,
+            "bbox": [
+              28,
+              48,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.77656,
+            "partial_alpha_ratio": 0.02656,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02208,
+            "bbox": [
+              28,
+              48,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.77633,
+            "partial_alpha_ratio": 0.02687,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02219,
+            "bbox": [
+              28,
+              48,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.77652,
+            "partial_alpha_ratio": 0.02684,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02187,
+            "bbox": [
+              28,
+              48,
+              131,
+              133
+            ]
+          }
+        ],
+        "processed_frame_diff": [
+          1.2558,
+          0.8088,
+          0.5816,
+          0.6749,
+          0.6461
+        ]
+      },
       "verification": {
+        "asset_usage": "isolated_sprite",
+        "alpha_mode": "transparent_clean",
         "png_mode": "RGBA",
         "png_size": [
           160,
@@ -612,7 +1698,94 @@
         ],
         "canonical_subject": "Dining Table",
         "canonical_pass": true,
-        "animation_pass": true
+        "animation_pass": true,
+        "processing_mode": "transparent_isolated_clean",
+        "alpha_quality": [
+          {
+            "transparent_ratio": 0.7766,
+            "partial_alpha_ratio": 0.02664,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02344,
+            "bbox": [
+              28,
+              48,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.77594,
+            "partial_alpha_ratio": 0.02715,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02212,
+            "bbox": [
+              28,
+              48,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.77672,
+            "partial_alpha_ratio": 0.02676,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02044,
+            "bbox": [
+              28,
+              48,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.77656,
+            "partial_alpha_ratio": 0.02656,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02208,
+            "bbox": [
+              28,
+              48,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.77633,
+            "partial_alpha_ratio": 0.02687,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02219,
+            "bbox": [
+              28,
+              48,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.77652,
+            "partial_alpha_ratio": 0.02684,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02187,
+            "bbox": [
+              28,
+              48,
+              131,
+              133
+            ]
+          }
+        ]
       },
       "review": {
         "canonical": {
@@ -628,20 +1801,39 @@
           "clear_silhouette": true,
           "recognized_subject": "Dining Table",
           "critical_defects": [],
-          "description": "A long oak dining table with matching chairs, meticulously arranged, in a dimly lit dining room, with a sense of oppression and control.",
+          "description": "A long oak dining table with matching chairs, meticulously arranged, isolated on a uniform pure-white extraction background.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "isolated_sprite",
+          "background_mode": "transparent_isolated",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true,
-          "candidate_index": 2,
-          "seed": 1304853175,
-          "seconds": 26.194,
+          "candidate_index": 1,
+          "seed": 4045133773,
+          "seconds": 26.067,
           "bbox": [
-            0,
-            0,
-            640,
-            625
+            16,
+            320,
+            392,
+            629
           ],
+          "extraction_quality": {
+            "transparent_ratio": 0.83989,
+            "partial_alpha_ratio": 0.00569,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02618,
+            "bbox": [
+              16,
+              320,
+              392,
+              629
+            ],
+            "bright_neutral_border_ratio": 0.99531,
+            "selected_components": 3
+          },
           "extraction_error": ""
         },
         "animation": {
@@ -657,9 +1849,12 @@
           "clear_silhouette": true,
           "recognized_subject": "Dining Table",
           "critical_defects": [],
-          "description": "A long oak dining table with matching chairs, meticulously arranged, in a dimly lit dining room, with a sense of oppression and control.",
+          "description": "A long oak dining table with matching chairs, meticulously arranged, isolated on a uniform pure-white extraction background.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "isolated_sprite",
+          "background_mode": "transparent_isolated",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true
         }
@@ -672,7 +1867,9 @@
     "chandelier": {
       "id": "chandelier",
       "kind": "static_prop",
+      "asset_usage": "isolated_sprite",
       "name": "Chandelier",
+      "request_sha256": "440304ecfe47b36ba8a745f23efb43c0dd4e605e969e0d70c5c95cc07bd1291b",
       "png_path": "generated/world_assets/chandelier/canonical.png",
       "gif_path": "generated/world_assets/chandelier/animation.gif",
       "sheet_path": "generated/world_assets/chandelier/animation.sheet.png",
@@ -681,12 +1878,240 @@
       "frame_height": 160,
       "frame_duration_ms": 120,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "key": "b575a028bf9920b9f466bc9c",
+      "key": "2b0344a0b61f7d37bcff9377",
       "cached": false,
-      "generation_seconds": 48.542,
+      "generation_seconds": 183.521,
       "identity_anchored": true,
       "motion_generated": true,
+      "processing": {
+        "mode": "transparent_isolated_clean",
+        "source_crop": [
+          0,
+          300,
+          640,
+          605
+        ],
+        "alpha_extrema": [
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ]
+        ],
+        "source_alpha_quality": [
+          {
+            "transparent_ratio": 0.90875,
+            "partial_alpha_ratio": 0.00479,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0301,
+            "bbox": [
+              12,
+              350,
+              320,
+              562
+            ],
+            "bright_neutral_border_ratio": 0.96992,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.90879,
+            "partial_alpha_ratio": 0.00479,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02548,
+            "bbox": [
+              12,
+              350,
+              320,
+              562
+            ],
+            "bright_neutral_border_ratio": 0.96958,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.90833,
+            "partial_alpha_ratio": 0.00496,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02707,
+            "bbox": [
+              12,
+              350,
+              320,
+              587
+            ],
+            "bright_neutral_border_ratio": 0.96973,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.90832,
+            "partial_alpha_ratio": 0.00495,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0311,
+            "bbox": [
+              12,
+              350,
+              320,
+              587
+            ],
+            "bright_neutral_border_ratio": 0.96963,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.90279,
+            "partial_alpha_ratio": 0.00461,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.03708,
+            "bbox": [
+              341,
+              318,
+              630,
+              580
+            ],
+            "bright_neutral_border_ratio": 0.96968,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.90865,
+            "partial_alpha_ratio": 0.00479,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.02902,
+            "bbox": [
+              12,
+              350,
+              320,
+              562
+            ],
+            "bright_neutral_border_ratio": 0.96963,
+            "selected_components": 1
+          }
+        ],
+        "final_alpha_quality": [
+          {
+            "transparent_ratio": 0.94078,
+            "partial_alpha_ratio": 0.01227,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00901,
+            "bbox": [
+              26,
+              91,
+              80,
+              129
+            ]
+          },
+          {
+            "transparent_ratio": 0.94102,
+            "partial_alpha_ratio": 0.0123,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00898,
+            "bbox": [
+              26,
+              91,
+              80,
+              129
+            ]
+          },
+          {
+            "transparent_ratio": 0.9402,
+            "partial_alpha_ratio": 0.01277,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.01163,
+            "bbox": [
+              26,
+              91,
+              80,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.94016,
+            "partial_alpha_ratio": 0.01266,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.01159,
+            "bbox": [
+              26,
+              91,
+              80,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.93848,
+            "partial_alpha_ratio": 0.01215,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 2,
+            "largest_component_ratio": 0.99925,
+            "boundary_matte_ratio": 0.01212,
+            "bbox": [
+              83,
+              86,
+              135,
+              132
+            ]
+          },
+          {
+            "transparent_ratio": 0.94082,
+            "partial_alpha_ratio": 0.0123,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00906,
+            "bbox": [
+              26,
+              91,
+              80,
+              129
+            ]
+          }
+        ],
+        "processed_frame_diff": [
+          0.1112,
+          0.1521,
+          0.1179,
+          10.4338,
+          10.4061
+        ]
+      },
       "verification": {
+        "asset_usage": "isolated_sprite",
+        "alpha_mode": "transparent_clean",
         "png_mode": "RGBA",
         "png_size": [
           160,
@@ -735,7 +2160,94 @@
         ],
         "canonical_subject": "Chandelier",
         "canonical_pass": true,
-        "animation_pass": true
+        "animation_pass": true,
+        "processing_mode": "transparent_isolated_clean",
+        "alpha_quality": [
+          {
+            "transparent_ratio": 0.94078,
+            "partial_alpha_ratio": 0.01227,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00901,
+            "bbox": [
+              26,
+              91,
+              80,
+              129
+            ]
+          },
+          {
+            "transparent_ratio": 0.94102,
+            "partial_alpha_ratio": 0.0123,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00898,
+            "bbox": [
+              26,
+              91,
+              80,
+              129
+            ]
+          },
+          {
+            "transparent_ratio": 0.9402,
+            "partial_alpha_ratio": 0.01277,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.01163,
+            "bbox": [
+              26,
+              91,
+              80,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.94016,
+            "partial_alpha_ratio": 0.01266,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.01159,
+            "bbox": [
+              26,
+              91,
+              80,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.93848,
+            "partial_alpha_ratio": 0.01215,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 2,
+            "largest_component_ratio": 0.99925,
+            "boundary_matte_ratio": 0.01212,
+            "bbox": [
+              83,
+              86,
+              135,
+              132
+            ]
+          },
+          {
+            "transparent_ratio": 0.94082,
+            "partial_alpha_ratio": 0.0123,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00906,
+            "bbox": [
+              26,
+              91,
+              80,
+              129
+            ]
+          }
+        ]
       },
       "review": {
         "canonical": {
@@ -751,20 +2263,39 @@
           "clear_silhouette": true,
           "recognized_subject": "Chandelier",
           "critical_defects": [],
-          "description": "An eerie, flickering chandelier with a sense of mockery and unease, isolated on a clean plain white extraction background.",
+          "description": "A black silhouette of a chandelier against a white background, with clear details of the lampshades and hanging crystals.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "isolated_sprite",
+          "background_mode": "transparent_isolated",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true,
-          "candidate_index": 2,
-          "seed": 1715344602,
-          "seconds": 12.375,
+          "candidate_index": 5,
+          "seed": 2424138214,
+          "seconds": 25.888,
           "bbox": [
-            0,
-            0,
-            640,
-            554
+            12,
+            350,
+            320,
+            562
           ],
+          "extraction_quality": {
+            "transparent_ratio": 0.90875,
+            "partial_alpha_ratio": 0.00479,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0301,
+            "bbox": [
+              12,
+              350,
+              320,
+              562
+            ],
+            "bright_neutral_border_ratio": 0.96992,
+            "selected_components": 1
+          },
           "extraction_error": ""
         },
         "animation": {
@@ -780,9 +2311,12 @@
           "clear_silhouette": true,
           "recognized_subject": "Chandelier",
           "critical_defects": [],
-          "description": "An eerie, flickering chandelier with a sense of mockery and unease, isolated on a clean plain white extraction background.",
+          "description": "A black silhouette of a chandelier with multiple arms and hanging crystals against a clean, white background.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "isolated_sprite",
+          "background_mode": "transparent_isolated",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true
         }
@@ -795,7 +2329,9 @@
     "sideboard": {
       "id": "sideboard",
       "kind": "static_prop",
+      "asset_usage": "isolated_sprite",
       "name": "Sideboard",
+      "request_sha256": "d3326ebb0e0485b18625e2f45f3fa03cd834824df77b8ffcab5fceef5646fa21",
       "png_path": "generated/world_assets/sideboard/canonical.png",
       "gif_path": "generated/world_assets/sideboard/animation.gif",
       "sheet_path": "generated/world_assets/sideboard/animation.sheet.png",
@@ -804,12 +2340,240 @@
       "frame_height": 160,
       "frame_duration_ms": 120,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "key": "00cf91003d18cf9faada4a39",
+      "key": "a912edf20b0fea08df57e83c",
       "cached": false,
-      "generation_seconds": 23.019,
+      "generation_seconds": 99.156,
       "identity_anchored": true,
       "motion_generated": true,
+      "processing": {
+        "mode": "transparent_isolated_clean",
+        "source_crop": [
+          43,
+          185,
+          505,
+          619
+        ],
+        "alpha_extrema": [
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ],
+          [
+            0,
+            255
+          ]
+        ],
+        "source_alpha_quality": [
+          {
+            "transparent_ratio": 0.72321,
+            "partial_alpha_ratio": 0.00594,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              246,
+              486,
+              600
+            ],
+            "bright_neutral_border_ratio": 0.85537,
+            "selected_components": 2
+          },
+          {
+            "transparent_ratio": 0.70768,
+            "partial_alpha_ratio": 0.00699,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0014,
+            "bbox": [
+              61,
+              203,
+              487,
+              600
+            ],
+            "bright_neutral_border_ratio": 0.85371,
+            "selected_components": 3
+          },
+          {
+            "transparent_ratio": 0.70773,
+            "partial_alpha_ratio": 0.00699,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00175,
+            "bbox": [
+              62,
+              203,
+              487,
+              601
+            ],
+            "bright_neutral_border_ratio": 0.85435,
+            "selected_components": 3
+          },
+          {
+            "transparent_ratio": 0.70768,
+            "partial_alpha_ratio": 0.00701,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00348,
+            "bbox": [
+              61,
+              203,
+              487,
+              601
+            ],
+            "bright_neutral_border_ratio": 0.85469,
+            "selected_components": 3
+          },
+          {
+            "transparent_ratio": 0.70776,
+            "partial_alpha_ratio": 0.00701,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00105,
+            "bbox": [
+              61,
+              203,
+              487,
+              600
+            ],
+            "bright_neutral_border_ratio": 0.85591,
+            "selected_components": 3
+          },
+          {
+            "transparent_ratio": 0.70763,
+            "partial_alpha_ratio": 0.00699,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0021,
+            "bbox": [
+              61,
+              203,
+              486,
+              600
+            ],
+            "bright_neutral_border_ratio": 0.85786,
+            "selected_components": 3
+          }
+        ],
+        "final_alpha_quality": [
+          {
+            "transparent_ratio": 0.7107,
+            "partial_alpha_ratio": 0.02453,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0051,
+            "bbox": [
+              28,
+              45,
+              132,
+              132
+            ]
+          },
+          {
+            "transparent_ratio": 0.6923,
+            "partial_alpha_ratio": 0.0291,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 2,
+            "largest_component_ratio": 0.99986,
+            "boundary_matte_ratio": 0.01445,
+            "bbox": [
+              28,
+              35,
+              132,
+              132
+            ]
+          },
+          {
+            "transparent_ratio": 0.69234,
+            "partial_alpha_ratio": 0.02875,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.01293,
+            "bbox": [
+              28,
+              35,
+              132,
+              132
+            ]
+          },
+          {
+            "transparent_ratio": 0.69277,
+            "partial_alpha_ratio": 0.02844,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 2,
+            "largest_component_ratio": 0.99986,
+            "boundary_matte_ratio": 0.01441,
+            "bbox": [
+              28,
+              35,
+              132,
+              132
+            ]
+          },
+          {
+            "transparent_ratio": 0.69223,
+            "partial_alpha_ratio": 0.02902,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 2,
+            "largest_component_ratio": 0.99986,
+            "boundary_matte_ratio": 0.01301,
+            "bbox": [
+              28,
+              35,
+              132,
+              132
+            ]
+          },
+          {
+            "transparent_ratio": 0.69199,
+            "partial_alpha_ratio": 0.02914,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0159,
+            "bbox": [
+              28,
+              35,
+              132,
+              132
+            ]
+          }
+        ],
+        "processed_frame_diff": [
+          3.8402,
+          0.9949,
+          0.986,
+          0.6428,
+          0.9046
+        ]
+      },
       "verification": {
+        "asset_usage": "isolated_sprite",
+        "alpha_mode": "transparent_clean",
         "png_mode": "RGBA",
         "png_size": [
           160,
@@ -858,7 +2622,94 @@
         ],
         "canonical_subject": "Sideboard",
         "canonical_pass": true,
-        "animation_pass": true
+        "animation_pass": true,
+        "processing_mode": "transparent_isolated_clean",
+        "alpha_quality": [
+          {
+            "transparent_ratio": 0.7107,
+            "partial_alpha_ratio": 0.02453,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0051,
+            "bbox": [
+              28,
+              45,
+              132,
+              132
+            ]
+          },
+          {
+            "transparent_ratio": 0.6923,
+            "partial_alpha_ratio": 0.0291,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 2,
+            "largest_component_ratio": 0.99986,
+            "boundary_matte_ratio": 0.01445,
+            "bbox": [
+              28,
+              35,
+              132,
+              132
+            ]
+          },
+          {
+            "transparent_ratio": 0.69234,
+            "partial_alpha_ratio": 0.02875,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.01293,
+            "bbox": [
+              28,
+              35,
+              132,
+              132
+            ]
+          },
+          {
+            "transparent_ratio": 0.69277,
+            "partial_alpha_ratio": 0.02844,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 2,
+            "largest_component_ratio": 0.99986,
+            "boundary_matte_ratio": 0.01441,
+            "bbox": [
+              28,
+              35,
+              132,
+              132
+            ]
+          },
+          {
+            "transparent_ratio": 0.69223,
+            "partial_alpha_ratio": 0.02902,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 2,
+            "largest_component_ratio": 0.99986,
+            "boundary_matte_ratio": 0.01301,
+            "bbox": [
+              28,
+              35,
+              132,
+              132
+            ]
+          },
+          {
+            "transparent_ratio": 0.69199,
+            "partial_alpha_ratio": 0.02914,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0159,
+            "bbox": [
+              28,
+              35,
+              132,
+              132
+            ]
+          }
+        ]
       },
       "review": {
         "canonical": {
@@ -874,20 +2725,39 @@
           "clear_silhouette": true,
           "recognized_subject": "Sideboard",
           "critical_defects": [],
-          "description": "A sideboard with a stack of clean dishes demanding attention, isolated on a clean plain white extraction background.",
+          "description": "A sideboard with a stack of clean dishes, isolated on a uniform pure-white extraction background.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "isolated_sprite",
+          "background_mode": "transparent_isolated",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true,
-          "candidate_index": 0,
-          "seed": 2402994185,
-          "seconds": 12.333,
+          "candidate_index": 2,
+          "seed": 3580411935,
+          "seconds": 25.824,
           "bbox": [
-            8,
-            0,
-            640,
-            640
+            61,
+            246,
+            486,
+            600
           ],
+          "extraction_quality": {
+            "transparent_ratio": 0.72321,
+            "partial_alpha_ratio": 0.00594,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              61,
+              246,
+              486,
+              600
+            ],
+            "bright_neutral_border_ratio": 0.85537,
+            "selected_components": 2
+          },
           "extraction_error": ""
         },
         "animation": {
@@ -903,9 +2773,12 @@
           "clear_silhouette": true,
           "recognized_subject": "Sideboard",
           "critical_defects": [],
-          "description": "A sideboard with a stack of clean dishes demanding attention, isolated on a clean plain white extraction background.",
+          "description": "A sideboard with a stack of clean dishes, isolated on a uniform pure-white extraction background.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "isolated_sprite",
+          "background_mode": "transparent_isolated",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true
         }
@@ -918,7 +2791,9 @@
     "curtains": {
       "id": "curtains",
       "kind": "static_prop",
+      "asset_usage": "background_layer",
       "name": "Curtains",
+      "request_sha256": "9c0b26189cb21581d11d0285ef9bad6eb1eed3fc752c51ebf64b63a9db045d88",
       "png_path": "generated/world_assets/curtains/canonical.png",
       "gif_path": "generated/world_assets/curtains/animation.gif",
       "sheet_path": "generated/world_assets/curtains/animation.sheet.png",
@@ -927,46 +2802,90 @@
       "frame_height": 160,
       "frame_duration_ms": 120,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "key": "d01c199257eb8963799ebeff",
+      "key": "582acf6fddeb5b4fecac8c0a",
       "cached": false,
-      "generation_seconds": 47.454,
+      "generation_seconds": 52.154,
       "identity_anchored": true,
       "motion_generated": true,
+      "processing": {
+        "mode": "opaque_full_frame",
+        "source_crop": [
+          0,
+          0,
+          640,
+          640
+        ],
+        "alpha_extrema": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ],
+        "processed_frame_diff": [
+          1.7893,
+          1.705,
+          1.7487,
+          1.7199,
+          1.7409
+        ]
+      },
       "verification": {
+        "asset_usage": "background_layer",
+        "alpha_mode": "opaque",
         "png_mode": "RGBA",
         "png_size": [
           160,
           160
         ],
         "png_alpha": [
-          0,
+          255,
           255
         ],
         "gif_frames": 6,
         "gif_distinct_frames": 6,
         "gif_alpha": [
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ]
         ],
@@ -976,12 +2895,14 @@
           160
         ],
         "sheet_alpha": [
-          0,
+          255,
           255
         ],
         "canonical_subject": "Curtains",
         "canonical_pass": true,
-        "animation_pass": true
+        "animation_pass": true,
+        "processing_mode": "opaque_full_frame",
+        "alpha_quality": []
       },
       "review": {
         "canonical": {
@@ -997,20 +2918,26 @@
           "clear_silhouette": true,
           "recognized_subject": "Curtains",
           "critical_defects": [],
-          "description": "Heavy curtains blocking out natural light, leaving the area in artificial brightness, isolated on a clean plain white extraction background.",
+          "description": "A seamless full-frame material texture of heavy closed curtains in dark fabric, edge-to-edge across the frame, no white background, no border, no margin, no transparency, no isolated cutout, no room scenery, no text.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "background_layer",
+          "background_mode": "opaque_full_frame",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true,
-          "candidate_index": 2,
-          "seed": 628714660,
-          "seconds": 12.161,
+          "candidate_index": 0,
+          "seed": 1642650044,
+          "seconds": 28.385,
           "bbox": [
             0,
             0,
             640,
             640
           ],
+          "extraction_quality": {
+            "mode": "opaque_full_frame"
+          },
           "extraction_error": ""
         },
         "animation": {
@@ -1026,9 +2953,12 @@
           "clear_silhouette": true,
           "recognized_subject": "Curtains",
           "critical_defects": [],
-          "description": "Heavy curtains blocking out natural light, leaving the area in artificial brightness, isolated on a clean plain white extraction background.",
+          "description": "A seamless full-frame material texture of heavy closed curtains in dark fabric, edge-to-edge across the frame, no white background, no border, no margin, no transparency, no isolated cutout, no room scenery, no text.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "background_layer",
+          "background_mode": "opaque_full_frame",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true
         }
@@ -1041,7 +2971,9 @@
     "wall_finish": {
       "id": "wall_finish",
       "kind": "surface",
+      "asset_usage": "tileable_texture",
       "name": "Wall Finish",
+      "request_sha256": "3eba575c42adb3e36a1c45c650eab8a63fff0366abd33c9b6e012e572f7c5252",
       "png_path": "generated/world_assets/wall-finish/canonical.png",
       "gif_path": "generated/world_assets/wall-finish/animation.gif",
       "sheet_path": "generated/world_assets/wall-finish/animation.sheet.png",
@@ -1050,46 +2982,90 @@
       "frame_height": 160,
       "frame_duration_ms": 120,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "key": "9bedc4f21e2e611cd35dc092",
+      "key": "0b773323f02e1ec1755ca261",
       "cached": false,
-      "generation_seconds": 35.021,
+      "generation_seconds": 51.05,
       "identity_anchored": true,
       "motion_generated": true,
+      "processing": {
+        "mode": "opaque_full_frame",
+        "source_crop": [
+          0,
+          0,
+          640,
+          640
+        ],
+        "alpha_extrema": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ],
+        "processed_frame_diff": [
+          1.0802,
+          1.0787,
+          1.0859,
+          1.0919,
+          1.0998
+        ]
+      },
       "verification": {
+        "asset_usage": "tileable_texture",
+        "alpha_mode": "opaque",
         "png_mode": "RGBA",
         "png_size": [
           160,
           160
         ],
         "png_alpha": [
-          0,
+          255,
           255
         ],
         "gif_frames": 6,
         "gif_distinct_frames": 6,
         "gif_alpha": [
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ]
         ],
@@ -1099,12 +3075,14 @@
           160
         ],
         "sheet_alpha": [
-          0,
+          255,
           255
         ],
-        "canonical_subject": "Wall Finish",
+        "canonical_subject": "wall finish",
         "canonical_pass": true,
-        "animation_pass": true
+        "animation_pass": true,
+        "processing_mode": "opaque_full_frame",
+        "alpha_quality": []
       },
       "review": {
         "canonical": {
@@ -1118,22 +3096,28 @@
           "grounded_materials": true,
           "clean_plain_background": true,
           "clear_silhouette": true,
-          "recognized_subject": "Wall Finish",
+          "recognized_subject": "wall finish",
           "critical_defects": [],
-          "description": "A seamless sample of dull beige wall finish with a sense of oppression and control, isolated on a clean plain white extraction background.",
+          "description": "A seamless, full-frame texture of a dull beige wall finish, suitable for tiling across a game surface. The texture features a rough, textured pattern that mimics the appearance of a wall with a worn, weathered finish. The color is a consistent, muted beige, and the pattern is consistent across the entire frame, ensuring a seamless edge-to-edge appearance.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "tileable_texture",
+          "background_mode": "opaque_full_frame",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true,
-          "candidate_index": 1,
-          "seed": 377985579,
-          "seconds": 12.394,
+          "candidate_index": 0,
+          "seed": 3949719306,
+          "seconds": 28.646,
           "bbox": [
             0,
-            8,
+            0,
             640,
             640
           ],
+          "extraction_quality": {
+            "mode": "opaque_full_frame"
+          },
           "extraction_error": ""
         },
         "animation": {
@@ -1147,11 +3131,14 @@
           "grounded_materials": true,
           "clean_plain_background": true,
           "clear_silhouette": true,
-          "recognized_subject": "Wall Finish",
+          "recognized_subject": "wall finish",
           "critical_defects": [],
-          "description": "A seamless sample of dull beige wall finish with a sense of oppression and control, isolated on a clean plain white extraction background.",
+          "description": "A seamless, full-frame texture of a dull beige wall finish, suitable for tiling across a game surface. The texture features a rough, textured pattern that mimics the appearance of a wall with a worn, weathered finish. The color is a consistent, muted beige, and the pattern is consistent across the entire frame, ensuring a seamless edge-to-edge appearance.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "tileable_texture",
+          "background_mode": "opaque_full_frame",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true
         }
@@ -1164,7 +3151,9 @@
     "floor_carpet": {
       "id": "floor_carpet",
       "kind": "surface",
+      "asset_usage": "tileable_texture",
       "name": "Floor Carpet",
+      "request_sha256": "6ed4d8df12fa62234ac9178a5c74c3875ec134e159a672597cbf997ed2944458",
       "png_path": "generated/world_assets/floor-carpet/canonical.png",
       "gif_path": "generated/world_assets/floor-carpet/animation.gif",
       "sheet_path": "generated/world_assets/floor-carpet/animation.sheet.png",
@@ -1173,46 +3162,90 @@
       "frame_height": 160,
       "frame_duration_ms": 120,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "key": "60db7296d883be25eb52aa10",
+      "key": "4c8e560dac3c0edb758dddc3",
       "cached": false,
-      "generation_seconds": 61.247,
+      "generation_seconds": 49.547,
       "identity_anchored": true,
       "motion_generated": true,
+      "processing": {
+        "mode": "opaque_full_frame",
+        "source_crop": [
+          0,
+          0,
+          640,
+          640
+        ],
+        "alpha_extrema": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ],
+        "processed_frame_diff": [
+          1.3466,
+          1.3718,
+          1.3704,
+          1.3809,
+          1.3764
+        ]
+      },
       "verification": {
+        "asset_usage": "tileable_texture",
+        "alpha_mode": "opaque",
         "png_mode": "RGBA",
         "png_size": [
           160,
           160
         ],
         "png_alpha": [
-          0,
+          255,
           255
         ],
         "gif_frames": 6,
         "gif_distinct_frames": 6,
         "gif_alpha": [
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ],
           [
-            0,
+            255,
             255
           ]
         ],
@@ -1222,12 +3255,14 @@
           160
         ],
         "sheet_alpha": [
-          0,
+          255,
           255
         ],
         "canonical_subject": "Floor Carpet",
         "canonical_pass": true,
-        "animation_pass": true
+        "animation_pass": true,
+        "processing_mode": "opaque_full_frame",
+        "alpha_quality": []
       },
       "review": {
         "canonical": {
@@ -1243,20 +3278,26 @@
           "clear_silhouette": true,
           "recognized_subject": "Floor Carpet",
           "critical_defects": [],
-          "description": "A soft, cream-colored carpet that muffles your footsteps, isolated on a clean plain white extraction background.",
+          "description": "A seamless, full-frame, opaque texture of a soft, cream-colored carpet. The material is physically plausible and suitable for tiling across a game surface. There are no borders, white margins, or other elements present.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "tileable_texture",
+          "background_mode": "opaque_full_frame",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true,
-          "candidate_index": 3,
-          "seed": 926721214,
-          "seconds": 12.414,
+          "candidate_index": 0,
+          "seed": 4169962855,
+          "seconds": 27.709,
           "bbox": [
             0,
             0,
             640,
-            543
+            640
           ],
+          "extraction_quality": {
+            "mode": "opaque_full_frame"
+          },
           "extraction_error": ""
         },
         "animation": {
@@ -1272,9 +3313,12 @@
           "clear_silhouette": true,
           "recognized_subject": "Floor Carpet",
           "critical_defects": [],
-          "description": "A soft, cream-colored carpet that muffles your footsteps, isolated on a clean plain white extraction background.",
+          "description": "A seamless, full-frame, opaque texture of a soft, cream-colored carpet. The material is physically plausible and suitable for tiling across a game surface. There are no visible borders, white margins, or other objects present. The texture is consistent and continuous, with no transparency or isolated elements.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "tileable_texture",
+          "background_mode": "opaque_full_frame",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true
         }
@@ -1287,7 +3331,9 @@
     "kitchen_door": {
       "id": "kitchen_door",
       "kind": "static_prop",
+      "asset_usage": "background_layer",
       "name": "Kitchen Door",
+      "request_sha256": "6c4e2f902e4202a1f30481a48c2a38c522bbc7897367e9e8ce2311cbfaff8346",
       "png_path": "generated/world_assets/kitchen-door/canonical.png",
       "gif_path": "generated/world_assets/kitchen-door/animation.gif",
       "sheet_path": "generated/world_assets/kitchen-door/animation.sheet.png",
@@ -1296,24 +3342,200 @@
       "frame_height": 160,
       "frame_duration_ms": 120,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "key": "bd7437b23a246246e3b797fd",
+      "key": "88c859e2b5edfdebd6618416",
       "cached": false,
-      "generation_seconds": 22.775,
+      "generation_seconds": 53.144,
       "identity_anchored": true,
       "motion_generated": true,
+      "processing": {
+        "mode": "opaque_full_frame",
+        "source_crop": [
+          0,
+          0,
+          640,
+          640
+        ],
+        "alpha_extrema": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ],
+        "processed_frame_diff": [
+          1.2054,
+          1.2119,
+          1.198,
+          1.2125,
+          1.2174
+        ]
+      },
       "verification": {
+        "asset_usage": "background_layer",
+        "alpha_mode": "opaque",
         "png_mode": "RGBA",
         "png_size": [
           160,
           160
         ],
         "png_alpha": [
-          0,
+          255,
           255
         ],
         "gif_frames": 6,
         "gif_distinct_frames": 6,
         "gif_alpha": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ],
+        "sheet_mode": "RGBA",
+        "sheet_size": [
+          960,
+          160
+        ],
+        "sheet_alpha": [
+          255,
+          255
+        ],
+        "canonical_subject": "Kitchen Door",
+        "canonical_pass": true,
+        "animation_pass": true,
+        "processing_mode": "opaque_full_frame",
+        "alpha_quality": []
+      },
+      "review": {
+        "canonical": {
+          "recognizable": true,
+          "single_subject": true,
+          "full_subject": true,
+          "correct_category": true,
+          "required_elements_visible": true,
+          "forbidden_elements_absent": true,
+          "anatomy_or_geometry": "normal",
+          "grounded_materials": true,
+          "clean_plain_background": true,
+          "clear_silhouette": true,
+          "recognized_subject": "Kitchen Door",
+          "critical_defects": [],
+          "description": "A full-frame front view of a closed kitchen door, filled with a plausible wood or painted material, a visible handle, no white background, no transparent margin, no surrounding wall, no room scene, no text, and no camera perspective. The material must remain recognizable, continuous at every edge, physically plausible, and suitable for tiling across a game surface.",
+          "materials_required": true,
+          "materials_pass": true,
+          "asset_usage": "background_layer",
+          "background_mode": "opaque_full_frame",
+          "background_pass": true,
+          "deterministic_pass": true,
+          "label_pass": true,
+          "candidate_index": 0,
+          "seed": 4194617559,
+          "seconds": 28.747,
+          "bbox": [
+            0,
+            0,
+            640,
+            640
+          ],
+          "extraction_quality": {
+            "mode": "opaque_full_frame"
+          },
+          "extraction_error": ""
+        },
+        "animation": {
+          "recognizable": true,
+          "single_subject": true,
+          "full_subject": true,
+          "correct_category": true,
+          "required_elements_visible": true,
+          "forbidden_elements_absent": true,
+          "anatomy_or_geometry": "normal",
+          "grounded_materials": true,
+          "clean_plain_background": true,
+          "clear_silhouette": true,
+          "recognized_subject": "Kitchen Door",
+          "critical_defects": [],
+          "description": "A full-frame front view of a closed kitchen door, filled with a plausible wood or painted material, a visible handle, no white background, no transparent margin, no surrounding wall, no room scene, no text, and no camera perspective. The material must remain recognizable, continuous at every edge, physically plausible, and suitable for tiling across a game surface.",
+          "materials_required": true,
+          "materials_pass": true,
+          "asset_usage": "background_layer",
+          "background_mode": "opaque_full_frame",
+          "background_pass": true,
+          "deterministic_pass": true,
+          "label_pass": true
+        }
+      },
+      "cached_local": true,
+      "png_resource": "res://generated/world_assets/kitchen-door/canonical.png",
+      "gif_resource": "res://generated/world_assets/kitchen-door/animation.gif",
+      "sheet_resource": "res://generated/world_assets/kitchen-door/animation.sheet.png"
+    },
+    "cookies": {
+      "id": "cookies",
+      "kind": "static_prop",
+      "asset_usage": "isolated_sprite",
+      "name": "Cookies",
+      "request_sha256": "7168d2f36282e62743eea02e34df7fc2a4234dbcc8ce21f8f5fe32ccc1a869d5",
+      "png_path": "generated/world_assets/cookies/canonical.png",
+      "gif_path": "generated/world_assets/cookies/animation.gif",
+      "sheet_path": "generated/world_assets/cookies/animation.sheet.png",
+      "frame_count": 6,
+      "frame_width": 160,
+      "frame_height": 160,
+      "frame_duration_ms": 120,
+      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+      "key": "f840e116047c5d3b5753823f",
+      "cached": false,
+      "generation_seconds": 73.115,
+      "identity_anchored": true,
+      "motion_generated": true,
+      "processing": {
+        "mode": "transparent_isolated_clean",
+        "source_crop": [
+          31,
+          22,
+          619,
+          634
+        ],
+        "alpha_extrema": [
           [
             0,
             255
@@ -1339,92 +3561,201 @@
             255
           ]
         ],
-        "sheet_mode": "RGBA",
-        "sheet_size": [
-          960,
-          160
+        "source_alpha_quality": [
+          {
+            "transparent_ratio": 0.44031,
+            "partial_alpha_ratio": 0.00622,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00392,
+            "bbox": [
+              50,
+              40,
+              601,
+              616
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.44011,
+            "partial_alpha_ratio": 0.00622,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00196,
+            "bbox": [
+              49,
+              40,
+              601,
+              616
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.44028,
+            "partial_alpha_ratio": 0.00624,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00117,
+            "bbox": [
+              50,
+              40,
+              601,
+              616
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.44017,
+            "partial_alpha_ratio": 0.00622,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00078,
+            "bbox": [
+              49,
+              40,
+              601,
+              616
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.44005,
+            "partial_alpha_ratio": 0.00621,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00197,
+            "bbox": [
+              49,
+              40,
+              601,
+              616
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
+          {
+            "transparent_ratio": 0.44008,
+            "partial_alpha_ratio": 0.00621,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00079,
+            "bbox": [
+              50,
+              40,
+              601,
+              616
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          }
         ],
-        "sheet_alpha": [
-          0,
-          255
+        "final_alpha_quality": [
+          {
+            "transparent_ratio": 0.67719,
+            "partial_alpha_ratio": 0.01609,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00214,
+            "bbox": [
+              29,
+              27,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.67676,
+            "partial_alpha_ratio": 0.01605,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              29,
+              27,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.67703,
+            "partial_alpha_ratio": 0.01602,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              29,
+              27,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.67691,
+            "partial_alpha_ratio": 0.01617,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              29,
+              27,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.67711,
+            "partial_alpha_ratio": 0.01605,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              29,
+              27,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.67707,
+            "partial_alpha_ratio": 0.01637,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              29,
+              27,
+              131,
+              133
+            ]
+          }
         ],
-        "canonical_subject": "Kitchen Door",
-        "canonical_pass": true,
-        "animation_pass": true
+        "processed_frame_diff": [
+          1.1399,
+          1.1655,
+          1.108,
+          1.1258,
+          1.1013
+        ]
       },
-      "review": {
-        "canonical": {
-          "recognizable": true,
-          "single_subject": true,
-          "full_subject": true,
-          "correct_category": true,
-          "required_elements_visible": true,
-          "forbidden_elements_absent": true,
-          "anatomy_or_geometry": "normal",
-          "grounded_materials": true,
-          "clean_plain_background": true,
-          "clear_silhouette": true,
-          "recognized_subject": "Kitchen Door",
-          "critical_defects": [],
-          "description": "A kitchen door that creaks ominously when you attempt to open it, isolated on a clean plain white extraction background.",
-          "materials_required": true,
-          "materials_pass": true,
-          "deterministic_pass": true,
-          "label_pass": true,
-          "candidate_index": 0,
-          "seed": 1108111816,
-          "seconds": 12.088,
-          "bbox": [
-            0,
-            0,
-            640,
-            640
-          ],
-          "extraction_error": ""
-        },
-        "animation": {
-          "recognizable": true,
-          "single_subject": true,
-          "full_subject": true,
-          "correct_category": true,
-          "required_elements_visible": true,
-          "forbidden_elements_absent": true,
-          "anatomy_or_geometry": "normal",
-          "grounded_materials": true,
-          "clean_plain_background": true,
-          "clear_silhouette": true,
-          "recognized_subject": "Kitchen Door",
-          "critical_defects": [],
-          "description": "A kitchen door that creaks ominously when you attempt to open it, isolated on a clean plain white extraction background.",
-          "materials_required": true,
-          "materials_pass": true,
-          "deterministic_pass": true,
-          "label_pass": true
-        }
-      },
-      "cached_local": true,
-      "png_resource": "res://generated/world_assets/kitchen-door/canonical.png",
-      "gif_resource": "res://generated/world_assets/kitchen-door/animation.gif",
-      "sheet_resource": "res://generated/world_assets/kitchen-door/animation.sheet.png"
-    },
-    "cookies": {
-      "id": "cookies",
-      "kind": "static_prop",
-      "name": "Cookies",
-      "png_path": "generated/world_assets/cookies/canonical.png",
-      "gif_path": "generated/world_assets/cookies/animation.gif",
-      "sheet_path": "generated/world_assets/cookies/animation.sheet.png",
-      "frame_count": 6,
-      "frame_width": 160,
-      "frame_height": 160,
-      "frame_duration_ms": 120,
-      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "key": "504137896972c7b6e01751a5",
-      "cached": false,
-      "generation_seconds": 22.344,
-      "identity_anchored": true,
-      "motion_generated": true,
       "verification": {
+        "asset_usage": "isolated_sprite",
+        "alpha_mode": "transparent_clean",
         "png_mode": "RGBA",
         "png_size": [
           160,
@@ -1473,7 +3804,94 @@
         ],
         "canonical_subject": "Cookies",
         "canonical_pass": true,
-        "animation_pass": true
+        "animation_pass": true,
+        "processing_mode": "transparent_isolated_clean",
+        "alpha_quality": [
+          {
+            "transparent_ratio": 0.67719,
+            "partial_alpha_ratio": 0.01609,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00214,
+            "bbox": [
+              29,
+              27,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.67676,
+            "partial_alpha_ratio": 0.01605,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              29,
+              27,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.67703,
+            "partial_alpha_ratio": 0.01602,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              29,
+              27,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.67691,
+            "partial_alpha_ratio": 0.01617,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              29,
+              27,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.67711,
+            "partial_alpha_ratio": 0.01605,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              29,
+              27,
+              131,
+              133
+            ]
+          },
+          {
+            "transparent_ratio": 0.67707,
+            "partial_alpha_ratio": 0.01637,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.0,
+            "bbox": [
+              29,
+              27,
+              131,
+              133
+            ]
+          }
+        ]
       },
       "review": {
         "canonical": {
@@ -1489,20 +3907,39 @@
           "clear_silhouette": true,
           "recognized_subject": "Cookies",
           "critical_defects": [],
-          "description": "A plate of fresh baked cookies sitting untouched, a constant reminder of meticulous control, isolated on a clean plain white extraction background.",
+          "description": "A plate of fresh baked cookies, isolated on a uniform pure-white extraction background.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "isolated_sprite",
+          "background_mode": "transparent_isolated",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true,
-          "candidate_index": 0,
-          "seed": 2021416417,
-          "seconds": 11.98,
+          "candidate_index": 1,
+          "seed": 619445667,
+          "seconds": 25.74,
           "bbox": [
-            0,
-            0,
-            640,
-            640
+            50,
+            40,
+            601,
+            616
           ],
+          "extraction_quality": {
+            "transparent_ratio": 0.44031,
+            "partial_alpha_ratio": 0.00622,
+            "border_visible_ratio": 0.0,
+            "foreground_components": 1,
+            "largest_component_ratio": 1.0,
+            "boundary_matte_ratio": 0.00392,
+            "bbox": [
+              50,
+              40,
+              601,
+              616
+            ],
+            "bright_neutral_border_ratio": 1.0,
+            "selected_components": 1
+          },
           "extraction_error": ""
         },
         "animation": {
@@ -1518,9 +3955,12 @@
           "clear_silhouette": true,
           "recognized_subject": "Cookies",
           "critical_defects": [],
-          "description": "A plate of fresh baked cookies sitting untouched, a constant reminder of meticulous control, isolated on a clean plain white extraction background.",
+          "description": "A plate of fresh baked cookies, isolated on a uniform pure-white extraction background.",
           "materials_required": true,
           "materials_pass": true,
+          "asset_usage": "isolated_sprite",
+          "background_mode": "transparent_isolated",
+          "background_pass": true,
           "deterministic_pass": true,
           "label_pass": true
         }
@@ -1534,5 +3974,5 @@
   "complete": true,
   "fallback_used": false,
   "asset_engine": "thor-sdxl-reviewed-identity-anchored-animation",
-  "compiled_seconds": 0.681
+  "compiled_seconds": 0.295
 }

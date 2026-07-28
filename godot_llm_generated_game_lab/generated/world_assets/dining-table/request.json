@@ -1,13 +1,15 @@
 {
-  "kind": "static_prop",
-  "name": "Dining Table",
-  "structural_prompt": "single isolated static prop game asset representing Dining Table, complete object visible, front three-quarter view, centered, realistic proportions, clean readable silhouette",
-  "semantic_prompt": "A long oak dining table with matching chairs, meticulously arranged, in a dimly lit dining room, with a sense of oppression and control.. A long oak dining table with matching chairs, meticulously arranged.",
-  "negative_prompt": "second subject, duplicate subject, extra limbs, missing limbs, malformed anatomy, malformed geometry, cropped subject, cut off edges, scenery, room background, landscape background, text, letters, numbers, logo, watermark, blur, low detail, abstract replacement, wrong category",
-  "animation_description": "slight vibration",
+  "animation_description": "The dining table and chairs subtly shift and reposition themselves.",
+  "asset_usage": "isolated_sprite",
   "expected_labels": [
     "Dining Table",
     "static prop"
   ],
-  "review_requirements": "Exactly one immediately recognizable static prop named Dining Table. The complete subject must be visible, matching this definition: A long oak dining table with matching chairs, meticulously arranged.. It must satisfy this visual request: A long oak dining table with matching chairs, meticulously arranged, in a dimly lit dining room, with a sense of oppression and control.. Normal anatomy or geometry, plausible materials, clean plain white extraction background, clear silhouette, no second subject, scenery, text, logo, watermark, cropped subject, duplicate parts, or malformed structure."
+  "kind": "static_prop",
+  "name": "Dining Table",
+  "negative_prompt": "second subject, duplicate subject, extra limbs, missing limbs, malformed anatomy, malformed geometry, cropped subject, cut off edges, scenery, room background, landscape background, gray halo, white halo, background noise, textured background, shadow field, gradient, text, letters, numbers, logo, watermark, blur, low detail, abstract replacement, wrong category",
+  "review_requirements": "Exactly one immediately recognizable static prop named Dining Table. The complete subject must be visible. It must satisfy this visual request: A long oak dining table with matching chairs, meticulously arranged, isolated on a uniform pure-white extraction background.. Normal anatomy or geometry, plausible materials, uniform pure-white extraction background, clean silhouette, no halo, background noise, shadow field, second subject, scenery, text, logo, watermark, cropped subject, duplicate parts, or malformed structure.",
+  "semantic_prompt": "A long oak dining table with matching chairs, meticulously arranged, isolated on a uniform pure-white extraction background.",
+  "source_description": "A long oak dining table with matching chairs, meticulously arranged.",
+  "structural_prompt": "single isolated static prop game asset representing Dining Table, complete object visible, front three-quarter view, centered, realistic proportions, clean readable silhouette"
 }
