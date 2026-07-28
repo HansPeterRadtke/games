@@ -122,7 +122,7 @@ def compact(value: Any, maximum: int) -> str:
 
 def request_key(payload: dict[str, Any]) -> str:
     material = json.dumps({
-        "version": "sdxl-grounded-v5-segmented-alpha",
+        "version": "sdxl-grounded-v6-opaque-gif",
         "kind": payload.get("kind"),
         "name": payload.get("name"),
         "structural_prompt": payload.get("structural_prompt"),
@@ -600,11 +600,36 @@ def process_frames(raw_frames: list[Any], kind: str, usage: str) -> tuple[list[A
     }
 
 
-def encode_assets(frames: list[Any]) -> tuple[bytes, bytes, bytes]:
+def encode_assets(frames: list[Any], usage: str) -> tuple[bytes, bytes, bytes]:
     from PIL import Image
     png = io.BytesIO(); frames[0].save(png, format="PNG")
-    gif = io.BytesIO(); frames[0].save(gif, format="GIF", save_all=True, append_images=frames[1:], duration=120, loop=0, disposal=2, transparency=0, optimize=False)
-    sheet = Image.new("RGBA", (frames[0].width * len(frames), frames[0].height), (0, 0, 0, 0))
+    gif = io.BytesIO()
+    if usage in {"tileable_texture", "background_layer"}:
+        opaque_frames = [frame.convert("RGB") for frame in frames]
+        opaque_frames[0].save(
+            gif,
+            format="GIF",
+            save_all=True,
+            append_images=opaque_frames[1:],
+            duration=120,
+            loop=0,
+            disposal=2,
+            optimize=False,
+        )
+    else:
+        frames[0].save(
+            gif,
+            format="GIF",
+            save_all=True,
+            append_images=frames[1:],
+            duration=120,
+            loop=0,
+            disposal=2,
+            transparency=0,
+            optimize=False,
+        )
+    sheet_background = (0, 0, 0, 255) if usage in {"tileable_texture", "background_layer"} else (0, 0, 0, 0)
+    sheet = Image.new("RGBA", (frames[0].width * len(frames), frames[0].height), sheet_background)
     for index, frame in enumerate(frames):
         sheet.alpha_composite(frame, (index * frame.width, 0))
     sheet_buffer = io.BytesIO(); sheet.save(sheet_buffer, format="PNG")
@@ -650,7 +675,7 @@ def generate(payload: dict[str, Any]) -> tuple[bytes, bytes, bytes, dict[str, An
     kind = compact(payload.get("kind"), 30)
     usage = asset_usage(payload)
     frames, processing_meta = process_frames(raw_frames, kind, usage)
-    png, gif, sheet = encode_assets(frames)
+    png, gif, sheet = encode_assets(frames, usage)
     _w, _h, fw, fh, count = dimensions_for(kind)
     encoded_meta = validate_encoded(gif, sheet, count, fw, fh, usage)
     meta = {

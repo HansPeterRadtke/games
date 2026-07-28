@@ -41,4 +41,16 @@ if dark.exists() and good.exists():
     assert actual_quality['largest_component_ratio']>=0.995,actual_quality
     assert actual_quality['boundary_matte_ratio']<=0.12,actual_quality
     assert actual_quality['bright_neutral_border_ratio']>=0.8,actual_quality
+
+# Opaque GIFs must not acquire palette transparency.
+opaque_frames=[
+    Image.new('RGBA',(32,32),(30,40,50,255)),
+    Image.new('RGBA',(32,32),(90,40,50,255)),
+    Image.new('RGBA',(32,32),(30,110,50,255)),
+    Image.new('RGBA',(32,32),(30,40,130,255)),
+]
+png_bytes,gif_bytes,sheet_bytes=module.encode_assets(opaque_frames,'background_layer')
+encoded=module.validate_encoded(gif_bytes,sheet_bytes,4,32,32,'background_layer')
+assert encoded['gif_alpha']==[[255,255],[255,255],[255,255],[255,255]],encoded
+assert encoded['sheet_alpha']==[255,255],encoded
 print('thor alpha cleanup tests passed',quality)
