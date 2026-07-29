@@ -84,12 +84,54 @@ The opening environment is ready for play."""
 assert world.validate_opening_scene(sample_scene, sample_prompt) == []
 
 
+def fixture_action(owner_id: str, trigger: str) -> dict:
+    return {
+        "id": f"{owner_id}_{trigger}",
+        "input": trigger,
+        "label": trigger.title(),
+        "description": f"The generated {trigger} action changes executable object state.",
+        "range_meters": 0.5 if trigger == "touch" else 1.5,
+        "cooldown_seconds": 0.1,
+        "conditions": [],
+        "effects": [{"type": "set_state", "target_id": owner_id, "key": f"last_{trigger}", "value": "completed"}],
+        "actor_clip": f"player_{trigger}",
+        "actor_animation_prompt": f"The complete player performs a clearly visible {trigger} motion and returns to the starting pose.",
+        "target_clip": f"{owner_id}_{trigger}",
+        "target_animation_prompt": f"The complete target visibly reacts to {trigger} contact and returns to its starting pose.",
+        "success_text": f"The {trigger} action succeeds.",
+    }
+
+
 compact_plan = {
     "scene_id": "test_room", "scene_name": "Test Room", "units": "meters", "visual_generator": "thor_sdxl",
     "bounds": {"min": [-5, 0, -5], "max": [5, 4, 5]},
-    "player": {"id": "adult_child", "name": "Adult Child", "description": "An exhausted adult child trying to escape the oppressive household routine.", "position": [0, 1, 3], "yaw_degrees": 0, "facing": "toward the table", "size": [0.6, 1.8, 0.6], "collision": "capsule", "visual_usage": "character_sprite", "asset_prompt": "full body exhausted adult child in plain suburban clothes, readable side view, clean white background", "animation": "restless breathing and small anxious weight shifts", "interaction": "can move, inspect objects, and answer the mother", "behavior": "responds to movement input and nearby interaction prompts"},
+    "gameplay": {
+        "objective": "Interact with the generated room objects and complete the test objective.",
+        "win_conditions": ["Complete at least one generated interaction successfully."],
+        "lose_conditions": ["Health reaches zero before completing an interaction."],
+        "available_inputs": ["move", "touch", "interact", "attack", "use"],
+        "stats": [
+            {"id": "health", "label": "Health", "initial": 100, "minimum": 0, "maximum": 100},
+            {"id": "stamina", "label": "Stamina", "initial": 100, "minimum": 0, "maximum": 100},
+        ],
+        "starting_inventory": [],
+    },
+    "player": {
+        "id": "adult_child", "name": "Adult Child", "description": "An exhausted adult child trying to escape the oppressive household routine.",
+        "position": [0, 1, 3], "yaw_degrees": 0, "facing": "toward the table", "size": [0.6, 1.8, 0.6],
+        "collision": "capsule", "visual_usage": "character_sprite",
+        "asset_prompt": "full body exhausted adult child in plain suburban clothes, readable side view, clean white background",
+        "animation": "restless breathing and small anxious weight shifts",
+        "actions": [fixture_action("adult_child", trigger) for trigger in ["interact", "hit", "use"]],
+    },
     "objects": [
-        {"id": f"object_{i}", "type": "static_prop", "name": f"Object {i}", "description": "A visible test object in the room", "position": [i - 3, 0, 0], "yaw_degrees": 0, "size": [1, 1, 1], "collision": "box", "mobility": "static", "visual_usage": "isolated_sprite", "asset_prompt": "clean detailed household object front view", "animation": "subtle idle motion", "interaction": "inspect", "behavior": "reacts when inspected"}
+        {
+            "id": f"object_{i}", "type": "static_prop", "name": f"Object {i}",
+            "description": "A visible test object in the room", "position": [i - 3, 0, 0], "yaw_degrees": 0,
+            "size": [1, 1, 1], "collision": "box", "mobility": "static", "visual_usage": "isolated_sprite",
+            "asset_prompt": "clean detailed household object front view", "animation": "subtle idle motion",
+            "actions": [fixture_action(f"object_{i}", trigger) for trigger in ["touch", "interact", "hit"]],
+        }
         for i in range(6)
     ],
     "exits": [{"id": "door_exit", "position": [4, 0, 0], "direction": "east", "next_environment": "A connected hallway beyond the room"}],

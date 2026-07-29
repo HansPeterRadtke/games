@@ -40,8 +40,86 @@
       "visual_usage": "character_sprite",
       "asset_prompt": "An adult child with a determined look, standing alone, wearing casual clothes, on a uniform pure-white extraction background, with a sense of urgency and defiance.",
       "animation": "The adult child shifts slightly, maintaining a determined look and stance, in a short loop.",
-      "interaction": "talk_to_mom",
-      "behavior": "idle_waiting"
+      "actions": [
+        {
+          "id": "action_001",
+          "input": "interact",
+          "label": "player",
+          "description": "The player approaches Your Mom, gently placing a hand on her arm to gain her attention.",
+          "range_meters": 1.5,
+          "cooldown_seconds": 5,
+          "conditions": [],
+          "effects": [
+            {
+              "type": "change_stat",
+              "stat": "autonomy",
+              "amount": 10
+            },
+            {
+              "type": "change_stat",
+              "stat": "mom_patience",
+              "amount": -5
+            }
+          ],
+          "actor_clip": "player_interact",
+          "actor_animation_prompt": "The player, with a calm and respectful demeanor, reaches out and gently touches Your Mom's arm, making sure to keep their hand open and palm facing upwards, signaling a request for understanding and support.",
+          "target_clip": "player_interact",
+          "target_animation_prompt": "Your Mom, feeling the gentle touch, looks down at the player's hand on her arm, then up into the player's eyes, her expression softening as she recognizes the player's need for autonomy and support.",
+          "success_text": "Your Mom seems to understand your request for more autonomy, and her patience is slightly diminished by the interaction."
+        },
+        {
+          "id": "action_1",
+          "input": "hit",
+          "label": "player_hit",
+          "description": "The player swings a fist at the air, causing a visible hit animation that costs stamina and decreases autonomy.",
+          "range_meters": 1,
+          "cooldown_seconds": 5,
+          "conditions": [],
+          "effects": [
+            {
+              "type": "change_stat",
+              "stat": "stamina",
+              "amount": -10
+            },
+            {
+              "type": "change_stat",
+              "stat": "autonomy",
+              "amount": -1
+            }
+          ],
+          "actor_clip": "player_attack",
+          "actor_animation_prompt": "The player, wearing casual clothes, raises their arm to punch the air, fist clenched, head turning slightly to the side, showing determination on their face, legs slightly bent for balance, feet planted firmly on the floor.",
+          "target_clip": "player_attack",
+          "target_animation_prompt": "The player, wearing casual clothes, raises their arm to punch the air, fist clenched, head turning slightly to the side, showing determination on their face, legs slightly bent for balance, feet planted firmly on the floor.",
+          "success_text": "The player swings their fist at the air, visibly straining as they do so, their face contorting with effort."
+        },
+        {
+          "id": "player_eat_cookie",
+          "input": "use",
+          "label": "Player eats a cookie",
+          "description": "The player reaches into their inventory, pulls out a cookie, and brings it to their mouth to eat it. After eating, the player's health increases.",
+          "range_meters": 0,
+          "cooldown_seconds": 5,
+          "conditions": [],
+          "effects": [
+            {
+              "type": "inventory_remove",
+              "item_id": "cookies",
+              "count": 1
+            },
+            {
+              "type": "change_stat",
+              "stat": "health",
+              "amount": 5
+            }
+          ],
+          "actor_clip": "player_use",
+          "actor_animation_prompt": "The player bends slightly at the waist, reaches into their pocket, pulls out a cookie, holds it up to their mouth, and bites down. They chew and swallow, finishing the cookie with a satisfied look on their face.",
+          "target_clip": "player_use",
+          "target_animation_prompt": "The player bends slightly at the waist, reaches into their pocket, pulls out a cookie, holds it up to their mouth, and bites down. They chew and swallow, finishing the cookie with a satisfied look on their face.",
+          "success_text": "You ate a cookie. It was delicious and you feel a bit more energetic."
+        }
+      ]
     },
     "objects": [
       {
@@ -65,8 +143,111 @@
         "visual_usage": "character_sprite",
         "asset_prompt": "A stern woman in a cheerful floral dress, seated alone, with a critical gaze, on a uniform pure-white extraction background.",
         "animation": "The stern woman shifts slightly in her seated position, maintaining her critical gaze, in a short loop.",
-        "interaction": "talk_to_mom",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "touch_mom",
+            "input": "touch",
+            "label": "Touch Your Mom",
+            "description": "Reach out and touch your mom.",
+            "range_meters": 1,
+            "cooldown_seconds": 5,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -10
+              },
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -5
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The full-body adult child reaches out and briefly touches the stern woman in a floral dress, seated at the dining table, causing a mild physical recoil, before returning to the exact starting pose.",
+            "target_clip": "mom_touch",
+            "target_animation_prompt": "The stern woman in a floral dress, seated at the dining table, recoils slightly, her stern expression softening for a moment, before regaining her composure.",
+            "success_text": "Your mom's expression softens for a moment, but she quickly regains her stern demeanor."
+          },
+          {
+            "id": "interact_mom",
+            "input": "interact",
+            "label": "Interact with Your Mom",
+            "description": "Interact with your mom.",
+            "range_meters": 1,
+            "cooldown_seconds": 5,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -5
+              },
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -10
+              },
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -15
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -10
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player approaches your mom and whispers something in her ear, causing her to momentarily pause, then returns to the exact starting pose.",
+            "target_clip": "mom_interact",
+            "target_animation_prompt": "Your mom's stern expression falters, and she looks momentarily confused before regaining her composure, then returns to the exact starting pose.",
+            "success_text": "Your mom looks momentarily confused, but quickly regains her composure."
+          },
+          {
+            "id": "hit_mom",
+            "input": "hit",
+            "label": "Hit Your Mom",
+            "description": "Hit your mom.",
+            "range_meters": 1,
+            "cooldown_seconds": 5,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -25
+              },
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -5
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -15
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player lunges forward, delivering a swift punch to your mom's shoulder, causing her to flinch and recoil.",
+            "target_clip": "mom_hit",
+            "target_animation_prompt": "Your mom's stern expression cracks into a look of shock and pain as she recoils from the impact, her hand instinctively reaching for her shoulder.",
+            "success_text": "Your mom recoils from the impact, her stern expression cracking into a look of shock and pain."
+          }
+        ]
       },
       {
         "id": "dining_table",
@@ -89,8 +270,92 @@
         "visual_usage": "isolated_sprite",
         "asset_prompt": "A long oak dining table with matching chairs, meticulously arranged, isolated on a uniform pure-white extraction background.",
         "animation": "The dining table and chairs subtly shift and reposition themselves.",
-        "interaction": "sit_down",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "dining_table_touch",
+            "input": "touch",
+            "label": "Touch Dining Table",
+            "description": "You briefly touch the dining table.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "autonomy",
+                "value": ":[{autonomy: 49}]}], "
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The player reaches out, gently touches the dining table, recoils slightly, and returns to the exact starting pose.",
+            "target_clip": "dining_table_touch",
+            "target_animation_prompt": "The dining table remains still as the player's hand briefly touches it, then withdraws quickly, causing a mild shiver.",
+            "success_text": "You feel a strange sensation as you touch the dining table."
+          },
+          {
+            "id": "dining_table_interact",
+            "input": "interact",
+            "label": "Interact with Dining Table",
+            "description": "You sit down at the dining table.",
+            "range_meters": 2,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "cookies",
+                "key": "value",
+                "value": ":[{"
+              },
+              {
+                "type": "set_state",
+                "target_id": "mom",
+                "key": "patience",
+                "value": ":[{"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "autonomy",
+                "value": ":[{"
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player sits down at the dining table, placing a plate of cookies in front of them and smiling at their mother.",
+            "target_clip": "dining_table_interact",
+            "target_animation_prompt": "The dining table creaks as the player's weight settles into a chair, and a plate of cookies appears on the table.",
+            "success_text": "You sit down at the dining table and place a plate of cookies in front of you, earning a smile from your mother."
+          },
+          {
+            "id": "player_attack",
+            "input": "hit",
+            "label": "Hit",
+            "description": "Perform a physical strike towards the target.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "stamina",
+                "value": ":[{stamina: 90}]"
+              },
+              {
+                "type": "set_state",
+                "target_id": "dining_table",
+                "key": "collision",
+                "value": "none"
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player performs a clear physical strike towards the target, follows through, regains balance, and returns to the exact starting pose.",
+            "target_clip": "dining_table_hit",
+            "target_animation_prompt": "The dining table cracks and splinters under the impact, showing a clearly visible physical impact reaction.",
+            "success_text": "You hit the dining table."
+          }
+        ]
       },
       {
         "id": "chandelier",
@@ -113,8 +378,94 @@
         "visual_usage": "isolated_sprite",
         "asset_prompt": "One isolated complete chandelier on a uniform pure-white extraction background with no room or scenery.",
         "animation": "The chandelier's body sways gently while its bulbs brighten and dim in a continuous loop, maintaining its exact identity and geometry.",
-        "interaction": "none",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "chandelier_touch",
+            "input": "touch",
+            "label": "Touch Chandelier",
+            "description": "Reach up and touch the chandelier.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -1
+              },
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -1
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "recoil",
+                "value": "true"
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The full-body adult child reaches up to touch the chandelier, recoils slightly with a mild physical response, and returns to the exact starting pose.",
+            "target_clip": "chandelier_touch",
+            "target_animation_prompt": "The chandelier remains still, but its bulbs flicker slightly as the player touches it, maintaining its exact identity and geometry.",
+            "success_text": "You touch the chandelier, causing it to flicker slightly. You feel a mild shock and recoil slightly."
+          },
+          {
+            "id": "chandelier_interact",
+            "input": "interact",
+            "label": "Interact with Chandelier",
+            "description": "Inspect the chandelier.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -10
+              },
+              {
+                "type": "set_state",
+                "target_id": "chandelier",
+                "key": "inspected",
+                "value": "true"
+              },
+              {
+                "type": "set_state",
+                "target_id": "mom",
+                "key": "annoyed",
+                "value": "true"
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player reaches up and inspects the chandelier, causing it to buzz faintly. Your mother's patience decreases.",
+            "target_clip": "chandelier_interact",
+            "target_animation_prompt": "The chandelier's bulbs brighten and dim rapidly as the player inspects it, causing a faint buzzing sound.",
+            "success_text": "You inspect the chandelier, and it buzzes faintly as you do so. Your mother's patience decreases."
+          },
+          {
+            "id": "chandelier_hit",
+            "input": "hit",
+            "label": "Hit Chandelier",
+            "description": "Swing your arm and hit the chandelier.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -20
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The full-body adult child swings their arm and delivers a clear physical strike toward the chandelier, causing it to sway violently. The child regains balance and returns to the exact starting pose.",
+            "target_clip": "chandelier_hit",
+            "target_animation_prompt": "The chandelier swings violently, its bulbs flicker rapidly, and it emits a loud ringing sound as it reacts to the impact.",
+            "success_text": "You swing your arm and hit the chandelier, causing it to sway violently and emit a loud ringing sound."
+          }
+        ]
       },
       {
         "id": "sideboard",
@@ -137,8 +488,96 @@
         "visual_usage": "isolated_sprite",
         "asset_prompt": "A sideboard with a stack of clean dishes, isolated on a uniform pure-white extraction background.",
         "animation": "The stack of clean dishes on the sideboard subtly shifts and repositions itself.",
-        "interaction": "clean_dishes",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "sideboard_touch",
+            "input": "touch",
+            "label": "Touch the sideboard",
+            "description": "You reach out and touch the sideboard.",
+            "range_meters": 1,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -5
+              },
+              {
+                "type": "set_collision",
+                "target_id": "sideboard",
+                "enabled": false
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The player reaches out and touches the sideboard, recoiling slightly as if startled by the contact, then returns to the exact starting pose.",
+            "target_clip": "sideboard_touch",
+            "target_animation_prompt": "The sideboard subtly shakes as if disturbed by the contact, then returns to its original state, undamaged.",
+            "success_text": "You touch the sideboard, feeling a slight tremor as if it's reacting to your touch."
+          },
+          {
+            "id": "sideboard_interact",
+            "input": "interact",
+            "label": "Interact with the sideboard",
+            "description": "You interact with the sideboard.",
+            "range_meters": 1,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -20
+              },
+              {
+                "type": "set_visibility",
+                "target_id": "sideboard",
+                "visible": false
+              },
+              {
+                "type": "set_collision",
+                "target_id": "sideboard",
+                "enabled": false
+              },
+              {
+                "type": "set_visibility",
+                "target_id": "cookies",
+                "visible": true
+              },
+              {
+                "type": "set_collision",
+                "target_id": "cookies",
+                "enabled": true
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player approaches the sideboard, interacting with it, then returns to the exact starting pose with a mischievous grin.",
+            "target_clip": "sideboard_interact",
+            "target_animation_prompt": "The sideboard suddenly disappears, revealing a hidden stash of cookies behind it, which the player immediately grabs.",
+            "success_text": "You interact with the sideboard, and it vanishes, revealing a stash of cookies behind it. You grab a cookie and sneakily stuff it into your pocket."
+          },
+          {
+            "id": "sideboard_hit",
+            "input": "hit",
+            "label": "Hit the sideboard",
+            "description": "You hit the sideboard.",
+            "range_meters": 1,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -10
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player swings a fist at the sideboard, causing it to rattle and vibrate, but remains intact. The player regains balance and returns to the starting pose.",
+            "target_clip": "sideboard_hit",
+            "target_animation_prompt": "The sideboard shakes and vibrates under the impact, but remains intact, showing minor dents and scratches.",
+            "success_text": "You hit the sideboard, causing it to rattle and vibrate, but it remains intact, showing minor dents and scratches."
+          }
+        ]
       },
       {
         "id": "curtains",
@@ -161,8 +600,101 @@
         "visual_usage": "background_layer",
         "asset_prompt": "Opaque full-frame wall layer of heavy closed curtains in dark fabric, edge-to-edge across the frame, no white background, no border, no margin, no transparency, no isolated cutout, no room scenery, no text.",
         "animation": "The curtain fabric ripples gently across the full frame in a restrained loop while its folds, color, edges, and identity remain stable.",
-        "interaction": "none",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "curtains_touch",
+            "input": "touch",
+            "label": "Touch the curtains",
+            "description": "You reach out and brush against the heavy fabric of the curtains.",
+            "range_meters": 1.0,
+            "cooldown_seconds": 5,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -5
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -10
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The player reaches out and touches the curtains.",
+            "target_clip": "curtains_touch",
+            "target_animation_prompt": "The curtains ruffle slightly, causing a small cloud of dust to rise from the fabric.",
+            "success_text": "You feel the weight of the curtains and a small cloud of dust rises from the fabric."
+          },
+          {
+            "id": "curtains_interact",
+            "input": "interact",
+            "label": "Pull back the curtains",
+            "description": "You pull back the curtains, letting in a flood of natural light.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -10
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -5
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player pulls back the curtains with both hands.",
+            "target_clip": "curtains_interact",
+            "target_animation_prompt": "The curtains part, revealing a bright, sunny day outside.",
+            "success_text": "You pull back the curtains, and the room is suddenly flooded with natural light."
+          },
+          {
+            "id": "curtains_hit",
+            "input": "hit",
+            "label": "Hit the curtains",
+            "description": "You punch the curtains, causing them to ripple and tear.",
+            "range_meters": 1,
+            "cooldown_seconds": 15,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -15
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -30
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -30
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player punches the curtains with a fierce motion.",
+            "target_clip": "curtains_hit",
+            "target_animation_prompt": "The curtains rip and tear, revealing a hole where the punch landed.",
+            "success_text": "You punch the curtains, and they tear, revealing a hole where the impact landed."
+          }
+        ]
       },
       {
         "id": "wall_finish",
@@ -185,8 +717,87 @@
         "visual_usage": "tileable_texture",
         "asset_prompt": "Opaque seamless edge-to-edge full-frame texture of a dull beige wall finish, no white background, no border, no margin, no transparency, no isolated object, and no perspective scene.",
         "animation": "Subtle material-only movement with no camera movement and no edges changing.",
-        "interaction": "none",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "touch_wall_finish",
+            "input": "touch",
+            "label": "Touch Wall Finish",
+            "description": "Reach out and touch the wall.",
+            "range_meters": 1.0,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -20
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "Player reaches out and touches the wall.",
+            "target_clip": "wall_finish_touch",
+            "target_animation_prompt": "The wall finish vibrates slightly under the player's touch.",
+            "success_text": "You touch the wall, feeling the texture of the dull beige finish. Your mother's expression darkens, and she seems displeased."
+          },
+          {
+            "id": "interact_wall_finish",
+            "input": "interact",
+            "label": "Interact with Wall Finish",
+            "description": "Examine the wall more closely.",
+            "range_meters": 1.5,
+            "cooldown_seconds": 60,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -10
+              },
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -5
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "Player examines the wall closely, studying the texture and the family photos.",
+            "target_clip": "wall_finish_interact",
+            "target_animation_prompt": "The family photos on the wall seem to shift slightly as if reacting to the player's gaze.",
+            "success_text": "You examine the wall more closely, scrutinizing the texture and the family photos. Your mother's displeasure grows as she watches you."
+          },
+          {
+            "id": "hit_wall_finish",
+            "input": "hit",
+            "label": "Hit Wall Finish",
+            "description": "Pound on the wall in frustration.",
+            "range_meters": 1.5,
+            "cooldown_seconds": 30,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -10
+              },
+              {
+                "type": "set_state",
+                "target_id": "wall_finish",
+                "key": "condition",
+                "value": "dented"
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "Player pounds on the wall in frustration, fists clenched.",
+            "target_clip": "wall_finish_hit",
+            "target_animation_prompt": "The wall finish crumbles slightly where the player strikes it, leaving a small dent.",
+            "success_text": "You pound on the wall in frustration, leaving a small dent where your fist struck. The wall finish cracks slightly, but it remains intact."
+          }
+        ]
       },
       {
         "id": "floor_carpet",
@@ -209,8 +820,200 @@
         "visual_usage": "tileable_texture",
         "asset_prompt": "Opaque seamless edge-to-edge full-frame texture of a soft, cream-colored carpet, no white background, no border, no margin, no transparency, no isolated object, and no perspective scene.",
         "animation": "Subtle material-only movement with no camera movement and no edges changing.",
-        "interaction": "none",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "floor_carpet_touch",
+            "input": "touch",
+            "label": "Touch",
+            "description": "You touch the soft, cream-colored carpet.",
+            "range_meters": 0.5,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "collision",
+                "value": "passable"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "stamina",
+                "value": "-5"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "visual_usage",
+                "value": "deformed_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "animation",
+                "value": "subtle_ripples"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "collision",
+                "value": "passable"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "stamina",
+                "value": "-5"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "visual_usage",
+                "value": "deformed_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "animation",
+                "value": "subtle_ripples"
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The player kneels down and touches the carpet.",
+            "target_clip": "floor_carpet_touch",
+            "target_animation_prompt": "The carpet ripples slightly where the player touches it.",
+            "success_text": "You feel the softness of the carpet under your fingers, and it ripples slightly."
+          },
+          {
+            "id": "floor_carpet_interact",
+            "input": "interact",
+            "label": "Interact",
+            "description": "You decide to rearrange the carpet.",
+            "range_meters": 1,
+            "cooldown_seconds": 5,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "position",
+                "value": "[10, 0, 10]"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "size",
+                "value": "[15, 0.05, 15]"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "collision",
+                "value": "passable"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "stamina",
+                "value": "-10"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "visual_usage",
+                "value": "deformed_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "animation",
+                "value": "subtle_ripples"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "collision",
+                "value": "passable"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "stamina",
+                "value": "-10"
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player kneels down and starts rearranging the carpet.",
+            "target_clip": "floor_carpet_interact",
+            "target_animation_prompt": "The carpet shifts and stretches as the player moves it.",
+            "success_text": "You rearrange the carpet, creating a cozy nook in the corner of the room."
+          },
+          {
+            "id": "floor_carpet_hit",
+            "input": "hit",
+            "label": "Hit",
+            "description": "You punch the carpet.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "collision",
+                "value": "none"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "visual_usage",
+                "value": "damaged_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "animation",
+                "value": "crumpled_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "resilience",
+                "value": "-10"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "collision",
+                "value": "none"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "visual_usage",
+                "value": "damaged_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "animation",
+                "value": "crumpled_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "resilience",
+                "value": "-10"
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player swings their arm and punches the carpet.",
+            "target_clip": "floor_carpet_hit",
+            "target_animation_prompt": "The carpet crumples and tears under the impact of the punch.",
+            "success_text": "You punch the carpet, and it crumples and tears in the spot where you hit it."
+          }
+        ]
       },
       {
         "id": "kitchen_door",
@@ -233,8 +1036,123 @@
         "visual_usage": "background_layer",
         "asset_prompt": "A full-frame front view of a closed kitchen door, filling the entire rectangular image with a plausible wood or painted material, a visible handle, no white background, no transparent margin, no surrounding wall, no room scene, no text, and no camera perspective.",
         "animation": "A short loop where the kitchen door opens a few centimeters and closes again, preserving the same door, handle, colors, rectangular edges, and camera.",
-        "interaction": "open_door",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "touch_kitchen_door",
+            "input": "touch",
+            "label": "Touch the kitchen door.",
+            "description": "You place your hand on the cold, slightly creaking surface of the kitchen door.",
+            "range_meters": 1.0,
+            "cooldown_seconds": 2,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -10
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -5
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -10
+              },
+              {
+                "type": "set_state",
+                "target_id": "kitchen_door",
+                "key": "condition",
+                "value": "cracked"
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The player reaches out to touch the kitchen door, their hand lingering for a moment.",
+            "target_clip": "kitchen_door_touch",
+            "target_animation_prompt": "The kitchen door shudders slightly under the player's touch, a small crack appearing along its surface.",
+            "success_text": "The kitchen door feels cold and slightly damp under your touch. You notice a small crack forming along its surface."
+          },
+          {
+            "id": "interact_kitchen_door",
+            "input": "interact",
+            "label": "Interact with the kitchen door.",
+            "description": "You grasp the handle of the kitchen door and attempt to open it.",
+            "range_meters": 2,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -10
+              },
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -20
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player pulls on the handle of the kitchen door with all their strength, their muscles flexing.",
+            "target_clip": "kitchen_door_interact",
+            "target_animation_prompt": "The kitchen door groans and shifts slightly, a few splinters breaking off as it resists the player's efforts.",
+            "success_text": "You pull on the kitchen door, but it resists your efforts. A few splinters break off as you struggle to open it."
+          },
+          {
+            "id": "hit_kitchen_door",
+            "input": "hit",
+            "label": "Hit the kitchen door.",
+            "description": "You swing your arm and deliver a powerful punch to the kitchen door.",
+            "range_meters": 2,
+            "cooldown_seconds": 15,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -30
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -30
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -30
+              },
+              {
+                "type": "set_state",
+                "target_id": "kitchen_door",
+                "key": "condition",
+                "value": "damaged"
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player throws a powerful punch at the kitchen door, their fist making contact with a loud thud.",
+            "target_clip": "kitchen_door_hit",
+            "target_animation_prompt": "The kitchen door shatters at the impact of the player's punch, pieces flying everywhere.",
+            "success_text": "You deliver a powerful punch to the kitchen door, causing it to shatter into pieces."
+          }
+        ]
       },
       {
         "id": "cookies",
@@ -257,8 +1175,103 @@
         "visual_usage": "isolated_sprite",
         "asset_prompt": "A plate of fresh baked cookies, isolated on a uniform pure-white extraction background.",
         "animation": "The plate of fresh baked cookies gently shifts and repositions itself.",
-        "interaction": "eat_cookie",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "touch_cookies",
+            "input": "touch",
+            "label": "Touch",
+            "description": "Touch the plate of fresh baked cookies.",
+            "range_meters": 1.0,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -5
+              },
+              {
+                "type": "set_state",
+                "target_id": "cookies",
+                "key": "crumbs",
+                "value": "loosened"
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -5
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The player reaches out and touches the plate of fresh baked cookies.",
+            "target_clip": "cookies_touch",
+            "target_animation_prompt": "The plate of cookies visibly reacts to the touch, a cookie crumbles slightly, and the plate makes a soft, satisfying sound.",
+            "success_text": "You touch the plate of cookies, feeling the warmth and smell of fresh baked goodness. A small crumb falls off, and the plate makes a soft, satisfying sound."
+          },
+          {
+            "id": "interact_cookies",
+            "input": "interact",
+            "label": "Interact",
+            "description": "Interact with the plate of fresh baked cookies.",
+            "range_meters": 1,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "inventory_add",
+                "item_id": "cookies",
+                "count": 1
+              },
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": 10
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -10
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player reaches out and picks up a cookie from the plate.",
+            "target_clip": "cookies_interact",
+            "target_animation_prompt": "The plate of cookies visibly reacts as a single cookie is removed, leaving a slight dent in the stack.",
+            "success_text": "You take one cookie from the plate and add it to your inventory."
+          },
+          {
+            "id": "hit_cookies",
+            "input": "hit",
+            "label": "Hit",
+            "description": "Hit the plate of fresh baked cookies.",
+            "range_meters": 1,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "cookies",
+                "key": "condition",
+                "value": "scattered"
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": 5
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -15
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player swings their arm and hits the plate of cookies with a closed fist.",
+            "target_clip": "cookies_hit",
+            "target_animation_prompt": "The plate of cookies shatters upon impact, scattering crumbs and broken pieces everywhere.",
+            "success_text": "You hit the plate of cookies, sending crumbs and broken pieces flying everywhere. Your resilience increases, but your mother's disapproval intensifies."
+          }
+        ]
       }
     ],
     "exits": [
@@ -281,7 +1294,56 @@
         ],
         "implementation": "Your Mom is the stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze."
       }
-    ]
+    ],
+    "gameplay": {
+      "objective": "To survive the day without incurring your mother's wrath and find a way to break free from the cycle of domestic servitude.",
+      "win_conditions": [
+        "Successfully complete all tasks assigned by your mother without incurring her wrath.",
+        "Find a way to subvert your mother's control and break free from the cycle of domestic servitude."
+      ],
+      "lose_conditions": [
+        "Fail to complete a task assigned by your mother and incur her wrath.",
+        "Incur your mother's wrath three times in a row without successfully completing any tasks."
+      ],
+      "available_inputs": [
+        "move",
+        "interact",
+        "use",
+        "attack",
+        "touch"
+      ],
+      "stats": [
+        {
+          "id": "health",
+          "label": "Health",
+          "initial": 100,
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "id": "stamina",
+          "label": "Stamina",
+          "initial": 100,
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "id": "autonomy",
+          "label": "Autonomy",
+          "initial": 50,
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "id": "mom_patience",
+          "label": "Mom Patience",
+          "initial": 50,
+          "minimum": 0,
+          "maximum": 100
+        }
+      ],
+      "starting_inventory": []
+    }
   },
   "assets": {
     "player": {
@@ -290,14 +1352,14 @@
       "asset_usage": "character_sprite",
       "name": "Player",
       "request_sha256": "e680dec1b5e6963558faeccf46e34df9d6477d0b4c63c3899fe84986f94c9005",
-      "png_path": "generated/world_assets/player/canonical.png",
-      "gif_path": "generated/world_assets/player/animation.gif",
-      "sheet_path": "generated/world_assets/player/animation.sheet.png",
-      "frame_count": 8,
-      "frame_width": 192,
-      "frame_height": 256,
-      "frame_duration_ms": 120,
-      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+      "png_path": "generated/world_assets/player/clips/idle/canonical.png",
+      "gif_path": "generated/world_assets/player/clips/idle/animation.gif",
+      "sheet_path": "generated/world_assets/player/clips/idle/animation.sheet.png",
+      "frame_count": 9,
+      "frame_width": 288,
+      "frame_height": 384,
+      "frame_duration_ms": 125,
+      "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
       "key": "ec6bcd4c1e8b020148be7015",
       "cached": false,
       "generation_seconds": 211.856,
@@ -830,9 +1892,1221 @@
         }
       },
       "cached_local": true,
-      "png_resource": "res://generated/world_assets/player/canonical.png",
-      "gif_resource": "res://generated/world_assets/player/animation.gif",
-      "sheet_resource": "res://generated/world_assets/player/animation.sheet.png"
+      "png_resource": "res://generated/world_assets/player/clips/idle/canonical.png",
+      "gif_resource": "res://generated/world_assets/player/clips/idle/animation.gif",
+      "sheet_resource": "res://generated/world_assets/player/clips/idle/animation.sheet.png",
+      "clips": {
+        "idle": {
+          "name": "idle",
+          "png_path": "generated/world_assets/player/clips/idle/canonical.png",
+          "gif_path": "generated/world_assets/player/clips/idle/animation.gif",
+          "sheet_path": "generated/world_assets/player/clips/idle/animation.sheet.png",
+          "png_resource": "res://generated/world_assets/player/clips/idle/canonical.png",
+          "gif_resource": "res://generated/world_assets/player/clips/idle/animation.gif",
+          "sheet_resource": "res://generated/world_assets/player/clips/idle/animation.sheet.png",
+          "frame_count": 9,
+          "frame_width": 288,
+          "frame_height": 384,
+          "frame_duration_ms": 125,
+          "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
+          "temporal_model": true,
+          "native_video_frames": true,
+          "fallback_used": false,
+          "key": "b6f0ae7361540e58edaf1d27",
+          "video": {
+            "prompt": "The complete adult child breathes naturally, shifts weight gently from one foot to the other, blinks once, and returns to the exact starting full-body pose while the entire head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+            "prompt_encode": {
+              "seconds": 237.741,
+              "prompt_count": 4,
+              "prompts": [
+                "The complete adult child breathes naturally, shifts weight gently from one foot to the other, blinks once, and returns to the exact starting full-body pose while the entire head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+                "The complete adult child calmly raises one open hand, reaches forward in a respectful conversational gesture, pauses briefly, then lowers the hand and returns to the exact starting full-body pose with head, hands, legs, and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+                "The complete adult child plants both feet, bends the knees, performs one clear forward punch with visible follow-through, regains balance, and returns to the exact starting full-body pose while the head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+                "The complete adult child reaches into a pocket, removes one cookie, raises it to the mouth, takes a visible bite, chews, lowers the hand, and returns to the exact starting full-body pose with the head and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background."
+              ],
+              "text_encoder_detached": true,
+              "execution_device": "cuda:0",
+              "batch_index": 0,
+              "batch_size": 4
+            },
+            "inference_seconds": 172.989,
+            "adjacent_rgb_diff": [
+              6.1029,
+              7.6955,
+              9.8266,
+              6.2494,
+              11.4088,
+              5.3244,
+              3.0743,
+              3.0043
+            ],
+            "steps": 8,
+            "guidance_scale": 1.0,
+            "frame_rate": 8
+          },
+          "matting": {
+            "ok": true,
+            "cached": false,
+            "key": "e467ba9e51877362ea05f2bf",
+            "engine": "birefnet-lite-matting-v1",
+            "fallback_used": false,
+            "kind": "player",
+            "asset_usage": "character_sprite",
+            "name": "Player",
+            "clip_name": "idle",
+            "frame_count": 9,
+            "frame_width": 288,
+            "frame_height": 384,
+            "frame_duration_ms": 125,
+            "generation_seconds": 42.153,
+            "processing": {
+              "mode": "birefnet_lite_matted_ltx",
+              "matting_model": "/data/models/matting/BiRefNet_lite-matting",
+              "source_crop": [
+                107,
+                7,
+                303,
+                373
+              ],
+              "frame_metrics": [
+                {
+                  "bbox": [
+                    119,
+                    23,
+                    253,
+                    361
+                  ],
+                  "height_ratio": 0.88021,
+                  "width_ratio": 0.34896,
+                  "top_margin_ratio": 0.0599,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.87179,
+                  "partial_alpha_ratio": 0.02896,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    119,
+                    21,
+                    253,
+                    362
+                  ],
+                  "height_ratio": 0.88802,
+                  "width_ratio": 0.34896,
+                  "top_margin_ratio": 0.05469,
+                  "bottom_margin_ratio": 0.05729,
+                  "transparent_ratio": 0.87086,
+                  "partial_alpha_ratio": 0.03227,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    119,
+                    19,
+                    292,
+                    363
+                  ],
+                  "height_ratio": 0.89583,
+                  "width_ratio": 0.45052,
+                  "top_margin_ratio": 0.04948,
+                  "bottom_margin_ratio": 0.05469,
+                  "transparent_ratio": 0.86098,
+                  "partial_alpha_ratio": 0.04313,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    119,
+                    18,
+                    293,
+                    362
+                  ],
+                  "height_ratio": 0.89583,
+                  "width_ratio": 0.45312,
+                  "top_margin_ratio": 0.04688,
+                  "bottom_margin_ratio": 0.05729,
+                  "transparent_ratio": 0.85496,
+                  "partial_alpha_ratio": 0.06274,
+                  "components_before_cleanup": 4
+                },
+                {
+                  "bbox": [
+                    117,
+                    17,
+                    293,
+                    359
+                  ],
+                  "height_ratio": 0.89062,
+                  "width_ratio": 0.45833,
+                  "top_margin_ratio": 0.04427,
+                  "bottom_margin_ratio": 0.0651,
+                  "transparent_ratio": 0.8487,
+                  "partial_alpha_ratio": 0.09068,
+                  "components_before_cleanup": 11
+                },
+                {
+                  "bbox": [
+                    120,
+                    18,
+                    292,
+                    358
+                  ],
+                  "height_ratio": 0.88542,
+                  "width_ratio": 0.44792,
+                  "top_margin_ratio": 0.04688,
+                  "bottom_margin_ratio": 0.06771,
+                  "transparent_ratio": 0.84548,
+                  "partial_alpha_ratio": 0.093,
+                  "components_before_cleanup": 5
+                },
+                {
+                  "bbox": [
+                    119,
+                    21,
+                    292,
+                    353
+                  ],
+                  "height_ratio": 0.86458,
+                  "width_ratio": 0.45052,
+                  "top_margin_ratio": 0.05469,
+                  "bottom_margin_ratio": 0.08073,
+                  "transparent_ratio": 0.85238,
+                  "partial_alpha_ratio": 0.10744,
+                  "components_before_cleanup": 13
+                },
+                {
+                  "bbox": [
+                    120,
+                    27,
+                    292,
+                    353
+                  ],
+                  "height_ratio": 0.84896,
+                  "width_ratio": 0.44792,
+                  "top_margin_ratio": 0.07031,
+                  "bottom_margin_ratio": 0.08073,
+                  "transparent_ratio": 0.85731,
+                  "partial_alpha_ratio": 0.10126,
+                  "components_before_cleanup": 11
+                },
+                {
+                  "bbox": [
+                    120,
+                    34,
+                    292,
+                    353
+                  ],
+                  "height_ratio": 0.83073,
+                  "width_ratio": 0.44792,
+                  "top_margin_ratio": 0.08854,
+                  "bottom_margin_ratio": 0.08073,
+                  "transparent_ratio": 0.86068,
+                  "partial_alpha_ratio": 0.09041,
+                  "components_before_cleanup": 4
+                }
+              ],
+              "processed_adjacent_rgba_diff": [
+                4.2137,
+                5.1758,
+                5.8809,
+                4.4522,
+                8.4105,
+                5.0793,
+                3.7552,
+                4.0563
+              ]
+            },
+            "mid_frame_review": {
+              "recognizable": true,
+              "single_subject": true,
+              "full_subject": true,
+              "correct_category": true,
+              "required_elements_visible": true,
+              "forbidden_elements_absent": true,
+              "anatomy_or_geometry": "normal",
+              "grounded_materials": true,
+              "clean_plain_background": true,
+              "clear_silhouette": true,
+              "recognized_subject": "adult human",
+              "critical_defects": [],
+              "description": "A stylized, animated character with a humanoid body, wearing casual clothing and accessories, standing in a dynamic pose.",
+              "materials_required": false,
+              "materials_pass": true,
+              "asset_usage": "character_sprite",
+              "background_mode": "transparent_isolated",
+              "background_pass": true,
+              "deterministic_pass": true,
+              "label_pass": true
+            },
+            "validation": {
+              "gif_frames": 9,
+              "distinct_gif_frames": 9,
+              "gif_alpha": [
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ]
+              ],
+              "sheet_alpha": [
+                0,
+                255
+              ],
+              "asset_usage": "character_sprite"
+            },
+            "models": {
+              "matting": "/data/models/matting/BiRefNet_lite-matting"
+            }
+          },
+          "review_pass": true,
+          "distinct_gif_frames": 9,
+          "sha256": {
+            "png": "657aea0e2c5ed557da064f4493a435b2c95d77e2c6e7d5aaf843196b7b13e074",
+            "gif": "fac697378d6c9a59cc6f617df6e832b1b3bf4401ff6f4971a08abcbd6d48916d",
+            "sheet": "2cb94c96e30224bdcd6d4b47820b25054c7395512d61551260dac93175fe64b2"
+          }
+        },
+        "player_interact": {
+          "name": "player_interact",
+          "png_path": "generated/world_assets/player/clips/player_interact/canonical.png",
+          "gif_path": "generated/world_assets/player/clips/player_interact/animation.gif",
+          "sheet_path": "generated/world_assets/player/clips/player_interact/animation.sheet.png",
+          "png_resource": "res://generated/world_assets/player/clips/player_interact/canonical.png",
+          "gif_resource": "res://generated/world_assets/player/clips/player_interact/animation.gif",
+          "sheet_resource": "res://generated/world_assets/player/clips/player_interact/animation.sheet.png",
+          "frame_count": 9,
+          "frame_width": 288,
+          "frame_height": 384,
+          "frame_duration_ms": 125,
+          "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
+          "temporal_model": true,
+          "native_video_frames": true,
+          "fallback_used": false,
+          "key": "50cafaee460cafb75010eba8",
+          "video": {
+            "prompt": "The complete adult child calmly raises one open hand, reaches forward in a respectful conversational gesture, pauses briefly, then lowers the hand and returns to the exact starting full-body pose with head, hands, legs, and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+            "prompt_encode": {
+              "seconds": 237.741,
+              "prompt_count": 4,
+              "prompts": [
+                "The complete adult child breathes naturally, shifts weight gently from one foot to the other, blinks once, and returns to the exact starting full-body pose while the entire head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+                "The complete adult child calmly raises one open hand, reaches forward in a respectful conversational gesture, pauses briefly, then lowers the hand and returns to the exact starting full-body pose with head, hands, legs, and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+                "The complete adult child plants both feet, bends the knees, performs one clear forward punch with visible follow-through, regains balance, and returns to the exact starting full-body pose while the head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+                "The complete adult child reaches into a pocket, removes one cookie, raises it to the mouth, takes a visible bite, chews, lowers the hand, and returns to the exact starting full-body pose with the head and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background."
+              ],
+              "text_encoder_detached": true,
+              "execution_device": "cuda:0",
+              "batch_index": 1,
+              "batch_size": 4
+            },
+            "inference_seconds": 31.085,
+            "adjacent_rgb_diff": [
+              2.8423,
+              2.4842,
+              1.5258,
+              1.2021,
+              1.0635,
+              0.9204,
+              0.7534,
+              0.6335
+            ],
+            "steps": 8,
+            "guidance_scale": 1.0,
+            "frame_rate": 8
+          },
+          "matting": {
+            "ok": true,
+            "cached": false,
+            "key": "979424dae1b384ae68f0072b",
+            "engine": "birefnet-lite-matting-v1",
+            "fallback_used": false,
+            "kind": "player",
+            "asset_usage": "character_sprite",
+            "name": "Player",
+            "clip_name": "player_interact",
+            "frame_count": 9,
+            "frame_width": 288,
+            "frame_height": 384,
+            "frame_duration_ms": 125,
+            "generation_seconds": 40.137,
+            "processing": {
+              "mode": "birefnet_lite_matted_ltx",
+              "matting_model": "/data/models/matting/BiRefNet_lite-matting",
+              "source_crop": [
+                105,
+                10,
+                262,
+                371
+              ],
+              "frame_metrics": [
+                {
+                  "bbox": [
+                    118,
+                    22,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.88281,
+                  "width_ratio": 0.34896,
+                  "top_margin_ratio": 0.05729,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.86997,
+                  "partial_alpha_ratio": 0.03136,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    116,
+                    21,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.88542,
+                  "width_ratio": 0.35417,
+                  "top_margin_ratio": 0.05469,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.86896,
+                  "partial_alpha_ratio": 0.03245,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    115,
+                    21,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.88542,
+                  "width_ratio": 0.35677,
+                  "top_margin_ratio": 0.05469,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.86717,
+                  "partial_alpha_ratio": 0.03578,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    115,
+                    21,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.88542,
+                  "width_ratio": 0.35677,
+                  "top_margin_ratio": 0.05469,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.86662,
+                  "partial_alpha_ratio": 0.03792,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    115,
+                    21,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.88542,
+                  "width_ratio": 0.35677,
+                  "top_margin_ratio": 0.05469,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.86627,
+                  "partial_alpha_ratio": 0.0403,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    115,
+                    20,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.88802,
+                  "width_ratio": 0.35677,
+                  "top_margin_ratio": 0.05208,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.86582,
+                  "partial_alpha_ratio": 0.04298,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    115,
+                    20,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.88802,
+                  "width_ratio": 0.35677,
+                  "top_margin_ratio": 0.05208,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.86546,
+                  "partial_alpha_ratio": 0.04371,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    115,
+                    20,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.88802,
+                  "width_ratio": 0.35677,
+                  "top_margin_ratio": 0.05208,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.86481,
+                  "partial_alpha_ratio": 0.04617,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    115,
+                    20,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.88802,
+                  "width_ratio": 0.35677,
+                  "top_margin_ratio": 0.05208,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.86449,
+                  "partial_alpha_ratio": 0.05084,
+                  "components_before_cleanup": 1
+                }
+              ],
+              "processed_adjacent_rgba_diff": [
+                1.4549,
+                1.4428,
+                0.8768,
+                0.6626,
+                0.5784,
+                0.5117,
+                0.5443,
+                0.4409
+              ]
+            },
+            "mid_frame_review": {
+              "recognizable": true,
+              "single_subject": true,
+              "full_subject": true,
+              "correct_category": true,
+              "required_elements_visible": true,
+              "forbidden_elements_absent": true,
+              "anatomy_or_geometry": "normal",
+              "grounded_materials": true,
+              "clean_plain_background": true,
+              "clear_silhouette": true,
+              "recognized_subject": "adult human",
+              "critical_defects": [],
+              "description": "A transparent isolated asset of a male character in casual attire, standing with one arm on his hip and the other hand on his chest. The character is wearing a green and white striped shirt, blue shorts, and brown shoes. The background is a plain white, with no additional elements or textures.",
+              "materials_required": false,
+              "materials_pass": true,
+              "asset_usage": "character_sprite",
+              "background_mode": "transparent_isolated",
+              "background_pass": true,
+              "deterministic_pass": true,
+              "label_pass": true
+            },
+            "validation": {
+              "gif_frames": 9,
+              "distinct_gif_frames": 9,
+              "gif_alpha": [
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ]
+              ],
+              "sheet_alpha": [
+                0,
+                255
+              ],
+              "asset_usage": "character_sprite"
+            },
+            "models": {
+              "matting": "/data/models/matting/BiRefNet_lite-matting"
+            }
+          },
+          "review_pass": true,
+          "distinct_gif_frames": 9,
+          "sha256": {
+            "png": "5863034346e7a7d970af67bc5b278a8fada54300f19af5bacaaf3786a0d40471",
+            "gif": "4be0798b2cf6918491da2c922a7e920a629aaa4fbb506a270674a37773014c8d",
+            "sheet": "208ebe0750eaaa93563fd8a9f52c3b9364df4da3b5567fc0e46aa9f98c951b41"
+          }
+        },
+        "player_attack": {
+          "name": "player_attack",
+          "png_path": "generated/world_assets/player/clips/player_attack/canonical.png",
+          "gif_path": "generated/world_assets/player/clips/player_attack/animation.gif",
+          "sheet_path": "generated/world_assets/player/clips/player_attack/animation.sheet.png",
+          "png_resource": "res://generated/world_assets/player/clips/player_attack/canonical.png",
+          "gif_resource": "res://generated/world_assets/player/clips/player_attack/animation.gif",
+          "sheet_resource": "res://generated/world_assets/player/clips/player_attack/animation.sheet.png",
+          "frame_count": 9,
+          "frame_width": 288,
+          "frame_height": 384,
+          "frame_duration_ms": 125,
+          "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
+          "temporal_model": true,
+          "native_video_frames": true,
+          "fallback_used": false,
+          "key": "527e69a0148d1a6d90189c60",
+          "video": {
+            "prompt": "The complete adult child plants both feet, bends the knees, performs one clear forward punch with visible follow-through, regains balance, and returns to the exact starting full-body pose while the head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+            "prompt_encode": {
+              "seconds": 237.741,
+              "prompt_count": 4,
+              "prompts": [
+                "The complete adult child breathes naturally, shifts weight gently from one foot to the other, blinks once, and returns to the exact starting full-body pose while the entire head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+                "The complete adult child calmly raises one open hand, reaches forward in a respectful conversational gesture, pauses briefly, then lowers the hand and returns to the exact starting full-body pose with head, hands, legs, and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+                "The complete adult child plants both feet, bends the knees, performs one clear forward punch with visible follow-through, regains balance, and returns to the exact starting full-body pose while the head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+                "The complete adult child reaches into a pocket, removes one cookie, raises it to the mouth, takes a visible bite, chews, lowers the hand, and returns to the exact starting full-body pose with the head and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background."
+              ],
+              "text_encoder_detached": true,
+              "execution_device": "cuda:0",
+              "batch_index": 2,
+              "batch_size": 4
+            },
+            "inference_seconds": 33.331,
+            "adjacent_rgb_diff": [
+              5.08,
+              3.0392,
+              2.259,
+              1.6897,
+              1.4845,
+              1.3787,
+              1.1143,
+              0.9754
+            ],
+            "steps": 8,
+            "guidance_scale": 1.0,
+            "frame_rate": 8
+          },
+          "matting": {
+            "ok": true,
+            "cached": false,
+            "key": "a6f73ac5cb9b0209fe7ab037",
+            "engine": "birefnet-lite-matting-v1",
+            "fallback_used": false,
+            "kind": "player",
+            "asset_usage": "character_sprite",
+            "name": "Player",
+            "clip_name": "player_attack",
+            "frame_count": 9,
+            "frame_width": 288,
+            "frame_height": 384,
+            "frame_duration_ms": 125,
+            "generation_seconds": 16.829,
+            "processing": {
+              "mode": "birefnet_lite_matted_ltx",
+              "matting_model": "/data/models/matting/BiRefNet_lite-matting",
+              "source_crop": [
+                106,
+                13,
+                262,
+                370
+              ],
+              "frame_metrics": [
+                {
+                  "bbox": [
+                    119,
+                    23,
+                    252,
+                    360
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.34635,
+                  "top_margin_ratio": 0.0599,
+                  "bottom_margin_ratio": 0.0625,
+                  "transparent_ratio": 0.873,
+                  "partial_alpha_ratio": 0.03164,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    119,
+                    23,
+                    251,
+                    360
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.34375,
+                  "top_margin_ratio": 0.0599,
+                  "bottom_margin_ratio": 0.0625,
+                  "transparent_ratio": 0.87229,
+                  "partial_alpha_ratio": 0.04083,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    119,
+                    23,
+                    251,
+                    360
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.34375,
+                  "top_margin_ratio": 0.0599,
+                  "bottom_margin_ratio": 0.0625,
+                  "transparent_ratio": 0.87204,
+                  "partial_alpha_ratio": 0.04787,
+                  "components_before_cleanup": 2
+                },
+                {
+                  "bbox": [
+                    118,
+                    23,
+                    251,
+                    360
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.34635,
+                  "top_margin_ratio": 0.0599,
+                  "bottom_margin_ratio": 0.0625,
+                  "transparent_ratio": 0.87168,
+                  "partial_alpha_ratio": 0.05531,
+                  "components_before_cleanup": 3
+                },
+                {
+                  "bbox": [
+                    118,
+                    23,
+                    251,
+                    360
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.34635,
+                  "top_margin_ratio": 0.0599,
+                  "bottom_margin_ratio": 0.0625,
+                  "transparent_ratio": 0.8712,
+                  "partial_alpha_ratio": 0.06507,
+                  "components_before_cleanup": 3
+                },
+                {
+                  "bbox": [
+                    117,
+                    24,
+                    251,
+                    360
+                  ],
+                  "height_ratio": 0.875,
+                  "width_ratio": 0.34896,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0625,
+                  "transparent_ratio": 0.87088,
+                  "partial_alpha_ratio": 0.07416,
+                  "components_before_cleanup": 3
+                },
+                {
+                  "bbox": [
+                    117,
+                    24,
+                    251,
+                    360
+                  ],
+                  "height_ratio": 0.875,
+                  "width_ratio": 0.34896,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0625,
+                  "transparent_ratio": 0.87004,
+                  "partial_alpha_ratio": 0.07808,
+                  "components_before_cleanup": 3
+                },
+                {
+                  "bbox": [
+                    117,
+                    24,
+                    251,
+                    360
+                  ],
+                  "height_ratio": 0.875,
+                  "width_ratio": 0.34896,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0625,
+                  "transparent_ratio": 0.87027,
+                  "partial_alpha_ratio": 0.08257,
+                  "components_before_cleanup": 3
+                },
+                {
+                  "bbox": [
+                    116,
+                    24,
+                    251,
+                    360
+                  ],
+                  "height_ratio": 0.875,
+                  "width_ratio": 0.35156,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0625,
+                  "transparent_ratio": 0.86882,
+                  "partial_alpha_ratio": 0.08403,
+                  "components_before_cleanup": 3
+                }
+              ],
+              "processed_adjacent_rgba_diff": [
+                4.4988,
+                2.5043,
+                2.5573,
+                2.015,
+                1.7276,
+                1.3811,
+                1.6284,
+                1.2659
+              ]
+            },
+            "mid_frame_review": {
+              "recognizable": true,
+              "single_subject": true,
+              "full_subject": true,
+              "correct_category": true,
+              "required_elements_visible": true,
+              "forbidden_elements_absent": true,
+              "anatomy_or_geometry": "normal",
+              "grounded_materials": true,
+              "clean_plain_background": true,
+              "clear_silhouette": true,
+              "recognized_subject": "adult human",
+              "critical_defects": [],
+              "description": "A 3D-rendered character standing with hands on hips, wearing casual clothing and accessories. The character has a neutral expression and is facing forward.",
+              "materials_required": false,
+              "materials_pass": true,
+              "asset_usage": "character_sprite",
+              "background_mode": "transparent_isolated",
+              "background_pass": true,
+              "deterministic_pass": true,
+              "label_pass": true
+            },
+            "validation": {
+              "gif_frames": 9,
+              "distinct_gif_frames": 9,
+              "gif_alpha": [
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ]
+              ],
+              "sheet_alpha": [
+                0,
+                255
+              ],
+              "asset_usage": "character_sprite"
+            },
+            "models": {
+              "matting": "/data/models/matting/BiRefNet_lite-matting"
+            }
+          },
+          "review_pass": true,
+          "distinct_gif_frames": 9,
+          "sha256": {
+            "png": "9cfdc6c58a9b7ca25078d6cb0067c0370e91fafede0ff7b49601d0e56a80c47b",
+            "gif": "9163da111b753db5f3c0562289b7522587f2dc40ae843d242d23da0818025000",
+            "sheet": "a6057c0e09c1f3872110977e369e8e1f9d1c53915211c739a996feaf35686d9c"
+          }
+        },
+        "player_use": {
+          "name": "player_use",
+          "png_path": "generated/world_assets/player/clips/player_use/canonical.png",
+          "gif_path": "generated/world_assets/player/clips/player_use/animation.gif",
+          "sheet_path": "generated/world_assets/player/clips/player_use/animation.sheet.png",
+          "png_resource": "res://generated/world_assets/player/clips/player_use/canonical.png",
+          "gif_resource": "res://generated/world_assets/player/clips/player_use/animation.gif",
+          "sheet_resource": "res://generated/world_assets/player/clips/player_use/animation.sheet.png",
+          "frame_count": 9,
+          "frame_width": 288,
+          "frame_height": 384,
+          "frame_duration_ms": 125,
+          "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
+          "temporal_model": true,
+          "native_video_frames": true,
+          "fallback_used": false,
+          "key": "86c19aca420be8782fe7db48",
+          "video": {
+            "prompt": "The complete adult child reaches into a pocket, removes one cookie, raises it to the mouth, takes a visible bite, chews, lowers the hand, and returns to the exact starting full-body pose with the head and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+            "prompt_encode": {
+              "seconds": 237.741,
+              "prompt_count": 4,
+              "prompts": [
+                "The complete adult child breathes naturally, shifts weight gently from one foot to the other, blinks once, and returns to the exact starting full-body pose while the entire head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+                "The complete adult child calmly raises one open hand, reaches forward in a respectful conversational gesture, pauses briefly, then lowers the hand and returns to the exact starting full-body pose with head, hands, legs, and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+                "The complete adult child plants both feet, bends the knees, performs one clear forward punch with visible follow-through, regains balance, and returns to the exact starting full-body pose while the head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+                "The complete adult child reaches into a pocket, removes one cookie, raises it to the mouth, takes a visible bite, chews, lowers the hand, and returns to the exact starting full-body pose with the head and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background."
+              ],
+              "text_encoder_detached": true,
+              "execution_device": "cuda:0",
+              "batch_index": 3,
+              "batch_size": 4
+            },
+            "inference_seconds": 0.534,
+            "adjacent_rgb_diff": [
+              5.4724,
+              2.5056,
+              1.4984,
+              1.287,
+              1.178,
+              0.9839,
+              0.8185,
+              0.657
+            ],
+            "steps": 8,
+            "guidance_scale": 1.0,
+            "frame_rate": 8
+          },
+          "matting": {
+            "ok": true,
+            "cached": false,
+            "key": "12724c2ae54fb1a0287a0ba8",
+            "engine": "birefnet-lite-matting-v1",
+            "fallback_used": false,
+            "kind": "player",
+            "asset_usage": "character_sprite",
+            "name": "Player",
+            "clip_name": "player_use",
+            "frame_count": 9,
+            "frame_width": 288,
+            "frame_height": 384,
+            "frame_duration_ms": 125,
+            "generation_seconds": 43.514,
+            "processing": {
+              "mode": "birefnet_lite_matted_ltx",
+              "matting_model": "/data/models/matting/BiRefNet_lite-matting",
+              "source_crop": [
+                108,
+                14,
+                263,
+                371
+              ],
+              "frame_metrics": [
+                {
+                  "bbox": [
+                    118,
+                    24,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.34896,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.87065,
+                  "partial_alpha_ratio": 0.02958,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    118,
+                    24,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.34896,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.86689,
+                  "partial_alpha_ratio": 0.04139,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    157,
+                    24,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.2474,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.87867,
+                  "partial_alpha_ratio": 0.02914,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    158,
+                    24,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.24479,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.87649,
+                  "partial_alpha_ratio": 0.03156,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    158,
+                    24,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.24479,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.87583,
+                  "partial_alpha_ratio": 0.03219,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    158,
+                    24,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.24479,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.87536,
+                  "partial_alpha_ratio": 0.03311,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    158,
+                    24,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.24479,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.87505,
+                  "partial_alpha_ratio": 0.03347,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    158,
+                    24,
+                    252,
+                    361
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.24479,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.87472,
+                  "partial_alpha_ratio": 0.03351,
+                  "components_before_cleanup": 1
+                },
+                {
+                  "bbox": [
+                    158,
+                    24,
+                    253,
+                    361
+                  ],
+                  "height_ratio": 0.8776,
+                  "width_ratio": 0.2474,
+                  "top_margin_ratio": 0.0625,
+                  "bottom_margin_ratio": 0.0599,
+                  "transparent_ratio": 0.87448,
+                  "partial_alpha_ratio": 0.03434,
+                  "components_before_cleanup": 1
+                }
+              ],
+              "processed_adjacent_rgba_diff": [
+                5.6995,
+                5.6212,
+                1.6119,
+                1.1577,
+                0.8544,
+                0.7417,
+                0.8275,
+                0.674
+              ]
+            },
+            "mid_frame_review": {
+              "recognizable": true,
+              "single_subject": true,
+              "full_subject": true,
+              "correct_category": true,
+              "required_elements_visible": true,
+              "forbidden_elements_absent": true,
+              "anatomy_or_geometry": "normal",
+              "grounded_materials": true,
+              "clean_plain_background": true,
+              "clear_silhouette": true,
+              "recognized_subject": "adult human",
+              "critical_defects": [],
+              "description": "A transparent isolated asset of a single adult human character with full head, face, torso, both arms, both hands, both legs, and both feet. The character is wearing casual clothing, including a tank top, shorts, and sandals. The background is a uniform pure-white extraction with no noise, scenery, shadow field, or gradient.",
+              "materials_required": false,
+              "materials_pass": true,
+              "asset_usage": "character_sprite",
+              "background_mode": "transparent_isolated",
+              "background_pass": true,
+              "deterministic_pass": true,
+              "label_pass": true
+            },
+            "validation": {
+              "gif_frames": 9,
+              "distinct_gif_frames": 9,
+              "gif_alpha": [
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ],
+                [
+                  0,
+                  255
+                ]
+              ],
+              "sheet_alpha": [
+                0,
+                255
+              ],
+              "asset_usage": "character_sprite"
+            },
+            "models": {
+              "matting": "/data/models/matting/BiRefNet_lite-matting"
+            }
+          },
+          "review_pass": true,
+          "distinct_gif_frames": 9,
+          "sha256": {
+            "png": "61ddfceb059ca2fbcd7a607852f9ed2b2aa74378d67152cc3df3314251308857",
+            "gif": "c168704efa61eaf6747643952f210b064898afaf574de4e030716f6b90dccd87",
+            "sheet": "982d4cf47f7e2f7b627de6cfcfd03964e870f4f534f61c93d620aa3f453d8092"
+          }
+        }
+      },
+      "default_clip": "idle",
+      "canonical_path": "generated/world_assets/player/canonical.png",
+      "canonical_resource": "res://generated/world_assets/player/canonical.png",
+      "temporal_model": true,
+      "native_video_frames": true,
+      "fallback_used": false
     },
     "mom": {
       "id": "mom",
@@ -3973,6 +6247,11 @@
   },
   "complete": true,
   "fallback_used": false,
-  "asset_engine": "thor-sdxl-reviewed-identity-anchored-animation",
-  "compiled_seconds": 0.295
+  "asset_engine": "sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting",
+  "compiled_seconds": 0.295,
+  "temporal_clips_complete_for": [
+    "player"
+  ],
+  "gameplay_action_count": 30,
+  "action_graph_model": "qwen2.5-14b-world-author"
 }

@@ -1,88 +1,149 @@
 {
   "complete": true,
   "fallback_used": false,
-  "asset_engine": "thor-sdxl-reviewed-identity-anchored-animation",
+  "asset_engine": "sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting",
   "scene_name": "Dining Room",
+  "gameplay_action_count": 30,
   "assets": {
     "player": {
       "gif": "generated_assets/player.gif",
       "png": "generated_assets/player.png",
       "sheet": "generated_assets/player.sheet.png",
-      "frames": 8,
-      "canonical_pass": true,
-      "animation_pass": true
+      "frames": 9,
+      "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
+      "temporal_model": true,
+      "fallback_used": false,
+      "clips": {
+        "idle": {
+          "gif": "generated_assets/player-clips/idle/animation.gif",
+          "png": "generated_assets/player-clips/idle/canonical.png",
+          "sheet": "generated_assets/player-clips/idle/animation.sheet.png",
+          "frames": 9,
+          "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
+          "temporal_model": true,
+          "native_video_frames": true,
+          "fallback_used": false,
+          "review_pass": true,
+          "distinct_gif_frames": 9
+        },
+        "player_interact": {
+          "gif": "generated_assets/player-clips/player_interact/animation.gif",
+          "png": "generated_assets/player-clips/player_interact/canonical.png",
+          "sheet": "generated_assets/player-clips/player_interact/animation.sheet.png",
+          "frames": 9,
+          "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
+          "temporal_model": true,
+          "native_video_frames": true,
+          "fallback_used": false,
+          "review_pass": true,
+          "distinct_gif_frames": 9
+        },
+        "player_attack": {
+          "gif": "generated_assets/player-clips/player_attack/animation.gif",
+          "png": "generated_assets/player-clips/player_attack/canonical.png",
+          "sheet": "generated_assets/player-clips/player_attack/animation.sheet.png",
+          "frames": 9,
+          "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
+          "temporal_model": true,
+          "native_video_frames": true,
+          "fallback_used": false,
+          "review_pass": true,
+          "distinct_gif_frames": 9
+        },
+        "player_use": {
+          "gif": "generated_assets/player-clips/player_use/animation.gif",
+          "png": "generated_assets/player-clips/player_use/canonical.png",
+          "sheet": "generated_assets/player-clips/player_use/animation.sheet.png",
+          "frames": 9,
+          "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
+          "temporal_model": true,
+          "native_video_frames": true,
+          "fallback_used": false,
+          "review_pass": true,
+          "distinct_gif_frames": 9
+        }
+      }
     },
     "mom": {
       "gif": "generated_assets/mom.gif",
       "png": "generated_assets/mom.png",
       "sheet": "generated_assets/mom.sheet.png",
       "frames": 8,
-      "canonical_pass": true,
-      "animation_pass": true
+      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+      "temporal_model": false,
+      "fallback_used": false
     },
     "dining_table": {
       "gif": "generated_assets/dining_table.gif",
       "png": "generated_assets/dining_table.png",
       "sheet": "generated_assets/dining_table.sheet.png",
       "frames": 6,
-      "canonical_pass": true,
-      "animation_pass": true
+      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+      "temporal_model": false,
+      "fallback_used": false
     },
     "chandelier": {
       "gif": "generated_assets/chandelier.gif",
       "png": "generated_assets/chandelier.png",
       "sheet": "generated_assets/chandelier.sheet.png",
       "frames": 6,
-      "canonical_pass": true,
-      "animation_pass": true
+      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+      "temporal_model": false,
+      "fallback_used": false
     },
     "sideboard": {
       "gif": "generated_assets/sideboard.gif",
       "png": "generated_assets/sideboard.png",
       "sheet": "generated_assets/sideboard.sheet.png",
       "frames": 6,
-      "canonical_pass": true,
-      "animation_pass": true
+      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+      "temporal_model": false,
+      "fallback_used": false
     },
     "curtains": {
       "gif": "generated_assets/curtains.gif",
       "png": "generated_assets/curtains.png",
       "sheet": "generated_assets/curtains.sheet.png",
       "frames": 6,
-      "canonical_pass": true,
-      "animation_pass": true
+      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+      "temporal_model": false,
+      "fallback_used": false
     },
     "wall_finish": {
       "gif": "generated_assets/wall_finish.gif",
       "png": "generated_assets/wall_finish.png",
       "sheet": "generated_assets/wall_finish.sheet.png",
       "frames": 6,
-      "canonical_pass": true,
-      "animation_pass": true
+      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+      "temporal_model": false,
+      "fallback_used": false
     },
     "floor_carpet": {
       "gif": "generated_assets/floor_carpet.gif",
       "png": "generated_assets/floor_carpet.png",
       "sheet": "generated_assets/floor_carpet.sheet.png",
       "frames": 6,
-      "canonical_pass": true,
-      "animation_pass": true
+      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+      "temporal_model": false,
+      "fallback_used": false
     },
     "kitchen_door": {
       "gif": "generated_assets/kitchen_door.gif",
       "png": "generated_assets/kitchen_door.png",
       "sheet": "generated_assets/kitchen_door.sheet.png",
       "frames": 6,
-      "canonical_pass": true,
-      "animation_pass": true
+      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+      "temporal_model": false,
+      "fallback_used": false
     },
     "cookies": {
       "gif": "generated_assets/cookies.gif",
       "png": "generated_assets/cookies.png",
       "sheet": "generated_assets/cookies.sheet.png",
       "frames": 6,
-      "canonical_pass": true,
-      "animation_pass": true
+      "engine": "sdxl-base-canonical+sdxl-img2img-animation",
+      "temporal_model": false,
+      "fallback_used": false
     }
   }
 }

@@ -26,7 +26,7 @@ assert 'isolated static prop' in payload['structural_prompt']
 assert pipeline.safe_id('Your Mom!') == 'your-mom'
 source = (ROOT / 'server/world_asset_pipeline.py').read_text()
 assert 'fallback_used' in source
-assert 'thor-sdxl-reviewed-identity-anchored-animation' in source
+assert 'thor-sdxl-reviewed-identity-anchored-animation' in source or 'ltx-video' in source
 assert 'cached_local' in (ROOT / 'server/world_asset_pipeline.py').read_text()
 assert 'key.replace("_path", "_resource")' in (ROOT / 'server/world_asset_pipeline.py').read_text()
 print('world asset pipeline contracts passed')

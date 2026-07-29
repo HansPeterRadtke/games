@@ -39,8 +39,86 @@
       "visual_usage": "character_sprite",
       "asset_prompt": "An adult child with a determined look, standing alone, wearing casual clothes, on a uniform pure-white extraction background, with a sense of urgency and defiance.",
       "animation": "The adult child shifts slightly, maintaining a determined look and stance, in a short loop.",
-      "interaction": "talk_to_mom",
-      "behavior": "idle_waiting"
+      "actions": [
+        {
+          "id": "action_001",
+          "input": "interact",
+          "label": "player",
+          "description": "The player approaches Your Mom, gently placing a hand on her arm to gain her attention.",
+          "range_meters": 1.5,
+          "cooldown_seconds": 5,
+          "conditions": [],
+          "effects": [
+            {
+              "type": "change_stat",
+              "stat": "autonomy",
+              "amount": 10
+            },
+            {
+              "type": "change_stat",
+              "stat": "mom_patience",
+              "amount": -5
+            }
+          ],
+          "actor_clip": "player_interact",
+          "actor_animation_prompt": "The player, with a calm and respectful demeanor, reaches out and gently touches Your Mom's arm, making sure to keep their hand open and palm facing upwards, signaling a request for understanding and support.",
+          "target_clip": "player_interact",
+          "target_animation_prompt": "Your Mom, feeling the gentle touch, looks down at the player's hand on her arm, then up into the player's eyes, her expression softening as she recognizes the player's need for autonomy and support.",
+          "success_text": "Your Mom seems to understand your request for more autonomy, and her patience is slightly diminished by the interaction."
+        },
+        {
+          "id": "action_1",
+          "input": "hit",
+          "label": "player_hit",
+          "description": "The player swings a fist at the air, causing a visible hit animation that costs stamina and decreases autonomy.",
+          "range_meters": 1,
+          "cooldown_seconds": 5,
+          "conditions": [],
+          "effects": [
+            {
+              "type": "change_stat",
+              "stat": "stamina",
+              "amount": -10
+            },
+            {
+              "type": "change_stat",
+              "stat": "autonomy",
+              "amount": -1
+            }
+          ],
+          "actor_clip": "player_attack",
+          "actor_animation_prompt": "The player, wearing casual clothes, raises their arm to punch the air, fist clenched, head turning slightly to the side, showing determination on their face, legs slightly bent for balance, feet planted firmly on the floor.",
+          "target_clip": "player_attack",
+          "target_animation_prompt": "The player, wearing casual clothes, raises their arm to punch the air, fist clenched, head turning slightly to the side, showing determination on their face, legs slightly bent for balance, feet planted firmly on the floor.",
+          "success_text": "The player swings their fist at the air, visibly straining as they do so, their face contorting with effort."
+        },
+        {
+          "id": "player_eat_cookie",
+          "input": "use",
+          "label": "Player eats a cookie",
+          "description": "The player reaches into their inventory, pulls out a cookie, and brings it to their mouth to eat it. After eating, the player's health increases.",
+          "range_meters": 0,
+          "cooldown_seconds": 5,
+          "conditions": [],
+          "effects": [
+            {
+              "type": "inventory_remove",
+              "item_id": "cookies",
+              "count": 1
+            },
+            {
+              "type": "change_stat",
+              "stat": "health",
+              "amount": 5
+            }
+          ],
+          "actor_clip": "player_use",
+          "actor_animation_prompt": "The player bends slightly at the waist, reaches into their pocket, pulls out a cookie, holds it up to their mouth, and bites down. They chew and swallow, finishing the cookie with a satisfied look on their face.",
+          "target_clip": "player_use",
+          "target_animation_prompt": "The player bends slightly at the waist, reaches into their pocket, pulls out a cookie, holds it up to their mouth, and bites down. They chew and swallow, finishing the cookie with a satisfied look on their face.",
+          "success_text": "You ate a cookie. It was delicious and you feel a bit more energetic."
+        }
+      ]
     },
     "objects": [
       {
@@ -64,8 +142,111 @@
         "visual_usage": "character_sprite",
         "asset_prompt": "A stern woman in a cheerful floral dress, seated alone, with a critical gaze, on a uniform pure-white extraction background.",
         "animation": "The stern woman shifts slightly in her seated position, maintaining her critical gaze, in a short loop.",
-        "interaction": "talk_to_mom",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "touch_mom",
+            "input": "touch",
+            "label": "Touch Your Mom",
+            "description": "Reach out and touch your mom.",
+            "range_meters": 1,
+            "cooldown_seconds": 5,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -10
+              },
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -5
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The full-body adult child reaches out and briefly touches the stern woman in a floral dress, seated at the dining table, causing a mild physical recoil, before returning to the exact starting pose.",
+            "target_clip": "mom_touch",
+            "target_animation_prompt": "The stern woman in a floral dress, seated at the dining table, recoils slightly, her stern expression softening for a moment, before regaining her composure.",
+            "success_text": "Your mom's expression softens for a moment, but she quickly regains her stern demeanor."
+          },
+          {
+            "id": "interact_mom",
+            "input": "interact",
+            "label": "Interact with Your Mom",
+            "description": "Interact with your mom.",
+            "range_meters": 1,
+            "cooldown_seconds": 5,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -5
+              },
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -10
+              },
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -15
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -10
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player approaches your mom and whispers something in her ear, causing her to momentarily pause, then returns to the exact starting pose.",
+            "target_clip": "mom_interact",
+            "target_animation_prompt": "Your mom's stern expression falters, and she looks momentarily confused before regaining her composure, then returns to the exact starting pose.",
+            "success_text": "Your mom looks momentarily confused, but quickly regains her composure."
+          },
+          {
+            "id": "hit_mom",
+            "input": "hit",
+            "label": "Hit Your Mom",
+            "description": "Hit your mom.",
+            "range_meters": 1,
+            "cooldown_seconds": 5,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -25
+              },
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -5
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -15
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player lunges forward, delivering a swift punch to your mom's shoulder, causing her to flinch and recoil.",
+            "target_clip": "mom_hit",
+            "target_animation_prompt": "Your mom's stern expression cracks into a look of shock and pain as she recoils from the impact, her hand instinctively reaching for her shoulder.",
+            "success_text": "Your mom recoils from the impact, her stern expression cracking into a look of shock and pain."
+          }
+        ]
       },
       {
         "id": "dining_table",
@@ -88,8 +269,92 @@
         "visual_usage": "isolated_sprite",
         "asset_prompt": "A long oak dining table with matching chairs, meticulously arranged, isolated on a uniform pure-white extraction background.",
         "animation": "The dining table and chairs subtly shift and reposition themselves.",
-        "interaction": "sit_down",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "dining_table_touch",
+            "input": "touch",
+            "label": "Touch Dining Table",
+            "description": "You briefly touch the dining table.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "autonomy",
+                "value": ":[{autonomy: 49}]}], "
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The player reaches out, gently touches the dining table, recoils slightly, and returns to the exact starting pose.",
+            "target_clip": "dining_table_touch",
+            "target_animation_prompt": "The dining table remains still as the player's hand briefly touches it, then withdraws quickly, causing a mild shiver.",
+            "success_text": "You feel a strange sensation as you touch the dining table."
+          },
+          {
+            "id": "dining_table_interact",
+            "input": "interact",
+            "label": "Interact with Dining Table",
+            "description": "You sit down at the dining table.",
+            "range_meters": 2,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "cookies",
+                "key": "value",
+                "value": ":[{"
+              },
+              {
+                "type": "set_state",
+                "target_id": "mom",
+                "key": "patience",
+                "value": ":[{"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "autonomy",
+                "value": ":[{"
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player sits down at the dining table, placing a plate of cookies in front of them and smiling at their mother.",
+            "target_clip": "dining_table_interact",
+            "target_animation_prompt": "The dining table creaks as the player's weight settles into a chair, and a plate of cookies appears on the table.",
+            "success_text": "You sit down at the dining table and place a plate of cookies in front of you, earning a smile from your mother."
+          },
+          {
+            "id": "player_attack",
+            "input": "hit",
+            "label": "Hit",
+            "description": "Perform a physical strike towards the target.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "stamina",
+                "value": ":[{stamina: 90}]"
+              },
+              {
+                "type": "set_state",
+                "target_id": "dining_table",
+                "key": "collision",
+                "value": "none"
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player performs a clear physical strike towards the target, follows through, regains balance, and returns to the exact starting pose.",
+            "target_clip": "dining_table_hit",
+            "target_animation_prompt": "The dining table cracks and splinters under the impact, showing a clearly visible physical impact reaction.",
+            "success_text": "You hit the dining table."
+          }
+        ]
       },
       {
         "id": "chandelier",
@@ -112,8 +377,94 @@
         "visual_usage": "isolated_sprite",
         "asset_prompt": "One isolated complete chandelier on a uniform pure-white extraction background with no room or scenery.",
         "animation": "The chandelier's body sways gently while its bulbs brighten and dim in a continuous loop, maintaining its exact identity and geometry.",
-        "interaction": "none",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "chandelier_touch",
+            "input": "touch",
+            "label": "Touch Chandelier",
+            "description": "Reach up and touch the chandelier.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -1
+              },
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -1
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "recoil",
+                "value": "true"
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The full-body adult child reaches up to touch the chandelier, recoils slightly with a mild physical response, and returns to the exact starting pose.",
+            "target_clip": "chandelier_touch",
+            "target_animation_prompt": "The chandelier remains still, but its bulbs flicker slightly as the player touches it, maintaining its exact identity and geometry.",
+            "success_text": "You touch the chandelier, causing it to flicker slightly. You feel a mild shock and recoil slightly."
+          },
+          {
+            "id": "chandelier_interact",
+            "input": "interact",
+            "label": "Interact with Chandelier",
+            "description": "Inspect the chandelier.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -10
+              },
+              {
+                "type": "set_state",
+                "target_id": "chandelier",
+                "key": "inspected",
+                "value": "true"
+              },
+              {
+                "type": "set_state",
+                "target_id": "mom",
+                "key": "annoyed",
+                "value": "true"
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player reaches up and inspects the chandelier, causing it to buzz faintly. Your mother's patience decreases.",
+            "target_clip": "chandelier_interact",
+            "target_animation_prompt": "The chandelier's bulbs brighten and dim rapidly as the player inspects it, causing a faint buzzing sound.",
+            "success_text": "You inspect the chandelier, and it buzzes faintly as you do so. Your mother's patience decreases."
+          },
+          {
+            "id": "chandelier_hit",
+            "input": "hit",
+            "label": "Hit Chandelier",
+            "description": "Swing your arm and hit the chandelier.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -20
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The full-body adult child swings their arm and delivers a clear physical strike toward the chandelier, causing it to sway violently. The child regains balance and returns to the exact starting pose.",
+            "target_clip": "chandelier_hit",
+            "target_animation_prompt": "The chandelier swings violently, its bulbs flicker rapidly, and it emits a loud ringing sound as it reacts to the impact.",
+            "success_text": "You swing your arm and hit the chandelier, causing it to sway violently and emit a loud ringing sound."
+          }
+        ]
       },
       {
         "id": "sideboard",
@@ -136,8 +487,96 @@
         "visual_usage": "isolated_sprite",
         "asset_prompt": "A sideboard with a stack of clean dishes, isolated on a uniform pure-white extraction background.",
         "animation": "The stack of clean dishes on the sideboard subtly shifts and repositions itself.",
-        "interaction": "clean_dishes",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "sideboard_touch",
+            "input": "touch",
+            "label": "Touch the sideboard",
+            "description": "You reach out and touch the sideboard.",
+            "range_meters": 1,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -5
+              },
+              {
+                "type": "set_collision",
+                "target_id": "sideboard",
+                "enabled": false
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The player reaches out and touches the sideboard, recoiling slightly as if startled by the contact, then returns to the exact starting pose.",
+            "target_clip": "sideboard_touch",
+            "target_animation_prompt": "The sideboard subtly shakes as if disturbed by the contact, then returns to its original state, undamaged.",
+            "success_text": "You touch the sideboard, feeling a slight tremor as if it's reacting to your touch."
+          },
+          {
+            "id": "sideboard_interact",
+            "input": "interact",
+            "label": "Interact with the sideboard",
+            "description": "You interact with the sideboard.",
+            "range_meters": 1,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -20
+              },
+              {
+                "type": "set_visibility",
+                "target_id": "sideboard",
+                "visible": false
+              },
+              {
+                "type": "set_collision",
+                "target_id": "sideboard",
+                "enabled": false
+              },
+              {
+                "type": "set_visibility",
+                "target_id": "cookies",
+                "visible": true
+              },
+              {
+                "type": "set_collision",
+                "target_id": "cookies",
+                "enabled": true
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player approaches the sideboard, interacting with it, then returns to the exact starting pose with a mischievous grin.",
+            "target_clip": "sideboard_interact",
+            "target_animation_prompt": "The sideboard suddenly disappears, revealing a hidden stash of cookies behind it, which the player immediately grabs.",
+            "success_text": "You interact with the sideboard, and it vanishes, revealing a stash of cookies behind it. You grab a cookie and sneakily stuff it into your pocket."
+          },
+          {
+            "id": "sideboard_hit",
+            "input": "hit",
+            "label": "Hit the sideboard",
+            "description": "You hit the sideboard.",
+            "range_meters": 1,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -10
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player swings a fist at the sideboard, causing it to rattle and vibrate, but remains intact. The player regains balance and returns to the starting pose.",
+            "target_clip": "sideboard_hit",
+            "target_animation_prompt": "The sideboard shakes and vibrates under the impact, but remains intact, showing minor dents and scratches.",
+            "success_text": "You hit the sideboard, causing it to rattle and vibrate, but it remains intact, showing minor dents and scratches."
+          }
+        ]
       },
       {
         "id": "curtains",
@@ -160,8 +599,101 @@
         "visual_usage": "background_layer",
         "asset_prompt": "Opaque full-frame wall layer of heavy closed curtains in dark fabric, edge-to-edge across the frame, no white background, no border, no margin, no transparency, no isolated cutout, no room scenery, no text.",
         "animation": "The curtain fabric ripples gently across the full frame in a restrained loop while its folds, color, edges, and identity remain stable.",
-        "interaction": "none",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "curtains_touch",
+            "input": "touch",
+            "label": "Touch the curtains",
+            "description": "You reach out and brush against the heavy fabric of the curtains.",
+            "range_meters": 1.0,
+            "cooldown_seconds": 5,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -5
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -10
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The player reaches out and touches the curtains.",
+            "target_clip": "curtains_touch",
+            "target_animation_prompt": "The curtains ruffle slightly, causing a small cloud of dust to rise from the fabric.",
+            "success_text": "You feel the weight of the curtains and a small cloud of dust rises from the fabric."
+          },
+          {
+            "id": "curtains_interact",
+            "input": "interact",
+            "label": "Pull back the curtains",
+            "description": "You pull back the curtains, letting in a flood of natural light.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -10
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -5
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player pulls back the curtains with both hands.",
+            "target_clip": "curtains_interact",
+            "target_animation_prompt": "The curtains part, revealing a bright, sunny day outside.",
+            "success_text": "You pull back the curtains, and the room is suddenly flooded with natural light."
+          },
+          {
+            "id": "curtains_hit",
+            "input": "hit",
+            "label": "Hit the curtains",
+            "description": "You punch the curtains, causing them to ripple and tear.",
+            "range_meters": 1,
+            "cooldown_seconds": 15,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -15
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -30
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -30
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player punches the curtains with a fierce motion.",
+            "target_clip": "curtains_hit",
+            "target_animation_prompt": "The curtains rip and tear, revealing a hole where the punch landed.",
+            "success_text": "You punch the curtains, and they tear, revealing a hole where the impact landed."
+          }
+        ]
       },
       {
         "id": "wall_finish",
@@ -184,8 +716,87 @@
         "visual_usage": "tileable_texture",
         "asset_prompt": "Opaque seamless edge-to-edge full-frame texture of a dull beige wall finish, no white background, no border, no margin, no transparency, no isolated object, and no perspective scene.",
         "animation": "Subtle material-only movement with no camera movement and no edges changing.",
-        "interaction": "none",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "touch_wall_finish",
+            "input": "touch",
+            "label": "Touch Wall Finish",
+            "description": "Reach out and touch the wall.",
+            "range_meters": 1.0,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -20
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "Player reaches out and touches the wall.",
+            "target_clip": "wall_finish_touch",
+            "target_animation_prompt": "The wall finish vibrates slightly under the player's touch.",
+            "success_text": "You touch the wall, feeling the texture of the dull beige finish. Your mother's expression darkens, and she seems displeased."
+          },
+          {
+            "id": "interact_wall_finish",
+            "input": "interact",
+            "label": "Interact with Wall Finish",
+            "description": "Examine the wall more closely.",
+            "range_meters": 1.5,
+            "cooldown_seconds": 60,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -10
+              },
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -5
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "Player examines the wall closely, studying the texture and the family photos.",
+            "target_clip": "wall_finish_interact",
+            "target_animation_prompt": "The family photos on the wall seem to shift slightly as if reacting to the player's gaze.",
+            "success_text": "You examine the wall more closely, scrutinizing the texture and the family photos. Your mother's displeasure grows as she watches you."
+          },
+          {
+            "id": "hit_wall_finish",
+            "input": "hit",
+            "label": "Hit Wall Finish",
+            "description": "Pound on the wall in frustration.",
+            "range_meters": 1.5,
+            "cooldown_seconds": 30,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -10
+              },
+              {
+                "type": "set_state",
+                "target_id": "wall_finish",
+                "key": "condition",
+                "value": "dented"
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "Player pounds on the wall in frustration, fists clenched.",
+            "target_clip": "wall_finish_hit",
+            "target_animation_prompt": "The wall finish crumbles slightly where the player strikes it, leaving a small dent.",
+            "success_text": "You pound on the wall in frustration, leaving a small dent where your fist struck. The wall finish cracks slightly, but it remains intact."
+          }
+        ]
       },
       {
         "id": "floor_carpet",
@@ -208,8 +819,200 @@
         "visual_usage": "tileable_texture",
         "asset_prompt": "Opaque seamless edge-to-edge full-frame texture of a soft, cream-colored carpet, no white background, no border, no margin, no transparency, no isolated object, and no perspective scene.",
         "animation": "Subtle material-only movement with no camera movement and no edges changing.",
-        "interaction": "none",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "floor_carpet_touch",
+            "input": "touch",
+            "label": "Touch",
+            "description": "You touch the soft, cream-colored carpet.",
+            "range_meters": 0.5,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "collision",
+                "value": "passable"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "stamina",
+                "value": "-5"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "visual_usage",
+                "value": "deformed_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "animation",
+                "value": "subtle_ripples"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "collision",
+                "value": "passable"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "stamina",
+                "value": "-5"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "visual_usage",
+                "value": "deformed_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "animation",
+                "value": "subtle_ripples"
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The player kneels down and touches the carpet.",
+            "target_clip": "floor_carpet_touch",
+            "target_animation_prompt": "The carpet ripples slightly where the player touches it.",
+            "success_text": "You feel the softness of the carpet under your fingers, and it ripples slightly."
+          },
+          {
+            "id": "floor_carpet_interact",
+            "input": "interact",
+            "label": "Interact",
+            "description": "You decide to rearrange the carpet.",
+            "range_meters": 1,
+            "cooldown_seconds": 5,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "position",
+                "value": "[10, 0, 10]"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "size",
+                "value": "[15, 0.05, 15]"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "collision",
+                "value": "passable"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "stamina",
+                "value": "-10"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "visual_usage",
+                "value": "deformed_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "animation",
+                "value": "subtle_ripples"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "collision",
+                "value": "passable"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "stamina",
+                "value": "-10"
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player kneels down and starts rearranging the carpet.",
+            "target_clip": "floor_carpet_interact",
+            "target_animation_prompt": "The carpet shifts and stretches as the player moves it.",
+            "success_text": "You rearrange the carpet, creating a cozy nook in the corner of the room."
+          },
+          {
+            "id": "floor_carpet_hit",
+            "input": "hit",
+            "label": "Hit",
+            "description": "You punch the carpet.",
+            "range_meters": 1,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "collision",
+                "value": "none"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "visual_usage",
+                "value": "damaged_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "animation",
+                "value": "crumpled_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "resilience",
+                "value": "-10"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "collision",
+                "value": "none"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "visual_usage",
+                "value": "damaged_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "floor_carpet",
+                "key": "animation",
+                "value": "crumpled_texture"
+              },
+              {
+                "type": "set_state",
+                "target_id": "player",
+                "key": "resilience",
+                "value": "-10"
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player swings their arm and punches the carpet.",
+            "target_clip": "floor_carpet_hit",
+            "target_animation_prompt": "The carpet crumples and tears under the impact of the punch.",
+            "success_text": "You punch the carpet, and it crumples and tears in the spot where you hit it."
+          }
+        ]
       },
       {
         "id": "kitchen_door",
@@ -232,8 +1035,123 @@
         "visual_usage": "background_layer",
         "asset_prompt": "A full-frame front view of a closed kitchen door, filling the entire rectangular image with a plausible wood or painted material, a visible handle, no white background, no transparent margin, no surrounding wall, no room scene, no text, and no camera perspective.",
         "animation": "A short loop where the kitchen door opens a few centimeters and closes again, preserving the same door, handle, colors, rectangular edges, and camera.",
-        "interaction": "open_door",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "touch_kitchen_door",
+            "input": "touch",
+            "label": "Touch the kitchen door.",
+            "description": "You place your hand on the cold, slightly creaking surface of the kitchen door.",
+            "range_meters": 1.0,
+            "cooldown_seconds": 2,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -10
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -5
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -10
+              },
+              {
+                "type": "set_state",
+                "target_id": "kitchen_door",
+                "key": "condition",
+                "value": "cracked"
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The player reaches out to touch the kitchen door, their hand lingering for a moment.",
+            "target_clip": "kitchen_door_touch",
+            "target_animation_prompt": "The kitchen door shudders slightly under the player's touch, a small crack appearing along its surface.",
+            "success_text": "The kitchen door feels cold and slightly damp under your touch. You notice a small crack forming along its surface."
+          },
+          {
+            "id": "interact_kitchen_door",
+            "input": "interact",
+            "label": "Interact with the kitchen door.",
+            "description": "You grasp the handle of the kitchen door and attempt to open it.",
+            "range_meters": 2,
+            "cooldown_seconds": 10,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -10
+              },
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -20
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player pulls on the handle of the kitchen door with all their strength, their muscles flexing.",
+            "target_clip": "kitchen_door_interact",
+            "target_animation_prompt": "The kitchen door groans and shifts slightly, a few splinters breaking off as it resists the player's efforts.",
+            "success_text": "You pull on the kitchen door, but it resists your efforts. A few splinters break off as you struggle to open it."
+          },
+          {
+            "id": "hit_kitchen_door",
+            "input": "hit",
+            "label": "Hit the kitchen door.",
+            "description": "You swing your arm and deliver a powerful punch to the kitchen door.",
+            "range_meters": 2,
+            "cooldown_seconds": 15,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -30
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": -20
+              },
+              {
+                "type": "change_stat",
+                "stat": "health",
+                "amount": -30
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -30
+              },
+              {
+                "type": "set_state",
+                "target_id": "kitchen_door",
+                "key": "condition",
+                "value": "damaged"
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player throws a powerful punch at the kitchen door, their fist making contact with a loud thud.",
+            "target_clip": "kitchen_door_hit",
+            "target_animation_prompt": "The kitchen door shatters at the impact of the player's punch, pieces flying everywhere.",
+            "success_text": "You deliver a powerful punch to the kitchen door, causing it to shatter into pieces."
+          }
+        ]
       },
       {
         "id": "cookies",
@@ -256,8 +1174,103 @@
         "visual_usage": "isolated_sprite",
         "asset_prompt": "A plate of fresh baked cookies, isolated on a uniform pure-white extraction background.",
         "animation": "The plate of fresh baked cookies gently shifts and repositions itself.",
-        "interaction": "eat_cookie",
-        "behavior": "idle_waiting"
+        "actions": [
+          {
+            "id": "touch_cookies",
+            "input": "touch",
+            "label": "Touch",
+            "description": "Touch the plate of fresh baked cookies.",
+            "range_meters": 1.0,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": -5
+              },
+              {
+                "type": "set_state",
+                "target_id": "cookies",
+                "key": "crumbs",
+                "value": "loosened"
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -5
+              }
+            ],
+            "actor_clip": "player_touch",
+            "actor_animation_prompt": "The player reaches out and touches the plate of fresh baked cookies.",
+            "target_clip": "cookies_touch",
+            "target_animation_prompt": "The plate of cookies visibly reacts to the touch, a cookie crumbles slightly, and the plate makes a soft, satisfying sound.",
+            "success_text": "You touch the plate of cookies, feeling the warmth and smell of fresh baked goodness. A small crumb falls off, and the plate makes a soft, satisfying sound."
+          },
+          {
+            "id": "interact_cookies",
+            "input": "interact",
+            "label": "Interact",
+            "description": "Interact with the plate of fresh baked cookies.",
+            "range_meters": 1,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "inventory_add",
+                "item_id": "cookies",
+                "count": 1
+              },
+              {
+                "type": "change_stat",
+                "stat": "stamina",
+                "amount": 10
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -10
+              }
+            ],
+            "actor_clip": "player_interact",
+            "actor_animation_prompt": "The player reaches out and picks up a cookie from the plate.",
+            "target_clip": "cookies_interact",
+            "target_animation_prompt": "The plate of cookies visibly reacts as a single cookie is removed, leaving a slight dent in the stack.",
+            "success_text": "You take one cookie from the plate and add it to your inventory."
+          },
+          {
+            "id": "hit_cookies",
+            "input": "hit",
+            "label": "Hit",
+            "description": "Hit the plate of fresh baked cookies.",
+            "range_meters": 1,
+            "cooldown_seconds": 1,
+            "conditions": [],
+            "effects": [
+              {
+                "type": "set_state",
+                "target_id": "cookies",
+                "key": "condition",
+                "value": "scattered"
+              },
+              {
+                "type": "change_stat",
+                "stat": "autonomy",
+                "amount": 5
+              },
+              {
+                "type": "change_stat",
+                "stat": "mom_patience",
+                "amount": -15
+              }
+            ],
+            "actor_clip": "player_attack",
+            "actor_animation_prompt": "The player swings their arm and hits the plate of cookies with a closed fist.",
+            "target_clip": "cookies_hit",
+            "target_animation_prompt": "The plate of cookies shatters upon impact, scattering crumbs and broken pieces everywhere.",
+            "success_text": "You hit the plate of cookies, sending crumbs and broken pieces flying everywhere. Your resilience increases, but your mother's disapproval intensifies."
+          }
+        ]
       }
     ],
     "exits": [
@@ -280,7 +1293,56 @@
         ],
         "implementation": "Your Mom is the stern woman in a cheerful floral dress, seated at the head of the table, with a critical gaze."
       }
-    ]
+    ],
+    "gameplay": {
+      "objective": "To survive the day without incurring your mother's wrath and find a way to break free from the cycle of domestic servitude.",
+      "win_conditions": [
+        "Successfully complete all tasks assigned by your mother without incurring her wrath.",
+        "Find a way to subvert your mother's control and break free from the cycle of domestic servitude."
+      ],
+      "lose_conditions": [
+        "Fail to complete a task assigned by your mother and incur her wrath.",
+        "Incur your mother's wrath three times in a row without successfully completing any tasks."
+      ],
+      "available_inputs": [
+        "move",
+        "interact",
+        "use",
+        "attack",
+        "touch"
+      ],
+      "stats": [
+        {
+          "id": "health",
+          "label": "Health",
+          "initial": 100,
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "id": "stamina",
+          "label": "Stamina",
+          "initial": 100,
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "id": "autonomy",
+          "label": "Autonomy",
+          "initial": 50,
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "id": "mom_patience",
+          "label": "Mom Patience",
+          "initial": 50,
+          "minimum": 0,
+          "maximum": 100
+        }
+      ],
+      "starting_inventory": []
+    }
   },
   "generation": {
     "game_description": {
@@ -382,6 +1444,583 @@
     "kitchen_door_wall_object_repair": {
       "reported_model": "qwen2.5-14b-world-author",
       "tokens_predicted": 94,
+      "fallback_used": false
+    },
+    "gameplay_actions": {
+      "provider": "llama.cpp-native-constrained-completion",
+      "endpoint": "http://10.8.0.7:14831/completion",
+      "model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 1077,
+      "attempts": [
+        {
+          "attempt": 1,
+          "ok": true,
+          "seconds": 130.974
+        }
+      ],
+      "fallback_used": false
+    },
+    "object_actions": {
+      "mom": {
+        "provider": "llama.cpp-native-constrained-completion",
+        "endpoint": "http://10.8.0.7:14831/completion",
+        "model": "qwen2.5-14b-world-author",
+        "tokens_predicted": 774,
+        "attempts": [
+          {
+            "attempt": 1,
+            "ok": true,
+            "seconds": 97.089
+          }
+        ],
+        "fallback_used": false
+      },
+      "dining_table": {
+        "provider": "llama.cpp-native-constrained-completion",
+        "endpoint": "http://10.8.0.7:14831/completion",
+        "model": "qwen2.5-14b-world-author",
+        "tokens_predicted": 514,
+        "attempts": [
+          {
+            "attempt": 1,
+            "ok": true,
+            "seconds": 65.908
+          }
+        ],
+        "fallback_used": false
+      },
+      "chandelier": {
+        "provider": "llama.cpp-native-constrained-completion",
+        "endpoint": "http://10.8.0.7:14831/completion",
+        "model": "qwen2.5-14b-world-author",
+        "tokens_predicted": 818,
+        "attempts": [
+          {
+            "attempt": 1,
+            "ok": true,
+            "seconds": 100.492
+          }
+        ],
+        "fallback_used": false
+      },
+      "sideboard": {
+        "provider": "llama.cpp-native-constrained-completion",
+        "endpoint": "http://10.8.0.7:14831/completion",
+        "model": "qwen2.5-14b-world-author",
+        "tokens_predicted": 632,
+        "attempts": [
+          {
+            "attempt": 1,
+            "ok": true,
+            "seconds": 79.072
+          }
+        ],
+        "fallback_used": false
+      },
+      "curtains": {
+        "provider": "llama.cpp-native-constrained-completion",
+        "endpoint": "http://10.8.0.7:14831/completion",
+        "model": "qwen2.5-14b-world-author",
+        "tokens_predicted": 627,
+        "attempts": [
+          {
+            "attempt": 1,
+            "ok": true,
+            "seconds": 78.448
+          }
+        ],
+        "fallback_used": false
+      },
+      "wall_finish": {
+        "provider": "llama.cpp-native-constrained-completion",
+        "endpoint": "http://10.8.0.7:14831/completion",
+        "model": "qwen2.5-14b-world-author",
+        "tokens_predicted": 588,
+        "attempts": [
+          {
+            "attempt": 1,
+            "ok": true,
+            "seconds": 76.094
+          }
+        ],
+        "fallback_used": false
+      },
+      "floor_carpet": {
+        "provider": "llama.cpp-native-constrained-completion",
+        "endpoint": "http://10.8.0.7:14831/completion",
+        "model": "qwen2.5-14b-world-author",
+        "tokens_predicted": 1162,
+        "attempts": [
+          {
+            "attempt": 1,
+            "ok": true,
+            "seconds": 144.415
+          }
+        ],
+        "fallback_used": false
+      },
+      "kitchen_door": {
+        "provider": "llama.cpp-native-constrained-completion",
+        "endpoint": "http://10.8.0.7:14831/completion",
+        "model": "qwen2.5-14b-world-author",
+        "tokens_predicted": 933,
+        "attempts": [
+          {
+            "attempt": 1,
+            "ok": true,
+            "seconds": 117.802
+          }
+        ],
+        "fallback_used": false
+      },
+      "cookies": {
+        "provider": "llama.cpp-native-constrained-completion",
+        "endpoint": "http://10.8.0.7:14831/completion",
+        "model": "qwen2.5-14b-world-author",
+        "tokens_predicted": 660,
+        "attempts": [
+          {
+            "attempt": 1,
+            "ok": true,
+            "seconds": 84.204
+          }
+        ],
+        "fallback_used": false
+      }
+    },
+    "repaired_gameplay": {
+      "model": "qwen2.5-14b-world-author",
+      "tokens_predicted": 308,
+      "attempts": [
+        {
+          "attempt": 1,
+          "ok": false,
+          "seconds": 51.146,
+          "error": "ValueError: ['move', 'interact', 'use', 'attack', 'touch', 'touch'] has non-unique elements"
+        },
+        {
+          "attempt": 2,
+          "ok": true,
+          "seconds": 36.46
+        }
+      ],
+      "fallback_used": false
+    },
+    "strict_player_actions": {
+      "interact": {
+        "model": "qwen2.5-14b-world-author",
+        "tokens_predicted": 260,
+        "attempt": 1,
+        "seconds": 14.777,
+        "fallback_used": false
+      },
+      "hit": {
+        "model": "qwen2.5-14b-world-author",
+        "tokens_predicted": 264,
+        "attempt": 1,
+        "seconds": 14.897,
+        "fallback_used": false
+      },
+      "use": {
+        "model": "qwen2.5-14b-world-author",
+        "tokens_predicted": 297,
+        "attempt": 1,
+        "seconds": 16.341,
+        "fallback_used": false
+      }
+    },
+    "strict_object_actions": {
+      "mom": {
+        "touch": {
+          "model": "qwen2.5-14b-world-author",
+          "tokens_predicted": 244,
+          "attempt": 2,
+          "seconds": 30.335,
+          "fallback_used": false
+        },
+        "interact": {
+          "model": "qwen2.5-14b-world-author",
+          "tokens_predicted": 247,
+          "attempt": 3,
+          "seconds": 28.799,
+          "fallback_used": false
+        },
+        "hit": {
+          "model": "qwen2.5-14b-world-author",
+          "tokens_predicted": 244,
+          "attempt": 1,
+          "seconds": 34.706,
+          "fallback_used": false
+        }
+      },
+      "dining_table": {
+        "touch": {
+          "model": "qwen2.5-14b-world-author",
+          "tokens_predicted": 193,
+          "attempt": 1,
+          "seconds": 27.304,
+          "fallback_used": false
+        },
+        "interact": {
+          "model": "qwen2.5-14b-world-author",
+          "tokens_predicted": 259,
+          "attempt": 1,
+          "seconds": 34.299,
+          "fallback_used": false
+        },
+        "hit": {
+          "model": "qwen2.5-14b-world-author",
+          "tokens_predicted": 207,
+          "attempt": 1,
+          "seconds": 28.29,
+          "fallback_used": false
+        }
+      },
+      "chandelier": {
+        "touch": {
+          "model": "qwen2.5-14b-world-author",
+          "tokens_predicted": 237,
+          "attempt": 1,
+          "seconds": 33.834,
+          "fallback_used": false
+        },
+        "interact": {
+          "model": "qwen2.5-14b-world-author",
+          "tokens_predicted": 245,
+          "attempt": 1,
+          "seconds": 36.721,
+          "fallback_used": false
+        },
+        "hit": {
+          "model": "qwen2.5-14b-world-author",
+          "tokens_predicted": 203,
+          "attempt": 1,
+          "seconds": 34.048,
+          "fallback_used": false
+        }
+      },
+      "sideboard": {
+        "touch": {
+          "model": "qwen2.5-14b-world-author",
+          "tokens_predicted": 204,
+          "attempt": 1,
+          "seconds": 29.024,
+          "fallback_used": false
+        },
+        "interact": {
+          "model": "qwen2.5-14b-world-author",
+          "tokens_predicted": 277,
+          "attempt": 1,
+          "seconds": 37.795,
+          "fallback_used": false
+        },
+        "hit": {
+          "model": "qwen2.5-14b-world-author",
+          "tokens_predicted": 195,
+          "attempt": 1,
+          "seconds": 28.772,
+          "fallback_used": false
+        }
+      }
+    },
+    "action_effect_normalization": {
+      "reason": "resolve model aliases to schema-defined stats and effects",
+      "repairs": [
+        {
+          "object": "curtains",
+          "action": "curtains_touch",
+          "from": "player_stamina",
+          "to": "stamina"
+        },
+        {
+          "object": "curtains",
+          "action": "curtains_touch",
+          "from": "player_resilience",
+          "to": "autonomy"
+        },
+        {
+          "object": "curtains",
+          "action": "curtains_interact",
+          "from": "player_stamina",
+          "to": "stamina"
+        },
+        {
+          "object": "curtains",
+          "action": "curtains_interact",
+          "from": "player_resilience",
+          "to": "autonomy"
+        },
+        {
+          "object": "curtains",
+          "action": "curtains_interact",
+          "from": "mom",
+          "to": "mom_patience"
+        },
+        {
+          "object": "curtains",
+          "action": "curtains_interact",
+          "from": "player_health",
+          "to": "health"
+        },
+        {
+          "object": "curtains",
+          "action": "curtains_hit",
+          "from": "player_stamina",
+          "to": "stamina"
+        },
+        {
+          "object": "curtains",
+          "action": "curtains_hit",
+          "from": "player_resilience",
+          "to": "autonomy"
+        },
+        {
+          "object": "curtains",
+          "action": "curtains_hit",
+          "from": "mom",
+          "to": "mom_patience"
+        },
+        {
+          "object": "wall_finish",
+          "action": "touch_wall_finish",
+          "from": "player_stamina",
+          "to": "stamina"
+        },
+        {
+          "object": "wall_finish",
+          "action": "touch_wall_finish",
+          "from": "mom",
+          "to": "mom_patience"
+        },
+        {
+          "object": "wall_finish",
+          "action": "interact_wall_finish",
+          "from": "mom",
+          "to": "mom_patience"
+        },
+        {
+          "object": "wall_finish",
+          "action": "interact_wall_finish",
+          "from": "player_health",
+          "to": "health"
+        },
+        {
+          "object": "wall_finish",
+          "action": "hit_wall_finish",
+          "from": "player_resilience",
+          "to": "autonomy"
+        },
+        {
+          "object": "wall_finish",
+          "action": "hit_wall_finish",
+          "from": "remove_object",
+          "to": "set_state"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "touch_kitchen_door",
+          "from": "player_stamina",
+          "to": "stamina"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "touch_kitchen_door",
+          "from": "player_resilience",
+          "to": "autonomy"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "touch_kitchen_door",
+          "from": "mom",
+          "to": "mom_patience"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "touch_kitchen_door",
+          "from": "remove_object",
+          "to": "set_state"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "interact_kitchen_door",
+          "from": "player_stamina",
+          "to": "stamina"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "interact_kitchen_door",
+          "from": "mom",
+          "to": "mom_patience"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "interact_kitchen_door",
+          "from": "player_resilience",
+          "to": "autonomy"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "interact_kitchen_door",
+          "from": "player",
+          "to": "autonomy"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "interact_kitchen_door",
+          "from": "duplicate",
+          "to": "removed"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "interact_kitchen_door",
+          "from": "player_health",
+          "to": "health"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "interact_kitchen_door",
+          "from": "player_resilience",
+          "to": "autonomy"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "interact_kitchen_door",
+          "from": "duplicate",
+          "to": "removed"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "interact_kitchen_door",
+          "from": "player_stamina",
+          "to": "stamina"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "interact_kitchen_door",
+          "from": "duplicate",
+          "to": "removed"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "hit_kitchen_door",
+          "from": "player_stamina",
+          "to": "stamina"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "hit_kitchen_door",
+          "from": "player_resilience",
+          "to": "autonomy"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "hit_kitchen_door",
+          "from": "player_health",
+          "to": "health"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "hit_kitchen_door",
+          "from": "mom",
+          "to": "mom_patience"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "hit_kitchen_door",
+          "from": "player_stamina",
+          "to": "stamina"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "hit_kitchen_door",
+          "from": "duplicate",
+          "to": "removed"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "hit_kitchen_door",
+          "from": "player_resilience",
+          "to": "autonomy"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "hit_kitchen_door",
+          "from": "duplicate",
+          "to": "removed"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "hit_kitchen_door",
+          "from": "player_health",
+          "to": "health"
+        },
+        {
+          "object": "kitchen_door",
+          "action": "hit_kitchen_door",
+          "from": "duplicate",
+          "to": "removed"
+        },
+        {
+          "object": "cookies",
+          "action": "touch_cookies",
+          "from": "player_stamina",
+          "to": "stamina"
+        },
+        {
+          "object": "cookies",
+          "action": "touch_cookies",
+          "from": "cookies-stat",
+          "to": "set_state"
+        },
+        {
+          "object": "cookies",
+          "action": "touch_cookies",
+          "from": "mom",
+          "to": "mom_patience"
+        },
+        {
+          "object": "cookies",
+          "action": "interact_cookies",
+          "from": "cookies-stat",
+          "to": "inventory_add"
+        },
+        {
+          "object": "cookies",
+          "action": "interact_cookies",
+          "from": "player_stamina",
+          "to": "stamina"
+        },
+        {
+          "object": "cookies",
+          "action": "interact_cookies",
+          "from": "mom",
+          "to": "mom_patience"
+        },
+        {
+          "object": "cookies",
+          "action": "hit_cookies",
+          "from": "cookies-stat",
+          "to": "set_state"
+        },
+        {
+          "object": "cookies",
+          "action": "hit_cookies",
+          "from": "player_resilience",
+          "to": "autonomy"
+        },
+        {
+          "object": "cookies",
+          "action": "hit_cookies",
+          "from": "mom",
+          "to": "mom_patience"
+        }
+      ],
+      "fallback_used": false
+    },
+    "strict_action_graph_complete": {
+      "model": "qwen2.5-14b-world-author",
+      "actions": 30,
+      "normalized_effect_aliases": 48,
       "fallback_used": false
     }
   }

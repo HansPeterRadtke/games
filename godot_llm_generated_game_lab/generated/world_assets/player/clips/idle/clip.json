@@ -1,0 +1,529 @@
+{
+  "ok": true,
+  "cached": false,
+  "key": "b6f0ae7361540e58edaf1d27",
+  "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
+  "temporal_model": true,
+  "native_video_frames": true,
+  "fallback_used": false,
+  "kind": "player",
+  "asset_usage": "character_sprite",
+  "name": "Player",
+  "clip_name": "idle",
+  "frame_count": 9,
+  "frame_width": 288,
+  "frame_height": 384,
+  "frame_duration_ms": 125,
+  "seed": 283200,
+  "generation_seconds": 216.931,
+  "video": {
+    "prompt": "The complete adult child breathes naturally, shifts weight gently from one foot to the other, blinks once, and returns to the exact starting full-body pose while the entire head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+    "prompt_encode": {
+      "seconds": 237.741,
+      "prompt_count": 4,
+      "prompts": [
+        "The complete adult child breathes naturally, shifts weight gently from one foot to the other, blinks once, and returns to the exact starting full-body pose while the entire head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+        "The complete adult child calmly raises one open hand, reaches forward in a respectful conversational gesture, pauses briefly, then lowers the hand and returns to the exact starting full-body pose with head, hands, legs, and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+        "The complete adult child plants both feet, bends the knees, performs one clear forward punch with visible follow-through, regains balance, and returns to the exact starting full-body pose while the head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
+        "The complete adult child reaches into a pocket, removes one cookie, raises it to the mouth, takes a visible bite, chews, lowers the hand, and returns to the exact starting full-body pose with the head and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background."
+      ],
+      "text_encoder_detached": true,
+      "execution_device": "cuda:0",
+      "batch_index": 0,
+      "batch_size": 4
+    },
+    "inference_seconds": 172.989,
+    "adjacent_rgb_diff": [
+      6.1029,
+      7.6955,
+      9.8266,
+      6.2494,
+      11.4088,
+      5.3244,
+      3.0743,
+      3.0043
+    ],
+    "steps": 8,
+    "guidance_scale": 1.0,
+    "frame_rate": 8
+  },
+  "matting": {
+    "ok": true,
+    "cached": false,
+    "key": "e467ba9e51877362ea05f2bf",
+    "engine": "birefnet-lite-matting-v1",
+    "fallback_used": false,
+    "kind": "player",
+    "asset_usage": "character_sprite",
+    "name": "Player",
+    "clip_name": "idle",
+    "frame_count": 9,
+    "frame_width": 288,
+    "frame_height": 384,
+    "frame_duration_ms": 125,
+    "generation_seconds": 42.153,
+    "processing": {
+      "mode": "birefnet_lite_matted_ltx",
+      "matting_model": "/data/models/matting/BiRefNet_lite-matting",
+      "source_crop": [
+        107,
+        7,
+        303,
+        373
+      ],
+      "frame_metrics": [
+        {
+          "bbox": [
+            119,
+            23,
+            253,
+            361
+          ],
+          "height_ratio": 0.88021,
+          "width_ratio": 0.34896,
+          "top_margin_ratio": 0.0599,
+          "bottom_margin_ratio": 0.0599,
+          "transparent_ratio": 0.87179,
+          "partial_alpha_ratio": 0.02896,
+          "components_before_cleanup": 1
+        },
+        {
+          "bbox": [
+            119,
+            21,
+            253,
+            362
+          ],
+          "height_ratio": 0.88802,
+          "width_ratio": 0.34896,
+          "top_margin_ratio": 0.05469,
+          "bottom_margin_ratio": 0.05729,
+          "transparent_ratio": 0.87086,
+          "partial_alpha_ratio": 0.03227,
+          "components_before_cleanup": 1
+        },
+        {
+          "bbox": [
+            119,
+            19,
+            292,
+            363
+          ],
+          "height_ratio": 0.89583,
+          "width_ratio": 0.45052,
+          "top_margin_ratio": 0.04948,
+          "bottom_margin_ratio": 0.05469,
+          "transparent_ratio": 0.86098,
+          "partial_alpha_ratio": 0.04313,
+          "components_before_cleanup": 1
+        },
+        {
+          "bbox": [
+            119,
+            18,
+            293,
+            362
+          ],
+          "height_ratio": 0.89583,
+          "width_ratio": 0.45312,
+          "top_margin_ratio": 0.04688,
+          "bottom_margin_ratio": 0.05729,
+          "transparent_ratio": 0.85496,
+          "partial_alpha_ratio": 0.06274,
+          "components_before_cleanup": 4
+        },
+        {
+          "bbox": [
+            117,
+            17,
+            293,
+            359
+          ],
+          "height_ratio": 0.89062,
+          "width_ratio": 0.45833,
+          "top_margin_ratio": 0.04427,
+          "bottom_margin_ratio": 0.0651,
+          "transparent_ratio": 0.8487,
+          "partial_alpha_ratio": 0.09068,
+          "components_before_cleanup": 11
+        },
+        {
+          "bbox": [
+            120,
+            18,
+            292,
+            358
+          ],
+          "height_ratio": 0.88542,
+          "width_ratio": 0.44792,
+          "top_margin_ratio": 0.04688,
+          "bottom_margin_ratio": 0.06771,
+          "transparent_ratio": 0.84548,
+          "partial_alpha_ratio": 0.093,
+          "components_before_cleanup": 5
+        },
+        {
+          "bbox": [
+            119,
+            21,
+            292,
+            353
+          ],
+          "height_ratio": 0.86458,
+          "width_ratio": 0.45052,
+          "top_margin_ratio": 0.05469,
+          "bottom_margin_ratio": 0.08073,
+          "transparent_ratio": 0.85238,
+          "partial_alpha_ratio": 0.10744,
+          "components_before_cleanup": 13
+        },
+        {
+          "bbox": [
+            120,
+            27,
+            292,
+            353
+          ],
+          "height_ratio": 0.84896,
+          "width_ratio": 0.44792,
+          "top_margin_ratio": 0.07031,
+          "bottom_margin_ratio": 0.08073,
+          "transparent_ratio": 0.85731,
+          "partial_alpha_ratio": 0.10126,
+          "components_before_cleanup": 11
+        },
+        {
+          "bbox": [
+            120,
+            34,
+            292,
+            353
+          ],
+          "height_ratio": 0.83073,
+          "width_ratio": 0.44792,
+          "top_margin_ratio": 0.08854,
+          "bottom_margin_ratio": 0.08073,
+          "transparent_ratio": 0.86068,
+          "partial_alpha_ratio": 0.09041,
+          "components_before_cleanup": 4
+        }
+      ],
+      "processed_adjacent_rgba_diff": [
+        4.2137,
+        5.1758,
+        5.8809,
+        4.4522,
+        8.4105,
+        5.0793,
+        3.7552,
+        4.0563
+      ]
+    },
+    "mid_frame_review": {
+      "recognizable": true,
+      "single_subject": true,
+      "full_subject": true,
+      "correct_category": true,
+      "required_elements_visible": true,
+      "forbidden_elements_absent": true,
+      "anatomy_or_geometry": "normal",
+      "grounded_materials": true,
+      "clean_plain_background": true,
+      "clear_silhouette": true,
+      "recognized_subject": "adult human",
+      "critical_defects": [],
+      "description": "A stylized, animated character with a humanoid body, wearing casual clothing and accessories, standing in a dynamic pose.",
+      "materials_required": false,
+      "materials_pass": true,
+      "asset_usage": "character_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
+      "deterministic_pass": true,
+      "label_pass": true
+    },
+    "validation": {
+      "gif_frames": 9,
+      "distinct_gif_frames": 9,
+      "gif_alpha": [
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ]
+      ],
+      "sheet_alpha": [
+        0,
+        255
+      ],
+      "asset_usage": "character_sprite"
+    },
+    "models": {
+      "matting": "/data/models/matting/BiRefNet_lite-matting"
+    }
+  },
+  "processing": {
+    "mode": "birefnet_lite_matted_ltx",
+    "matting_model": "/data/models/matting/BiRefNet_lite-matting",
+    "source_crop": [
+      107,
+      7,
+      303,
+      373
+    ],
+    "frame_metrics": [
+      {
+        "bbox": [
+          119,
+          23,
+          253,
+          361
+        ],
+        "height_ratio": 0.88021,
+        "width_ratio": 0.34896,
+        "top_margin_ratio": 0.0599,
+        "bottom_margin_ratio": 0.0599,
+        "transparent_ratio": 0.87179,
+        "partial_alpha_ratio": 0.02896,
+        "components_before_cleanup": 1
+      },
+      {
+        "bbox": [
+          119,
+          21,
+          253,
+          362
+        ],
+        "height_ratio": 0.88802,
+        "width_ratio": 0.34896,
+        "top_margin_ratio": 0.05469,
+        "bottom_margin_ratio": 0.05729,
+        "transparent_ratio": 0.87086,
+        "partial_alpha_ratio": 0.03227,
+        "components_before_cleanup": 1
+      },
+      {
+        "bbox": [
+          119,
+          19,
+          292,
+          363
+        ],
+        "height_ratio": 0.89583,
+        "width_ratio": 0.45052,
+        "top_margin_ratio": 0.04948,
+        "bottom_margin_ratio": 0.05469,
+        "transparent_ratio": 0.86098,
+        "partial_alpha_ratio": 0.04313,
+        "components_before_cleanup": 1
+      },
+      {
+        "bbox": [
+          119,
+          18,
+          293,
+          362
+        ],
+        "height_ratio": 0.89583,
+        "width_ratio": 0.45312,
+        "top_margin_ratio": 0.04688,
+        "bottom_margin_ratio": 0.05729,
+        "transparent_ratio": 0.85496,
+        "partial_alpha_ratio": 0.06274,
+        "components_before_cleanup": 4
+      },
+      {
+        "bbox": [
+          117,
+          17,
+          293,
+          359
+        ],
+        "height_ratio": 0.89062,
+        "width_ratio": 0.45833,
+        "top_margin_ratio": 0.04427,
+        "bottom_margin_ratio": 0.0651,
+        "transparent_ratio": 0.8487,
+        "partial_alpha_ratio": 0.09068,
+        "components_before_cleanup": 11
+      },
+      {
+        "bbox": [
+          120,
+          18,
+          292,
+          358
+        ],
+        "height_ratio": 0.88542,
+        "width_ratio": 0.44792,
+        "top_margin_ratio": 0.04688,
+        "bottom_margin_ratio": 0.06771,
+        "transparent_ratio": 0.84548,
+        "partial_alpha_ratio": 0.093,
+        "components_before_cleanup": 5
+      },
+      {
+        "bbox": [
+          119,
+          21,
+          292,
+          353
+        ],
+        "height_ratio": 0.86458,
+        "width_ratio": 0.45052,
+        "top_margin_ratio": 0.05469,
+        "bottom_margin_ratio": 0.08073,
+        "transparent_ratio": 0.85238,
+        "partial_alpha_ratio": 0.10744,
+        "components_before_cleanup": 13
+      },
+      {
+        "bbox": [
+          120,
+          27,
+          292,
+          353
+        ],
+        "height_ratio": 0.84896,
+        "width_ratio": 0.44792,
+        "top_margin_ratio": 0.07031,
+        "bottom_margin_ratio": 0.08073,
+        "transparent_ratio": 0.85731,
+        "partial_alpha_ratio": 0.10126,
+        "components_before_cleanup": 11
+      },
+      {
+        "bbox": [
+          120,
+          34,
+          292,
+          353
+        ],
+        "height_ratio": 0.83073,
+        "width_ratio": 0.44792,
+        "top_margin_ratio": 0.08854,
+        "bottom_margin_ratio": 0.08073,
+        "transparent_ratio": 0.86068,
+        "partial_alpha_ratio": 0.09041,
+        "components_before_cleanup": 4
+      }
+    ],
+    "processed_adjacent_rgba_diff": [
+      4.2137,
+      5.1758,
+      5.8809,
+      4.4522,
+      8.4105,
+      5.0793,
+      3.7552,
+      4.0563
+    ]
+  },
+  "mid_frame_review": {
+    "recognizable": true,
+    "single_subject": true,
+    "full_subject": true,
+    "correct_category": true,
+    "required_elements_visible": true,
+    "forbidden_elements_absent": true,
+    "anatomy_or_geometry": "normal",
+    "grounded_materials": true,
+    "clean_plain_background": true,
+    "clear_silhouette": true,
+    "recognized_subject": "adult human",
+    "critical_defects": [],
+    "description": "A stylized, animated character with a humanoid body, wearing casual clothing and accessories, standing in a dynamic pose.",
+    "materials_required": false,
+    "materials_pass": true,
+    "asset_usage": "character_sprite",
+    "background_mode": "transparent_isolated",
+    "background_pass": true,
+    "deterministic_pass": true,
+    "label_pass": true
+  },
+  "validation": {
+    "gif_frames": 9,
+    "distinct_gif_frames": 9,
+    "gif_alpha": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ]
+    ],
+    "sheet_alpha": [
+      0,
+      255
+    ],
+    "asset_usage": "character_sprite"
+  },
+  "models": {
+    "video": "/data/models/video/LTX-Video-2B-distilled/ltxv-2b-0.9.6-distilled-04-25.safetensors",
+    "base": "/data/models/video/LTX-Video-2B-diffusers",
+    "matting_service": "http://10.8.0.7:15313/matte"
+  },
+  "png_path": "/data/var/llm_game/ltx_video_cache/b6f0ae7361540e58edaf1d27.png",
+  "gif_path": "/data/var/llm_game/ltx_video_cache/b6f0ae7361540e58edaf1d27.gif",
+  "sheet_path": "/data/var/llm_game/ltx_video_cache/b6f0ae7361540e58edaf1d27.sheet.png"
+}

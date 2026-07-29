@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Your Mom">
-  <meta name="llm-game-build" content="your-mom-generated-world-v1">
+  <meta name="llm-game-build" content="your-mom-temporal-staged-v2">
   <title>Your Mom</title>
   <link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
@@ -182,7 +182,7 @@
     <aside id="controls-panel" class="panel" aria-label="game controls and world status">
       <h2 class="panel-title">CONTROLS</h2>
       <div id="control-deck">
-        <div id="control-status">Loading ten reviewed Thor SDXL animations.</div>
+        <div id="control-status">Loading reviewed LTX temporal clips and BiRefNet-matted game assets.</div>
         <div id="touch-controls" aria-label="touch game controls">
           <section id="stick" aria-label="movement joystick">
             <div id="stick-base"><div id="stick-thumb"></div></div>
@@ -212,7 +212,7 @@
   <script>
     (() => {
       'use strict';
-      const config = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":4289760,"index.wasm":37685705},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+      const config = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":6759660,"index.wasm":37685705},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
       const canvas = document.getElementById('canvas');
       const stage = document.getElementById('stage');
       const app = document.getElementById('app');
@@ -234,9 +234,10 @@
         if (startupComplete) return;
         loading.hidden = false;
         progress.hidden = true;
-        notice.textContent = 'The generated scene did not start within 45 seconds. Reload the page. If it still fails, report this exact message.';
+        const phase = app.dataset.startupPhase || 'unknown';
+        notice.textContent = `The generated scene did not start during ${phase}. Build ${document.querySelector('meta[name="llm-game-build"]')?.content || 'unknown'}.`;
         app.dataset.startupError = 'timeout';
-      }, 45000);
+      }, 180000);
 
       function finishStartup(source) {
         if (startupComplete) return;
@@ -361,7 +362,13 @@
           text('equipment-main', `Main: ${state.main_hand || 'None'}`);
           text('equipment-chest', `Chest: ${state.chest || 'None'}`);
           text('equipment-off', `Off: ${state.off_hand || 'None'}`);
-          text('inventory-text', `Pack: ${(state.inventory || []).join(', ') || 'Empty'}`);
+          const inventory = state.inventory || {};
+          const inventoryItems = Array.isArray(inventory)
+            ? inventory
+            : Object.entries(inventory)
+                .filter(([, count]) => Number(count) > 0)
+                .map(([item, count]) => `${item} ×${count}`);
+          text('inventory-text', `Pack: ${inventoryItems.join(', ') || 'Empty'}`);
           text('event-text', state.event || 'Ready.');
           text('control-status', state.forge_busy ? (state.forge_status || 'Generating reviewed world object…') : (state.event || state.forge_status || 'World ready.'));
           app.dataset.layout = matchMedia('(orientation:portrait)').matches ? 'portrait' : 'landscape';
@@ -371,6 +378,10 @@
           app.dataset.internalWidth = String(state.viewport_width ?? '');
           app.dataset.internalHeight = String(state.viewport_height ?? '');
           app.dataset.visibleObjects = JSON.stringify(state.visible_objects || []);
+          app.dataset.lastActionId = String(state.last_action_id ?? '');
+          app.dataset.assetEngine = String(state.asset_engine ?? '');
+          const playerObject = (state.visible_objects || []).find(item => item.id === 'player');
+          app.dataset.playerClip = String(playerObject?.clip ?? '');
         }
       };
 
@@ -398,9 +409,10 @@
       visualViewport?.addEventListener('resize', requestCanvasResize, {passive:true});
       requestCanvasResize();
 
-      const engine = new Engine(config);
-      loading.hidden = false;
-      engine.startGame({
+      const pack = config.mainPack || `${config.executable}.pck`;
+      const engineConfig = {
+        ...config,
+        args: ['--main-pack', pack, ...(config.args || [])],
         canvas,
         canvasResizePolicy:0,
         onProgress(current, total) {
@@ -412,16 +424,56 @@
             progress.removeAttribute('max');
           }
         }
-      }).then(() => {
-        finishStartup('enginePromise');
-      }).catch(error => {
+      };
+      const engine = new Engine(engineConfig);
+      loading.hidden = false;
+
+      function phaseTimeout(promise, milliseconds, phase) {
+        return Promise.race([
+          promise,
+          new Promise((_, reject) => setTimeout(() => reject(new Error(`${phase} timed out after ${Math.round(milliseconds / 1000)} seconds`)), milliseconds))
+        ]);
+      }
+
+      function failStartup(error, phase) {
         clearTimeout(startupTimeout);
         console.error(error);
         progress.hidden = true;
         loading.hidden = false;
-        app.dataset.startupError = 'engine';
-        notice.textContent = `Your Mom failed to start: ${error instanceof Error ? error.message : String(error)}`;
+        app.dataset.startupError = phase;
+        app.dataset.startupPhase = phase;
+        notice.textContent = `Your Mom failed during ${phase}: ${error instanceof Error ? error.message : String(error)}`;
+      }
+
+      addEventListener('error', event => {
+        if (!startupComplete) failStartup(event.error || event.message, 'javascript-error');
       });
+      addEventListener('unhandledrejection', event => {
+        if (!startupComplete) failStartup(event.reason, 'promise-rejection');
+      });
+
+      async function startEngineSequentially() {
+        try {
+          app.dataset.startupPhase = 'preload-game-package';
+          notice.textContent = 'Loading generated game data…';
+          await phaseTimeout(engine.preloadFile(pack, pack), 120000, 'game package');
+
+          app.dataset.startupPhase = 'initialize-webassembly';
+          notice.textContent = 'Starting the game engine…';
+          await phaseTimeout(engine.init(config.executable), 120000, 'WebAssembly engine');
+
+          app.dataset.startupPhase = 'start-generated-scene';
+          notice.textContent = 'Entering the generated dining room…';
+          await phaseTimeout(engine.start(), 30000, 'generated scene');
+          finishStartup('sequential-engine');
+        } catch (error) {
+          failStartup(error, app.dataset.startupPhase || 'engine');
+        }
+      }
+
+      const begin = () => setTimeout(startEngineSequentially, 250);
+      if (document.readyState === 'complete') begin();
+      else addEventListener('load', begin, {once:true});
     })();
   </script>
 </body>

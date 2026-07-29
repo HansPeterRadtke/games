@@ -18,6 +18,16 @@ var plan_max := Vector3.ONE
 var touch_move := Vector2.ZERO
 var nearby_entry: Dictionary = {}
 var generated_animations: Dictionary = {}
+var generated_nodes: Dictionary = {}
+var generated_collisions: Dictionary = {}
+var game_stats: Dictionary = {}
+var inventory: Dictionary = {}
+var object_states: Dictionary = {}
+var action_cooldowns: Dictionary = {}
+var touched_objects: Dictionary = {}
+var game_over := false
+var game_outcome := ""
+var last_action_id := ""
 var title_label: Label
 var status_label: Label
 var detail_label: Label
@@ -29,6 +39,7 @@ func _ready() -> void:
     if not _load_generated_manifest():
         _show_failure("Generated world manifest is missing, incomplete, or invalid. No fallback scene was loaded.")
         return
+    _initialize_gameplay()
     _configure_projection()
     _build_room_background()
     _build_generated_objects()
@@ -60,9 +71,29 @@ func _physics_process(_delta: float) -> void:
         else:
             player_sprite.speed_scale = 1.0
     _update_nearby_interaction()
+    _process_touch_actions()
     if Input.is_action_just_pressed("ui_accept"):
-        _interact()
+        if not _trigger_nearby_action("interact"):
+            _trigger_player_action("interact")
     _publish_web_state()
+
+func _unhandled_key_input(event: InputEvent) -> void:
+    if not (event is InputEventKey):
+        return
+    var key_event := event as InputEventKey
+    if not key_event.pressed or key_event.echo:
+        return
+    if key_event.physical_keycode == KEY_E:
+        if not _trigger_nearby_action("interact"):
+            _trigger_player_action("interact")
+        get_viewport().set_input_as_handled()
+    elif key_event.physical_keycode == KEY_F:
+        if not _trigger_nearby_action("hit"):
+            _trigger_player_action("hit")
+        get_viewport().set_input_as_handled()
+    elif key_event.physical_keycode == KEY_Q:
+        _trigger_player_action("use")
+        get_viewport().set_input_as_handled()
 
 func _load_generated_manifest() -> bool:
     if not FileAccess.file_exists(DATA_PATH):
@@ -78,7 +109,8 @@ func _load_generated_manifest() -> bool:
         return false
     if manifest.get("complete", false) != true or manifest.get("fallback_used", true) != false:
         return false
-    if str(manifest.get("asset_engine", "")) != "thor-sdxl-reviewed-identity-anchored-animation":
+    var engine := str(manifest.get("asset_engine", ""))
+    if engine not in ["thor-sdxl-reviewed-identity-anchored-animation", "sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting"]:
         return false
     if not (manifest.get("scene_plan", {}) is Dictionary) or not (manifest.get("assets", {}) is Dictionary):
         return false
@@ -207,6 +239,8 @@ func _build_generated_objects() -> void:
         else:
             holder.z_index = int(holder.position.y)
         world_layer.add_child(holder)
+        generated_nodes[object_id] = holder
+        object_states[object_id] = {}
         var animation := _make_animation(asset, entry)
         animation.name = "GeneratedAnimation"
         holder.add_child(animation)
@@ -227,6 +261,8 @@ func _build_generated_player() -> void:
     player.set_meta("entry", entry.duplicate(true))
     player.set_meta("generated_asset", asset.duplicate(true))
     world_layer.add_child(player)
+    generated_nodes[object_id] = player
+    object_states[object_id] = {}
     player_sprite = _make_animation(asset, entry)
     player_sprite.name = "GeneratedPlayerAnimation"
     player.add_child(player_sprite)
@@ -239,35 +275,62 @@ func _build_generated_player() -> void:
     shape.height = maxf(shape.radius * 2.0, size.z * projection_scale)
     collision.shape = shape
     player.add_child(collision)
+    generated_collisions[object_id] = collision
     player.z_index = int(player.position.y) + 2
 
-func _make_animation(asset: Dictionary, entry: Dictionary) -> AnimatedSprite2D:
-    var sheet_path := str(asset.get("sheet_resource", ""))
+func _add_animation_clip(frames: SpriteFrames, clip_name: String, clip: Dictionary, looped: bool) -> Vector2i:
+    var sheet_path := str(clip.get("sheet_resource", ""))
     var texture: Texture2D = load(sheet_path)
-    if texture == null:
-        push_error("Missing generated sprite sheet: %s" % sheet_path)
-    var count := int(asset.get("frame_count", 0))
-    var width := int(asset.get("frame_width", 0))
-    var height := int(asset.get("frame_height", 0))
-    if texture == null or count < 6 or width < 64 or height < 64 or texture.get_width() != count * width or texture.get_height() != height:
-        push_error("Invalid reviewed generated animation for %s" % str(entry.get("id", "unknown")))
+    var count := int(clip.get("frame_count", 0))
+    var width := int(clip.get("frame_width", 0))
+    var height := int(clip.get("frame_height", 0))
+    if texture == null or count < 2 or width < 64 or height < 64 or texture.get_width() != count * width or texture.get_height() != height:
+        push_error("Invalid reviewed animation clip %s at %s" % [clip_name, sheet_path])
+        return Vector2i.ZERO
+    if frames.has_animation(clip_name):
+        frames.remove_animation(clip_name)
+    frames.add_animation(clip_name)
+    frames.set_animation_loop(clip_name, looped)
+    frames.set_animation_speed(clip_name, maxf(6.0, 1000.0 / float(max(60, int(clip.get("frame_duration_ms", 125))))))
+    for index in range(count):
+        var atlas := AtlasTexture.new()
+        atlas.atlas = texture
+        atlas.region = Rect2(index * width, 0, width, height)
+        frames.add_frame(clip_name, atlas)
+    return Vector2i(width, height)
+
+func _make_animation(asset: Dictionary, entry: Dictionary) -> AnimatedSprite2D:
     var frames := SpriteFrames.new()
     frames.remove_animation("default")
-    frames.add_animation("generated")
-    frames.set_animation_loop("generated", true)
-    frames.set_animation_speed("generated", maxf(6.0, 1000.0 / float(max(60, int(asset.get("frame_duration_ms", 120))))))
-    if texture != null:
-        for index in range(count):
-            var atlas := AtlasTexture.new()
-            atlas.atlas = texture
-            atlas.region = Rect2(index * width, 0, width, height)
-            frames.add_frame("generated", atlas)
+    var frame_size := Vector2i.ZERO
+    var clips_value: Variant = asset.get("clips", {})
+    if clips_value is Dictionary and not clips_value.is_empty():
+        var clips: Dictionary = clips_value
+        for clip_key in clips.keys():
+            var clip_name := str(clip_key)
+            var clip_value: Variant = clips[clip_key]
+            if not (clip_value is Dictionary):
+                continue
+            var loaded_size := _add_animation_clip(frames, clip_name, clip_value, clip_name == "idle")
+            if clip_name == str(asset.get("default_clip", "idle")) or frame_size == Vector2i.ZERO:
+                frame_size = loaded_size
+    else:
+        var legacy_clip := {
+            "sheet_resource": str(asset.get("sheet_resource", "")),
+            "frame_count": int(asset.get("frame_count", 0)),
+            "frame_width": int(asset.get("frame_width", 0)),
+            "frame_height": int(asset.get("frame_height", 0)),
+            "frame_duration_ms": int(asset.get("frame_duration_ms", 120)),
+        }
+        frame_size = _add_animation_clip(frames, "idle", legacy_clip, true)
+    if frame_size == Vector2i.ZERO or not frames.has_animation("idle"):
+        push_error("No valid idle animation for %s" % str(entry.get("id", "unknown")))
     var animation := AnimatedSprite2D.new()
     animation.sprite_frames = frames
     animation.centered = true
     animation.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     var desired := _display_size(entry)
-    animation.scale = Vector2(desired.x / maxf(1.0, float(width)), desired.y / maxf(1.0, float(height)))
+    animation.scale = Vector2(desired.x / maxf(1.0, float(frame_size.x)), desired.y / maxf(1.0, float(frame_size.y)))
     var role := _entry_role(entry)
     if role in ["wall", "floor", "wall_hanging"]:
         animation.position = Vector2.ZERO
@@ -275,8 +338,13 @@ func _make_animation(asset: Dictionary, entry: Dictionary) -> AnimatedSprite2D:
         var model_position: Array = entry.get("position", [0.0, 0.0, 0.0])
         var vertical_offset := float(model_position[1]) * projection_scale * 0.45
         animation.position.y = -desired.y * 0.42 - vertical_offset
-    animation.play("generated")
+    animation.animation_finished.connect(func() -> void:
+        if animation.animation != "idle" and animation.sprite_frames.has_animation("idle"):
+            animation.play("idle")
+    )
+    animation.play(str(asset.get("default_clip", "idle")))
     return animation
+
 
 func _size_vector(entry: Dictionary) -> Vector3:
     var values: Array = entry.get("size", [1.0, 1.0, 1.0])
@@ -318,6 +386,7 @@ func _add_static_collision(holder: Node2D, entry: Dictionary) -> void:
     shape.size = Vector2(maxf(12.0, size.x * projection_scale), maxf(12.0, size.z * projection_scale))
     collision.shape = shape
     body.add_child(collision)
+    generated_collisions[str(entry.get("id", ""))] = collision
 
 func _build_overlay() -> void:
     title_label = Label.new()
@@ -327,7 +396,7 @@ func _build_overlay() -> void:
     add_child(title_label)
     status_label = Label.new()
     status_label.name = "GeneratedStatusState"
-    status_label.text = "All visible assets are reviewed Thor SDXL animations. Move with WASD or arrows; Enter interacts."
+    status_label.text = "Player uses reviewed LTX temporal clips with BiRefNet matting. Move with WASD or arrows; E interacts, F attacks, Q uses."
     status_label.visible = false
     add_child(status_label)
     detail_label = Label.new()
@@ -337,36 +406,239 @@ func _build_overlay() -> void:
     add_child(detail_label)
 
 
-func _update_nearby_interaction() -> void:
+func _initialize_gameplay() -> void:
+    var gameplay: Dictionary = plan.get("gameplay", {})
+    for stat_value in gameplay.get("stats", []):
+        if not (stat_value is Dictionary):
+            continue
+        var stat: Dictionary = stat_value
+        game_stats[str(stat.get("id", ""))] = float(stat.get("initial", 0.0))
+    for item_value in gameplay.get("starting_inventory", []):
+        var item_id := str(item_value)
+        inventory[item_id] = int(inventory.get(item_id, 0)) + 1
+    status_label = null
+
+func _all_entries() -> Array:
+    var result: Array = []
+    if plan.get("player", {}) is Dictionary:
+        result.append(plan["player"])
+    for value in plan.get("objects", []):
+        if value is Dictionary:
+            result.append(value)
+    return result
+
+func _entry_by_id(object_id: String) -> Dictionary:
+    for entry_value in _all_entries():
+        var entry: Dictionary = entry_value
+        if str(entry.get("id", "")) == object_id:
+            return entry
+    return {}
+
+func _actions_for(entry: Dictionary, input_name: String) -> Array:
+    var result: Array = []
+    for action_value in entry.get("actions", []):
+        if not (action_value is Dictionary):
+            continue
+        var action: Dictionary = action_value
+        if str(action.get("input", "")) == input_name:
+            result.append(action)
+    return result
+
+func _find_nearest_entry(input_name: String) -> Dictionary:
     if player == null:
-        return
-    var nearest_distance := 96.0
+        return {}
+    var nearest_distance := INF
     var nearest: Dictionary = {}
-    for child in world_layer.get_children():
-        if not (child is Node2D) or child == player or not child.has_meta("entry"):
+    for entry_value in plan.get("objects", []):
+        if not (entry_value is Dictionary):
             continue
-        var entry: Dictionary = child.get_meta("entry")
-        var interaction := str(entry.get("interaction", "none"))
-        if interaction.strip_edges().to_lower() in ["", "none", "n/a", "no interaction"]:
+        var entry: Dictionary = entry_value
+        if _actions_for(entry, input_name).is_empty():
             continue
-        var distance := player.position.distance_to(child.position)
-        if distance < nearest_distance:
+        var object_id := str(entry.get("id", ""))
+        var node: Node2D = generated_nodes.get(object_id)
+        if node == null or not node.visible:
+            continue
+        var distance := player.position.distance_to(node.position)
+        var actions := _actions_for(entry, input_name)
+        var allowed := float(actions[0].get("range_meters", 1.5)) * projection_scale
+        if distance <= maxf(48.0, allowed) and distance < nearest_distance:
             nearest_distance = distance
             nearest = entry
-    nearby_entry = nearest
-    if detail_label != null:
-        if nearby_entry.is_empty():
-            detail_label.text = str(plan.get("player", {}).get("interaction", "Explore the generated scene."))
-        else:
-            detail_label.text = "%s: %s" % [str(nearby_entry.get("name", "Object")), str(nearby_entry.get("interaction", "Interact")).replace("_", " ")]
+    return nearest
 
-func _interact() -> void:
-    if nearby_entry.is_empty():
-        if status_label != null:
-            status_label.text = "Nothing interactive is close enough."
+func _update_nearby_interaction() -> void:
+    nearby_entry = _find_nearest_entry("interact")
+    if detail_label == null:
         return
+    if nearby_entry.is_empty():
+        detail_label.text = str(plan.get("gameplay", {}).get("objective", "Explore the generated scene."))
+    else:
+        var actions := _actions_for(nearby_entry, "interact")
+        detail_label.text = "%s: %s" % [str(nearby_entry.get("name", "Object")), str(actions[0].get("label", "Interact"))]
+
+func _condition_passes(condition: Dictionary) -> bool:
+    var condition_type := str(condition.get("type", ""))
+    if condition_type == "state_equals":
+        var target_state: Dictionary = object_states.get(str(condition.get("target_id", "")), {})
+        return str(target_state.get(str(condition.get("key", "")), "")) == str(condition.get("value", ""))
+    if condition_type == "stat_at_least":
+        return float(game_stats.get(str(condition.get("stat", "")), 0.0)) >= float(condition.get("minimum", 0.0))
+    if condition_type == "inventory_contains":
+        return int(inventory.get(str(condition.get("item_id", "")), 0)) >= int(condition.get("count", 1))
+    if condition_type == "object_visible":
+        var target_node: Node2D = generated_nodes.get(str(condition.get("target_id", "")))
+        return target_node != null and target_node.visible == bool(condition.get("visible", true))
+    return false
+
+func _action_available(action: Dictionary) -> bool:
+    var action_id := str(action.get("id", ""))
+    if Time.get_ticks_msec() < int(action_cooldowns.get(action_id, 0)):
+        return false
+    for value in action.get("conditions", []):
+        if value is Dictionary and not _condition_passes(value):
+            return false
+    return true
+
+func _set_event(text: String) -> void:
     if status_label != null:
-        status_label.text = "%s · %s" % [str(nearby_entry.get("name", "Object")), str(nearby_entry.get("behavior", "The generated object responds.")).replace("_", " ")]
+        status_label.text = text
+    if detail_label != null:
+        detail_label.text = text
+
+func _set_collision_enabled(target_id: String, enabled: bool) -> void:
+    var collision: CollisionShape2D = generated_collisions.get(target_id)
+    if collision != null:
+        collision.set_deferred("disabled", not enabled)
+
+func _apply_effect(effect: Dictionary) -> void:
+    var effect_type := str(effect.get("type", ""))
+    if effect_type == "show_message":
+        _set_event(str(effect.get("text", "")))
+    elif effect_type == "change_stat":
+        var stat_id := str(effect.get("stat", ""))
+        var amount := float(effect.get("amount", 0.0))
+        var minimum := -10000.0
+        var maximum := 10000.0
+        for stat_value in plan.get("gameplay", {}).get("stats", []):
+            if stat_value is Dictionary and str(stat_value.get("id", "")) == stat_id:
+                minimum = float(stat_value.get("minimum", minimum))
+                maximum = float(stat_value.get("maximum", maximum))
+                break
+        game_stats[stat_id] = clampf(float(game_stats.get(stat_id, 0.0)) + amount, minimum, maximum)
+    elif effect_type == "set_state":
+        var target_id := str(effect.get("target_id", ""))
+        var target_state: Dictionary = object_states.get(target_id, {})
+        target_state[str(effect.get("key", ""))] = str(effect.get("value", ""))
+        object_states[target_id] = target_state
+    elif effect_type in ["inventory_add", "inventory_remove"]:
+        var item_id := str(effect.get("item_id", ""))
+        var delta := int(effect.get("count", 1)) * (1 if effect_type == "inventory_add" else -1)
+        inventory[item_id] = maxi(0, int(inventory.get(item_id, 0)) + delta)
+    elif effect_type == "move":
+        var move_id := str(effect.get("target_id", ""))
+        var move_node: Node2D = generated_nodes.get(move_id)
+        var offset: Array = effect.get("offset", [0.0, 0.0, 0.0])
+        if move_node != null:
+            var target_position := move_node.position + Vector2(float(offset[0]), float(offset[2])) * projection_scale
+            var duration := float(effect.get("duration_seconds", 0.0))
+            if duration > 0.0:
+                create_tween().tween_property(move_node, "position", target_position, duration)
+            else:
+                move_node.position = target_position
+    elif effect_type == "set_visibility":
+        var visible_node: Node2D = generated_nodes.get(str(effect.get("target_id", "")))
+        if visible_node != null:
+            visible_node.visible = bool(effect.get("visible", true))
+    elif effect_type == "set_collision":
+        _set_collision_enabled(str(effect.get("target_id", "")), bool(effect.get("enabled", true)))
+    elif effect_type == "remove_object":
+        var remove_id := str(effect.get("target_id", ""))
+        var remove_node: Node2D = generated_nodes.get(remove_id)
+        if remove_node != null:
+            remove_node.visible = false
+            _set_collision_enabled(remove_id, false)
+            var state: Dictionary = object_states.get(remove_id, {})
+            state["removed"] = "true"
+            object_states[remove_id] = state
+    elif effect_type == "scene_transition":
+        _set_event("The generated exit %s opens toward the next model-authored environment." % str(effect.get("exit_id", "")))
+        var state: Dictionary = object_states.get("player", {})
+        state["pending_exit"] = str(effect.get("exit_id", ""))
+        object_states["player"] = state
+    elif effect_type == "end_game":
+        game_over = true
+        game_outcome = str(effect.get("outcome", ""))
+        _set_event(str(effect.get("text", "The game ends.")))
+
+func _animation_has_clip(animation: AnimatedSprite2D, clip_name: String) -> bool:
+    return animation != null and animation.sprite_frames != null and animation.sprite_frames.has_animation(clip_name)
+
+func _play_clip(object_id: String, clip_name: String) -> void:
+    var record: Dictionary = generated_animations.get(object_id, {})
+    var animation: AnimatedSprite2D = record.get("node")
+    if animation == null:
+        return
+    if not _animation_has_clip(animation, clip_name):
+        push_warning("Missing required generated action clip %s for %s" % [clip_name, object_id])
+        return
+    animation.play(clip_name)
+
+func _execute_action(owner: Dictionary, action: Dictionary) -> bool:
+    if game_over or not _action_available(action):
+        return false
+    var action_id := str(action.get("id", ""))
+    var cooldown := float(action.get("cooldown_seconds", 0.0))
+    action_cooldowns[action_id] = Time.get_ticks_msec() + int(cooldown * 1000.0)
+    last_action_id = action_id
+    _play_clip(str(plan.get("player", {}).get("id", "player")), str(action.get("actor_clip", "")))
+    _play_clip(str(owner.get("id", "")), str(action.get("target_clip", "")))
+    for effect_value in action.get("effects", []):
+        if effect_value is Dictionary:
+            _apply_effect(effect_value)
+    _set_event(str(action.get("success_text", action.get("description", "Action complete."))))
+    return true
+
+func _trigger_nearby_action(input_name: String) -> bool:
+    var target := _find_nearest_entry(input_name)
+    if target.is_empty():
+        _set_event("No generated %s action is in range." % input_name)
+        return false
+    for action_value in _actions_for(target, input_name):
+        if action_value is Dictionary and _execute_action(target, action_value):
+            return true
+    _set_event("The generated conditions for this action are not met.")
+    return false
+
+func _trigger_player_action(input_name: String) -> bool:
+    var player_entry: Dictionary = plan.get("player", {})
+    for action_value in _actions_for(player_entry, input_name):
+        if action_value is Dictionary and _execute_action(player_entry, action_value):
+            return true
+    return false
+
+func _process_touch_actions() -> void:
+    if player == null or game_over:
+        return
+    var now_touching: Dictionary = {}
+    for entry_value in plan.get("objects", []):
+        if not (entry_value is Dictionary):
+            continue
+        var entry: Dictionary = entry_value
+        var actions := _actions_for(entry, "touch")
+        if actions.is_empty():
+            continue
+        var object_id := str(entry.get("id", ""))
+        var object_node: Node2D = generated_nodes.get(object_id)
+        if object_node == null or not object_node.visible:
+            continue
+        var threshold := maxf(22.0, float(actions[0].get("range_meters", 0.5)) * projection_scale)
+        if player.position.distance_to(object_node.position) <= threshold:
+            now_touching[object_id] = true
+            if not touched_objects.has(object_id):
+                _execute_action(entry, actions[0])
+    touched_objects = now_touching
+
 
 func _setup_web_bridge() -> void:
     _web_move_callback = JavaScriptBridge.create_callback(_on_web_move)
@@ -388,8 +660,15 @@ func _on_web_move(args: Array) -> void:
 func _on_web_action(args: Array) -> void:
     if args.is_empty():
         return
-    if str(args[0]) in ["attack", "jump", "parry", "potion"]:
-        _interact()
+    var input_name := str(args[0])
+    if input_name in ["attack", "hit"]:
+        if not _trigger_nearby_action("hit"):
+            _trigger_player_action("hit")
+    elif input_name in ["interact", "jump"]:
+        if not _trigger_nearby_action("interact"):
+            _trigger_player_action("interact")
+    elif input_name in ["use", "potion", "parry"]:
+        _trigger_player_action("use")
 
 func _on_web_forge(_args: Array) -> void:
     if status_label != null:
@@ -407,10 +686,11 @@ func _visible_object_state() -> Array:
         var center := animation.global_position
         var frame_count := 0
         var texture_loaded := false
-        if animation.sprite_frames != null and animation.sprite_frames.has_animation("generated"):
-            frame_count = animation.sprite_frames.get_frame_count("generated")
+        var current_clip := str(animation.animation)
+        if animation.sprite_frames != null and animation.sprite_frames.has_animation(current_clip):
+            frame_count = animation.sprite_frames.get_frame_count(current_clip)
             if frame_count > 0:
-                texture_loaded = animation.sprite_frames.get_frame_texture("generated", clampi(animation.frame, 0, frame_count - 1)) != null
+                texture_loaded = animation.sprite_frames.get_frame_texture(current_clip, clampi(animation.frame, 0, frame_count - 1)) != null
         result.append({
             "id": str(object_id),
             "name": str(entry.get("name", object_id)),
@@ -420,6 +700,8 @@ func _visible_object_state() -> Array:
             "height": size.y,
             "frame": animation.frame,
             "frame_count": frame_count,
+            "clip": str(animation.animation),
+            "available_clips": Array(animation.sprite_frames.get_animation_names()) if animation.sprite_frames != null else [],
             "playing": animation.is_playing(),
             "visible": animation.visible and animation.modulate.a > 0.01,
             "texture_loaded": texture_loaded,
@@ -438,9 +720,9 @@ func _publish_web_state() -> void:
         "player_name": str(player_entry.get("name", "Generated Player")),
         "role": "Generated adult child",
         "level": 1,
-        "health": 100,
+        "health": int(game_stats.get("player_health", game_stats.get("health", 100))),
         "max_health": 100,
-        "stamina": 100,
+        "stamina": int(game_stats.get("player_stamina", game_stats.get("stamina", 100))),
         "max_stamina": 100,
         "mana": 0,
         "max_mana": 0,
@@ -453,9 +735,9 @@ func _publish_web_state() -> void:
         "main_hand": "none",
         "chest": "generated clothes",
         "off_hand": "none",
-        "inventory": [],
+        "inventory": inventory.duplicate(true),
         "event": status_label.text if status_label != null else "Generated scene ready.",
-        "forge_status": "Thor SDXL reviewed animations loaded.",
+        "forge_status": "LTX temporal player clips and BiRefNet matting loaded.",
         "content_name": str(plan.get("scene_name", "Generated Scene")),
         "content_detail": str(manifest.get("opening_scene", "")).substr(0, 500),
         "forge_busy": false,
@@ -465,6 +747,12 @@ func _publish_web_state() -> void:
         "player_y": player.position.y,
         "animation_frame": player_sprite.frame if player_sprite != null else -1,
         "visible_objects": _visible_object_state(),
+        "game_stats": game_stats.duplicate(true),
+        "object_states": object_states.duplicate(true),
+        "last_action_id": last_action_id,
+        "game_over": game_over,
+        "game_outcome": game_outcome,
+        "asset_engine": str(manifest.get("asset_engine", "")),
     }
     shell.updateState(JSON.stringify(payload))
 

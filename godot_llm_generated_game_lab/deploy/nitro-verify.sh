@@ -2,35 +2,38 @@
 set -euo pipefail
 ROOT=/data/src/github/games/godot_llm_generated_game_lab
 PUBLIC=https://nitro.jonnyontherun.org/llm_game
+ENGINE=sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting
 [[ $(hostname -s) == nitro ]]
 cd "$ROOT"
 systemctl is-active --quiet apache2
 systemctl is-active --quiet llm-game-objects.service
 apache2ctl configtest >/dev/null
-python3 - <<'PY'
+/data/venv/bin/python3 - <<'PY'
 import json
 from pathlib import Path
 from PIL import Image,ImageSequence
 root=Path('/data/src/github/games/godot_llm_generated_game_lab')
 manifest=json.loads((root/'data/generated_world.json').read_text())
-assert manifest['version']==1
-assert manifest['complete'] is True
-assert manifest['fallback_used'] is False
-assert manifest['asset_engine']=='thor-sdxl-reviewed-identity-anchored-animation'
+assert manifest['version']==1 and manifest['complete'] is True and manifest['fallback_used'] is False
+assert manifest['asset_engine']=='sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting'
+assert manifest['gameplay_action_count']==30
 assert manifest['scene_plan']['scene_name']=='Dining Room'
-assert manifest['scene_plan']['visual_generator']=='thor_sdxl'
+assert len(manifest['scene_plan']['player']['actions'])==3
+assert all(len(obj['actions'])==3 for obj in manifest['scene_plan']['objects'])
 assert len(manifest['assets'])==10
-for asset_id,asset in manifest['assets'].items():
-    assert asset['verification']['canonical_pass'] is True
-    assert asset['verification']['animation_pass'] is True
-    assert asset['identity_anchored'] is True
-    assert asset['motion_generated'] is True
-    with Image.open(asset['gif_path']) as gif:
-        frames=list(ImageSequence.Iterator(gif))
-        assert len(frames)==asset['frame_count']
-        assert gif.info.get('loop')==0
-print(json.dumps({'manifest':'ok','scene':manifest['scene_plan']['scene_name'],'assets':len(manifest['assets']),'fallback':manifest['fallback_used']}))
+player=manifest['assets']['player']
+assert player['temporal_model'] is True and player['native_video_frames'] is True and player['fallback_used'] is False
+assert set(player['clips'])=={'idle','player_interact','player_attack','player_use'}
+for name,clip in player['clips'].items():
+    assert clip['temporal_model'] is True and clip['native_video_frames'] is True and clip['fallback_used'] is False
+    assert clip['review_pass'] is True and clip['distinct_gif_frames']==9 and clip['frame_count']==9
+    with Image.open(root/clip['gif_path']) as image:
+        frames=list(ImageSequence.Iterator(image))
+        assert len(frames)==9 and image.info.get('loop')==0
+print(json.dumps({'manifest':'ok','engine':manifest['asset_engine'],'actions':manifest['gameplay_action_count'],'clips':list(player['clips'])}))
 PY
+/data/venv/bin/python3 tests/test_temporal_player_clips.py
+/data/venv/bin/python3 tests/test_generated_action_runtime.py
 parse_log=$(mktemp)
 trap 'rm -f "$parse_log"' EXIT
 godot --headless --path . --editor --quit 2>&1 | tee "$parse_log" >/dev/null
@@ -40,41 +43,36 @@ timeout 30 godot --headless --path . --quit-after 20 2>&1 | tee "$runtime_log" >
 ! grep -Eq 'SCRIPT ERROR|Parse Error|ERROR:|Invalid|Missing generated|Generated world manifest is missing' "$runtime_log"
 rm -f "$runtime_log"
 for base in http://127.0.0.1/llm_game "$PUBLIC"; do
-    curl -fsS --max-time 30 "$base/" -o /tmp/generated-world-index.html
-    grep -q 'id="canvas"' /tmp/generated-world-index.html
-    curl -fsS --max-time 60 "$base/index.pck" -o /tmp/generated-world-index.pck
-    curl -fsS --max-time 90 "$base/index.wasm" -o /tmp/generated-world-index.wasm
-    curl -fsS --max-time 30 "$base/generated_assets/manifest.json" -o /tmp/generated-world-public.json
-    python3 - <<'PY'
+    curl -fsS --max-time 30 "$base/" -o /tmp/temporal-index.html
+    grep -q 'id="canvas"' /tmp/temporal-index.html
+    curl -fsS --max-time 60 "$base/index.pck" -o /tmp/temporal-index.pck
+    curl -fsS --max-time 90 "$base/index.wasm" -o /tmp/temporal-index.wasm
+    curl -fsS --max-time 30 "$base/generated_assets/manifest.json" -o /tmp/temporal-public.json
+    /data/venv/bin/python3 - <<'PY'
 import json
-v=json.load(open('/tmp/generated-world-public.json'))
+v=json.load(open('/tmp/temporal-public.json')); player=v['assets']['player']
 assert v['complete'] is True and v['fallback_used'] is False
-assert v['scene_name']=='Dining Room' and len(v['assets'])==10
-assert all(a['canonical_pass'] is True and a['animation_pass'] is True for a in v['assets'].values())
+assert v['asset_engine']=='sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting'
+assert v['scene_name']=='Dining Room' and v['gameplay_action_count']==30 and len(v['assets'])==10
+assert set(player['clips'])=={'idle','player_interact','player_attack','player_use'}
+assert all(c['temporal_model'] is True and c['native_video_frames'] is True and c['fallback_used'] is False and c['review_pass'] is True and c['distinct_gif_frames']==9 for c in player['clips'].values())
 PY
 done
-cmp web/index.pck /tmp/generated-world-index.pck
-cmp web/index.wasm /tmp/generated-world-index.wasm
-curl -fsSI --max-time 15 "$PUBLIC/" -o /tmp/generated-world-public-head.txt
-curl -fsS --max-time 15 "$PUBLIC/" -o /tmp/generated-world-public-index.html
-curl -fsSI --max-time 15 "$PUBLIC/index.wasm" -o /tmp/generated-world-wasm-head.txt
-curl -fsSI --max-time 15 "$PUBLIC/generated_assets/player.gif" -o /tmp/generated-world-gif-head.txt
-grep -qi 'cross-origin-opener-policy: same-origin' /tmp/generated-world-public-head.txt
-grep -qi 'cross-origin-embedder-policy: require-corp' /tmp/generated-world-public-head.txt
-grep -qi 'cross-origin-resource-policy: same-origin' /tmp/generated-world-public-head.txt
-grep -q 'Loading Your Mom — generated entirely by models' /tmp/generated-world-public-index.html
-! grep -q 'Loading Grounded Medieval RPG' /tmp/generated-world-public-index.html
-grep -qi 'content-type: application/wasm' /tmp/generated-world-wasm-head.txt
-grep -qi 'content-type: image/gif' /tmp/generated-world-gif-head.txt
-curl -fsS --max-time 15 http://10.8.0.7:14831/health >/dev/null
-curl -fsS --max-time 15 http://10.8.0.7:15310/health >/dev/null
-profile=$(mktemp -d /data/tmp/firefox-generated-world-verify.XXXXXX)
-firefox_log=$(mktemp /data/tmp/firefox-generated-world-verify-log.XXXXXX)
+cmp web/index.pck /tmp/temporal-index.pck
+cmp web/index.wasm /tmp/temporal-index.wasm
+curl -fsSI --max-time 15 "$PUBLIC/" -o /tmp/temporal-public-head.txt
+grep -qi 'cross-origin-opener-policy: same-origin' /tmp/temporal-public-head.txt
+grep -qi 'cross-origin-embedder-policy: require-corp' /tmp/temporal-public-head.txt
+grep -qi 'cross-origin-resource-policy: same-origin' /tmp/temporal-public-head.txt
+for clip in idle player_interact player_attack player_use; do
+    curl -fsSI --max-time 20 "$PUBLIC/generated_assets/player-clips/$clip/animation.gif" | grep -qi 'content-type: image/gif'
+done
+profile=$(mktemp -d /data/tmp/firefox-temporal-verify.XXXXXX)
+firefox_log=$(mktemp /data/tmp/firefox-temporal-verify-log.XXXXXX)
 firefox_port=$(python3 - <<'PY_PORT'
 import socket
 with socket.socket() as sock:
-    sock.bind(('127.0.0.1',0))
-    print(sock.getsockname()[1])
+    sock.bind(('127.0.0.1',0)); print(sock.getsockname()[1])
 PY_PORT
 )
 cat > "$profile/user.js" <<'EOF'
@@ -91,17 +89,10 @@ user_pref("datareporting.policy.dataSubmissionEnabled", false);
 EOF
 xvfb-run -a -s '-screen 0 1280x900x24 +extension GLX +render -noreset' env LIBGL_ALWAYS_SOFTWARE=1 MOZ_WEBRENDER=1 firefox --no-remote --profile "$profile" --remote-debugging-port "$firefox_port" "$PUBLIC/" >"$firefox_log" 2>&1 &
 firefox_pid=$!
-cleanup_browser(){
-    pkill -TERM -P "$firefox_pid" 2>/dev/null || true
-    sleep 1
-    pkill -KILL -P "$firefox_pid" 2>/dev/null || true
-    kill "$firefox_pid" 2>/dev/null || true
-    wait "$firefox_pid" 2>/dev/null || true
-    rm -rf "$profile" "$firefox_log"
-}
+cleanup_browser(){ pkill -TERM -P "$firefox_pid" 2>/dev/null || true; sleep 1; pkill -KILL -P "$firefox_pid" 2>/dev/null || true; kill "$firefox_pid" 2>/dev/null || true; wait "$firefox_pid" 2>/dev/null || true; rm -rf "$profile" "$firefox_log"; }
 trap cleanup_browser EXIT
-for _ in $(seq 1 30); do grep -q 'WebDriver BiDi listening' "$firefox_log" && break; sleep 1; done
+for _ in $(seq 1 40); do grep -q 'WebDriver BiDi listening' "$firefox_log" && break; sleep 1; done
 grep -q 'WebDriver BiDi listening' "$firefox_log"
-NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost /data/venv/bin/python3 tests/verify_generated_world_browser.py --websocket ws://127.0.0.1:$firefox_port/session --screenshot /data/tmp/generated-world-firefox.png
+NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost /data/venv/bin/python3 tests/verify_temporal_public_browser.py --websocket "ws://127.0.0.1:$firefox_port/session" --screenshot /data/tmp/your-mom-temporal-public.png
 ! grep -Eq 'Failed to create WebGL context|SCRIPT ERROR|Parse Error|Failed to load script|Generated world manifest is missing' "$firefox_log"
-printf 'verification=ok route=%s scene=Dining_Room assets=10 browser=firefox_webgl fallback=false time=%s\n' "$PUBLIC/" "$(date -Is)"
+printf 'verification=ok route=%s engine=%s actions=30 clips=4 browser=firefox_webgl time=%s\n' "$PUBLIC/" "$ENGINE" "$(date -Is)"

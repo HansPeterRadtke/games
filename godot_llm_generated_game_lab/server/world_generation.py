@@ -25,7 +25,7 @@ GAME_DESCRIPTION_SYSTEM_PROMPT = """You are the lead game designer and world aut
 
 OPENING_SCENE_SYSTEM_PROMPT = """You are the world author for an already designed game. Write 220 to 360 words of natural authored prose describing the first playable environment, not JSON and not a form. Write exclusively in English and do not switch languages. Put the scene name alone on the first nonempty line. Do not redesign the game, contradict it, or substitute generic scenery. Establish the game's defining identity immediately. Describe exactly what surrounds the player at the starting position: terrain and surfaces, architecture, vegetation, weather and light, nearby entities, movement, sounds, reachable landmarks, hazards, interactable objects, exits, and the immediate dramatic hook. Preserve every supplied source detail in the scene text. Grammar and capitalization may change, but every concrete noun, adjective, quantity, measurement, unit, negation, prohibition, and named phrase must remain, naturally as dialogue, signage, an object name, a measurement, an event, or narration. Use complete sentences and finish with punctuation."""
 
-SCENE_PLAN_SYSTEM_PROMPT = """You convert an authored opening environment into a strict engine scene plan. Everything visible, audible, collidable, animated, interactive, or required for navigation must become an explicit object with coordinates. Do not replace unusual content with generic props and do not invent a fallback scene. Use the canonical right-handed coordinate system: x east-west, y vertical, z north-south, with meters as units and positive y upward. Put the player spawn on a valid surface. Give every object a unique id. Set visual_generator to thor_sdxl once for the scene. Every visible object must have a non-none visual_usage and a specific asset_prompt of at least five descriptive words describing the actual object, material, viewpoint, lighting, and clean usable composition. Nonvisual triggers, path nodes, lights, and sound sources must use visual_usage none and asset_prompt none. Define the player as a complete generated adult-child character with a unique id, identity, physical size, collision shape, position, facing, concrete behavior, interaction, animation description, and a specific character_sprite asset prompt. Use 6 to 8 essential non-player objects and combine repeated decorative elements so the complete JSON stays concise. Keep every player, object, and exit position inside the declared bounds. Do not stop until the complete closing JSON object has been emitted. Use character_sprite only for NPCs, creatures, and enemies; isolated_sprite for visible props, structures, vegetation, equipment, collectibles, consumables, and vehicles; tileable_texture only for objects whose type is terrain, surface, or water; effect_sprite for visible lights, particles, hazards, and portals; and none only for sound sources, triggers, and path nodes. A carpet, floor covering, wall finish, or painted wall layer is type surface with tileable_texture, never static_prop. Give NPCs, creatures, and enemies concrete non-none interaction and behavior. Keep the player spawn outside the full half-size extents of every collidable object, at least 1.5 meters from the dining table, and at least 0.75 meters away from active entities. Give at least two scene objects meaningful interactions. Every visible object must have a concrete natural-language animation description; never use none, no animation, idle_waiting, or a symbolic identifier such as flicker or idle_seated by itself. Source-trace implementation text must be one concise normal sentence ending with a period, never none, a placeholder, a sentence fragment, or JSON-like text. Trace every required source detail to one or more scene object ids. Return only JSON matching the supplied schema."""
+SCENE_PLAN_SYSTEM_PROMPT = """You convert an authored opening environment into a strict engine scene plan. Everything visible, audible, collidable, animated, interactive, or required for navigation must become an explicit object with coordinates. Do not replace unusual content with generic props and do not invent a fallback scene. Use the canonical right-handed coordinate system: x east-west, y vertical, z north-south, with meters as units and positive y upward. Put the player spawn on a valid surface. Give every object a unique id. Set visual_generator to thor_sdxl once for the scene. Every visible object must have a non-none visual_usage and a specific asset_prompt of at least five descriptive words describing the actual object, material, viewpoint, lighting, and clean usable composition. Nonvisual triggers, path nodes, lights, and sound sources must use visual_usage none and asset_prompt none. Define the player as a complete generated adult-child character with a unique id, identity, physical size, collision shape, position, facing, concrete behavior, interaction, animation description, and a specific character_sprite asset prompt. Use 6 to 8 essential non-player objects and combine repeated decorative elements so the complete JSON stays concise. Keep every player, object, and exit position inside the declared bounds. Do not stop until the complete closing JSON object has been emitted. Use character_sprite only for NPCs, creatures, and enemies; isolated_sprite for visible props, structures, vegetation, equipment, collectibles, consumables, and vehicles; tileable_texture only for objects whose type is terrain, surface, or water; effect_sprite for visible lights, particles, hazards, and portals; and none only for sound sources, triggers, and path nodes. A carpet, floor covering, wall finish, or painted wall layer is type surface with tileable_texture, never static_prop. Give every object a complete playable action set. Each object must define one touch action, one general interact action, and one hit action. Every action must have a concrete outcome, at least one executable effect, an actor animation clip and prompt, and a target animation clip and prompt. Use the broad effect framework to invent fun consequences: messages, stat changes, state changes, inventory changes, movement, visibility, collision, removal, scene transitions, or ending outcomes. Do not use symbolic placeholders or no-op effects. Give the player generated stats, an objective, win and loss conditions, and available action inputs including interact and attack. Keep the player spawn outside the full half-size extents of every collidable object, at least 1.5 meters from the dining table, and at least 0.75 meters away from active entities. Every visible object must have a concrete natural-language idle animation description; never use none, no animation, idle_waiting, or a symbolic identifier such as flicker or idle_seated by itself. Source-trace implementation text must be one concise normal sentence ending with a period, never none, a placeholder, a sentence fragment, or JSON-like text. Trace every required source detail to one or more scene object ids. Return only JSON matching the supplied schema."""
 
 def _compact(value: str) -> str:
     return " ".join(str(value).replace("\x00", " ").split())
@@ -329,11 +329,126 @@ VISUAL_USAGE_BY_TYPE = {
     "sound_source": "none", "trigger": "none", "path_node": "none",
 }
 
+EFFECT_SCHEMA: dict[str, Any] = {
+    "oneOf": [
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "text"],
+            "properties": {"type": {"const": "show_message"}, "text": {"type": "string", "minLength": 3, "maxLength": 280}},
+        },
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "stat", "amount"],
+            "properties": {"type": {"const": "change_stat"}, "stat": {"type": "string", "pattern": "^[a-z][a-z0-9_]{1,40}$"}, "amount": {"type": "number", "minimum": -10000, "maximum": 10000}},
+        },
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "target_id", "key", "value"],
+            "properties": {"type": {"const": "set_state"}, "target_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,56}$"}, "key": {"type": "string", "pattern": "^[a-z][a-z0-9_]{1,48}$"}, "value": {"type": "string", "minLength": 1, "maxLength": 120}},
+        },
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "item_id", "count"],
+            "properties": {"type": {"enum": ["inventory_add", "inventory_remove"]}, "item_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,56}$"}, "count": {"type": "integer", "minimum": 1, "maximum": 99}},
+        },
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "target_id", "offset", "duration_seconds"],
+            "properties": {"type": {"const": "move"}, "target_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,56}$"}, "offset": VECTOR3_SCHEMA, "duration_seconds": {"type": "number", "minimum": 0, "maximum": 10}},
+        },
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "target_id", "visible"],
+            "properties": {"type": {"const": "set_visibility"}, "target_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,56}$"}, "visible": {"type": "boolean"}},
+        },
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "target_id", "enabled"],
+            "properties": {"type": {"const": "set_collision"}, "target_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,56}$"}, "enabled": {"type": "boolean"}},
+        },
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "target_id"],
+            "properties": {"type": {"const": "remove_object"}, "target_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,56}$"}},
+        },
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "exit_id"],
+            "properties": {"type": {"const": "scene_transition"}, "exit_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,56}$"}},
+        },
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "outcome", "text"],
+            "properties": {"type": {"const": "end_game"}, "outcome": {"type": "string", "enum": ["win", "lose"]}, "text": {"type": "string", "minLength": 8, "maxLength": 280}},
+        },
+    ]
+}
+
+CONDITION_SCHEMA: dict[str, Any] = {
+    "oneOf": [
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "target_id", "key", "value"],
+            "properties": {"type": {"const": "state_equals"}, "target_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,56}$"}, "key": {"type": "string", "pattern": "^[a-z][a-z0-9_]{1,48}$"}, "value": {"type": "string", "minLength": 1, "maxLength": 120}},
+        },
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "stat", "minimum"],
+            "properties": {"type": {"const": "stat_at_least"}, "stat": {"type": "string", "pattern": "^[a-z][a-z0-9_]{1,40}$"}, "minimum": {"type": "number", "minimum": -10000, "maximum": 10000}},
+        },
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "item_id", "count"],
+            "properties": {"type": {"const": "inventory_contains"}, "item_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,56}$"}, "count": {"type": "integer", "minimum": 1, "maximum": 99}},
+        },
+        {
+            "type": "object", "additionalProperties": False, "required": ["type", "target_id", "visible"],
+            "properties": {"type": {"const": "object_visible"}, "target_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,56}$"}, "visible": {"type": "boolean"}},
+        },
+    ]
+}
+
+ACTION_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "additionalProperties": False,
+    "required": [
+        "id", "input", "label", "description", "range_meters", "cooldown_seconds", "conditions",
+        "effects", "actor_clip", "actor_animation_prompt", "target_clip", "target_animation_prompt", "success_text",
+    ],
+    "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{2,56}$"},
+        "input": {"type": "string", "enum": ["touch", "interact", "hit", "use", "talk", "take", "eat", "open", "close"]},
+        "label": {"type": "string", "minLength": 2, "maxLength": 80},
+        "description": {"type": "string", "minLength": 12, "maxLength": 260},
+        "range_meters": {"type": "number", "minimum": 0, "maximum": 8},
+        "cooldown_seconds": {"type": "number", "minimum": 0, "maximum": 60},
+        "conditions": {"type": "array", "minItems": 0, "maxItems": 8, "items": CONDITION_SCHEMA},
+        "effects": {"type": "array", "minItems": 1, "maxItems": 8, "items": EFFECT_SCHEMA},
+        "actor_clip": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{2,56}$"},
+        "actor_animation_prompt": {"type": "string", "minLength": 16, "maxLength": 300},
+        "target_clip": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{2,56}$"},
+        "target_animation_prompt": {"type": "string", "minLength": 16, "maxLength": 300},
+        "success_text": {"type": "string", "minLength": 4, "maxLength": 280},
+    },
+}
+
+GAMEPLAY_SCHEMA: dict[str, Any] = {
+    "type": "object", "additionalProperties": False,
+    "required": ["objective", "win_conditions", "lose_conditions", "available_inputs", "stats", "starting_inventory"],
+    "properties": {
+        "objective": {"type": "string", "minLength": 20, "maxLength": 300},
+        "win_conditions": {"type": "array", "minItems": 1, "maxItems": 6, "items": {"type": "string", "minLength": 8, "maxLength": 200}},
+        "lose_conditions": {"type": "array", "minItems": 1, "maxItems": 6, "items": {"type": "string", "minLength": 8, "maxLength": 200}},
+        "available_inputs": {"type": "array", "minItems": 3, "maxItems": 8, "uniqueItems": True, "items": {"type": "string", "enum": ["move", "touch", "interact", "attack", "use", "jump", "dash"]}},
+        "stats": {
+            "type": "array", "minItems": 2, "maxItems": 10,
+            "items": {
+                "type": "object", "additionalProperties": False, "required": ["id", "label", "initial", "minimum", "maximum"],
+                "properties": {
+                    "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]{1,40}$"},
+                    "label": {"type": "string", "minLength": 2, "maxLength": 60},
+                    "initial": {"type": "number", "minimum": -10000, "maximum": 10000},
+                    "minimum": {"type": "number", "minimum": -10000, "maximum": 10000},
+                    "maximum": {"type": "number", "minimum": -10000, "maximum": 10000},
+                },
+            },
+        },
+        "starting_inventory": {"type": "array", "minItems": 0, "maxItems": 12, "items": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,56}$"}},
+    },
+}
+
 SCENE_PLAN_SCHEMA: dict[str, Any] = {
     "type": "object",
     "additionalProperties": False,
     "required": [
-        "scene_id", "scene_name", "units", "visual_generator", "bounds", "player",
+        "scene_id", "scene_name", "units", "visual_generator", "bounds", "gameplay", "player",
         "objects", "exits", "source_trace",
     ],
     "properties": {
@@ -345,11 +460,12 @@ SCENE_PLAN_SCHEMA: dict[str, Any] = {
             "type": "object", "additionalProperties": False, "required": ["min", "max"],
             "properties": {"min": VECTOR3_SCHEMA, "max": VECTOR3_SCHEMA},
         },
+        "gameplay": GAMEPLAY_SCHEMA,
         "player": {
             "type": "object", "additionalProperties": False,
             "required": [
                 "id", "name", "description", "position", "yaw_degrees", "facing", "size",
-                "collision", "visual_usage", "asset_prompt", "animation", "interaction", "behavior",
+                "collision", "visual_usage", "asset_prompt", "animation", "actions",
             ],
             "properties": {
                 "id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{2,56}$"},
@@ -363,8 +479,7 @@ SCENE_PLAN_SCHEMA: dict[str, Any] = {
                 "visual_usage": {"type": "string", "const": "character_sprite"},
                 "asset_prompt": {"type": "string", "minLength": 24, "maxLength": 500},
                 "animation": {"type": "string", "minLength": 12, "maxLength": 240},
-                "interaction": {"type": "string", "minLength": 8, "maxLength": 180},
-                "behavior": {"type": "string", "minLength": 12, "maxLength": 240},
+                "actions": {"type": "array", "minItems": 3, "maxItems": 8, "items": ACTION_SCHEMA},
             },
         },
         "objects": {
@@ -373,8 +488,7 @@ SCENE_PLAN_SCHEMA: dict[str, Any] = {
                 "type": "object", "additionalProperties": False,
                 "required": [
                     "id", "type", "name", "description", "position", "yaw_degrees", "size",
-                    "collision", "mobility", "visual_usage", "asset_prompt", "animation",
-                    "interaction", "behavior",
+                    "collision", "mobility", "visual_usage", "asset_prompt", "animation", "actions",
                 ],
                 "properties": {
                     "id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{2,56}$"},
@@ -389,8 +503,7 @@ SCENE_PLAN_SCHEMA: dict[str, Any] = {
                     "visual_usage": {"type": "string", "enum": VISUAL_USAGES},
                     "asset_prompt": {"type": "string", "minLength": 4, "maxLength": 420},
                     "animation": {"type": "string", "minLength": 4, "maxLength": 180},
-                    "interaction": {"type": "string", "minLength": 4, "maxLength": 180},
-                    "behavior": {"type": "string", "minLength": 4, "maxLength": 220},
+                    "actions": {"type": "array", "minItems": 3, "maxItems": 8, "items": ACTION_SCHEMA},
                 },
             },
         },
@@ -482,14 +595,15 @@ def validate_scene_plan(value: dict[str, Any], user_prompt: str) -> list[str]:
         errors.append("player lacks a specific Thor SDXL asset prompt")
     if _placeholder_scene_text(player.get("animation")):
         errors.append("player lacks a concrete animation description")
-    if _placeholder_scene_text(player.get("behavior")):
-        errors.append("player lacks concrete behavior")
-    if _placeholder_scene_text(player.get("interaction")):
-        errors.append("player lacks a concrete interaction contract")
+    player_actions = player.get("actions", []) if isinstance(player.get("actions", []), list) else []
+    player_inputs = {str(action.get("input", "")) for action in player_actions if isinstance(action, dict)}
+    if not {"interact", "hit", "use"}.issubset(player_inputs):
+        errors.append("player must define interact, hit, and use actions")
     if value.get("visual_generator") != "thor_sdxl":
         errors.append("scene plan is not routed to the real Thor SDXL generator")
-    meaningful_interactions = 0
+    actionable_objects = 0
     active_objects = 0
+    known_ids = set(ids) | {str(edge.get("id", "")) for edge in value.get("exits", []) if isinstance(edge, dict)}
     for obj in objects:
         object_id = obj.get("id", "unknown")
         object_type = obj.get("type")
@@ -526,22 +640,39 @@ def validate_scene_plan(value: dict[str, Any], user_prompt: str) -> list[str]:
                 player_half = [max(0.01, float(component) / 2.0) for component in player_size]
                 if _aabb_overlap([float(v) for v in spawn], player_half, [float(v) for v in position], object_half):
                     errors.append(f"player spawn intersects collidable object {object_id}")
-        interaction = obj.get("interaction")
-        behavior = obj.get("behavior")
         animation = obj.get("animation")
-        if not _placeholder_scene_text(interaction):
-            meaningful_interactions += 1
-        if not _placeholder_scene_text(behavior) or not _placeholder_scene_text(animation):
+        if not _placeholder_scene_text(animation):
             active_objects += 1
-        if object_type in {"npc", "creature", "enemy"}:
-            if _placeholder_scene_text(interaction):
-                errors.append(f"active entity {object_id} has no interaction")
-            if _placeholder_scene_text(behavior):
-                errors.append(f"active entity {object_id} has no behavior")
-    if meaningful_interactions < 2:
-        errors.append("scene plan needs at least two meaningful object interactions")
+        actions = obj.get("actions", []) if isinstance(obj.get("actions", []), list) else []
+        triggers = {str(action.get("input", "")) for action in actions if isinstance(action, dict)}
+        if not {"touch", "interact", "hit"}.issubset(triggers):
+            errors.append(f"object {object_id} must define touch, interact, and hit actions")
+        else:
+            actionable_objects += 1
+        action_ids: set[str] = set()
+        for action in actions:
+            if not isinstance(action, dict):
+                continue
+            action_id = str(action.get("id", ""))
+            if action_id in action_ids:
+                errors.append(f"object {object_id} has duplicate action id {action_id}")
+            action_ids.add(action_id)
+            if _placeholder_scene_text(action.get("actor_animation_prompt")) or _placeholder_scene_text(action.get("target_animation_prompt")):
+                errors.append(f"object {object_id} action {action_id} lacks action animation prompts")
+            effects = [effect for effect in action.get("effects", []) if isinstance(effect, dict)]
+            if not any(str(effect.get("type", "")) != "show_message" for effect in effects):
+                errors.append(f"object {object_id} action {action_id} has no executable state-changing effect")
+            for effect in effects:
+                target_id = str(effect.get("target_id", ""))
+                if target_id and target_id not in known_ids:
+                    errors.append(f"object {object_id} action {action_id} targets unknown id {target_id}")
+                exit_id = str(effect.get("exit_id", ""))
+                if exit_id and exit_id not in known_ids:
+                    errors.append(f"object {object_id} action {action_id} targets unknown exit {exit_id}")
+    if actionable_objects != len(objects):
+        errors.append("every scene object must be fully actionable")
     if active_objects < 1:
-        errors.append("scene plan needs at least one animated or behavior-driven object")
+        errors.append("scene plan needs at least one animated object")
     for edge in value.get("exits", []):
         if not isinstance(edge, dict):
             continue
@@ -564,6 +695,43 @@ def validate_scene_plan(value: dict[str, Any], user_prompt: str) -> list[str]:
         for object_id in item.get("object_ids", []):
             if object_id not in id_set:
                 errors.append(f"source detail references unknown object id {object_id!r}")
+    gameplay = value.get("gameplay", {}) if isinstance(value.get("gameplay", {}), dict) else {}
+    available_inputs = set(gameplay.get("available_inputs", []))
+    if not {"move", "interact", "attack"}.issubset(available_inputs):
+        errors.append("gameplay must expose move, interact, and attack inputs")
+    stat_ids: set[str] = set()
+    for stat in gameplay.get("stats", []):
+        if not isinstance(stat, dict):
+            continue
+        stat_id = str(stat.get("id", ""))
+        if stat_id in stat_ids:
+            errors.append(f"duplicate gameplay stat {stat_id}")
+        stat_ids.add(stat_id)
+        if float(stat.get("minimum", 0)) > float(stat.get("initial", 0)) or float(stat.get("initial", 0)) > float(stat.get("maximum", 0)):
+            errors.append(f"gameplay stat {stat_id} initial value is outside bounds")
+    all_action_owners = [(str(player.get("id", "player")), player.get("actions", []))]
+    all_action_owners.extend((str(obj.get("id", "unknown")), obj.get("actions", [])) for obj in objects)
+    for owner_id, owner_actions in all_action_owners:
+        for action in owner_actions if isinstance(owner_actions, list) else []:
+            if not isinstance(action, dict):
+                continue
+            action_id = str(action.get("id", "unknown"))
+            effects = [effect for effect in action.get("effects", []) if isinstance(effect, dict)]
+            if not any(str(effect.get("type", "")) != "show_message" for effect in effects):
+                errors.append(f"{owner_id} action {action_id} has no executable state-changing effect")
+            for effect in effects:
+                effect_type = str(effect.get("type", ""))
+                if effect_type == "change_stat" and str(effect.get("stat", "")) not in stat_ids:
+                    errors.append(f"{owner_id} action {action_id} changes unknown stat {effect.get('stat')}")
+            for condition in action.get("conditions", []):
+                if not isinstance(condition, dict):
+                    continue
+                condition_type = str(condition.get("type", ""))
+                target_id = str(condition.get("target_id", ""))
+                if target_id and target_id not in known_ids:
+                    errors.append(f"{owner_id} action {action_id} condition targets unknown id {target_id}")
+                if condition_type == "stat_at_least" and str(condition.get("stat", "")) not in stat_ids:
+                    errors.append(f"{owner_id} action {action_id} condition references unknown stat {condition.get('stat')}")
     serialized = json.dumps(value, ensure_ascii=False)
     for literal in _numeric_literals(user_prompt):
         if literal not in serialized:

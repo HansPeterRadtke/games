@@ -1,0 +1,116 @@
+{
+  "ok": true,
+  "cached": true,
+  "key": "d1e91fa6eb207d5cb686d597",
+  "engine": "sdxl-base-reviewed-canonical",
+  "kind": "player",
+  "asset_usage": "character_sprite",
+  "name": "Player",
+  "width": 640,
+  "height": 896,
+  "canonical_seed": 546885287,
+  "generation_seconds": 120.3,
+  "canonical_review": {
+    "reviews": [
+      {
+        "recognizable": true,
+        "single_subject": true,
+        "full_subject": true,
+        "correct_category": true,
+        "required_elements_visible": true,
+        "forbidden_elements_absent": true,
+        "anatomy_or_geometry": "normal",
+        "grounded_materials": true,
+        "clean_plain_background": true,
+        "clear_silhouette": true,
+        "recognized_subject": "adult human",
+        "critical_defects": [],
+        "description": "A 3D-rendered character standing with one hand on the hip, wearing a green button-up shirt, blue jeans, and brown shoes. The character has short brown hair and a neutral expression.",
+        "materials_required": false,
+        "materials_pass": true,
+        "asset_usage": "character_sprite",
+        "background_mode": "transparent_isolated",
+        "background_pass": true,
+        "deterministic_pass": true,
+        "label_pass": true,
+        "candidate_index": 0,
+        "seed": 546885287,
+        "seconds": 120.024,
+        "bbox": [
+          144,
+          31,
+          469,
+          866
+        ],
+        "extraction_quality": {
+          "transparent_ratio": 0.8277,
+          "partial_alpha_ratio": 0.00722,
+          "border_visible_ratio": 0.0,
+          "foreground_components": 1,
+          "largest_component_ratio": 1.0,
+          "boundary_matte_ratio": 0.00193,
+          "bbox": [
+            144,
+            31,
+            469,
+            866
+          ],
+          "bright_neutral_border_ratio": 1.0,
+          "selected_components": 1
+        },
+        "extraction_error": ""
+      }
+    ],
+    "selected_review": {
+      "recognizable": true,
+      "single_subject": true,
+      "full_subject": true,
+      "correct_category": true,
+      "required_elements_visible": true,
+      "forbidden_elements_absent": true,
+      "anatomy_or_geometry": "normal",
+      "grounded_materials": true,
+      "clean_plain_background": true,
+      "clear_silhouette": true,
+      "recognized_subject": "adult human",
+      "critical_defects": [],
+      "description": "A 3D-rendered character standing with one hand on the hip, wearing a green button-up shirt, blue jeans, and brown shoes. The character has short brown hair and a neutral expression.",
+      "materials_required": false,
+      "materials_pass": true,
+      "asset_usage": "character_sprite",
+      "background_mode": "transparent_isolated",
+      "background_pass": true,
+      "deterministic_pass": true,
+      "label_pass": true,
+      "candidate_index": 0,
+      "seed": 546885287,
+      "seconds": 120.024,
+      "bbox": [
+        144,
+        31,
+        469,
+        866
+      ],
+      "extraction_quality": {
+        "transparent_ratio": 0.8277,
+        "partial_alpha_ratio": 0.00722,
+        "border_visible_ratio": 0.0,
+        "foreground_components": 1,
+        "largest_component_ratio": 1.0,
+        "boundary_matte_ratio": 0.00193,
+        "bbox": [
+          144,
+          31,
+          469,
+          866
+        ],
+        "bright_neutral_border_ratio": 1.0,
+        "selected_components": 1
+      },
+      "extraction_error": ""
+    }
+  },
+  "source_has_alpha": false,
+  "fallback_used": false,
+  "png_path": "/data/var/llm_game/grounded_asset_cache/d1e91fa6eb207d5cb686d597.canonical-source.png"
+}

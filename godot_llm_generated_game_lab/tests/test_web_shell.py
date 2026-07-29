@@ -66,7 +66,7 @@ assert "viewport-fit=cover" in html
 assert 'html/custom_html_shell="res://deploy/web_shell.html"' in PRESET
 assert 'html/canvas_resize_policy=0' in PRESET
 assert 'html/head_include=""' in PRESET
-assert "your-mom-generated-world-v1" in html
+assert "your-mom-temporal-staged-v2" in html
 assert "transform:scale(.84)" not in html
 assert "interface_canvas.visible = false" in MAIN
 assert "window.llmGameGodotMove = _web_move_callback" in MAIN
@@ -80,3 +80,15 @@ assert "finishStartup('godotReady')" in html
 assert "startupComplete" in html
 assert "startupError = 'timeout'" in html
 assert "Loading Grounded Medieval RPG" not in html
+assert 'Object.entries(inventory)' in html
+assert 'Array.isArray(inventory)' in html
+assert 'inventoryItems.join' in html
+assert 'startEngineSequentially' in html
+assert 'engine.preloadFile(pack, pack)' in html
+assert 'engine.init(config.executable)' in html
+assert 'engine.start()' in html
+assert 'preload-game-package' in html
+assert 'initialize-webassembly' in html
+assert 'start-generated-scene' in html
+assert '180000' in html
+assert 'engine.startGame({' not in html
