@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="$GODOT_PROJECT_NAME">
-  <meta name="llm-game-build" content="your-mom-temporal-staged-v2">
+  <meta name="llm-game-build" content="your-mom-temporal-absolute-paths-v3">
   <title>$GODOT_PROJECT_NAME</title>
   $GODOT_HEAD_INCLUDE
   <style>
@@ -407,10 +407,18 @@
       visualViewport?.addEventListener('resize', requestCanvasResize, {passive:true});
       requestCanvasResize();
 
-      const pack = config.mainPack || `${config.executable}.pck`;
+      const assetBase = new URL('/llm_game/', location.origin);
+      const executableUrl = new URL('index', assetBase).href;
+      const packUrl = new URL('index.pck', assetBase).href;
+      const packVirtualPath = 'index.pck';
+      app.dataset.assetBase = assetBase.href;
+      app.dataset.executableUrl = executableUrl;
+      app.dataset.packUrl = packUrl;
       const engineConfig = {
         ...config,
-        args: ['--main-pack', pack, ...(config.args || [])],
+        executable: executableUrl,
+        mainPack: packVirtualPath,
+        args: ['--main-pack', packVirtualPath, ...(config.args || [])],
         canvas,
         canvasResizePolicy:0,
         onProgress(current, total) {
@@ -454,11 +462,11 @@
         try {
           app.dataset.startupPhase = 'preload-game-package';
           notice.textContent = 'Loading generated game data…';
-          await phaseTimeout(engine.preloadFile(pack, pack), 120000, 'game package');
+          await phaseTimeout(engine.preloadFile(packUrl, packVirtualPath), 120000, 'game package');
 
           app.dataset.startupPhase = 'initialize-webassembly';
           notice.textContent = 'Starting the game engine…';
-          await phaseTimeout(engine.init(config.executable), 120000, 'WebAssembly engine');
+          await phaseTimeout(engine.init(executableUrl), 120000, 'WebAssembly engine');
 
           app.dataset.startupPhase = 'start-generated-scene';
           notice.textContent = 'Entering the generated dining room…';
