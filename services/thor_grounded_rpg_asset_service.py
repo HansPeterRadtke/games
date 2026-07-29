@@ -663,6 +663,44 @@ def paths_for(key: str) -> dict[str, Path]:
     return {"png": CACHE / f"{key}.png", "gif": CACHE / f"{key}.gif", "sheet": CACHE / f"{key}.sheet.png", "meta": CACHE / f"{key}.json"}
 
 
+def canonical_paths_for(key: str) -> dict[str, Path]:
+    return {"png": CACHE / f"{key}.canonical-source.png", "meta": CACHE / f"{key}.canonical-source.json"}
+
+
+def generate_canonical_only(payload: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
+    key = request_key(payload)
+    paths = canonical_paths_for(key)
+    if paths["png"].exists() and paths["meta"].exists():
+        meta = json.loads(paths["meta"].read_text(encoding="utf-8"))
+        meta["cached"] = True
+        return paths["png"].read_bytes(), meta
+    started = time.monotonic()
+    image, review_meta, seed = generate_canonical(payload, key)
+    output = io.BytesIO()
+    image.convert("RGB").save(output, format="PNG")
+    png = output.getvalue()
+    meta = {
+        "ok": True,
+        "cached": False,
+        "key": key,
+        "engine": "sdxl-base-reviewed-canonical",
+        "kind": compact(payload.get("kind"), 30),
+        "asset_usage": asset_usage(payload),
+        "name": compact(payload.get("name"), 100),
+        "width": image.width,
+        "height": image.height,
+        "canonical_seed": seed,
+        "generation_seconds": round(time.monotonic() - started, 3),
+        "canonical_review": review_meta,
+        "source_has_alpha": False,
+        "fallback_used": False,
+        "png_path": str(paths["png"]),
+    }
+    paths["png"].write_bytes(png)
+    paths["meta"].write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return png, meta
+
+
 def generate(payload: dict[str, Any]) -> tuple[bytes, bytes, bytes, dict[str, Any]]:
     key = request_key(payload)
     paths = paths_for(key)
@@ -697,11 +735,12 @@ class Handler(BaseHTTPRequestHandler):
         print(json.dumps({"event": "access", "path": self.path, "message": fmt % args}), flush=True)
     def do_GET(self) -> None:
         if self.path.split("?", 1)[0] == "/health":
-            send_json(self, 200 if text_pipeline is not None else 503, {"ok": text_pipeline is not None, "loaded": text_pipeline is not None, "engine": "sdxl-base-canonical+sdxl-img2img-animation", "identity_anchored": True, "motion_generated": True, "checkpoint": SDXL_CHECKPOINT, "loaded_at": loaded_at, "load_error": load_error, "time": time.time()})
+            send_json(self, 200 if text_pipeline is not None else 503, {"ok": text_pipeline is not None, "loaded": text_pipeline is not None, "engine": "sdxl-base-canonical+sdxl-img2img-animation", "identity_anchored": True, "motion_generated": True, "checkpoint": SDXL_CHECKPOINT, "routes": ["/canonical", "/generate"], "canonical_engine": "sdxl-base-reviewed-canonical", "loaded_at": loaded_at, "load_error": load_error, "time": time.time()})
             return
         send_json(self, 404, {"ok": False, "error": "not found"})
     def do_POST(self) -> None:
-        if self.path.split("?", 1)[0] != "/generate":
+        route = self.path.split("?", 1)[0]
+        if route not in {"/generate", "/canonical"}:
             send_json(self, 404, {"ok": False, "error": "not found"}); return
         try:
             length = int(self.headers.get("Content-Length", "0") or "0")
@@ -715,6 +754,10 @@ class Handler(BaseHTTPRequestHandler):
                 send_json(self, 400, {"ok": False, "error": "missing fields", "missing": missing}); return
             if payload["kind"] not in SUPPORTED_KINDS:
                 send_json(self, 400, {"ok": False, "error": "unsupported kind", "supported": sorted(SUPPORTED_KINDS)}); return
+            if route == "/canonical":
+                png, meta = generate_canonical_only(payload)
+                send_json(self, 200, {"ok": True, "png_b64": base64.b64encode(png).decode("ascii"), **meta})
+                return
             png, gif, sheet, meta = generate(payload)
             send_json(self, 200, {"ok": True, "png_b64": base64.b64encode(png).decode("ascii"), "gif_b64": base64.b64encode(gif).decode("ascii"), "sheet_b64": base64.b64encode(sheet).decode("ascii"), **meta})
         except Exception as exc:
