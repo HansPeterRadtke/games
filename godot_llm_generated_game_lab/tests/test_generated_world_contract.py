@@ -13,4 +13,4 @@ assert 'holder.z_index = -130' in script
 assert 'vertical_offset' in script
 print('generated world runtime contracts passed')
 
-assert 'sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting' in script
+assert 'sdxl-reviewed-scene-assets+stableanimator-pose-driven-player' in script

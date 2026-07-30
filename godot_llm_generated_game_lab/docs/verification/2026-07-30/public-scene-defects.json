@@ -1,0 +1,10 @@
+{
+  "large_white_bars": false,
+  "rectangular_source_backgrounds": false,
+  "character_halos": false,
+  "severe_overlap": false,
+  "objects_too_small": false,
+  "scene_coherent": true,
+  "player_complete": true,
+  "mother_complete": true
+}

@@ -1,0 +1,71 @@
+{
+  "build_id": "your-mom-stableanimator-walk-v4",
+  "asset_engine": "sdxl-reviewed-scene-assets+stableanimator-pose-driven-player",
+  "public_url": "https://nitro.jonnyontherun.org/llm_game/",
+  "screenshot_sha256": "271de67e0b28ad52cd2a9292ebfce755b18a3203634132b22c464280df73df3e",
+  "recognizability_sha256": "12a18403690124c9f269c0dcc4f258b9441acc3a88db909b3b55c5948f1a981a",
+  "defects_sha256": "663f556ba6dbcdc7e046157809cd3a3229c121aa8eef049a6a9e90ae175f59de",
+  "objects": {
+    "player": {
+      "visible": true,
+      "recognizable": true,
+      "confidence": 0.9
+    },
+    "mother": {
+      "visible": true,
+      "recognizable": true,
+      "confidence": 0.9
+    },
+    "dining_table": {
+      "visible": true,
+      "recognizable": true,
+      "confidence": 0.9
+    },
+    "chandelier": {
+      "visible": true,
+      "recognizable": true,
+      "confidence": 0.9
+    },
+    "sideboard": {
+      "visible": true,
+      "recognizable": true,
+      "confidence": 0.9
+    },
+    "curtains": {
+      "visible": true,
+      "recognizable": true,
+      "confidence": 0.9
+    },
+    "wall_surface": {
+      "visible": true,
+      "recognizable": true,
+      "confidence": 0.9
+    },
+    "carpet": {
+      "visible": true,
+      "recognizable": true,
+      "confidence": 0.9
+    },
+    "kitchen_door": {
+      "visible": true,
+      "recognizable": true,
+      "confidence": 0.9
+    },
+    "cookies": {
+      "visible": true,
+      "recognizable": true,
+      "confidence": 0.9
+    }
+  },
+  "defects": {
+    "large_white_bars": false,
+    "rectangular_source_backgrounds": false,
+    "character_halos": false,
+    "severe_overlap": false,
+    "objects_too_small": false,
+    "scene_coherent": true,
+    "player_complete": true,
+    "mother_complete": true
+  },
+  "fallback_used": false
+}

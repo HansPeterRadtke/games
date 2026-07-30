@@ -2,7 +2,7 @@
 set -euo pipefail
 ROOT=/data/src/github/games/godot_llm_generated_game_lab
 PUBLIC=https://nitro.jonnyontherun.org/llm_game
-ENGINE=sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting
+ENGINE=sdxl-reviewed-scene-assets+stableanimator-pose-driven-player
 [[ $(hostname -s) == nitro ]]
 cd "$ROOT"
 systemctl is-active --quiet apache2
@@ -15,24 +15,33 @@ from PIL import Image,ImageSequence
 root=Path('/data/src/github/games/godot_llm_generated_game_lab')
 manifest=json.loads((root/'data/generated_world.json').read_text())
 assert manifest['version']==1 and manifest['complete'] is True and manifest['fallback_used'] is False
-assert manifest['asset_engine']=='sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting'
+assert manifest['asset_engine']=='sdxl-reviewed-scene-assets+stableanimator-pose-driven-player'
 assert manifest['gameplay_action_count']==30
 assert manifest['scene_plan']['scene_name']=='Dining Room'
 assert len(manifest['scene_plan']['player']['actions'])==3
 assert all(len(obj['actions'])==3 for obj in manifest['scene_plan']['objects'])
 assert len(manifest['assets'])==10
 player=manifest['assets']['player']
-assert player['temporal_model'] is True and player['native_video_frames'] is True and player['fallback_used'] is False
-assert set(player['clips'])=={'idle','player_interact','player_attack','player_use'}
+assert player['pose_driven'] is True and player['engine'] == 'StableAnimator' and player['fallback_used'] is False
+assert set(player['clips'])=={'idle','walk','player_interact','player_attack','player_use'}
 for name,clip in player['clips'].items():
-    assert clip['temporal_model'] is True and clip['native_video_frames'] is True and clip['fallback_used'] is False
-    assert clip['review_pass'] is True and clip['distinct_gif_frames']==9 and clip['frame_count']==9
+    assert clip['pose_driven'] is True and clip['engine'] == 'StableAnimator' and clip['fallback_used'] is False
+    assert clip['review_pass'] is True and clip['distinct_gif_frames'] >= clip['frame_count'] - (1 if name in {'idle','walk'} else 0)
+    assert clip['min_reference_cosine'] >= 0.60
+    assert clip['min_adjacent_identity_cosine'] >= 0.94
+    assert clip['max_foreground_coverage'] <= 0.65
+    assert clip['max_border_visible_ratio'] == 0.0
+    assert clip['pose_driver'].startswith('explicit-openpose-')
     with Image.open(root/clip['gif_path']) as image:
         frames=list(ImageSequence.Iterator(image))
-        assert len(frames)==9 and image.info.get('loop')==0
+        assert len(frames)==clip['frame_count'] and image.info.get('loop')==0
+assert player['clips']['walk']['semantic_motion']['semantic_pass'] is True
+assert player['clips']['walk']['semantic_motion']['body_joints_detected_each_frame'] == 17
+assert player['clips']['walk']['semantic_motion']['ankle_separation_range'] >= 0.4
 print(json.dumps({'manifest':'ok','engine':manifest['asset_engine'],'actions':manifest['gameplay_action_count'],'clips':list(player['clips'])}))
 PY
 /data/venv/bin/python3 tests/test_temporal_player_clips.py
+/data/venv/bin/python3 tests/test_scene_recognizability_evidence.py
 /data/venv/bin/python3 tests/test_generated_action_runtime.py
 parse_log=$(mktemp)
 trap 'rm -f "$parse_log"' EXIT
@@ -52,10 +61,19 @@ for base in http://127.0.0.1/llm_game "$PUBLIC"; do
 import json
 v=json.load(open('/tmp/temporal-public.json')); player=v['assets']['player']
 assert v['complete'] is True and v['fallback_used'] is False
-assert v['asset_engine']=='sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting'
+assert v['asset_engine']=='sdxl-reviewed-scene-assets+stableanimator-pose-driven-player'
 assert v['scene_name']=='Dining Room' and v['gameplay_action_count']==30 and len(v['assets'])==10
-assert set(player['clips'])=={'idle','player_interact','player_attack','player_use'}
-assert all(c['temporal_model'] is True and c['native_video_frames'] is True and c['fallback_used'] is False and c['review_pass'] is True and c['distinct_gif_frames']==9 for c in player['clips'].values())
+assert set(player['clips'])=={'idle','walk','player_interact','player_attack','player_use'}
+assert all(c['pose_driven'] is True and c['engine'] == 'StableAnimator' and c['fallback_used'] is False and c['review_pass'] is True and c['distinct_gif_frames'] >= c['frames'] - (1 if name in {'idle','walk'} else 0) and c['max_foreground_coverage'] <= 0.65 and c['max_border_visible_ratio'] == 0.0 for name,c in player['clips'].items())
+assert player['clips']['walk']['semantic_motion']['semantic_pass'] is True
+review=v['scene_review']
+expected={'player','mother','dining_table','chandelier','sideboard','curtains','wall_surface','carpet','kitchen_door','cookies'}
+assert set(review['recognizability'])==expected
+assert all(item['visible'] is True and item['recognizable'] is True and item['confidence']>=0.7 for item in review['recognizability'].values())
+for key in ['large_white_bars','rectangular_source_backgrounds','character_halos','severe_overlap','objects_too_small']:
+    assert review['defects'][key] is False,key
+assert review['defects']['scene_coherent'] is True
+assert review['defects']['player_complete'] is True and review['defects']['mother_complete'] is True
 PY
 done
 cmp web/index.pck /tmp/temporal-index.pck
@@ -64,7 +82,7 @@ curl -fsSI --max-time 15 "$PUBLIC/" -o /tmp/temporal-public-head.txt
 grep -qi 'cross-origin-opener-policy: same-origin' /tmp/temporal-public-head.txt
 grep -qi 'cross-origin-embedder-policy: require-corp' /tmp/temporal-public-head.txt
 grep -qi 'cross-origin-resource-policy: same-origin' /tmp/temporal-public-head.txt
-for clip in idle player_interact player_attack player_use; do
+for clip in idle walk player_interact player_attack player_use; do
     curl -fsSI --max-time 20 "$PUBLIC/generated_assets/player-clips/$clip/animation.gif" | grep -qi 'content-type: image/gif'
 done
 profile=$(mktemp -d /data/tmp/firefox-temporal-verify.XXXXXX)
@@ -95,4 +113,4 @@ for _ in $(seq 1 40); do grep -q 'WebDriver BiDi listening' "$firefox_log" && br
 grep -q 'WebDriver BiDi listening' "$firefox_log"
 NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost /data/venv/bin/python3 tests/verify_temporal_public_browser.py --websocket "ws://127.0.0.1:$firefox_port/session" --screenshot /data/tmp/your-mom-temporal-public.png
 ! grep -Eq 'Failed to create WebGL context|SCRIPT ERROR|Parse Error|Failed to load script|Generated world manifest is missing' "$firefox_log"
-printf 'verification=ok route=%s engine=%s actions=30 clips=4 browser=firefox_webgl time=%s\n' "$PUBLIC/" "$ENGINE" "$(date -Is)"
+printf 'verification=ok route=%s engine=%s actions=30 clips=5 browser=firefox_webgl time=%s\n' "$PUBLIC/" "$ENGINE" "$(date -Is)"

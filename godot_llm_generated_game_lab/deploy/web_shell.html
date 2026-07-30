@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="$GODOT_PROJECT_NAME">
-  <meta name="llm-game-build" content="your-mom-temporal-absolute-paths-v3">
+  <meta name="llm-game-build" content="your-mom-stableanimator-scene-v5">
   <title>$GODOT_PROJECT_NAME</title>
   $GODOT_HEAD_INCLUDE
   <style>
@@ -180,7 +180,7 @@
     <aside id="controls-panel" class="panel" aria-label="game controls and world status">
       <h2 class="panel-title">CONTROLS</h2>
       <div id="control-deck">
-        <div id="control-status">Loading reviewed LTX temporal clips and BiRefNet-matted game assets.</div>
+        <div id="control-status">Loading reviewed StableAnimator pose-driven clips and generated scene assets.</div>
         <div id="touch-controls" aria-label="touch game controls">
           <section id="stick" aria-label="movement joystick">
             <div id="stick-base"><div id="stick-thumb"></div></div>
@@ -377,6 +377,9 @@
           app.dataset.internalHeight = String(state.viewport_height ?? '');
           app.dataset.visibleObjects = JSON.stringify(state.visible_objects || []);
           app.dataset.lastActionId = String(state.last_action_id ?? '');
+          app.dataset.inventory = JSON.stringify(state.inventory || {});
+          app.dataset.gameStats = JSON.stringify(state.game_stats || {});
+          app.dataset.objectStates = JSON.stringify(state.object_states || {});
           app.dataset.assetEngine = String(state.asset_engine ?? '');
           const playerObject = (state.visible_objects || []).find(item => item.id === 'player');
           app.dataset.playerClip = String(playerObject?.clip ?? '');

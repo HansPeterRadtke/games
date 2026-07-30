@@ -17,7 +17,7 @@ assert 'Header always set Cross-Origin-Resource-Policy "same-origin"' in apache
 assert 'variant/thread_support=false' in preset
 assert 'html/custom_html_shell="res://deploy/web_shell.html"' in preset
 assert 'html/canvas_resize_policy=0' in preset
-assert 'your-mom-temporal-absolute-paths-v3' in shell
+assert 'your-mom-stableanimator-scene-v5' in shell
 assert 'Loading Your Mom — generated entirely by models' in shell
 assert "finishStartup('godotReady')" in shell
 assert "startupError = 'timeout'" in shell
@@ -35,8 +35,8 @@ web_exporter = Path(match.group(1))
 assert web_exporter.name == 'Godot_v4.6.1-stable_linux.x86_64'
 assert web_exporter.is_file() and web_exporter.stat().st_mode & 0o111
 assert '"$GODOT_WEB_BIN" --headless' in build
-assert 'your-mom-temporal-absolute-paths-v3' in build
-assert 'your-mom-temporal-absolute-paths-v3' in install
+assert 'your-mom-stableanimator-scene-v5' in build
+assert 'your-mom-stableanimator-scene-v5' in install
 assert 'build-generated-world.sh' in str(ROOT / 'deploy/build-generated-world.sh')
 assert 'compile_world_assets' in generated_build
 assert 'fallback_used' in generated_build
@@ -45,10 +45,18 @@ assert 'https://nitro.jonnyontherun.org/llm_game' in verify
 assert 'Cross-Origin-Opener-Policy' not in verify or 'cross-origin-opener-policy' in verify.lower()
 assert 'verify_temporal_public_browser.py' in verify
 assert 'firefox --no-remote' in verify and '"$PUBLIC/"' in verify
-assert 'engine=%s actions=30 clips=4' in verify
+assert 'engine=%s actions=30 clips=5' in verify
 for script in ['deploy/build-web.sh','deploy/install-nitro.sh','deploy/nitro-verify.sh','deploy/build-generated-world.sh']:
     assert (ROOT / script).is_file()
 print(f'deployment_contract ok exporter={web_exporter} generated_world=true public_browser=true')
 assert (ROOT / 'deploy/build-temporal-world.sh').is_file() and (ROOT / 'deploy/build-temporal-world.sh').stat().st_mode & 0o111
 assert 'verify_temporal_public_browser.py' in (ROOT / 'deploy/nitro-verify.sh').read_text() or 'verify_temporal_public_browser.py' in (ROOT / 'deploy/build-temporal-world.sh').read_text()
-assert 'sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting' in (ROOT / 'deploy/nitro-verify.sh').read_text() or 'sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting' in (ROOT / 'deploy/build-temporal-world.sh').read_text()
+assert 'sdxl-reviewed-scene-assets+stableanimator-pose-driven-player' in (ROOT / 'deploy/nitro-verify.sh').read_text() or 'sdxl-reviewed-scene-assets+stableanimator-pose-driven-player' in (ROOT / 'deploy/build-temporal-world.sh').read_text()
+
+preset=(ROOT/'export_presets.cfg').read_text()
+assert 'docs/**/*' in preset
+assert 'tests/**/*' in preset
+assert 'generated/world_assets/player/stableanimator/**/*' in preset
+assert 'clips/*/contact.png' in preset
+assert 'test_scene_recognizability_evidence.py' in (ROOT/'deploy/nitro-verify.sh').read_text()
+assert 'scene_review' in (ROOT/'deploy/build-temporal-world.sh').read_text()

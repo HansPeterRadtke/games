@@ -1,0 +1,112 @@
+{
+  "engine": "StableAnimator",
+  "motion_control": "explicit OpenPose/DWPose skeleton sequences",
+  "identity_encoder": "AntelopeV2 glintr100",
+  "reference_canonical": "your-mom-player-new-canonical.png",
+  "fallback_used": false,
+  "clips": {
+    "idle": {
+      "frame_count": 13,
+      "frame_width": 288,
+      "frame_height": 384,
+      "frame_duration_ms": 125,
+      "min_reference_cosine": 0.764722,
+      "min_adjacent_identity_cosine": 0.995317,
+      "max_foreground_coverage": 0.139287,
+      "max_border_visible_ratio": 0.0,
+      "pose_driver": "explicit-openpose-idle-v2",
+      "fallback_used": false,
+      "sha256": {
+        "gif": "466b88d2cb8636cbdaa8feeef9b811a4c9932a8e36f9821c8181f5ed3f32c6e3",
+        "sheet": "61ccf5da27a93662f82cd5f1e237c525dee6d55fbbbcd59ae766c16a780ba119",
+        "png": "8e3035c4cc83902fd6d980c2a3c0ac95ccbc725fb8819e9e01d8e3986512adf9",
+        "contact": "cb93b8e55a472b0eba808fbe157fbc747b7c6ff78e7b67f3399a3713ee22ec90",
+        "meta": "e57c4d211de5fe85d615f562437fa68259a0f258e0f12f385ede9b3e835eef07"
+      }
+    },
+    "walk": {
+      "frame_count": 17,
+      "frame_width": 288,
+      "frame_height": 384,
+      "frame_duration_ms": 125,
+      "min_reference_cosine": 0.637491,
+      "min_adjacent_identity_cosine": 0.948179,
+      "max_foreground_coverage": 0.164849,
+      "max_border_visible_ratio": 0.0,
+      "pose_driver": "explicit-openpose-walk-v2",
+      "fallback_used": false,
+      "sha256": {
+        "gif": "9abe31eeb345e2a3adad5f836cbd1d541bb995784f55e102ef71fba9be714d95",
+        "sheet": "d98826f5bb27d93a079292d1b0666f9eacfa2241de8e1deb3b1c709dbd2386fb",
+        "png": "1bc04d9a2d2b0f2154100d8e2ef2a1d3d94f0bc4b5e33f11aff1ca47dd262000",
+        "contact": "ca73bce0b5bca7148a773e22329d36805fc8beab7bf9338d4157af335cb2a243",
+        "meta": "395341e9e5b32d1c2461e764aea47dc5da07eb9c844c7221ca668572198ddfd8"
+      },
+      "semantic_motion": {
+        "pose_model": "DWPose dw-ll_ucoco_384",
+        "body_joints_detected_each_frame": 17,
+        "ankle_separation_range": 0.417126,
+        "right_wrist_range": 0.29349,
+        "left_wrist_range": 0.125794,
+        "semantic_pass": true
+      }
+    },
+    "player_interact": {
+      "frame_count": 16,
+      "frame_width": 288,
+      "frame_height": 384,
+      "frame_duration_ms": 125,
+      "min_reference_cosine": 0.793183,
+      "min_adjacent_identity_cosine": 0.973039,
+      "max_foreground_coverage": 0.170944,
+      "max_border_visible_ratio": 0.0,
+      "pose_driver": "explicit-openpose-player_interact-v2",
+      "fallback_used": false,
+      "sha256": {
+        "gif": "7e6db47beafcf4a51e893e3f71fa4fbc0cf474199a1dbbcb035515034e5ab48e",
+        "sheet": "671c93759a7c4009803bbd86bfabe2d2ac69f7636168f82cb28f32ce5a542819",
+        "png": "ed8b41cfdd0b6ff9a5b95e5da93ac973ba8bf31ca3fa92013b0498e09aff7081",
+        "contact": "12dfe2f08b732e66d36291deb633acfe456f0566769a9fbac9f2bf0206be8be5",
+        "meta": "7c78bf506f79875da75820101659228cba1f6bdc2b55e8d2b50cb2cf3f962b74"
+      }
+    },
+    "player_attack": {
+      "frame_count": 16,
+      "frame_width": 288,
+      "frame_height": 384,
+      "frame_duration_ms": 125,
+      "min_reference_cosine": 0.745207,
+      "min_adjacent_identity_cosine": 0.941517,
+      "max_foreground_coverage": 0.211127,
+      "max_border_visible_ratio": 0.0,
+      "pose_driver": "explicit-openpose-player_attack-v2",
+      "fallback_used": false,
+      "sha256": {
+        "gif": "9059e5de1120c857a80ce885985c2ca50803427b5f2802119d81744793471b9f",
+        "sheet": "2315e4dae33c6b1d791df6c27201d7c80fa0a7ebd8f2936b3bf0f597aaa0f3c4",
+        "png": "dc0515c24bda7d117348501d4ad9cecf377bdab5dd93735f50f2d149020f2507",
+        "contact": "5831d6125a2ebc955a6356caa30c9491cca84f29289754228c3eb65b7d2aefae",
+        "meta": "a41450de26cdaf505f83f0864f4b7254919e40b6e896079f88c032a2a72bae1f"
+      }
+    },
+    "player_use": {
+      "frame_count": 16,
+      "frame_width": 288,
+      "frame_height": 384,
+      "frame_duration_ms": 125,
+      "min_reference_cosine": 0.773776,
+      "min_adjacent_identity_cosine": 0.978865,
+      "max_foreground_coverage": 0.166196,
+      "max_border_visible_ratio": 0.0,
+      "pose_driver": "explicit-openpose-player_use-v2",
+      "fallback_used": false,
+      "sha256": {
+        "gif": "125da62ed4c65c93508562d4045c97b8487acf7c1d97bdecc38358647dcb9985",
+        "sheet": "0e6a1f8ffce68a0be8133174c7478fb174d2c6b58c6801bf977e02f3d24a3b0d",
+        "png": "415c6f6d3ca5a6a06063d7e19e150cda701063cb9ac6a4d0f2be276c19a92254",
+        "contact": "61afc488d9ee74d3964fe31cf0d740c1b2f84add8aede4b5e22a7674b43b38fd",
+        "meta": "766b4e17a074e8de4d4a8412cf9df5c3699c30cd6c09595302249d6026e6eebd"
+      }
+    }
+  }
+}

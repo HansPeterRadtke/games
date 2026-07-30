@@ -66,7 +66,7 @@ assert "viewport-fit=cover" in html
 assert 'html/custom_html_shell="res://deploy/web_shell.html"' in PRESET
 assert 'html/canvas_resize_policy=0' in PRESET
 assert 'html/head_include=""' in PRESET
-assert "your-mom-temporal-absolute-paths-v3" in html
+assert "your-mom-stableanimator-scene-v5" in html
 assert "transform:scale(.84)" not in html
 assert "interface_canvas.visible = false" in MAIN
 assert "window.llmGameGodotMove = _web_move_callback" in MAIN
@@ -98,3 +98,6 @@ assert 'engine.init(executableUrl)' in html
 assert 'executable: executableUrl' in html
 assert 'engine.preloadFile(pack, pack)' not in html
 assert 'engine.init(config.executable)' not in html
+assert 'app.dataset.inventory' in html
+assert 'app.dataset.gameStats' in html
+assert 'app.dataset.objectStates' in html

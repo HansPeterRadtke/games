@@ -1,0 +1,694 @@
+{
+  "state": {
+    "godotReady": "true",
+    "startupComplete": "true",
+    "startupError": "",
+    "assetEngine": "sdxl-reviewed-scene-assets+stableanimator-pose-driven-player",
+    "canvas": {
+      "left": 230,
+      "top": 0,
+      "width": 672,
+      "height": 725,
+      "internalWidth": 672,
+      "internalHeight": 725
+    },
+    "objects": [
+      {
+        "available_clips": [
+          "idle"
+        ],
+        "clip": "idle",
+        "frame": 2,
+        "frame_count": 8,
+        "height": 158,
+        "id": "mom",
+        "name": "Your Mom",
+        "playing": true,
+        "texture_loaded": true,
+        "usage": "character_sprite",
+        "visible": true,
+        "width": 96,
+        "x": 288,
+        "y": 263.075988769531
+      },
+      {
+        "available_clips": [
+          "idle"
+        ],
+        "clip": "idle",
+        "frame": 4,
+        "frame_count": 6,
+        "height": 68,
+        "id": "dining_table",
+        "name": "Dining Table",
+        "playing": true,
+        "texture_loaded": true,
+        "usage": "isolated_sprite",
+        "visible": true,
+        "width": 104.400001525879,
+        "x": 283.799999237061,
+        "y": 289.571990966797
+      },
+      {
+        "available_clips": [
+          "idle"
+        ],
+        "clip": "idle",
+        "frame": 4,
+        "frame_count": 6,
+        "height": 76,
+        "id": "chandelier",
+        "name": "Chandelier",
+        "playing": true,
+        "texture_loaded": true,
+        "usage": "isolated_sprite",
+        "visible": true,
+        "width": 76,
+        "x": 298,
+        "y": 247.220001220703
+      },
+      {
+        "available_clips": [
+          "idle"
+        ],
+        "clip": "idle",
+        "frame": 4,
+        "frame_count": 6,
+        "height": 68,
+        "id": "sideboard",
+        "name": "Sideboard",
+        "playing": true,
+        "texture_loaded": true,
+        "usage": "isolated_sprite",
+        "visible": true,
+        "width": 68,
+        "x": 388.399993896484,
+        "y": 233.268005371094
+      },
+      {
+        "available_clips": [
+          "idle"
+        ],
+        "clip": "idle",
+        "frame": 4,
+        "frame_count": 6,
+        "height": 152.75520324707,
+        "id": "curtains",
+        "name": "Curtains",
+        "playing": true,
+        "texture_loaded": true,
+        "usage": "background_layer",
+        "visible": true,
+        "width": 288,
+        "x": 192,
+        "y": 107.792793273926
+      },
+      {
+        "available_clips": [
+          "idle"
+        ],
+        "clip": "idle",
+        "frame": 4,
+        "frame_count": 6,
+        "height": 195.839996337891,
+        "id": "wall_finish",
+        "name": "Wall Finish",
+        "playing": true,
+        "texture_loaded": true,
+        "usage": "tileable_texture",
+        "visible": true,
+        "width": 576,
+        "x": 48,
+        "y": 74.5
+      },
+      {
+        "available_clips": [
+          "idle"
+        ],
+        "clip": "idle",
+        "frame": 4,
+        "frame_count": 6,
+        "height": 380.160003662109,
+        "id": "floor_carpet",
+        "name": "Floor Carpet",
+        "playing": true,
+        "texture_loaded": true,
+        "usage": "tileable_texture",
+        "visible": true,
+        "width": 576,
+        "x": 48,
+        "y": 270.34001159668
+      },
+      {
+        "available_clips": [
+          "idle"
+        ],
+        "clip": "idle",
+        "frame": 4,
+        "frame_count": 6,
+        "height": 161.279998779297,
+        "id": "kitchen_door",
+        "name": "Kitchen Door",
+        "playing": true,
+        "texture_loaded": true,
+        "usage": "background_layer",
+        "visible": true,
+        "width": 82,
+        "x": 237.399993896484,
+        "y": 37.2040023803711
+      },
+      {
+        "available_clips": [
+          "idle"
+        ],
+        "clip": "idle",
+        "frame": 4,
+        "frame_count": 6,
+        "height": 68,
+        "id": "cookies",
+        "name": "Cookies",
+        "playing": true,
+        "texture_loaded": true,
+        "usage": "isolated_sprite",
+        "visible": true,
+        "width": 68,
+        "x": 359.600006103516,
+        "y": 233.268005371094
+      },
+      {
+        "available_clips": [
+          "idle",
+          "player_attack",
+          "player_interact",
+          "player_use",
+          "walk"
+        ],
+        "clip": "idle",
+        "frame": 11,
+        "frame_count": 13,
+        "height": 158,
+        "id": "player",
+        "name": "Player",
+        "playing": true,
+        "texture_loaded": true,
+        "usage": "character_sprite",
+        "visible": true,
+        "width": 96,
+        "x": 243.938720703125,
+        "y": 217.140014648438
+      }
+    ]
+  },
+  "objects": [
+    {
+      "id": "mom",
+      "name": "Your Mom",
+      "clip": "idle",
+      "frame": 2,
+      "frame_count": 8,
+      "playing": true,
+      "visible": true,
+      "texture_loaded": true,
+      "usage": "character_sprite",
+      "rect_internal": [
+        288.0,
+        263.075988769531,
+        96.0,
+        158.0
+      ],
+      "roi_pixels": [
+        288,
+        263,
+        384,
+        422
+      ],
+      "roi_size": [
+        96,
+        159
+      ],
+      "mean": [
+        54.42,
+        44.67,
+        40.97
+      ],
+      "stddev": [
+        65.47,
+        56.78,
+        51.46
+      ],
+      "position": [
+        0,
+        0.9,
+        2
+      ],
+      "size": [
+        0.5,
+        1.8,
+        0.5
+      ],
+      "visual_usage": "character_sprite",
+      "type": "npc"
+    },
+    {
+      "id": "dining_table",
+      "name": "Dining Table",
+      "clip": "idle",
+      "frame": 4,
+      "frame_count": 6,
+      "playing": true,
+      "visible": true,
+      "texture_loaded": true,
+      "usage": "isolated_sprite",
+      "rect_internal": [
+        283.799999237061,
+        289.571990966797,
+        104.400001525879,
+        68.0
+      ],
+      "roi_pixels": [
+        283,
+        289,
+        389,
+        358
+      ],
+      "roi_size": [
+        106,
+        69
+      ],
+      "mean": [
+        69.17,
+        59.64,
+        55.17
+      ],
+      "stddev": [
+        76.46,
+        66.23,
+        60.12
+      ],
+      "position": [
+        0,
+        0.8,
+        0
+      ],
+      "size": [
+        2.5,
+        0.8,
+        2.5
+      ],
+      "visual_usage": "isolated_sprite",
+      "type": "static_prop"
+    },
+    {
+      "id": "chandelier",
+      "name": "Chandelier",
+      "clip": "idle",
+      "frame": 4,
+      "frame_count": 6,
+      "playing": true,
+      "visible": true,
+      "texture_loaded": true,
+      "usage": "isolated_sprite",
+      "rect_internal": [
+        298.0,
+        247.220001220703,
+        76.0,
+        76.0
+      ],
+      "roi_pixels": [
+        298,
+        247,
+        374,
+        324
+      ],
+      "roi_size": [
+        76,
+        77
+      ],
+      "mean": [
+        55.31,
+        44.82,
+        40.1
+      ],
+      "stddev": [
+        66.97,
+        57.96,
+        50.53
+      ],
+      "position": [
+        0,
+        3.5,
+        0
+      ],
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "visual_usage": "isolated_sprite",
+      "type": "static_prop"
+    },
+    {
+      "id": "sideboard",
+      "name": "Sideboard",
+      "clip": "idle",
+      "frame": 4,
+      "frame_count": 6,
+      "playing": true,
+      "visible": true,
+      "texture_loaded": true,
+      "usage": "isolated_sprite",
+      "rect_internal": [
+        388.399993896484,
+        233.268005371094,
+        68.0,
+        68.0
+      ],
+      "roi_pixels": [
+        388,
+        233,
+        457,
+        302
+      ],
+      "roi_size": [
+        69,
+        69
+      ],
+      "mean": [
+        75.91,
+        58.71,
+        46.49
+      ],
+      "stddev": [
+        76.69,
+        67.34,
+        58.48
+      ],
+      "position": [
+        3,
+        0.7,
+        -2
+      ],
+      "size": [
+        1,
+        1,
+        1
+      ],
+      "visual_usage": "isolated_sprite",
+      "type": "static_prop"
+    },
+    {
+      "id": "curtains",
+      "name": "Curtains",
+      "clip": "idle",
+      "frame": 4,
+      "frame_count": 6,
+      "playing": true,
+      "visible": true,
+      "texture_loaded": true,
+      "usage": "background_layer",
+      "rect_internal": [
+        192.0,
+        107.792793273926,
+        288.0,
+        152.75520324707
+      ],
+      "roi_pixels": [
+        192,
+        107,
+        480,
+        261
+      ],
+      "roi_size": [
+        288,
+        154
+      ],
+      "mean": [
+        41.47,
+        29.13,
+        24.09
+      ],
+      "stddev": [
+        47.62,
+        33.24,
+        25.46
+      ],
+      "position": [
+        0,
+        1.5,
+        0
+      ],
+      "size": [
+        10,
+        2,
+        10
+      ],
+      "visual_usage": "background_layer",
+      "type": "static_prop"
+    },
+    {
+      "id": "wall_finish",
+      "name": "Wall Finish",
+      "clip": "idle",
+      "frame": 4,
+      "frame_count": 6,
+      "playing": true,
+      "visible": true,
+      "texture_loaded": true,
+      "usage": "tileable_texture",
+      "rect_internal": [
+        48.0,
+        74.5,
+        576.0,
+        195.839996337891
+      ],
+      "roi_pixels": [
+        48,
+        74,
+        624,
+        271
+      ],
+      "roi_size": [
+        576,
+        197
+      ],
+      "mean": [
+        35.13,
+        26.23,
+        23.29
+      ],
+      "stddev": [
+        42.27,
+        31.31,
+        23.9
+      ],
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        20,
+        3,
+        20
+      ],
+      "visual_usage": "tileable_texture",
+      "type": "surface"
+    },
+    {
+      "id": "floor_carpet",
+      "name": "Floor Carpet",
+      "clip": "idle",
+      "frame": 4,
+      "frame_count": 6,
+      "playing": true,
+      "visible": true,
+      "texture_loaded": true,
+      "usage": "tileable_texture",
+      "rect_internal": [
+        48.0,
+        270.34001159668,
+        576.0,
+        380.160003662109
+      ],
+      "roi_pixels": [
+        48,
+        270,
+        624,
+        651
+      ],
+      "roi_size": [
+        576,
+        381
+      ],
+      "mean": [
+        25.61,
+        20.8,
+        20.96
+      ],
+      "stddev": [
+        26.84,
+        22.71,
+        18.76
+      ],
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        20,
+        0.05,
+        20
+      ],
+      "visual_usage": "tileable_texture",
+      "type": "surface"
+    },
+    {
+      "id": "kitchen_door",
+      "name": "Kitchen Door",
+      "clip": "idle",
+      "frame": 4,
+      "frame_count": 6,
+      "playing": true,
+      "visible": true,
+      "texture_loaded": true,
+      "usage": "background_layer",
+      "rect_internal": [
+        237.399993896484,
+        37.2040023803711,
+        82.0,
+        161.279998779297
+      ],
+      "roi_pixels": [
+        237,
+        37,
+        320,
+        199
+      ],
+      "roi_size": [
+        83,
+        162
+      ],
+      "mean": [
+        125.63,
+        79.0,
+        48.53
+      ],
+      "stddev": [
+        52.22,
+        46.43,
+        46.89
+      ],
+      "position": [
+        -2,
+        1.1,
+        -2
+      ],
+      "size": [
+        0.7,
+        2,
+        0.7
+      ],
+      "visual_usage": "background_layer",
+      "type": "static_prop"
+    },
+    {
+      "id": "cookies",
+      "name": "Cookies",
+      "clip": "idle",
+      "frame": 4,
+      "frame_count": 6,
+      "playing": true,
+      "visible": true,
+      "texture_loaded": true,
+      "usage": "isolated_sprite",
+      "rect_internal": [
+        359.600006103516,
+        233.268005371094,
+        68.0,
+        68.0
+      ],
+      "roi_pixels": [
+        359,
+        233,
+        428,
+        302
+      ],
+      "roi_size": [
+        69,
+        69
+      ],
+      "mean": [
+        78.52,
+        60.9,
+        48.07
+      ],
+      "stddev": [
+        81.35,
+        69.78,
+        59.6
+      ],
+      "position": [
+        2,
+        0.7,
+        -2
+      ],
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "visual_usage": "isolated_sprite",
+      "type": "static_prop"
+    },
+    {
+      "id": "player",
+      "name": "Player",
+      "clip": "idle",
+      "frame": 11,
+      "frame_count": 13,
+      "playing": true,
+      "visible": true,
+      "texture_loaded": true,
+      "usage": "character_sprite",
+      "rect_internal": [
+        243.938720703125,
+        217.140014648438,
+        96.0,
+        158.0
+      ],
+      "roi_pixels": [
+        243,
+        217,
+        340,
+        376
+      ],
+      "roi_size": [
+        97,
+        159
+      ],
+      "mean": [
+        39.6,
+        33.35,
+        32.54
+      ],
+      "stddev": [
+        49.12,
+        43.19,
+        40.61
+      ],
+      "position": [
+        -1.5,
+        0,
+        0
+      ],
+      "size": [
+        0.5,
+        1.8,
+        0.5
+      ],
+      "visual_usage": "character_sprite",
+      "type": null
+    }
+  ]
+}

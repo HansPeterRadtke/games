@@ -1,66 +1,2122 @@
 {
   "complete": true,
   "fallback_used": false,
-  "asset_engine": "sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting",
+  "asset_engine": "sdxl-reviewed-scene-assets+stableanimator-pose-driven-player",
   "scene_name": "Dining Room",
   "gameplay_action_count": 30,
+  "build_id": "your-mom-stableanimator-scene-v5",
+  "scene_review": {
+    "recognizability": {
+      "player": {
+        "visible": true,
+        "recognizable": true,
+        "confidence": 0.9
+      },
+      "mother": {
+        "visible": true,
+        "recognizable": true,
+        "confidence": 0.9
+      },
+      "dining_table": {
+        "visible": true,
+        "recognizable": true,
+        "confidence": 0.9
+      },
+      "chandelier": {
+        "visible": true,
+        "recognizable": true,
+        "confidence": 0.9
+      },
+      "sideboard": {
+        "visible": true,
+        "recognizable": true,
+        "confidence": 0.9
+      },
+      "curtains": {
+        "visible": true,
+        "recognizable": true,
+        "confidence": 0.9
+      },
+      "wall_surface": {
+        "visible": true,
+        "recognizable": true,
+        "confidence": 0.9
+      },
+      "carpet": {
+        "visible": true,
+        "recognizable": true,
+        "confidence": 0.9
+      },
+      "kitchen_door": {
+        "visible": true,
+        "recognizable": true,
+        "confidence": 0.9
+      },
+      "cookies": {
+        "visible": true,
+        "recognizable": true,
+        "confidence": 0.9
+      }
+    },
+    "defects": {
+      "large_white_bars": false,
+      "rectangular_source_backgrounds": false,
+      "character_halos": false,
+      "severe_overlap": false,
+      "objects_too_small": false,
+      "scene_coherent": true,
+      "player_complete": true,
+      "mother_complete": true
+    },
+    "screenshot_sha256": "271de67e0b28ad52cd2a9292ebfce755b18a3203634132b22c464280df73df3e",
+    "evidence_sha256": "7906e287a54381cdcc319920d622db0f37db57f52ed4b2c998e673964194c2dc"
+  },
   "assets": {
     "player": {
       "gif": "generated_assets/player.gif",
       "png": "generated_assets/player.png",
       "sheet": "generated_assets/player.sheet.png",
-      "frames": 9,
-      "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
-      "temporal_model": true,
+      "frames": 13,
+      "engine": "StableAnimator",
+      "pose_driven": true,
       "fallback_used": false,
       "clips": {
         "idle": {
           "gif": "generated_assets/player-clips/idle/animation.gif",
           "png": "generated_assets/player-clips/idle/canonical.png",
           "sheet": "generated_assets/player-clips/idle/animation.sheet.png",
-          "frames": 9,
-          "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
-          "temporal_model": true,
-          "native_video_frames": true,
+          "frames": 13,
+          "engine": "StableAnimator",
+          "pose_driven": true,
+          "motion_control": "explicit OpenPose/DWPose skeleton sequence",
+          "pose_driver": "explicit-openpose-idle-v2",
+          "identity_encoder": "AntelopeV2 glintr100",
+          "min_reference_cosine": 0.764722,
+          "min_adjacent_identity_cosine": 0.995317,
+          "max_foreground_coverage": 0.139287,
+          "max_border_visible_ratio": 0.0,
+          "semantic_motion": {},
           "fallback_used": false,
           "review_pass": true,
-          "distinct_gif_frames": 9
+          "distinct_gif_frames": 12
+        },
+        "walk": {
+          "gif": "generated_assets/player-clips/walk/animation.gif",
+          "png": "generated_assets/player-clips/walk/canonical.png",
+          "sheet": "generated_assets/player-clips/walk/animation.sheet.png",
+          "frames": 17,
+          "engine": "StableAnimator",
+          "pose_driven": true,
+          "motion_control": "explicit OpenPose/DWPose skeleton sequence",
+          "pose_driver": "explicit-openpose-walk-v2",
+          "identity_encoder": "AntelopeV2 glintr100",
+          "min_reference_cosine": 0.637491,
+          "min_adjacent_identity_cosine": 0.948179,
+          "max_foreground_coverage": 0.164849,
+          "max_border_visible_ratio": 0.0,
+          "semantic_motion": {
+            "pose_model": "DWPose dw-ll_ucoco_384",
+            "body_joints_detected_each_frame": 17,
+            "ankle_separation_range": 0.417126,
+            "right_wrist_range": 0.29349,
+            "left_wrist_range": 0.125794,
+            "semantic_pass": true
+          },
+          "fallback_used": false,
+          "review_pass": true,
+          "distinct_gif_frames": 16
         },
         "player_interact": {
           "gif": "generated_assets/player-clips/player_interact/animation.gif",
           "png": "generated_assets/player-clips/player_interact/canonical.png",
           "sheet": "generated_assets/player-clips/player_interact/animation.sheet.png",
-          "frames": 9,
-          "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
-          "temporal_model": true,
-          "native_video_frames": true,
+          "frames": 16,
+          "engine": "StableAnimator",
+          "pose_driven": true,
+          "motion_control": "explicit OpenPose/DWPose skeleton sequence",
+          "pose_driver": "explicit-openpose-player_interact-v2",
+          "identity_encoder": "AntelopeV2 glintr100",
+          "min_reference_cosine": 0.793183,
+          "min_adjacent_identity_cosine": 0.973039,
+          "max_foreground_coverage": 0.170944,
+          "max_border_visible_ratio": 0.0,
+          "semantic_motion": {
+            "frames": 16,
+            "min_reference_cosine": 0.7931830286979675,
+            "mean_reference_cosine": 0.8338001370429993,
+            "min_adjacent_identity_cosine": 0.9730386137962341,
+            "wrist_range": 0.46034812221478205,
+            "wrist_path": 1.7859034781775007,
+            "hand_to_face_distance_range": 0.12541293654628138,
+            "nose_motion_range": 0.07441888398655772,
+            "ankle_separation_range": 0.26595173600071575,
+            "max_foreground_coverage": 0.13742,
+            "max_border_visible_ratio": 0.0,
+            "min_component_ratio": 1.0,
+            "max_boundary_matte_ratio": 0.00999,
+            "pose_rows": [
+              {
+                "frame": 0,
+                "body_confident": 17,
+                "nose": [
+                  0.49952870239212643,
+                  0.1374390849523479
+                ],
+                "right_wrist": [
+                  0.3702916205729707,
+                  0.4805858194376924
+                ],
+                "left_wrist": [
+                  0.6183673983177869,
+                  0.47612936834048014
+                ],
+                "right_ankle": [
+                  0.44605128922557924,
+                  0.8920648040802917
+                ],
+                "left_ankle": [
+                  0.5604335340540274,
+                  0.8905793203812209
+                ]
+              },
+              {
+                "frame": 1,
+                "body_confident": 17,
+                "nose": [
+                  0.5036116658448009,
+                  0.13800467051623855
+                ],
+                "right_wrist": [
+                  0.369981861585984,
+                  0.4780182835747837
+                ],
+                "left_wrist": [
+                  0.6223937140748603,
+                  0.47207918116328074
+                ],
+                "right_ankle": [
+                  0.4382815393182682,
+                  0.892270676777116
+                ],
+                "left_ankle": [
+                  0.5615179143569549,
+                  0.8907859011742403
+                ]
+              },
+              {
+                "frame": 2,
+                "body_confident": 17,
+                "nose": [
+                  0.5114332011338169,
+                  0.13707735975670698
+                ],
+                "right_wrist": [
+                  0.36915100364907016,
+                  0.4720333663353813
+                ],
+                "left_wrist": [
+                  0.6374122301567695,
+                  0.4601765165449856
+                ],
+                "right_ankle": [
+                  0.4343636774962458,
+                  0.8929515338944232
+                ],
+                "left_ankle": [
+                  0.5633069189667973,
+                  0.8899873214468244
+                ]
+              },
+              {
+                "frame": 3,
+                "body_confident": 16,
+                "nose": [
+                  0.505604579554832,
+                  0.13545058916982577
+                ],
+                "right_wrist": [
+                  0.3721367168303308,
+                  0.4498415546986507
+                ],
+                "left_wrist": [
+                  0.37658564558781404,
+                  0.44835857844615634
+                ],
+                "right_ankle": [
+                  0.4373876719400869,
+                  0.8917684779419992
+                ],
+                "left_ankle": [
+                  0.5604747008971268,
+                  0.8873195491845158
+                ]
+              },
+              {
+                "frame": 4,
+                "body_confident": 15,
+                "nose": [
+                  0.5045419164210518,
+                  0.13381283668907895
+                ],
+                "right_wrist": [
+                  0.36098680055026,
+                  0.4253629173751202
+                ],
+                "left_wrist": [
+                  0.36098680055026,
+                  0.47272130611600005
+                ],
+                "right_ankle": [
+                  0.4364642326060373,
+                  0.8930270061913081
+                ],
+                "left_ankle": [
+                  0.5445005569211692,
+                  0.8900671068950032
+                ]
+              },
+              {
+                "frame": 5,
+                "body_confident": 17,
+                "nose": [
+                  0.4696202871224765,
+                  0.13354459884673509
+                ],
+                "right_wrist": [
+                  0.759040380056831,
+                  0.34470313603863656
+                ],
+                "left_wrist": [
+                  0.35001300381797285,
+                  0.4849832831241656
+                ],
+                "right_ankle": [
+                  0.5419753103560652,
+                  0.8910573931085914
+                ],
+                "left_ankle": [
+                  0.4282745595604258,
+                  0.8910573931085914
+                ]
+              },
+              {
+                "frame": 6,
+                "body_confident": 17,
+                "nose": [
+                  0.49441437270676647,
+                  0.1304870792397802
+                ],
+                "right_wrist": [
+                  0.78457119645221,
+                  0.3160696162546326
+                ],
+                "left_wrist": [
+                  0.34712664491720113,
+                  0.4869233804905282
+                ],
+                "right_ankle": [
+                  0.5533294638225925,
+                  0.8919646319118328
+                ],
+                "left_ankle": [
+                  0.4163518769782968,
+                  0.8919646319118328
+                ]
+              },
+              {
+                "frame": 7,
+                "body_confident": 17,
+                "nose": [
+                  0.460349739430967,
+                  0.13483207101307926
+                ],
+                "right_wrist": [
+                  0.8013793261561659,
+                  0.297227112310793
+                ],
+                "left_wrist": [
+                  0.34519689196531544,
+                  0.48324325052453787
+                ],
+                "right_ankle": [
+                  0.5518814899805875,
+                  0.8921834908833262
+                ],
+                "left_ankle": [
+                  0.4263944126141723,
+                  0.8921834908833262
+                ]
+              },
+              {
+                "frame": 8,
+                "body_confident": 17,
+                "nose": [
+                  0.43701431714725913,
+                  0.13156371950753964
+                ],
+                "right_wrist": [
+                  0.8099167816253612,
+                  0.28927345744887134
+                ],
+                "left_wrist": [
+                  0.3426832589393598,
+                  0.4838312650026637
+                ],
+                "right_ankle": [
+                  0.5460846032001427,
+                  0.8906339535242296
+                ],
+                "left_ankle": [
+                  0.4178533209487796,
+                  0.8935817990932264
+                ]
+              },
+              {
+                "frame": 9,
+                "body_confident": 17,
+                "nose": [
+                  0.45699463102937443,
+                  0.13344577464643703
+                ],
+                "right_wrist": [
+                  0.8038421029729459,
+                  0.29727585713893256
+                ],
+                "left_wrist": [
+                  0.3462986293452559,
+                  0.4832451399682518
+                ],
+                "right_ankle": [
+                  0.5514552191331556,
+                  0.8920823728549294
+                ],
+                "left_ankle": [
+                  0.42599975055782124,
+                  0.8920823728549294
+                ]
+              },
+              {
+                "frame": 10,
+                "body_confident": 17,
+                "nose": [
+                  0.4731879644702227,
+                  0.13131600906490348
+                ],
+                "right_wrist": [
+                  0.7826444837143451,
+                  0.31846352308396786
+                ],
+                "left_wrist": [
+                  0.3449845493548006,
+                  0.48498060248675756
+                ],
+                "right_ankle": [
+                  0.5483416905723668,
+                  0.8916948849218898
+                ],
+                "left_ankle": [
+                  0.41277026309398934,
+                  0.8916948849218898
+                ]
+              },
+              {
+                "frame": 11,
+                "body_confident": 17,
+                "nose": [
+                  0.4720960943704995,
+                  0.13204015305018402
+                ],
+                "right_wrist": [
+                  0.34956865941057913,
+                  0.34018916906643426
+                ],
+                "left_wrist": [
+                  0.35252112772286637,
+                  0.49519375546151423
+                ],
+                "right_ankle": [
+                  0.4720960943704995,
+                  0.8923007434641477
+                ],
+                "left_ankle": [
+                  0.5444315680215368,
+                  0.890824509308004
+                ]
+              },
+              {
+                "frame": 12,
+                "body_confident": 17,
+                "nose": [
+                  0.4846655928389131,
+                  0.13277610341659363
+                ],
+                "right_wrist": [
+                  0.7301079208288379,
+                  0.4033540915018723
+                ],
+                "left_wrist": [
+                  0.357508724121241,
+                  0.4787610717879336
+                ],
+                "right_ankle": [
+                  0.45509422802084987,
+                  0.8927601792408191
+                ],
+                "left_ankle": [
+                  0.5423297542341363,
+                  0.8898030427590129
+                ]
+              },
+              {
+                "frame": 13,
+                "body_confident": 16,
+                "nose": [
+                  0.49348923811097245,
+                  0.13374033213040093
+                ],
+                "right_wrist": [
+                  0.3733897570103485,
+                  0.4510401957789629
+                ],
+                "left_wrist": [
+                  0.3763551762967836,
+                  0.4510401957789629
+                ],
+                "right_ankle": [
+                  0.43714627166870446,
+                  0.8914049598145843
+                ],
+                "left_ankle": [
+                  0.561693881698981,
+                  0.8869568308849316
+                ]
+              },
+              {
+                "frame": 14,
+                "body_confident": 17,
+                "nose": [
+                  0.5098873699171236,
+                  0.13534019625512883
+                ],
+                "right_wrist": [
+                  0.3705359903688077,
+                  0.47185895324946614
+                ],
+                "left_wrist": [
+                  0.38091322076070355,
+                  0.4644466458266834
+                ],
+                "right_ankle": [
+                  0.435764295689296,
+                  0.8913955533789704
+                ],
+                "left_ankle": [
+                  0.564738444845716,
+                  0.8899130918944138
+                ]
+              },
+              {
+                "frame": 15,
+                "body_confident": 17,
+                "nose": [
+                  0.4959756886213047,
+                  0.13741767703080154
+                ],
+                "right_wrist": [
+                  0.3715730526285672,
+                  0.47804394224901126
+                ],
+                "left_wrist": [
+                  0.3760160039140221,
+                  0.47360099096355635
+                ],
+                "right_ankle": [
+                  0.4322933868631177,
+                  0.8912384117963181
+                ],
+                "left_ankle": [
+                  0.5611389741413102,
+                  0.8912384117963181
+                ]
+              }
+            ],
+            "alpha_rows": [
+              {
+                "frame": 0,
+                "bbox": [
+                  177,
+                  27,
+                  343,
+                  484
+                ],
+                "coverage": 0.11058000000000001,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00497
+              },
+              {
+                "frame": 1,
+                "bbox": [
+                  177,
+                  27,
+                  342,
+                  484
+                ],
+                "coverage": 0.10921000000000003,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00459
+              },
+              {
+                "frame": 2,
+                "bbox": [
+                  175,
+                  27,
+                  341,
+                  484
+                ],
+                "coverage": 0.11700999999999995,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00649
+              },
+              {
+                "frame": 3,
+                "bbox": [
+                  173,
+                  26,
+                  354,
+                  484
+                ],
+                "coverage": 0.12702999999999998,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00458
+              },
+              {
+                "frame": 4,
+                "bbox": [
+                  170,
+                  26,
+                  337,
+                  484
+                ],
+                "coverage": 0.12336000000000003,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00999
+              },
+              {
+                "frame": 5,
+                "bbox": [
+                  168,
+                  26,
+                  420,
+                  484
+                ],
+                "coverage": 0.13742,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00346
+              },
+              {
+                "frame": 6,
+                "bbox": [
+                  166,
+                  26,
+                  439,
+                  484
+                ],
+                "coverage": 0.13076,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00964
+              },
+              {
+                "frame": 7,
+                "bbox": [
+                  165,
+                  26,
+                  452,
+                  484
+                ],
+                "coverage": 0.13134999999999997,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00797
+              },
+              {
+                "frame": 8,
+                "bbox": [
+                  164,
+                  26,
+                  456,
+                  484
+                ],
+                "coverage": 0.13144999999999996,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00986
+              },
+              {
+                "frame": 9,
+                "bbox": [
+                  164,
+                  26,
+                  452,
+                  484
+                ],
+                "coverage": 0.13168999999999997,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00837
+              },
+              {
+                "frame": 10,
+                "bbox": [
+                  166,
+                  26,
+                  438,
+                  484
+                ],
+                "coverage": 0.13060000000000005,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00927
+              },
+              {
+                "frame": 11,
+                "bbox": [
+                  168,
+                  26,
+                  420,
+                  484
+                ],
+                "coverage": 0.12921000000000005,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00561
+              },
+              {
+                "frame": 12,
+                "bbox": [
+                  171,
+                  26,
+                  338,
+                  484
+                ],
+                "coverage": 0.12317999999999996,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00758
+              },
+              {
+                "frame": 13,
+                "bbox": [
+                  173,
+                  26,
+                  344,
+                  484
+                ],
+                "coverage": 0.12649,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00337
+              },
+              {
+                "frame": 14,
+                "bbox": [
+                  175,
+                  27,
+                  340,
+                  484
+                ],
+                "coverage": 0.10680999999999996,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00338
+              },
+              {
+                "frame": 15,
+                "bbox": [
+                  177,
+                  27,
+                  342,
+                  484
+                ],
+                "coverage": 0.12695,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00261
+              }
+            ],
+            "reference_cosine": [
+              0.864771,
+              0.864218,
+              0.862343,
+              0.846923,
+              0.847329,
+              0.831307,
+              0.806301,
+              0.805183,
+              0.798111,
+              0.793183,
+              0.803224,
+              0.816945,
+              0.845492,
+              0.836152,
+              0.854367,
+              0.864953
+            ],
+            "adjacent_identity_cosine": [
+              0.997676,
+              0.992218,
+              0.992149,
+              0.986758,
+              0.985269,
+              0.973768,
+              0.988049,
+              0.994311,
+              0.995809,
+              0.978804,
+              0.982008,
+              0.973039,
+              0.987336,
+              0.993886,
+              0.993281
+            ]
+          },
           "fallback_used": false,
           "review_pass": true,
-          "distinct_gif_frames": 9
+          "distinct_gif_frames": 16
         },
         "player_attack": {
           "gif": "generated_assets/player-clips/player_attack/animation.gif",
           "png": "generated_assets/player-clips/player_attack/canonical.png",
           "sheet": "generated_assets/player-clips/player_attack/animation.sheet.png",
-          "frames": 9,
-          "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
-          "temporal_model": true,
-          "native_video_frames": true,
+          "frames": 16,
+          "engine": "StableAnimator",
+          "pose_driven": true,
+          "motion_control": "explicit OpenPose/DWPose skeleton sequence",
+          "pose_driver": "explicit-openpose-player_attack-v2",
+          "identity_encoder": "AntelopeV2 glintr100",
+          "min_reference_cosine": 0.745207,
+          "min_adjacent_identity_cosine": 0.941517,
+          "max_foreground_coverage": 0.211127,
+          "max_border_visible_ratio": 0.0,
+          "semantic_motion": {
+            "frames": 16,
+            "min_reference_cosine": 0.7452069520950317,
+            "mean_reference_cosine": 0.8179345540702343,
+            "min_adjacent_identity_cosine": 0.9415169954299927,
+            "wrist_range": 0.2587454964959761,
+            "wrist_path": 0.6274560053775391,
+            "hand_to_face_distance_range": 0.13302680993874078,
+            "nose_motion_range": 0.057708321863174206,
+            "ankle_separation_range": 0.006404594363023763,
+            "max_foreground_coverage": 0.17713999999999996,
+            "max_border_visible_ratio": 0.0,
+            "min_component_ratio": 1.0,
+            "max_boundary_matte_ratio": 0.01879,
+            "pose_rows": [
+              {
+                "frame": 0,
+                "body_confident": 17,
+                "nose": [
+                  0.5664461280648538,
+                  0.14203566703145043
+                ],
+                "right_wrist": [
+                  0.37735671332120546,
+                  0.44067688555514906
+                ],
+                "left_wrist": [
+                  0.5724489666281443,
+                  0.46468823980831075
+                ],
+                "right_ankle": [
+                  0.4403865182357549,
+                  0.8983933260060439
+                ],
+                "left_ankle": [
+                  0.5604432895015634,
+                  0.8893890681611083
+                ]
+              },
+              {
+                "frame": 1,
+                "body_confident": 17,
+                "nose": [
+                  0.5425233407295309,
+                  0.1396913242764034
+                ],
+                "right_wrist": [
+                  0.5229098318692801,
+                  0.42635029992622253
+                ],
+                "left_wrist": [
+                  0.5742067011960899,
+                  0.45501619749120437
+                ],
+                "right_ankle": [
+                  0.4218248246664492,
+                  0.9016007069246066
+                ],
+                "left_ankle": [
+                  0.5455408036311079,
+                  0.8925483182198755
+                ]
+              },
+              {
+                "frame": 2,
+                "body_confident": 17,
+                "nose": [
+                  0.529260516166687,
+                  0.1403568824255974
+                ],
+                "right_wrist": [
+                  0.548728006992557,
+                  0.3589917793930605
+                ],
+                "left_wrist": [
+                  0.5771804935842133,
+                  0.45782673281670805
+                ],
+                "right_ankle": [
+                  0.41095807191716927,
+                  0.901086523928825
+                ],
+                "left_ankle": [
+                  0.5307580154609848,
+                  0.8950965267516342
+                ]
+              },
+              {
+                "frame": 3,
+                "body_confident": 17,
+                "nose": [
+                  0.5128024176738109,
+                  0.13836646865577973
+                ],
+                "right_wrist": [
+                  0.5533806892199209,
+                  0.3337433316555689
+                ],
+                "left_wrist": [
+                  0.5774270723583563,
+                  0.4614897420785078
+                ],
+                "right_ankle": [
+                  0.40158789565854636,
+                  0.8988333354088052
+                ],
+                "left_ankle": [
+                  0.5233227102968765,
+                  0.8943246385703485
+                ]
+              },
+              {
+                "frame": 4,
+                "body_confident": 17,
+                "nose": [
+                  0.5087378062016796,
+                  0.14076257200819486
+                ],
+                "right_wrist": [
+                  0.5522126009976394,
+                  0.32815392888733186
+                ],
+                "left_wrist": [
+                  0.576198694678169,
+                  0.4615765749852776
+                ],
+                "right_ankle": [
+                  0.3993012537842636,
+                  0.8963245229448755
+                ],
+                "left_ankle": [
+                  0.5207308530419444,
+                  0.8933262612348092
+                ]
+              },
+              {
+                "frame": 5,
+                "body_confident": 16,
+                "nose": [
+                  0.5112815197062446,
+                  0.138650740832721
+                ],
+                "right_wrist": [
+                  0.5595005385936627,
+                  0.3345405050628567
+                ],
+                "left_wrist": [
+                  0.573062137655749,
+                  0.45960858530209703
+                ],
+                "right_ankle": [
+                  0.4012818828693223,
+                  0.8996071326497863
+                ],
+                "left_ankle": [
+                  0.5218294300878673,
+                  0.8965934439693228
+                ]
+              },
+              {
+                "frame": 6,
+                "body_confident": 17,
+                "nose": [
+                  0.5284701704683055,
+                  0.1396704295208716
+                ],
+                "right_wrist": [
+                  0.551030052122466,
+                  0.36075726973164524
+                ],
+                "left_wrist": [
+                  0.579605902217736,
+                  0.4555087726791196
+                ],
+                "right_ankle": [
+                  0.41266277797694784,
+                  0.9021944294314985
+                ],
+                "left_ankle": [
+                  0.5299741625785828,
+                  0.8946744688801118
+                ]
+              },
+              {
+                "frame": 7,
+                "body_confident": 17,
+                "nose": [
+                  0.5437513324432075,
+                  0.13972871083145344
+                ],
+                "right_wrist": [
+                  0.521114943549037,
+                  0.41740174793327856
+                ],
+                "left_wrist": [
+                  0.5784604620809357,
+                  0.4581472479427855
+                ],
+                "right_ankle": [
+                  0.42453301760057605,
+                  0.9018204702685275
+                ],
+                "left_ankle": [
+                  0.5452604250361522,
+                  0.8942750073038042
+                ]
+              },
+              {
+                "frame": 8,
+                "body_confident": 17,
+                "nose": [
+                  0.5587278751506043,
+                  0.14152250207310624
+                ],
+                "right_wrist": [
+                  0.36915969602947984,
+                  0.47251456085602217
+                ],
+                "left_wrist": [
+                  0.5752774780897503,
+                  0.46649652342360537
+                ],
+                "right_ankle": [
+                  0.4368626171441672,
+                  0.9028042372738128
+                ],
+                "left_ankle": [
+                  0.555718856434396,
+                  0.8922726717670835
+                ]
+              },
+              {
+                "frame": 9,
+                "body_confident": 17,
+                "nose": [
+                  0.5583359865704551,
+                  0.14017948729451746
+                ],
+                "right_wrist": [
+                  0.3446442791027948,
+                  0.4682414043927565
+                ],
+                "left_wrist": [
+                  0.5763944407226518,
+                  0.46372679085470736
+                ],
+                "right_ankle": [
+                  0.4379462922224775,
+                  0.9031491752248257
+                ],
+                "left_ankle": [
+                  0.5583359865704551,
+                  0.8926150769693777
+                ]
+              },
+              {
+                "frame": 10,
+                "body_confident": 17,
+                "nose": [
+                  0.5583777178544551,
+                  0.1404599242766078
+                ],
+                "right_wrist": [
+                  0.3252229516316827,
+                  0.46537237269027765
+                ],
+                "left_wrist": [
+                  0.574924185134781,
+                  0.46236392409385507
+                ],
+                "right_ankle": [
+                  0.43803977399754035,
+                  0.9031016434698056
+                ],
+                "left_ankle": [
+                  0.5583777178544551,
+                  0.894076297680537
+                ]
+              },
+              {
+                "frame": 11,
+                "body_confident": 17,
+                "nose": [
+                  0.5594980146852322,
+                  0.1408261597971432
+                ],
+                "right_wrist": [
+                  0.3070213797618635,
+                  0.46543897612718865
+                ],
+                "left_wrist": [
+                  0.5730235486989841,
+                  0.46243330190191045
+                ],
+                "right_ankle": [
+                  0.43927104567410424,
+                  0.9027645759051666
+                ],
+                "left_ankle": [
+                  0.5579951775725931,
+                  0.893747553229332
+                ]
+              },
+              {
+                "frame": 12,
+                "body_confident": 17,
+                "nose": [
+                  0.5611325812836488,
+                  0.14017603420264402
+                ],
+                "right_wrist": [
+                  0.30075504209768655,
+                  0.4652716900648859
+                ],
+                "left_wrist": [
+                  0.5731731611303985,
+                  0.46075647262235475
+                ],
+                "right_ankle": [
+                  0.439221710335308,
+                  0.9032477819904066
+                ],
+                "left_ankle": [
+                  0.5566173638411177,
+                  0.8927122746245004
+                ]
+              },
+              {
+                "frame": 13,
+                "body_confident": 17,
+                "nose": [
+                  0.561250872873643,
+                  0.13999791079186252
+                ],
+                "right_wrist": [
+                  0.3082952161130379,
+                  0.4652266123412119
+                ],
+                "left_wrist": [
+                  0.5732963803384337,
+                  0.4622152354750142
+                ],
+                "right_ankle": [
+                  0.43929010979263694,
+                  0.9033819463729742
+                ],
+                "left_ankle": [
+                  0.5567338075743464,
+                  0.8943478157743812
+                ]
+              },
+              {
+                "frame": 14,
+                "body_confident": 17,
+                "nose": [
+                  0.5601366384095552,
+                  0.14135774579093163
+                ],
+                "right_wrist": [
+                  0.32498321469999314,
+                  0.4669547940041716
+                ],
+                "left_wrist": [
+                  0.5752105758268349,
+                  0.46243261277898773
+                ],
+                "right_ankle": [
+                  0.4380377453295903,
+                  0.9025915853635524
+                ],
+                "left_ankle": [
+                  0.5586292446678272,
+                  0.8935472229131847
+                ]
+              },
+              {
+                "frame": 15,
+                "body_confident": 17,
+                "nose": [
+                  0.5617622233876318,
+                  0.14101731685514096
+                ],
+                "right_wrist": [
+                  0.346258461358957,
+                  0.46954752750025364
+                ],
+                "left_wrist": [
+                  0.5753253972216044,
+                  0.4635194502407103
+                ],
+                "right_ankle": [
+                  0.4381866395669931,
+                  0.903569090187375
+                ],
+                "left_ankle": [
+                  0.5587481847578601,
+                  0.8930199549831741
+                ]
+              }
+            ],
+            "alpha_rows": [
+              {
+                "frame": 0,
+                "bbox": [
+                  202,
+                  26,
+                  350,
+                  495
+                ],
+                "coverage": 0.12411000000000005,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00968
+              },
+              {
+                "frame": 1,
+                "bbox": [
+                  184,
+                  27,
+                  339,
+                  496
+                ],
+                "coverage": 0.13966999999999996,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00639
+              },
+              {
+                "frame": 2,
+                "bbox": [
+                  175,
+                  26,
+                  367,
+                  496
+                ],
+                "coverage": 0.15815999999999997,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01852
+              },
+              {
+                "frame": 3,
+                "bbox": [
+                  167,
+                  26,
+                  420,
+                  497
+                ],
+                "coverage": 0.17218,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01879
+              },
+              {
+                "frame": 4,
+                "bbox": [
+                  163,
+                  26,
+                  438,
+                  497
+                ],
+                "coverage": 0.17713999999999996,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00918
+              },
+              {
+                "frame": 5,
+                "bbox": [
+                  168,
+                  26,
+                  421,
+                  497
+                ],
+                "coverage": 0.17261000000000004,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01507
+              },
+              {
+                "frame": 6,
+                "bbox": [
+                  175,
+                  25,
+                  368,
+                  497
+                ],
+                "coverage": 0.15778999999999999,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01505
+              },
+              {
+                "frame": 7,
+                "bbox": [
+                  182,
+                  25,
+                  339,
+                  497
+                ],
+                "coverage": 0.13922999999999996,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.0037
+              },
+              {
+                "frame": 8,
+                "bbox": [
+                  201,
+                  26,
+                  347,
+                  496
+                ],
+                "coverage": 0.12005999999999994,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00351
+              },
+              {
+                "frame": 9,
+                "bbox": [
+                  201,
+                  26,
+                  348,
+                  496
+                ],
+                "coverage": 0.1199,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00351
+              },
+              {
+                "frame": 10,
+                "bbox": [
+                  148,
+                  26,
+                  348,
+                  496
+                ],
+                "coverage": 0.12373999999999996,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00315
+              },
+              {
+                "frame": 11,
+                "bbox": [
+                  138,
+                  26,
+                  348,
+                  496
+                ],
+                "coverage": 0.12353000000000003,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00311
+              },
+              {
+                "frame": 12,
+                "bbox": [
+                  134,
+                  26,
+                  348,
+                  496
+                ],
+                "coverage": 0.12333000000000005,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.0031
+              },
+              {
+                "frame": 13,
+                "bbox": [
+                  138,
+                  26,
+                  348,
+                  496
+                ],
+                "coverage": 0.12350000000000005,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00355
+              },
+              {
+                "frame": 14,
+                "bbox": [
+                  147,
+                  26,
+                  348,
+                  496
+                ],
+                "coverage": 0.12388999999999994,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.0027
+              },
+              {
+                "frame": 15,
+                "bbox": [
+                  201,
+                  26,
+                  348,
+                  496
+                ],
+                "coverage": 0.11973999999999996,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.003
+              }
+            ],
+            "reference_cosine": [
+              0.839565,
+              0.821042,
+              0.765052,
+              0.753851,
+              0.745207,
+              0.756852,
+              0.763899,
+              0.826674,
+              0.853101,
+              0.854635,
+              0.852739,
+              0.849027,
+              0.848577,
+              0.852806,
+              0.848454,
+              0.855473
+            ],
+            "adjacent_identity_cosine": [
+              0.94613,
+              0.950066,
+              0.967521,
+              0.989793,
+              0.993188,
+              0.971637,
+              0.95524,
+              0.941517,
+              0.997846,
+              0.997396,
+              0.997639,
+              0.998185,
+              0.99811,
+              0.998651,
+              0.997682
+            ]
+          },
           "fallback_used": false,
           "review_pass": true,
-          "distinct_gif_frames": 9
+          "distinct_gif_frames": 16
         },
         "player_use": {
           "gif": "generated_assets/player-clips/player_use/animation.gif",
           "png": "generated_assets/player-clips/player_use/canonical.png",
           "sheet": "generated_assets/player-clips/player_use/animation.sheet.png",
-          "frames": 9,
-          "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
-          "temporal_model": true,
-          "native_video_frames": true,
+          "frames": 16,
+          "engine": "StableAnimator",
+          "pose_driven": true,
+          "motion_control": "explicit OpenPose/DWPose skeleton sequence",
+          "pose_driver": "explicit-openpose-player_use-v2",
+          "identity_encoder": "AntelopeV2 glintr100",
+          "min_reference_cosine": 0.773776,
+          "min_adjacent_identity_cosine": 0.978865,
+          "max_foreground_coverage": 0.166196,
+          "max_border_visible_ratio": 0.0,
+          "semantic_motion": {
+            "frames": 16,
+            "min_reference_cosine": 0.773775577545166,
+            "mean_reference_cosine": 0.8014885112643242,
+            "min_adjacent_identity_cosine": 0.9788646101951599,
+            "wrist_range": 0.23176496218608622,
+            "wrist_path": 1.0318747177677197,
+            "hand_to_face_distance_range": 0.2181794582353532,
+            "nose_motion_range": 0.046272522431536345,
+            "ankle_separation_range": 0.002751047710868648,
+            "max_foreground_coverage": 0.13597000000000004,
+            "max_border_visible_ratio": 0.0,
+            "min_component_ratio": 1.0,
+            "max_boundary_matte_ratio": 0.01644,
+            "pose_rows": [
+              {
+                "frame": 0,
+                "body_confident": 17,
+                "nose": [
+                  0.4996390416090435,
+                  0.13354824467387516
+                ],
+                "right_wrist": [
+                  0.6264093201389187,
+                  0.482539364391414
+                ],
+                "left_wrist": [
+                  0.36541168787152856,
+                  0.47806511926683015
+                ],
+                "right_ankle": [
+                  0.5622784733532171,
+                  0.8956613308946544
+                ],
+                "left_ankle": [
+                  0.44445668507250957,
+                  0.8956613308946544
+                ]
+              },
+              {
+                "frame": 1,
+                "body_confident": 17,
+                "nose": [
+                  0.4958606981635967,
+                  0.13655797703298345
+                ],
+                "right_wrist": [
+                  0.6167406878448674,
+                  0.4723357261476244
+                ],
+                "left_wrist": [
+                  0.36453428962098156,
+                  0.4783051083541068
+                ],
+                "right_ankle": [
+                  0.5615239024349042,
+                  0.896161862807882
+                ],
+                "left_ankle": [
+                  0.44512094940849534,
+                  0.896161862807882
+                ]
+              },
+              {
+                "frame": 2,
+                "body_confident": 17,
+                "nose": [
+                  0.4843813625993789,
+                  0.13673570330623375
+                ],
+                "right_wrist": [
+                  0.6067122187256853,
+                  0.4500220421662866
+                ],
+                "left_wrist": [
+                  0.36354234618193004,
+                  0.47836699663457694
+                ],
+                "right_ankle": [
+                  0.5619570274599635,
+                  0.8960821151146472
+                ],
+                "left_ankle": [
+                  0.4441016904602293,
+                  0.8975739548235044
+                ]
+              },
+              {
+                "frame": 3,
+                "body_confident": 17,
+                "nose": [
+                  0.4821801533216785,
+                  0.13484130824387353
+                ],
+                "right_wrist": [
+                  0.5867366123554043,
+                  0.39623245582818833
+                ],
+                "left_wrist": [
+                  0.3641807209836163,
+                  0.4768902956542056
+                ],
+                "right_ankle": [
+                  0.5613443294472138,
+                  0.8966097954895911
+                ],
+                "left_ankle": [
+                  0.4433448971091518,
+                  0.8966097954895911
+                ]
+              },
+              {
+                "frame": 4,
+                "body_confident": 17,
+                "nose": [
+                  0.4809221529503702,
+                  0.13637643139130273
+                ],
+                "right_wrist": [
+                  0.5734147397718818,
+                  0.3288206846167062
+                ],
+                "left_wrist": [
+                  0.36605232738171856,
+                  0.47949409218078154
+                ],
+                "right_ankle": [
+                  0.561480212440074,
+                  0.8957107328775844
+                ],
+                "left_ankle": [
+                  0.44362675503847027,
+                  0.8972025487940603
+                ]
+              },
+              {
+                "frame": 5,
+                "body_confident": 16,
+                "nose": [
+                  0.45808612382097635,
+                  0.1377185575547628
+                ],
+                "right_wrist": [
+                  0.5402662077030982,
+                  0.2796659751693369
+                ],
+                "left_wrist": [
+                  0.3654467565356754,
+                  0.4798865431730519
+                ],
+                "right_ankle": [
+                  0.5611847745094565,
+                  0.895269512613595
+                ],
+                "left_ankle": [
+                  0.4446384737311746,
+                  0.8982578793002176
+                ]
+              },
+              {
+                "frame": 6,
+                "body_confident": 16,
+                "nose": [
+                  0.46126922496478073,
+                  0.13820255486643873
+                ],
+                "right_wrist": [
+                  0.3970283759954327,
+                  0.46538269264056
+                ],
+                "left_wrist": [
+                  0.3656549381266814,
+                  0.4818163981908583
+                ],
+                "right_ankle": [
+                  0.561365431498416,
+                  0.8956469834120071
+                ],
+                "left_ankle": [
+                  0.4448355194144824,
+                  0.8986349298756977
+                ]
+              },
+              {
+                "frame": 7,
+                "body_confident": 16,
+                "nose": [
+                  0.45490443218538235,
+                  0.1382166669379027
+                ],
+                "right_wrist": [
+                  0.39644822481447295,
+                  0.4634730002580909
+                ],
+                "left_wrist": [
+                  0.36497180546090624,
+                  0.4799606484909116
+                ],
+                "right_ankle": [
+                  0.5613247071426789,
+                  0.8966484856476504
+                ],
+                "left_ankle": [
+                  0.44441229240086,
+                  0.8981473627597247
+                ]
+              },
+              {
+                "frame": 8,
+                "body_confident": 16,
+                "nose": [
+                  0.45336651917750714,
+                  0.1386127299410873
+                ],
+                "right_wrist": [
+                  0.39645834174734773,
+                  0.46508595835621236
+                ],
+                "left_wrist": [
+                  0.36500908579910174,
+                  0.4815593781386269
+                ],
+                "right_ankle": [
+                  0.5611925395714934,
+                  0.8963900399321574
+                ],
+                "left_ankle": [
+                  0.4443810174780083,
+                  0.8978876235487405
+                ]
+              },
+              {
+                "frame": 9,
+                "body_confident": 16,
+                "nose": [
+                  0.4545722128920413,
+                  0.13831492292471614
+                ],
+                "right_wrist": [
+                  0.3946443579528325,
+                  0.46641992871688376
+                ],
+                "left_wrist": [
+                  0.3646804304832282,
+                  0.48140189245168585
+                ],
+                "right_ankle": [
+                  0.5594459590356564,
+                  0.8964022879057061
+                ],
+                "left_ankle": [
+                  0.44408483827767964,
+                  0.897900484279186
+                ]
+              },
+              {
+                "frame": 10,
+                "body_confident": 16,
+                "nose": [
+                  0.4554917043327198,
+                  0.13814499820970627
+                ],
+                "right_wrist": [
+                  0.39868784982536454,
+                  0.2786597962015852
+                ],
+                "left_wrist": [
+                  0.36580140774215875,
+                  0.4804629635303477
+                ],
+                "right_ankle": [
+                  0.5616252219648838,
+                  0.8960280043999471
+                ],
+                "left_ankle": [
+                  0.44353299812064506,
+                  0.8990176809529657
+                ]
+              },
+              {
+                "frame": 11,
+                "body_confident": 17,
+                "nose": [
+                  0.4719552651125316,
+                  0.13681396178435534
+                ],
+                "right_wrist": [
+                  0.5721263447000335,
+                  0.2788475820949923
+                ],
+                "left_wrist": [
+                  0.36430873182447,
+                  0.4806848320101078
+                ],
+                "right_ankle": [
+                  0.5616607095192497,
+                  0.8963200577612347
+                ],
+                "left_ankle": [
+                  0.4435485410504043,
+                  0.8978151485013464
+                ]
+              },
+              {
+                "frame": 12,
+                "body_confident": 17,
+                "nose": [
+                  0.47958126643789,
+                  0.13624835707499483
+                ],
+                "right_wrist": [
+                  0.5707358167443695,
+                  0.32304046835876454
+                ],
+                "left_wrist": [
+                  0.36451732588708796,
+                  0.47994584183713096
+                ],
+                "right_ankle": [
+                  0.5617697954027487,
+                  0.8968658342225051
+                ],
+                "left_ankle": [
+                  0.44371718107140623,
+                  0.8983601711127751
+                ]
+              },
+              {
+                "frame": 13,
+                "body_confident": 17,
+                "nose": [
+                  0.4878759076115481,
+                  0.13565578722288296
+                ],
+                "right_wrist": [
+                  0.586410051883528,
+                  0.40737115476076724
+                ],
+                "left_wrist": [
+                  0.3654546980615123,
+                  0.4775394090150562
+                ],
+                "right_ankle": [
+                  0.5610300450255938,
+                  0.8970559929609105
+                ],
+                "left_ankle": [
+                  0.44308766021519363,
+                  0.8970559929609105
+                ]
+              },
+              {
+                "frame": 14,
+                "body_confident": 17,
+                "nose": [
+                  0.48111460277020046,
+                  0.13677277017025813
+                ],
+                "right_wrist": [
+                  0.6006456007271481,
+                  0.45950646465401723
+                ],
+                "left_wrist": [
+                  0.3645718797621764,
+                  0.4774361143475594
+                ],
+                "right_ankle": [
+                  0.5617980263911402,
+                  0.8972887446713382
+                ],
+                "left_ankle": [
+                  0.4437611659086542,
+                  0.8972887446713382
+                ]
+              },
+              {
+                "frame": 15,
+                "body_confident": 17,
+                "nose": [
+                  0.4895097644875932,
+                  0.13670941664167913
+                ],
+                "right_wrist": [
+                  0.6136208302486921,
+                  0.4776410189733724
+                ],
+                "left_wrist": [
+                  0.36539869872649433,
+                  0.47913633301868686
+                ],
+                "right_ankle": [
+                  0.5612848386626865,
+                  0.8963289516614168
+                ],
+                "left_ankle": [
+                  0.4446503431281599,
+                  0.8978242657067312
+                ]
+              }
+            ],
+            "alpha_rows": [
+              {
+                "frame": 0,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13597000000000004,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01199
+              },
+              {
+                "frame": 1,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13532,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01313
+              },
+              {
+                "frame": 2,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13398,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01311
+              },
+              {
+                "frame": 3,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13368999999999998,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.012
+              },
+              {
+                "frame": 4,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13295,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01238
+              },
+              {
+                "frame": 5,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13537999999999994,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01311
+              },
+              {
+                "frame": 6,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13532999999999995,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01644
+              },
+              {
+                "frame": 7,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13054,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.00332
+              },
+              {
+                "frame": 8,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13039999999999996,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.0096
+              },
+              {
+                "frame": 9,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13022999999999996,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01196
+              },
+              {
+                "frame": 10,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13512000000000002,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01596
+              },
+              {
+                "frame": 11,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13519000000000003,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01309
+              },
+              {
+                "frame": 12,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13298,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01338
+              },
+              {
+                "frame": 13,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13365000000000005,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01346
+              },
+              {
+                "frame": 14,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13466,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01437
+              },
+              {
+                "frame": 15,
+                "bbox": [
+                  178,
+                  29,
+                  340,
+                  492
+                ],
+                "coverage": 0.13509000000000004,
+                "border": 0.0,
+                "component": 1.0,
+                "matte": 0.01308
+              }
+            ],
+            "reference_cosine": [
+              0.813212,
+              0.811474,
+              0.81074,
+              0.817551,
+              0.812486,
+              0.801762,
+              0.78418,
+              0.790196,
+              0.773776,
+              0.787559,
+              0.79204,
+              0.801481,
+              0.815674,
+              0.817773,
+              0.78675,
+              0.807163
+            ],
+            "adjacent_identity_cosine": [
+              0.997763,
+              0.996176,
+              0.994007,
+              0.985432,
+              0.981977,
+              0.984249,
+              0.978865,
+              0.986213,
+              0.98742,
+              0.98035,
+              0.989505,
+              0.982858,
+              0.986446,
+              0.985135,
+              0.988468
+            ]
+          },
           "fallback_used": false,
           "review_pass": true,
-          "distinct_gif_frames": 9
+          "distinct_gif_frames": 16
         }
       }
     },
@@ -70,7 +2126,7 @@
       "sheet": "generated_assets/mom.sheet.png",
       "frames": 8,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "temporal_model": false,
+      "pose_driven": false,
       "fallback_used": false
     },
     "dining_table": {
@@ -79,7 +2135,7 @@
       "sheet": "generated_assets/dining_table.sheet.png",
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "temporal_model": false,
+      "pose_driven": false,
       "fallback_used": false
     },
     "chandelier": {
@@ -88,7 +2144,7 @@
       "sheet": "generated_assets/chandelier.sheet.png",
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "temporal_model": false,
+      "pose_driven": false,
       "fallback_used": false
     },
     "sideboard": {
@@ -97,7 +2153,7 @@
       "sheet": "generated_assets/sideboard.sheet.png",
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "temporal_model": false,
+      "pose_driven": false,
       "fallback_used": false
     },
     "curtains": {
@@ -106,7 +2162,7 @@
       "sheet": "generated_assets/curtains.sheet.png",
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "temporal_model": false,
+      "pose_driven": false,
       "fallback_used": false
     },
     "wall_finish": {
@@ -115,7 +2171,7 @@
       "sheet": "generated_assets/wall_finish.sheet.png",
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "temporal_model": false,
+      "pose_driven": false,
       "fallback_used": false
     },
     "floor_carpet": {
@@ -124,7 +2180,7 @@
       "sheet": "generated_assets/floor_carpet.sheet.png",
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "temporal_model": false,
+      "pose_driven": false,
       "fallback_used": false
     },
     "kitchen_door": {
@@ -133,7 +2189,7 @@
       "sheet": "generated_assets/kitchen_door.sheet.png",
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "temporal_model": false,
+      "pose_driven": false,
       "fallback_used": false
     },
     "cookies": {
@@ -142,7 +2198,7 @@
       "sheet": "generated_assets/cookies.sheet.png",
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
-      "temporal_model": false,
+      "pose_driven": false,
       "fallback_used": false
     }
   }

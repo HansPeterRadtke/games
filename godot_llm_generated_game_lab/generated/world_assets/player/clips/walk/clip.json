@@ -1,0 +1,527 @@
+{
+  "name": "walk",
+  "engine": "StableAnimator",
+  "pose_driver": "explicit-openpose-walk-v2",
+  "identity_encoder": "AntelopeV2-glintr100",
+  "frame_count": 17,
+  "frame_width": 288,
+  "frame_height": 384,
+  "frame_duration_ms": 125,
+  "source_frame_count": 16,
+  "source_union_crop": [
+    110,
+    10,
+    390,
+    512
+  ],
+  "reference_cosine": [
+    0.720145,
+    0.672325,
+    0.667988,
+    0.664567,
+    0.637491,
+    0.665016,
+    0.642084,
+    0.653456,
+    0.719265,
+    0.723648,
+    0.683169,
+    0.654862,
+    0.653323,
+    0.659371,
+    0.676166,
+    0.729371
+  ],
+  "min_reference_cosine": 0.637491,
+  "adjacent_identity_cosine": [
+    0.948206,
+    0.962144,
+    0.961711,
+    0.97936,
+    0.982189,
+    0.96707,
+    0.955933,
+    0.948179,
+    0.979199,
+    0.980702,
+    0.987601,
+    0.992857,
+    0.993379,
+    0.985173,
+    0.972248
+  ],
+  "min_adjacent_identity_cosine": 0.948179,
+  "foreground_coverage": [
+    0.160952,
+    0.155915,
+    0.141556,
+    0.138572,
+    0.139196,
+    0.139983,
+    0.141954,
+    0.1571,
+    0.152425,
+    0.157579,
+    0.162607,
+    0.164361,
+    0.164849,
+    0.164795,
+    0.162561,
+    0.156377,
+    0.160952
+  ],
+  "max_foreground_coverage": 0.164849,
+  "border_visible_ratio": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "max_border_visible_ratio": 0.0,
+  "center_step_px": [
+    0.732079,
+    4.894982,
+    4.522574,
+    3.62964,
+    2.987616,
+    4.149096,
+    4.734685,
+    2.154607,
+    3.061037,
+    2.361569,
+    3.938598,
+    0.892748,
+    1.199158,
+    5.133628,
+    5.164211,
+    4.153477
+  ],
+  "bbox_width_ratio": [
+    0.388889,
+    0.326389,
+    0.309028,
+    0.298611,
+    0.291667,
+    0.298611,
+    0.3125,
+    0.326389,
+    0.388889,
+    0.46875,
+    0.538194,
+    0.586806,
+    0.600694,
+    0.583333,
+    0.53125,
+    0.461806,
+    0.388889
+  ],
+  "bbox_height_ratio": [
+    0.854167,
+    0.851562,
+    0.841146,
+    0.833333,
+    0.830729,
+    0.835938,
+    0.841146,
+    0.851562,
+    0.854167,
+    0.856771,
+    0.854167,
+    0.846354,
+    0.84375,
+    0.851562,
+    0.856771,
+    0.854167,
+    0.854167
+  ],
+  "adjacent_rgba_diff": [
+    10.511115,
+    6.799791,
+    5.600518,
+    2.61251,
+    2.465174,
+    5.497904,
+    7.243505,
+    11.414494,
+    10.300397,
+    9.71242,
+    8.159517,
+    3.647366,
+    3.823466,
+    8.414243,
+    9.26168,
+    11.103516
+  ],
+  "exact_loop": true,
+  "source_alpha_quality": [
+    {
+      "transparent_ratio": 0.86705,
+      "partial_alpha_ratio": 0.00813,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00188,
+      "bbox": [
+        177,
+        28,
+        334,
+        491
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 1
+    },
+    {
+      "transparent_ratio": 0.87079,
+      "partial_alpha_ratio": 0.00614,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00248,
+      "bbox": [
+        190,
+        30,
+        322,
+        490
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 1
+    },
+    {
+      "transparent_ratio": 0.88284,
+      "partial_alpha_ratio": 0.00549,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00278,
+      "bbox": [
+        193,
+        35,
+        318,
+        490
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 1
+    },
+    {
+      "transparent_ratio": 0.88531,
+      "partial_alpha_ratio": 0.00535,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00285,
+      "bbox": [
+        196,
+        40,
+        316,
+        491
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 1
+    },
+    {
+      "transparent_ratio": 0.88474,
+      "partial_alpha_ratio": 0.00536,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00285,
+      "bbox": [
+        197,
+        42,
+        315,
+        491
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 1
+    },
+    {
+      "transparent_ratio": 0.88412,
+      "partial_alpha_ratio": 0.00542,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.0,
+      "bbox": [
+        196,
+        40,
+        316,
+        492
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 1
+    },
+    {
+      "transparent_ratio": 0.88258,
+      "partial_alpha_ratio": 0.00543,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.0007,
+      "bbox": [
+        194,
+        35,
+        319,
+        491
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 1
+    },
+    {
+      "transparent_ratio": 0.86987,
+      "partial_alpha_ratio": 0.00619,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.0,
+      "bbox": [
+        190,
+        30,
+        322,
+        491
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 1
+    },
+    {
+      "transparent_ratio": 0.87482,
+      "partial_alpha_ratio": 0.00904,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.02952,
+      "bbox": [
+        178,
+        29,
+        335,
+        490
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    },
+    {
+      "transparent_ratio": 0.87054,
+      "partial_alpha_ratio": 0.00965,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00079,
+      "bbox": [
+        163,
+        30,
+        351,
+        493
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    },
+    {
+      "transparent_ratio": 0.86624,
+      "partial_alpha_ratio": 0.00998,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.0042,
+      "bbox": [
+        146,
+        35,
+        363,
+        497
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    },
+    {
+      "transparent_ratio": 0.86472,
+      "partial_alpha_ratio": 0.01037,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00294,
+      "bbox": [
+        132,
+        40,
+        369,
+        498
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    },
+    {
+      "transparent_ratio": 0.86455,
+      "partial_alpha_ratio": 0.01048,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00073,
+      "bbox": [
+        128,
+        42,
+        372,
+        498
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    },
+    {
+      "transparent_ratio": 0.86462,
+      "partial_alpha_ratio": 0.01038,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00441,
+      "bbox": [
+        133,
+        39,
+        369,
+        499
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    },
+    {
+      "transparent_ratio": 0.86625,
+      "partial_alpha_ratio": 0.0099,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00308,
+      "bbox": [
+        146,
+        34,
+        360,
+        497
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    },
+    {
+      "transparent_ratio": 0.87128,
+      "partial_alpha_ratio": 0.00911,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00712,
+      "bbox": [
+        163,
+        29,
+        349,
+        491
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    }
+  ],
+  "validation": {
+    "gif_frames": 17,
+    "distinct_gif_frames": 16,
+    "gif_alpha": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ]
+    ],
+    "sheet_alpha": [
+      0,
+      255
+    ],
+    "asset_usage": "character_sprite"
+  },
+  "fallback_used": false,
+  "transparent_gif_encoder": "reserved-palette-index-0-v1",
+  "gif_sheet_coverage_error": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ]
+}

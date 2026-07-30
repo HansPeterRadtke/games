@@ -20,3 +20,7 @@ assert '_trigger_player_action("interact")' in script
 assert 'key_event.physical_keycode == KEY_E' in script
 assert 'key_event.physical_keycode == KEY_F' in script
 assert 'key_event.physical_keycode == KEY_Q' in script
+assert 'func _desired_locomotion_clip()' in script
+assert 'func _update_player_locomotion_animation()' in script
+assert 'player_sprite.play(target)' in script
+assert 'return_clip = _desired_locomotion_clip()' in script

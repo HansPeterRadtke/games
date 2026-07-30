@@ -66,16 +66,29 @@ func _physics_process(_delta: float) -> void:
     if player_sprite != null:
         if absf(direction.x) > 0.05:
             player_sprite.flip_h = direction.x < 0.0
-        if direction.length() > 0.05:
-            player_sprite.speed_scale = 1.3
-        else:
-            player_sprite.speed_scale = 1.0
+        _update_player_locomotion_animation()
     _update_nearby_interaction()
     _process_touch_actions()
     if Input.is_action_just_pressed("ui_accept"):
         if not _trigger_nearby_action("interact"):
             _trigger_player_action("interact")
     _publish_web_state()
+
+func _desired_locomotion_clip() -> String:
+    if player != null and player.velocity.length() > 5.0:
+        return "walk"
+    return "idle"
+
+func _update_player_locomotion_animation() -> void:
+    if player_sprite == null or player_sprite.sprite_frames == null:
+        return
+    var current := str(player_sprite.animation)
+    if current not in ["idle", "walk"]:
+        return
+    var target := _desired_locomotion_clip()
+    if current != target and player_sprite.sprite_frames.has_animation(target):
+        player_sprite.play(target)
+    player_sprite.speed_scale = 1.0
 
 func _unhandled_key_input(event: InputEvent) -> void:
     if not (event is InputEventKey):
@@ -110,7 +123,7 @@ func _load_generated_manifest() -> bool:
     if manifest.get("complete", false) != true or manifest.get("fallback_used", true) != false:
         return false
     var engine := str(manifest.get("asset_engine", ""))
-    if engine not in ["thor-sdxl-reviewed-identity-anchored-animation", "sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting"]:
+    if engine not in ["thor-sdxl-reviewed-identity-anchored-animation", "sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting", "sdxl-reviewed-scene-assets+stableanimator-pose-driven-player"]:
         return false
     if not (manifest.get("scene_plan", {}) is Dictionary) or not (manifest.get("assets", {}) is Dictionary):
         return false
@@ -164,6 +177,8 @@ func _entry_role(entry: Dictionary) -> String:
     var name := str(entry.get("name", "")).to_lower()
     var description := str(entry.get("description", "")).to_lower()
     var combined := object_id + " " + name + " " + description
+    if "carpet" in combined or "rug" in combined:
+        return "rug"
     if str(entry.get("visual_usage", "")) == "tileable_texture":
         return "wall" if "wall" in combined else "floor"
     if "curtain" in combined:
@@ -172,6 +187,8 @@ func _entry_role(entry: Dictionary) -> String:
         return "wall_object"
     if "chandelier" in combined or "ceiling" in combined:
         return "ceiling_fixture"
+    if "sideboard" in combined or "buffet" in combined or "cabinet" in combined:
+        return "wall_furniture"
     return "world_object"
 
 func _screen_position(entry: Dictionary) -> Vector2:
@@ -183,10 +200,16 @@ func _screen_position(entry: Dictionary) -> Vector2:
         return Vector2(room.get_center().x, room.position.y + wall_height * 0.5)
     if role == "floor":
         return Vector2(room.get_center().x, room.position.y + wall_height + (room.size.y - wall_height) * 0.5)
+    if role == "rug":
+        return Vector2(room.get_center().x, room.position.y + wall_height + (room.size.y - wall_height) * 0.58)
     if role == "wall_hanging":
-        return Vector2(room.get_center().x, room.position.y + wall_height * 0.56)
+        return Vector2(room.position.x + room.size.x * 0.76, room.position.y + wall_height * 0.48)
     if role == "wall_object":
-        return Vector2(projected.x, room.position.y + wall_height * 0.64)
+        return Vector2(room.position.x + room.size.x * 0.30, room.position.y + wall_height * 0.62)
+    if role == "ceiling_fixture":
+        return Vector2(room.get_center().x, room.position.y + wall_height * 0.22)
+    if role == "wall_furniture":
+        return Vector2(room.position.x + room.size.x * 0.77, room.position.y + wall_height * 0.96)
     return projected
 
 func _build_room_background() -> void:
@@ -234,8 +257,16 @@ func _build_generated_objects() -> void:
             holder.z_index = -140
         elif role == "floor":
             holder.z_index = -130
+        elif role == "rug":
+            holder.z_index = -115
         elif role == "wall_hanging":
             holder.z_index = -90
+        elif role == "ceiling_fixture":
+            holder.z_index = -65
+        elif role == "wall_object":
+            holder.z_index = -55
+        elif role == "wall_furniture":
+            holder.z_index = -35
         else:
             holder.z_index = int(holder.position.y)
         world_layer.add_child(holder)
@@ -244,6 +275,7 @@ func _build_generated_objects() -> void:
         var animation := _make_animation(asset, entry)
         animation.name = "GeneratedAnimation"
         holder.add_child(animation)
+        _decorate_architectural_asset(holder, role, _display_size(entry))
         generated_animations[object_id] = {"node": animation, "entry": entry.duplicate(true)}
         var blocking_type := str(entry.get("type", "")) not in ["terrain", "surface", "water"]
         if str(entry.get("collision", "none")) != "none" and blocking_type:
@@ -311,7 +343,7 @@ func _make_animation(asset: Dictionary, entry: Dictionary) -> AnimatedSprite2D:
             var clip_value: Variant = clips[clip_key]
             if not (clip_value is Dictionary):
                 continue
-            var loaded_size := _add_animation_clip(frames, clip_name, clip_value, clip_name == "idle")
+            var loaded_size := _add_animation_clip(frames, clip_name, clip_value, clip_name in ["idle", "walk"])
             if clip_name == str(asset.get("default_clip", "idle")) or frame_size == Vector2i.ZERO:
                 frame_size = loaded_size
     else:
@@ -332,19 +364,76 @@ func _make_animation(asset: Dictionary, entry: Dictionary) -> AnimatedSprite2D:
     var desired := _display_size(entry)
     animation.scale = Vector2(desired.x / maxf(1.0, float(frame_size.x)), desired.y / maxf(1.0, float(frame_size.y)))
     var role := _entry_role(entry)
-    if role in ["wall", "floor", "wall_hanging"]:
+    if role in ["wall", "floor", "rug", "wall_hanging", "ceiling_fixture"]:
         animation.position = Vector2.ZERO
     else:
         var model_position: Array = entry.get("position", [0.0, 0.0, 0.0])
         var vertical_offset := float(model_position[1]) * projection_scale * 0.45
         animation.position.y = -desired.y * 0.42 - vertical_offset
+    var is_player_animation := str(entry.get("id", "")) == "player"
     animation.animation_finished.connect(func() -> void:
-        if animation.animation != "idle" and animation.sprite_frames.has_animation("idle"):
+        if animation.animation in ["idle", "walk"]:
+            return
+        var return_clip := "idle"
+        if is_player_animation:
+            return_clip = _desired_locomotion_clip()
+        if animation.sprite_frames.has_animation(return_clip):
+            animation.play(return_clip)
+        elif animation.sprite_frames.has_animation("idle"):
             animation.play("idle")
     )
     animation.play(str(asset.get("default_clip", "idle")))
     return animation
 
+
+func _make_outline(points: PackedVector2Array, color: Color, width: float, closed: bool = false) -> Line2D:
+    var line := Line2D.new()
+    line.points = points
+    line.default_color = color
+    line.width = width
+    line.closed = closed
+    line.antialiased = true
+    line.z_index = 3
+    line.z_as_relative = true
+    return line
+
+func _decorate_architectural_asset(holder: Node2D, role: String, display_size: Vector2) -> void:
+    if role == "wall_hanging":
+        var top := -display_size.y * 0.5
+        holder.add_child(_make_outline(PackedVector2Array([
+            Vector2(-display_size.x * 0.56, top - 8.0),
+            Vector2(display_size.x * 0.56, top - 8.0),
+        ]), Color("9b7447"), 7.0))
+        holder.add_child(_make_outline(PackedVector2Array([
+            Vector2(0.0, top + 4.0),
+            Vector2(0.0, display_size.y * 0.5 - 4.0),
+        ]), Color(0.82, 0.70, 0.53, 0.78), 3.0))
+    elif role == "rug":
+        var half := display_size * 0.5
+        holder.add_child(_make_outline(PackedVector2Array([
+            Vector2(-half.x, -half.y),
+            Vector2(half.x, -half.y),
+            Vector2(half.x, half.y),
+            Vector2(-half.x, half.y),
+        ]), Color("b58b59"), 6.0, true))
+        var inner := half - Vector2(12.0, 12.0)
+        holder.add_child(_make_outline(PackedVector2Array([
+            Vector2(-inner.x, -inner.y),
+            Vector2(inner.x, -inner.y),
+            Vector2(inner.x, inner.y),
+            Vector2(-inner.x, inner.y),
+        ]), Color(0.40, 0.25, 0.16, 0.72), 2.0, true))
+    elif role == "ceiling_fixture":
+        holder.add_child(_make_outline(PackedVector2Array([
+            Vector2(0.0, -display_size.y * 0.92),
+            Vector2(0.0, -display_size.y * 0.48),
+        ]), Color("8a6b45"), 5.0))
+    elif role == "wall_furniture":
+        var half := display_size * 0.5
+        holder.add_child(_make_outline(PackedVector2Array([
+            Vector2(-half.x, half.y - 3.0),
+            Vector2(half.x, half.y - 3.0),
+        ]), Color(0.12, 0.08, 0.05, 0.82), 5.0))
 
 func _size_vector(entry: Dictionary) -> Vector3:
     var values: Array = entry.get("size", [1.0, 1.0, 1.0])
@@ -360,15 +449,19 @@ func _display_size(entry: Dictionary) -> Vector2:
         return Vector2(room.size.x, wall_height)
     if role == "floor":
         return Vector2(room.size.x, room.size.y - wall_height)
+    if role == "rug":
+        return Vector2(room.size.x * 0.66, (room.size.y - wall_height) * 0.56)
     if role == "wall_hanging":
-        return Vector2(minf(room.size.x * 0.72, maxf(180.0, size.x * projection_scale)), wall_height * 0.78)
+        return Vector2(room.size.x * 0.31, wall_height * 0.76)
     if role == "wall_object":
-        return Vector2(maxf(82.0, size.x * projection_scale * 2.2), maxf(138.0, size.y * projection_scale * 2.8))
+        return Vector2(maxf(92.0, size.x * projection_scale * 2.4), maxf(154.0, size.y * projection_scale * 3.0))
     if usage == "character_sprite":
         return Vector2(maxf(96.0, size.x * projection_scale * 2.0), maxf(158.0, size.y * projection_scale * 2.0))
     if role == "ceiling_fixture":
-        return Vector2(maxf(76.0, size.x * projection_scale * 2.0), maxf(76.0, size.y * projection_scale * 2.0))
-    return Vector2(maxf(68.0, size.x * projection_scale * 1.45), maxf(68.0, size.y * projection_scale * 1.45))
+        return Vector2(maxf(112.0, size.x * projection_scale * 2.8), maxf(96.0, size.y * projection_scale * 2.4))
+    if role == "wall_furniture":
+        return Vector2(maxf(138.0, size.x * projection_scale * 2.3), maxf(88.0, size.y * projection_scale * 1.8))
+    return Vector2(maxf(76.0, size.x * projection_scale * 1.65), maxf(76.0, size.y * projection_scale * 1.65))
 
 
 func _display_height(entry: Dictionary) -> float:
@@ -396,7 +489,7 @@ func _build_overlay() -> void:
     add_child(title_label)
     status_label = Label.new()
     status_label.name = "GeneratedStatusState"
-    status_label.text = "Player uses reviewed LTX temporal clips with BiRefNet matting. Move with WASD or arrows; E interacts, F attacks, Q uses."
+    status_label.text = "Player uses reviewed StableAnimator pose-driven clips. Move with WASD or arrows; E interacts, F attacks, Q uses."
     status_label.visible = false
     add_child(status_label)
     detail_label = Label.new()
@@ -691,6 +784,7 @@ func _visible_object_state() -> Array:
             frame_count = animation.sprite_frames.get_frame_count(current_clip)
             if frame_count > 0:
                 texture_loaded = animation.sprite_frames.get_frame_texture(current_clip, clampi(animation.frame, 0, frame_count - 1)) != null
+        var holder := animation.get_parent() as Node2D
         result.append({
             "id": str(object_id),
             "name": str(entry.get("name", object_id)),
@@ -698,6 +792,8 @@ func _visible_object_state() -> Array:
             "y": center.y - size.y * 0.5,
             "width": size.x,
             "height": size.y,
+            "node_x": holder.global_position.x if holder != null else center.x,
+            "node_y": holder.global_position.y if holder != null else center.y,
             "frame": animation.frame,
             "frame_count": frame_count,
             "clip": str(animation.animation),
@@ -737,7 +833,7 @@ func _publish_web_state() -> void:
         "off_hand": "none",
         "inventory": inventory.duplicate(true),
         "event": status_label.text if status_label != null else "Generated scene ready.",
-        "forge_status": "LTX temporal player clips and BiRefNet matting loaded.",
+        "forge_status": "StableAnimator pose-driven player clips loaded, including a DWPose-validated walk cycle.",
         "content_name": str(plan.get("scene_name", "Generated Scene")),
         "content_detail": str(manifest.get("opening_scene", "")).substr(0, 500),
         "forge_busy": false,

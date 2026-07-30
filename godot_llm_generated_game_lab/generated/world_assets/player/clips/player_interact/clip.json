@@ -1,480 +1,1189 @@
 {
-  "ok": true,
-  "cached": false,
-  "key": "50cafaee460cafb75010eba8",
-  "engine": "ltx-video-2b-distilled-0.9.6-temporal-v2",
-  "temporal_model": true,
-  "native_video_frames": true,
-  "fallback_used": false,
-  "kind": "player",
-  "asset_usage": "character_sprite",
-  "name": "Player",
-  "clip_name": "player_interact",
-  "frame_count": 9,
+  "name": "player_interact",
+  "engine": "StableAnimator",
+  "pose_driver": "explicit-openpose-player_interact-v2",
+  "identity_encoder": "AntelopeV2-glintr100",
+  "frame_count": 16,
   "frame_width": 288,
   "frame_height": 384,
   "frame_duration_ms": 125,
-  "seed": 283201,
-  "generation_seconds": 72.958,
-  "video": {
-    "prompt": "The complete adult child calmly raises one open hand, reaches forward in a respectful conversational gesture, pauses briefly, then lowers the hand and returns to the exact starting full-body pose with head, hands, legs, and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
-    "prompt_encode": {
-      "seconds": 237.741,
-      "prompt_count": 4,
-      "prompts": [
-        "The complete adult child breathes naturally, shifts weight gently from one foot to the other, blinks once, and returns to the exact starting full-body pose while the entire head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
-        "The complete adult child calmly raises one open hand, reaches forward in a respectful conversational gesture, pauses briefly, then lowers the hand and returns to the exact starting full-body pose with head, hands, legs, and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
-        "The complete adult child plants both feet, bends the knees, performs one clear forward punch with visible follow-through, regains balance, and returns to the exact starting full-body pose while the head, hands, legs, and feet remain visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background.",
-        "The complete adult child reaches into a pocket, removes one cookie, raises it to the mouth, takes a visible bite, chews, lowers the hand, and returns to the exact starting full-body pose with the head and feet visible. Fixed camera. Same identity, face, clothes, colors and proportions. One subject. Keep full head, hands, legs and feet visible in every frame. Plain white background."
+  "source_frame_count": 16,
+  "source_union_crop": [
+    146,
+    8,
+    474,
+    502
+  ],
+  "reference_cosine": [
+    0.864771,
+    0.864218,
+    0.862343,
+    0.846923,
+    0.847329,
+    0.831307,
+    0.806301,
+    0.805183,
+    0.798111,
+    0.793183,
+    0.803224,
+    0.816945,
+    0.845492,
+    0.836152,
+    0.854367,
+    0.864953
+  ],
+  "min_reference_cosine": 0.793183,
+  "adjacent_identity_cosine": [
+    0.997676,
+    0.992218,
+    0.992149,
+    0.986758,
+    0.985269,
+    0.973768,
+    0.988049,
+    0.994311,
+    0.995809,
+    0.978804,
+    0.982008,
+    0.973039,
+    0.987336,
+    0.993886,
+    0.993281
+  ],
+  "min_adjacent_identity_cosine": 0.973039,
+  "foreground_coverage": [
+    0.138862,
+    0.136999,
+    0.146647,
+    0.158872,
+    0.153998,
+    0.170944,
+    0.163683,
+    0.164144,
+    0.164062,
+    0.164469,
+    0.163258,
+    0.161277,
+    0.153456,
+    0.158022,
+    0.134503,
+    0.158393
+  ],
+  "max_foreground_coverage": 0.170944,
+  "border_visible_ratio": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "max_border_visible_ratio": 0.0,
+  "center_step_px": [
+    0.476612,
+    3.053515,
+    1.562483,
+    3.943891,
+    8.566253,
+    4.300984,
+    0.640622,
+    0.552255,
+    0.218663,
+    0.676072,
+    1.330905,
+    3.363222,
+    3.767765,
+    4.565027,
+    4.902697
+  ],
+  "bbox_width_ratio": [
+    0.416667,
+    0.413194,
+    0.416667,
+    0.454861,
+    0.420139,
+    0.628472,
+    0.684028,
+    0.71875,
+    0.729167,
+    0.71875,
+    0.680556,
+    0.628472,
+    0.416667,
+    0.430556,
+    0.413194,
+    0.413194
+  ],
+  "bbox_height_ratio": [
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375,
+    0.859375
+  ],
+  "adjacent_rgba_diff": [
+    1.893069,
+    5.197682,
+    5.636529,
+    5.020519,
+    6.395341,
+    6.383027,
+    3.984551,
+    2.646493,
+    1.993539,
+    4.312688,
+    5.911822,
+    5.949879,
+    4.944557,
+    7.456896,
+    7.199705
+  ],
+  "source_alpha_quality": [
+    {
+      "transparent_ratio": 0.88942,
+      "partial_alpha_ratio": 0.00998,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00497,
+      "bbox": [
+        177,
+        27,
+        343,
+        484
       ],
-      "text_encoder_detached": true,
-      "execution_device": "cuda:0",
-      "batch_index": 1,
-      "batch_size": 4
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
     },
-    "inference_seconds": 31.085,
-    "adjacent_rgb_diff": [
-      2.8423,
-      2.4842,
-      1.5258,
-      1.2021,
-      1.0635,
-      0.9204,
-      0.7534,
-      0.6335
-    ],
-    "steps": 8,
-    "guidance_scale": 1.0,
-    "frame_rate": 8
-  },
-  "matting": {
-    "ok": true,
-    "cached": false,
-    "key": "979424dae1b384ae68f0072b",
-    "engine": "birefnet-lite-matting-v1",
-    "fallback_used": false,
-    "kind": "player",
-    "asset_usage": "character_sprite",
-    "name": "Player",
-    "clip_name": "player_interact",
-    "frame_count": 9,
-    "frame_width": 288,
-    "frame_height": 384,
-    "frame_duration_ms": 125,
-    "generation_seconds": 40.137,
-    "processing": {
-      "mode": "birefnet_lite_matted_ltx",
-      "matting_model": "/data/models/matting/BiRefNet_lite-matting",
-      "source_crop": [
-        105,
-        10,
-        262,
-        371
+    {
+      "transparent_ratio": 0.89079,
+      "partial_alpha_ratio": 0.00998,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00459,
+      "bbox": [
+        177,
+        27,
+        342,
+        484
       ],
-      "frame_metrics": [
-        {
-          "bbox": [
-            118,
-            22,
-            252,
-            361
-          ],
-          "height_ratio": 0.88281,
-          "width_ratio": 0.34896,
-          "top_margin_ratio": 0.05729,
-          "bottom_margin_ratio": 0.0599,
-          "transparent_ratio": 0.86997,
-          "partial_alpha_ratio": 0.03136,
-          "components_before_cleanup": 1
-        },
-        {
-          "bbox": [
-            116,
-            21,
-            252,
-            361
-          ],
-          "height_ratio": 0.88542,
-          "width_ratio": 0.35417,
-          "top_margin_ratio": 0.05469,
-          "bottom_margin_ratio": 0.0599,
-          "transparent_ratio": 0.86896,
-          "partial_alpha_ratio": 0.03245,
-          "components_before_cleanup": 1
-        },
-        {
-          "bbox": [
-            115,
-            21,
-            252,
-            361
-          ],
-          "height_ratio": 0.88542,
-          "width_ratio": 0.35677,
-          "top_margin_ratio": 0.05469,
-          "bottom_margin_ratio": 0.0599,
-          "transparent_ratio": 0.86717,
-          "partial_alpha_ratio": 0.03578,
-          "components_before_cleanup": 1
-        },
-        {
-          "bbox": [
-            115,
-            21,
-            252,
-            361
-          ],
-          "height_ratio": 0.88542,
-          "width_ratio": 0.35677,
-          "top_margin_ratio": 0.05469,
-          "bottom_margin_ratio": 0.0599,
-          "transparent_ratio": 0.86662,
-          "partial_alpha_ratio": 0.03792,
-          "components_before_cleanup": 1
-        },
-        {
-          "bbox": [
-            115,
-            21,
-            252,
-            361
-          ],
-          "height_ratio": 0.88542,
-          "width_ratio": 0.35677,
-          "top_margin_ratio": 0.05469,
-          "bottom_margin_ratio": 0.0599,
-          "transparent_ratio": 0.86627,
-          "partial_alpha_ratio": 0.0403,
-          "components_before_cleanup": 1
-        },
-        {
-          "bbox": [
-            115,
-            20,
-            252,
-            361
-          ],
-          "height_ratio": 0.88802,
-          "width_ratio": 0.35677,
-          "top_margin_ratio": 0.05208,
-          "bottom_margin_ratio": 0.0599,
-          "transparent_ratio": 0.86582,
-          "partial_alpha_ratio": 0.04298,
-          "components_before_cleanup": 1
-        },
-        {
-          "bbox": [
-            115,
-            20,
-            252,
-            361
-          ],
-          "height_ratio": 0.88802,
-          "width_ratio": 0.35677,
-          "top_margin_ratio": 0.05208,
-          "bottom_margin_ratio": 0.0599,
-          "transparent_ratio": 0.86546,
-          "partial_alpha_ratio": 0.04371,
-          "components_before_cleanup": 1
-        },
-        {
-          "bbox": [
-            115,
-            20,
-            252,
-            361
-          ],
-          "height_ratio": 0.88802,
-          "width_ratio": 0.35677,
-          "top_margin_ratio": 0.05208,
-          "bottom_margin_ratio": 0.0599,
-          "transparent_ratio": 0.86481,
-          "partial_alpha_ratio": 0.04617,
-          "components_before_cleanup": 1
-        },
-        {
-          "bbox": [
-            115,
-            20,
-            252,
-            361
-          ],
-          "height_ratio": 0.88802,
-          "width_ratio": 0.35677,
-          "top_margin_ratio": 0.05208,
-          "bottom_margin_ratio": 0.0599,
-          "transparent_ratio": 0.86449,
-          "partial_alpha_ratio": 0.05084,
-          "components_before_cleanup": 1
-        }
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    },
+    {
+      "transparent_ratio": 0.88299,
+      "partial_alpha_ratio": 0.0094,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00649,
+      "bbox": [
+        175,
+        27,
+        341,
+        484
       ],
-      "processed_adjacent_rgba_diff": [
-        1.4549,
-        1.4428,
-        0.8768,
-        0.6626,
-        0.5784,
-        0.5117,
-        0.5443,
-        0.4409
-      ]
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
     },
-    "mid_frame_review": {
-      "recognizable": true,
-      "single_subject": true,
-      "full_subject": true,
-      "correct_category": true,
-      "required_elements_visible": true,
-      "forbidden_elements_absent": true,
-      "anatomy_or_geometry": "normal",
-      "grounded_materials": true,
-      "clean_plain_background": true,
-      "clear_silhouette": true,
-      "recognized_subject": "adult human",
-      "critical_defects": [],
-      "description": "A transparent isolated asset of a male character in casual attire, standing with one arm on his hip and the other hand on his chest. The character is wearing a green and white striped shirt, blue shorts, and brown shoes. The background is a plain white, with no additional elements or textures.",
-      "materials_required": false,
-      "materials_pass": true,
-      "asset_usage": "character_sprite",
-      "background_mode": "transparent_isolated",
-      "background_pass": true,
-      "deterministic_pass": true,
-      "label_pass": true
+    {
+      "transparent_ratio": 0.87297,
+      "partial_alpha_ratio": 0.00916,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00458,
+      "bbox": [
+        173,
+        26,
+        354,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
     },
-    "validation": {
-      "gif_frames": 9,
-      "distinct_gif_frames": 9,
-      "gif_alpha": [
-        [
-          0,
-          255
+    {
+      "transparent_ratio": 0.87664,
+      "partial_alpha_ratio": 0.00802,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00999,
+      "bbox": [
+        170,
+        26,
+        337,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    },
+    {
+      "transparent_ratio": 0.86258,
+      "partial_alpha_ratio": 0.00883,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00346,
+      "bbox": [
+        168,
+        26,
+        420,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 3
+    },
+    {
+      "transparent_ratio": 0.86924,
+      "partial_alpha_ratio": 0.0099,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00964,
+      "bbox": [
+        166,
+        26,
+        439,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 3
+    },
+    {
+      "transparent_ratio": 0.86865,
+      "partial_alpha_ratio": 0.01006,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00797,
+      "bbox": [
+        165,
+        26,
+        452,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 3
+    },
+    {
+      "transparent_ratio": 0.86855,
+      "partial_alpha_ratio": 0.01006,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00986,
+      "bbox": [
+        164,
+        26,
+        456,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 3
+    },
+    {
+      "transparent_ratio": 0.86831,
+      "partial_alpha_ratio": 0.01003,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00837,
+      "bbox": [
+        164,
+        26,
+        452,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 3
+    },
+    {
+      "transparent_ratio": 0.8694,
+      "partial_alpha_ratio": 0.00987,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00927,
+      "bbox": [
+        166,
+        26,
+        438,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 3
+    },
+    {
+      "transparent_ratio": 0.87079,
+      "partial_alpha_ratio": 0.00951,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00561,
+      "bbox": [
+        168,
+        26,
+        420,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 3
+    },
+    {
+      "transparent_ratio": 0.87682,
+      "partial_alpha_ratio": 0.00805,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00758,
+      "bbox": [
+        171,
+        26,
+        338,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    },
+    {
+      "transparent_ratio": 0.87351,
+      "partial_alpha_ratio": 0.00906,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00337,
+      "bbox": [
+        173,
+        26,
+        344,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    },
+    {
+      "transparent_ratio": 0.89319,
+      "partial_alpha_ratio": 0.01017,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00338,
+      "bbox": [
+        175,
+        27,
+        340,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    },
+    {
+      "transparent_ratio": 0.87305,
+      "partial_alpha_ratio": 0.00876,
+      "border_visible_ratio": 0.0,
+      "foreground_components": 1,
+      "largest_component_ratio": 1.0,
+      "boundary_matte_ratio": 0.00261,
+      "bbox": [
+        177,
+        27,
+        342,
+        484
+      ],
+      "bright_neutral_border_ratio": 1.0,
+      "selected_components": 2
+    }
+  ],
+  "semantic_motion": {
+    "frames": 16,
+    "min_reference_cosine": 0.7931830286979675,
+    "mean_reference_cosine": 0.8338001370429993,
+    "min_adjacent_identity_cosine": 0.9730386137962341,
+    "wrist_range": 0.46034812221478205,
+    "wrist_path": 1.7859034781775007,
+    "hand_to_face_distance_range": 0.12541293654628138,
+    "nose_motion_range": 0.07441888398655772,
+    "ankle_separation_range": 0.26595173600071575,
+    "max_foreground_coverage": 0.13742,
+    "max_border_visible_ratio": 0.0,
+    "min_component_ratio": 1.0,
+    "max_boundary_matte_ratio": 0.00999,
+    "pose_rows": [
+      {
+        "frame": 0,
+        "body_confident": 17,
+        "nose": [
+          0.49952870239212643,
+          0.1374390849523479
         ],
-        [
-          0,
-          255
+        "right_wrist": [
+          0.3702916205729707,
+          0.4805858194376924
         ],
-        [
-          0,
-          255
+        "left_wrist": [
+          0.6183673983177869,
+          0.47612936834048014
         ],
-        [
-          0,
-          255
+        "right_ankle": [
+          0.44605128922557924,
+          0.8920648040802917
         ],
-        [
-          0,
-          255
-        ],
-        [
-          0,
-          255
-        ],
-        [
-          0,
-          255
-        ],
-        [
-          0,
-          255
-        ],
-        [
-          0,
-          255
+        "left_ankle": [
+          0.5604335340540274,
+          0.8905793203812209
         ]
-      ],
-      "sheet_alpha": [
+      },
+      {
+        "frame": 1,
+        "body_confident": 17,
+        "nose": [
+          0.5036116658448009,
+          0.13800467051623855
+        ],
+        "right_wrist": [
+          0.369981861585984,
+          0.4780182835747837
+        ],
+        "left_wrist": [
+          0.6223937140748603,
+          0.47207918116328074
+        ],
+        "right_ankle": [
+          0.4382815393182682,
+          0.892270676777116
+        ],
+        "left_ankle": [
+          0.5615179143569549,
+          0.8907859011742403
+        ]
+      },
+      {
+        "frame": 2,
+        "body_confident": 17,
+        "nose": [
+          0.5114332011338169,
+          0.13707735975670698
+        ],
+        "right_wrist": [
+          0.36915100364907016,
+          0.4720333663353813
+        ],
+        "left_wrist": [
+          0.6374122301567695,
+          0.4601765165449856
+        ],
+        "right_ankle": [
+          0.4343636774962458,
+          0.8929515338944232
+        ],
+        "left_ankle": [
+          0.5633069189667973,
+          0.8899873214468244
+        ]
+      },
+      {
+        "frame": 3,
+        "body_confident": 16,
+        "nose": [
+          0.505604579554832,
+          0.13545058916982577
+        ],
+        "right_wrist": [
+          0.3721367168303308,
+          0.4498415546986507
+        ],
+        "left_wrist": [
+          0.37658564558781404,
+          0.44835857844615634
+        ],
+        "right_ankle": [
+          0.4373876719400869,
+          0.8917684779419992
+        ],
+        "left_ankle": [
+          0.5604747008971268,
+          0.8873195491845158
+        ]
+      },
+      {
+        "frame": 4,
+        "body_confident": 15,
+        "nose": [
+          0.5045419164210518,
+          0.13381283668907895
+        ],
+        "right_wrist": [
+          0.36098680055026,
+          0.4253629173751202
+        ],
+        "left_wrist": [
+          0.36098680055026,
+          0.47272130611600005
+        ],
+        "right_ankle": [
+          0.4364642326060373,
+          0.8930270061913081
+        ],
+        "left_ankle": [
+          0.5445005569211692,
+          0.8900671068950032
+        ]
+      },
+      {
+        "frame": 5,
+        "body_confident": 17,
+        "nose": [
+          0.4696202871224765,
+          0.13354459884673509
+        ],
+        "right_wrist": [
+          0.759040380056831,
+          0.34470313603863656
+        ],
+        "left_wrist": [
+          0.35001300381797285,
+          0.4849832831241656
+        ],
+        "right_ankle": [
+          0.5419753103560652,
+          0.8910573931085914
+        ],
+        "left_ankle": [
+          0.4282745595604258,
+          0.8910573931085914
+        ]
+      },
+      {
+        "frame": 6,
+        "body_confident": 17,
+        "nose": [
+          0.49441437270676647,
+          0.1304870792397802
+        ],
+        "right_wrist": [
+          0.78457119645221,
+          0.3160696162546326
+        ],
+        "left_wrist": [
+          0.34712664491720113,
+          0.4869233804905282
+        ],
+        "right_ankle": [
+          0.5533294638225925,
+          0.8919646319118328
+        ],
+        "left_ankle": [
+          0.4163518769782968,
+          0.8919646319118328
+        ]
+      },
+      {
+        "frame": 7,
+        "body_confident": 17,
+        "nose": [
+          0.460349739430967,
+          0.13483207101307926
+        ],
+        "right_wrist": [
+          0.8013793261561659,
+          0.297227112310793
+        ],
+        "left_wrist": [
+          0.34519689196531544,
+          0.48324325052453787
+        ],
+        "right_ankle": [
+          0.5518814899805875,
+          0.8921834908833262
+        ],
+        "left_ankle": [
+          0.4263944126141723,
+          0.8921834908833262
+        ]
+      },
+      {
+        "frame": 8,
+        "body_confident": 17,
+        "nose": [
+          0.43701431714725913,
+          0.13156371950753964
+        ],
+        "right_wrist": [
+          0.8099167816253612,
+          0.28927345744887134
+        ],
+        "left_wrist": [
+          0.3426832589393598,
+          0.4838312650026637
+        ],
+        "right_ankle": [
+          0.5460846032001427,
+          0.8906339535242296
+        ],
+        "left_ankle": [
+          0.4178533209487796,
+          0.8935817990932264
+        ]
+      },
+      {
+        "frame": 9,
+        "body_confident": 17,
+        "nose": [
+          0.45699463102937443,
+          0.13344577464643703
+        ],
+        "right_wrist": [
+          0.8038421029729459,
+          0.29727585713893256
+        ],
+        "left_wrist": [
+          0.3462986293452559,
+          0.4832451399682518
+        ],
+        "right_ankle": [
+          0.5514552191331556,
+          0.8920823728549294
+        ],
+        "left_ankle": [
+          0.42599975055782124,
+          0.8920823728549294
+        ]
+      },
+      {
+        "frame": 10,
+        "body_confident": 17,
+        "nose": [
+          0.4731879644702227,
+          0.13131600906490348
+        ],
+        "right_wrist": [
+          0.7826444837143451,
+          0.31846352308396786
+        ],
+        "left_wrist": [
+          0.3449845493548006,
+          0.48498060248675756
+        ],
+        "right_ankle": [
+          0.5483416905723668,
+          0.8916948849218898
+        ],
+        "left_ankle": [
+          0.41277026309398934,
+          0.8916948849218898
+        ]
+      },
+      {
+        "frame": 11,
+        "body_confident": 17,
+        "nose": [
+          0.4720960943704995,
+          0.13204015305018402
+        ],
+        "right_wrist": [
+          0.34956865941057913,
+          0.34018916906643426
+        ],
+        "left_wrist": [
+          0.35252112772286637,
+          0.49519375546151423
+        ],
+        "right_ankle": [
+          0.4720960943704995,
+          0.8923007434641477
+        ],
+        "left_ankle": [
+          0.5444315680215368,
+          0.890824509308004
+        ]
+      },
+      {
+        "frame": 12,
+        "body_confident": 17,
+        "nose": [
+          0.4846655928389131,
+          0.13277610341659363
+        ],
+        "right_wrist": [
+          0.7301079208288379,
+          0.4033540915018723
+        ],
+        "left_wrist": [
+          0.357508724121241,
+          0.4787610717879336
+        ],
+        "right_ankle": [
+          0.45509422802084987,
+          0.8927601792408191
+        ],
+        "left_ankle": [
+          0.5423297542341363,
+          0.8898030427590129
+        ]
+      },
+      {
+        "frame": 13,
+        "body_confident": 16,
+        "nose": [
+          0.49348923811097245,
+          0.13374033213040093
+        ],
+        "right_wrist": [
+          0.3733897570103485,
+          0.4510401957789629
+        ],
+        "left_wrist": [
+          0.3763551762967836,
+          0.4510401957789629
+        ],
+        "right_ankle": [
+          0.43714627166870446,
+          0.8914049598145843
+        ],
+        "left_ankle": [
+          0.561693881698981,
+          0.8869568308849316
+        ]
+      },
+      {
+        "frame": 14,
+        "body_confident": 17,
+        "nose": [
+          0.5098873699171236,
+          0.13534019625512883
+        ],
+        "right_wrist": [
+          0.3705359903688077,
+          0.47185895324946614
+        ],
+        "left_wrist": [
+          0.38091322076070355,
+          0.4644466458266834
+        ],
+        "right_ankle": [
+          0.435764295689296,
+          0.8913955533789704
+        ],
+        "left_ankle": [
+          0.564738444845716,
+          0.8899130918944138
+        ]
+      },
+      {
+        "frame": 15,
+        "body_confident": 17,
+        "nose": [
+          0.4959756886213047,
+          0.13741767703080154
+        ],
+        "right_wrist": [
+          0.3715730526285672,
+          0.47804394224901126
+        ],
+        "left_wrist": [
+          0.3760160039140221,
+          0.47360099096355635
+        ],
+        "right_ankle": [
+          0.4322933868631177,
+          0.8912384117963181
+        ],
+        "left_ankle": [
+          0.5611389741413102,
+          0.8912384117963181
+        ]
+      }
+    ],
+    "alpha_rows": [
+      {
+        "frame": 0,
+        "bbox": [
+          177,
+          27,
+          343,
+          484
+        ],
+        "coverage": 0.11058000000000001,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00497
+      },
+      {
+        "frame": 1,
+        "bbox": [
+          177,
+          27,
+          342,
+          484
+        ],
+        "coverage": 0.10921000000000003,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00459
+      },
+      {
+        "frame": 2,
+        "bbox": [
+          175,
+          27,
+          341,
+          484
+        ],
+        "coverage": 0.11700999999999995,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00649
+      },
+      {
+        "frame": 3,
+        "bbox": [
+          173,
+          26,
+          354,
+          484
+        ],
+        "coverage": 0.12702999999999998,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00458
+      },
+      {
+        "frame": 4,
+        "bbox": [
+          170,
+          26,
+          337,
+          484
+        ],
+        "coverage": 0.12336000000000003,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00999
+      },
+      {
+        "frame": 5,
+        "bbox": [
+          168,
+          26,
+          420,
+          484
+        ],
+        "coverage": 0.13742,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00346
+      },
+      {
+        "frame": 6,
+        "bbox": [
+          166,
+          26,
+          439,
+          484
+        ],
+        "coverage": 0.13076,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00964
+      },
+      {
+        "frame": 7,
+        "bbox": [
+          165,
+          26,
+          452,
+          484
+        ],
+        "coverage": 0.13134999999999997,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00797
+      },
+      {
+        "frame": 8,
+        "bbox": [
+          164,
+          26,
+          456,
+          484
+        ],
+        "coverage": 0.13144999999999996,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00986
+      },
+      {
+        "frame": 9,
+        "bbox": [
+          164,
+          26,
+          452,
+          484
+        ],
+        "coverage": 0.13168999999999997,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00837
+      },
+      {
+        "frame": 10,
+        "bbox": [
+          166,
+          26,
+          438,
+          484
+        ],
+        "coverage": 0.13060000000000005,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00927
+      },
+      {
+        "frame": 11,
+        "bbox": [
+          168,
+          26,
+          420,
+          484
+        ],
+        "coverage": 0.12921000000000005,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00561
+      },
+      {
+        "frame": 12,
+        "bbox": [
+          171,
+          26,
+          338,
+          484
+        ],
+        "coverage": 0.12317999999999996,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00758
+      },
+      {
+        "frame": 13,
+        "bbox": [
+          173,
+          26,
+          344,
+          484
+        ],
+        "coverage": 0.12649,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00337
+      },
+      {
+        "frame": 14,
+        "bbox": [
+          175,
+          27,
+          340,
+          484
+        ],
+        "coverage": 0.10680999999999996,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00338
+      },
+      {
+        "frame": 15,
+        "bbox": [
+          177,
+          27,
+          342,
+          484
+        ],
+        "coverage": 0.12695,
+        "border": 0.0,
+        "component": 1.0,
+        "matte": 0.00261
+      }
+    ],
+    "reference_cosine": [
+      0.864771,
+      0.864218,
+      0.862343,
+      0.846923,
+      0.847329,
+      0.831307,
+      0.806301,
+      0.805183,
+      0.798111,
+      0.793183,
+      0.803224,
+      0.816945,
+      0.845492,
+      0.836152,
+      0.854367,
+      0.864953
+    ],
+    "adjacent_identity_cosine": [
+      0.997676,
+      0.992218,
+      0.992149,
+      0.986758,
+      0.985269,
+      0.973768,
+      0.988049,
+      0.994311,
+      0.995809,
+      0.978804,
+      0.982008,
+      0.973039,
+      0.987336,
+      0.993886,
+      0.993281
+    ]
+  },
+  "vlm_reviews": [
+    {
+      "frame": 0,
+      "pass": true,
+      "subject": "adult human",
+      "full_subject": true,
+      "defects": [],
+      "review": {
+        "recognizable": true,
+        "single_subject": true,
+        "full_subject": true,
+        "correct_category": true,
+        "required_elements_visible": true,
+        "forbidden_elements_absent": true,
+        "anatomy_or_geometry": "normal",
+        "grounded_materials": true,
+        "clean_plain_background": true,
+        "clear_silhouette": true,
+        "recognized_subject": "adult human",
+        "critical_defects": [],
+        "description": "A 3D model of an adult human character wearing casual clothing, standing with a relaxed posture. The character is facing away from the viewer, showing the back of the head, shoulders, and upper body. The character is wearing a light green and white striped shirt, blue shorts, and brown shoes. The character's hair is short and brown.",
+        "materials_required": false,
+        "materials_pass": true,
+        "asset_usage": "character_sprite",
+        "background_mode": "transparent_isolated",
+        "background_pass": true,
+        "deterministic_pass": true,
+        "label_pass": true
+      }
+    },
+    {
+      "frame": 8,
+      "pass": true,
+      "subject": "adult human",
+      "full_subject": true,
+      "defects": [],
+      "review": {
+        "recognizable": true,
+        "single_subject": true,
+        "full_subject": true,
+        "correct_category": true,
+        "required_elements_visible": true,
+        "forbidden_elements_absent": true,
+        "anatomy_or_geometry": "normal",
+        "grounded_materials": true,
+        "clean_plain_background": true,
+        "clear_silhouette": true,
+        "recognized_subject": "adult human",
+        "critical_defects": [],
+        "description": "A 3D model of an adult human character wearing casual clothing, standing with one arm extended forward in a reaching gesture. The character is depicted from the back, showing the upper body, arms, hands, torso, and legs. The background is a plain, uniform color, ensuring the focus remains on the character.",
+        "materials_required": false,
+        "materials_pass": true,
+        "asset_usage": "character_sprite",
+        "background_mode": "transparent_isolated",
+        "background_pass": true,
+        "deterministic_pass": true,
+        "label_pass": true
+      }
+    },
+    {
+      "frame": 15,
+      "pass": true,
+      "subject": "adult human",
+      "full_subject": true,
+      "defects": [],
+      "review": {
+        "recognizable": true,
+        "single_subject": true,
+        "full_subject": true,
+        "correct_category": true,
+        "required_elements_visible": true,
+        "forbidden_elements_absent": true,
+        "anatomy_or_geometry": "normal",
+        "grounded_materials": true,
+        "clean_plain_background": true,
+        "clear_silhouette": true,
+        "recognized_subject": "adult human",
+        "critical_defects": [],
+        "description": "A 3D model of an adult human character wearing casual clothing, standing with a relaxed posture. The character is facing away from the viewer, showing the back of the head, shoulders, torso, arms, hands, legs, and feet. The character is wearing a light green short-sleeved shirt, blue shorts, and brown shoes. The background is a plain, light-colored gradient, ensuring no distractions from the character.",
+        "materials_required": false,
+        "materials_pass": true,
+        "asset_usage": "character_sprite",
+        "background_mode": "transparent_isolated",
+        "background_pass": true,
+        "deterministic_pass": true,
+        "label_pass": true
+      }
+    }
+  ],
+  "validation": {
+    "gif_frames": 16,
+    "distinct_gif_frames": 16,
+    "gif_alpha": [
+      [
         0,
         255
       ],
-      "asset_usage": "character_sprite"
-    },
-    "models": {
-      "matting": "/data/models/matting/BiRefNet_lite-matting"
-    }
-  },
-  "processing": {
-    "mode": "birefnet_lite_matted_ltx",
-    "matting_model": "/data/models/matting/BiRefNet_lite-matting",
-    "source_crop": [
-      105,
-      10,
-      262,
-      371
-    ],
-    "frame_metrics": [
-      {
-        "bbox": [
-          118,
-          22,
-          252,
-          361
-        ],
-        "height_ratio": 0.88281,
-        "width_ratio": 0.34896,
-        "top_margin_ratio": 0.05729,
-        "bottom_margin_ratio": 0.0599,
-        "transparent_ratio": 0.86997,
-        "partial_alpha_ratio": 0.03136,
-        "components_before_cleanup": 1
-      },
-      {
-        "bbox": [
-          116,
-          21,
-          252,
-          361
-        ],
-        "height_ratio": 0.88542,
-        "width_ratio": 0.35417,
-        "top_margin_ratio": 0.05469,
-        "bottom_margin_ratio": 0.0599,
-        "transparent_ratio": 0.86896,
-        "partial_alpha_ratio": 0.03245,
-        "components_before_cleanup": 1
-      },
-      {
-        "bbox": [
-          115,
-          21,
-          252,
-          361
-        ],
-        "height_ratio": 0.88542,
-        "width_ratio": 0.35677,
-        "top_margin_ratio": 0.05469,
-        "bottom_margin_ratio": 0.0599,
-        "transparent_ratio": 0.86717,
-        "partial_alpha_ratio": 0.03578,
-        "components_before_cleanup": 1
-      },
-      {
-        "bbox": [
-          115,
-          21,
-          252,
-          361
-        ],
-        "height_ratio": 0.88542,
-        "width_ratio": 0.35677,
-        "top_margin_ratio": 0.05469,
-        "bottom_margin_ratio": 0.0599,
-        "transparent_ratio": 0.86662,
-        "partial_alpha_ratio": 0.03792,
-        "components_before_cleanup": 1
-      },
-      {
-        "bbox": [
-          115,
-          21,
-          252,
-          361
-        ],
-        "height_ratio": 0.88542,
-        "width_ratio": 0.35677,
-        "top_margin_ratio": 0.05469,
-        "bottom_margin_ratio": 0.0599,
-        "transparent_ratio": 0.86627,
-        "partial_alpha_ratio": 0.0403,
-        "components_before_cleanup": 1
-      },
-      {
-        "bbox": [
-          115,
-          20,
-          252,
-          361
-        ],
-        "height_ratio": 0.88802,
-        "width_ratio": 0.35677,
-        "top_margin_ratio": 0.05208,
-        "bottom_margin_ratio": 0.0599,
-        "transparent_ratio": 0.86582,
-        "partial_alpha_ratio": 0.04298,
-        "components_before_cleanup": 1
-      },
-      {
-        "bbox": [
-          115,
-          20,
-          252,
-          361
-        ],
-        "height_ratio": 0.88802,
-        "width_ratio": 0.35677,
-        "top_margin_ratio": 0.05208,
-        "bottom_margin_ratio": 0.0599,
-        "transparent_ratio": 0.86546,
-        "partial_alpha_ratio": 0.04371,
-        "components_before_cleanup": 1
-      },
-      {
-        "bbox": [
-          115,
-          20,
-          252,
-          361
-        ],
-        "height_ratio": 0.88802,
-        "width_ratio": 0.35677,
-        "top_margin_ratio": 0.05208,
-        "bottom_margin_ratio": 0.0599,
-        "transparent_ratio": 0.86481,
-        "partial_alpha_ratio": 0.04617,
-        "components_before_cleanup": 1
-      },
-      {
-        "bbox": [
-          115,
-          20,
-          252,
-          361
-        ],
-        "height_ratio": 0.88802,
-        "width_ratio": 0.35677,
-        "top_margin_ratio": 0.05208,
-        "bottom_margin_ratio": 0.0599,
-        "transparent_ratio": 0.86449,
-        "partial_alpha_ratio": 0.05084,
-        "components_before_cleanup": 1
-      }
-    ],
-    "processed_adjacent_rgba_diff": [
-      1.4549,
-      1.4428,
-      0.8768,
-      0.6626,
-      0.5784,
-      0.5117,
-      0.5443,
-      0.4409
-    ]
-  },
-  "mid_frame_review": {
-    "recognizable": true,
-    "single_subject": true,
-    "full_subject": true,
-    "correct_category": true,
-    "required_elements_visible": true,
-    "forbidden_elements_absent": true,
-    "anatomy_or_geometry": "normal",
-    "grounded_materials": true,
-    "clean_plain_background": true,
-    "clear_silhouette": true,
-    "recognized_subject": "adult human",
-    "critical_defects": [],
-    "description": "A transparent isolated asset of a male character in casual attire, standing with one arm on his hip and the other hand on his chest. The character is wearing a green and white striped shirt, blue shorts, and brown shoes. The background is a plain white, with no additional elements or textures.",
-    "materials_required": false,
-    "materials_pass": true,
-    "asset_usage": "character_sprite",
-    "background_mode": "transparent_isolated",
-    "background_pass": true,
-    "deterministic_pass": true,
-    "label_pass": true
-  },
-  "validation": {
-    "gif_frames": 9,
-    "distinct_gif_frames": 9,
-    "gif_alpha": [
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
+      [
+        0,
+        255
+      ],
       [
         0,
         255
@@ -518,12 +1227,24 @@
     ],
     "asset_usage": "character_sprite"
   },
-  "models": {
-    "video": "/data/models/video/LTX-Video-2B-distilled/ltxv-2b-0.9.6-distilled-04-25.safetensors",
-    "base": "/data/models/video/LTX-Video-2B-diffusers",
-    "matting_service": "http://10.8.0.7:15313/matte"
-  },
-  "png_path": "/data/var/llm_game/ltx_video_cache/50cafaee460cafb75010eba8.png",
-  "gif_path": "/data/var/llm_game/ltx_video_cache/50cafaee460cafb75010eba8.gif",
-  "sheet_path": "/data/var/llm_game/ltx_video_cache/50cafaee460cafb75010eba8.sheet.png"
+  "fallback_used": false,
+  "transparent_gif_encoder": "reserved-palette-index-0-v1",
+  "gif_sheet_coverage_error": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ]
 }

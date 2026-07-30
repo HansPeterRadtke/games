@@ -1,0 +1,52 @@
+{
+  "player": {
+    "visible": true,
+    "recognizable": true,
+    "confidence": 0.9
+  },
+  "mother": {
+    "visible": true,
+    "recognizable": true,
+    "confidence": 0.9
+  },
+  "dining_table": {
+    "visible": true,
+    "recognizable": true,
+    "confidence": 0.9
+  },
+  "chandelier": {
+    "visible": true,
+    "recognizable": true,
+    "confidence": 0.9
+  },
+  "sideboard": {
+    "visible": true,
+    "recognizable": true,
+    "confidence": 0.9
+  },
+  "curtains": {
+    "visible": true,
+    "recognizable": true,
+    "confidence": 0.9
+  },
+  "wall_surface": {
+    "visible": true,
+    "recognizable": true,
+    "confidence": 0.9
+  },
+  "carpet": {
+    "visible": true,
+    "recognizable": true,
+    "confidence": 0.9
+  },
+  "kitchen_door": {
+    "visible": true,
+    "recognizable": true,
+    "confidence": 0.9
+  },
+  "cookies": {
+    "visible": true,
+    "recognizable": true,
+    "confidence": 0.9
+  }
+}
