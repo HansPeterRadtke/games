@@ -14,13 +14,13 @@ def expect_404(url):
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--base',default='https://nitro.jonnyontherun.org/llm_game/gif_inspector/');parser.add_argument('--local',type=Path,default=Path(__file__).resolve().parents[1]/'web/gif_inspector');args=parser.parse_args();base=args.base.rstrip('/')+'/'
     html_bytes,headers,status=fetch(base);assert status==200 and 'text/html' in headers.get('content-type','');html=html_bytes.decode()
-    assert 'Player Walk — Single GIF Test' in html and 'Exactly one GIF' in html and 'No image-generation or video model' in html
+    assert 'Player Walk — MimicMotion Test' in html and 'Exactly one GIF' in html and 'intentionally one nonlooping walking pass' in html
     for forbidden in ['.wasm','.pck','<script','index.js','startgame(','godotready','flag-in-the-wind.gif','player.gif','mom.gif']:assert forbidden not in html.lower(),forbidden
     manifest_bytes,headers,status=fetch(base+'manifest.json');assert status==200 and 'application/json' in headers.get('content-type','');public=json.loads(manifest_bytes);local=json.loads((args.local/'manifest.json').read_text());assert public==local
-    assert public['count']==1 and len(public['gifs'])==1;item=public['gifs'][0];assert item['slug']=='player-walk'
+    assert public['count']==1 and len(public['gifs'])==1;item=public['gifs'][0];assert item['slug']=='player-walk' and item['engine']=='Tencent MimicMotion 1.1' and item['looping'] is False
     payload,headers,status=fetch(base+item['public_path']);assert status==200 and 'image/gif' in headers.get('content-type','');assert len(payload)==item['bytes'] and hashlib.sha256(payload).hexdigest()==item['sha256'] and payload==(args.local/item['public_path']).read_bytes()
     temp=Path('/tmp/verify-player-walk.gif');temp.write_bytes(payload)
-    with Image.open(temp) as image:assert image.size==(320,640) and len(list(ImageSequence.Iterator(image)))==32 and image.info.get('duration')==60 and image.info.get('loop')==0
+    with Image.open(temp) as image:assert image.size==(512,768) and len(list(ImageSequence.Iterator(image)))==24 and image.info.get('duration')==70 and image.info.get('loop') is None
     temp.unlink(missing_ok=True)
     for retired in RETIRED:expect_404(base+'gifs/'+retired)
     print(json.dumps({'ok':True,'base':base,'count':1,'gif':item['public_path'],'sha256':item['sha256'],'retired_404':len(RETIRED)},sort_keys=True));return 0

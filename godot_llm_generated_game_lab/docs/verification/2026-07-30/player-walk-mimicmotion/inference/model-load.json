@@ -1,0 +1,22 @@
+{
+  "seconds": 62.15,
+  "checkpoint_keys": 1447,
+  "checkpoint_prefixes": {
+    "unet": 1428,
+    "pose_net": 19
+  },
+  "model_parameters": 2254648286,
+  "missing_count": 894,
+  "missing_prefixes": {
+    "vae": 374,
+    "image_encoder": 520
+  },
+  "unexpected_count": 0,
+  "unexpected": [],
+  "missing_unet": 0,
+  "missing_pose_net": 0,
+  "unet_parameters": 1524623082,
+  "pose_parameters": 205557,
+  "vae_parameters": 97742847,
+  "image_encoder_parameters": 632076800
+}

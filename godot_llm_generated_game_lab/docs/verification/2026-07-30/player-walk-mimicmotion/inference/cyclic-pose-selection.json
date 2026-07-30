@@ -1,0 +1,9 @@
+{
+  "start": 0,
+  "boundary": 24,
+  "cycle_frames": 24,
+  "pose_endpoint_mae": 0.009454943239688873,
+  "pose_lag_neighborhood_mae": 0.009863517868022123,
+  "support_crossings": 2,
+  "score": -0.04462694603949785
+}

@@ -1,0 +1,11 @@
+{
+  "source_page": "https://www.pexels.com/video/a-man-walking-towards-the-camera-5320110/",
+  "source_video_sha256": "ae107c189df622d618e98a171acc1dd1165bce3b00885afe4f74477f0397d76b",
+  "trimmed_driver_sha256": "fe7555f2ae3beb8b2c4d6e6a76eaa3ba1f7495ea839627b7555e9fac80f986ec",
+  "trimmed_interval_seconds": [9.0, 10.4],
+  "trimmed_frames": 34,
+  "trimmed_fps": 24,
+  "orientation": "front",
+  "distributed": false,
+  "use": "pose-driving reference only"
+}
