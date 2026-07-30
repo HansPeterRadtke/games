@@ -22,3 +22,4 @@ LLM_GAME_DISABLE_LIVE_GENERATION=1 godot --headless --path "$ROOT" --quit-after 
 /data/venv/bin/python3 tests/test_temporal_player_clips.py
 /data/venv/bin/python3 tests/test_scene_recognizability_evidence.py
 /data/venv/bin/python3 tests/test_generated_action_runtime.py
+/data/venv/bin/python3 tests/test_gif_inspector.py

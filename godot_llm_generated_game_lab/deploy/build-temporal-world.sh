@@ -86,4 +86,5 @@ for asset_id,asset in manifest['assets'].items():
     public['assets'][asset_id]=item
 Path('web/generated_assets/manifest.json').write_text(json.dumps(public,ensure_ascii=False,indent=2)+'\n')
 PY
+/data/venv/bin/python3 scripts/build_gif_inspector.py
 printf 'pose_driven_web_export=ok engine=%s time=%s\n' 'sdxl-reviewed-scene-assets+stableanimator-pose-driven-player+rvm-recurrent-soft-alpha' "$(date -Is)"

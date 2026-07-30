@@ -27,3 +27,7 @@ Verification evidence is stored under `docs/verification/2026-07-30/`. Generatio
 Run `tests/run_all.sh` for local contracts. Run `deploy/build-temporal-world.sh` on Nitro to validate the manifest, animation quality, action graph and Godot runtime, export the Web build and publish the reviewed public assets. Run `deploy/nitro-verify.sh` to compare local and public files and execute the Firefox/WebGL cold-start, walk, action, inventory, use and scene-evidence verification.
 
 Godot Web export uses the official standard Godot 4.6.1 editor. The custom HTML loader pins PCK and WASM files to absolute `/llm_game/` routes and starts package download, WebAssembly initialization and scene startup sequentially.
+
+## Static GIF inspection subsite
+
+Every generated GIF is copied to a standalone Apache-served inspection site at `https://nitro.jonnyontherun.org/llm_game/gif_inspector/`. It is plain HTML and image files only: no Godot, WebAssembly, workers or engine startup. The page shows all player clips and scene-asset GIFs over a checkerboard background with dimensions, frame counts, file sizes and SHA-256 hashes. `manifest.json` provides the same inventory in machine-readable form.
