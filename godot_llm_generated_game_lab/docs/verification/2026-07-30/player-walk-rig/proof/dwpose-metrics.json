@@ -1,0 +1,13 @@
+{
+  "frames": 32,
+  "min_body_confident": 17,
+  "left_ankle_vertical_range": 0.02998950251688559,
+  "right_ankle_vertical_range": 0.03366477446009697,
+  "left_ankle_horizontal_range": 0.04119519172236319,
+  "right_ankle_horizontal_range": 0.050975412658105235,
+  "left_wrist_path": 0.23469863799289367,
+  "right_wrist_path": 0.19979473690490732,
+  "nose_horizontal_range": 0.021780905562142627,
+  "nose_vertical_range": 0.006793811249857118,
+  "ankle_separation_range": 0.08813605938727642
+}

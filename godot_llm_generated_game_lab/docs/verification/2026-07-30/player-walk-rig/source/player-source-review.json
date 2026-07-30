@@ -1,0 +1,12 @@
+{
+  "orientation": "front",
+  "full_body": true,
+  "head_complete": true,
+  "face_visible": true,
+  "hands_visible": true,
+  "feet_visible": true,
+  "limbs_separable": true,
+  "best_walk_type": "side_walk_in_place",
+  "confidence_percent": 95,
+  "notes": "The character is standing with one hand on the hip, suggesting a casual or relaxed posture."
+}

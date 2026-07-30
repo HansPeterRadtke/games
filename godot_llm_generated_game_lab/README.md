@@ -30,4 +30,5 @@ Godot Web export uses the official standard Godot 4.6.1 editor. The custom HTML 
 
 ## Static GIF inspection subsite
 
-Every generated GIF is copied to a standalone Apache-served inspection site at `https://nitro.jonnyontherun.org/llm_game/gif_inspector/`. It is plain HTML and image files only: no Godot, WebAssembly, workers or engine startup. The page shows all player clips and scene-asset GIFs over a checkerboard background with dimensions, frame counts, file sizes and SHA-256 hashes. `manifest.json` provides the same inventory in machine-readable form.
+The standalone Apache inspection site at `https://nitro.jonnyontherun.org/llm_game/gif_inspector/` contains exactly one GIF: a deterministic player walking benchmark. All previous inspector GIFs and the flag test are deleted. No image-generation or video model creates its frames. The reviewed player still is matted once, its seventeen body joints define a piecewise-affine mesh, inverse kinematics drives alternating feet and arms, and the head is translated as a rigid layer so its aligned pixels remain identical in every frame. The page shows the GIF over checkerboard, dark and light backgrounds and exposes the rig, DWPose and visual-review metrics in `manifest.json`.
+
