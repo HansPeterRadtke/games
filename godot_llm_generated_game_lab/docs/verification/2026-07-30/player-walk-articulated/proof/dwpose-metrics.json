@@ -1,0 +1,15 @@
+{
+  "frames": 32,
+  "min_body_confident": 17,
+  "max_people": 1,
+  "support_crossings": 2,
+  "ankle_vertical_difference_range": 0.10340173070694103,
+  "ankle_separation_range": 0.013956810895857874,
+  "left_ankle_y_range": 0.07499666153711992,
+  "right_ankle_y_range": 0.06400037325996288,
+  "left_wrist_path": 0.14845571034293661,
+  "right_wrist_path": 0.196243483496582,
+  "nose_x_range": 0.028345540912899425,
+  "nose_y_range": 0.020635741701375526,
+  "pose_endpoint_distance": 0.019060991300935526
+}

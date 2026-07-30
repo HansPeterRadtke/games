@@ -1,0 +1,7 @@
+{
+  "reference_image": "/data/tmp/your-mom-player-new-canonical.png",
+  "reference_sha256": "ea710e72b175e0bd43200736c66e15423d62f96288afe307c767011d7104bf8c",
+  "matte_model": "Robust Video Matting MobileNetV3",
+  "source_keypoints": "DWPose 17-joint body",
+  "frame_generation_model_used": false
+}

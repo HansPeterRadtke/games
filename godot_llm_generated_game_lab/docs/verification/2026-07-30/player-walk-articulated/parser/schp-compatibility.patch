@@ -1,0 +1,336 @@
+diff --git a/modules/bn.py b/modules/bn.py
+index a794698..c24cee0 100644
+--- a/modules/bn.py
++++ b/modules/bn.py
+@@ -1,3 +1,4 @@
++import os
+ import torch
+ import torch.nn as nn
+ import torch.nn.functional as functional
+@@ -7,7 +8,14 @@ try:
+ except ImportError:
+     from Queue import Queue
+ 
+-from .functions import *
++PURE_PYTHON = os.environ.get('SCHP_PURE_PYTHON', '') == '1'
++if PURE_PYTHON:
++    ACT_RELU = 'relu'
++    ACT_LEAKY_RELU = 'leaky_relu'
++    ACT_ELU = 'elu'
++    ACT_NONE = 'none'
++else:
++    from .functions import *
+ 
+ 
+ class ABN(nn.Module):
+@@ -105,6 +113,19 @@ class InPlaceABN(ABN):
+         super(InPlaceABN, self).__init__(num_features, eps, momentum, affine, activation, slope)
+ 
+     def forward(self, x):
++        if PURE_PYTHON:
++            if self.training:
++                raise RuntimeError('SCHP pure-PyTorch compatibility path is inference-only')
++            weight = self.weight.abs() + self.eps if self.affine else None
++            x = functional.batch_norm(x, self.running_mean, self.running_var, weight, self.bias,
++                                      False, self.momentum, self.eps)
++            if self.activation == ACT_RELU:
++                return functional.relu(x, inplace=False)
++            if self.activation == ACT_LEAKY_RELU:
++                return functional.leaky_relu(x, negative_slope=self.slope, inplace=False)
++            if self.activation == ACT_ELU:
++                return functional.elu(x, inplace=False)
++            return x
+         x, _, _ = inplace_abn(x, self.weight, self.bias, self.running_mean, self.running_var,
+                            self.training, self.momentum, self.eps, self.activation, self.slope)
+         return x
+@@ -116,7 +137,20 @@ class InPlaceABNSync(ABN):
+     """
+ 
+     def forward(self, x):
+-        x, _, _ =  inplace_abn_sync(x, self.weight, self.bias, self.running_mean, self.running_var,
++        if PURE_PYTHON:
++            if self.training:
++                raise RuntimeError('SCHP pure-PyTorch compatibility path is inference-only')
++            weight = self.weight.abs() + self.eps if self.affine else None
++            x = functional.batch_norm(x, self.running_mean, self.running_var, weight, self.bias,
++                                      False, self.momentum, self.eps)
++            if self.activation == ACT_RELU:
++                return functional.relu(x, inplace=False)
++            if self.activation == ACT_LEAKY_RELU:
++                return functional.leaky_relu(x, negative_slope=self.slope, inplace=False)
++            if self.activation == ACT_ELU:
++                return functional.elu(x, inplace=False)
++            return x
++        x, _, _ = inplace_abn_sync(x, self.weight, self.bias, self.running_mean, self.running_var,
+                                    self.training, self.momentum, self.eps, self.activation, self.slope)
+         return x
+ 
+diff --git a/modules/src/inplace_abn_cpu.cpp b/modules/src/inplace_abn_cpu.cpp
+index ffc6d38..1bd5441 100644
+--- a/modules/src/inplace_abn_cpu.cpp
++++ b/modules/src/inplace_abn_cpu.cpp
+@@ -86,10 +86,10 @@ void leaky_relu_backward_cpu(at::Tensor z, at::Tensor dz, float slope) {
+   CHECK_CPU_INPUT(z);
+   CHECK_CPU_INPUT(dz);
+ 
+-  AT_DISPATCH_FLOATING_TYPES(z.type(), "leaky_relu_backward_cpu", ([&] {
++  AT_DISPATCH_FLOATING_TYPES(z.scalar_type(), "leaky_relu_backward_cpu", ([&] {
+     int64_t count = z.numel();
+-    auto *_z = z.data<scalar_t>();
+-    auto *_dz = dz.data<scalar_t>();
++    auto *_z = z.data_ptr<scalar_t>();
++    auto *_dz = dz.data_ptr<scalar_t>();
+ 
+     for (int64_t i = 0; i < count; ++i) {
+       if (_z[i] < 0) {
+@@ -104,10 +104,10 @@ void elu_backward_cpu(at::Tensor z, at::Tensor dz) {
+   CHECK_CPU_INPUT(z);
+   CHECK_CPU_INPUT(dz);
+ 
+-  AT_DISPATCH_FLOATING_TYPES(z.type(), "elu_backward_cpu", ([&] {
++  AT_DISPATCH_FLOATING_TYPES(z.scalar_type(), "elu_backward_cpu", ([&] {
+     int64_t count = z.numel();
+-    auto *_z = z.data<scalar_t>();
+-    auto *_dz = dz.data<scalar_t>();
++    auto *_z = z.data_ptr<scalar_t>();
++    auto *_dz = dz.data_ptr<scalar_t>();
+ 
+     for (int64_t i = 0; i < count; ++i) {
+       if (_z[i] < 0) {
+diff --git a/modules/src/inplace_abn_cuda.cu b/modules/src/inplace_abn_cuda.cu
+index b157b06..a6667d1 100644
+--- a/modules/src/inplace_abn_cuda.cu
++++ b/modules/src/inplace_abn_cuda.cu
+@@ -89,11 +89,11 @@ std::vector<at::Tensor> mean_var_cuda(at::Tensor x) {
+   dim3 blocks(chn);
+   dim3 threads(getNumThreads(sp));
+   auto stream = at::cuda::getCurrentCUDAStream();
+-  AT_DISPATCH_FLOATING_TYPES(x.type(), "mean_var_cuda", ([&] {
++  AT_DISPATCH_FLOATING_TYPES(x.scalar_type(), "mean_var_cuda", ([&] {
+     mean_var_kernel<scalar_t><<<blocks, threads, 0, stream>>>(
+-        x.data<scalar_t>(),
+-        mean.data<scalar_t>(),
+-        var.data<scalar_t>(),
++        x.data_ptr<scalar_t>(),
++        mean.data_ptr<scalar_t>(),
++        var.data_ptr<scalar_t>(),
+         num, chn, sp);
+   }));
+ 
+@@ -142,13 +142,13 @@ at::Tensor forward_cuda(at::Tensor x, at::Tensor mean, at::Tensor var, at::Tenso
+   dim3 blocks(chn);
+   dim3 threads(getNumThreads(sp));
+   auto stream = at::cuda::getCurrentCUDAStream();
+-  AT_DISPATCH_FLOATING_TYPES(x.type(), "forward_cuda", ([&] {
++  AT_DISPATCH_FLOATING_TYPES(x.scalar_type(), "forward_cuda", ([&] {
+     forward_kernel<scalar_t><<<blocks, threads, 0, stream>>>(
+-        x.data<scalar_t>(),
+-        mean.data<scalar_t>(),
+-        var.data<scalar_t>(),
+-        weight.data<scalar_t>(),
+-        bias.data<scalar_t>(),
++        x.data_ptr<scalar_t>(),
++        mean.data_ptr<scalar_t>(),
++        var.data_ptr<scalar_t>(),
++        weight.data_ptr<scalar_t>(),
++        bias.data_ptr<scalar_t>(),
+         affine, eps, num, chn, sp);
+   }));
+ 
+@@ -194,14 +194,14 @@ std::vector<at::Tensor> edz_eydz_cuda(at::Tensor z, at::Tensor dz, at::Tensor we
+   dim3 blocks(chn);
+   dim3 threads(getNumThreads(sp));
+   auto stream = at::cuda::getCurrentCUDAStream();
+-  AT_DISPATCH_FLOATING_TYPES(z.type(), "edz_eydz_cuda", ([&] {
++  AT_DISPATCH_FLOATING_TYPES(z.scalar_type(), "edz_eydz_cuda", ([&] {
+     edz_eydz_kernel<scalar_t><<<blocks, threads, 0, stream>>>(
+-        z.data<scalar_t>(),
+-        dz.data<scalar_t>(),
+-        weight.data<scalar_t>(),
+-        bias.data<scalar_t>(),
+-        edz.data<scalar_t>(),
+-        eydz.data<scalar_t>(),
++        z.data_ptr<scalar_t>(),
++        dz.data_ptr<scalar_t>(),
++        weight.data_ptr<scalar_t>(),
++        bias.data_ptr<scalar_t>(),
++        edz.data_ptr<scalar_t>(),
++        eydz.data_ptr<scalar_t>(),
+         affine, eps, num, chn, sp);
+   }));
+ 
+@@ -256,16 +256,16 @@ at::Tensor backward_cuda(at::Tensor z, at::Tensor dz, at::Tensor var, at::Tensor
+   dim3 blocks(chn);
+   dim3 threads(getNumThreads(sp));
+   auto stream = at::cuda::getCurrentCUDAStream();
+-  AT_DISPATCH_FLOATING_TYPES(z.type(), "backward_cuda", ([&] {
++  AT_DISPATCH_FLOATING_TYPES(z.scalar_type(), "backward_cuda", ([&] {
+     backward_kernel<scalar_t><<<blocks, threads, 0, stream>>>(
+-        z.data<scalar_t>(),
+-        dz.data<scalar_t>(),
+-        var.data<scalar_t>(),
+-        weight.data<scalar_t>(),
+-        bias.data<scalar_t>(),
+-        edz.data<scalar_t>(),
+-        eydz.data<scalar_t>(),
+-        dx.data<scalar_t>(),
++        z.data_ptr<scalar_t>(),
++        dz.data_ptr<scalar_t>(),
++        var.data_ptr<scalar_t>(),
++        weight.data_ptr<scalar_t>(),
++        bias.data_ptr<scalar_t>(),
++        edz.data_ptr<scalar_t>(),
++        eydz.data_ptr<scalar_t>(),
++        dx.data_ptr<scalar_t>(),
+         affine, eps, num, chn, sp);
+   }));
+ 
+@@ -299,8 +299,8 @@ void leaky_relu_backward_cuda(at::Tensor z, at::Tensor dz, float slope) {
+ 
+   int64_t count = z.numel();
+ 
+-  AT_DISPATCH_FLOATING_TYPES(z.type(), "leaky_relu_backward_cuda", ([&] {
+-    leaky_relu_backward_impl<scalar_t>(z.data<scalar_t>(), dz.data<scalar_t>(), slope, count);
++  AT_DISPATCH_FLOATING_TYPES(z.scalar_type(), "leaky_relu_backward_cuda", ([&] {
++    leaky_relu_backward_impl<scalar_t>(z.data_ptr<scalar_t>(), dz.data_ptr<scalar_t>(), slope, count);
+   }));
+ }
+ 
+@@ -327,7 +327,7 @@ void elu_backward_cuda(at::Tensor z, at::Tensor dz) {
+ 
+   int64_t count = z.numel();
+ 
+-  AT_DISPATCH_FLOATING_TYPES(z.type(), "leaky_relu_backward_cuda", ([&] {
+-    elu_backward_impl<scalar_t>(z.data<scalar_t>(), dz.data<scalar_t>(), count);
++  AT_DISPATCH_FLOATING_TYPES(z.scalar_type(), "leaky_relu_backward_cuda", ([&] {
++    elu_backward_impl<scalar_t>(z.data_ptr<scalar_t>(), dz.data_ptr<scalar_t>(), count);
+   }));
+ }
+diff --git a/modules/src/inplace_abn_cuda_half.cu b/modules/src/inplace_abn_cuda_half.cu
+index bb63e73..17988de 100644
+--- a/modules/src/inplace_abn_cuda_half.cu
++++ b/modules/src/inplace_abn_cuda_half.cu
+@@ -85,9 +85,9 @@ std::vector<at::Tensor> mean_var_cuda_h(at::Tensor x) {
+   dim3 threads(getNumThreads(sp));
+   auto stream = at::cuda::getCurrentCUDAStream();
+   mean_var_kernel_h<<<blocks, threads, 0, stream>>>(
+-      reinterpret_cast<half*>(x.data<at::Half>()),
+-      mean.data<float>(),
+-      var.data<float>(),
++      reinterpret_cast<half*>(x.data_ptr<at::Half>()),
++      mean.data_ptr<float>(),
++      var.data_ptr<float>(),
+       num, chn, sp);
+ 
+   return {mean, var};
+@@ -136,11 +136,11 @@ at::Tensor forward_cuda_h(at::Tensor x, at::Tensor mean, at::Tensor var, at::Ten
+   dim3 threads(getNumThreads(sp));
+   auto stream = at::cuda::getCurrentCUDAStream();
+   forward_kernel_h<<<blocks, threads, 0, stream>>>(
+-      reinterpret_cast<half*>(x.data<at::Half>()),
+-      mean.data<float>(),
+-      var.data<float>(),
+-      weight.data<float>(),
+-      bias.data<float>(),
++      reinterpret_cast<half*>(x.data_ptr<at::Half>()),
++      mean.data_ptr<float>(),
++      var.data_ptr<float>(),
++      weight.data_ptr<float>(),
++      bias.data_ptr<float>(),
+       affine, eps, num, chn, sp);
+ 
+   return x;
+@@ -181,12 +181,12 @@ std::vector<at::Tensor> edz_eydz_cuda_h(at::Tensor z, at::Tensor dz, at::Tensor
+   dim3 threads(getNumThreads(sp));
+   auto stream = at::cuda::getCurrentCUDAStream();
+   edz_eydz_kernel_h<<<blocks, threads, 0, stream>>>(
+-        reinterpret_cast<half*>(z.data<at::Half>()),
+-        reinterpret_cast<half*>(dz.data<at::Half>()),
+-        weight.data<float>(),
+-        bias.data<float>(),
+-        edz.data<float>(),
+-        eydz.data<float>(),
++        reinterpret_cast<half*>(z.data_ptr<at::Half>()),
++        reinterpret_cast<half*>(dz.data_ptr<at::Half>()),
++        weight.data_ptr<float>(),
++        bias.data_ptr<float>(),
++        edz.data_ptr<float>(),
++        eydz.data_ptr<float>(),
+         affine, eps, num, chn, sp);
+  
+   return {edz, eydz};
+@@ -236,14 +236,14 @@ at::Tensor backward_cuda_h(at::Tensor z, at::Tensor dz, at::Tensor var, at::Tens
+   dim3 threads(getNumThreads(sp));
+   auto stream = at::cuda::getCurrentCUDAStream();
+   backward_kernel_h<<<blocks, threads, 0, stream>>>(
+-        reinterpret_cast<half*>(z.data<at::Half>()),
+-        reinterpret_cast<half*>(dz.data<at::Half>()),
+-        var.data<float>(),
+-        weight.data<float>(),
+-        bias.data<float>(),
+-        edz.data<float>(),
+-        eydz.data<float>(),
+-        reinterpret_cast<half*>(dx.data<at::Half>()),
++        reinterpret_cast<half*>(z.data_ptr<at::Half>()),
++        reinterpret_cast<half*>(dz.data_ptr<at::Half>()),
++        var.data_ptr<float>(),
++        weight.data_ptr<float>(),
++        bias.data_ptr<float>(),
++        edz.data_ptr<float>(),
++        eydz.data_ptr<float>(),
++        reinterpret_cast<half*>(dx.data_ptr<at::Half>()),
+         affine, eps, num, chn, sp);
+ 
+   return dx;
+@@ -268,8 +268,8 @@ void leaky_relu_backward_cuda_h(at::Tensor z, at::Tensor dz, float slope) {
+   dim3 blocks = (count + threads.x - 1) / threads.x;
+   auto stream = at::cuda::getCurrentCUDAStream();
+   leaky_relu_backward_impl_h<<<blocks, threads, 0, stream>>>(
+-      reinterpret_cast<half*>(z.data<at::Half>()),
+-      reinterpret_cast<half*>(dz.data<at::Half>()),
++      reinterpret_cast<half*>(z.data_ptr<at::Half>()),
++      reinterpret_cast<half*>(dz.data_ptr<at::Half>()),
+       slope, count);
+ }
+ 
+diff --git a/modules/src/utils/checks.h b/modules/src/utils/checks.h
+index e761a6f..a239730 100644
+--- a/modules/src/utils/checks.h
++++ b/modules/src/utils/checks.h
+@@ -7,9 +7,9 @@
+ #define AT_CHECK AT_ASSERT
+ #endif
+ 
+-#define CHECK_CUDA(x) AT_CHECK((x).type().is_cuda(), #x " must be a CUDA tensor")
+-#define CHECK_CPU(x) AT_CHECK(!(x).type().is_cuda(), #x " must be a CPU tensor")
+-#define CHECK_CONTIGUOUS(x) AT_CHECK((x).is_contiguous(), #x " must be contiguous")
++#define CHECK_CUDA(x) TORCH_CHECK((x).is_cuda(), #x " must be a CUDA tensor")
++#define CHECK_CPU(x) TORCH_CHECK(!(x).is_cuda(), #x " must be a CPU tensor")
++#define CHECK_CONTIGUOUS(x) TORCH_CHECK((x).is_contiguous(), #x " must be contiguous")
+ 
+ #define CHECK_CUDA_INPUT(x) CHECK_CUDA(x); CHECK_CONTIGUOUS(x)
+ #define CHECK_CPU_INPUT(x) CHECK_CPU(x); CHECK_CONTIGUOUS(x)
+\ No newline at end of file
+diff --git a/simple_extractor.py b/simple_extractor.py
+index ae7e424..1edf567 100644
+--- a/simple_extractor.py
++++ b/simple_extractor.py
+@@ -110,7 +110,8 @@ def main():
+         name = k[7:]  # remove `module.`
+         new_state_dict[name] = v
+     model.load_state_dict(new_state_dict)
+-    model.cuda()
++    device = torch.device(os.environ.get('SCHP_DEVICE', 'cuda'))
++    model.to(device)
+     model.eval()
+ 
+     transform = transforms.Compose([
+@@ -133,7 +134,7 @@ def main():
+             w = meta['width'].numpy()[0]
+             h = meta['height'].numpy()[0]
+ 
+-            output = model(image.cuda())
++            output = model(image.to(device))
+             upsample = torch.nn.Upsample(size=input_size, mode='bilinear', align_corners=True)
+             upsample_output = upsample(output[0][-1][0].unsqueeze(0))
+             upsample_output = upsample_output.squeeze()

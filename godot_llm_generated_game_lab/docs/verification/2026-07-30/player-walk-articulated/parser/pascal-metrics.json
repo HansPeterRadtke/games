@@ -1,0 +1,29 @@
+{
+  "labels": [
+    "background",
+    "head",
+    "torso",
+    "upper_arms",
+    "lower_arms",
+    "upper_legs",
+    "lower_legs"
+  ],
+  "counts": {
+    "background": 458855,
+    "head": 10624,
+    "torso": 32591,
+    "upper_arms": 9496,
+    "lower_arms": 9637,
+    "upper_legs": 33968,
+    "lower_legs": 18269
+  },
+  "fractions": {
+    "background": 0.8001796177455357,
+    "head": 0.018526785714285714,
+    "torso": 0.05683419363839286,
+    "upper_arms": 0.01655970982142857,
+    "lower_arms": 0.016805594308035715,
+    "upper_legs": 0.05923549107142857,
+    "lower_legs": 0.031858607700892855
+  }
+}

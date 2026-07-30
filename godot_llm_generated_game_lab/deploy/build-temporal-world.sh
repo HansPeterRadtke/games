@@ -44,7 +44,7 @@ PY
 /data/venv/bin/python3 tests/test_world_generation_contracts.py
 /data/venv/bin/python3 tests/test_animation_quality.py
 /data/venv/bin/python3 tests/test_temporal_player_clips.py
-/data/venv/bin/python3 tests/test_player_walk_mimicmotion_evidence.py
+/data/venv/bin/python3 tests/test_player_walk_articulated_evidence.py
 /data/venv/bin/python3 tests/test_scene_recognizability_evidence.py
 /data/venv/bin/python3 tests/test_generated_action_runtime.py
 /data/venv/bin/python3 tests/test_generated_world_contract.py

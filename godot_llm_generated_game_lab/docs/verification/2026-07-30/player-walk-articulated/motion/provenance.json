@@ -1,0 +1,12 @@
+{
+  "bvh_source": "https://github.com/CreativeInquiry/BVH-Examples/blob/master/data/walk-cycle.bvh",
+  "bvh_sha256": "9d18c6c249304bee812298f28230feefdbea683f48cf0e8ff41e24e51b9badb3",
+  "loader_repository": "https://github.com/facebookresearch/AnimatedDrawings",
+  "loader_commit": "b859684857519c7424da51a0b0862fbd1fd258f4",
+  "source_frames": 42,
+  "source_frame_time": 0.041667,
+  "render_frames": 32,
+  "resampling": "circular Fourier resampling with Kaiser window",
+  "projection": "front view with 0.40 captured depth mapped into screen height",
+  "retargeting": "rigid semantic parts, exact source bone lengths, two-link leg inverse kinematics, circular support-foot anchoring"
+}

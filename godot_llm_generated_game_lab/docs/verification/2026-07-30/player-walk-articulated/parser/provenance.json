@@ -1,0 +1,14 @@
+{
+  "repository": "https://github.com/GoGoDuck912/Self-Correction-Human-Parsing",
+  "repository_commit": "eb84c432cc697f494d99662a05f2335eb2f26095",
+  "atr_checkpoint_sha256": "e9d7c91ce3b4e7133df56b599fc817b533e3439c5e8d282a59126d2fda339a2a",
+  "pascal_checkpoint_sha256": "3a4c807c1afe3ce5099651e5f2c059608c9c46a7b688a29c4fe9bd8206e90dc3",
+  "compatibility": {
+    "legacy_cpp_api_modernized": true,
+    "pure_pytorch_inference_equation": true,
+    "max_equation_difference": 0.00000095367431640625,
+    "checkpoint_changed": false,
+    "network_architecture_changed": false,
+    "label_semantics_changed": false
+  }
+}
