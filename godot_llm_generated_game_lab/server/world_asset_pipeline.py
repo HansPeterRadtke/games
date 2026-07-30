@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+# Legacy payload/cache helpers retained for historical tests and migration tooling only.
+# Production builds never call compile_world_assets; deploy/build-generated-world.sh
+# delegates to the StableAnimator/RVM build path.
+LEGACY_ASSET_ENGINE = "thor-sdxl-reviewed-identity-anchored-animation"
+
 import base64
 import hashlib
 import json
@@ -347,7 +352,7 @@ def compile_world_assets(bundle_path: Path, output_dir: Path, runtime_manifest_p
         "assets": assets,
         "complete": True,
         "fallback_used": False,
-        "asset_engine": "thor-sdxl-reviewed-identity-anchored-animation",
+        "asset_engine": LEGACY_ASSET_ENGINE,
         "compiled_seconds": round(time.monotonic() - started, 3),
     }
     runtime_manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

@@ -43,7 +43,7 @@ systemctl reload apache2
 verify_tmp=$(mktemp -d /data/tmp/llm-game-install-verify.XXXXXX)
 trap 'rm -rf "$verify_tmp"' RETURN
 curl -fsS --max-time 10 http://127.0.0.1/llm_game/ -o "$verify_tmp/index.html"
-grep -q 'your-mom-stableanimator-scene-v5' "$verify_tmp/index.html"
+grep -q 'your-mom-stableanimator-rvm-alpha-v6' "$verify_tmp/index.html"
 for token in 'id="hud-panel"' 'id="stage"' 'id="canvas"' 'id="controls-panel"' 'id="touch-controls"' 'id="stick-base"' 'id="action-pad"' 'llmGameGodotMove'; do grep -q "$token" "$verify_tmp/index.html"; done
 [[ $(grep -c 'id="canvas"' "$verify_tmp/index.html") -eq 1 ]]
 curl -fsSI --max-time 10 http://127.0.0.1/llm_game/index.wasm | grep -qi 'content-type: application/wasm'

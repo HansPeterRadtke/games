@@ -27,6 +27,8 @@ class AnimationQuality:
     first_last_rgba_diff: float
     alpha_intersection_over_union: float
     gif_sheet_coverage_error: list[float]
+    gif_sheet_mask_disagreement: list[float]
+    soft_alpha_ratio: list[float]
     bbox_width_ratio: list[float]
     bbox_height_ratio: list[float]
     lower_body_change: list[float]
@@ -137,6 +139,8 @@ def analyze_animation(sheet_path: Path, gif_path: Path, frame_count: int, frame_
         largest.append(component)
         centers.append(center)
     gif_coverage = [float((alpha > 16).mean()) for alpha in gif_alpha]
+    soft_alpha = [float(((alpha > 2) & (alpha < 253)).mean()) for alpha in alpha_arrays]
+    mask_disagreement = [float(np.logical_xor(gif_alpha[index] > 16, alpha_arrays[index] > 16).mean()) for index in range(frame_count)]
     center_step = [float(np.linalg.norm(np.asarray(centers[index]) - np.asarray(centers[index - 1]))) for index in range(1, frame_count)]
     adjacent = [float(np.abs(sheet_arrays[index] - sheet_arrays[index - 1]).mean()) for index in range(1, frame_count)]
     visible_masks = [alpha > 16 for alpha in alpha_arrays]
@@ -169,6 +173,8 @@ def analyze_animation(sheet_path: Path, gif_path: Path, frame_count: int, frame_
         first_last_rgba_diff=round(float(np.abs(sheet_arrays[0] - sheet_arrays[-1]).mean()), 6),
         alpha_intersection_over_union=round(float(intersection.sum() / max(1, union.sum())), 6),
         gif_sheet_coverage_error=[round(abs(gif_coverage[index] - coverage[index]), 6) for index in range(frame_count)],
+        gif_sheet_mask_disagreement=[round(value,6) for value in mask_disagreement],
+        soft_alpha_ratio=[round(value,6) for value in soft_alpha],
         bbox_width_ratio=[round(value,6) for value in bbox_width],
         bbox_height_ratio=[round(value,6) for value in bbox_height],
         lower_body_change=[round(value,6) for value in lower],
@@ -184,6 +190,7 @@ def validate_animation(
     loop_required: bool,
     action_clip: bool,
     clip_name: str = "idle",
+    require_soft_alpha: bool = False,
 ) -> list[str]:
     errors: list[str] = []
     if quality.frame_count < 2:
@@ -196,6 +203,10 @@ def validate_animation(
         errors.append("GIF lacks distinct motion frames")
     if max(quality.gif_sheet_coverage_error, default=0.0) > 0.08:
         errors.append("GIF transparency does not match the sprite sheet")
+    if max(quality.gif_sheet_mask_disagreement, default=0.0) > 0.01:
+        errors.append("GIF preview mask disagrees with the runtime sprite sheet")
+    if require_soft_alpha and min(quality.soft_alpha_ratio, default=0.0) < 0.005:
+        errors.append("runtime sprite sheet lacks recurrent soft-alpha edge pixels")
     if transparent:
         if min(quality.coverage, default=0.0) < 0.015:
             errors.append("subject disappears in at least one frame")
@@ -247,6 +258,7 @@ def audit_manifest(path: Path) -> dict[str, Any]:
                 loop_required=clip_name in {"idle", "walk"},
                 action_clip=clip_name not in {"idle", "walk"},
                 clip_name=clip_name,
+                require_soft_alpha=bool(clip.get("alpha_temporal_model", False)),
             )
             results[f"{asset_id}:{clip_name}"] = {"quality": quality.to_dict(), "errors": errors}
     return results

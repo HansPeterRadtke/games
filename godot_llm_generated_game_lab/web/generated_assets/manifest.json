@@ -1,10 +1,10 @@
 {
   "complete": true,
   "fallback_used": false,
-  "asset_engine": "sdxl-reviewed-scene-assets+stableanimator-pose-driven-player",
+  "asset_engine": "sdxl-reviewed-scene-assets+stableanimator-pose-driven-player+rvm-recurrent-soft-alpha",
   "scene_name": "Dining Room",
   "gameplay_action_count": 30,
-  "build_id": "your-mom-stableanimator-scene-v5",
+  "build_id": "your-mom-stableanimator-rvm-alpha-v6",
   "scene_review": {
     "recognizability": {
       "player": {
@@ -68,8 +68,106 @@
       "player_complete": true,
       "mother_complete": true
     },
-    "screenshot_sha256": "271de67e0b28ad52cd2a9292ebfce755b18a3203634132b22c464280df73df3e",
-    "evidence_sha256": "7906e287a54381cdcc319920d622db0f37db57f52ed4b2c998e673964194c2dc"
+    "screenshot_sha256": "87b69cf1be6011ebfb39842617dc3dffb16ec3e4fd97f2bdc864ef38bdfa69e1",
+    "player_matte_review": {
+      "complete_head": true,
+      "complete_hands": true,
+      "complete_feet": true,
+      "white_halo": false,
+      "dark_halo": false,
+      "uniform_rectangular_background": false,
+      "visible_box_boundary": false,
+      "background_contamination": false,
+      "edge_quality": "clean",
+      "confidence_percent": 90,
+      "pass": true,
+      "reason": "The player matte and silhouette appear to be complete, with no visible box boundary or contamination. The edges are clean enough for a game sprite."
+    },
+    "player_boundary_metrics": {
+      "box": [
+        36,
+        36,
+        133,
+        195
+      ],
+      "perimeter_samples": 512,
+      "mean": 6.543,
+      "median": 0.0,
+      "p95": 46.483,
+      "fraction_gt_20": 0.1094,
+      "fraction_gt_40": 0.0645,
+      "sides": {
+        "top": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "fraction_gt_20": 0.0,
+          "fraction_gt_40": 0.0
+        },
+        "bottom": {
+          "mean": 2.838,
+          "median": 0.0,
+          "p95": 20.667,
+          "fraction_gt_20": 0.0619,
+          "fraction_gt_40": 0.0
+        },
+        "left": {
+          "mean": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "fraction_gt_20": 0.0,
+          "fraction_gt_40": 0.0
+        },
+        "right": {
+          "mean": 19.338,
+          "median": 4.667,
+          "p95": 82.8,
+          "fraction_gt_20": 0.3145,
+          "fraction_gt_40": 0.2075
+        }
+      },
+      "rectangular_matte_boundary_detected": false
+    },
+    "rvm_contact_review": {
+      "idle": {
+        "complete_person": true,
+        "clean_edges": true,
+        "consistent_identity": true,
+        "confidence": 1
+      },
+      "walk": {
+        "complete_person": true,
+        "clean_edges": true,
+        "consistent_identity": true,
+        "confidence": 1
+      },
+      "interact": {
+        "complete_person": true,
+        "clean_edges": true,
+        "consistent_identity": true,
+        "confidence": 1
+      },
+      "attack": {
+        "complete_person": true,
+        "clean_edges": true,
+        "consistent_identity": true,
+        "confidence": 1
+      },
+      "use": {
+        "complete_person": true,
+        "clean_edges": true,
+        "consistent_identity": true,
+        "confidence": 1
+      },
+      "white_fringes": false,
+      "dark_fringes": false,
+      "missing_body_parts": false,
+      "background_rectangles": false,
+      "edge_flicker_visible": false,
+      "overall_pass": true,
+      "summary": "The animation clips show a consistent and clean representation of the character across all five animations."
+    },
+    "evidence_sha256": "5860e588286d43baef5a4c30ab267dd60b3b7efa7950396f8e622615e7d4bd40"
   },
   "assets": {
     "player": {
@@ -79,6 +177,9 @@
       "frames": 13,
       "engine": "StableAnimator",
       "pose_driven": true,
+      "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+      "alpha_temporal_model": true,
+      "alpha_resize": "premultiplied-alpha Lanczos4",
       "fallback_used": false,
       "clips": {
         "idle": {
@@ -93,8 +194,35 @@
           "identity_encoder": "AntelopeV2 glintr100",
           "min_reference_cosine": 0.764722,
           "min_adjacent_identity_cosine": 0.995317,
-          "max_foreground_coverage": 0.139287,
+          "max_foreground_coverage": 0.184163,
           "max_border_visible_ratio": 0.0,
+          "min_soft_alpha_ratio": 0.026322,
+          "max_soft_alpha_ratio": 0.027769,
+          "min_largest_component_ratio": 0.99995,
+          "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+          "alpha_temporal_model": true,
+          "alpha_resize": "premultiplied-alpha Lanczos4",
+          "gif_sheet_mask_disagreement": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "contact_review": {
+            "complete_person": true,
+            "clean_edges": true,
+            "consistent_identity": true,
+            "confidence": 1
+          },
           "semantic_motion": {},
           "fallback_used": false,
           "review_pass": true,
@@ -112,8 +240,39 @@
           "identity_encoder": "AntelopeV2 glintr100",
           "min_reference_cosine": 0.637491,
           "min_adjacent_identity_cosine": 0.948179,
-          "max_foreground_coverage": 0.164849,
+          "max_foreground_coverage": 0.184869,
           "max_border_visible_ratio": 0.0,
+          "min_soft_alpha_ratio": 0.019549,
+          "max_soft_alpha_ratio": 0.02813,
+          "min_largest_component_ratio": 0.999656,
+          "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+          "alpha_temporal_model": true,
+          "alpha_resize": "premultiplied-alpha Lanczos4",
+          "gif_sheet_mask_disagreement": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "contact_review": {
+            "complete_person": true,
+            "clean_edges": true,
+            "consistent_identity": true,
+            "confidence": 1
+          },
           "semantic_motion": {
             "pose_model": "DWPose dw-ll_ucoco_384",
             "body_joints_detected_each_frame": 17,
@@ -138,8 +297,38 @@
           "identity_encoder": "AntelopeV2 glintr100",
           "min_reference_cosine": 0.793183,
           "min_adjacent_identity_cosine": 0.973039,
-          "max_foreground_coverage": 0.170944,
+          "max_foreground_coverage": 0.197003,
           "max_border_visible_ratio": 0.0,
+          "min_soft_alpha_ratio": 0.02993,
+          "max_soft_alpha_ratio": 0.034776,
+          "min_largest_component_ratio": 0.999114,
+          "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+          "alpha_temporal_model": true,
+          "alpha_resize": "premultiplied-alpha Lanczos4",
+          "gif_sheet_mask_disagreement": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "contact_review": {
+            "complete_person": true,
+            "clean_edges": true,
+            "consistent_identity": true,
+            "confidence": 1
+          },
           "semantic_motion": {
             "frames": 16,
             "min_reference_cosine": 0.7931830286979675,
@@ -802,8 +991,38 @@
           "identity_encoder": "AntelopeV2 glintr100",
           "min_reference_cosine": 0.745207,
           "min_adjacent_identity_cosine": 0.941517,
-          "max_foreground_coverage": 0.211127,
+          "max_foreground_coverage": 0.207167,
           "max_border_visible_ratio": 0.0,
+          "min_soft_alpha_ratio": 0.025445,
+          "max_soft_alpha_ratio": 0.037507,
+          "min_largest_component_ratio": 0.999824,
+          "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+          "alpha_temporal_model": true,
+          "alpha_resize": "premultiplied-alpha Lanczos4",
+          "gif_sheet_mask_disagreement": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "contact_review": {
+            "complete_person": true,
+            "clean_edges": true,
+            "consistent_identity": true,
+            "confidence": 1
+          },
           "semantic_motion": {
             "frames": 16,
             "min_reference_cosine": 0.7452069520950317,
@@ -1466,8 +1685,38 @@
           "identity_encoder": "AntelopeV2 glintr100",
           "min_reference_cosine": 0.773776,
           "min_adjacent_identity_cosine": 0.978865,
-          "max_foreground_coverage": 0.166196,
+          "max_foreground_coverage": 0.1892,
           "max_border_visible_ratio": 0.0,
+          "min_soft_alpha_ratio": 0.025969,
+          "max_soft_alpha_ratio": 0.031187,
+          "min_largest_component_ratio": 1.0,
+          "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+          "alpha_temporal_model": true,
+          "alpha_resize": "premultiplied-alpha Lanczos4",
+          "gif_sheet_mask_disagreement": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "contact_review": {
+            "complete_person": true,
+            "clean_edges": true,
+            "consistent_identity": true,
+            "confidence": 1
+          },
           "semantic_motion": {
             "frames": 16,
             "min_reference_cosine": 0.773775577545166,
@@ -2127,6 +2376,9 @@
       "frames": 8,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
       "pose_driven": false,
+      "alpha_model": null,
+      "alpha_temporal_model": false,
+      "alpha_resize": null,
       "fallback_used": false
     },
     "dining_table": {
@@ -2136,6 +2388,9 @@
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
       "pose_driven": false,
+      "alpha_model": null,
+      "alpha_temporal_model": false,
+      "alpha_resize": null,
       "fallback_used": false
     },
     "chandelier": {
@@ -2145,6 +2400,9 @@
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
       "pose_driven": false,
+      "alpha_model": null,
+      "alpha_temporal_model": false,
+      "alpha_resize": null,
       "fallback_used": false
     },
     "sideboard": {
@@ -2154,6 +2412,9 @@
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
       "pose_driven": false,
+      "alpha_model": null,
+      "alpha_temporal_model": false,
+      "alpha_resize": null,
       "fallback_used": false
     },
     "curtains": {
@@ -2163,6 +2424,9 @@
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
       "pose_driven": false,
+      "alpha_model": null,
+      "alpha_temporal_model": false,
+      "alpha_resize": null,
       "fallback_used": false
     },
     "wall_finish": {
@@ -2172,6 +2436,9 @@
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
       "pose_driven": false,
+      "alpha_model": null,
+      "alpha_temporal_model": false,
+      "alpha_resize": null,
       "fallback_used": false
     },
     "floor_carpet": {
@@ -2181,6 +2448,9 @@
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
       "pose_driven": false,
+      "alpha_model": null,
+      "alpha_temporal_model": false,
+      "alpha_resize": null,
       "fallback_used": false
     },
     "kitchen_door": {
@@ -2190,6 +2460,9 @@
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
       "pose_driven": false,
+      "alpha_model": null,
+      "alpha_temporal_model": false,
+      "alpha_resize": null,
       "fallback_used": false
     },
     "cookies": {
@@ -2199,6 +2472,9 @@
       "frames": 6,
       "engine": "sdxl-base-canonical+sdxl-img2img-animation",
       "pose_driven": false,
+      "alpha_model": null,
+      "alpha_temporal_model": false,
+      "alpha_resize": null,
       "fallback_used": false
     }
   }

@@ -1,0 +1,234 @@
+{
+  "engine": "StableAnimator",
+  "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+  "alpha_temporal_model": true,
+  "resize": "premultiplied-alpha Lanczos4",
+  "fallback_used": false,
+  "clips": {
+    "idle": {
+      "frame_count": 13,
+      "max_foreground_coverage": 0.184163,
+      "min_soft_alpha_ratio": 0.026322,
+      "max_soft_alpha_ratio": 0.027769,
+      "max_border_visible_ratio": 0.0,
+      "min_largest_component_ratio": 0.99995,
+      "inference_seconds": 4.624,
+      "exact_loop": true,
+      "sha256": {
+        "png": "2a54f9ac854ed80e5019feada392809f207cd15392737479119fb61cc5968c51",
+        "gif": "5b5e133dba867a9122b0dc1b4ba8461da67b99f000f343ec0b10d3d789fa4fe9",
+        "sheet": "877156c88ac9fcd86fc97c8dd35cf9b6c5e882d90c0dcab72f7a88c20ffb711e"
+      },
+      "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+      "alpha_temporal_model": true,
+      "alpha_checkpoint_sha256": "3c7c1d92033f7c38d6577c481d13a195d7d80a159b960f4f3119ac7b534cf4f8",
+      "resize": "premultiplied-alpha Lanczos4",
+      "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
+      "adjacent_alpha_difference": [
+        0.00356,
+        0.00432,
+        0.001232,
+        0.000876,
+        0.00347,
+        0.005719,
+        0.006123,
+        0.004314,
+        0.000662,
+        0.001634,
+        0.002981,
+        0.008901
+      ]
+    },
+    "walk": {
+      "frame_count": 17,
+      "max_foreground_coverage": 0.184869,
+      "min_soft_alpha_ratio": 0.019549,
+      "max_soft_alpha_ratio": 0.02813,
+      "max_border_visible_ratio": 0.0,
+      "min_largest_component_ratio": 0.999656,
+      "inference_seconds": 5.46,
+      "exact_loop": true,
+      "sha256": {
+        "png": "e6799bf9fcf10b617b61b2e3a5fea5bc6b30335ab83dd9dd8d247dc280528b40",
+        "gif": "828fbd431ea7ba81132b966c3bd58f919944dfd1eb2297564509eec7ad4bdac3",
+        "sheet": "1469acb74e878f84bf0e613509a858e8ec302fad64dbde24797d1877826b536f"
+      },
+      "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+      "alpha_temporal_model": true,
+      "alpha_checkpoint_sha256": "3c7c1d92033f7c38d6577c481d13a195d7d80a159b960f4f3119ac7b534cf4f8",
+      "resize": "premultiplied-alpha Lanczos4",
+      "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
+      "adjacent_alpha_difference": [
+        0.058075,
+        0.031468,
+        0.025507,
+        0.009434,
+        0.008667,
+        0.024125,
+        0.03473,
+        0.062109,
+        0.062982,
+        0.052631,
+        0.037322,
+        0.012421,
+        0.013132,
+        0.038732,
+        0.051958,
+        0.069092
+      ]
+    },
+    "player_interact": {
+      "frame_count": 16,
+      "max_foreground_coverage": 0.197003,
+      "min_soft_alpha_ratio": 0.02993,
+      "max_soft_alpha_ratio": 0.034776,
+      "max_border_visible_ratio": 0.0,
+      "min_largest_component_ratio": 0.999114,
+      "inference_seconds": 5.829,
+      "exact_loop": null,
+      "sha256": {
+        "png": "310c507a5fe47d2b12b9cc40f43c26f23307d0bd130b3e0e36e7cdd38f1548f6",
+        "gif": "755cec576386a7decb9dd90b9deb64c1c7eae8350efa39b947deb5d04182cfa0",
+        "sheet": "3db3dc90ef505bc09f398c5ce418d8ef664a01d67dc5dc425cc9510e96c757c0"
+      },
+      "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+      "alpha_temporal_model": true,
+      "alpha_checkpoint_sha256": "3c7c1d92033f7c38d6577c481d13a195d7d80a159b960f4f3119ac7b534cf4f8",
+      "resize": "premultiplied-alpha Lanczos4",
+      "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
+      "adjacent_alpha_difference": [
+        0.006334,
+        0.016377,
+        0.021079,
+        0.0243,
+        0.025783,
+        0.024445,
+        0.019067,
+        0.009018,
+        0.007024,
+        0.020083,
+        0.027,
+        0.029029,
+        0.024514,
+        0.019938,
+        0.015491
+      ]
+    },
+    "player_attack": {
+      "frame_count": 16,
+      "max_foreground_coverage": 0.207167,
+      "min_soft_alpha_ratio": 0.025445,
+      "max_soft_alpha_ratio": 0.037507,
+      "max_border_visible_ratio": 0.0,
+      "min_largest_component_ratio": 0.999824,
+      "inference_seconds": 5.967,
+      "exact_loop": null,
+      "sha256": {
+        "png": "53ddb0b72f25065b03cf410a150c6ee7b3801a407253925456e3a30b08eaa235",
+        "gif": "dbc9127d97ca70cb4fcbfa773788d27486a992ea0b573e577e18e9306eca323f",
+        "sheet": "53c6a60538e6d75f8ebc7253bf36af0807d8568f500ac669d33328857ea73f21"
+      },
+      "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+      "alpha_temporal_model": true,
+      "alpha_checkpoint_sha256": "3c7c1d92033f7c38d6577c481d13a195d7d80a159b960f4f3119ac7b534cf4f8",
+      "resize": "premultiplied-alpha Lanczos4",
+      "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
+      "adjacent_alpha_difference": [
+        0.057382,
+        0.045411,
+        0.037784,
+        0.017851,
+        0.016287,
+        0.039836,
+        0.043388,
+        0.049411,
+        0.005492,
+        0.004688,
+        0.003814,
+        0.001656,
+        0.001606,
+        0.003541,
+        0.004768
+      ]
+    },
+    "player_use": {
+      "frame_count": 16,
+      "max_foreground_coverage": 0.1892,
+      "min_soft_alpha_ratio": 0.025969,
+      "max_soft_alpha_ratio": 0.031187,
+      "max_border_visible_ratio": 0.0,
+      "min_largest_component_ratio": 1.0,
+      "inference_seconds": 5.349,
+      "exact_loop": null,
+      "sha256": {
+        "png": "79c464a3820f23801d2c34e4537ca0a037f287f935c55b1e6a8964ea89ee03ac",
+        "gif": "73c525e29f49386ac9a23f3c2769ed60ec61ca959ddd429ccaaeb38bb80e6475",
+        "sheet": "2b44d9170b370bc664dcf4250695c8d8bdcaea9937dd6e11a12dd0cd7bd3e653"
+      },
+      "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+      "alpha_temporal_model": true,
+      "alpha_checkpoint_sha256": "3c7c1d92033f7c38d6577c481d13a195d7d80a159b960f4f3119ac7b534cf4f8",
+      "resize": "premultiplied-alpha Lanczos4",
+      "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
+      "adjacent_alpha_difference": [
+        0.002646,
+        0.002948,
+        0.003343,
+        0.002622,
+        0.001351,
+        0.000413,
+        0.000581,
+        0.000581,
+        0.00045,
+        0.000575,
+        0.00046,
+        0.001267,
+        0.002784,
+        0.002798,
+        0.003126
+      ]
+    }
+  },
+  "total_seconds": 27.257,
+  "contact_review": {
+    "idle": {
+      "complete_person": true,
+      "clean_edges": true,
+      "consistent_identity": true,
+      "confidence": 1
+    },
+    "walk": {
+      "complete_person": true,
+      "clean_edges": true,
+      "consistent_identity": true,
+      "confidence": 1
+    },
+    "interact": {
+      "complete_person": true,
+      "clean_edges": true,
+      "consistent_identity": true,
+      "confidence": 1
+    },
+    "attack": {
+      "complete_person": true,
+      "clean_edges": true,
+      "consistent_identity": true,
+      "confidence": 1
+    },
+    "use": {
+      "complete_person": true,
+      "clean_edges": true,
+      "consistent_identity": true,
+      "confidence": 1
+    },
+    "white_fringes": false,
+    "dark_fringes": false,
+    "missing_body_parts": false,
+    "background_rectangles": false,
+    "edge_flicker_visible": false,
+    "overall_pass": true,
+    "summary": "The animation clips show a consistent and clean representation of the character across all five animations."
+  },
+  "contact_review_sha256": "9c87a90771f979f1fe2cf677646d1fa3e01dd420da3b278aeaab05526f324dd1",
+  "contact_sheet_sha256": "e9c277927398e85682ebfad036b6a341626addc923a0c8baf94af03eb22ff575"
+}

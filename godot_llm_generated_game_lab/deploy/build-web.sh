@@ -11,7 +11,7 @@ stage=$(mktemp -d /data/tmp/godot-llm-web.XXXXXX)
 trap 'rm -rf "$stage"' EXIT
 "$GODOT_WEB_BIN" --headless --path "$ROOT" --export-release Web "$stage/index.html"
 for file in index.html index.js index.wasm index.pck; do [[ -s "$stage/$file" ]] || { echo "missing web export: $file" >&2; exit 1; }; done
-grep -q 'your-mom-stableanimator-scene-v5' "$stage/index.html"
+grep -q 'your-mom-stableanimator-rvm-alpha-v6' "$stage/index.html"
 touch "$stage/.gdignore"
 find "$stage" -type d -exec chmod 0755 {} +
 find "$stage" -type f -exec chmod 0644 {} +

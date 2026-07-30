@@ -1,0 +1,39 @@
+{
+  "idle": {
+    "complete_person": true,
+    "clean_edges": true,
+    "consistent_identity": true,
+    "confidence": 1
+  },
+  "walk": {
+    "complete_person": true,
+    "clean_edges": true,
+    "consistent_identity": true,
+    "confidence": 1
+  },
+  "interact": {
+    "complete_person": true,
+    "clean_edges": true,
+    "consistent_identity": true,
+    "confidence": 1
+  },
+  "attack": {
+    "complete_person": true,
+    "clean_edges": true,
+    "consistent_identity": true,
+    "confidence": 1
+  },
+  "use": {
+    "complete_person": true,
+    "clean_edges": true,
+    "consistent_identity": true,
+    "confidence": 1
+  },
+  "white_fringes": false,
+  "dark_fringes": false,
+  "missing_body_parts": false,
+  "background_rectangles": false,
+  "edge_flicker_visible": false,
+  "overall_pass": true,
+  "summary": "The animation clips show a consistent and clean representation of the character across all five animations."
+}

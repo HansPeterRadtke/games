@@ -8,10 +8,10 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'server'))
 from animation_quality import analyze_animation,validate_animation
 manifest=json.loads((ROOT/'data/generated_world.json').read_text())
-assert manifest['asset_engine']=='sdxl-reviewed-scene-assets+stableanimator-pose-driven-player'
+assert manifest['asset_engine']=='sdxl-reviewed-scene-assets+stableanimator-pose-driven-player+rvm-recurrent-soft-alpha'
 assert manifest['fallback_used'] is False
 player=manifest['assets']['player']
-assert player['pose_driven'] is True and player['engine'] == 'StableAnimator' and player['fallback_used'] is False
+assert player['pose_driven'] is True and player['engine'] == 'StableAnimator' and player['alpha_temporal_model'] is True and player['fallback_used'] is False
 assert set(player['clips'])=={'idle','walk','player_interact','player_attack','player_use'}
 for name,clip in player['clips'].items():
     assert clip['pose_driven'] is True and clip['engine'] == 'StableAnimator' and clip['fallback_used'] is False
@@ -21,6 +21,12 @@ for name,clip in player['clips'].items():
     assert clip['min_adjacent_identity_cosine'] >= 0.94
     assert clip['max_foreground_coverage'] <= 0.65
     assert clip['max_border_visible_ratio'] == 0.0
+    assert clip['alpha_model'] == 'RobustVideoMatting mobilenetv3 official v1.0.0'
+    assert clip['alpha_temporal_model'] is True
+    assert clip['min_soft_alpha_ratio'] >= 0.005
+    assert clip['min_largest_component_ratio'] >= 0.98
+    assert max(clip['gif_sheet_mask_disagreement']) <= 0.01
+    assert clip['alpha_resize'] == 'premultiplied-alpha Lanczos4'
     assert clip['pose_driver'].startswith('explicit-openpose-')
     for key in ['png_path','gif_path','sheet_path']:
         path=ROOT/clip[key]
@@ -29,7 +35,7 @@ for name,clip in player['clips'].items():
         frames=list(ImageSequence.Iterator(image))
         assert len(frames)==clip['frame_count'] and image.info.get('loop')==0
     quality=analyze_animation(ROOT/clip['sheet_path'],ROOT/clip['gif_path'],clip['frame_count'],clip['frame_width'],clip['frame_height'])
-    errors=validate_animation(quality,transparent=True,loop_required=name in {'idle','walk'},action_clip=name not in {'idle','walk'},clip_name=name)
+    errors=validate_animation(quality,transparent=True,loop_required=name in {'idle','walk'},action_clip=name not in {'idle','walk'},clip_name=name,require_soft_alpha=True)
     assert not errors,(name,errors,quality.to_dict())
 assert player['clips']['walk']['semantic_motion']['semantic_pass'] is True
 assert player['clips']['walk']['semantic_motion']['body_joints_detected_each_frame'] == 17

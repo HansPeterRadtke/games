@@ -123,7 +123,7 @@ func _load_generated_manifest() -> bool:
     if manifest.get("complete", false) != true or manifest.get("fallback_used", true) != false:
         return false
     var engine := str(manifest.get("asset_engine", ""))
-    if engine not in ["thor-sdxl-reviewed-identity-anchored-animation", "sdxl-reviewed-canonical+ltx-video-temporal+birefnet-matting", "sdxl-reviewed-scene-assets+stableanimator-pose-driven-player"]:
+    if engine != "sdxl-reviewed-scene-assets+stableanimator-pose-driven-player+rvm-recurrent-soft-alpha":
         return false
     if not (manifest.get("scene_plan", {}) is Dictionary) or not (manifest.get("assets", {}) is Dictionary):
         return false
@@ -833,7 +833,7 @@ func _publish_web_state() -> void:
         "off_hand": "none",
         "inventory": inventory.duplicate(true),
         "event": status_label.text if status_label != null else "Generated scene ready.",
-        "forge_status": "StableAnimator pose-driven player clips loaded, including a DWPose-validated walk cycle.",
+        "forge_status": "StableAnimator pose-driven clips with recurrent RVM soft alpha loaded, including a DWPose-validated walk cycle.",
         "content_name": str(plan.get("scene_name", "Generated Scene")),
         "content_detail": str(manifest.get("opening_scene", "")).substr(0, 500),
         "forge_busy": false,

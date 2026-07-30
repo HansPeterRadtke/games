@@ -2,3 +2,5 @@
 __pycache__/
 *.pyc
 runtime/
+docs/verification/**/*.import
+generated/world_assets/player/stableanimator/**/*.import

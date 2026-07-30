@@ -2,7 +2,7 @@
 set -euo pipefail
 ROOT=/data/src/github/games/godot_llm_generated_game_lab
 PUBLIC=https://nitro.jonnyontherun.org/llm_game
-ENGINE=sdxl-reviewed-scene-assets+stableanimator-pose-driven-player
+ENGINE=sdxl-reviewed-scene-assets+stableanimator-pose-driven-player+rvm-recurrent-soft-alpha
 [[ $(hostname -s) == nitro ]]
 cd "$ROOT"
 systemctl is-active --quiet apache2
@@ -15,7 +15,7 @@ from PIL import Image,ImageSequence
 root=Path('/data/src/github/games/godot_llm_generated_game_lab')
 manifest=json.loads((root/'data/generated_world.json').read_text())
 assert manifest['version']==1 and manifest['complete'] is True and manifest['fallback_used'] is False
-assert manifest['asset_engine']=='sdxl-reviewed-scene-assets+stableanimator-pose-driven-player'
+assert manifest['asset_engine']=='sdxl-reviewed-scene-assets+stableanimator-pose-driven-player+rvm-recurrent-soft-alpha'
 assert manifest['gameplay_action_count']==30
 assert manifest['scene_plan']['scene_name']=='Dining Room'
 assert len(manifest['scene_plan']['player']['actions'])==3
@@ -23,6 +23,9 @@ assert all(len(obj['actions'])==3 for obj in manifest['scene_plan']['objects'])
 assert len(manifest['assets'])==10
 player=manifest['assets']['player']
 assert player['pose_driven'] is True and player['engine'] == 'StableAnimator' and player['fallback_used'] is False
+assert player['alpha_model'] == 'RobustVideoMatting mobilenetv3 official v1.0.0'
+assert player['alpha_temporal_model'] is True
+assert player['alpha_resize'] == 'premultiplied-alpha Lanczos4'
 assert set(player['clips'])=={'idle','walk','player_interact','player_attack','player_use'}
 for name,clip in player['clips'].items():
     assert clip['pose_driven'] is True and clip['engine'] == 'StableAnimator' and clip['fallback_used'] is False
@@ -31,6 +34,12 @@ for name,clip in player['clips'].items():
     assert clip['min_adjacent_identity_cosine'] >= 0.94
     assert clip['max_foreground_coverage'] <= 0.65
     assert clip['max_border_visible_ratio'] == 0.0
+    assert clip['alpha_model'] == 'RobustVideoMatting mobilenetv3 official v1.0.0'
+    assert clip['alpha_temporal_model'] is True
+    assert clip['min_soft_alpha_ratio'] >= 0.005
+    assert clip['min_largest_component_ratio'] >= 0.98
+    assert max(clip['gif_sheet_mask_disagreement']) <= 0.01
+    assert clip['alpha_resize'] == 'premultiplied-alpha Lanczos4'
     assert clip['pose_driver'].startswith('explicit-openpose-')
     with Image.open(root/clip['gif_path']) as image:
         frames=list(ImageSequence.Iterator(image))
@@ -61,10 +70,10 @@ for base in http://127.0.0.1/llm_game "$PUBLIC"; do
 import json
 v=json.load(open('/tmp/temporal-public.json')); player=v['assets']['player']
 assert v['complete'] is True and v['fallback_used'] is False
-assert v['asset_engine']=='sdxl-reviewed-scene-assets+stableanimator-pose-driven-player'
+assert v['asset_engine']=='sdxl-reviewed-scene-assets+stableanimator-pose-driven-player+rvm-recurrent-soft-alpha'
 assert v['scene_name']=='Dining Room' and v['gameplay_action_count']==30 and len(v['assets'])==10
 assert set(player['clips'])=={'idle','walk','player_interact','player_attack','player_use'}
-assert all(c['pose_driven'] is True and c['engine'] == 'StableAnimator' and c['fallback_used'] is False and c['review_pass'] is True and c['distinct_gif_frames'] >= c['frames'] - (1 if name in {'idle','walk'} else 0) and c['max_foreground_coverage'] <= 0.65 and c['max_border_visible_ratio'] == 0.0 for name,c in player['clips'].items())
+assert all(c['pose_driven'] is True and c['engine'] == 'StableAnimator' and c['fallback_used'] is False and c['review_pass'] is True and c['distinct_gif_frames'] >= c['frames'] - (1 if name in {'idle','walk'} else 0) and c['max_foreground_coverage'] <= 0.65 and c['max_border_visible_ratio'] == 0.0 and c['alpha_model'] == 'RobustVideoMatting mobilenetv3 official v1.0.0' and c['alpha_temporal_model'] is True and c['min_soft_alpha_ratio'] >= 0.005 and c['min_largest_component_ratio'] >= 0.98 and max(c['gif_sheet_mask_disagreement']) <= 0.01 for name,c in player['clips'].items())
 assert player['clips']['walk']['semantic_motion']['semantic_pass'] is True
 review=v['scene_review']
 expected={'player','mother','dining_table','chandelier','sideboard','curtains','wall_surface','carpet','kitchen_door','cookies'}
@@ -74,6 +83,16 @@ for key in ['large_white_bars','rectangular_source_backgrounds','character_halos
     assert review['defects'][key] is False,key
 assert review['defects']['scene_coherent'] is True
 assert review['defects']['player_complete'] is True and review['defects']['mother_complete'] is True
+matte=review['player_matte_review']
+assert matte['complete_head'] and matte['complete_hands'] and matte['complete_feet']
+for key in ['white_halo','dark_halo','uniform_rectangular_background','visible_box_boundary','background_contamination']:
+    assert matte[key] is False,key
+assert matte['edge_quality']=='clean' and matte['confidence_percent']>=70 and matte['pass'] is True
+assert review['player_boundary_metrics']['rectangular_matte_boundary_detected'] is False
+assert review['player_boundary_metrics']['fraction_gt_20'] < 0.35
+assert review['rvm_contact_review']['overall_pass'] is True
+for key in ['white_fringes','dark_fringes','missing_body_parts','background_rectangles','edge_flicker_visible']:
+    assert review['rvm_contact_review'][key] is False,key
 PY
 done
 cmp web/index.pck /tmp/temporal-index.pck

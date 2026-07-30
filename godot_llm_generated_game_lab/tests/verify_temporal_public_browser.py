@@ -11,7 +11,7 @@ from pathlib import Path
 import websocket
 from PIL import Image, ImageChops, ImageStat
 
-ENGINE = 'sdxl-reviewed-scene-assets+stableanimator-pose-driven-player'
+ENGINE = 'sdxl-reviewed-scene-assets+stableanimator-pose-driven-player+rvm-recurrent-soft-alpha'
 EXPECTED_CLIPS = {'idle', 'walk', 'player_interact', 'player_attack', 'player_use'}
 
 

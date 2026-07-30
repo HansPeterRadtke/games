@@ -1,8 +1,8 @@
 {
-  "build_id": "your-mom-stableanimator-walk-v4",
-  "asset_engine": "sdxl-reviewed-scene-assets+stableanimator-pose-driven-player",
+  "build_id": "your-mom-stableanimator-rvm-alpha-v6",
+  "asset_engine": "sdxl-reviewed-scene-assets+stableanimator-pose-driven-player+rvm-recurrent-soft-alpha",
   "public_url": "https://nitro.jonnyontherun.org/llm_game/",
-  "screenshot_sha256": "271de67e0b28ad52cd2a9292ebfce755b18a3203634132b22c464280df73df3e",
+  "screenshot_sha256": "87b69cf1be6011ebfb39842617dc3dffb16ec3e4fd97f2bdc864ef38bdfa69e1",
   "recognizability_sha256": "12a18403690124c9f269c0dcc4f258b9441acc3a88db909b3b55c5948f1a981a",
   "defects_sha256": "663f556ba6dbcdc7e046157809cd3a3229c121aa8eef049a6a9e90ae175f59de",
   "objects": {
@@ -67,5 +67,111 @@
     "player_complete": true,
     "mother_complete": true
   },
-  "fallback_used": false
+  "fallback_used": false,
+  "player_alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
+  "player_alpha_temporal_model": true,
+  "player_alpha_resize": "premultiplied-alpha Lanczos4",
+  "player_roi_sha256": "7c6df10c55c076974c1fcd72c58fdaea163dc9d2e4236da369eb7c9815f5ac78",
+  "player_context_sha256": "0e5185f8efaa15828d6192f56154e85d69957751b738e41a22b37b6b258c7b4b",
+  "player_matte_review_sha256": "0c84a70b8599056db8b0fc22398bfe2f586b3963c1f45e32add47c72cee140bf",
+  "player_boundary_metrics_sha256": "dbabb5491dd515ff011d597776d30ed2d37df348f9be8b4151df65347f5171a4",
+  "rvm_contact_review_sha256": "9c87a90771f979f1fe2cf677646d1fa3e01dd420da3b278aeaab05526f324dd1",
+  "player_matte_review": {
+    "complete_head": true,
+    "complete_hands": true,
+    "complete_feet": true,
+    "white_halo": false,
+    "dark_halo": false,
+    "uniform_rectangular_background": false,
+    "visible_box_boundary": false,
+    "background_contamination": false,
+    "edge_quality": "clean",
+    "confidence_percent": 90,
+    "pass": true,
+    "reason": "The player matte and silhouette appear to be complete, with no visible box boundary or contamination. The edges are clean enough for a game sprite."
+  },
+  "player_boundary_metrics": {
+    "box": [
+      36,
+      36,
+      133,
+      195
+    ],
+    "perimeter_samples": 512,
+    "mean": 6.543,
+    "median": 0.0,
+    "p95": 46.483,
+    "fraction_gt_20": 0.1094,
+    "fraction_gt_40": 0.0645,
+    "sides": {
+      "top": {
+        "mean": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "fraction_gt_20": 0.0,
+        "fraction_gt_40": 0.0
+      },
+      "bottom": {
+        "mean": 2.838,
+        "median": 0.0,
+        "p95": 20.667,
+        "fraction_gt_20": 0.0619,
+        "fraction_gt_40": 0.0
+      },
+      "left": {
+        "mean": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "fraction_gt_20": 0.0,
+        "fraction_gt_40": 0.0
+      },
+      "right": {
+        "mean": 19.338,
+        "median": 4.667,
+        "p95": 82.8,
+        "fraction_gt_20": 0.3145,
+        "fraction_gt_40": 0.2075
+      }
+    },
+    "rectangular_matte_boundary_detected": false
+  },
+  "rvm_contact_review": {
+    "idle": {
+      "complete_person": true,
+      "clean_edges": true,
+      "consistent_identity": true,
+      "confidence": 1
+    },
+    "walk": {
+      "complete_person": true,
+      "clean_edges": true,
+      "consistent_identity": true,
+      "confidence": 1
+    },
+    "interact": {
+      "complete_person": true,
+      "clean_edges": true,
+      "consistent_identity": true,
+      "confidence": 1
+    },
+    "attack": {
+      "complete_person": true,
+      "clean_edges": true,
+      "consistent_identity": true,
+      "confidence": 1
+    },
+    "use": {
+      "complete_person": true,
+      "clean_edges": true,
+      "consistent_identity": true,
+      "confidence": 1
+    },
+    "white_fringes": false,
+    "dark_fringes": false,
+    "missing_body_parts": false,
+    "background_rectangles": false,
+    "edge_flicker_visible": false,
+    "overall_pass": true,
+    "summary": "The animation clips show a consistent and clean representation of the character across all five animations."
+  }
 }

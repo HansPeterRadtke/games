@@ -1,0 +1,14 @@
+{
+  "complete_head": true,
+  "complete_hands": true,
+  "complete_feet": true,
+  "white_halo": false,
+  "dark_halo": false,
+  "uniform_rectangular_background": false,
+  "visible_box_boundary": false,
+  "background_contamination": false,
+  "edge_quality": "clean",
+  "confidence_percent": 90,
+  "pass": true,
+  "reason": "The player matte and silhouette appear to be complete, with no visible box boundary or contamination. The edges are clean enough for a game sprite."
+}

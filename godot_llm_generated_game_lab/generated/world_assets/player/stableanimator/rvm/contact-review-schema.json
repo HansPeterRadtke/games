@@ -1,0 +1,9 @@
+{
+  "type":"object","additionalProperties":false,
+  "required":["idle","walk","interact","attack","use","white_fringes","dark_fringes","missing_body_parts","background_rectangles","edge_flicker_visible","overall_pass","summary"],
+  "properties":{
+    "idle":{"$ref":"#/$defs/c"},"walk":{"$ref":"#/$defs/c"},"interact":{"$ref":"#/$defs/c"},"attack":{"$ref":"#/$defs/c"},"use":{"$ref":"#/$defs/c"},
+    "white_fringes":{"type":"boolean"},"dark_fringes":{"type":"boolean"},"missing_body_parts":{"type":"boolean"},"background_rectangles":{"type":"boolean"},"edge_flicker_visible":{"type":"boolean"},"overall_pass":{"type":"boolean"},"summary":{"type":"string","maxLength":500}
+  },
+  "$defs":{"c":{"type":"object","additionalProperties":false,"required":["complete_person","clean_edges","consistent_identity","confidence"],"properties":{"complete_person":{"type":"boolean"},"clean_edges":{"type":"boolean"},"consistent_identity":{"type":"boolean"},"confidence":{"type":"number","minimum":0,"maximum":1}}}}
+}
