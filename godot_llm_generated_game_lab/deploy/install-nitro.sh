@@ -52,8 +52,6 @@ curl -fsS --max-time 10 http://127.0.0.1/llm_game_object/health -o "$verify_tmp/
 grep -q 'generated-game-objects' "$verify_tmp/object-health.json"
 PLAYER_SLUG=$(python3 -c 'import json; print(json.load(open("/data/src/github/games/godot_llm_generated_game_lab/data/rpg_content.json"))["player"]["slug"])')
 curl -fsSI --max-time 15 "http://127.0.0.1/llm_game_object_asset/$PLAYER_SLUG.sheet.png" | grep -qi 'content-type: image/png'
-curl -fsS --max-time 15 http://10.8.0.7:15310/health -o "$verify_tmp/thor-health.json"
-grep -q 'sdxl-base-canonical+sdxl-img2img-animation' "$verify_tmp/thor-health.json"
 trap - ERR
 {
     echo machine=$(hostname)
@@ -65,7 +63,7 @@ trap - ERR
     echo http_port=$HTTP_PORT
     echo object_port=15303
     echo player_slug=$PLAYER_SLUG
-    echo grounded_asset_engine=sdxl-base-canonical+sdxl-img2img-animation
+    echo baked_asset_engine=sdxl-reviewed-scene-assets+stableanimator-pose-driven-player+rvm-recurrent-soft-alpha
     echo web_shell=dom-controls-outside-canvas
     echo apache=ok
 } | tee "$REPORT"

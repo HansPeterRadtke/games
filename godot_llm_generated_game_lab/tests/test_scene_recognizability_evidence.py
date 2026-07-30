@@ -45,4 +45,16 @@ contact=evidence['rvm_contact_review']
 assert contact['overall_pass'] is True
 for key in ['white_fringes','dark_fringes','missing_body_parts','background_rectangles','edge_flicker_visible']:
     assert contact[key] is False,key
+
+final_vlm=json.loads((root/'final-public-scene-vlm.json').read_text())
+assert final_vlm['screenshot_sha256']==hashlib.sha256((root/'public-scene.png').read_bytes()).hexdigest()
+assert final_vlm['screenshot_bytes']==(root/'public-scene.png').stat().st_size
+assert final_vlm['reviewed_public_url']=='https://nitro.jonnyontherun.org/llm_game/'
+assert 'CPU-only' in final_vlm['review_runtime'] and 'GPU layers 0' in final_vlm['review_runtime']
+review=final_vlm['review']
+for key in ['overall_pass','player_complete_normal_adult','mom_recognizable','dining_table_recognizable','chandelier_recognizable','sideboard_recognizable','curtains_recognizable','cookies_recognizable']:
+    assert review[key] is True,key
+for key in ['opaque_white_rectangles','severe_halos_or_clipping','broken_anatomy_or_duplicate_limbs','major_overlap_or_unreadable_clutter']:
+    assert review[key] is False,key
+
 print('scene recognizability evidence passed')

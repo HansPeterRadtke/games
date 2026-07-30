@@ -11,7 +11,17 @@ stage=$(mktemp -d /data/tmp/godot-llm-web.XXXXXX)
 trap 'rm -rf "$stage"' EXIT
 "$GODOT_WEB_BIN" --headless --path "$ROOT" --export-release Web "$stage/index.html"
 for file in index.html index.js index.wasm index.pck; do [[ -s "$stage/$file" ]] || { echo "missing web export: $file" >&2; exit 1; }; done
+if strings "$stage/index.pck" | grep -q 'res://generated/world_assets/player/stableanimator/pose-controls/'; then
+  echo 'generation-only StableAnimator pose controls leaked into index.pck' >&2
+  exit 1
+fi
 grep -q 'your-mom-stableanimator-rvm-alpha-v6' "$stage/index.html"
+# Preserve generated public sub-sites across the base Godot export. The temporal build refreshes them afterwards.
+for generated_site in generated_assets gif_inspector; do
+  if [[ -d "$ROOT/web/$generated_site" ]]; then
+    cp -a "$ROOT/web/$generated_site" "$stage/$generated_site"
+  fi
+done
 touch "$stage/.gdignore"
 find "$stage" -type d -exec chmod 0755 {} +
 find "$stage" -type f -exec chmod 0644 {} +

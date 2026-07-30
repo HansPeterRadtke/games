@@ -130,7 +130,7 @@ def main() -> int:
     args.screenshot.write_bytes(base64.b64decode(shot['data']))
     with Image.open(before) as first, Image.open(args.screenshot) as second:
         diff = ImageChops.difference(first.convert('RGB'), second.convert('RGB'))
-        changed_ratio = sum(1 for px in diff.getdata() if max(px) > 6) / float(diff.width * diff.height)
+        changed_ratio = sum(1 for px in diff.get_flattened_data() if max(px) > 6) / float(diff.width * diff.height)
         if changed_ratio < 0.0005:
             raise RuntimeError({'idle_not_visibly_animated': changed_ratio})
 

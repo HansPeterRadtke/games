@@ -6,6 +6,8 @@ apache = (ROOT / 'deploy/apache.conf.in').read_text()
 preset = (ROOT / 'export_presets.cfg').read_text()
 shell = (ROOT / 'deploy/web_shell.html').read_text()
 build = (ROOT / 'deploy/build-web.sh').read_text()
+assert 'pose controls leaked into index.pck' in build
+assert 'for generated_site in generated_assets gif_inspector' in build
 install = (ROOT / 'deploy/install-nitro.sh').read_text()
 verify = (ROOT / 'deploy/nitro-verify.sh').read_text()
 generated_build = (ROOT / 'deploy/build-generated-world.sh').read_text()
@@ -38,6 +40,8 @@ assert web_exporter.is_file() and web_exporter.stat().st_mode & 0o111
 assert '"$GODOT_WEB_BIN" --headless' in build
 assert 'your-mom-stableanimator-rvm-alpha-v6' in build
 assert 'your-mom-stableanimator-rvm-alpha-v6' in install
+assert 'baked_asset_engine=sdxl-reviewed-scene-assets+stableanimator-pose-driven-player+rvm-recurrent-soft-alpha' in install
+assert '10.8.0.7:15310/health' not in install
 assert 'build-generated-world.sh' in str(ROOT / 'deploy/build-generated-world.sh')
 assert 'build-temporal-world.sh' in generated_build
 assert 'compile_world_assets' not in generated_build
@@ -60,6 +64,7 @@ preset=(ROOT/'export_presets.cfg').read_text()
 assert 'docs/**/*' in preset
 assert 'tests/**/*' in preset
 assert 'generated/world_assets/player/stableanimator/**/*' in preset
+assert (ROOT / 'generated/world_assets/player/stableanimator/.gdignore').is_file()
 assert 'clips/*/contact.png' in preset
 assert 'test_scene_recognizability_evidence.py' in (ROOT/'deploy/nitro-verify.sh').read_text()
 assert 'scene_review' in (ROOT/'deploy/build-temporal-world.sh').read_text()
