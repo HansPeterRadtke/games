@@ -31,7 +31,7 @@ for name,clip in player['clips'].items():
     assert clip['pose_driven'] is True and clip['engine'] == 'StableAnimator' and clip['fallback_used'] is False
     expected_gif_frames=clip['frame_count']-(1 if name in {'idle','walk'} else 0)
     assert clip['review_pass'] is True and clip['gif_frame_count']==expected_gif_frames and clip['distinct_gif_frames']==expected_gif_frames
-    assert clip['gif_looped'] is (name in {'idle','walk'}) and clip['gif_duplicate_closure_frame'] is False
+    assert clip['gif_looped'] is True and clip['gif_loop']==0 and clip['gif_duplicate_closure_frame'] is False
     assert clip['gif_palette_mode']=='single shared 254-color palette; index 0 transparent'
     assert len(clip['gif_frame_durations_ms'])==expected_gif_frames and set(clip['gif_frame_durations_ms'])=={120,130}
     assert sum(clip['gif_frame_durations_ms'])==expected_gif_frames*clip['frame_duration_ms']==clip['gif_total_duration_ms']
@@ -85,7 +85,7 @@ assert v['complete'] is True and v['fallback_used'] is False
 assert v['asset_engine']=='sdxl-reviewed-scene-assets+stableanimator-pose-driven-player+rvm-recurrent-soft-alpha'
 assert v['scene_name']=='Dining Room' and v['gameplay_action_count']==30 and len(v['assets'])==10
 assert set(player['clips'])=={'idle','walk','player_interact','player_attack','player_use'}
-assert all(c['pose_driven'] is True and c['engine'] == 'StableAnimator' and c['fallback_used'] is False and c['review_pass'] is True and c['distinct_gif_frames'] == c['frames'] and c['runtime_frames'] == c['frames'] + (1 if name in {'idle','walk'} else 0) and c['looping'] is (name in {'idle','walk'}) and c['duplicate_closure_frame'] is False and c['palette_mode'] == 'single shared 254-color palette; index 0 transparent' and len(c['frame_durations_ms']) == c['frames'] and set(c['frame_durations_ms']) == {120,130} and sum(c['frame_durations_ms']) == c['total_duration_ms'] == c['frames'] * c['duration_ms'] and c['max_foreground_coverage'] <= 0.65 and c['max_border_visible_ratio'] == 0.0 and c['alpha_model'] == 'RobustVideoMatting mobilenetv3 official v1.0.0' and c['alpha_temporal_model'] is True and c['min_soft_alpha_ratio'] >= 0.005 and c['min_largest_component_ratio'] >= 0.98 and max(c['gif_sheet_mask_disagreement']) <= 0.01 for name,c in player['clips'].items())
+assert all(c['pose_driven'] is True and c['engine'] == 'StableAnimator' and c['fallback_used'] is False and c['review_pass'] is True and c['distinct_gif_frames'] == c['frames'] and c['runtime_frames'] == c['frames'] + (1 if name in {'idle','walk'} else 0) and c['looping'] is True and c['duplicate_closure_frame'] is False and c['palette_mode'] == 'single shared 254-color palette; index 0 transparent' and len(c['frame_durations_ms']) == c['frames'] and set(c['frame_durations_ms']) == {120,130} and sum(c['frame_durations_ms']) == c['total_duration_ms'] == c['frames'] * c['duration_ms'] and c['max_foreground_coverage'] <= 0.65 and c['max_border_visible_ratio'] == 0.0 and c['alpha_model'] == 'RobustVideoMatting mobilenetv3 official v1.0.0' and c['alpha_temporal_model'] is True and c['min_soft_alpha_ratio'] >= 0.005 and c['min_largest_component_ratio'] >= 0.98 and max(c['gif_sheet_mask_disagreement']) <= 0.01 for name,c in player['clips'].items())
 assert player['clips']['walk']['semantic_motion']['semantic_pass'] is True
 review=v['scene_review']
 expected={'player','mother','dining_table','chandelier','sideboard','curtains','wall_surface','carpet','kitchen_door','cookies'}

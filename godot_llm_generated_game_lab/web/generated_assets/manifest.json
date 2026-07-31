@@ -353,7 +353,7 @@
             130
           ],
           "total_duration_ms": 2000,
-          "looping": false,
+          "looping": true,
           "palette_mode": "single shared 254-color palette; index 0 transparent",
           "duplicate_closure_frame": false,
           "engine": "StableAnimator",
@@ -1071,7 +1071,7 @@
             130
           ],
           "total_duration_ms": 2000,
-          "looping": false,
+          "looping": true,
           "palette_mode": "single shared 254-color palette; index 0 transparent",
           "duplicate_closure_frame": false,
           "engine": "StableAnimator",
@@ -1789,7 +1789,7 @@
             130
           ],
           "total_duration_ms": 2000,
-          "looping": false,
+          "looping": true,
           "palette_mode": "single shared 254-color palette; index 0 transparent",
           "duplicate_closure_frame": false,
           "engine": "StableAnimator",

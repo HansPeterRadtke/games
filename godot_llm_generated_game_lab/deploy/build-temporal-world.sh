@@ -26,7 +26,7 @@ for name,clip in player['clips'].items():
     assert clip['pose_driven'] is True and clip['engine'] == 'StableAnimator' and clip['fallback_used'] is False
     expected_gif_frames=clip['frame_count']-(1 if name in {'idle','walk'} else 0)
     assert clip['review_pass'] is True and clip['gif_frame_count']==expected_gif_frames and clip['distinct_gif_frames']==expected_gif_frames
-    assert clip['gif_looped'] is (name in {'idle','walk'}) and clip['gif_duplicate_closure_frame'] is False
+    assert clip['gif_looped'] is True and clip['gif_loop']==0 and clip['gif_duplicate_closure_frame'] is False
     assert clip['gif_palette_mode']=='single shared 254-color palette; index 0 transparent'
     assert len(clip['gif_frame_durations_ms'])==expected_gif_frames and set(clip['gif_frame_durations_ms'])=={120,130}
     assert sum(clip['gif_frame_durations_ms'])==expected_gif_frames*clip['frame_duration_ms']==clip['gif_total_duration_ms']

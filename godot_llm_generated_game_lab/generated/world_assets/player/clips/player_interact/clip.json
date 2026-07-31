@@ -2393,7 +2393,7 @@
   "fallback_used": false,
   "sha256": {
     "png": "310c507a5fe47d2b12b9cc40f43c26f23307d0bd130b3e0e36e7cdd38f1548f6",
-    "gif": "e4e38a1ed7a4c0c7ba542c5c6e4ac19b87b8f1e8568107dccbbe46efea909019",
+    "gif": "fd29f16d6bcaff45536e97a1dae668321d3f8754f4b48f8c3becbdc9548643e5",
     "sheet": "3db3dc90ef505bc09f398c5ce418d8ef664a01d67dc5dc425cc9510e96c757c0"
   },
   "contact_review": {
@@ -2422,7 +2422,7 @@
     130
   ],
   "gif_total_duration_ms": 2000,
-  "gif_looped": false,
+  "gif_looped": true,
   "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
   "gif_duplicate_closure_frame": false,
   "distinct_gif_frames": 16,
@@ -2444,10 +2444,10 @@
     0.0,
     0.0
   ],
-  "gif_loop": null,
+  "gif_loop": 0,
   "validation": {
     "gif_frames": 16,
-    "gif_loop": null,
+    "gif_loop": 0,
     "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
     "sheet_alpha_extrema": [
       0,

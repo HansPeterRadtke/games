@@ -2260,11 +2260,11 @@
           "max_border_visible_ratio": 0.0,
           "fallback_used": false,
           "review_pass": true,
-          "gif_loop": null,
+          "gif_loop": 0,
           "distinct_gif_frames": 16,
           "validation": {
             "gif_frames": 16,
-            "gif_loop": null,
+            "gif_loop": 0,
             "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
             "sheet_alpha_extrema": [
               0,
@@ -3065,9 +3065,9 @@
           ],
           "sha256": {
             "png": "310c507a5fe47d2b12b9cc40f43c26f23307d0bd130b3e0e36e7cdd38f1548f6",
-            "gif": "e4e38a1ed7a4c0c7ba542c5c6e4ac19b87b8f1e8568107dccbbe46efea909019",
+            "gif": "fd29f16d6bcaff45536e97a1dae668321d3f8754f4b48f8c3becbdc9548643e5",
             "sheet": "3db3dc90ef505bc09f398c5ce418d8ef664a01d67dc5dc425cc9510e96c757c0",
-            "meta": "75ad4bbec5a3f89391c1aa1d8506fad3c0db0bc23f570be6b714c49a47dfab1b"
+            "meta": "e93aacb5066cbeb575811c6d1468cf75e550a1074e8a56faaab89795d89a9099"
           },
           "alpha_method": "RobustVideoMatting recurrent temporal matte",
           "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
@@ -3140,7 +3140,7 @@
             130
           ],
           "gif_total_duration_ms": 2000,
-          "gif_looped": false,
+          "gif_looped": true,
           "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
           "gif_duplicate_closure_frame": false
         },
@@ -3169,11 +3169,11 @@
           "max_border_visible_ratio": 0.0,
           "fallback_used": false,
           "review_pass": true,
-          "gif_loop": null,
+          "gif_loop": 0,
           "distinct_gif_frames": 16,
           "validation": {
             "gif_frames": 16,
-            "gif_loop": null,
+            "gif_loop": 0,
             "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
             "sheet_alpha_extrema": [
               0,
@@ -3974,9 +3974,9 @@
           ],
           "sha256": {
             "png": "53ddb0b72f25065b03cf410a150c6ee7b3801a407253925456e3a30b08eaa235",
-            "gif": "f00d47268c3b8b8807660eb16500f24bf3be1a3d760c26969c9337ea6ba6e54c",
+            "gif": "94722ac9fd031e48f4c48ce75c075602b862953d5afcb37cdcc172fc045b8911",
             "sheet": "53c6a60538e6d75f8ebc7253bf36af0807d8568f500ac669d33328857ea73f21",
-            "meta": "5d789b8e1ae1ed5e9d70b00a61f10926746910ba1bc0300d9b1ef3f93c32e26b"
+            "meta": "4df2534680609f6a04d0be8e9ef7552cc233dffa4574d53466e1a9e5a3329de2"
           },
           "alpha_method": "RobustVideoMatting recurrent temporal matte",
           "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
@@ -4049,7 +4049,7 @@
             130
           ],
           "gif_total_duration_ms": 2000,
-          "gif_looped": false,
+          "gif_looped": true,
           "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
           "gif_duplicate_closure_frame": false
         },
@@ -4078,11 +4078,11 @@
           "max_border_visible_ratio": 0.0,
           "fallback_used": false,
           "review_pass": true,
-          "gif_loop": null,
+          "gif_loop": 0,
           "distinct_gif_frames": 16,
           "validation": {
             "gif_frames": 16,
-            "gif_loop": null,
+            "gif_loop": 0,
             "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
             "sheet_alpha_extrema": [
               0,
@@ -4883,9 +4883,9 @@
           ],
           "sha256": {
             "png": "79c464a3820f23801d2c34e4537ca0a037f287f935c55b1e6a8964ea89ee03ac",
-            "gif": "8ddbc14c25fcf795cbed15dd06019c721d4ebbeb369608f62d4bc49da82eb227",
+            "gif": "f3f99df6d1b84683804b9c8b3fe5cf2c95655eb7700970db8cf2fd6677314e6f",
             "sheet": "2b44d9170b370bc664dcf4250695c8d8bdcaea9937dd6e11a12dd0cd7bd3e653",
-            "meta": "01d52c17a9b32d4956b3553101c5bc85c8a5deb8b5784476e96caca18abe6c05"
+            "meta": "a7c932359be9e48156a0ceea6c81d75cb45074d20ecadeae50654dc67c8b2b66"
           },
           "alpha_method": "RobustVideoMatting recurrent temporal matte",
           "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
@@ -4958,7 +4958,7 @@
             130
           ],
           "gif_total_duration_ms": 2000,
-          "gif_looped": false,
+          "gif_looped": true,
           "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
           "gif_duplicate_closure_frame": false
         }

@@ -43,16 +43,17 @@ def main() -> None:
         runtime_count=int(clip['frame_count'])
         gif_count=int(meta['source_frame_count'])
         width=int(clip['frame_width']); height=int(clip['frame_height'])
-        looped=name in {'idle','walk'}
-        if looped and runtime_count != gif_count+1:
+        runtime_looped=name in {'idle','walk'}
+        gif_looped=True
+        if runtime_looped and runtime_count != gif_count+1:
             raise ValueError(f'{name}: looping runtime sheet must contain one closure frame')
-        if not looped and runtime_count != gif_count:
-            raise ValueError(f'{name}: one-shot sheet/GIF frame count mismatch')
+        if not runtime_looped and runtime_count != gif_count:
+            raise ValueError(f'{name}: one-shot runtime sheet/GIF frame count mismatch')
         frames=read_frames(ROOT/clip['sheet_path'],runtime_count,width,height)[:gif_count]
         gif_path=ROOT/clip['gif_path']
-        durations=encode_transparent_gif(frames,gif_path,duration_ms=int(clip['frame_duration_ms']),loop=looped)
+        durations=encode_transparent_gif(frames,gif_path,duration_ms=int(clip['frame_duration_ms']),loop=gif_looped)
         decoded_count,decoded_durations,decoded_looped,distinct=decoded_contract(gif_path)
-        if (decoded_count,decoded_durations,decoded_looped)!=(gif_count,durations,looped):
+        if (decoded_count,decoded_durations,decoded_looped)!=(gif_count,durations,gif_looped):
             raise RuntimeError(f'{name}: decoded GIF contract differs')
         expected_distinct=gif_count
         if distinct!=expected_distinct:
@@ -61,17 +62,17 @@ def main() -> None:
             'gif_frame_count':gif_count,
             'gif_frame_durations_ms':durations,
             'gif_total_duration_ms':sum(durations),
-            'gif_looped':looped,
+            'gif_looped':gif_looped,
             'gif_palette_mode':'single shared 254-color palette; index 0 transparent',
             'gif_duplicate_closure_frame':False,
             'distinct_gif_frames':distinct,
             'gif_sheet_mask_disagreement':[0.0 for _ in range(gif_count)],
         }
         clip.update(fields)
-        clip['gif_loop']=0 if looped else None
+        clip['gif_loop']=0
         clip.setdefault('validation',{}).update({
             'gif_frames':gif_count,
-            'gif_loop':0 if looped else None,
+            'gif_loop':0,
             'gif_frame_durations_ms':durations,
             'gif_total_duration_ms':sum(durations),
             'gif_palette_mode':fields['gif_palette_mode'],
@@ -80,7 +81,7 @@ def main() -> None:
         })
         clip['sha256']['gif']=sha256(gif_path)
         meta.update(fields)
-        meta['gif_loop']=0 if looped else None
+        meta['gif_loop']=0
         meta.setdefault('validation',{}).update(clip['validation'])
         meta['sha256']['gif']=sha256(gif_path)
         meta['sha256'].pop('meta',None)

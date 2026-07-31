@@ -247,10 +247,8 @@ def validate_animation(
     errors: list[str] = []
     if quality.frame_count < 2:
         errors.append("animation must contain at least two frames")
-    if loop_required and not quality.looped_gif:
-        errors.append("looping GIF must contain an infinite-loop extension")
-    if action_clip and quality.looped_gif:
-        errors.append("one-shot action GIF must not loop")
+    if not quality.looped_gif:
+        errors.append("animation GIF must contain an infinite-loop extension")
     if quality.distinct_sheet_frames < max(2, quality.frame_count // 2):
         errors.append("sprite sheet lacks distinct motion frames")
     if quality.distinct_gif_frames < max(2, quality.frame_count // 2):
