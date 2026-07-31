@@ -6,7 +6,7 @@ import numpy as np
 from PIL import Image
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'server'))
-from animation_quality import analyze_animation,validate_animation,encode_transparent_gif,_frames_from_gif
+from animation_quality import analyze_animation,validate_animation,encode_transparent_gif,_frames_from_gif,_gif_frame_durations
 
 def write_assets(directory: Path, frames: list[Image.Image]) -> tuple[Path,Path]:
     width,height=frames[0].size
@@ -90,12 +90,33 @@ with tempfile.TemporaryDirectory() as raw:
                 frame.putpixel((xx,yy),(20+i*20,80,160,255))
         frames.append(frame)
     gif=root/'reserved-alpha.gif'
-    encode_transparent_gif(frames,gif,duration_ms=100)
+    durations=encode_transparent_gif(frames,gif,duration_ms=125,loop=True)
+    assert durations==_gif_frame_durations(len(frames),125)
+    assert durations==[120,130,120,130,120,130]
     decoded,looped=_frames_from_gif(gif)
     assert looped and len(decoded)==len(frames)
+    with Image.open(gif) as image:
+        decoded_durations=[]; palette_tables=[]
+        for index in range(image.n_frames):
+            image.seek(index)
+            decoded_durations.append(image.info.get('duration'))
+            palette=image.getpalette()
+            if palette:palette_tables.append(tuple(palette))
+        assert decoded_durations==durations
+        assert len(palette_tables)==1 and len(set(palette_tables))==1
     for source,target in zip(frames,decoded):
         source_coverage=np.asarray(source.getchannel('A'))>16
         target_coverage=np.asarray(target.getchannel('A'))>16
         assert abs(float(source_coverage.mean())-float(target_coverage.mean()))<0.002
         assert float(target_coverage.mean())<0.40
+    one_shot=root/'one-shot.gif'
+    one_shot_durations=encode_transparent_gif(frames,one_shot,duration_ms=125,loop=False)
+    decoded,looped=_frames_from_gif(one_shot)
+    assert not looped and len(decoded)==len(frames)
+    with Image.open(one_shot) as image:
+        assert image.info.get('loop') is None
+        actual=[]
+        for index in range(image.n_frames):
+            image.seek(index);actual.append(image.info.get('duration'))
+        assert actual==one_shot_durations
 print('animation quality contracts passed')

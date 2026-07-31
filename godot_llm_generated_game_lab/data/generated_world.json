@@ -1924,7 +1924,7 @@
           "gif_loop": 0,
           "distinct_gif_frames": 12,
           "validation": {
-            "gif_frames": 13,
+            "gif_frames": 12,
             "gif_loop": 0,
             "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
             "sheet_alpha_extrema": [
@@ -1958,17 +1958,33 @@
               0.0,
               0.0,
               0.0,
-              0.0,
               0.0
-            ]
+            ],
+            "gif_frame_durations_ms": [
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130
+            ],
+            "gif_total_duration_ms": 1500,
+            "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
+            "gif_duplicate_closure_frame": false
           },
           "semantic_motion": {},
           "vlm_reviews": [],
           "sha256": {
             "png": "2a54f9ac854ed80e5019feada392809f207cd15392737479119fb61cc5968c51",
-            "gif": "5b5e133dba867a9122b0dc1b4ba8461da67b99f000f343ec0b10d3d789fa4fe9",
+            "gif": "4c20585b5c3ab296b1391f7f899830324e3eab98786a0a0ec2946f0219576662",
             "sheet": "877156c88ac9fcd86fc97c8dd35cf9b6c5e882d90c0dcab72f7a88c20ffb711e",
-            "meta": "75787dbaa6188b87a0ae36c7fb0fe1fed2e8cf2d6db0f268dac49fb72ebfd014"
+            "meta": "6b774279a9bceaa9c8d9ce5994d9e710a9ca3e912b9d16db72d86161857740c3"
           },
           "alpha_method": "RobustVideoMatting recurrent temporal matte",
           "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
@@ -2006,7 +2022,6 @@
             0.0,
             0.0,
             0.0,
-            0.0,
             0.0
           ],
           "contact_review": {
@@ -2014,7 +2029,26 @@
             "clean_edges": true,
             "consistent_identity": true,
             "confidence": 1
-          }
+          },
+          "gif_frame_count": 12,
+          "gif_frame_durations_ms": [
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130
+          ],
+          "gif_total_duration_ms": 1500,
+          "gif_looped": true,
+          "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
+          "gif_duplicate_closure_frame": false
         },
         "walk": {
           "name": "walk",
@@ -2044,7 +2078,7 @@
           "gif_loop": 0,
           "distinct_gif_frames": 16,
           "validation": {
-            "gif_frames": 17,
+            "gif_frames": 16,
             "gif_loop": 0,
             "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
             "sheet_alpha_extrema": [
@@ -2086,9 +2120,29 @@
               0.0,
               0.0,
               0.0,
-              0.0,
               0.0
-            ]
+            ],
+            "gif_frame_durations_ms": [
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130
+            ],
+            "gif_total_duration_ms": 2000,
+            "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
+            "gif_duplicate_closure_frame": false
           },
           "semantic_motion": {
             "pose_model": "DWPose dw-ll_ucoco_384",
@@ -2101,9 +2155,9 @@
           "vlm_reviews": [],
           "sha256": {
             "png": "e6799bf9fcf10b617b61b2e3a5fea5bc6b30335ab83dd9dd8d247dc280528b40",
-            "gif": "828fbd431ea7ba81132b966c3bd58f919944dfd1eb2297564509eec7ad4bdac3",
+            "gif": "2de04053777d21becc778923253067b9d896073fe08f68b16cccc1fb5e024efb",
             "sheet": "1469acb74e878f84bf0e613509a858e8ec302fad64dbde24797d1877826b536f",
-            "meta": "9f0806b058c7abe4f34e0690cadf201fb31cad7f3e53b95df1aa44699696e5d9"
+            "meta": "d5017424540a99eba11d7a99544d9fd419d8b95ae1a836bc983ec6c47390cd45"
           },
           "alpha_method": "RobustVideoMatting recurrent temporal matte",
           "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
@@ -2149,7 +2203,6 @@
             0.0,
             0.0,
             0.0,
-            0.0,
             0.0
           ],
           "contact_review": {
@@ -2157,7 +2210,30 @@
             "clean_edges": true,
             "consistent_identity": true,
             "confidence": 1
-          }
+          },
+          "gif_frame_count": 16,
+          "gif_frame_durations_ms": [
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130
+          ],
+          "gif_total_duration_ms": 2000,
+          "gif_looped": true,
+          "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
+          "gif_duplicate_closure_frame": false
         },
         "player_interact": {
           "name": "player_interact",
@@ -2184,11 +2260,11 @@
           "max_border_visible_ratio": 0.0,
           "fallback_used": false,
           "review_pass": true,
-          "gif_loop": 0,
+          "gif_loop": null,
           "distinct_gif_frames": 16,
           "validation": {
             "gif_frames": 16,
-            "gif_loop": 0,
+            "gif_loop": null,
             "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
             "sheet_alpha_extrema": [
               0,
@@ -2229,7 +2305,28 @@
               0.0,
               0.0,
               0.0
-            ]
+            ],
+            "gif_frame_durations_ms": [
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130
+            ],
+            "gif_total_duration_ms": 2000,
+            "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
+            "gif_duplicate_closure_frame": false
           },
           "semantic_motion": {
             "frames": 16,
@@ -2968,9 +3065,9 @@
           ],
           "sha256": {
             "png": "310c507a5fe47d2b12b9cc40f43c26f23307d0bd130b3e0e36e7cdd38f1548f6",
-            "gif": "755cec576386a7decb9dd90b9deb64c1c7eae8350efa39b947deb5d04182cfa0",
+            "gif": "e4e38a1ed7a4c0c7ba542c5c6e4ac19b87b8f1e8568107dccbbe46efea909019",
             "sheet": "3db3dc90ef505bc09f398c5ce418d8ef664a01d67dc5dc425cc9510e96c757c0",
-            "meta": "6f1ffc61383df89bf2e311281c057af44ff9b068c7b4caa2f8b3c72a6ac1d0de"
+            "meta": "75ad4bbec5a3f89391c1aa1d8506fad3c0db0bc23f570be6b714c49a47dfab1b"
           },
           "alpha_method": "RobustVideoMatting recurrent temporal matte",
           "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
@@ -3022,7 +3119,30 @@
             "clean_edges": true,
             "consistent_identity": true,
             "confidence": 1
-          }
+          },
+          "gif_frame_count": 16,
+          "gif_frame_durations_ms": [
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130
+          ],
+          "gif_total_duration_ms": 2000,
+          "gif_looped": false,
+          "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
+          "gif_duplicate_closure_frame": false
         },
         "player_attack": {
           "name": "player_attack",
@@ -3049,11 +3169,11 @@
           "max_border_visible_ratio": 0.0,
           "fallback_used": false,
           "review_pass": true,
-          "gif_loop": 0,
+          "gif_loop": null,
           "distinct_gif_frames": 16,
           "validation": {
             "gif_frames": 16,
-            "gif_loop": 0,
+            "gif_loop": null,
             "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
             "sheet_alpha_extrema": [
               0,
@@ -3094,7 +3214,28 @@
               0.0,
               0.0,
               0.0
-            ]
+            ],
+            "gif_frame_durations_ms": [
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130
+            ],
+            "gif_total_duration_ms": 2000,
+            "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
+            "gif_duplicate_closure_frame": false
           },
           "semantic_motion": {
             "frames": 16,
@@ -3833,9 +3974,9 @@
           ],
           "sha256": {
             "png": "53ddb0b72f25065b03cf410a150c6ee7b3801a407253925456e3a30b08eaa235",
-            "gif": "dbc9127d97ca70cb4fcbfa773788d27486a992ea0b573e577e18e9306eca323f",
+            "gif": "f00d47268c3b8b8807660eb16500f24bf3be1a3d760c26969c9337ea6ba6e54c",
             "sheet": "53c6a60538e6d75f8ebc7253bf36af0807d8568f500ac669d33328857ea73f21",
-            "meta": "c92b7a2875117e90a7aad6395c6ade0c526e3c9be494a40e596e17ba8fa0ab36"
+            "meta": "5d789b8e1ae1ed5e9d70b00a61f10926746910ba1bc0300d9b1ef3f93c32e26b"
           },
           "alpha_method": "RobustVideoMatting recurrent temporal matte",
           "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
@@ -3887,7 +4028,30 @@
             "clean_edges": true,
             "consistent_identity": true,
             "confidence": 1
-          }
+          },
+          "gif_frame_count": 16,
+          "gif_frame_durations_ms": [
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130
+          ],
+          "gif_total_duration_ms": 2000,
+          "gif_looped": false,
+          "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
+          "gif_duplicate_closure_frame": false
         },
         "player_use": {
           "name": "player_use",
@@ -3914,11 +4078,11 @@
           "max_border_visible_ratio": 0.0,
           "fallback_used": false,
           "review_pass": true,
-          "gif_loop": 0,
+          "gif_loop": null,
           "distinct_gif_frames": 16,
           "validation": {
             "gif_frames": 16,
-            "gif_loop": 0,
+            "gif_loop": null,
             "gif_alpha_mode": "binary preview; runtime sheet preserves soft alpha",
             "sheet_alpha_extrema": [
               0,
@@ -3959,7 +4123,28 @@
               0.0,
               0.0,
               0.0
-            ]
+            ],
+            "gif_frame_durations_ms": [
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130,
+              120,
+              130
+            ],
+            "gif_total_duration_ms": 2000,
+            "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
+            "gif_duplicate_closure_frame": false
           },
           "semantic_motion": {
             "frames": 16,
@@ -4698,9 +4883,9 @@
           ],
           "sha256": {
             "png": "79c464a3820f23801d2c34e4537ca0a037f287f935c55b1e6a8964ea89ee03ac",
-            "gif": "73c525e29f49386ac9a23f3c2769ed60ec61ca959ddd429ccaaeb38bb80e6475",
+            "gif": "8ddbc14c25fcf795cbed15dd06019c721d4ebbeb369608f62d4bc49da82eb227",
             "sheet": "2b44d9170b370bc664dcf4250695c8d8bdcaea9937dd6e11a12dd0cd7bd3e653",
-            "meta": "c1b6cc96e47d4a233aad63b3ee97e8904e13c73dfc70952abd27f30dba02e733"
+            "meta": "01d52c17a9b32d4956b3553101c5bc85c8a5deb8b5784476e96caca18abe6c05"
           },
           "alpha_method": "RobustVideoMatting recurrent temporal matte",
           "alpha_model": "RobustVideoMatting mobilenetv3 official v1.0.0",
@@ -4752,7 +4937,30 @@
             "clean_edges": true,
             "consistent_identity": true,
             "confidence": 1
-          }
+          },
+          "gif_frame_count": 16,
+          "gif_frame_durations_ms": [
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130,
+            120,
+            130
+          ],
+          "gif_total_duration_ms": 2000,
+          "gif_looped": false,
+          "gif_palette_mode": "single shared 254-color palette; index 0 transparent",
+          "gif_duplicate_closure_frame": false
         }
       },
       "default_clip": "idle",

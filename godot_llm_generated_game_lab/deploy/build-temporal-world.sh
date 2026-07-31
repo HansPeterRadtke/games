@@ -24,7 +24,12 @@ player=v['assets']['player']
 assert set(player['clips'])=={'idle','walk','player_interact','player_attack','player_use'}
 for name,clip in player['clips'].items():
     assert clip['pose_driven'] is True and clip['engine'] == 'StableAnimator' and clip['fallback_used'] is False
-    assert clip['review_pass'] is True and clip['distinct_gif_frames'] >= clip['frame_count'] - (1 if name in {'idle','walk'} else 0)
+    expected_gif_frames=clip['frame_count']-(1 if name in {'idle','walk'} else 0)
+    assert clip['review_pass'] is True and clip['gif_frame_count']==expected_gif_frames and clip['distinct_gif_frames']==expected_gif_frames
+    assert clip['gif_looped'] is (name in {'idle','walk'}) and clip['gif_duplicate_closure_frame'] is False
+    assert clip['gif_palette_mode']=='single shared 254-color palette; index 0 transparent'
+    assert len(clip['gif_frame_durations_ms'])==expected_gif_frames and set(clip['gif_frame_durations_ms'])=={120,130}
+    assert sum(clip['gif_frame_durations_ms'])==expected_gif_frames*clip['frame_duration_ms']==clip['gif_total_duration_ms']
     assert clip['min_reference_cosine'] >= 0.60
     assert clip['min_adjacent_identity_cosine'] >= 0.94
     assert clip['max_foreground_coverage'] <= 0.65
@@ -83,7 +88,7 @@ for asset_id,asset in manifest['assets'].items():
             base.mkdir(parents=True,exist_ok=True)
             targets={'gif':base/'animation.gif','png':base/'canonical.png','sheet':base/'animation.sheet.png'}
             shutil.copy2(clip['gif_path'],targets['gif']); shutil.copy2(clip['png_path'],targets['png']); shutil.copy2(clip['sheet_path'],targets['sheet'])
-            item['clips'][clip_name]={'gif':str(targets['gif'].relative_to('web')),'png':str(targets['png'].relative_to('web')),'sheet':str(targets['sheet'].relative_to('web')),'frames':clip['frame_count'],'engine':clip['engine'],'pose_driven':clip['pose_driven'],'motion_control':clip['motion_control'],'pose_driver':clip['pose_driver'],'identity_encoder':clip['identity_encoder'],'min_reference_cosine':clip['min_reference_cosine'],'min_adjacent_identity_cosine':clip['min_adjacent_identity_cosine'],'max_foreground_coverage':clip['max_foreground_coverage'],'max_border_visible_ratio':clip['max_border_visible_ratio'],'min_soft_alpha_ratio':clip['min_soft_alpha_ratio'],'max_soft_alpha_ratio':clip['max_soft_alpha_ratio'],'min_largest_component_ratio':clip['min_largest_component_ratio'],'alpha_model':clip['alpha_model'],'alpha_temporal_model':clip['alpha_temporal_model'],'alpha_resize':clip['alpha_resize'],'gif_sheet_mask_disagreement':clip['gif_sheet_mask_disagreement'],'contact_review':clip['contact_review'],'semantic_motion':clip.get('semantic_motion',{}),'fallback_used':clip['fallback_used'],'review_pass':clip['review_pass'],'distinct_gif_frames':clip['distinct_gif_frames']}
+            item['clips'][clip_name]={'gif':str(targets['gif'].relative_to('web')),'png':str(targets['png'].relative_to('web')),'sheet':str(targets['sheet'].relative_to('web')),'frames':clip['gif_frame_count'],'runtime_frames':clip['frame_count'],'duration_ms':clip['frame_duration_ms'],'frame_durations_ms':clip['gif_frame_durations_ms'],'total_duration_ms':clip['gif_total_duration_ms'],'looping':clip['gif_looped'],'palette_mode':clip['gif_palette_mode'],'duplicate_closure_frame':clip['gif_duplicate_closure_frame'],'engine':clip['engine'],'pose_driven':clip['pose_driven'],'motion_control':clip['motion_control'],'pose_driver':clip['pose_driver'],'identity_encoder':clip['identity_encoder'],'min_reference_cosine':clip['min_reference_cosine'],'min_adjacent_identity_cosine':clip['min_adjacent_identity_cosine'],'max_foreground_coverage':clip['max_foreground_coverage'],'max_border_visible_ratio':clip['max_border_visible_ratio'],'min_soft_alpha_ratio':clip['min_soft_alpha_ratio'],'max_soft_alpha_ratio':clip['max_soft_alpha_ratio'],'min_largest_component_ratio':clip['min_largest_component_ratio'],'alpha_model':clip['alpha_model'],'alpha_temporal_model':clip['alpha_temporal_model'],'alpha_resize':clip['alpha_resize'],'gif_sheet_mask_disagreement':clip['gif_sheet_mask_disagreement'],'contact_review':clip['contact_review'],'semantic_motion':clip.get('semantic_motion',{}),'fallback_used':clip['fallback_used'],'review_pass':clip['review_pass'],'distinct_gif_frames':clip['distinct_gif_frames']}
     public['assets'][asset_id]=item
 Path('web/generated_assets/manifest.json').write_text(json.dumps(public,ensure_ascii=False,indent=2)+'\n')
 PY

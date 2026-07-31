@@ -15,7 +15,12 @@ assert player['pose_driven'] is True and player['engine'] == 'StableAnimator' an
 assert set(player['clips'])=={'idle','walk','player_interact','player_attack','player_use'}
 for name,clip in player['clips'].items():
     assert clip['pose_driven'] is True and clip['engine'] == 'StableAnimator' and clip['fallback_used'] is False
-    assert clip['review_pass'] is True and clip['distinct_gif_frames'] >= clip['frame_count'] - (1 if name in {'idle','walk'} else 0) and clip['frame_count'] >= (12 if name in {'idle','walk'} else 16)
+    expected_gif_frames=clip['frame_count']-(1 if name in {'idle','walk'} else 0)
+    assert clip['review_pass'] is True and clip['gif_frame_count']==expected_gif_frames and clip['distinct_gif_frames']==expected_gif_frames and clip['frame_count'] >= (12 if name in {'idle','walk'} else 16)
+    assert clip['gif_looped'] is (name in {'idle','walk'}) and clip['gif_duplicate_closure_frame'] is False
+    assert clip['gif_palette_mode']=='single shared 254-color palette; index 0 transparent'
+    assert len(clip['gif_frame_durations_ms'])==expected_gif_frames and set(clip['gif_frame_durations_ms'])=={120,130}
+    assert sum(clip['gif_frame_durations_ms'])==expected_gif_frames*clip['frame_duration_ms']==clip['gif_total_duration_ms']
     assert clip['frame_width']==288 and clip['frame_height']==384
     assert clip['min_reference_cosine'] >= 0.60
     assert clip['min_adjacent_identity_cosine'] >= 0.94
@@ -32,9 +37,16 @@ for name,clip in player['clips'].items():
         path=ROOT/clip[key]
         assert path.is_file() and path.stat().st_size>0,(name,key,path)
     with Image.open(ROOT/clip['gif_path']) as image:
-        frames=list(ImageSequence.Iterator(image))
-        assert len(frames)==clip['frame_count'] and image.info.get('loop')==0
-    quality=analyze_animation(ROOT/clip['sheet_path'],ROOT/clip['gif_path'],clip['frame_count'],clip['frame_width'],clip['frame_height'])
+        looped=image.info.get('loop')==0
+        durations=[];palette_tables=[]
+        for index in range(image.n_frames):
+            image.seek(index);durations.append(image.info.get('duration'))
+            palette=image.getpalette()
+            if palette:palette_tables.append(tuple(palette))
+        assert image.n_frames==clip['gif_frame_count'] and looped is clip['gif_looped']
+        assert durations==clip['gif_frame_durations_ms']
+        assert len(palette_tables)==1 and len(set(palette_tables))==1
+    quality=analyze_animation(ROOT/clip['sheet_path'],ROOT/clip['gif_path'],clip['frame_count'],clip['frame_width'],clip['frame_height'],gif_frame_count=clip['gif_frame_count'])
     errors=validate_animation(quality,transparent=True,loop_required=name in {'idle','walk'},action_clip=name not in {'idle','walk'},clip_name=name,require_soft_alpha=True)
     assert not errors,(name,errors,quality.to_dict())
 assert player['clips']['walk']['semantic_motion']['semantic_pass'] is True

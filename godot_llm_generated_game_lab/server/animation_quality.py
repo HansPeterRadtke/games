@@ -40,48 +40,91 @@ class AnimationQuality:
 
 
 
+def _gif_frame_durations(frame_count: int, duration_ms: int) -> list[int]:
+    """Return centisecond-compatible delays whose total matches the requested timing."""
+    if frame_count < 1:
+        raise ValueError("GIF requires at least one frame")
+    if duration_ms < 10:
+        raise ValueError("GIF frame duration must be at least 10 ms")
+    total_centiseconds = round(frame_count * duration_ms / 10)
+    low = total_centiseconds // frame_count
+    high_count = total_centiseconds - low * frame_count
+    durations = [low * 10 for _ in range(frame_count)]
+    if high_count:
+        # Spread longer frames evenly instead of grouping them into a visible stutter.
+        accumulator = 0
+        for index in range(frame_count):
+            accumulator += high_count
+            if accumulator >= frame_count:
+                durations[index] += 10
+                accumulator -= frame_count
+    return durations
+
+
 def encode_transparent_gif(
     frames: list[Image.Image],
     output: Path,
     *,
     duration_ms: int = 125,
     alpha_threshold: int = 16,
-) -> None:
-    """Encode RGBA frames with palette index 0 permanently reserved for transparency."""
+    loop: bool = True,
+) -> list[int]:
+    """Encode RGBA frames with one stable palette and index 0 reserved for transparency."""
     if len(frames) < 2:
         raise ValueError("transparent GIF requires at least two frames")
-    encoded: list[Image.Image] = []
     expected_size = frames[0].size
+    rgba_arrays: list[np.ndarray] = []
+    opaque_samples: list[np.ndarray] = []
     for frame in frames:
-        rgba = frame.convert("RGBA")
-        if rgba.size != expected_size:
-            raise ValueError(f"GIF frame size {rgba.size} differs from {expected_size}")
-        array = np.asarray(rgba, dtype=np.uint8)
-        alpha = array[:, :, 3]
-        rgb = Image.fromarray(array[:, :, :3], "RGB")
-        quantized = rgb.quantize(colors=254, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+        rgba = np.asarray(frame.convert("RGBA"), dtype=np.uint8)
+        if frame.size != expected_size:
+            raise ValueError(f"GIF frame size {frame.size} differs from {expected_size}")
+        rgba_arrays.append(rgba)
+        visible = rgba[:, :, 3] > alpha_threshold
+        if visible.any():
+            opaque_samples.append(rgba[:, :, :3][visible])
+    if not opaque_samples:
+        raise ValueError("transparent GIF contains no visible pixels")
+
+    pixels = np.concatenate(opaque_samples, axis=0)
+    # Deterministic sampling keeps palette construction bounded for long clips.
+    stride = max(1, int(np.ceil(len(pixels) / 500_000)))
+    palette_pixels = pixels[::stride]
+    palette_source = Image.fromarray(palette_pixels.reshape((-1, 1, 3)), "RGB")
+    master = palette_source.quantize(colors=254, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+    source_palette = master.getpalette() or []
+    shared_palette = [0, 0, 0] + source_palette[: 254 * 3]
+    shared_palette.extend([0] * (768 - len(shared_palette)))
+    palette_image = Image.new("P", (1, 1))
+    palette_image.putpalette(source_palette + [0] * (768 - len(source_palette)))
+
+    encoded: list[Image.Image] = []
+    for rgba in rgba_arrays:
+        rgb = Image.fromarray(rgba[:, :, :3], "RGB")
+        quantized = rgb.quantize(palette=palette_image, dither=Image.Dither.NONE)
         indices = np.asarray(quantized, dtype=np.uint8).astype(np.uint16) + 1
-        indices[alpha <= alpha_threshold] = 0
+        indices[rgba[:, :, 3] <= alpha_threshold] = 0
         indexed = Image.fromarray(indices.astype(np.uint8), "P")
-        source_palette = quantized.getpalette() or []
-        palette = [0, 0, 0] + source_palette[: 254 * 3]
-        palette.extend([0] * (768 - len(palette)))
-        indexed.putpalette(palette)
+        indexed.putpalette(shared_palette)
         indexed.info["transparency"] = 0
         indexed.info["disposal"] = 2
         encoded.append(indexed)
+
+    durations = _gif_frame_durations(len(encoded), duration_ms)
     output.parent.mkdir(parents=True, exist_ok=True)
-    encoded[0].save(
-        output,
-        format="GIF",
-        save_all=True,
-        append_images=encoded[1:],
-        duration=duration_ms,
-        loop=0,
-        disposal=2,
-        transparency=0,
-        optimize=False,
-    )
+    save_options: dict[str, Any] = {
+        "format": "GIF",
+        "save_all": True,
+        "append_images": encoded[1:],
+        "duration": durations,
+        "disposal": 2,
+        "transparency": 0,
+        "optimize": False,
+    }
+    if loop:
+        save_options["loop"] = 0
+    encoded[0].save(output, **save_options)
+    return durations
 
 def _frames_from_sheet(path: Path, count: int, width: int, height: int) -> list[Image.Image]:
     with Image.open(path) as image:
@@ -117,11 +160,20 @@ def _mask_metrics(alpha: np.ndarray) -> tuple[float, float, float, tuple[float, 
     return coverage, transparent, border_ratio, largest_ratio, center
 
 
-def analyze_animation(sheet_path: Path, gif_path: Path, frame_count: int, frame_width: int, frame_height: int) -> AnimationQuality:
+def analyze_animation(
+    sheet_path: Path,
+    gif_path: Path,
+    frame_count: int,
+    frame_width: int,
+    frame_height: int,
+    *,
+    gif_frame_count: int | None = None,
+) -> AnimationQuality:
     sheet_frames = _frames_from_sheet(sheet_path, frame_count, frame_width, frame_height)
     gif_frames, looped = _frames_from_gif(gif_path)
-    if len(gif_frames) != frame_count:
-        raise ValueError(f"GIF has {len(gif_frames)} frames, expected {frame_count}")
+    expected_gif_frames = frame_count if gif_frame_count is None else gif_frame_count
+    if len(gif_frames) != expected_gif_frames:
+        raise ValueError(f"GIF has {len(gif_frames)} frames, expected {expected_gif_frames}")
     sheet_arrays = [np.asarray(frame, dtype=np.int16) for frame in sheet_frames]
     gif_arrays = [np.asarray(frame.resize((frame_width, frame_height)), dtype=np.int16) for frame in gif_frames]
     alpha_arrays = [array[:, :, 3].astype(np.uint8) for array in sheet_arrays]
@@ -140,7 +192,7 @@ def analyze_animation(sheet_path: Path, gif_path: Path, frame_count: int, frame_
         centers.append(center)
     gif_coverage = [float((alpha > 16).mean()) for alpha in gif_alpha]
     soft_alpha = [float(((alpha > 2) & (alpha < 253)).mean()) for alpha in alpha_arrays]
-    mask_disagreement = [float(np.logical_xor(gif_alpha[index] > 16, alpha_arrays[index] > 16).mean()) for index in range(frame_count)]
+    mask_disagreement = [float(np.logical_xor(gif_alpha[index] > 16, alpha_arrays[index] > 16).mean()) for index in range(expected_gif_frames)]
     center_step = [float(np.linalg.norm(np.asarray(centers[index]) - np.asarray(centers[index - 1]))) for index in range(1, frame_count)]
     adjacent = [float(np.abs(sheet_arrays[index] - sheet_arrays[index - 1]).mean()) for index in range(1, frame_count)]
     visible_masks = [alpha > 16 for alpha in alpha_arrays]
@@ -172,7 +224,7 @@ def analyze_animation(sheet_path: Path, gif_path: Path, frame_count: int, frame_
         adjacent_rgba_diff=[round(value, 6) for value in adjacent],
         first_last_rgba_diff=round(float(np.abs(sheet_arrays[0] - sheet_arrays[-1]).mean()), 6),
         alpha_intersection_over_union=round(float(intersection.sum() / max(1, union.sum())), 6),
-        gif_sheet_coverage_error=[round(abs(gif_coverage[index] - coverage[index]), 6) for index in range(frame_count)],
+        gif_sheet_coverage_error=[round(abs(gif_coverage[index] - coverage[index]), 6) for index in range(expected_gif_frames)],
         gif_sheet_mask_disagreement=[round(value,6) for value in mask_disagreement],
         soft_alpha_ratio=[round(value,6) for value in soft_alpha],
         bbox_width_ratio=[round(value,6) for value in bbox_width],
@@ -195,8 +247,10 @@ def validate_animation(
     errors: list[str] = []
     if quality.frame_count < 2:
         errors.append("animation must contain at least two frames")
-    if not quality.looped_gif:
-        errors.append("GIF must loop forever")
+    if loop_required and not quality.looped_gif:
+        errors.append("looping GIF must contain an infinite-loop extension")
+    if action_clip and quality.looped_gif:
+        errors.append("one-shot action GIF must not loop")
     if quality.distinct_sheet_frames < max(2, quality.frame_count // 2):
         errors.append("sprite sheet lacks distinct motion frames")
     if quality.distinct_gif_frames < max(2, quality.frame_count // 2):
@@ -250,7 +304,14 @@ def audit_manifest(path: Path) -> dict[str, Any]:
         for clip_name, clip in clips.items():
             sheet = root / clip["sheet_path"]
             gif = root / clip["gif_path"]
-            quality = analyze_animation(sheet, gif, int(clip["frame_count"]), int(clip["frame_width"]), int(clip["frame_height"]))
+            quality = analyze_animation(
+                sheet,
+                gif,
+                int(clip["frame_count"]),
+                int(clip["frame_width"]),
+                int(clip["frame_height"]),
+                gif_frame_count=int(clip.get("gif_frame_count", clip["frame_count"])),
+            )
             usage = str(asset.get("asset_usage", "isolated_sprite"))
             errors = validate_animation(
                 quality,
