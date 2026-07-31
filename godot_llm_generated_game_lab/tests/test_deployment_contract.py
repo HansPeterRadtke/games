@@ -7,7 +7,7 @@ preset = (ROOT / 'export_presets.cfg').read_text()
 shell = (ROOT / 'deploy/web_shell.html').read_text()
 build = (ROOT / 'deploy/build-web.sh').read_text()
 assert 'pose controls leaked into index.pck' in build
-assert 'for generated_site in generated_assets gif_inspector' in build
+assert 'for generated_site in generated_assets; do' in build
 install = (ROOT / 'deploy/install-nitro.sh').read_text()
 verify = (ROOT / 'deploy/nitro-verify.sh').read_text()
 generated_build = (ROOT / 'deploy/build-generated-world.sh').read_text()

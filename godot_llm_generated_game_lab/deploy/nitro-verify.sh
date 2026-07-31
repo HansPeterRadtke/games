@@ -164,6 +164,4 @@ for _ in $(seq 1 40); do grep -q 'WebDriver BiDi listening' "$firefox_log" && br
 grep -q 'WebDriver BiDi listening' "$firefox_log"
 NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost /data/venv/bin/python3 tests/verify_temporal_public_browser.py --websocket "ws://127.0.0.1:$firefox_port/session" --screenshot /data/tmp/your-mom-temporal-public.png
 ! grep -Eq 'Failed to create WebGL context|SCRIPT ERROR|Parse Error|Failed to load script|Generated world manifest is missing' "$firefox_log"
-/data/venv/bin/python3 tests/verify_gif_inspector_public.py --base "$PUBLIC/gif_inspector/"
-NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost /data/venv/bin/python3 tests/verify_gif_inspector_browser.py --url "$PUBLIC/gif_inspector/"
 printf 'verification=ok route=%s engine=%s actions=30 clips=5 browser=firefox_webgl time=%s\n' "$PUBLIC/" "$ENGINE" "$(date -Is)"

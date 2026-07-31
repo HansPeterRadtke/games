@@ -28,7 +28,3 @@ Run `tests/run_all.sh` for local contracts. Run `deploy/build-temporal-world.sh`
 
 Godot Web export uses the official standard Godot 4.6.1 editor. The custom HTML loader pins PCK and WASM files to absolute `/llm_game/` routes and starts package download, WebAssembly initialization and scene startup sequentially.
 
-## Static GIF inspection subsite
-
-The standalone Apache inspection site at `https://nitro.jonnyontherun.org/llm_game/gif_inspector/` contains exactly one verified looping GIF. Diffusion and video-generation models were rejected because closed pose controls still produced stopped files, bad image seams, hidden internal jumps, face noise and unstable alpha. The replacement uses one immutable reviewed player image, official semantic human-part parsing, rigid head and torso layers, rigid upper/lower limb layers, a true BVH motion-capture walk, circular Fourier resampling, exact source bone lengths, two-link leg inverse kinematics and circular support-foot anchoring. No model generates animation frames and no frame receives a new matte. The public manifest exposes the measured image seam, worst internal transition, rigid-head hash, stance drift, DWPose gait, alpha metrics and two independent visual reviews.
-

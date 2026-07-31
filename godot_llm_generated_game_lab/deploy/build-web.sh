@@ -16,8 +16,8 @@ if strings "$stage/index.pck" | grep -q 'res://generated/world_assets/player/sta
   exit 1
 fi
 grep -q 'your-mom-stableanimator-rvm-alpha-v6' "$stage/index.html"
-# Preserve generated public sub-sites across the base Godot export. The temporal build refreshes them afterwards.
-for generated_site in generated_assets gif_inspector; do
+# Preserve generated public assets across the base Godot export. The temporal build refreshes them afterwards.
+for generated_site in generated_assets; do
   if [[ -d "$ROOT/web/$generated_site" ]]; then
     cp -a "$ROOT/web/$generated_site" "$stage/$generated_site"
   fi
