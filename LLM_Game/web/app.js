@@ -1,759 +1,345 @@
 'use strict';
-const canvas = document.getElementById('game');
-if(window.CanvasRenderingContext2D && !CanvasRenderingContext2D.prototype.roundRect){ CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){ r=Math.min(r,Math.abs(w)/2,Math.abs(h)/2); this.beginPath(); this.moveTo(x+r,y); this.arcTo(x+w,y,x+w,y+h,r); this.arcTo(x+w,y+h,x,y+h,r); this.arcTo(x,y+h,x,y,r); this.arcTo(x,y,x+w,y,r); this.closePath(); return this; }; }
-const ctx = canvas.getContext('2d');
-const stats = document.getElementById('stats');
-const log = document.getElementById('log');
-const keys = new Set();
-const spriteIds = ['player','spark','void','echo','gate','wisp','stone','glyph'];
-const sprites = {};
-const topicGifImages = {}; const REAL_IMAGE_BACKEND=false;
-for (const id of spriteIds) { const img = new Image(); img.src = `assets/sprites/${id}.png?v=20260711-1254-utterance-vad-no-tiny-whisper-slices`; sprites[id] = img; }
 
-const animDefs = {
-  player_idle: {src:'assets/animations/player_idle.png', frames:2, fps:2},
-  player_walk: {src:'assets/animations/player_walk.png', frames:4, fps:8},
-  spark_spin: {src:'assets/animations/spark_spin.png', frames:3, fps:7},
-  void_pulse: {src:'assets/animations/void_pulse.png', frames:2, fps:4},
-  gate_shimmer: {src:'assets/animations/gate_shimmer.png', frames:2, fps:3}
+const BUILD='20260816-umzug-stream-v32';
+const MODEL_CONTEXT_LABEL='context 8192';
+const ROOM={w:1400,h:860};
+const WORLD_ROOM_CAP=10;
+const ROOM_CONTENT_CAP=12;
+const SAVE_KEY='prse-umzug-v29';
+
+const canvas=document.getElementById('game');
+const ctx=canvas.getContext('2d');
+const mapCanvas=document.getElementById('minimap');
+const mapCtx=mapCanvas.getContext('2d');
+const storyEl=document.getElementById('story');
+const eventsEl=document.getElementById('events');
+const stateEl=document.getElementById('state');
+const statsEl=document.getElementById('stats');
+const resultEl=document.getElementById('result');
+const actionEl=document.getElementById('action');
+const roomLabelEl=document.getElementById('room-label');
+const debugEl=document.getElementById('debug');
+const transcriptScrollEl=document.getElementById('transcript-scroll');
+const healthTextEl=document.getElementById('health-text'),healthFillEl=document.getElementById('health-fill');
+
+const roleColors={
+  player:'#e8d65c', prop:'#8e8172', item:'#d7b84d', npc:'#70bfd0',
+  hazard:'#cd5555', treasure:'#df9d48', mechanism:'#7996bd', door:'#71b27a'
 };
-const anims = {};
-for (const [id,def] of Object.entries(animDefs)) { const img = new Image(); img.src = `${def.src}?v=20260711-1254-utterance-vad-no-tiny-whisper-slices`; anims[id] = img; }
 
-let DPR = 1, W = 0, H = 0, last = performance.now();
-let camera = {x:0,y:0,shake:0};
-let stick = {active:false, id:null, cx:0, cy:0, dx:0, dy:0, max:44};
-const state = { score:0, insight:0, level:1, time:0, player:{x:0,y:0,r:14,speed:170,vx:0,vy:0,pulse:0}, sparks:[], voids:[], echoes:[], gates:[], wisps:[], stones:[], glyphs:[], speechObjects:[] };
-const speechWorld = {queue:[], seen:{}, spawned:0, lastTopics:[], maxObjects:36, copiesPerTopic:1};
-const stickBase = document.getElementById('stick-base');
-const stickThumb = document.getElementById('stick-thumb');
-function rand(seed){ let t = seed += 0x6D2B79F5; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }
-function resize(){ DPR=Math.min(devicePixelRatio||1,2); W=innerWidth; H=innerHeight; canvas.width=Math.floor(W*DPR); canvas.height=Math.floor(H*DPR); canvas.style.width=W+'px'; canvas.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0); }
-function say(text){ log.textContent=text; }
-function reset(){ state.score=0; state.insight=0; state.level=1; state.time=0; state.player.x=0; state.player.y=0; state.player.pulse=0; spawnField(); say('Field reset. Use the thumb-stick. Collect sparks and glyphs. Avoid voids.'); }
-function spawnNear(list,count,base,spread,make){ list.length=0; for(let i=0;i<count;i++){ let a=rand(base+i*17+state.level)*Math.PI*2, d=80+rand(base+i*31)*spread; list.push(make(Math.cos(a)*d, Math.sin(a)*d, i)); } }
-function spawnField(){ spawnNear(state.sparks,28,100,900,(x,y,i)=>({x,y,z:rand(i+7),r:8,got:false})); spawnNear(state.voids,10,700,920,(x,y,i)=>({x,y,r:32+rand(i+91)*34,phase:rand(i+19)*6})); spawnNear(state.echoes,12,220,900,(x,y,i)=>({x,y,phase:rand(i+6)*8})); spawnNear(state.wisps,8,340,870,(x,y,i)=>({x,y,got:false,phase:rand(i+66)*8})); spawnNear(state.stones,18,440,980,(x,y,i)=>({x,y,phase:rand(i+23)*6})); spawnNear(state.glyphs,7,540,900,(x,y,i)=>({x,y,got:false,phase:rand(i+47)*6})); spawnNear(state.gates,3,640,1000,(x,y,i)=>({x,y,phase:rand(i+11)*6})); }
-function updateStickVisual(){ stickThumb.style.transform = `translate(${stick.dx}px, ${stick.dy}px)`; }
-function setStickFromEvent(e){ const r=stickBase.getBoundingClientRect(); stick.cx=r.left+r.width/2; stick.cy=r.top+r.height/2; let dx=e.clientX-stick.cx, dy=e.clientY-stick.cy; const len=Math.hypot(dx,dy); if(len>stick.max){ dx=dx/len*stick.max; dy=dy/len*stick.max; } stick.dx=dx; stick.dy=dy; updateStickVisual(); }
-function bindStick(){ stickBase.addEventListener('pointerdown',e=>{ e.preventDefault(); stick.active=true; stick.id=e.pointerId; stickBase.setPointerCapture(e.pointerId); setStickFromEvent(e); }, {passive:false}); stickBase.addEventListener('pointermove',e=>{ if(stick.active && e.pointerId===stick.id){ e.preventDefault(); setStickFromEvent(e); } }, {passive:false}); const end=e=>{ if(e.pointerId===stick.id){ e.preventDefault(); stick.active=false; stick.id=null; stick.dx=0; stick.dy=0; updateStickVisual(); } }; stickBase.addEventListener('pointerup',end,{passive:false}); stickBase.addEventListener('pointercancel',end,{passive:false}); }
-function input(){ let x=0,y=0; if(stick.active){ x=stick.dx/stick.max; y=stick.dy/stick.max; } if(keys.has('ArrowLeft')||keys.has('a')) x--; if(keys.has('ArrowRight')||keys.has('d')) x++; if(keys.has('ArrowUp')||keys.has('w')) y--; if(keys.has('ArrowDown')||keys.has('s')) y++; const len=Math.hypot(x,y); state.player.vx=len?x/Math.max(1,len):0; state.player.vy=len?y/Math.max(1,len):0; }
-function tick(dt){ state.time+=dt; input(); const p=state.player; p.x+=p.vx*p.speed*dt; p.y+=p.vy*p.speed*dt; if(p.pulse>0) p.pulse=Math.max(0,p.pulse-dt*1.6); camera.x+=(p.x-camera.x)*Math.min(1,dt*4); camera.y+=(p.y-camera.y)*Math.min(1,dt*4); for(const s of state.sparks){ if(!s.got && Math.hypot(p.x-s.x,p.y-s.y)<28){ s.got=true; state.score++; state.insight+=3; say('Semantic spark collected.'); } } for(const g of state.glyphs){ if(!g.got && Math.hypot(p.x-g.x,p.y-g.y)<30){ g.got=true; state.score+=3; state.insight+=8; say('Glyph captured. The field becomes more readable.'); } } for(const w of state.wisps){ if(!w.got && Math.hypot(p.x-w.x,p.y-w.y)<28){ w.got=true; state.insight+=5; say('A wisp joins your perception trail.'); } } for(const v of state.voids){ if(Math.hypot(p.x-v.x,p.y-v.y)<p.r+v.r*.75){ state.insight=Math.max(0,state.insight-18*dt); camera.shake=.25; say('The void pulls at your perception. Move away.'); } } if(state.score>0 && state.score % 14 === 0){ state.level++; state.score++; spawnField(); say('A new perception layer unfolds.'); } updateSpeechSpawns(); camera.shake=Math.max(0,camera.shake-dt); stats.textContent=`score ${state.score}  insight ${Math.floor(state.insight)}  sprites ${spriteIds.length} anims 5  speech ${state.speechObjects.length} topics ${Object.keys(speechWorld.seen).length} cards ${state.speechObjects.length}  context 8192  model ~6.43 tok/s`; }
-function worldToScreen(x,y,z=0){
-  const dx=x-camera.x, dy=y-camera.y;
-  const sx=W/2 + dx - dy*0.18;
-  const sy=H/2 + dy*0.58 - (z||0)*34;
-  const depth=Math.max(-1, Math.min(1, dy/900));
-  const scale=0.88 + depth*0.16 + Math.max(0, Math.min(1, z||0))*0.08;
-  return {x:sx,y:sy,scale};
+let W=innerWidth,H=innerHeight,DPR=1,lastFrame=performance.now(),lastUserActionAt=Date.now();
+let world=null,scenarioRecord=null,gameMinute=0,eventSeq=0,llmBusy=false,backgroundBusy=false;
+let visitedRooms=new Set(),refinedRooms=new Set(),backgroundTimer=null;
+let exploredCells={};
+const EXP_COLS=14,EXP_ROWS=9;
+const keys=new Set();
+
+const player={
+  room:'roomA',x:300,y:430,lastX:300,lastY:430,vx:0,vy:0,
+  facingX:1,facingY:0,
+  shape:{type:'cross',width:44,height:44,thickness:14},
+  speed:185,interactionReach:26,speechReach:165,
+  state:{health:100}
+};
+
+const stick={active:false,id:null,dx:0,dy:0,max:38};
+
+function clamp(v,a,b){v=Number(v);return Number.isFinite(v)?Math.max(a,Math.min(b,v)):(a+b)/2}
+function safeText(v,n=500){return String(v??'').slice(0,n)}
+function directionName(dx,dy){
+  const a=Math.atan2(dy,dx)*180/Math.PI;
+  if(a>=-22.5&&a<22.5)return'east/right'; if(a<67.5&&a>=22.5)return'southeast/down-right';
+  if(a<112.5&&a>=67.5)return'south/down'; if(a<157.5&&a>=112.5)return'southwest/down-left';
+  if(a>=157.5||a<-157.5)return'west/left'; if(a<-112.5)return'northwest/up-left';
+  if(a<-67.5)return'north/up'; return'northeast/up-right';
 }
 
-function drawSprite(id,x,y,size,z=0){ const p=worldToScreen(x,y,z), img=sprites[id]; if(img && img.complete && img.naturalWidth){ const s=size*p.scale; ctx.imageSmoothingEnabled=false; ctx.drawImage(img,p.x-s/2,p.y-s/2,s,s); return true; } return false; }
-
-function drawAnim(id,x,y,size,z=0,offset=0){ const def=animDefs[id], img=anims[id], p=worldToScreen(x,y,z); if(def && img && img.complete && img.naturalWidth){ const frame=Math.floor((state.time+offset)*def.fps)%def.frames; const s=size*p.scale; ctx.imageSmoothingEnabled=false; ctx.drawImage(img, frame*64, 0, 64, 64, p.x-s/2, p.y-s/2, s, s); return true; } return false; }
-
-function hashString(text){ let h=2166136261; for(let i=0;i<text.length;i++){ h^=text.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
-function topicGifSlug(text){ return String(text||'object').toLowerCase().replace(/[^a-z0-9_-]+/g,'-').replace(/^-+|-+$/g,'').slice(0,64) || 'object'; }
-function topicGifSrc(name, category, prompt='', motion='idle'){
-  const n=String(name||'object'); const c=String(category||'object'); const p=String(prompt||n); const m=String(motion||'idle');
-  return `https://nitro.jonnyontherun.org/llm_game_topic_gif/${topicGifSlug('real-'+c+'-'+n)}.gif?name=${encodeURIComponent(n)}&category=${encodeURIComponent(c)}&prompt=${encodeURIComponent(p)}&motion=${encodeURIComponent(m)}&v=20260711-1254-utterance-vad-no-tiny-whisper-slices`;
-}
-
-function topicIcon(name, category){
-  const n=String(name||'').toLowerCase(); const c=String(category||'').toLowerCase();
-  if(/poop|shit|crap|kacke|feces|faeces/.test(n)) return '💩';
-  if(/bone/.test(n)) return '🦴';
-  if(/bicycle|bike|fahrrad|mountainbike|rennrad|racing/.test(n)) return '🚲';
-  if(/flower|blume|flauer/.test(n)) return '🌸';
-  if(/tree|baum/.test(n)) return '🌳';
-  if(/toothbrush/.test(n)) return '🪥';
-  if(/teeth|tooth/.test(n)) return '🦷';
-  if(/toilet/.test(n)) return '🚽';
-  if(/juice|drink|milkshake/.test(n)) return '🥤';
-  if(/jew|people|person|portrait|doctor|child|baby/.test(n)||c==='person') return '👤';
-  if(/dance|dancing/.test(n)) return '💃';
-  if(/dog|hund/.test(n)) return '🐶';
-  if(/cat|katze/.test(n)) return '🐱';
-  if(/house|haus/.test(n)) return '🏠';
-  if(/street|city/.test(n)) return '🛣️';
-  if(/trash/.test(n)) return '🗑️';
-  if(/music/.test(n)) return '🎵';
-  if(/ticket/.test(n)) return '🎫';
-  if(/document|scroll|letter/.test(n)) return '📜';
-  if(c==='food') return '🍽️';
-  if(c==='animal') return '🐾';
-  if(c==='plant') return '🌿';
-  return '●';
-}
-
-function ensureTopicGif(o){
-  const key=String(o.gifSrc||''); if(!key) return null;
-  let rec=topicGifImages[key];
-  const now=performance.now();
-  function startLoad(rec){
-    rec.state='loading'; rec.last=now; rec.retryCount=(rec.retryCount||0)+1;
-    const img=new Image(); rec.img=img;
-    img.onload=()=>{rec.state='ready'; rec.last=performance.now(); rec.naturalWidth=img.naturalWidth||0;};
-    img.onerror=()=>{
-      rec.state='pending'; rec.last=performance.now();
-      const wait=Math.min(30000, 1500*Math.pow(1.45, Math.min(8, rec.retryCount||1)));
-      rec.retryAt=performance.now()+wait;
-      if((rec.retryCount||0)<=3 || (rec.retryCount||0)%5===0) appendMicDebug(`IMAGE PENDING/RETRY: ${String(o.name||'object')} retry=${rec.retryCount} wait=${Math.round(wait/1000)}s`);
-    };
-    const sep=key.includes('?')?'&':'?';
-    img.src=`${key}${sep}retry=${rec.retryCount}&ts=${Math.floor(Date.now()/1000)}`;
+function normalizeShape(raw,role='prop'){
+  const s=raw&&typeof raw==='object'?{...raw}:{};
+  const type=['rect','circle','capsule','polygon','cross'].includes(String(s.type))?String(s.type):(role==='npc'?'circle':'rect');
+  if(type==='circle')return{type,radius:clamp(s.radius??24,6,90)};
+  if(type==='capsule')return{type,width:clamp(s.width??40,10,160),height:clamp(s.height??56,10,180)};
+  if(type==='cross')return{type,width:clamp(s.width??44,12,160),height:clamp(s.height??44,12,160),thickness:clamp(s.thickness??14,4,80)};
+  if(type==='polygon'){
+    const pts=Array.isArray(s.points)?s.points.slice(0,12).map(p=>[clamp(p?.[0],-100,100),clamp(p?.[1],-100,100)]):[];
+    if(pts.length>=3)return{type,points:pts};
   }
-  if(!rec){ rec={img:null,state:'new',last:now,src:key,retryCount:0,retryAt:0,naturalWidth:0}; topicGifImages[key]=rec; startLoad(rec); return rec; }
-  if((rec.state==='pending' || rec.state==='error') && now >= (rec.retryAt||0)) startLoad(rec);
-  return rec;
+  return{type:'rect',width:clamp(s.width??48,8,180),height:clamp(s.height??48,8,180)};
 }
 
-function pruneOldTopics(){ for(const [k,v] of Object.entries(speechWorld.seen)){ if(state.time-(v.last||0)>55) delete speechWorld.seen[k]; } state.speechObjects=state.speechObjects.filter(o=>state.time-(o.born||0)<70); }
-function handleTopics(items, engine){
-  pruneOldTopics();
-  if(!items.length){ setMicStatus('no direct objects yet; building scene context'); setTopicStatus([]); sendClientDebug({event:'topics_empty', engine}); return; }
-  const accepted=[];
-  let spawnedNow=0;
-  const seenThisBatch=new Set();
-  for(const item of items){
-    const name=String(item.name||'').toLowerCase().trim();
-    if(!name || name.length<3 || seenThisBatch.has(name)) continue;
-    seenThisBatch.add(name);
-    const existing=speechWorld.seen[name] || {name, category:item.category||'object', weight:0, last:0};
-    existing.weight += Math.max(1, Math.min(5, Number(item.weight)||1));
-    existing.last = state.time;
-    existing.animation = item.animation || item.motion || 'idle';
-    existing.prompt = item.prompt || item.name || existing.name;
-    existing.x = Number.isFinite(item.x) ? item.x : existing.x; existing.y = Number.isFinite(item.y) ? item.y : existing.y; existing.z = Number.isFinite(item.z) ? item.z : existing.z; existing.scale = Number.isFinite(item.scale) ? item.scale : existing.scale; existing.count = item.count || existing.count;
-    existing.gifSrc = topicGifSrc(existing.name, existing.category||'object', existing.prompt, existing.animation);
-    speechWorld.seen[name]=existing;
-    accepted.push(existing);
-    const count = Math.max(1, Math.min(4, Number(item.count)||speechWorld.copiesPerTopic));
-    for(let i=0;i<count;i++){ if(spawnSpeechObject(existing, i, accepted.length-1)) spawnedNow++; }
+function rectPoly(cx,cy,w,h){return[[cx-w/2,cy-h/2],[cx+w/2,cy-h/2],[cx+w/2,cy+h/2],[cx-w/2,cy+h/2]]}
+function circlePoly(cx,cy,r,n=16){return Array.from({length:n},(_,i)=>{const a=i*Math.PI*2/n;return[cx+Math.cos(a)*r,cy+Math.sin(a)*r]})}
+function capsulePoly(cx,cy,w,h){
+  if(Math.abs(w-h)<1)return circlePoly(cx,cy,w/2,18);
+  const pts=[];
+  if(h>=w){const r=w/2,half=(h-w)/2;for(let i=0;i<=8;i++){const a=Math.PI+i*Math.PI/8;pts.push([cx+Math.cos(a)*r,cy-half+Math.sin(a)*r])}for(let i=0;i<=8;i++){const a=i*Math.PI/8;pts.push([cx+Math.cos(a)*r,cy+half+Math.sin(a)*r])}}
+  else{const r=h/2,half=(w-h)/2;for(let i=0;i<=8;i++){const a=Math.PI/2+i*Math.PI/8;pts.push([cx-half+Math.cos(a)*r,cy+Math.sin(a)*r])}for(let i=0;i<=8;i++){const a=-Math.PI/2+i*Math.PI/8;pts.push([cx+half+Math.cos(a)*r,cy+Math.sin(a)*r])}}
+  return pts;
+}
+function shapeParts(shape,cx,cy){
+  const s=normalizeShape(shape);
+  if(s.type==='rect')return[rectPoly(cx,cy,s.width,s.height)];
+  if(s.type==='circle')return[circlePoly(cx,cy,s.radius)];
+  if(s.type==='capsule')return[capsulePoly(cx,cy,s.width,s.height)];
+  if(s.type==='polygon')return[s.points.map(([x,y])=>[cx+x,cy+y])];
+  if(s.type==='cross'){
+    const t=Math.min(s.thickness,s.width,s.height);
+    return[rectPoly(cx,cy,t,s.height),rectPoly(cx,cy,s.width,t)];
   }
-  speechWorld.lastTopics = accepted.slice(0,16);
-  setTopicStatus(accepted);
-  setMicStatus(`world topics ${accepted.length}, spawned ${spawnedNow} scene graphics`);
-  sendClientDebug({event:'topics_received', engine, accepted:accepted.map(x=>x.name), spawnedNow, copiesPerTopic:speechWorld.copiesPerTopic, totalObjects:state.speechObjects.length, totalTopics:Object.keys(speechWorld.seen).length});
+  return[rectPoly(cx,cy,48,48)];
 }
-function screenToWorldEdge(sx, sy){
-  let wy = camera.y + (sy - H/2);
-  for(let i=0;i<5;i++){
-    const sc = 1 + Math.max(-.25, Math.min(.35, (wy-camera.y)/900));
-    wy = camera.y + (sy - H/2) / sc;
-  }
-  const scale = 1 + Math.max(-.25, Math.min(.35, (wy-camera.y)/900));
-  return {x: camera.x + (sx - W/2) / scale, y: wy};
-}
-function eventHorizonPosition(index){
-  const margin = 64;
-  const side = index % 4;
-  const laneSeed = hashString(String(index) + ':' + Math.round(camera.x) + ':' + Math.round(camera.y));
-  const t = 0.12 + ((laneSeed % 760) / 1000);
-  if(side === 0) return screenToWorldEdge(W + margin, t * H);
-  if(side === 1) return screenToWorldEdge(-margin, t * H);
-  if(side === 2) return screenToWorldEdge(t * W, -margin);
-  return screenToWorldEdge(t * W, H + margin);
-}
-function visiblePlayerSpawnPosition(copyIndex=0, topicIndex=0, topic=null){
-  if(topic && Number.isFinite(topic.x) && Number.isFinite(topic.y)){
-    const radius=260 + (copyIndex%3)*42;
-    return {x:state.player.x + topic.x*radius + (copyIndex-1)*28, y:state.player.y + topic.y*radius};
-  }
-  const n = Math.max(1, speechWorld.copiesPerTopic || 1);
-  const angle = ((copyIndex % n) / n) * Math.PI * 2 + topicIndex * 0.82 + speechWorld.spawned * 0.09;
-  const dist = 118 + (topicIndex % 6) * 46 + Math.floor(copyIndex / n) * 38;
-  return {x:state.player.x + Math.cos(angle)*dist, y:state.player.y + Math.sin(angle)*dist};
-}
+function polyAxes(poly){const a=[];for(let i=0;i<poly.length;i++){const p=poly[i],q=poly[(i+1)%poly.length],dx=q[0]-p[0],dy=q[1]-p[1],n=Math.hypot(dx,dy)||1;a.push([-dy/n,dx/n])}return a}
+function project(poly,axis){let lo=Infinity,hi=-Infinity;for(const p of poly){const v=p[0]*axis[0]+p[1]*axis[1];lo=Math.min(lo,v);hi=Math.max(hi,v)}return[lo,hi]}
+function polysCollide(a,b){for(const axis of [...polyAxes(a),...polyAxes(b)]){const A=project(a,axis),B=project(b,axis);if(A[1]<B[0]||B[1]<A[0])return false}return true}
+function polyCenter(poly){let x=0,y=0;for(const p of poly){x+=p[0];y+=p[1]}return{x:x/poly.length,y:y/poly.length}}
+function polyCollisionNormal(a,b){let best=null,bestOverlap=Infinity;for(const axis0 of [...polyAxes(a),...polyAxes(b)]){let axis=[axis0[0],axis0[1]],A=project(a,axis),B=project(b,axis),overlap=Math.min(A[1],B[1])-Math.max(A[0],B[0]);if(overlap<=0)return null;if(overlap<bestOverlap){const ca=polyCenter(a),cb=polyCenter(b);if((ca.x-cb.x)*axis[0]+(ca.y-cb.y)*axis[1]<0)axis=[-axis[0],-axis[1]];best=axis;bestOverlap=overlap}}return best}
+function shapeCollisionNormal(sa,ax,ay,sb,bx,by){let best=null,bestOverlap=Infinity;for(const a of shapeParts(sa,ax,ay))for(const b of shapeParts(sb,bx,by)){let overlapMin=Infinity,normal=null,colliding=true;for(const axis0 of [...polyAxes(a),...polyAxes(b)]){let axis=[axis0[0],axis0[1]],A=project(a,axis),B=project(b,axis),overlap=Math.min(A[1],B[1])-Math.max(A[0],B[0]);if(overlap<=0){colliding=false;break}if(overlap<overlapMin){const ca=polyCenter(a),cb=polyCenter(b);if((ca.x-cb.x)*axis[0]+(ca.y-cb.y)*axis[1]<0)axis=[-axis[0],-axis[1]];overlapMin=overlap;normal=axis}}if(colliding&&overlapMin<bestOverlap){bestOverlap=overlapMin;best=normal}}return best}
+function shapesCollide(sa,ax,ay,sb,bx,by){for(const a of shapeParts(sa,ax,ay))for(const b of shapeParts(sb,bx,by))if(polysCollide(a,b))return true;return false}
+function pointSegDistance(px,py,a,b){const vx=b[0]-a[0],vy=b[1]-a[1],l=vx*vx+vy*vy;if(!l)return Math.hypot(px-a[0],py-a[1]);const t=clamp(((px-a[0])*vx+(py-a[1])*vy)/l,0,1);return Math.hypot(px-(a[0]+t*vx),py-(a[1]+t*vy))}
+function polyDistance(a,b){if(polysCollide(a,b))return 0;let d=Infinity;for(const p of a)for(let i=0;i<b.length;i++)d=Math.min(d,pointSegDistance(p[0],p[1],b[i],b[(i+1)%b.length]));for(const p of b)for(let i=0;i<a.length;i++)d=Math.min(d,pointSegDistance(p[0],p[1],a[i],a[(i+1)%a.length]));return d}
+function shapeDistance(sa,ax,ay,sb,bx,by){let d=Infinity;for(const a of shapeParts(sa,ax,ay))for(const b of shapeParts(sb,bx,by))d=Math.min(d,polyDistance(a,b));return d}
+function shapeBounds(shape,cx,cy){const pts=shapeParts(shape,cx,cy).flat();return{x0:Math.min(...pts.map(p=>p[0])),x1:Math.max(...pts.map(p=>p[0])),y0:Math.min(...pts.map(p=>p[1])),y1:Math.max(...pts.map(p=>p[1]))}}
 
-function tooDenseAt(x,y){ let near=0; for(const o of state.speechObjects){ if(Math.hypot(o.x-x,o.y-y)<86) near++; if(near>=1) return true; } return false; }
-function spawnSpeechObject(topic, copyIndex=0, topicIndex=0){
-  if(state.speechObjects.length>=speechWorld.maxObjects) state.speechObjects.splice(0, Math.ceil(state.speechObjects.length-speechWorld.maxObjects+1));
-  for(let i=0;i<20;i++){
-    const pos=visiblePlayerSpawnPosition(copyIndex+i, topicIndex, topic);
-    if(!tooDenseAt(pos.x,pos.y) || i>8){
-      const seed=hashString(topic.name+topic.category+speechWorld.spawned+':'+copyIndex+':'+topicIndex);
-      state.speechObjects.push({x:pos.x,y:pos.y,z:Number(topic.z)||0,objectScale:Number(topic.scale)||1,name:topic.name,category:topic.category||'object',gifSrc:topic.gifSrc||'',seed,phase:(seed%1000)/100,weight:Math.max(3,topic.weight||1),motion:topic.animation||topic.motion||'idle',prompt:topic.prompt||topic.name,born:state.time});
-      speechWorld.spawned++;
-      sendClientDebug({event:'spawn_object', name:topic.name, category:topic.category||'object', gifSrc:topic.gifSrc||'', x:Math.round(pos.x), y:Math.round(pos.y), px:Math.round(pos.x-state.player.x), py:Math.round(pos.y-state.player.y), copyIndex, topicIndex, totalObjects:state.speechObjects.length});
-      return true;
-    }
-  }
-  return false;
-}
-function updateSpeechSpawns(){ let budget=1; while(budget-- > 0 && speechWorld.queue.length){ const topic=speechWorld.queue.pop(); spawnSpeechObject(topic); } }
-function hasName(o,...parts){ const n=String(o.name||'').toLowerCase(); return parts.some(p=>n.includes(p)); }
-function drawEdgeIndicator(o){
-  const p = worldToScreen(o.x,o.y,.1);
-  if(p.x > -24 && p.x < W+24 && p.y > -24 && p.y < H+24) return;
-  const x = Math.max(18, Math.min(W-18, p.x));
-  const y = Math.max(18, Math.min(H-18, p.y));
-  const a = Math.atan2(p.y - H/2, p.x - W/2);
-  ctx.save();
-  ctx.translate(x,y); ctx.rotate(a);
-  ctx.fillStyle='rgba(124,249,255,.9)'; ctx.strokeStyle='rgba(5,7,14,.95)'; ctx.lineWidth=2;
-  ctx.beginPath(); ctx.moveTo(13,0); ctx.lineTo(-8,-8); ctx.lineTo(-5,0); ctx.lineTo(-8,8); ctx.closePath(); ctx.fill(); ctx.stroke();
-  ctx.restore();
-}
-function drawGeneratedObject(o){
-  const p=worldToScreen(o.x,o.y,o.z||0), n=String(o.name||'object').toLowerCase(), cat=String(o.category||'object').toLowerCase(), t=state.time+(o.phase||0)*6;
-  const sc=Math.max(.72,Math.min(1.45,p.scale*(o.objectScale||1)))*(1+Math.sin(t*2.2)*.018); ctx.save(); ctx.translate(p.x,p.y); ctx.scale(sc,sc); ctx.lineWidth=3; ctx.lineCap='round'; ctx.lineJoin='round'; const rec=ensureTopicGif(o); if(rec && rec.state==='ready' && rec.img && rec.img.naturalWidth){ const size=90; ctx.imageSmoothingEnabled=true; ctx.drawImage(rec.img,-size/2,-size/2,size,size); } else { drawImagePendingMarker(n,t); }
-  ctx.font='700 13px system-ui, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillStyle='rgba(5,10,20,.82)'; ctx.strokeStyle='rgba(124,249,255,.75)'; ctx.lineWidth=1.5; const label=String(o.name||'object').replace(/\b\w/g,c=>c.toUpperCase()); const w=Math.max(56,Math.min(150,18+label.length*7)); ctx.beginPath(); ctx.roundRect(-w/2,34,w,21,8); ctx.fill(); ctx.stroke(); ctx.fillStyle='#eaffff'; ctx.fillText(label,0,38,w-8); ctx.restore();
-}
-function drawTopicVector(n,cat,t){ if(/poop|shit|crap|kacke/.test(n)) return drawPoop(t); if(/bone/.test(n)) return drawBone(t); if(/bicycle|bike|fahrrad|mountainbike|rennrad|racing/.test(n)) return drawBike(t,/mountain/.test(n),/racing|renn/.test(n)); if(/flower|blume|flauer/.test(n)) return drawFlowerObj(t); if(/tree|baum/.test(n)) return drawTreeObj(t); if(/street|ground/.test(n)) return drawStreetObj(t); if(/dog|hund/.test(n)) return drawDogObj(t); if(/dancing|dance/.test(n)) return drawDancer(t); if(/singer|sing|music/.test(n)) return drawSinger(t); if(/hobo|homeless|lying person/.test(n)) return drawLyingPerson(t); if(/people|jewish|jews/.test(n)) return drawPeople(t); if(/bottle|alcohol/.test(n)) return drawBottle(t); if(/decay|smell/.test(n)) return drawSmell(t); if(/trash/.test(n)) return drawTrashObj(t); if(/house|haus/.test(n)) return drawHouseObj(t); return drawGenericObj(t); }
-function drawImagePendingMarker(n,t){
-  ctx.save();
-  ctx.strokeStyle='rgba(124,249,255,.85)'; ctx.fillStyle='rgba(5,10,20,.55)'; ctx.lineWidth=3;
-  ctx.beginPath(); ctx.roundRect(-32,-32,64,64,14); ctx.fill(); ctx.stroke();
-  ctx.setLineDash([10,8]); ctx.beginPath(); ctx.arc(0,0,22,t*2,t*2+Math.PI*1.35); ctx.stroke(); ctx.setLineDash([]);
-  ctx.font='700 10px system-ui, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle='#eaffff'; ctx.fillText('GIF',0,0);
-  ctx.restore();
-}
-function glowStroke(){ ctx.shadowColor='rgba(124,249,255,.45)'; ctx.shadowBlur=8; }
-function drawPoop(t){ glowStroke(); ctx.fillStyle='#7a3b1d'; ctx.strokeStyle='#2b1209'; for(const e of [[0,18,28,9],[-8,7,20,12],[8,-5,17,11],[0,-17,11,8]]){ctx.beginPath();ctx.ellipse(e[0],e[1],e[2],e[3],0,0,Math.PI*2);ctx.fill();ctx.stroke();} ctx.fillStyle='#f4e6c8'; ctx.beginPath(); ctx.arc(-7,-6,3,0,Math.PI*2); ctx.arc(8,-7,3,0,Math.PI*2); ctx.fill(); for(let i=0;i<3;i++){const x=-28+i*28,y=-26-Math.sin(t*2+i)*5;ctx.strokeStyle='rgba(130,100,55,.75)';ctx.beginPath();ctx.moveTo(x,y+10);ctx.bezierCurveTo(x+8,y,x-8,y-8,x+4,y-16);ctx.stroke();}}
-function drawBone(t){ glowStroke(); ctx.strokeStyle='#eadfcb'; ctx.fillStyle='#fff8e7'; ctx.lineWidth=10; ctx.beginPath(); ctx.moveTo(-24,8*Math.sin(t)); ctx.lineTo(24,-8*Math.sin(t)); ctx.stroke(); for(const x of [-30,30]) for(const y of [-8,8]){ctx.beginPath();ctx.arc(x,y,10,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#6f604e';ctx.lineWidth=2;ctx.stroke();}}
-function drawBike(t,mountain=false,racing=false){ glowStroke(); ctx.strokeStyle=racing?'#ffda5a':mountain?'#5df08a':'#7cf9ff'; ctx.fillStyle='transparent'; ctx.lineWidth=4; for(const x of [-22,22]){ctx.beginPath();ctx.arc(x,15,15,0,Math.PI*2);ctx.stroke();} ctx.beginPath(); ctx.moveTo(-22,15);ctx.lineTo(-4,-8);ctx.lineTo(11,15);ctx.lineTo(-22,15);ctx.lineTo(22,15);ctx.lineTo(-4,-8);ctx.lineTo(22,15);ctx.moveTo(11,15);ctx.lineTo(18,-6);ctx.lineTo(30,-9);ctx.moveTo(-4,-8);ctx.lineTo(-8,-18);ctx.lineTo(-17,-18);ctx.stroke();}
-function drawFlowerObj(t){ glowStroke(); ctx.fillStyle='#ff58b8'; ctx.strokeStyle='#7a174c'; for(let i=0;i<8;i++){const a=i*Math.PI/4+t*.15;ctx.beginPath();ctx.ellipse(Math.cos(a)*14,Math.sin(a)*10-8,9,14,a,0,Math.PI*2);ctx.fill();ctx.stroke();} ctx.fillStyle='#ffe45a';ctx.beginPath();ctx.arc(0,-8,8,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.strokeStyle='#2fbf4a';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(0,2);ctx.lineTo(0,32);ctx.stroke();}
-function drawTreeObj(t){ glowStroke(); ctx.fillStyle='#2fbf4a'; ctx.strokeStyle='#145a25'; ctx.beginPath(); ctx.arc(0,-12,25,0,Math.PI*2); ctx.fill(); ctx.stroke(); ctx.fillStyle='#8b5a2b'; ctx.fillRect(-6,5,12,32); }
-function drawStreetObj(t){ ctx.strokeStyle='#444b55'; ctx.fillStyle='#303640'; ctx.beginPath(); ctx.roundRect(-38,-6,76,30,10); ctx.fill(); ctx.stroke(); ctx.strokeStyle='#ffd45a'; ctx.setLineDash([12,8]); ctx.beginPath(); ctx.moveTo(-30,9); ctx.lineTo(30,9); ctx.stroke(); ctx.setLineDash([]); }
-function drawDogObj(t){ glowStroke(); ctx.fillStyle='#b8793a'; ctx.strokeStyle='#3a2415'; ctx.beginPath(); ctx.ellipse(0,5,28,16,0,0,Math.PI*2); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.arc(-24,-2,13,0,Math.PI*2); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.moveTo(22,2); ctx.quadraticCurveTo(34,-13,39,-2+Math.sin(t*4)*5); ctx.stroke(); }
-function drawDancer(t){ drawStandingPerson(t,'#ff6bd6',true); } function drawSinger(t){ drawStandingPerson(t,'#6bd6ff',false); ctx.strokeStyle='#fff06a'; for(let i=0;i<3;i++){ctx.beginPath();ctx.arc(22+i*9,-22-i*5,4,0,Math.PI*1.4);ctx.stroke();}}
-function drawStandingPerson(t,color,dance){ glowStroke(); ctx.fillStyle='#d9905a'; ctx.strokeStyle='#3a1f14'; ctx.beginPath(); ctx.arc(0,-22,10,0,Math.PI*2); ctx.fill(); ctx.stroke(); ctx.strokeStyle=color; ctx.lineWidth=7; ctx.beginPath(); ctx.moveTo(0,-10);ctx.lineTo(0,12);ctx.stroke(); const a=Math.sin(t*5)*(dance?18:6); ctx.beginPath();ctx.moveTo(0,-2);ctx.lineTo(-20,4+a*.2);ctx.moveTo(0,-2);ctx.lineTo(20,-2-a*.2);ctx.moveTo(0,12);ctx.lineTo(-12,32);ctx.moveTo(0,12);ctx.lineTo(14,31);ctx.stroke();}
-function drawLyingPerson(t){ glowStroke(); ctx.strokeStyle='#d9905a'; ctx.fillStyle='#d9905a'; ctx.lineWidth=8; ctx.beginPath(); ctx.arc(-24,10,9,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.moveTo(-12,12);ctx.lineTo(22,16);ctx.moveTo(0,14);ctx.lineTo(-10,28);ctx.moveTo(12,15);ctx.lineTo(27,28);ctx.stroke(); ctx.strokeStyle='#6b7cff'; ctx.beginPath(); ctx.moveTo(-8,8);ctx.lineTo(20,12);ctx.stroke();}
-function drawPeople(t){ ctx.save(); ctx.translate(-13,0); drawStandingPerson(t,'#5aa9ff',false); ctx.translate(27,2); drawStandingPerson(t+1,'#ffda5a',false); ctx.restore(); }
-function drawBottle(t){ glowStroke(); ctx.fillStyle='#2fbf8a'; ctx.strokeStyle='#063c2b'; ctx.beginPath(); ctx.roundRect(-10,-28,20,58,7); ctx.fill(); ctx.stroke(); ctx.fillStyle='#fff'; ctx.fillRect(-7,-5,14,15); }
-function drawSmell(t){ ctx.strokeStyle='rgba(160,120,60,.9)'; ctx.lineWidth=4; for(let i=0;i<4;i++){const x=-24+i*16;ctx.beginPath();ctx.moveTo(x,26);ctx.bezierCurveTo(x+10,12,x-10,0,x+5,-16-Math.sin(t+i)*5);ctx.stroke();}}
-function drawTrashObj(t){ glowStroke(); ctx.fillStyle='#6d7a75'; ctx.strokeStyle='#26302d'; ctx.beginPath(); ctx.roundRect(-22,-15,44,42,8); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.moveTo(-28,-18); ctx.lineTo(28,-18); ctx.stroke(); }
-function drawHouseObj(t){ glowStroke(); ctx.fillStyle='#c96b3a'; ctx.strokeStyle='#6b2e1d'; ctx.fillRect(-24,-2,48,34); ctx.strokeRect(-24,-2,48,34); ctx.beginPath(); ctx.moveTo(-30,-2); ctx.lineTo(0,-30); ctx.lineTo(30,-2); ctx.closePath(); ctx.fill(); ctx.stroke(); }
-function drawGenericObj(t){ glowStroke(); ctx.fillStyle='#9aa7b3'; ctx.strokeStyle='#34404a'; ctx.beginPath(); ctx.roundRect(-24,-24,48,48,12); ctx.fill(); ctx.stroke(); }
-
-function drawEdgeIndicator(o){
-  const p=worldToScreen(o.x,o.y,.1);
-  if(p.x>-20&&p.x<W+20&&p.y>-20&&p.y<H+20) return;
-  const cx=Math.max(16,Math.min(W-16,p.x));
-  const cy=Math.max(16,Math.min(H-16,p.y));
-  ctx.save(); ctx.fillStyle='rgba(124,249,255,.72)'; ctx.beginPath(); ctx.arc(cx,cy,5,0,Math.PI*2); ctx.fill(); ctx.restore();
-}
-function drawGrid(){
-  const spacing = 80;
-  const left = camera.x - W/2 - spacing*2;
-  const right = camera.x + W/2 + spacing*2;
-  const top = camera.y - H/2 - spacing*2;
-  const bottom = camera.y + H/2 + spacing*2;
-  ctx.save();
-  ctx.lineWidth = 1;
-  for(let x = Math.floor(left/spacing)*spacing; x < right; x += spacing){
-    const a = worldToScreen(x, 0).x;
-    ctx.strokeStyle = Math.abs(x) < 1 ? 'rgba(124,249,255,.22)' : 'rgba(124,249,255,.07)';
-    ctx.beginPath(); ctx.moveTo(a, 0); ctx.lineTo(a, H); ctx.stroke();
-  }
-  for(let y = Math.floor(top/spacing)*spacing; y < bottom; y += spacing){
-    const b = worldToScreen(0, y).y;
-    ctx.strokeStyle = Math.abs(y) < 1 ? 'rgba(124,249,255,.22)' : 'rgba(124,249,255,.07)';
-    ctx.beginPath(); ctx.moveTo(0, b); ctx.lineTo(W, b); ctx.stroke();
-  }
-  ctx.restore();
-}
-function draw(){ ctx.clearRect(0,0,W,H); const g=ctx.createRadialGradient(W/2,H/2,10,W/2,H/2,Math.max(W,H)); g.addColorStop(0,'#121d33'); g.addColorStop(1,'#02030a'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); drawGrid(); const items=[]; for(const listName of ['stones','echoes','gates','voids','wisps','glyphs','sparks','speechObjects']) for(const o of state[listName]) if(!o.got) items.push({type:listName,y:o.y,o}); items.push({type:'player',y:state.player.y,o:state.player}); items.sort((a,b)=>a.y-b.y); for(const it of items){ const o=it.o; if(it.type==='speechObjects') drawGeneratedObject(o); if(it.type==='stones') drawSprite('stone',o.x,o.y,44); if(it.type==='echoes') drawSprite('echo',o.x,o.y,46); if(it.type==='gates') { if(!drawAnim('gate_shimmer',o.x,o.y,72,0,o.phase||0)) drawSprite('gate',o.x,o.y,72); } if(it.type==='voids') { if(!drawAnim('void_pulse',o.x,o.y,Math.max(48,o.r*1.7),0,o.phase||0)) drawSprite('void',o.x,o.y,Math.max(48,o.r*1.7)); } if(it.type==='wisps') drawSprite('wisp',o.x,o.y,38,.3); if(it.type==='glyphs') drawSprite('glyph',o.x,o.y,44,.1); if(it.type==='sparks') { if(!drawAnim('spark_spin',o.x,o.y,34,o.z,o.x*.01)) drawSprite('spark',o.x,o.y,34,o.z); } if(it.type==='player'){ const q=worldToScreen(o.x,o.y,.2); ctx.fillStyle='rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(q.x,q.y+18*q.scale,18*q.scale,7*q.scale,0,0,Math.PI*2); ctx.fill(); const moving=Math.hypot(o.vx,o.vy)>0.05; if(!drawAnim(moving?'player_walk':'player_idle',o.x,o.y,46,.2)) drawSprite('player',o.x,o.y,42,.2); } } for(const o of state.speechObjects) drawEdgeIndicator(o); if(state.player.pulse>0){ const p=worldToScreen(state.player.x,state.player.y); ctx.strokeStyle=`rgba(124,249,255,${state.player.pulse*.5})`; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(p.x,p.y,180*(1-state.player.pulse)+40,0,Math.PI*2); ctx.stroke(); } }
-function loop(now){ const dt=Math.min(.033,(now-last)/1000); last=now; tick(dt); draw(); requestAnimationFrame(loop); }
-function pulse(){ state.player.pulse=1; state.insight+=1; say('Pulse sent. Hidden structure shivers at the edge of the field.'); }
-
-
-let mic = {active:false, ws:null, stream:null, ctx:null, source:null, processor:null, zeroGain:null, lines:[], reconnectTimer:null, fullText:'', debugLines:[], pendingDebug:[], bytesSent:0, framesSent:0, lastMeter:0, httpActive:false, httpStarting:false, httpSession:null, httpChunks:[], httpBytes:0, httpLastPost:0, httpPosting:false, httpFailUntil:0, httpFailCount:0, heardSpeech:false, workingAudio:false, lastUsefulAudioAt:0, stableDeviceId:null};
-const micStatus = document.getElementById('mic-status');
-const micText = document.getElementById('mic-text');
-const topicInput = document.getElementById('topic-input');
-const topicTest = document.getElementById('topic-test');
-const micToggle = document.getElementById('mic-toggle');
-const micCopy = document.getElementById('mic-copy');
-const micHide = document.getElementById('mic-hide');
-const micShow = document.getElementById('mic-show');
-
-function httpProbe(event, data={}){
-  try{
-    const q = new URLSearchParams({event, build:'20260711-1254-utterance-vad-no-tiny-whisper-slices', ts:String(Date.now())});
-    for(const [k,v] of Object.entries(data||{})) q.set(k, typeof v === 'string' ? v.slice(0,180) : JSON.stringify(v).slice(0,180));
-    const img = new Image(); img.src = `/llm_game_probe?${q.toString()}`;
-  }catch(err){}
-}
-function timeoutAfter(ms, label){ return new Promise((_, reject)=>setTimeout(()=>reject(new Error(label || `timeout ${ms}ms`)), ms)); }
-async function listAudioDevices(){
-  try{
-    if(!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return [];
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    return devices.filter(d=>d.kind==='audioinput').map(d=>({kind:d.kind,label:d.label||'',deviceId:d.deviceId||'',groupId:d.groupId||''}));
-  }catch(err){ return [{error:String(err && (err.name||err.message) || err)}]; }
-}
-function shortDeviceId(id){ const s=String(id||''); return s.length>24 ? s.slice(0,10)+'…'+s.slice(-8) : s; }
-function deviceLogList(devices){ return (devices||[]).map(d=>d && d.error ? d : ({kind:d.kind,label:d.label||'',deviceId:shortDeviceId(d.deviceId),groupId:shortDeviceId(d.groupId)})); }
-function populateMicDeviceSelect(devices){
-  const sel=document.getElementById('mic-device'); if(!sel) return;
-  const old=sel.value || 'auto'; sel.innerHTML='';
-  const opt=(value,label)=>{ const o=document.createElement('option'); o.value=value; o.textContent=label; sel.appendChild(o); };
-  opt('auto','auto microphone');
-  for(const d of devices||[]){
-    if(!d || d.kind!=='audioinput') continue;
-    const label=d.label || (d.deviceId==='default'?'default microphone':d.deviceId==='communications'?'communications microphone':'microphone');
-    opt(d.deviceId || 'auto', label);
-  }
-  if([...sel.options].some(o=>o.value===old)) sel.value=old;
-}
-
-window.__LLM_GAME_BUILD='20260711-1254-utterance-vad-no-tiny-whisper-slices'; document.documentElement.dataset.llmGameBuild='20260711-1254-utterance-vad-no-tiny-whisper-slices'; httpProbe('script_loaded', {href:location.href, ua:navigator.userAgent||''});
-window.addEventListener('error', e=>{ const msg=`${e.message||'error'} @ ${e.filename||''}:${e.lineno||''}:${e.colno||''}`; try{ appendMicDebug(`JS ERROR: ${msg}`); }catch(_){} httpProbe('js_error',{error:msg}); });
-window.addEventListener('unhandledrejection', e=>{ const msg=String(e.reason && (e.reason.stack||e.reason.message) || e.reason || 'unhandled rejection'); try{ appendMicDebug(`JS PROMISE ERROR: ${msg}`); }catch(_){} httpProbe('js_promise_error',{error:msg}); });
-
-function appendMicDebug(line){
-  if(!micText) return;
-  if(!mic.debugLines) mic.debugLines=[];
-  if(!mic.debugLines) mic.debugLines=[];
-  const stamp = new Date().toLocaleTimeString();
-  mic.debugLines.push(`[${stamp}] ${line}`);
-  if(mic.debugLines.length > 220) mic.debugLines.splice(0, mic.debugLines.length - 220);
-  renderMicDebug();
-}
-function renderMicDebug(){
-  if(!micText) return;
-  if(!mic.debugLines) mic.debugLines=[];
-  if(!mic.debugLines) mic.debugLines=[];
-  const full = mic.fullText ? `FULL STT:\n${mic.fullText}\n\n` : '';
-  micText.textContent = full + mic.debugLines.join('\n');
-  micText.scrollTop = micText.scrollHeight;
-}
-function manualTopicItems(text){
-  const words = String(text||'').toLowerCase().replace(/[^a-z0-9\s-]+/g,' ').split(/\s+/).filter(Boolean);
-  const banned = new Set(['and','or','the','a','an','with','of','in','on','to','for','test','spawn']);
-  const seen = new Set();
-  const out = [];
-  for(const w of words){
-    if(banned.has(w) || seen.has(w)) continue;
-    seen.add(w);
-    let category = 'object';
-    if(/cat|dog|horse|bird|chicken|rooster|elephant/.test(w)) category='animal';
-    else if(/tree|flower|forest|grass|plant/.test(w)) category='plant';
-    else if(/straw|apple|banana|pizza|cake|bread|food/.test(w)) category='food';
-    else if(/castle|house|city|hotel|school/.test(w)) category='place';
-    else if(/rain|storm|cloud|snow|wind|weather/.test(w)) category='weather';
-    else if(/song|music|sound|bark/.test(w)) category='sound';
-    out.push({name:w, category, weight:3, reason:'manual topic test', animation:'animated gif'});
-  }
-  return out.slice(0,24);
-}
-function runManualTopicTest(){
-  const topicInput=document.getElementById('topic-input');
-  const text = topicInput ? topicInput.value : '';
-  appendMicDebug(`MANUAL SCENE TEST: ${JSON.stringify(text)}`);
-  const ws = mic.ws;
-  if(ws && ws.readyState === WebSocket.OPEN){ ws.send(JSON.stringify({type:'debug_transcript', text})); setMicStatus('manual scene sent to server planner'); return; }
-  setMicStatus('manual scene test needs active STT websocket');
-}
-
-function namesOf(items){ return (items||[]).map(x => x && x.name ? x.name : String(x)).filter(Boolean).join(', ') || '(none)'; }
-function shouldSuppressStatus(text){ return /duplicate silence|listening: silence/i.test(String(text||'')); }
-function setMicStatus(text){
-  if(shouldSuppressStatus(text)) return;
-  if(micStatus){
-    micStatus.textContent = text;
-    const value=String(text||'').toLowerCase();
-    micStatus.dataset.state = /error|failed|unavailable|disconnected/.test(value) ? 'error' : /transcrib|connecting|requesting|retry/.test(value) ? 'busy' : /heard|updated/.test(value) ? 'success' : /voice detected/.test(value) ? 'speech' : 'ready';
-  }
-  appendMicDebug(`STATUS: ${text}`);
-}
-
-function setMicButton(text){ if(micToggle) micToggle.textContent = text; }
-function setMicFullText(text){ mic.fullText = String(text || ''); renderMicDebug(); }
-function isPlaceholderSttText(text){
-  const raw=String(text||'').trim();
-  const f=raw.toLowerCase().replace(/[\[\]\(\)]/g,' ').replace(/[^a-z0-9 -]+/g,' ').replace(/\s+/g,' ').trim();
-  return !f || f.includes('foreign language') || f.includes('non english speech') || raw.toLowerCase().includes('non-english speech');
-}
-function pushMicLine(text){ if(!text || isPlaceholderSttText(text)) return; if(!mic.lines) mic.lines=[]; mic.lines.push(String(text)); mic.lines=mic.lines.slice(-40); appendMicDebug(`STT LINE: ${text}`); }
-function setTopicStatus(items){ const n=(items||[]).length; appendMicDebug(n ? `TOPIC STATUS: world topics detected ${n}: ${namesOf(items)}` : 'TOPIC STATUS: listening for world topics'); }
-function flushClientDebug(){
-  try{
-    if(!mic.ws || mic.ws.readyState!==WebSocket.OPEN || !mic.pendingDebug) return;
-    while(mic.pendingDebug.length) mic.ws.send(JSON.stringify({type:'client_debug', ...mic.pendingDebug.shift()}));
-  }catch(err){}
-}
-function sendClientDebug(payload){
-  try{
-    if(payload && payload.event) httpProbe(`client_${payload.event}`, payload);
-    if(!mic.pendingDebug) mic.pendingDebug=[];
-    const item={ts:Date.now(), ...payload};
-    if(mic.ws && mic.ws.readyState===WebSocket.OPEN) mic.ws.send(JSON.stringify({type:'client_debug', ...item}));
-    else mic.pendingDebug.push(item);
-  }catch(err){}
-}
-
-function browserSttLanguage(){
-  const raw=((navigator.languages&&navigator.languages[0])||navigator.language||'en').toLowerCase().replace('_','-');
-  const code=raw.split('-')[0];
-  return /^[a-z]{2}$/.test(code) ? code : 'en';
-}
-function httpBase(){ return `${location.origin}/llm_game_stt/http`; }
-
-async function startHttpFallback(reason='ws_failed'){
-  if(!mic.active || mic.stopReason==='user_stop') return;
-  if(mic.httpActive || mic.httpStarting || !mic.active) return;
-  const now=performance.now();
-  if(mic.httpFailUntil && now < mic.httpFailUntil) return;
-  mic.httpStarting = true;
-  appendMicDebug(`HTTP FALLBACK START: ${reason}`);
-  httpProbe('http_fallback_start', {reason});
-  try{
-    const resp = await fetch(`${httpBase()}/start`, {method:'POST', cache:'no-store', headers:{'Accept':'application/json','Content-Type':'application/json'}, body:JSON.stringify({language:mic.language||browserSttLanguage()})});
-    const ct = resp.headers.get('content-type') || '';
-    const body = await resp.text();
-    if(!resp.ok || !ct.includes('application/json')) throw new Error(`bad HTTP STT route status=${resp.status} content-type=${ct} body=${body.slice(0,80)}`);
-    const data = JSON.parse(body);
-    mic.httpSession = data.session;
-    mic.httpActive = true;
-    mic.httpStarting = false;
-    mic.httpFailCount = 0; mic.httpFailUntil = 0;
-    setMicStatus(`HTTP audio active ${mic.httpSession}`);
-    handleServerMsg(data);
-    httpProbe('http_fallback_ready', {session:mic.httpSession});
-  }catch(err){
-    mic.httpStarting = false;
-    mic.httpActive = false;
-    const msg = err && (err.message || err.name) ? (err.message || err.name) : String(err);
-    mic.httpFailCount = (mic.httpFailCount||0)+1;
-    const wait = Math.min(30000, 1200 * Math.pow(2, Math.min(5, mic.httpFailCount-1)));
-    mic.httpFailUntil = performance.now() + wait;
-    appendMicDebug(`HTTP FALLBACK FAIL: ${msg}; retry blocked ${Math.round(wait/1000)}s`);
-    setMicStatus('STT HTTP route unavailable; waiting before retry');
-    httpProbe('http_fallback_fail', {error:msg, wait});
-  }
-}
-
-function combineInt16Chunks(chunks){
-  let total=0; for(const c of chunks) total += c.length;
-  const out = new Int16Array(total); let off=0;
-  for(const c of chunks){ out.set(c, off); off += c.length; }
-  return out;
-}
-async function flushHttpAudio(force=false){
-  if(!mic.httpActive || !mic.httpSession || mic.httpPosting || !mic.httpChunks.length) return;
-  if(!force && performance.now() - mic.httpLastPost < 1000 && mic.httpBytes < 96000) return;
-  const chunks = mic.httpChunks.splice(0); const bytes = mic.httpBytes; mic.httpBytes = 0; mic.httpPosting = true; mic.httpLastPost = performance.now();
-  try{
-    const body = combineInt16Chunks(chunks).buffer;
-    const resp = await fetch(`${httpBase()}/${encodeURIComponent(mic.httpSession)}/audio`, {method:'POST', headers:{'Content-Type':'application/octet-stream'}, body, cache:'no-store'});
-    const data = await resp.json();
-    appendMicDebug(`HTTP AUDIO POST: sent=${bytes} kept=${data.bytes_kept} messages=${(data.messages||[]).length}`);
-    httpProbe('http_audio_post', {session:mic.httpSession, sent:bytes, kept:data.bytes_kept, messages:(data.messages||[]).length});
-    for(const msg of (data.messages||[])) handleServerMsg(msg);
-  }catch(err){
-    const msg = err && (err.message || err.name) ? (err.message || err.name) : String(err);
-    appendMicDebug(`HTTP AUDIO ERROR: ${msg}`); httpProbe('http_audio_error',{error:msg});
-    mic.httpChunks = chunks.concat(mic.httpChunks); mic.httpBytes += bytes;
-  }finally{ mic.httpPosting=false; }
-}
-function queueHttpAudio(pcm, rms=0, peak=0){
-  if(!mic.httpActive){
-    const wsState = mic.ws ? mic.ws.readyState : WebSocket.CLOSED;
-    const connecting = wsState === WebSocket.CONNECTING;
-    const waited = performance.now() - (mic.wsConnectStartedAt || 0);
-    if(connecting && waited < 8000){
-      if(performance.now()-mic.lastMeter>1500){ appendMicDebug(`MIC: waiting for websocket open; no HTTP fallback yet state=${wsState} rms=${rms.toFixed(5)} peak=${peak}`); mic.lastMeter=performance.now(); }
-      return;
-    }
-    if(!(mic.httpFailUntil && performance.now()<mic.httpFailUntil)) startHttpFallback('audio_without_ws');
-    return;
-  }
-  mic.httpChunks.push(new Int16Array(pcm)); mic.httpBytes += pcm.byteLength;
-  if(performance.now()-mic.lastMeter>1000){ httpProbe('http_audio_buffer', {session:mic.httpSession, queued:mic.httpBytes, rms:rms.toFixed ? rms.toFixed(5) : rms, peak}); mic.lastMeter=performance.now(); }
-  flushHttpAudio(false);
-}
-function handleServerMsg(msg){
-  if(msg.type === 'ready') {
-    const lang=msg.language||mic.language||browserSttLanguage();
-    setMicStatus(`speech ready · listening (${lang})`);
-    appendMicDebug(`READY: model=${msg.model||'unknown'} backend=${msg.backend||'unknown'} sample_rate=${msg.sample_rate} topic_interval=${msg.topics_interval_seconds}`);
-  } else if(msg.type === 'ack' && msg.language) {
-    mic.language=msg.language;
-    setMicStatus(`listening (${msg.language})`);
-  } else if(msg.type === 'stt_processing') {
-    setMicStatus(`transcribing ${Number(msg.audio_seconds||0).toFixed(1)}s of speech…`);
-    appendMicDebug(`STT PROCESSING: backend=${msg.backend||''} language=${msg.language||''} audio_seconds=${msg.audio_seconds}`);
-  } else if(msg.type === 'stt') {
-    const text = msg.new_text || msg.text || '';
-    const silent = !text && (msg.reason === 'silence' || msg.duplicate || msg.suppressed);
-    if(msg.suppressed){
-      appendMicDebug(`STT BACKEND STATUS: reason=${msg.reason||''} rms=${msg.rms} voiced=${msg.voiced_ratio} seconds=${msg.seconds}`);
-      if(msg.reason==='stt_unavailable' || msg.reason==='thor_stt_unavailable') setMicStatus('speech recognition unavailable; audio reached Nitro');
-    } else if(!silent) {
-      appendMicDebug(`STT RAW: engine=${msg.engine||''} text=${JSON.stringify(msg.text||'')} new=${JSON.stringify(msg.new_text||'')} duplicate=${!!msg.duplicate} reason=${msg.reason||''} rms=${msg.rms} voiced=${msg.voiced_ratio} seconds=${msg.seconds}`);
-    }
-    const rmsNum = Number(msg.rms)||0;
-    if(text || rmsNum > 0.01){ mic.workingAudio=true; mic.lastUsefulAudioAt=performance.now(); mic.stableDeviceId=mic.currentDeviceId||mic.stableDeviceId; }
-    if(text){ mic.heardSpeech=true; mic.hardSilent=false; mic.deviceRetryIndex=0; }
-    if(msg.full_text && !isPlaceholderSttText(msg.full_text)) setMicFullText(msg.full_text);
-    if(text) {
-      pushMicLine(text);
-      const seconds=Number(msg.seconds||msg.thor_seconds||0);
-      setMicStatus(`heard: ${String(text).slice(0,46)}${seconds?` · ${seconds.toFixed(1)}s`:''}`);
-    } else if(!silent) {
-      setMicStatus('speech detected, but no transcript returned');
-    }
-  } else if(msg.type === 'topics') {
-    appendMicDebug(`TOPICS FROM: ${JSON.stringify(msg.source_text||'')} engine=${msg.engine||''} accepted=${namesOf(msg.candidates||[])} ignored=${(msg.rejected||[]).length}`);
-    handleTopics(msg.candidates || [], msg.engine || 'unknown');
-    if((msg.candidates||[]).length) setMicStatus(`world updated: ${namesOf(msg.candidates||[]).slice(0,70)}`);
-  } else if(msg.type === 'topic_error') {
-    appendMicDebug(`TOPIC ERROR: ${msg.error}`); setMicStatus(`scene planner error: ${msg.error}`); sendClientDebug({event:'topic_error_seen', error:msg.error});
-  } else if(msg.type === 'error' || msg.type === 'stt_error') {
-    appendMicDebug(`SERVER ERROR: ${msg.error||msg.message}`); setMicStatus(`speech error: ${msg.error||msg.message||'unknown'}`);
-  }
-}
-function sttUrl(){ return `${location.protocol === 'https:' ? 'wss:' : 'ws:'}//${location.host}/llm_game_stt/ws/`; }
-function connectStt(){
-  if(!mic.active) return;
-  if(mic.ws && (mic.ws.readyState === WebSocket.OPEN || mic.ws.readyState === WebSocket.CONNECTING)) return;
-  const ws = new WebSocket(sttUrl());
-  mic.ws = ws;
-  ws.binaryType = 'arraybuffer';
-  setMicStatus('connecting to Nitro STT');
-  ws.onopen = () => { mic.language=mic.language||browserSttLanguage(); setMicStatus(`connected · negotiating ${mic.language}`); ws.send(JSON.stringify({type:'hello', sample_rate:16000, format:'pcm16le', language:mic.language})); sendClientDebug({event:'ws_open'}); flushClientDebug(); if(mic.httpActive || mic.httpSession){ appendMicDebug('WS opened; disabling HTTP fallback session'); } mic.httpActive=false; mic.httpStarting=false; mic.httpSession=null; mic.httpChunks=[]; mic.httpBytes=0; mic.httpPosting=false; mic.httpFailUntil=performance.now()+2500; };
-  ws.onmessage = (event) => { try { handleServerMsg(JSON.parse(event.data)); } catch(err) { setMicStatus('STT parse error'); } };
-  ws.onclose = (ev) => { appendMicDebug(`WS CLOSE: code=${ev.code} reason=${ev.reason||''} clean=${ev.wasClean}`); httpProbe('ws_close', {code:ev.code, reason:ev.reason||'', clean:ev.wasClean, stopReason:mic.stopReason||''}); if(mic.active && mic.stopReason!=='user_stop'){ startHttpFallback(`ws_close_${ev.code}`); setMicStatus('STT disconnected, reconnecting'); clearTimeout(mic.reconnectTimer); mic.reconnectTimer = setTimeout(connectStt, 1500); } };
-  ws.onerror = () => { appendMicDebug('WS ERROR'); httpProbe('ws_error'); startHttpFallback('ws_error'); setMicStatus('STT websocket error'); };
-}
-function downsample(input, fromRate, toRate){ return downsampleTo16k(input, fromRate); }
-function downsampleTo16k(input, inputRate){
-  const ratio = inputRate / 16000;
-  const length = Math.max(1, Math.round(input.length / ratio));
-  const output = new Int16Array(length);
-  let offset = 0;
-  for(let i=0; i<length; i++){
-    const next = Math.round((i+1) * ratio);
-    let sum = 0, count = 0;
-    for(let j=offset; j<next && j<input.length; j++){ sum += input[j]; count++; }
-    offset = next;
-    const sample = Math.max(-1, Math.min(1, count ? sum / count : 0));
-    output[i] = sample < 0 ? sample * 32768 : sample * 32767;
-  }
-  return output;
-}
-function secureContextOk(){
-  if(window.isSecureContext) return true;
-  const msg = `insecure context: ${location.protocol}//${location.host}; microphone requires HTTPS`;
-  setMicStatus(msg);
-  appendMicDebug(`MIC FAIL: ${msg}`);
-  httpProbe('insecure_context', {href:location.href, protocol:location.protocol});
-  try{ location.replace('https://' + location.host + location.pathname + location.search + location.hash); }catch(err){}
-  return false;
-}
-function audioConstraintsFor(deviceId=null, relaxed=false){
-  const base={echoCancellation:true, noiseSuppression:true, autoGainControl:true, channelCount:{ideal:1}};
-  if(relaxed || !deviceId || deviceId === 'auto') return {audio:base};
-  if(deviceId === 'default' || deviceId === 'communications') return {audio:{...base, deviceId}};
-  return {audio:{...base, deviceId:{exact:deviceId}}};
-}
-
-function candidateAudioDeviceIds(devices){
-  const selected=document.getElementById('mic-device');
-  const ids=[]; const seen=new Set();
-  const add=id=>{ id=id||'auto'; if(!seen.has(id)){ seen.add(id); ids.push(id); } };
-  if(selected && selected.value && selected.value!=='auto') add(selected.value);
-  add('default');
-  add('auto');
-  for(const d of devices||[]) if(d && d.kind==='audioinput' && d.deviceId && d.deviceId!=='communications') add(d.deviceId);
-  add('communications');
-  appendMicDebug(`MIC DEVICE ORDER: ${ids.map(shortDeviceId).join(', ')}`);
-  return ids;
-}
-
-async function cleanupAudioOnly(){
-  try{ if(mic.processor){ mic.processor.disconnect(); } }catch(e){}
-  try{ if(mic.zeroGain){ mic.zeroGain.disconnect(); } }catch(e){}
-  try{ if(mic.source){ mic.source.disconnect(); } }catch(e){}
-  try{ if(mic.stream){ for(const t of mic.stream.getTracks()) t.stop(); } }catch(e){}
-  try{ if(mic.ctx){ await mic.ctx.close(); } }catch(e){}
-  mic.processor=null; mic.zeroGain=null; mic.source=null; mic.stream=null; mic.ctx=null;
-}
-
-async function retrySilentMic(){
-  if(!mic.active || mic.restarting || mic.hardSilent) return;
-  // Critical: once the current device has carried real speech/useful audio, later silence is not a broken mic.
-  if(mic.heardSpeech || mic.workingAudio){
-    appendMicDebug('MIC: silence after successful audio; keeping current input device');
-    mic.zeroFrames = 0;
-    return;
-  }
-  mic.restarting = true;
-  try{
-    const devices = await listAudioDevices(); mic.lastDevices = devices; populateMicDeviceSelect(devices);
-    const ids = candidateAudioDeviceIds(devices);
-    const old = mic.currentDeviceId || 'auto';
-    mic.deviceRetryIndex = (mic.deviceRetryIndex || 0) + 1;
-    if(mic.deviceRetryIndex > (mic.zeroRetryLimit || 2)){
-      mic.hardSilent = true;
-      setMicStatus('mic stream is all zero samples; choose another input or unmute OS/browser microphone');
-      appendMicDebug('MIC HARD FAIL: live microphone track produced only zero samples. Auto retry stopped. Use the microphone dropdown, unmute the OS input, or choose the headset/default input.');
-      httpProbe('mic_zero_samples_hard_fail', {retry:mic.deviceRetryIndex, devices:deviceLogList(devices)});
-      sendClientDebug({event:'mic_zero_samples_hard_fail', retry:mic.deviceRetryIndex, devices:deviceLogList(devices)});
-      return;
-    }
-    const ranked = ids.filter(id=>id && id !== 'auto'); const nextId = ranked.length ? ranked[mic.deviceRetryIndex % ranked.length] : 'auto';
-    appendMicDebug(`MIC SILENCE: zero samples before useful audio; retry ${mic.deviceRetryIndex}/${mic.zeroRetryLimit||2} old=${shortDeviceId(old)} next=${shortDeviceId(nextId)}`);
-    setMicStatus('silent microphone stream; retrying input device');
-    httpProbe('silent_mic_retry', {oldDeviceId:shortDeviceId(old), nextDeviceId:shortDeviceId(nextId), retry:mic.deviceRetryIndex, devices:deviceLogList(devices)});
-    await cleanupAudioOnly();
-    mic.bytesSent=0; mic.framesSent=0; mic.zeroFrames=0; mic.audioCallbacks=0; mic.lastNonZero=0; mic.lastMeter=0;
-    await openMicStream(nextId || 'auto', nextId === 'auto');
-  }catch(err){ appendMicDebug(`MIC RETRY FAIL: ${err.message||err}`); httpProbe('silent_mic_retry_failed',{error:err.message||String(err)}); }
-  finally { mic.restarting = false; }
-}
-
-async function openRankedMicStream(devices){
-  const ids = candidateAudioDeviceIds(devices);
-  let lastErr = null;
-  for(const id of ids){
-    if(!id || id === 'auto') continue;
-    try{
-      appendMicDebug(`MIC: trying ranked input ${shortDeviceId(id)}`);
-      await openMicStream(id, false);
-      return;
-    }catch(err){
-      lastErr = err;
-      appendMicDebug(`MIC: ranked input failed ${shortDeviceId(id)} ${err && err.message ? err.message : err}`);
-    }
-  }
-  appendMicDebug('MIC: all ranked inputs failed; using browser auto fallback');
-  await openMicStream('auto', true);
-}
-
-async function openMicStream(deviceId='auto', relaxed=false){
-  await cleanupAudioOnly();
-  mic.currentDeviceId = deviceId || 'auto';
-  if(deviceId && deviceId !== 'auto') mic.hardSilent=false;
-  mic.restarting = false;
-  mic.bytesSent = 0; mic.framesSent = 0; mic.lastMeter = 0; mic.zeroFrames=0; mic.audioCallbacks=0;
-  let stream;
-  try{
-    stream = await Promise.race([
-      navigator.mediaDevices.getUserMedia(audioConstraintsFor(deviceId, relaxed)),
-      timeoutAfter(8000, 'getUserMedia timeout after 8s')
-    ]);
-  }catch(err){
-    const msg = err && err.message ? err.message : String(err);
-    appendMicDebug(`MIC: getUserMedia failed device=${deviceId||'auto'} relaxed=${relaxed} error=${msg}`);
-    httpProbe('getUserMedia_failed', {deviceId:deviceId||'auto', relaxed, error:msg});
-    if(!relaxed){ throw err; }
-    throw err;
-  }
-  mic.stream=stream;
-  const tracks = mic.stream.getAudioTracks ? mic.stream.getAudioTracks().map(t=>({label:t.label, enabled:t.enabled, muted:t.muted, readyState:t.readyState, settings:t.getSettings ? t.getSettings() : {}})) : [];
-  appendMicDebug(`MIC: getUserMedia ok device=${deviceId||'auto'} relaxed=${relaxed} tracks=${JSON.stringify(tracks)}`);
-  httpProbe('getUserMedia_ok', {deviceId:deviceId||'auto', relaxed, tracks});
-  sendClientDebug({event:'getUserMedia_ok', deviceId:deviceId||'auto', relaxed, tracks});
-  mic.ctx = new (window.AudioContext || window.webkitAudioContext)();
-  const localCtx = mic.ctx;
-  appendMicDebug(`MIC: AudioContext created sampleRate=${localCtx.sampleRate} state=${localCtx.state}`);
-  sendClientDebug({event:'audio_context_created', sampleRate:localCtx.sampleRate, state:localCtx.state});
-  await localCtx.resume();
-  appendMicDebug(`MIC: AudioContext resumed state=${localCtx.state}`); httpProbe('audio_context_resumed', {state:localCtx.state});
-  sendClientDebug({event:'audio_context_resumed', state:localCtx.state});
-  mic.source = localCtx.createMediaStreamSource(mic.stream);
-  mic.processor = localCtx.createScriptProcessor(4096, 1, 1);
-  mic.zeroGain = localCtx.createGain(); mic.zeroGain.gain.value = 0;
-  mic.source.connect(mic.processor);
-  mic.processor.connect(mic.zeroGain);
-  mic.zeroGain.connect(localCtx.destination);
-  mic.processor.onaudioprocess = (event) => {
-    if(!mic.active || mic.ctx !== localCtx || localCtx.state === 'closed') return;
-    const input = event.inputBuffer.getChannelData(0);
-    const pcm = downsampleTo16k(input, localCtx.sampleRate);
-    let sum=0, peak=0;
-    for(let i=0;i<pcm.length;i++){ const v=Math.abs(pcm[i]); sum += v*v; if(v>peak) peak=v; }
-    const rms = Math.sqrt(sum / Math.max(1, pcm.length)) / 32768;
-    if(rms>0.010 && performance.now()-(mic.lastVoiceStatus||0)>1200){ mic.lastVoiceStatus=performance.now(); setMicStatus('voice detected'); }
-    mic.audioCallbacks = (mic.audioCallbacks || 0) + 1;
-    if(rms>0.0015 || peak>1200){ mic.lastNonZero=performance.now(); mic.workingAudio=true; mic.lastUsefulAudioAt=performance.now(); mic.stableDeviceId=mic.currentDeviceId||mic.stableDeviceId; mic.zeroFrames=0; } else { mic.zeroFrames++; }
-    if((mic.audioCallbacks||0)>90 && mic.zeroFrames>90 && !mic.restarting && !mic.hardSilent && !mic.heardSpeech && !mic.workingAudio){ appendMicDebug('MIC: zero/near-silent input before any successful audio; retrying capture path'); retrySilentMic(); return; }
-    if(mic.httpActive){ queueHttpAudio(pcm, rms, peak); return; }
-    const ws = mic.ws;
-    if(!ws || ws.readyState !== WebSocket.OPEN){
-      queueHttpAudio(pcm, rms, peak);
-      if(performance.now()-mic.lastMeter>1000){ if(mic.framesSent % 120 === 0) appendMicDebug(`MIC: audio frames but ws not open state=${ws?ws.readyState:'none'} rms=${rms.toFixed(5)} peak=${peak}`); httpProbe('audio_frame_ws_not_open', {wsState:ws?ws.readyState:null, rms:rms.toFixed(5), peak, zeroFrames:mic.zeroFrames, callbacks:mic.audioCallbacks, deviceId:mic.currentDeviceId||'auto'}); sendClientDebug({event:'audio_frame_ws_not_open', wsState:ws?ws.readyState:null, rms, peak, zeroFrames:mic.zeroFrames, callbacks:mic.audioCallbacks, deviceId:mic.currentDeviceId||'auto'}); mic.lastMeter=performance.now(); }
-      return;
-    }
-    if(ws.bufferedAmount > 1_500_000){
-      if(performance.now()-mic.lastMeter>1000){ appendMicDebug(`MIC: websocket backpressure buffered=${ws.bufferedAmount}; switching to HTTP fallback`); httpProbe('ws_backpressure_switch_http', {buffered:ws.bufferedAmount, rms:rms.toFixed(5), peak}); sendClientDebug({event:'ws_backpressure_switch_http', buffered:ws.bufferedAmount, rms, peak}); mic.lastMeter=performance.now(); }
-      try{ ws.close(4000, 'audio backpressure'); }catch(e){}
-      if(!(mic.httpFailUntil && performance.now()<mic.httpFailUntil)) startHttpFallback('ws_backpressure');
-      return;
-    }
-    ws.send(pcm.buffer);
-    mic.bytesSent += pcm.byteLength;
-    mic.framesSent++;
-    if(performance.now()-mic.lastMeter>1000){ if(mic.framesSent % 120 === 0) appendMicDebug(`MIC: sent frames=${mic.framesSent} bytes=${mic.bytesSent} rms=${rms.toFixed(5)} peak=${peak} zero=${mic.zeroFrames}`); httpProbe('audio_meter_http', {frames:mic.framesSent, bytes:mic.bytesSent, rms:rms.toFixed(5), peak, zeroFrames:mic.zeroFrames, callbacks:mic.audioCallbacks, deviceId:mic.currentDeviceId||'auto'}); sendClientDebug({event:'audio_meter', frames:mic.framesSent, bytes:mic.bytesSent, rms, peak, zeroFrames:mic.zeroFrames, callbacks:mic.audioCallbacks, deviceId:mic.currentDeviceId||'auto'}); mic.lastMeter=performance.now(); }
+function normalizeObject(raw,index=0){
+  const role=['prop','item','npc','hazard','treasure','mechanism'].includes(String(raw?.role))?String(raw.role):'prop';
+  const interaction=raw?.interaction&&typeof raw.interaction==='object'?raw.interaction:{};
+  const motion=raw?.motion&&typeof raw.motion==='object'?raw.motion:{};
+  return{
+    id:safeText(raw?.id||`obj_${index}`,50),name:safeText(raw?.name||`Objekt ${index}`,80),role,
+    description:safeText(raw?.description||'',700),affordances:Array.isArray(raw?.affordances)?raw.affordances.map(x=>safeText(x,80)).slice(0,12):[],
+    state:raw?.state&&typeof raw.state==='object'?{...raw.state}:{},
+    shape:normalizeShape(raw?.shape,role),solid:!!raw?.solid,pushable:!!raw?.pushable,
+    interactionReach:clamp(raw?.interaction_reach??interaction.reach??24,0,180),
+    speechReach:clamp(raw?.speech_reach??interaction.speech_reach??160,0,500),
+    semantic:{x:clamp(raw?.x,30,ROOM.w-30),y:clamp(raw?.y,30,ROOM.h-30),vx:Number(raw?.vx)||0,vy:Number(raw?.vy)||0,active:raw?.active!==false},
+    physical:{x:clamp(raw?.x,30,ROOM.w-30),y:clamp(raw?.y,30,ROOM.h-30),vx:Number(raw?.vx)||0,vy:Number(raw?.vy)||0,materialized:false},
+    motion:{type:safeText(motion.type||'idle',30),speed:clamp(motion.speed??0,0,260),radius:clamp(motion.radius??120,0,500),damage:clamp(motion.damage??0,0,100),target:safeText(motion.target||'player',50)},
+    doorTo:raw?.door_to||null,spawn:raw?.spawn||null
   };
-  setMicStatus('mic active'); appendMicDebug('STATUS: mic active'); sendClientDebug({event:'mic_active', deviceId:deviceId||'auto', relaxed});
+}
+function normalizeDoor(raw,fromRoom,roomsById){
+  const to=safeText(raw?.to,50),target=roomsById.get(to);
+  return normalizeObject({
+    id:raw?.id||`door_${fromRoom}_${to}`,name:raw?.name||`Durchgang zu ${target?.name||to}`,role:'mechanism',
+    description:raw?.description||'',x:raw?.x??1320,y:raw?.y??430,solid:false,pushable:false,
+    shape:raw?.shape||{type:'rect',width:58,height:72},interaction_reach:raw?.interaction_reach??30,
+    affordances:['enter'],state:{door:true},door_to:to,
+    spawn:null
+  });
+}
+function applyPlayerDefinition(raw){
+  if(!raw||typeof raw!=='object')return;
+  player.shape=normalizeShape(raw.shape||player.shape,'player');
+  player.speed=clamp(raw.speed??player.speed,50,320);
+  player.interactionReach=clamp(raw.interaction_reach??player.interactionReach,0,180);
+  player.speechReach=clamp(raw.speech_reach??player.speechReach,20,500);
+  if(raw.state&&typeof raw.state==='object')player.state={...player.state,...raw.state};
+}
+function buildWorld(scenario){
+  const rooms={},rawRooms=Array.isArray(scenario?.rooms)?scenario.rooms:[];
+  const map=new Map(rawRooms.map(r=>[String(r.id),r]));
+  for(const rr of rawRooms){rooms[String(rr.id)]={id:String(rr.id),name:safeText(rr.name||rr.id,100),description:safeText(rr.description||'',1000),objects:(rr.objects||[]).slice(0,ROOM_CONTENT_CAP).map(normalizeObject),topologyExpansions:Number(rr.topology_expansions)||0,topologyClosed:!!rr.topology_closed}}
+  for(const rr of rawRooms){const r=rooms[String(rr.id)];for(const d of rr.doors||[]){if(!rooms[String(d.to)])continue;const o=normalizeDoor(d,String(rr.id),map);const back=(map.get(String(d.to))?.doors||[]).find(x=>String(x.to)===String(rr.id));if(back){const bx=clamp(back.x,50,ROOM.w-50),by=clamp(back.y,50,ROOM.h-50),edge=Math.min(bx,ROOM.w-bx,by,ROOM.h-by);o.spawn=edge===bx?{x:bx+90,y:by}:edge===ROOM.w-bx?{x:bx-90,y:by}:edge===by?{x:bx,y:by+90}:{x:bx,y:by-90}}else o.spawn={x:120,y:430};r.objects.push(o)}}
+  applyPlayerDefinition(scenario?.player);
+  const first=rawRooms[0]?.id||'roomA';player.room=rooms[player.room]?player.room:String(first);
+  return{scenario,rooms,inventory:[],events:[],goal:safeText(scenario?.goal||'Erkunde die Umgebung.',500),goalComplete:false,created:0};
 }
 
-async function startMic(){
-  if(mic.active) return;
-  if(!secureContextOk()) return;
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ setMicStatus('browser has no getUserMedia'); appendMicDebug('MIC FAIL: browser has no getUserMedia'); httpProbe('no_getUserMedia'); return; }
-  mic.active = true;
-  mic.language = browserSttLanguage();
-  mic.bytesSent = 0; mic.framesSent = 0; mic.lastMeter = 0; mic.zeroFrames=0; mic.audioCallbacks=0; mic.lastNonZero=0; mic.deviceRetryIndex=0; mic.zeroRetryLimit=2; mic.currentDeviceId=null; mic.restarting=false; mic.hardSilent=false; mic.heardSpeech=false; mic.workingAudio=false; mic.lastUsefulAudioAt=0; mic.stableDeviceId=null;
-  mic.pendingDebug = []; mic.httpActive=false; mic.httpStarting=false; mic.httpSession=null; mic.httpChunks=[]; mic.httpBytes=0; mic.httpPosting=false; mic.httpFailUntil=0; mic.httpFailCount=0;
-  setMicButton('stop mic'); setMicStatus(`requesting microphone (${mic.language})`); appendMicDebug('MIC: startMic called'); httpProbe('startMic_called'); sendClientDebug({event:'start_mic_called', userAgent:navigator.userAgent||''});
-  const beforeDevices = await listAudioDevices(); mic.lastDevices = beforeDevices;
-  populateMicDeviceSelect(beforeDevices); appendMicDebug(`MIC DEVICES BEFORE: ${JSON.stringify(deviceLogList(beforeDevices))}`); httpProbe('devices_before', {audioInputs:beforeDevices.length, devices:beforeDevices});
-  try {
-    const afterDevices = await listAudioDevices(); mic.lastDevices = afterDevices;
-    populateMicDeviceSelect(afterDevices); appendMicDebug(`MIC DEVICES AFTER: ${JSON.stringify(deviceLogList(afterDevices))}`); httpProbe('devices_after', {audioInputs:afterDevices.length, devices:afterDevices});
-    connectStt();
-    setTimeout(()=>{ if(mic.active && mic.stopReason!=='user_stop' && (!mic.ws || mic.ws.readyState!==WebSocket.OPEN)) startHttpFallback('ws_open_timeout'); }, 1600);
-    await openRankedMicStream(afterDevices);
-  } catch(err){ appendMicDebug(`MIC ERROR: ${err.stack || err.message || err}`); httpProbe('mic_error', {error:err.message||String(err)}); sendClientDebug({event:'mic_failed', error:err.message||String(err)}); setMicStatus(`mic failed: ${err.message || err}`); stopMic(); }
+function room(){return world.rooms[player.room]}
+function obj(id){for(const r of Object.values(world.rooms)){const o=r.objects.find(x=>x.id===id);if(o)return o}return null}
+function activeRoomObjects(){return room().objects.filter(o=>o.semantic.active)}
+function materialize(o){o.physical.x=o.semantic.x;o.physical.y=o.semantic.y;o.physical.vx=o.semantic.vx;o.physical.vy=o.semantic.vy;o.physical.materialized=true}
+function dematerialize(o){o.semantic.x=o.physical.x;o.semantic.y=o.physical.y;o.semantic.vx=o.physical.vx;o.semantic.vy=o.physical.vy;o.physical.materialized=false}
+function centerDistance(o){return Math.hypot(o.semantic.x-player.x,o.semantic.y-player.y)}
+function perceptionRadius(){return clamp(world?.scenario?.player?.perception_radius??330,160,700)}
+function inPerception(o){return o.semantic.active&&centerDistance(o)<=perceptionRadius()}
+function syncPerception(){for(const [rid,r] of Object.entries(world.rooms))for(const o of r.objects){if(rid===player.room&&inPerception(o)){if(!o.physical.materialized)materialize(o)}else if(o.physical.materialized)dematerialize(o)}}
+function edgeDistanceToPlayer(o){const x=o.physical.materialized?o.physical.x:o.semantic.x,y=o.physical.materialized?o.physical.y:o.semantic.y;return shapeDistance(player.shape,player.x,player.y,o.shape,x,y)}
+function touching(o){return edgeDistanceToPlayer(o)<=1.5}
+function interactionReach(o){return Math.max(player.interactionReach,o.interactionReach)}
+function canInteract(o){return o.semantic.active&&edgeDistanceToPlayer(o)<=interactionReach(o)}
+function canHear(o){return o.role==='npc'&&o.semantic.active&&edgeDistanceToPlayer(o)<=Math.max(player.speechReach,o.speechReach)}
+
+function playerCollisionAt(x,y,ignore=null){for(const o of activeRoomObjects()){if(o===ignore||!o.physical.materialized||!o.solid)continue;if(shapesCollide(player.shape,x,y,o.shape,o.physical.x,o.physical.y))return o}return null}
+function objectCollisionAt(o,x,y){const b=shapeBounds(o.shape,x,y);if(b.x0<18||b.x1>ROOM.w-18||b.y0<18||b.y1>ROOM.h-18)return{kind:'wall',normal:b.x0<18?[1,0]:b.x1>ROOM.w-18?[-1,0]:b.y0<18?[0,1]:[0,-1]};if(shapesCollide(o.shape,x,y,player.shape,player.x,player.y))return{kind:'player',shape:player.shape,x:player.x,y:player.y};for(const q of activeRoomObjects()){if(q===o||!q.physical.materialized||!q.solid)continue;if(shapesCollide(o.shape,x,y,q.shape,q.physical.x,q.physical.y))return{kind:'object',object:q,shape:q.shape,x:q.physical.x,y:q.physical.y}}return null}
+function objectBlockedAt(o,x,y){return!!objectCollisionAt(o,x,y)}
+function projectSlide(dx,dy,n){const into=dx*n[0]+dy*n[1];if(into>=0)return[dx,dy];return[dx-n[0]*into,dy-n[1]*into]}
+function rotatedStep(dx,dy,deg){const a=deg*Math.PI/180,c=Math.cos(a),sn=Math.sin(a);return[dx*c-dy*sn,dx*sn+dy*c]}
+function tryPlayerSubstep(dx,dy){let nx=clamp(player.x+dx,20,ROOM.w-20),ny=clamp(player.y+dy,20,ROOM.h-20),hit=playerCollisionAt(nx,ny);if(!hit){player.x=nx;player.y=ny;return true}if(hit.pushable){const tx=hit.physical.x+dx,ty=hit.physical.y+dy;if(!objectBlockedAt(hit,tx,ty)){hit.physical.x=tx;hit.physical.y=ty;hit.semantic.x=tx;hit.semantic.y=ty;player.x=nx;player.y=ny;return true}}
+  const n=shapeCollisionNormal(player.shape,nx,ny,hit.shape,hit.physical.x,hit.physical.y)||(()=>{const vx=player.x-hit.physical.x,vy=player.y-hit.physical.y,m=Math.hypot(vx,vy)||1;return[vx/m,vy/m]})();const [sx,sy]=projectSlide(dx,dy,n);if(Math.hypot(sx,sy)>.001){nx=clamp(player.x+sx,20,ROOM.w-20);ny=clamp(player.y+sy,20,ROOM.h-20);if(!playerCollisionAt(nx,ny)){player.x=nx;player.y=ny;return true}}
+  // Slippery-contact fallback: find the smallest angular deflection that remains collision-free.
+  for(const deg of [15,-15,30,-30,45,-45,60,-60,75,-75,90,-90]){const [ax,ay]=rotatedStep(dx,dy,deg);nx=clamp(player.x+ax,20,ROOM.w-20);ny=clamp(player.y+ay,20,ROOM.h-20);if(!playerCollisionAt(nx,ny)){player.x=nx;player.y=ny;return true}}const opts=[[dx,0],[0,dy]].sort((a,b)=>Math.hypot(b[0],b[1])-Math.hypot(a[0],a[1]));for(const [ax,ay] of opts){if(Math.hypot(ax,ay)<.001)continue;nx=clamp(player.x+ax,20,ROOM.w-20);ny=clamp(player.y+ay,20,ROOM.h-20);if(!playerCollisionAt(nx,ny)){player.x=nx;player.y=ny;return true}}return false}
+function tryMove(dx,dy){player.lastX=player.x;player.lastY=player.y;player.vx=dx;player.vy=dy;if(Math.hypot(dx,dy)>.01){const n=Math.hypot(dx,dy);player.facingX=dx/n;player.facingY=dy/n}const steps=Math.max(1,Math.ceil(Math.hypot(dx,dy)/4)),sx=dx/steps,sy=dy/steps;for(let i=0;i<steps;i++)tryPlayerSubstep(sx,sy)}
+function tryObjectSubstep(o,dx,dy){let nx=o.physical.x+dx,ny=o.physical.y+dy,hit=objectCollisionAt(o,nx,ny);if(!hit){o.physical.x=nx;o.physical.y=ny;o.semantic.x=nx;o.semantic.y=ny;return true}let n=hit.normal;if(!n&&hit.shape)n=shapeCollisionNormal(o.shape,nx,ny,hit.shape,hit.x,hit.y);if(!n){const vx=o.physical.x-(hit.x??o.physical.x),vy=o.physical.y-(hit.y??o.physical.y),m=Math.hypot(vx,vy)||1;n=[vx/m,vy/m]}const [sx,sy]=projectSlide(dx,dy,n);if(Math.hypot(sx,sy)>.001){nx=o.physical.x+sx;ny=o.physical.y+sy;if(!objectCollisionAt(o,nx,ny)){o.physical.x=nx;o.physical.y=ny;o.semantic.x=nx;o.semantic.y=ny;return true}}return false}
+function moveObjectSliding(o,dx,dy){const steps=Math.max(1,Math.ceil(Math.hypot(dx,dy)/4)),sx=dx/steps,sy=dy/steps;let moved=false;for(let i=0;i<steps;i++)moved=tryObjectSubstep(o,sx,sy)||moved;return moved}
+function inputVec(){let x=0,y=0;if(keys.has('a')||keys.has('arrowleft'))x--;if(keys.has('d')||keys.has('arrowright'))x++;if(keys.has('w')||keys.has('arrowup'))y--;if(keys.has('s')||keys.has('arrowdown'))y++;if(stick.active){x+=stick.dx/stick.max;y+=stick.dy/stick.max}const n=Math.hypot(x,y)||1;return{x:x/n,y:y/n}}
+
+function moveToward(o,tx,ty,speed,dt,away=false,stopDistance=0){let dx=tx-o.physical.x,dy=ty-o.physical.y,n=Math.hypot(dx,dy)||1;if(!away&&n<=stopDistance)return false;if(away){dx=-dx;dy=-dy}return moveObjectSliding(o,dx/n*speed*dt,dy/n*speed*dt)}
+function behaviorStep(dt){
+  for(const o of activeRoomObjects()){
+    if(!o.physical.materialized||o.doorTo)continue;const m=o.motion||{type:'idle'};
+    if(m.type==='approach_player'){const desiredGap=Math.max(18,Number(m.radius)||0),gap=shapeDistance(o.shape,o.physical.x,o.physical.y,player.shape,player.x,player.y);if(gap>desiredGap)moveToward(o,player.x,player.y,m.speed||60,dt,false,0);}
+    else if(m.type==='chase_player')moveToward(o,player.x,player.y,m.speed||60,dt,false,0);
+    else if(m.type==='flee_player')moveToward(o,player.x,player.y,m.speed||70,dt,true,0);
+    else if(m.type==='wander'){o.state.wander_angle=Number(o.state.wander_angle)||Math.random()*Math.PI*2;o.state.wander_angle+=(Math.random()-.5)*dt*2;const ok=moveObjectSliding(o,Math.cos(o.state.wander_angle)*(m.speed||30)*dt,Math.sin(o.state.wander_angle)*(m.speed||30)*dt);if(!ok)o.state.wander_angle+=Math.PI*.7}
+    if(m.type==='attack_contact'&&touching(o)&&m.damage>0){const now=performance.now();if(!o.state.last_attack_ms||now-o.state.last_attack_ms>800){player.state.health=clamp((player.state.health??100)-m.damage,0,100);o.state.last_attack_ms=now;addTranscript('world',`${o.name} hits you for ${m.damage}.`)}}
+  }
 }
-async function stopMic(){
-  mic.stopReason='user_stop';
-  if(mic.httpActive && mic.httpSession){ try{ await flushHttpAudio(); await fetch(httpBase() + '/' + mic.httpSession + '/stop', {method:'POST'}); }catch(e){} }
-  if(mic.ws){ try{ mic.ws.close(); }catch(e){} }
-  await cleanupAudioOnly();
-  mic.active=false; mic.ws=null; mic.httpActive=false; mic.httpStarting=false; mic.httpSession=null; mic.httpChunks=[]; mic.httpBytes=0; mic.httpPosting=false; mic.restarting=false;
-  setMicButton('start mic'); setMicStatus('mic off'); appendMicDebug('STATUS: mic off');
+function physicalStep(dt){const v=inputVec();tryMove(v.x*player.speed*dt,v.y*player.speed*dt);behaviorStep(dt)}
+
+function eventLog(text){world.events.unshift({id:++eventSeq,t:gameMinute,text:safeText(text,500)});world.events=world.events.slice(0,30)}
+function addTranscript(kind,text){const v=safeText(text,1200).trim();if(!v)return;const row=document.createElement('div');row.className=`turn ${kind||'world'}`;row.textContent=v;transcriptScrollEl.appendChild(row);while(transcriptScrollEl.children.length>100)transcriptScrollEl.firstChild.remove();transcriptScrollEl.scrollTop=transcriptScrollEl.scrollHeight;return row}
+function setResult(text,kind='world'){resultEl.textContent=safeText(text,240);if(text){eventLog(text);addTranscript(kind,text)}refresh()}
+
+function objectView(o){
+  const x=o.physical.materialized?o.physical.x:o.semantic.x,y=o.physical.materialized?o.physical.y:o.semantic.y;
+  const dx=x-player.x,dy=y-player.y,center=Math.hypot(dx,dy),gap=edgeDistanceToPlayer(o),dot=center?dx/center*player.facingX+dy/center*player.facingY:1;
+  return{id:o.id,name:o.name,role:o.role,description:o.description,state:o.state,affordances:o.affordances,
+    shape:o.shape,solid:o.solid,pushable:o.pushable,interaction_reach:o.interactionReach,speech_reach:o.speechReach,motion:o.motion,
+    absolute:{x:Math.round(x),y:Math.round(y)},relative:{dx:Math.round(dx),dy:Math.round(dy),center_distance:Math.round(center),edge_distance:+gap.toFixed(1),direction:directionName(dx,dy),bearing_degrees:Math.round(Math.atan2(dy,dx)*180/Math.PI)},
+    touching:gap<=1.5,interaction_reachable:gap<=interactionReach(o),speech_reachable:canHear(o),in_front:dot>.45,facing_alignment:+dot.toFixed(2),door_to:o.doorTo||null};
 }
-function isInsideMicPanelTarget(target){
-  try { return !!(target && target.closest && target.closest('#mic-panel')); } catch(e) { return false; }
+function llmState(){
+  const visible=activeRoomObjects().filter(o=>o.physical.materialized).map(objectView).sort((a,b)=>a.relative.edge_distance-b.relative.edge_distance);
+  const contacts=visible.filter(o=>o.touching),interact=visible.filter(o=>o.interaction_reachable),speech=visible.filter(o=>o.speech_reachable),front=visible.filter(o=>o.in_front).sort((a,b)=>b.facing_alignment-a.facing_alignment||a.relative.edge_distance-b.relative.edge_distance);
+  return{
+    game_description:world.scenario.game_description||world.scenario.premise||'',title:world.scenario.title,premise:world.scenario.premise||'',goal:world.goal,goal_complete:world.goalComplete,
+    world_summary:{generated_rooms:Object.keys(world.rooms).length,visited_rooms:[...visitedRooms],room_cap:WORLD_ROOM_CAP},
+    coordinate_system:'2D top-down coordinates. x increases right/east; y increases down/south. Shapes below are the exact visible/collision geometry.',
+    current_room:{id:player.room,name:room().name,description:room().description,bounds:{x_min:0,y_min:0,x_max:ROOM.w,y_max:ROOM.h}},
+    player:{position:{x:+player.x.toFixed(1),y:+player.y.toFixed(1)},previous_position:{x:+player.lastX.toFixed(1),y:+player.lastY.toFixed(1)},movement_delta:{dx:+player.vx.toFixed(1),dy:+player.vy.toFixed(1)},facing:{dx:+player.facingX.toFixed(2),dy:+player.facingY.toFixed(2),direction:directionName(player.facingX,player.facingY)},shape:player.shape,speed:player.speed,interaction_reach:player.interactionReach,speech_reach:player.speechReach,state:player.state},
+    perception:{radius:perceptionRadius(),meaning:'visible_environment is every materialized entity in perception; edge_distance uses exact shape geometry'},inventory:world.inventory.slice(),
+    visible_environment:visible,physical_contacts:contacts.map(o=>o.id),interaction_reachable:interact.map(o=>o.id),speech_reachable:speech.map(o=>o.id),
+    nearest_visible:visible[0]?.id||null,nearest_interactable:interact[0]?.id||null,best_facing_candidate:front[0]?.id||null,
+    conversation:[...transcriptScrollEl.children].slice(-12).map(x=>({kind:x.className.replace('turn ','').trim(),text:x.textContent})),recent_events:world.events.slice(0,8).map(e=>e.text)
+  };
 }
-function copyMicLog(ev){
-  if(ev){ try{ ev.preventDefault(); ev.stopPropagation(); }catch(e){} }
-  const text = micText ? (micText.innerText || micText.textContent || '') : '';
-  const done=(ok,err='')=>{ try{ setMicStatus(ok ? `log copied (${text.length} chars)` : `copy failed: ${err || 'select text manually'}`); appendMicDebug(ok ? `COPY OK chars=${text.length}` : `COPY FAIL: ${err || 'unknown'}`); httpProbe(ok?'copy_log_ok':'copy_log_failed',{chars:text.length,error:err}); }catch(e){} };
-  if(!text){ done(false,'empty log'); return; }
+
+function sanitizeObjectPatch(o,patch){
+  if('name'in patch)o.name=safeText(patch.name,80);if('description'in patch)o.description=safeText(patch.description,700);if('state'in patch&&patch.state&&typeof patch.state==='object')o.state={...o.state,...patch.state};
+  if(Array.isArray(patch.affordances))o.affordances=patch.affordances.map(x=>safeText(x,80)).slice(0,12);if(patch.shape)o.shape=normalizeShape(patch.shape,o.role);
+  if(typeof patch.solid==='boolean')o.solid=patch.solid;if(typeof patch.pushable==='boolean')o.pushable=patch.pushable;
+  if('interaction_reach'in patch)o.interactionReach=clamp(patch.interaction_reach,0,180);if('speech_reach'in patch)o.speechReach=clamp(patch.speech_reach,0,500);
+}
+function applyToolCalls(calls){
+  for(const c of Array.isArray(calls)?calls.slice(0,16):[]){if(!c||typeof c!=='object')continue;const tool=safeText(c.tool,50),a=c.args&&typeof c.args==='object'?c.args:{};
+    if(tool==='set_object'){const o=obj(a.id);if(o)sanitizeObjectPatch(o,a.patch||a)}
+    else if(tool==='move_object'){const o=obj(a.id);if(o){o.semantic.x=clamp(a.x??(o.semantic.x+Number(a.dx||0)),20,ROOM.w-20);o.semantic.y=clamp(a.y??(o.semantic.y+Number(a.dy||0)),20,ROOM.h-20);if(o.physical.materialized){o.physical.x=o.semantic.x;o.physical.y=o.semantic.y}}}
+    else if(tool==='set_motion'){const o=obj(a.id);if(o)o.motion={type:safeText(a.type||'idle',30),speed:clamp(a.speed??0,0,260),radius:clamp(a.radius??120,0,500),damage:clamp(a.damage??0,0,100),target:safeText(a.target||'player',50)}}
+    else if(tool==='remove_object'){const o=obj(a.id);if(o&&!o.doorTo){o.semantic.active=false;o.physical.materialized=false}}
+    else if(tool==='create_object'){const rid=world.rooms[a.room_id]?a.room_id:player.room,r=world.rooms[rid];if(r&&r.objects.filter(o=>!o.doorTo&&o.semantic.active).length<ROOM_CONTENT_CAP){const raw={...(a.object||a),id:(a.object||a).id||`llm_${Date.now()}_${++world.created}`};r.objects.push(normalizeObject(raw,r.objects.length+1))}}
+    else if(tool==='inventory_add'){const n=safeText(a.name,80).trim();if(n&&!world.inventory.includes(n))world.inventory.push(n)}
+    else if(tool==='inventory_remove'){const n=safeText(a.name,80).trim().toLowerCase();world.inventory=world.inventory.filter(x=>x.toLowerCase()!==n)}
+    else if(tool==='set_goal'){world.goal=safeText(a.text,500)}
+    else if(tool==='set_room'){const r=world.rooms[a.room_id||player.room];if(r){if(a.name)r.name=safeText(a.name,100);if(a.description)r.description=safeText(a.description,1000)}}
+    else if(tool==='set_player'){if(a.state&&typeof a.state==='object')player.state={...player.state,...a.state};if('speed'in a)player.speed=clamp(a.speed,50,320);if('interaction_reach'in a)player.interactionReach=clamp(a.interaction_reach,0,180);if('speech_reach'in a)player.speechReach=clamp(a.speech_reach,20,500)}
+    else if(tool==='create_room'){if(Object.keys(world.rooms).length<WORLD_ROOM_CAP){const spec=a.room&&typeof a.room==='object'?a.room:a;let id=safeText(spec.id||`room${String.fromCharCode(65+Object.keys(world.rooms).length)}`,50);if(world.rooms[id])id=`room_${Date.now()}`;world.rooms[id]={id,name:safeText(spec.name||id,100),description:safeText(spec.description||'',1000),objects:(spec.objects||[]).slice(0,ROOM_CONTENT_CAP).map(normalizeObject)};world.scenario.rooms.push({id,name:world.rooms[id].name,description:world.rooms[id].description,objects:[],doors:[]})}}
+    else if(tool==='create_door'){const from=world.rooms[a.from_room_id]?a.from_room_id:player.room,to=safeText(a.to_room_id,50);if(world.rooms[from]&&world.rooms[to]){const raw={id:`door_${from}_${to}_${Date.now()}`,name:a.name||`Durchgang zu ${world.rooms[to].name}`,to,x:clamp(a.x,50,ROOM.w-50),y:clamp(a.y,50,ROOM.h-50),description:a.description||'',shape:a.shape||{type:'rect',width:58,height:72},interaction_reach:a.interaction_reach??30};const map=new Map(Object.entries(world.rooms).map(([id,r])=>[id,{id,name:r.name,doors:[]} ]));world.rooms[from].objects.push(normalizeDoor(raw,from,map))}}
+  }
+  syncPerception();saveGame();
+}
+
+function partialJsonString(raw,key){
+  const re=new RegExp(`"${key}"\\s*:\\s*"`),m=re.exec(raw);if(!m)return'';let i=m.index+m[0].length,out='';
+  while(i<raw.length){const c=raw[i++];if(c==='"')break;if(c!=='\\'){out+=c;continue}if(i>=raw.length)break;const e=raw[i++];
+    if(e==='n')out+='\n';else if(e==='r')out+='\r';else if(e==='t')out+='\t';else if(e==='b')out+='\b';else if(e==='f')out+='\f';else if(e==='"')out+='"';else if(e==='\\')out+='\\';else if(e==='/')out+='/';else if(e==='u'){if(i+4>raw.length)break;const hex=raw.slice(i,i+4);if(!/^[0-9a-fA-F]{4}$/.test(hex))break;out+=String.fromCharCode(parseInt(hex,16));i+=4}else out+=e;
+  }return out
+}
+function renderModelStream(pending,raw){const n=partialJsonString(raw,'n'),sp=partialJsonString(raw,'s'),d=partialJsonString(raw,'d'),dialogue=d?(sp?`${sp}: ${d}`:d):'',shown=[n,dialogue].filter(Boolean).join(n&&dialogue?'\n':'');if(shown){pending.textContent=shown;pending.className='turn pending streaming';transcriptScrollEl.scrollTop=transcriptScrollEl.scrollHeight;resultEl.textContent=safeText(shown,240)}return shown}
+async function llmAction(text){
+  if(llmBusy){setResult('Die Spiel-KI denkt bereits.','system');return}
+  llmBusy=true;statsEl.textContent='KI antwortet…';const pending=addTranscript('pending','…');let modelRaw='',finalEvent=null,streamed='';
   try{
-    const ta=document.createElement('textarea'); ta.value=text; ta.setAttribute('readonly','');
-    ta.style.position='fixed'; ta.style.left='0'; ta.style.top='0'; ta.style.width='1px'; ta.style.height='1px'; ta.style.opacity='0.01'; ta.style.zIndex='999999';
-    document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length);
-    const ok=document.execCommand && document.execCommand('copy'); document.body.removeChild(ta);
-    if(ok){ done(true); return; }
-  }catch(e){}
-  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>done(true)).catch(err=>done(false, err && err.message ? err.message : String(err)));
-  else done(false,'clipboard unavailable');
+    const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),45000);
+    const r=await fetch('/llm_game_stt/http/game/action',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/x-ndjson'},body:JSON.stringify({action:text,state:llmState()}),signal:ctrl.signal});
+    if(!r.ok)throw new Error(`HTTP ${r.status}`);if(!r.body)throw new Error('Streaming-Antwort ohne Datenstrom');
+    const reader=r.body.getReader(),decoder=new TextDecoder(),lines={buf:''};
+    while(true){const {value,done}=await reader.read();if(done)break;lines.buf+=decoder.decode(value,{stream:true});let nl;
+      while((nl=lines.buf.indexOf('\n'))>=0){const line=lines.buf.slice(0,nl).trim();lines.buf=lines.buf.slice(nl+1);if(!line)continue;let evt;try{evt=JSON.parse(line)}catch{continue}
+        if(evt.type==='delta'&&typeof evt.delta==='string'){modelRaw+=evt.delta;streamed=renderModelStream(pending,modelRaw)||streamed}
+        else if(evt.type==='final')finalEvent=evt;
+        else if(evt.type==='error')throw new Error(evt.error||'Streaming-Fehler');
+      }
+    }
+    clearTimeout(timer);if(!finalEvent?.ok)throw new Error('Keine vollständige KI-Antwort');const out=finalEvent.result||{};
+    if(out.allowed!==false)applyToolCalls(out.tool_calls||out.mutations||[]);if(out.goal_complete)world.goalComplete=true;
+    pending?.remove();if(out.narration)addTranscript('world',out.narration);if(out.speaker&&out.dialogue)addTranscript('npc',`${out.speaker}: ${out.dialogue}`);
+    const shown=out.speaker&&out.dialogue?`${out.speaker}: ${out.dialogue}`:(out.narration||streamed||'Nichts geschieht.');resultEl.textContent=safeText(shown,240);eventLog(shown);saveGame();refresh();
+  }catch(e){pending?.remove();setResult(e.name==='AbortError'?'Die Spiel-KI hat zu lange gebraucht. Versuche es erneut.':`KI nicht verfügbar: ${e.message}`,'error')}
+  finally{llmBusy=false;refresh()}
 }
 
-function bindMic(){
-  if(micToggle) micToggle.addEventListener('click', (ev) => { try{ev.preventDefault(); ev.stopPropagation();}catch(e){} httpProbe('mic_button_click', {active:mic.active}); mic.active ? stopMic() : startMic(); }, {passive:false});
-  if(micCopy) micCopy.addEventListener('click', copyMicLog, {passive:false});
-  if(micHide) micHide.addEventListener('click', ev => {
-    try{ev.preventDefault(); ev.stopPropagation();}catch(e){}
-    const p=document.getElementById('mic-panel'); if(!p) return;
-    const collapsed=p.classList.toggle('debug-collapsed');
-    micHide.textContent = collapsed ? 'show debug' : 'hide debug';
-    httpProbe(collapsed ? 'debug_panel_hidden' : 'debug_panel_shown',{});
-  }, {passive:false});
-  if(micShow) micShow.hidden=true;
-  if(topicTest) topicTest.addEventListener('click', (ev)=>{ try{ev.preventDefault(); ev.stopPropagation();}catch(e){} runManualTopicTest(); }, {passive:false});
-  const panel=document.getElementById('mic-panel');
-  if(panel){ ['pointerdown','pointermove','pointerup','touchstart','touchmove','touchend','mousedown','mousemove','mouseup','click','dblclick','contextmenu'].forEach(kind => panel.addEventListener(kind, ev => { try{ ev.stopPropagation(); }catch(e){} }, {passive:false})); }
-  if(micText){ ['pointerdown','pointermove','pointerup','touchstart','touchmove','touchend','mousedown','mousemove','mouseup','click','dblclick','contextmenu'].forEach(kind => micText.addEventListener(kind, ev => { try{ ev.stopPropagation(); }catch(e){} }, {passive:false})); }
-}
+async function executeAction(raw){const text=safeText(raw,500).trim();actionEl.value='';if(!text)return;lastUserActionAt=Date.now();addTranscript('user',text);const t=text.toLowerCase();if(/^(warte|wait)\b/.test(t)){const m=clamp(parseInt(t.match(/\d+/)?.[0]||'10',10),1,120);gameMinute+=m;setResult(`Du wartest ${m} Minuten.`);return}await llmAction(text)}
+function contextInteract(){const st=llmState(),id=st.physical_contacts[0]||st.nearest_interactable||st.best_facing_candidate,t=id?st.visible_environment.find(o=>o.id===id):null;if(t?.door_to&&t.relative.edge_distance<=Math.max(player.interactionReach,t.interaction_reach)){return useDoor(t.id)}executeAction('interact');return true}
+function useDoor(id=null){lastUserActionAt=Date.now();const candidates=activeRoomObjects().filter(o=>o.doorTo&&o.physical.materialized&&canInteract(o)).sort((a,b)=>edgeDistanceToPlayer(a)-edgeDistanceToPlayer(b));const d=id?obj(id):candidates[0];if(!d||!d.doorTo||!canInteract(d)){setResult('Kein erreichbarer Durchgang.');return false}player.room=d.doorTo;player.x=d.spawn?.x??120;player.y=d.spawn?.y??430;player.lastX=player.x;player.lastY=player.y;visitedRooms.add(player.room);syncPerception();markExplored();setResult(`Du betrittst ${room().name}.`);scheduleBackgroundExpansion(60000);saveGame();return true}
 
-function bind(){ addEventListener('resize',resize); addEventListener('keydown',e=>{ keys.add(e.key); if(e.key===' ') pulse(); }); addEventListener('keyup',e=>keys.delete(e.key)); document.addEventListener('contextmenu',e=>{ if(!isInsideMicPanelTarget(e.target)) e.preventDefault(); }); document.addEventListener('selectstart',e=>{ if(!isInsideMicPanelTarget(e.target)) e.preventDefault(); }); document.getElementById('fullscreen').onclick=()=>document.documentElement.requestFullscreen?.(); document.getElementById('reset').onclick=reset; document.getElementById('pulse').onclick=pulse; bindMic(); bindStick(); }
-resize(); bind(); reset(); requestAnimationFrame(loop);
+function saveGame(){try{if(!world)return;localStorage.setItem(SAVE_KEY,JSON.stringify({title:world.scenario.title,world,player:{...player},gameMinute,visited:[...visitedRooms],refined:[...refinedRooms],explored:exploredCells,transcript:[...transcriptScrollEl.children].slice(-100).map(x=>({kind:x.className.replace('turn ','').trim(),text:x.textContent}))}))}catch(e){console.warn('save',e)}}
+function restoreGame(scenario){try{const raw=localStorage.getItem(SAVE_KEY);if(!raw)return false;const s=JSON.parse(raw);if(!s||s.title!==scenario.title||!s.world)return false;world=s.world;Object.assign(player,s.player||{});player.shape=normalizeShape(player.shape,'player');gameMinute=Number(s.gameMinute)||0;visitedRooms=new Set(s.visited||[player.room]);refinedRooms=new Set(s.refined||[]);exploredCells=s.explored||{};transcriptScrollEl.replaceChildren();for(const t of s.transcript||[])addTranscript(t.kind,t.text);syncPerception();refresh();return true}catch(e){console.warn('restore',e);return false}}
+
+function observedFacts(){const out=[];for(const id of visitedRooms){const r=world.rooms[id];if(!r)continue;out.push({room:id,name:r.name,description:r.description,objects:r.objects.filter(o=>o.semantic.active).map(o=>({id:o.id,name:o.name,role:o.role,description:o.description,state:o.state,shape:o.shape,solid:o.solid,pushable:o.pushable,interaction_reach:o.interactionReach,speech_reach:o.speechReach,position:{x:o.semantic.x,y:o.semantic.y},motion:o.motion,door_to:o.doorTo}))})}return out}
+function rawRoom(id){return (world.scenario.rooms||[]).find(r=>String(r.id)===String(id))||null}
+function setDoorSpawn(o,fromId,rawMap){const target=rawMap.get(String(o.doorTo)),back=(target?.doors||[]).find(x=>String(x.to)===String(fromId));if(back){const bx=clamp(back.x,50,ROOM.w-50),by=clamp(back.y,50,ROOM.h-50),edge=Math.min(bx,ROOM.w-bx,by,ROOM.h-by);o.spawn=edge===bx?{x:bx+90,y:by}:edge===ROOM.w-bx?{x:bx-90,y:by}:edge===by?{x:bx,y:by+90}:{x:bx,y:by-90}}else o.spawn={x:120,y:430}}
+function materializeScenarioDoor(fromId,d){const r=world.rooms[fromId];if(!r||r.objects.some(o=>o.id===d.id))return;const map=new Map((world.scenario.rooms||[]).map(x=>[String(x.id),x]));const o=normalizeDoor(d,fromId,map);setDoorSpawn(o,fromId,map);r.objects.push(o)}
+function topologyCandidate(){if(Object.keys(world.rooms).length>=WORLD_ROOM_CAP)return null;return Object.keys(world.rooms).find(id=>!visitedRooms.has(id)&&!world.rooms[id].topologyClosed&&(Number(world.rooms[id].topologyExpansions)||0)<3)||null}
+function integrateTopology(targetId,out){const target=world.rooms[targetId];if(!target)return false;target.topologyExpansions=Number(out.target_topology_expansions)||target.topologyExpansions||0;target.topologyClosed=!!out.target_topology_closed;const targetRaw=rawRoom(targetId);if(targetRaw){targetRaw.topology_expansions=target.topologyExpansions;targetRaw.topology_closed=target.topologyClosed}if(!out.create||!out.room)return false;const rr=out.room,newId=String(rr.id||'');if(!newId||world.rooms[newId])return false;rr.topology_expansions=Number(rr.topology_expansions)||0;rr.topology_closed=!!rr.topology_closed;world.scenario.rooms.push(rr);world.rooms[newId]={id:newId,name:safeText(rr.name||newId,100),description:safeText(rr.description||'',1000),objects:(rr.objects||[]).slice(0,ROOM_CONTENT_CAP).map(normalizeObject),topologyExpansions:rr.topology_expansions,topologyClosed:rr.topology_closed};if(targetRaw){targetRaw.doors=Array.isArray(targetRaw.doors)?targetRaw.doors:[];if(out.door_from&&!targetRaw.doors.some(d=>d.id===out.door_from.id))targetRaw.doors.push(out.door_from)}if(out.door_from)materializeScenarioDoor(targetId,out.door_from);for(const d of rr.doors||[])materializeScenarioDoor(newId,d);saveGame();return true}
+async function expandTopology(targetId){const target=world.rooms[targetId];if(!target||visitedRooms.has(targetId)||Object.keys(world.rooms).length>=WORLD_ROOM_CAP)return false;const payload={premise:world.scenario.premise||'',goal:world.goal,target_room_id:targetId,target_room:{id:targetId,name:target.name,description:target.description,objects:target.objects.filter(o=>!o.doorTo&&o.semantic.active).map(o=>({id:o.id,name:o.name,role:o.role,description:o.description,state:o.state,shape:o.shape,solid:o.solid,pushable:o.pushable,interaction_reach:o.interactionReach,speech_reach:o.speechReach,x:o.semantic.x,y:o.semantic.y,motion:o.motion})),doors:target.objects.filter(o=>o.doorTo).map(o=>({id:o.id,name:o.name,to:o.doorTo,x:o.semantic.x,y:o.semantic.y,description:o.description,shape:o.shape,interaction_reach:o.interactionReach}))},target_observed:false,target_topology_expansions:Number(target.topologyExpansions)||0,target_topology_closed:!!target.topologyClosed,existing_room_ids:Object.keys(world.rooms),world_room_count:Object.keys(world.rooms).length,observed_facts:observedFacts()};const res=await fetch('/llm_game_stt/http/game/topology',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const j=await res.json();if(!res.ok||!j.ok)throw new Error(j.error||`HTTP ${res.status}`);if(visitedRooms.has(targetId))return false;return integrateTopology(targetId,j.result||{})}
+function scheduleBackgroundExpansion(delay=60000){clearTimeout(backgroundTimer);backgroundTimer=setTimeout(()=>backgroundTick(),delay)}
+async function backgroundTick(){if(backgroundBusy||llmBusy||Date.now()-lastUserActionAt<60000)return scheduleBackgroundExpansion(15000);const topo=topologyCandidate();if(topo){backgroundBusy=true;try{await expandTopology(topo)}catch(e){console.warn('background topology',e)}finally{backgroundBusy=false;refresh();scheduleBackgroundExpansion(60000)}return}const unseen=Object.keys(world.rooms).find(id=>!visitedRooms.has(id));if(!unseen)return;const r=world.rooms[unseen];backgroundBusy=true;try{const free=Math.max(0,ROOM_CONTENT_CAP-r.objects.filter(o=>!o.doorTo&&o.semantic.active).length);if(free>0){const res=await fetch('/llm_game_stt/http/game/expand',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({premise:world.scenario.premise||'',goal:world.goal,observed:false,allow_updates:true,observed_facts:observedFacts(),free_slots:Math.min(1,free),room:{id:r.id,name:r.name,description:r.description,objects:r.objects.filter(o=>!o.doorTo).map(o=>({id:o.id,name:o.name,role:o.role,description:o.description,state:o.state,shape:o.shape,solid:o.solid,pushable:o.pushable,interaction_reach:o.interactionReach,speech_reach:o.speechReach,x:o.semantic.x,y:o.semantic.y,motion:o.motion}))}})});const j=await res.json();if(j.ok&&!visitedRooms.has(unseen)){const d=j.result||{};if(d.room_description)r.description=safeText(d.room_description,1000);for(const u of d.updates||[]){const o=r.objects.find(x=>x.id===u.id);if(o)sanitizeObjectPatch(o,u)}for(const a of d.additions||[]){if(r.objects.filter(o=>!o.doorTo).length>=ROOM_CONTENT_CAP)break;r.objects.push(normalizeObject(a,r.objects.length+1))}saveGame()}}}catch(e){console.warn('background content',e)}finally{backgroundBusy=false;scheduleBackgroundExpansion(60000)}}
+
+function exploredSet(id){return new Set(exploredCells[id]||[])}
+function markExplored(){const set=exploredSet(player.room),cw=ROOM.w/EXP_COLS,ch=ROOM.h/EXP_ROWS,R=perceptionRadius();for(let y=0;y<EXP_ROWS;y++)for(let x=0;x<EXP_COLS;x++){const cx=(x+.5)*cw,cy=(y+.5)*ch;if(Math.hypot(cx-player.x,cy-player.y)<=R+Math.max(cw,ch)*.5)set.add(`${x},${y}`)}exploredCells[player.room]=[...set]}
+function isExplored(id,x,y){return exploredSet(id).has(`${x},${y}`)}
+
+function drawShape(g,shape,cx,cy,fill,stroke='#171a17'){
+  g.save();g.fillStyle=fill;g.strokeStyle=stroke;g.lineWidth=2;
+  for(const poly of shapeParts(shape,cx,cy)){g.beginPath();g.moveTo(poly[0][0],poly[0][1]);for(let i=1;i<poly.length;i++)g.lineTo(poly[i][0],poly[i][1]);g.closePath();g.fill();g.stroke()}
+  g.restore();
+}
+function camera(){return{x:W/2-player.x,y:H/2-player.y}}
+function screen(x,y){const c=camera();return{x:x+c.x,y:y+c.y}}
+function drawFog(c){const cw=ROOM.w/EXP_COLS,ch=ROOM.h/EXP_ROWS;ctx.save();ctx.fillStyle='rgba(5,7,6,.60)';for(let y=0;y<EXP_ROWS;y++)for(let x=0;x<EXP_COLS;x++)if(!isExplored(player.room,x,y))ctx.fillRect(c.x+x*cw,c.y+y*ch,cw+.5,ch+.5);ctx.restore()}
+function labelLines(g,text,maxWidth=210){const words=String(text||'').split(/\s+/).filter(Boolean),lines=[];let line='';for(const word of words){const test=line?`${line} ${word}`:word;if(line&&g.measureText(test).width>maxWidth){lines.push(line);line=word}else line=test}if(line)lines.push(line);return lines.length?lines:['']}
+function drawObjectLabel(g,text,x,y){g.save();g.font='11px sans-serif';g.textAlign='center';g.textBaseline='middle';const lines=labelLines(g,text,210),lineH=14,pad=5,w=Math.min(220,Math.max(...lines.map(line=>g.measureText(line).width))+pad*2),h=lines.length*lineH+4;g.fillStyle='#111e';g.fillRect(x-w/2,y-h,w,h);g.fillStyle='#f1ead4';lines.forEach((line,i)=>g.fillText(line,x,y-h/2+2+lineH*(i+.5)));g.restore()}
+function drawMinimap(){const mw=mapCanvas.width,mh=mapCanvas.height;mapCtx.clearRect(0,0,mw,mh);mapCtx.fillStyle='#090c09';mapCtx.fillRect(0,0,mw,mh);const ids=Object.keys(world.rooms),sw=(mw-12)/WORLD_ROOM_CAP;for(let i=0;i<WORLD_ROOM_CAP;i++){const id=ids[i],x=6+i*sw;mapCtx.fillStyle=id?(visitedRooms.has(id)?'#c9bd72':'#656a66'):'#202520';mapCtx.fillRect(x,6,Math.max(4,sw-3),12);if(id===player.room){mapCtx.strokeStyle='#f2e49b';mapCtx.strokeRect(x-.5,5.5,Math.max(4,sw-3)+1,13)}}const top=24,gw=mw-12,gh=mh-top-6,cw=gw/EXP_COLS,ch=gh/EXP_ROWS;for(let y=0;y<EXP_ROWS;y++)for(let x=0;x<EXP_COLS;x++){mapCtx.fillStyle=isExplored(player.room,x,y)?'#58645a':'#272b28';mapCtx.fillRect(6+x*cw,top+y*ch,cw-.6,ch-.6)}mapCtx.fillStyle='#f0df72';mapCtx.beginPath();mapCtx.arc(6+player.x/ROOM.w*gw,top+player.y/ROOM.h*gh,2.8,0,Math.PI*2);mapCtx.fill()}
+function draw(){
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#151a16';ctx.fillRect(0,0,W,H);const c=camera();ctx.fillStyle='#4d5149';ctx.fillRect(c.x,c.y,ROOM.w,ROOM.h);ctx.strokeStyle='#1d211d';ctx.lineWidth=16;ctx.strokeRect(c.x,c.y,ROOM.w,ROOM.h);
+  for(const o of activeRoomObjects()){if(!o.physical.materialized)continue;const p=screen(o.physical.x,o.physical.y);drawShape(ctx,o.shape,p.x,p.y,roleColors[o.doorTo?'door':o.role]||'#aaa');if(edgeDistanceToPlayer(o)<150){drawObjectLabel(ctx,o.name,p.x,p.y-36)}}
+  drawShape(ctx,player.shape,W/2,H/2,roleColors.player);drawFog(c);drawMinimap();
+}
+function refresh(){if(!world)return;const ids=Object.keys(world.rooms),hp=clamp(player.state.health??100,0,100);roomLabelEl.textContent=String(ids.indexOf(player.room)+1);healthTextEl.textContent=`HP ${Math.round(hp)}`;healthFillEl.style.width=`${hp}%`;statsEl.textContent=llmBusy?'KI denkt…':`${room().name} · ${world.inventory.length} Gegenstand${world.inventory.length===1?'':'e'}`;storyEl.textContent=`${world.scenario.title}\nAuftrag: ${world.goal}\n${room().description}`;eventsEl.innerHTML=world.events.slice(0,10).map(e=>`<div>${e.t}m — ${e.text}</div>`).join('');stateEl.textContent=JSON.stringify(llmState(),null,2);drawMinimap()}
+function resize(){DPR=Math.min(devicePixelRatio||1,2);const r=document.getElementById('game-pane').getBoundingClientRect();W=Math.max(1,Math.round(r.width));H=Math.max(1,Math.round(r.height));canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0)}
+function tick(now){const dt=Math.min(.04,(now-lastFrame)/1000);lastFrame=now;if(world){physicalStep(dt);syncPerception();markExplored();draw()}requestAnimationFrame(tick)}
+
+async function loadScenario(regenerate=false){if(regenerate)setResult('Eine neue Spielwelt wird erzeugt…','system');try{const r=await fetch('/llm_game_stt/http/game/scenario',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({regenerate,theme:'Erzeuge ein neues, realistisches und leicht komisches Spiel in einer verständlichen Gegenwartssituation. Klare Rolle, konkreter Auftrag, überprüfbares Ziel und konkrete Informationsquellen. Humor aus glaubwürdigem Chaos oder Peinlichkeit. Keine Fantasy, keine Magie, keine Kristallenergie, keine kosmischen oder nicht-euklidischen Regeln. Alle spielersichtbaren Texte auf Deutsch.'})});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||`HTTP ${r.status}`);scenarioRecord=j.record;const scenario=scenarioRecord.scenario||scenarioRecord;if(!restoreGame(scenario)){world=buildWorld(scenario);const first=Object.keys(world.rooms)[0];player.room=first;player.x=Number(scenario.player?.x)||300;player.y=Number(scenario.player?.y)||430;player.lastX=player.x;player.lastY=player.y;visitedRooms=new Set([first]);refinedRooms=new Set();exploredCells={};transcriptScrollEl.replaceChildren();syncPerception();markExplored();addTranscript('system',scenario.title);addTranscript('world',scenario.opening||room().description);addTranscript('system',`Auftrag: ${scenario.goal}`);saveGame();refresh()}scheduleBackgroundExpansion(60000)}catch(e){setResult(`Spielwelt konnte nicht geladen werden: ${e.message}`,'error')}}
+
+function submitCommand(){const text=actionEl.value.trim();actionEl.blur();keys.clear();if(text)executeAction(text)}
+document.addEventListener('selectstart',e=>{if(e.target!==actionEl&&e.target!==debugEl&&!transcriptScrollEl.contains(e.target))e.preventDefault()});
+window.addEventListener('resize',resize);
+window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k==='enter'){if(document.activeElement!==actionEl){keys.clear();actionEl.focus();e.preventDefault()}return}if(document.activeElement===actionEl)return;keys.add(k);if(k==='e'){contextInteract();e.preventDefault()}if(k.startsWith('arrow'))e.preventDefault()});
+window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
+actionEl.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.stopPropagation();submitCommand()}});
+document.getElementById('action-form').addEventListener('submit',e=>{e.preventDefault();submitCommand()});
+document.getElementById('goal').onclick=()=>setResult(world.goal,'system');
+document.getElementById('new-world').onclick=()=>{localStorage.removeItem(SAVE_KEY);loadScenario(true)};
+document.getElementById('reset').onclick=()=>{localStorage.removeItem(SAVE_KEY);loadScenario(false)};
+document.getElementById('fullscreen').onclick=()=>document.documentElement.requestFullscreen?.();
+document.getElementById('debug-toggle').onclick=()=>{debugEl.hidden=!debugEl.hidden};
+
+const sb=document.getElementById('stick-base'),st=document.getElementById('stick-thumb');
+function setStick(e){const r=sb.getBoundingClientRect();let dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),n=Math.hypot(dx,dy);if(n>stick.max){dx*=stick.max/n;dy*=stick.max/n}stick.dx=dx;stick.dy=dy;st.style.transform=`translate(${dx}px,${dy}px)`}
+sb.addEventListener('pointerdown',e=>{stick.active=true;stick.id=e.pointerId;sb.setPointerCapture(e.pointerId);setStick(e)});
+sb.addEventListener('pointermove',e=>{if(stick.active&&e.pointerId===stick.id)setStick(e)});
+function endStick(e){if(e.pointerId!==stick.id)return;stick.active=false;stick.dx=stick.dy=0;st.style.transform='translate(0,0)'}
+sb.addEventListener('pointerup',endStick);sb.addEventListener('pointercancel',endStick);
+
+const micStatus=document.getElementById('mic-status'),micText=document.getElementById('mic-text'),micToggle=document.getElementById('mic-toggle');
+let mic={active:false,ws:null,stream:null,ctx:null,processor:null};
+function browserSttLanguage(){return'de'}
+function sttUrl(){return`${location.protocol==='https:'?'wss:':'ws:'}//${location.host}/llm_game_stt/ws/`}
+function downsampleTo16k(input,sr){if(sr===16000)return input;const ratio=sr/16000,out=new Int16Array(Math.floor(input.length/ratio));for(let i=0;i<out.length;i++)out[i]=Math.max(-1,Math.min(1,input[Math.floor(i*ratio)]))*32767;return out}
+function onStt(m){if(m.type==='stt_processing'){micStatus.textContent='stt_processing…';return}if(m.type==='stt'&&m.text){micText.textContent=m.text;executeAction(m.text)}}
+async function startMic(){mic.stream=await navigator.mediaDevices.getUserMedia({audio:true});mic.ctx=new(window.AudioContext||window.webkitAudioContext)();const src=mic.ctx.createMediaStreamSource(mic.stream);mic.processor=mic.ctx.createScriptProcessor(4096,1,1);const g=mic.ctx.createGain();g.gain.value=0;src.connect(mic.processor);mic.processor.connect(g);g.connect(mic.ctx.destination);mic.ws=new WebSocket(sttUrl());mic.ws.binaryType='arraybuffer';mic.ws.onopen=()=>{mic.ws.send(JSON.stringify({type:'hello',sample_rate:16000,format:'pcm16le',language:browserSttLanguage()}));micStatus.textContent='Sprache bereit'};mic.ws.onmessage=e=>{try{onStt(JSON.parse(e.data))}catch{}};mic.processor.onaudioprocess=e=>{if(mic.ws?.readyState===WebSocket.OPEN)mic.ws.send(downsampleTo16k(e.inputBuffer.getChannelData(0),mic.ctx.sampleRate).buffer)};mic.active=true;micToggle.textContent='stopp'}
+async function stopMic(){mic.active=false;try{mic.ws?.close()}catch{};try{mic.processor?.disconnect()}catch{};try{mic.stream?.getTracks().forEach(t=>t.stop())}catch{};try{await mic.ctx?.close()}catch{};mic.ws=mic.stream=mic.ctx=mic.processor=null;micToggle.textContent='mic';micStatus.textContent='Sprache aus'}
+micToggle.onclick=async()=>{try{mic.active?await stopMic():await startMic()}catch(e){micStatus.textContent=`Sprachfehler: ${e.message}`}};
+
+resize();requestAnimationFrame(tick);loadScenario(false);

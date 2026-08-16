@@ -9,6 +9,7 @@ import websockets
 from aiohttp import web
 from PIL import Image, ImageDraw
 from faster_whisper import WhisperModel
+from game_llm import install_routes as install_game_llm_routes
 
 MODEL_PATH = os.environ.get('LLM_GAME_STT_MODEL', '/data/src/external/whisper.cpp/models/ggml-base.en.bin')
 SAMPLE_RATE = 16000
@@ -1547,6 +1548,7 @@ async def start_http_server(host: str, port: int) -> web.AppRunner:
     app.router.add_post('/http/{session}/stop', http_stop)
     app.router.add_get('/http/health', http_health)
     app.router.add_get('/gif/{slug}', http_gif)
+    install_game_llm_routes(app)
     runner = web.AppRunner(app)
     await runner.setup()
     site = web.TCPSite(runner, host, port, reuse_address=True)

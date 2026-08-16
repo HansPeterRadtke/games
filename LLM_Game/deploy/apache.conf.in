@@ -1,6 +1,6 @@
 # Generated from /data/infra for Nitro. Do not edit the installed copy.
 ProxyPreserveHost On
-ProxyTimeout 120
+ProxyTimeout 200
 
 RedirectMatch 302 ^/llm_game$ /llm_game/
 Alias /llm_game/ "/data/src/github/games/LLM_Game/web/"
