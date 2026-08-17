@@ -1,11 +1,12 @@
 'use strict';
 
-const BUILD='20260816-umzug-stream-v32';
+const BUILD='20260816-umzug-v33';
 const MODEL_CONTEXT_LABEL='context 8192';
 const ROOM={w:1400,h:860};
 const WORLD_ROOM_CAP=10;
 const ROOM_CONTENT_CAP=12;
 const SAVE_KEY='prse-umzug-v29';
+const COMMAND_HISTORY_KEY='prse-command-history-v1';
 
 const canvas=document.getElementById('game');
 const ctx=canvas.getContext('2d');
@@ -28,9 +29,10 @@ const roleColors={
 };
 
 let W=innerWidth,H=innerHeight,DPR=1,lastFrame=performance.now(),lastUserActionAt=Date.now();
-let world=null,scenarioRecord=null,gameMinute=0,eventSeq=0,llmBusy=false,backgroundBusy=false;
-let visitedRooms=new Set(),refinedRooms=new Set(),backgroundTimer=null;
+let world=null,scenarioRecord=null,gameMinute=0,eventSeq=0,llmBusy=false,backgroundBusy=false,storyBusy=false;
+let visitedRooms=new Set(),refinedRooms=new Set(),backgroundTimer=null,storyEventTimer=null;
 let exploredCells={};
+let commandHistory=[],commandHistoryIndex=0,commandHistoryDraft='';
 const EXP_COLS=14,EXP_ROWS=9;
 const keys=new Set();
 
@@ -46,6 +48,10 @@ const stick={active:false,id:null,dx:0,dy:0,max:38};
 
 function clamp(v,a,b){v=Number(v);return Number.isFinite(v)?Math.max(a,Math.min(b,v)):(a+b)/2}
 function safeText(v,n=500){return String(v??'').slice(0,n)}
+function loadCommandHistory(){try{const v=JSON.parse(localStorage.getItem(COMMAND_HISTORY_KEY)||'[]');commandHistory=Array.isArray(v)?v.map(x=>safeText(x,500)).filter(Boolean).slice(-300):[]}catch{commandHistory=[]}commandHistoryIndex=commandHistory.length;commandHistoryDraft=''}
+function saveCommandHistory(){try{localStorage.setItem(COMMAND_HISTORY_KEY,JSON.stringify(commandHistory.slice(-300)))}catch{}}
+function rememberCommand(text){const v=safeText(text,500).trim();if(!v)return;if(commandHistory[commandHistory.length-1]!==v)commandHistory.push(v);commandHistory=commandHistory.slice(-300);commandHistoryIndex=commandHistory.length;commandHistoryDraft='';saveCommandHistory()}
+function navigateCommandHistory(dir){if(!commandHistory.length&&dir<0)return;if(commandHistoryIndex===commandHistory.length)commandHistoryDraft=actionEl.value;commandHistoryIndex=clamp(commandHistoryIndex+dir,0,commandHistory.length);actionEl.value=commandHistoryIndex===commandHistory.length?commandHistoryDraft:commandHistory[commandHistoryIndex];requestAnimationFrame(()=>actionEl.setSelectionRange(actionEl.value.length,actionEl.value.length))}
 function directionName(dx,dy){
   const a=Math.atan2(dy,dx)*180/Math.PI;
   if(a>=-22.5&&a<22.5)return'east/right'; if(a<67.5&&a>=22.5)return'southeast/down-right';
@@ -100,6 +106,7 @@ function polyDistance(a,b){if(polysCollide(a,b))return 0;let d=Infinity;for(cons
 function shapeDistance(sa,ax,ay,sb,bx,by){let d=Infinity;for(const a of shapeParts(sa,ax,ay))for(const b of shapeParts(sb,bx,by))d=Math.min(d,polyDistance(a,b));return d}
 function shapeBounds(shape,cx,cy){const pts=shapeParts(shape,cx,cy).flat();return{x0:Math.min(...pts.map(p=>p[0])),x1:Math.max(...pts.map(p=>p[0])),y0:Math.min(...pts.map(p=>p[1])),y1:Math.max(...pts.map(p=>p[1]))}}
 
+function normalizeActor(raw){if(!raw||typeof raw!=='object')return null;return{goal:safeText(raw.goal||'',300),plan:Array.isArray(raw.plan)?raw.plan.slice(0,16).map(x=>x&&typeof x==='object'?{...x}:{}):Array.isArray(raw.steps)?raw.steps.slice(0,16).map(x=>x&&typeof x==='object'?{...x}:{}):[],index:clamp(raw.index??0,0,16),awaitingReply:!!raw.awaitingReply,replyDeadline:Number(raw.replyDeadline)||0,lastReply:safeText(raw.lastReply||'',500),memory:Array.isArray(raw.memory)?raw.memory.map(x=>safeText(x,240)).slice(-12):[],stepStartedAt:Number(raw.stepStartedAt)||0,lastEventAt:Number(raw.lastEventAt)||0}}
 function normalizeObject(raw,index=0){
   const role=['prop','item','npc','hazard','treasure','mechanism'].includes(String(raw?.role))?String(raw.role):'prop';
   const interaction=raw?.interaction&&typeof raw.interaction==='object'?raw.interaction:{};
@@ -114,6 +121,7 @@ function normalizeObject(raw,index=0){
     semantic:{x:clamp(raw?.x,30,ROOM.w-30),y:clamp(raw?.y,30,ROOM.h-30),vx:Number(raw?.vx)||0,vy:Number(raw?.vy)||0,active:raw?.active!==false},
     physical:{x:clamp(raw?.x,30,ROOM.w-30),y:clamp(raw?.y,30,ROOM.h-30),vx:Number(raw?.vx)||0,vy:Number(raw?.vy)||0,materialized:false},
     motion:{type:safeText(motion.type||'idle',30),speed:clamp(motion.speed??0,0,260),radius:clamp(motion.radius??120,0,500),damage:clamp(motion.damage??0,0,100),target:safeText(motion.target||'player',50)},
+    actor:normalizeActor(raw?.actor||raw?.state?.actor),
     doorTo:raw?.door_to||null,spawn:raw?.spawn||null
   };
 }
@@ -142,7 +150,7 @@ function buildWorld(scenario){
   for(const rr of rawRooms){const r=rooms[String(rr.id)];for(const d of rr.doors||[]){if(!rooms[String(d.to)])continue;const o=normalizeDoor(d,String(rr.id),map);const back=(map.get(String(d.to))?.doors||[]).find(x=>String(x.to)===String(rr.id));if(back){const bx=clamp(back.x,50,ROOM.w-50),by=clamp(back.y,50,ROOM.h-50),edge=Math.min(bx,ROOM.w-bx,by,ROOM.h-by);o.spawn=edge===bx?{x:bx+90,y:by}:edge===ROOM.w-bx?{x:bx-90,y:by}:edge===by?{x:bx,y:by+90}:{x:bx,y:by-90}}else o.spawn={x:120,y:430};r.objects.push(o)}}
   applyPlayerDefinition(scenario?.player);
   const first=rawRooms[0]?.id||'roomA';player.room=rooms[player.room]?player.room:String(first);
-  return{scenario,rooms,inventory:[],events:[],goal:safeText(scenario?.goal||'Erkunde die Umgebung.',500),goalComplete:false,created:0};
+  return{scenario,rooms,inventory:[],events:[],scheduledEvents:[],goal:safeText(scenario?.goal||'Erkunde die Umgebung.',500),goalComplete:false,created:0};
 }
 
 function room(){return world.rooms[player.room]}
@@ -175,9 +183,24 @@ function moveObjectSliding(o,dx,dy){const steps=Math.max(1,Math.ceil(Math.hypot(
 function inputVec(){let x=0,y=0;if(keys.has('a')||keys.has('arrowleft'))x--;if(keys.has('d')||keys.has('arrowright'))x++;if(keys.has('w')||keys.has('arrowup'))y--;if(keys.has('s')||keys.has('arrowdown'))y++;if(stick.active){x+=stick.dx/stick.max;y+=stick.dy/stick.max}const n=Math.hypot(x,y)||1;return{x:x/n,y:y/n}}
 
 function moveToward(o,tx,ty,speed,dt,away=false,stopDistance=0){let dx=tx-o.physical.x,dy=ty-o.physical.y,n=Math.hypot(dx,dy)||1;if(!away&&n<=stopDistance)return false;if(away){dx=-dx;dy=-dy}return moveObjectSliding(o,dx/n*speed*dt,dy/n*speed*dt)}
+function actorState(o){if(!o.actor)o.actor=normalizeActor({goal:'',steps:[]});return o.actor}
+function advanceActor(o){const a=actorState(o);a.index=Math.min(a.plan.length,a.index+1);a.stepStartedAt=0;a.awaitingReply=false;a.replyDeadline=0}
+function actorTarget(step){if(step.target_id==='player'||step.target==='player')return{kind:'player',x:player.x,y:player.y,shape:player.shape};const t=obj(step.target_id||step.target);if(t&&t.semantic.active&&t.physical.materialized)return{kind:'object',object:t,x:t.physical.x,y:t.physical.y,shape:t.shape};if(Number.isFinite(Number(step.x))&&Number.isFinite(Number(step.y)))return{kind:'point',x:clamp(step.x,20,ROOM.w-20),y:clamp(step.y,20,ROOM.h-20),shape:null};return null}
+function actorCanPerceivePlayer(o){return o.physical.materialized&&shapeDistance(o.shape,o.physical.x,o.physical.y,player.shape,player.x,player.y)<=Math.max(o.speechReach,240)}
+function runActorPlan(o,dt){const a=o.actor;if(!a||!Array.isArray(a.plan)||a.index>=a.plan.length)return false;const step=a.plan[a.index]||{},type=safeText(step.type,30),now=Date.now();
+  if(a.awaitingReply){if(a.replyDeadline&&now>=a.replyDeadline){a.awaitingReply=false;a.replyDeadline=0;advanceActor(o)}return true}
+  if(type==='move_to'){const t=actorTarget(step);if(!t){advanceActor(o);return true}const desired=clamp(step.distance??(t.kind==='player'?Math.max(24,o.speechReach*.55):Math.max(12,o.interactionReach)),0,300),gap=t.kind==='point'?Math.hypot(o.physical.x-t.x,o.physical.y-t.y):shapeDistance(o.shape,o.physical.x,o.physical.y,t.shape,t.x,t.y);if(gap<=desired){advanceActor(o);return true}moveToward(o,t.x,t.y,clamp(step.speed??o.motion.speed??70,15,200),dt,false,0);return true}
+  if(type==='say'){const text=safeText(step.text,600).trim();if(!text){advanceActor(o);return true}if(!canHear(o))return true;addTranscript('npc',`${o.name}: ${text}`);eventLog(`${o.name}: ${text}`);a.lastEventAt=now;if(step.wait_for_reply){a.awaitingReply=true;a.replyDeadline=now+clamp(step.timeout_seconds??25,3,180)*1000}else advanceActor(o);saveGame();return true}
+  if(type==='interact'){const t=obj(step.target_id);if(!t||!t.semantic.active){advanceActor(o);return true}const gap=shapeDistance(o.shape,o.physical.x,o.physical.y,t.shape,t.physical.x,t.physical.y),reach=Math.max(18,o.interactionReach,t.interactionReach);if(gap>reach){moveToward(o,t.physical.x,t.physical.y,clamp(step.speed??70,15,180),dt,false,0);return true}if(step.target_patch&&typeof step.target_patch==='object')sanitizeObjectPatch(t,step.target_patch);if(step.target_move&&typeof step.target_move==='object'){const mv=step.target_move;if('x'in mv||'y'in mv){const nx=clamp(mv.x??t.physical.x,20,ROOM.w-20),ny=clamp(mv.y??t.physical.y,20,ROOM.h-20),dx=nx-t.physical.x,dy=ny-t.physical.y;moveObjectSliding(t,dx,dy)}else moveObjectSliding(t,Number(mv.dx)||0,Number(mv.dy)||0);t.semantic.x=t.physical.x;t.semantic.y=t.physical.y}const verb=safeText(step.verb||'interagiert mit',100),msg=safeText(step.text||`${o.name} ${verb} ${t.name}.`,500);if(msg&&((o.physical.materialized&&edgeDistanceToPlayer(o)<perceptionRadius())||(t.physical.materialized&&edgeDistanceToPlayer(t)<perceptionRadius()))){addTranscript('world',msg);eventLog(msg)}advanceActor(o);saveGame();return true}
+  if(type==='wait'){if(!a.stepStartedAt)a.stepStartedAt=now;if(now-a.stepStartedAt>=clamp(step.seconds??2,.1,300)*1000)advanceActor(o);return true}
+  if(type==='set_state'){if(step.patch&&typeof step.patch==='object')o.state={...o.state,...step.patch};advanceActor(o);saveGame();return true}
+  advanceActor(o);return true}
+function notifyActorsOfPlayerCommand(text){for(const o of activeRoomObjects()){if(o.role!=='npc'||!o.actor?.awaitingReply||!canHear(o))continue;o.actor.lastReply=safeText(text,500);o.actor.memory=[...(o.actor.memory||[]),`Spieler: ${safeText(text,220)}`].slice(-12);advanceActor(o)}}
+function runScheduledEvents(){if(!world?.scheduledEvents?.length)return;const now=Date.now(),keep=[];for(const e of world.scheduledEvents){if(Number(e.at)>now){keep.push(e);continue}const actor=e.actor_id?obj(e.actor_id):null;if(actor&&(!actor.physical.materialized||(!canHear(actor)&&edgeDistanceToPlayer(actor)>perceptionRadius()))){if((e.defer_count||0)<12){e.defer_count=(e.defer_count||0)+1;e.at=now+5000;keep.push(e)}continue}const text=safeText(e.text,600).trim();if(text){const speaker=safeText(e.speaker||(actor?.name||''),100);addTranscript(speaker?'npc':'world',speaker?`${speaker}: ${text}`:text);eventLog(speaker?`${speaker}: ${text}`:text)}}world.scheduledEvents=keep}
 function behaviorStep(dt){
   for(const o of activeRoomObjects()){
     if(!o.physical.materialized||o.doorTo)continue;const m=o.motion||{type:'idle'};
+    if(runActorPlan(o,dt))continue;
     if(m.type==='approach_player'){const desiredGap=Math.max(18,Number(m.radius)||0),gap=shapeDistance(o.shape,o.physical.x,o.physical.y,player.shape,player.x,player.y);if(gap>desiredGap)moveToward(o,player.x,player.y,m.speed||60,dt,false,0);}
     else if(m.type==='chase_player')moveToward(o,player.x,player.y,m.speed||60,dt,false,0);
     else if(m.type==='flee_player')moveToward(o,player.x,player.y,m.speed||70,dt,true,0);
@@ -185,7 +208,7 @@ function behaviorStep(dt){
     if(m.type==='attack_contact'&&touching(o)&&m.damage>0){const now=performance.now();if(!o.state.last_attack_ms||now-o.state.last_attack_ms>800){player.state.health=clamp((player.state.health??100)-m.damage,0,100);o.state.last_attack_ms=now;addTranscript('world',`${o.name} hits you for ${m.damage}.`)}}
   }
 }
-function physicalStep(dt){const v=inputVec();tryMove(v.x*player.speed*dt,v.y*player.speed*dt);behaviorStep(dt)}
+function physicalStep(dt){const v=inputVec();tryMove(v.x*player.speed*dt,v.y*player.speed*dt);behaviorStep(dt);runScheduledEvents()}
 
 function eventLog(text){world.events.unshift({id:++eventSeq,t:gameMinute,text:safeText(text,500)});world.events=world.events.slice(0,30)}
 function addTranscript(kind,text){const v=safeText(text,1200).trim();if(!v)return;const row=document.createElement('div');row.className=`turn ${kind||'world'}`;row.textContent=v;transcriptScrollEl.appendChild(row);while(transcriptScrollEl.children.length>100)transcriptScrollEl.firstChild.remove();transcriptScrollEl.scrollTop=transcriptScrollEl.scrollHeight;return row}
@@ -195,7 +218,7 @@ function objectView(o){
   const x=o.physical.materialized?o.physical.x:o.semantic.x,y=o.physical.materialized?o.physical.y:o.semantic.y;
   const dx=x-player.x,dy=y-player.y,center=Math.hypot(dx,dy),gap=edgeDistanceToPlayer(o),dot=center?dx/center*player.facingX+dy/center*player.facingY:1;
   return{id:o.id,name:o.name,role:o.role,description:o.description,state:o.state,affordances:o.affordances,
-    shape:o.shape,solid:o.solid,pushable:o.pushable,interaction_reach:o.interactionReach,speech_reach:o.speechReach,motion:o.motion,
+    shape:o.shape,solid:o.solid,pushable:o.pushable,interaction_reach:o.interactionReach,speech_reach:o.speechReach,motion:o.motion,actor:o.actor?{goal:o.actor.goal,plan:o.actor.plan,index:o.actor.index,awaiting_reply:o.actor.awaitingReply,last_reply:o.actor.lastReply,memory:o.actor.memory}:null,
     absolute:{x:Math.round(x),y:Math.round(y)},relative:{dx:Math.round(dx),dy:Math.round(dy),center_distance:Math.round(center),edge_distance:+gap.toFixed(1),direction:directionName(dx,dy),bearing_degrees:Math.round(Math.atan2(dy,dx)*180/Math.PI)},
     touching:gap<=1.5,interaction_reachable:gap<=interactionReach(o),speech_reachable:canHear(o),in_front:dot>.45,facing_alignment:+dot.toFixed(2),door_to:o.doorTo||null};
 }
@@ -235,6 +258,9 @@ function applyToolCalls(calls){
     else if(tool==='set_player'){if(a.state&&typeof a.state==='object')player.state={...player.state,...a.state};if('speed'in a)player.speed=clamp(a.speed,50,320);if('interaction_reach'in a)player.interactionReach=clamp(a.interaction_reach,0,180);if('speech_reach'in a)player.speechReach=clamp(a.speech_reach,20,500)}
     else if(tool==='create_room'){if(Object.keys(world.rooms).length<WORLD_ROOM_CAP){const spec=a.room&&typeof a.room==='object'?a.room:a;let id=safeText(spec.id||`room${String.fromCharCode(65+Object.keys(world.rooms).length)}`,50);if(world.rooms[id])id=`room_${Date.now()}`;world.rooms[id]={id,name:safeText(spec.name||id,100),description:safeText(spec.description||'',1000),objects:(spec.objects||[]).slice(0,ROOM_CONTENT_CAP).map(normalizeObject)};world.scenario.rooms.push({id,name:world.rooms[id].name,description:world.rooms[id].description,objects:[],doors:[]})}}
     else if(tool==='create_door'){const from=world.rooms[a.from_room_id]?a.from_room_id:player.room,to=safeText(a.to_room_id,50);if(world.rooms[from]&&world.rooms[to]){const raw={id:`door_${from}_${to}_${Date.now()}`,name:a.name||`Durchgang zu ${world.rooms[to].name}`,to,x:clamp(a.x,50,ROOM.w-50),y:clamp(a.y,50,ROOM.h-50),description:a.description||'',shape:a.shape||{type:'rect',width:58,height:72},interaction_reach:a.interaction_reach??30};const map=new Map(Object.entries(world.rooms).map(([id,r])=>[id,{id,name:r.name,doors:[]} ]));world.rooms[from].objects.push(normalizeDoor(raw,from,map))}}
+    else if(tool==='set_actor_plan'){const o=obj(a.id);if(o&&o.role==='npc'){o.actor=normalizeActor({goal:a.goal||o.actor?.goal||'',steps:Array.isArray(a.steps)?a.steps:[],index:0,memory:o.actor?.memory||[],lastReply:o.actor?.lastReply||''});o.motion={...o.motion,type:'idle'}}}
+    else if(tool==='emit_event'){const text=safeText(a.text,600).trim(),speaker=safeText(a.speaker,100).trim();if(text){addTranscript(speaker?'npc':'world',speaker?`${speaker}: ${text}`:text);eventLog(speaker?`${speaker}: ${text}`:text)}}
+    else if(tool==='schedule_event'){const text=safeText(a.text,600).trim();if(text){world.scheduledEvents=Array.isArray(world.scheduledEvents)?world.scheduledEvents:[];world.scheduledEvents.push({at:Date.now()+clamp(a.delay_seconds??5,.2,3600)*1000,text,speaker:safeText(a.speaker,100),actor_id:safeText(a.actor_id,50),defer_count:0});world.scheduledEvents=world.scheduledEvents.slice(-40)}}
   }
   syncPerception();saveGame();
 }
@@ -245,36 +271,48 @@ function partialJsonString(raw,key){
     if(e==='n')out+='\n';else if(e==='r')out+='\r';else if(e==='t')out+='\t';else if(e==='b')out+='\b';else if(e==='f')out+='\f';else if(e==='"')out+='"';else if(e==='\\')out+='\\';else if(e==='/')out+='/';else if(e==='u'){if(i+4>raw.length)break;const hex=raw.slice(i,i+4);if(!/^[0-9a-fA-F]{4}$/.test(hex))break;out+=String.fromCharCode(parseInt(hex,16));i+=4}else out+=e;
   }return out
 }
-function renderModelStream(pending,raw){const n=partialJsonString(raw,'n'),sp=partialJsonString(raw,'s'),d=partialJsonString(raw,'d'),dialogue=d?(sp?`${sp}: ${d}`:d):'',shown=[n,dialogue].filter(Boolean).join(n&&dialogue?'\n':'');if(shown){pending.textContent=shown;pending.className='turn pending streaming';transcriptScrollEl.scrollTop=transcriptScrollEl.scrollHeight;resultEl.textContent=safeText(shown,240)}return shown}
-async function llmAction(text){
-  if(llmBusy){setResult('Die Spiel-KI denkt bereits.','system');return}
-  llmBusy=true;statsEl.textContent='KI antwortet…';const pending=addTranscript('pending','…');let modelRaw='',finalEvent=null,streamed='';
+function renderModelStream(pending,raw){const n=partialJsonString(raw,'n'),sp=partialJsonString(raw,'s'),d=partialJsonString(raw,'d'),dialogue=d?(sp?`${sp}: ${d}`:d):'',shown=[n,dialogue].filter(Boolean).join(n&&dialogue?'\n':'');if(shown&&pending){pending.textContent=shown;pending.className='turn pending streaming';transcriptScrollEl.scrollTop=transcriptScrollEl.scrollHeight;resultEl.textContent=safeText(shown,240)}return shown}
+async function runLlmAttempt(text,pending,attempt,requestId,mode='action',onVisible=null){
+  let modelRaw='',finalEvent=null,streamed='',timer=null,reader=null;
   try{
-    const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),45000);
-    const r=await fetch('/llm_game_stt/http/game/action',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/x-ndjson'},body:JSON.stringify({action:text,state:llmState()}),signal:ctrl.signal});
+    const ctrl=new AbortController();timer=setTimeout(()=>ctrl.abort(),45000);
+    const r=await fetch('/llm_game_stt/http/game/action',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/x-ndjson'},body:JSON.stringify({action:text,state:llmState(),request_id:requestId,attempt,mode}),signal:ctrl.signal});
     if(!r.ok)throw new Error(`HTTP ${r.status}`);if(!r.body)throw new Error('Streaming-Antwort ohne Datenstrom');
-    const reader=r.body.getReader(),decoder=new TextDecoder(),lines={buf:''};
-    while(true){const {value,done}=await reader.read();if(done)break;lines.buf+=decoder.decode(value,{stream:true});let nl;
+    reader=r.body.getReader();const decoder=new TextDecoder(),lines={buf:''};
+    while(true){let packet;try{packet=await reader.read()}catch(e){if(finalEvent?.ok)break;throw e}const {value,done}=packet;if(done)break;lines.buf+=decoder.decode(value,{stream:true});let nl;
       while((nl=lines.buf.indexOf('\n'))>=0){const line=lines.buf.slice(0,nl).trim();lines.buf=lines.buf.slice(nl+1);if(!line)continue;let evt;try{evt=JSON.parse(line)}catch{continue}
-        if(evt.type==='delta'&&typeof evt.delta==='string'){modelRaw+=evt.delta;streamed=renderModelStream(pending,modelRaw)||streamed}
-        else if(evt.type==='final')finalEvent=evt;
+        if(evt.type==='delta'&&typeof evt.delta==='string'){modelRaw+=evt.delta;streamed=renderModelStream(pending,modelRaw)||streamed;if(onVisible)onVisible(streamed,modelRaw)}
+        else if(evt.type==='final'){finalEvent=evt}
         else if(evt.type==='error')throw new Error(evt.error||'Streaming-Fehler');
       }
     }
-    clearTimeout(timer);if(!finalEvent?.ok)throw new Error('Keine vollständige KI-Antwort');const out=finalEvent.result||{};
-    if(out.allowed!==false)applyToolCalls(out.tool_calls||out.mutations||[]);if(out.goal_complete)world.goalComplete=true;
-    pending?.remove();if(out.narration)addTranscript('world',out.narration);if(out.speaker&&out.dialogue)addTranscript('npc',`${out.speaker}: ${out.dialogue}`);
-    const shown=out.speaker&&out.dialogue?`${out.speaker}: ${out.dialogue}`:(out.narration||streamed||'Nichts geschieht.');resultEl.textContent=safeText(shown,240);eventLog(shown);saveGame();refresh();
-  }catch(e){pending?.remove();setResult(e.name==='AbortError'?'Die Spiel-KI hat zu lange gebraucht. Versuche es erneut.':`KI nicht verfügbar: ${e.message}`,'error')}
-  finally{llmBusy=false;refresh()}
+    if(!finalEvent?.ok)throw new Error('Keine vollständige KI-Antwort');return{finalEvent,streamed}
+  }finally{if(timer)clearTimeout(timer);try{reader?.releaseLock()}catch{}}
 }
+function retryDelay(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
+async function llmAction(text){
+  if(llmBusy){setResult('Die Spiel-KI denkt bereits.','system');return false}
+  llmBusy=true;statsEl.textContent='KI antwortet…';const pending=addTranscript('pending','…'),requestId=(crypto.randomUUID?.()||`${Date.now()}-${Math.random()}`);let success=false,lastError=null;
+  try{
+    for(let attempt=1;attempt<=3;attempt++){
+      if(attempt>1){pending.textContent=`Erneuter KI-Versuch ${attempt}/3 …`;pending.className='turn pending';addTranscript('system',`KI-Aufruf fehlgeschlagen. Automatischer Wiederholungsversuch ${attempt}/3 …`);await retryDelay(500*(attempt-1))}
+      try{
+        const {finalEvent,streamed}=await runLlmAttempt(text,pending,attempt,requestId),out=finalEvent.result||{};
+        if(out.allowed!==false)applyToolCalls(out.tool_calls||out.mutations||[]);if(out.goal_complete)world.goalComplete=true;
+        pending?.remove();if(out.narration)addTranscript('world',out.narration);if(out.speaker&&out.dialogue)addTranscript('npc',`${out.speaker}: ${out.dialogue}`);
+        const shown=out.speaker&&out.dialogue?`${out.speaker}: ${out.dialogue}`:(out.narration||streamed||'Nichts geschieht.');resultEl.textContent=safeText(shown,240);eventLog(shown);saveGame();refresh();success=true;return true
+      }catch(e){lastError=e;if(attempt<3){pending.textContent=`KI-Fehler: ${safeText(e.message,120)} — erneuter Versuch folgt …`;continue}throw e}
+    }
+  }catch(e){lastError=e;pending?.remove();actionEl.value=text;commandHistoryIndex=commandHistory.length;commandHistoryDraft=text;setResult(`${e.name==='AbortError'?'Die Spiel-KI hat zu lange gebraucht.':`KI-Fehler: ${e.message}`} Der Befehl bleibt im Eingabefeld und kann erneut gesendet werden.`,'error');actionEl.focus();requestAnimationFrame(()=>actionEl.setSelectionRange(actionEl.value.length,actionEl.value.length));return false}
+  finally{llmBusy=false;refresh();if(!success&&lastError)console.warn('llm final failure',lastError)}
+}
+async function executeAction(raw){const text=safeText(raw,500).trim();if(!text)return false;lastUserActionAt=Date.now();notifyActorsOfPlayerCommand(text);addTranscript('user',text);const t=text.toLowerCase();if(/^(warte|wait)\b/.test(t)){const m=clamp(parseInt(t.match(/\d+/)?.[0]||'10',10),1,120);gameMinute+=m;setResult(`Du wartest ${m} Minuten.`);return true}return await llmAction(text)}
 
-async function executeAction(raw){const text=safeText(raw,500).trim();actionEl.value='';if(!text)return;lastUserActionAt=Date.now();addTranscript('user',text);const t=text.toLowerCase();if(/^(warte|wait)\b/.test(t)){const m=clamp(parseInt(t.match(/\d+/)?.[0]||'10',10),1,120);gameMinute+=m;setResult(`Du wartest ${m} Minuten.`);return}await llmAction(text)}
 function contextInteract(){const st=llmState(),id=st.physical_contacts[0]||st.nearest_interactable||st.best_facing_candidate,t=id?st.visible_environment.find(o=>o.id===id):null;if(t?.door_to&&t.relative.edge_distance<=Math.max(player.interactionReach,t.interaction_reach)){return useDoor(t.id)}executeAction('interact');return true}
 function useDoor(id=null){lastUserActionAt=Date.now();const candidates=activeRoomObjects().filter(o=>o.doorTo&&o.physical.materialized&&canInteract(o)).sort((a,b)=>edgeDistanceToPlayer(a)-edgeDistanceToPlayer(b));const d=id?obj(id):candidates[0];if(!d||!d.doorTo||!canInteract(d)){setResult('Kein erreichbarer Durchgang.');return false}player.room=d.doorTo;player.x=d.spawn?.x??120;player.y=d.spawn?.y??430;player.lastX=player.x;player.lastY=player.y;visitedRooms.add(player.room);syncPerception();markExplored();setResult(`Du betrittst ${room().name}.`);scheduleBackgroundExpansion(60000);saveGame();return true}
 
 function saveGame(){try{if(!world)return;localStorage.setItem(SAVE_KEY,JSON.stringify({title:world.scenario.title,world,player:{...player},gameMinute,visited:[...visitedRooms],refined:[...refinedRooms],explored:exploredCells,transcript:[...transcriptScrollEl.children].slice(-100).map(x=>({kind:x.className.replace('turn ','').trim(),text:x.textContent}))}))}catch(e){console.warn('save',e)}}
-function restoreGame(scenario){try{const raw=localStorage.getItem(SAVE_KEY);if(!raw)return false;const s=JSON.parse(raw);if(!s||s.title!==scenario.title||!s.world)return false;world=s.world;Object.assign(player,s.player||{});player.shape=normalizeShape(player.shape,'player');gameMinute=Number(s.gameMinute)||0;visitedRooms=new Set(s.visited||[player.room]);refinedRooms=new Set(s.refined||[]);exploredCells=s.explored||{};transcriptScrollEl.replaceChildren();for(const t of s.transcript||[])addTranscript(t.kind,t.text);syncPerception();refresh();return true}catch(e){console.warn('restore',e);return false}}
+function restoreGame(scenario){try{const raw=localStorage.getItem(SAVE_KEY);if(!raw)return false;const s=JSON.parse(raw);if(!s||s.title!==scenario.title||!s.world)return false;world=s.world;world.scheduledEvents=Array.isArray(world.scheduledEvents)?world.scheduledEvents:[];for(const rr of Object.values(world.rooms||{}))for(const o of rr.objects||[]){if(o.role==='npc'&&!('actor'in o))o.actor=null}Object.assign(player,s.player||{});player.shape=normalizeShape(player.shape,'player');gameMinute=Number(s.gameMinute)||0;visitedRooms=new Set(s.visited||[player.room]);refinedRooms=new Set(s.refined||[]);exploredCells=s.explored||{};transcriptScrollEl.replaceChildren();for(const t of s.transcript||[])addTranscript(t.kind,t.text);syncPerception();refresh();return true}catch(e){console.warn('restore',e);return false}}
 
 function observedFacts(){const out=[];for(const id of visitedRooms){const r=world.rooms[id];if(!r)continue;out.push({room:id,name:r.name,description:r.description,objects:r.objects.filter(o=>o.semantic.active).map(o=>({id:o.id,name:o.name,role:o.role,description:o.description,state:o.state,shape:o.shape,solid:o.solid,pushable:o.pushable,interaction_reach:o.interactionReach,speech_reach:o.speechReach,position:{x:o.semantic.x,y:o.semantic.y},motion:o.motion,door_to:o.doorTo}))})}return out}
 function rawRoom(id){return (world.scenario.rooms||[]).find(r=>String(r.id)===String(id))||null}
@@ -285,6 +323,22 @@ function integrateTopology(targetId,out){const target=world.rooms[targetId];if(!
 async function expandTopology(targetId){const target=world.rooms[targetId];if(!target||visitedRooms.has(targetId)||Object.keys(world.rooms).length>=WORLD_ROOM_CAP)return false;const payload={premise:world.scenario.premise||'',goal:world.goal,target_room_id:targetId,target_room:{id:targetId,name:target.name,description:target.description,objects:target.objects.filter(o=>!o.doorTo&&o.semantic.active).map(o=>({id:o.id,name:o.name,role:o.role,description:o.description,state:o.state,shape:o.shape,solid:o.solid,pushable:o.pushable,interaction_reach:o.interactionReach,speech_reach:o.speechReach,x:o.semantic.x,y:o.semantic.y,motion:o.motion})),doors:target.objects.filter(o=>o.doorTo).map(o=>({id:o.id,name:o.name,to:o.doorTo,x:o.semantic.x,y:o.semantic.y,description:o.description,shape:o.shape,interaction_reach:o.interactionReach}))},target_observed:false,target_topology_expansions:Number(target.topologyExpansions)||0,target_topology_closed:!!target.topologyClosed,existing_room_ids:Object.keys(world.rooms),world_room_count:Object.keys(world.rooms).length,observed_facts:observedFacts()};const res=await fetch('/llm_game_stt/http/game/topology',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const j=await res.json();if(!res.ok||!j.ok)throw new Error(j.error||`HTTP ${res.status}`);if(visitedRooms.has(targetId))return false;return integrateTopology(targetId,j.result||{})}
 function scheduleBackgroundExpansion(delay=60000){clearTimeout(backgroundTimer);backgroundTimer=setTimeout(()=>backgroundTick(),delay)}
 async function backgroundTick(){if(backgroundBusy||llmBusy||Date.now()-lastUserActionAt<60000)return scheduleBackgroundExpansion(15000);const topo=topologyCandidate();if(topo){backgroundBusy=true;try{await expandTopology(topo)}catch(e){console.warn('background topology',e)}finally{backgroundBusy=false;refresh();scheduleBackgroundExpansion(60000)}return}const unseen=Object.keys(world.rooms).find(id=>!visitedRooms.has(id));if(!unseen)return;const r=world.rooms[unseen];backgroundBusy=true;try{const free=Math.max(0,ROOM_CONTENT_CAP-r.objects.filter(o=>!o.doorTo&&o.semantic.active).length);if(free>0){const res=await fetch('/llm_game_stt/http/game/expand',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({premise:world.scenario.premise||'',goal:world.goal,observed:false,allow_updates:true,observed_facts:observedFacts(),free_slots:Math.min(1,free),room:{id:r.id,name:r.name,description:r.description,objects:r.objects.filter(o=>!o.doorTo).map(o=>({id:o.id,name:o.name,role:o.role,description:o.description,state:o.state,shape:o.shape,solid:o.solid,pushable:o.pushable,interaction_reach:o.interactionReach,speech_reach:o.speechReach,x:o.semantic.x,y:o.semantic.y,motion:o.motion}))}})});const j=await res.json();if(j.ok&&!visitedRooms.has(unseen)){const d=j.result||{};if(d.room_description)r.description=safeText(d.room_description,1000);for(const u of d.updates||[]){const o=r.objects.find(x=>x.id===u.id);if(o)sanitizeObjectPatch(o,u)}for(const a of d.additions||[]){if(r.objects.filter(o=>!o.doorTo).length>=ROOM_CONTENT_CAP)break;r.objects.push(normalizeObject(a,r.objects.length+1))}saveGame()}}}catch(e){console.warn('background content',e)}finally{backgroundBusy=false;scheduleBackgroundExpansion(60000)}}
+function scheduleStoryEvent(delay=45000+Math.random()*45000){clearTimeout(storyEventTimer);storyEventTimer=setTimeout(()=>backgroundStoryEvent(),delay)}
+async function backgroundStoryEvent(){
+  if(!world)return scheduleStoryEvent();
+  if(storyBusy||llmBusy||backgroundBusy||Date.now()-lastUserActionAt<15000)return scheduleStoryEvent(10000+Math.random()*10000);
+  storyBusy=true;const requestId=(crypto.randomUUID?.()||`bg-${Date.now()}`);let pending=null,lastShown='';
+  const onVisible=shown=>{if(!shown||shown===lastShown)return;lastShown=shown;if(!pending)pending=addTranscript('pending',shown);else{pending.textContent=shown;pending.className='turn pending streaming'}transcriptScrollEl.scrollTop=transcriptScrollEl.scrollHeight};
+  try{
+    let answer=null,lastError=null;
+    for(let attempt=1;attempt<=2;attempt++){try{answer=await runLlmAttempt('__HINTERGRUNDEREIGNIS__',null,attempt,requestId,'background',onVisible);break}catch(e){lastError=e;if(attempt<2)await retryDelay(700)}}
+    if(!answer)throw lastError||new Error('Hintergrund-KI ohne Antwort');const out=answer.finalEvent.result||{};
+    if(out.allowed!==false)applyToolCalls(out.tool_calls||[]);if(out.goal_complete)world.goalComplete=true;
+    pending?.remove();if(out.narration)addTranscript('world',out.narration);if(out.speaker&&out.dialogue)addTranscript('npc',`${out.speaker}: ${out.dialogue}`);
+    const shown=out.speaker&&out.dialogue?`${out.speaker}: ${out.dialogue}`:out.narration;if(shown){resultEl.textContent=safeText(shown,240);eventLog(shown);saveGame()}
+  }catch(e){pending?.remove();console.warn('background story event',e)}finally{storyBusy=false;refresh();scheduleStoryEvent()}
+}
+
 
 function exploredSet(id){return new Set(exploredCells[id]||[])}
 function markExplored(){const set=exploredSet(player.room),cw=ROOM.w/EXP_COLS,ch=ROOM.h/EXP_ROWS,R=perceptionRadius();for(let y=0;y<EXP_ROWS;y++)for(let x=0;x<EXP_COLS;x++){const cx=(x+.5)*cw,cy=(y+.5)*ch;if(Math.hypot(cx-player.x,cy-player.y)<=R+Math.max(cw,ch)*.5)set.add(`${x},${y}`)}exploredCells[player.room]=[...set]}
@@ -310,14 +364,14 @@ function refresh(){if(!world)return;const ids=Object.keys(world.rooms),hp=clamp(
 function resize(){DPR=Math.min(devicePixelRatio||1,2);const r=document.getElementById('game-pane').getBoundingClientRect();W=Math.max(1,Math.round(r.width));H=Math.max(1,Math.round(r.height));canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0)}
 function tick(now){const dt=Math.min(.04,(now-lastFrame)/1000);lastFrame=now;if(world){physicalStep(dt);syncPerception();markExplored();draw()}requestAnimationFrame(tick)}
 
-async function loadScenario(regenerate=false){if(regenerate)setResult('Eine neue Spielwelt wird erzeugt…','system');try{const r=await fetch('/llm_game_stt/http/game/scenario',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({regenerate,theme:'Erzeuge ein neues, realistisches und leicht komisches Spiel in einer verständlichen Gegenwartssituation. Klare Rolle, konkreter Auftrag, überprüfbares Ziel und konkrete Informationsquellen. Humor aus glaubwürdigem Chaos oder Peinlichkeit. Keine Fantasy, keine Magie, keine Kristallenergie, keine kosmischen oder nicht-euklidischen Regeln. Alle spielersichtbaren Texte auf Deutsch.'})});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||`HTTP ${r.status}`);scenarioRecord=j.record;const scenario=scenarioRecord.scenario||scenarioRecord;if(!restoreGame(scenario)){world=buildWorld(scenario);const first=Object.keys(world.rooms)[0];player.room=first;player.x=Number(scenario.player?.x)||300;player.y=Number(scenario.player?.y)||430;player.lastX=player.x;player.lastY=player.y;visitedRooms=new Set([first]);refinedRooms=new Set();exploredCells={};transcriptScrollEl.replaceChildren();syncPerception();markExplored();addTranscript('system',scenario.title);addTranscript('world',scenario.opening||room().description);addTranscript('system',`Auftrag: ${scenario.goal}`);saveGame();refresh()}scheduleBackgroundExpansion(60000)}catch(e){setResult(`Spielwelt konnte nicht geladen werden: ${e.message}`,'error')}}
+async function loadScenario(regenerate=false){if(regenerate)setResult('Eine neue Spielwelt wird erzeugt…','system');try{const r=await fetch('/llm_game_stt/http/game/scenario',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({regenerate,theme:'Erzeuge ein neues, realistisches und leicht komisches Spiel in einer verständlichen Gegenwartssituation. Klare Rolle, konkreter Auftrag, überprüfbares Ziel und konkrete Informationsquellen. Humor aus glaubwürdigem Chaos oder Peinlichkeit. Keine Fantasy, keine Magie, keine Kristallenergie, keine kosmischen oder nicht-euklidischen Regeln. Alle spielersichtbaren Texte auf Deutsch.'})});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||`HTTP ${r.status}`);scenarioRecord=j.record;const scenario=scenarioRecord.scenario||scenarioRecord;if(!restoreGame(scenario)){world=buildWorld(scenario);const first=Object.keys(world.rooms)[0];player.room=first;player.x=Number(scenario.player?.x)||300;player.y=Number(scenario.player?.y)||430;player.lastX=player.x;player.lastY=player.y;visitedRooms=new Set([first]);refinedRooms=new Set();exploredCells={};transcriptScrollEl.replaceChildren();syncPerception();markExplored();addTranscript('system',scenario.title);addTranscript('world',scenario.opening||room().description);addTranscript('system',`Auftrag: ${scenario.goal}`);saveGame();refresh()}scheduleBackgroundExpansion(60000);scheduleStoryEvent()}catch(e){setResult(`Spielwelt konnte nicht geladen werden: ${e.message}`,'error')}}
 
-function submitCommand(){const text=actionEl.value.trim();actionEl.blur();keys.clear();if(text)executeAction(text)}
+function submitCommand(){const text=actionEl.value.trim();if(!text)return;rememberCommand(text);actionEl.value='';actionEl.blur();keys.clear();executeAction(text)}
 document.addEventListener('selectstart',e=>{if(e.target!==actionEl&&e.target!==debugEl&&!transcriptScrollEl.contains(e.target))e.preventDefault()});
 window.addEventListener('resize',resize);
 window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k==='enter'){if(document.activeElement!==actionEl){keys.clear();actionEl.focus();e.preventDefault()}return}if(document.activeElement===actionEl)return;keys.add(k);if(k==='e'){contextInteract();e.preventDefault()}if(k.startsWith('arrow'))e.preventDefault()});
 window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
-actionEl.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.stopPropagation();submitCommand()}});
+actionEl.addEventListener('keydown',e=>{if(e.key==='ArrowUp'){e.preventDefault();navigateCommandHistory(-1);return}if(e.key==='ArrowDown'){e.preventDefault();navigateCommandHistory(1);return}if(e.key==='Enter'){e.preventDefault();e.stopPropagation();submitCommand()}});
 document.getElementById('action-form').addEventListener('submit',e=>{e.preventDefault();submitCommand()});
 document.getElementById('goal').onclick=()=>setResult(world.goal,'system');
 document.getElementById('new-world').onclick=()=>{localStorage.removeItem(SAVE_KEY);loadScenario(true)};
@@ -342,4 +396,4 @@ async function startMic(){mic.stream=await navigator.mediaDevices.getUserMedia({
 async function stopMic(){mic.active=false;try{mic.ws?.close()}catch{};try{mic.processor?.disconnect()}catch{};try{mic.stream?.getTracks().forEach(t=>t.stop())}catch{};try{await mic.ctx?.close()}catch{};mic.ws=mic.stream=mic.ctx=mic.processor=null;micToggle.textContent='mic';micStatus.textContent='Sprache aus'}
 micToggle.onclick=async()=>{try{mic.active?await stopMic():await startMic()}catch(e){micStatus.textContent=`Sprachfehler: ${e.message}`}};
 
-resize();requestAnimationFrame(tick);loadScenario(false);
+resize();requestAnimationFrame(tick);loadCommandHistory();loadScenario(false);

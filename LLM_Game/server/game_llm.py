@@ -55,12 +55,22 @@ ACTION_SYSTEM = (
     'set_motion {id,type:"idle"|"wander"|"approach_player"|"flee_player"|"chase_player"|"attack_contact",speed?,radius?,damage?,target?}; '
     'remove_object {id}; '
     'create_object {room_id?,object:{id?,name,role,description,x,y,shape,solid,pushable,interaction_reach,speech_reach?,affordances,state,motion?}}; '
-    'inventory_add {name}; inventory_remove {name}; set_goal {text}; set_room {room_id?,name?,description?}; set_player {state?,speed?,interaction_reach?,speech_reach?}; create_room {room:{id?,name,description,objects?}}; create_door {from_room_id?,to_room_id,name,description,x,y,shape?,interaction_reach?}. '
+    'inventory_add {name}; inventory_remove {name}; set_goal {text}; set_room {room_id?,name?,description?}; set_player {state?,speed?,interaction_reach?,speech_reach?}; create_room {room:{id?,name,description,objects?}}; create_door {from_room_id?,to_room_id,name,description,x,y,shape?,interaction_reach?}; set_actor_plan {id,goal,steps:[{type:"move_to"|"say"|"interact"|"wait"|"set_state",target_id?,x?,y?,speed?,distance?,text?,wait_for_reply?,timeout_seconds?,verb?,target_patch?,target_move?,seconds?,patch?}]}; emit_event {text,speaker?}; schedule_event {delay_seconds,text,speaker?,actor_id?}. '
     'shape is exact visible/collision geometry and may be {type:"rect",width,height}, {type:"circle",radius}, {type:"capsule",width,height}, {type:"cross",width,height,thickness}, or {type:"polygon",points:[[x,y],...]}. '
     'Use tools ONLY when fiction changes persistently. Pure inspection, looking, asking what something is, or ordinary narration MUST NOT rewrite descriptions/state just to restate known facts. Never emit no-op tools: move_object with zero displacement, set_motion identical to current motion, or set_object patches that do not change anything. If an object opens, breaks, falls, changes identity, becomes movable, changes reach, starts fleeing/chasing/attacking, etc., update the corresponding fields. Taking an item normally uses inventory_add plus remove_object. Dropping normally uses inventory_remove plus create_object. '
     'You may set_motion to make characters or objects continue moving after the current turn. The host executes that behavior deterministically from coordinates and collisions. Do not emit arbitrary code. '
+    'NPC-LOGIK: NPCs sind handelnde Akteure mit Zielen, Plänen und Gedächtnis im Zustand. Wenn ein NPC ankündigt, zu einem Objekt zu gehen, etwas zu verschieben/öffnen/prüfen, den Spieler anzusprechen oder auf eine Antwort zu warten, darf das NICHT nur Text sein. Verwende set_actor_plan mit konkreten Schritten. move_to bewegt den NPC physisch; interact bewegt/ändert das Zielobjekt erst wenn der NPC es erreicht; say erzeugt tatsächliche Rede und kann auf Antwort warten; wait und set_state bilden mehrstufiges Verhalten. Verwende emit_event für sofort wahrnehmbare Ereignisse und schedule_event für glaubwürdige spätere Ereignisse. Jede angekündigte physische Handlung braucht den passenden persistenten Plan/Tool-Zustand. '
     'NPC dialogue must be concrete and grounded in their known state. If a nearby NPC is addressed, speaker must be its exact name and dialogue must contain what it actually says. For observations, object questions, inspections and non-NPC actions, speaker and dialogue MUST both be empty strings. Generic narration such as you inspect it, you look at it, you interact with it, or nothing happens is unacceptable when canonical description/state provides concrete content. Keep narration consistent with all tool calls; never narrate a persistent change without the tool call that makes it true.'
 )
+BACKGROUND_EVENT_SYSTEM = (
+    'SPRACHE: Alles für den Spieler Sicht-/Hörbare ausschließlich auf Deutsch. JSON-/Tool-Namen bleiben Englisch. '
+    'Du bist die Hintergrund-Regie einer persistenten realistischen Spielwelt. Dies ist KEIN Benutzerbefehl. Prüfe den vollständigen sichtbaren Zustand, NPC-Ziele/actor-Pläne, recent_events und das aktuelle Geschehen. '
+    'Erzeuge nur dann ein wahrnehmbares Ereignis, wenn es kausal sinnvoll ist: z.B. ein NPC erreicht sein Ziel, spricht den Spieler an, wartet auf Antwort, benutzt/verschiebt ein Objekt, ein bekanntes Gerät macht ein plausibles Geräusch, ein Geruch/Umgebungsdetail hat eine bekannte Quelle, oder eine geplante Konsequenz tritt ein. Kein zufälliges Fantasy-Rauschen und keine bedeutungslosen Meldungen. '
+    'Wenn gerade nichts Sinnvolles passiert, gib n,d,s leer und c=[] zurück. Wiederhole keine kürzlich gemeldeten Ereignisse. Ändere physische Zustände niemals nur in Text: benutze Tools. '
+    'NPCs brauchen Absichten. Wenn ein NPC etwas vorhat, verwende set_actor_plan. Wenn er zum Spieler geht, soll er einen Grund haben; nach say mit wait_for_reply bleibt er sinnvoll in der Nähe, bis der Spieler antwortet oder die Frist abläuft. '
+    'Return exactly the same compact wire JSON schema/order as the action engine: {"n":string,"s":string,"d":string,"a":boolean,"i":string,"c":[tool calls],"g":boolean}. a=true; g darf den Auftrag nicht ohne echte Zustandsgrundlage abschließen.'
+)
+
 TOPOLOGY_SYSTEM = (
     'SPRACHE: Alle neu erzeugten spielersichtbaren Namen und Beschreibungen müssen Deutsch sein; technische JSON-Schlüssel/IDs bleiben Englisch. '
     'You expand an UNSEEN top-down RPG frontier. The target room has never been observed. Do not alter any visited room or contradict observed_facts. '
@@ -126,7 +136,7 @@ ACTION_RESPONSE_FORMAT = {
                 'n':{'type':'string'},'s':{'type':'string'},'d':{'type':'string'},
                 'a':{'type':'boolean'},'i':{'type':'string'},
                 'c':{'type':'array','maxItems':3,'items':{'type':'object','properties':{
-                    't':{'type':'string','enum':['set_object','move_object','set_motion','remove_object','create_object','inventory_add','inventory_remove','set_goal','set_room','set_player','create_room','create_door']},
+                    't':{'type':'string','enum':['set_object','move_object','set_motion','remove_object','create_object','inventory_add','inventory_remove','set_goal','set_room','set_player','create_room','create_door','set_actor_plan','emit_event','schedule_event']},
                     'a':{'type':'object','additionalProperties':True}},'required':['t','a'],'additionalProperties':False}},
                 'g':{'type':'boolean'}
             },
@@ -175,8 +185,12 @@ def _chat_endpoint(url: str, model: str, system: str, user: str, max_tokens: int
             chunks.append(content)
             if on_delta is not None: on_delta(content)
     content=''.join(chunks)
-    if not content: raise ValueError('stream returned no content')
-    return {'data':_extract_json(content),'raw':content,'elapsed_ms':int((time.monotonic()-started)*1000),
+    if not content: raise ValueError(f'stream returned no content finish_reason={finish_reason!r}')
+    try: parsed=_extract_json(content)
+    except Exception as exc:
+        tail=content[-600:].replace('\n',' ')
+        raise ValueError(f'model JSON parse failed finish_reason={finish_reason!r} chars={len(content)} tail={tail!r}: {exc}') from exc
+    return {'data':parsed,'raw':content,'elapsed_ms':int((time.monotonic()-started)*1000),
             'first_delta_ms':first_delta_ms,'usage':usage,'model':model,'finish_reason':finish_reason,'stream':True}
 
 def _chat(system: str, user: str, max_tokens: int, temperature: float, on_delta: Any = None) -> dict[str, Any]:
@@ -246,18 +260,21 @@ def _subset_ids(state: dict[str, Any], key: str) -> set[str]:
         elif isinstance(x,dict) and str(x.get('id','')).strip(): out.add(str(x.get('id','')).strip())
     return out
 
-def _enforce_action_scope(data: dict[str, Any], state: dict[str, Any], action: str) -> dict[str, Any]:
+def _enforce_action_scope(data: dict[str, Any], state: dict[str, Any], action: str, mode: str = 'action') -> dict[str, Any]:
     visible=_visible_ids(state); interaction=_subset_ids(state,'interaction_reachable'); speech=_subset_ids(state,'speech_reachable')
-    valid_tools={'set_object','move_object','set_motion','remove_object','create_object','inventory_add','inventory_remove','set_goal','set_room','set_player','create_room','create_door'}
+    valid_tools={'set_object','move_object','set_motion','remove_object','create_object','inventory_add','inventory_remove','set_goal','set_room','set_player','create_room','create_door','set_actor_plan','emit_event','schedule_event'}
     calls=[]
     for c in data.get('tool_calls') if isinstance(data.get('tool_calls'),list) else []:
         if not isinstance(c,dict): continue
         tool=str(c.get('tool') or ''); args=c.get('args') if isinstance(c.get('args'),dict) else {}
         if tool not in valid_tools: continue
         oid=str(args.get('id') or '')
-        if tool in {'move_object','remove_object'} and oid not in interaction: continue
+        if mode=='background':
+            if tool in {'move_object','remove_object','set_object','set_motion','set_actor_plan'} and oid and oid not in visible: continue
+        else:
+            if tool in {'move_object','remove_object'} and oid not in interaction: continue
+            if tool in {'set_object','set_motion','set_actor_plan'} and oid and oid not in (interaction|speech): continue
         if tool=='move_object' and not any(abs(float(args.get(k) or 0))>1e-9 for k in ('dx','dy')) and 'x' not in args and 'y' not in args: continue
-        if tool in {'set_object','set_motion'} and oid and oid not in (interaction|speech): continue
         if tool=='create_object':
             rid=str(args.get('room_id') or state.get('current_room',{}).get('id') or '')
             if rid and rid!=str(state.get('current_room',{}).get('id') or ''): continue
@@ -403,17 +420,19 @@ async def game_action(request: web.Request) -> web.StreamResponse:
     action = str(payload.get('action') or '').strip()[:500]
     if not action: return _json_response({'ok':False,'error':'Leere Aktion'},400)
     state = payload.get('state') if isinstance(payload.get('state'),dict) else {}
-    compact = json.dumps({'action':action,'state':state},ensure_ascii=False,separators=(',',':'))[:18000]
+    request_id=str(payload.get('request_id') or '')[:100]; attempt=max(1,min(9,int(payload.get('attempt') or 1))); mode='background' if payload.get('mode')=='background' else 'action'
+    compact = json.dumps({'action':action,'mode':mode,'state':state},ensure_ascii=False,separators=(',',':'))[:18000]
     started_ms=int(time.time()*1000);loop=asyncio.get_running_loop();queue=asyncio.Queue()
     response=web.StreamResponse(status=200,headers={'Content-Type':'application/x-ndjson; charset=utf-8','Cache-Control':'no-cache, no-store','X-Accel-Buffering':'no'})
     await response.prepare(request)
     async def send(obj: dict[str, Any]) -> None:
         await response.write((json.dumps(obj,ensure_ascii=False,separators=(',',':'))+'\n').encode('utf-8'))
-    await send({'type':'start','engine':'thor-qwen3.5-9b','model':THOR_GAME_LLM_MODEL,'stream':True})
+    await send({'type':'start','engine':'thor-qwen3.5-9b','model':THOR_GAME_LLM_MODEL,'stream':True,'request_id':request_id,'attempt':attempt,'mode':mode})
     def on_delta(delta: str) -> None:
         loop.call_soon_threadsafe(queue.put_nowait,delta)
     async with LOCK:
-        worker=asyncio.create_task(asyncio.to_thread(_chat,ACTION_SYSTEM,compact,120,0.02,on_delta))
+        system_prompt=BACKGROUND_EVENT_SYSTEM if mode=='background' else ACTION_SYSTEM
+        worker=asyncio.create_task(asyncio.to_thread(_chat,system_prompt,compact,220,0.02,on_delta))
         try:
             while True:
                 if worker.done() and queue.empty(): break
@@ -421,13 +440,13 @@ async def game_action(request: web.Request) -> web.StreamResponse:
                 except asyncio.TimeoutError: continue
                 await send({'type':'delta','delta':delta})
             result=await worker
-            data=_enforce_action_scope(_expand_action_wire(result['data']),state,action)
-            record={'time_ms':started_ms,'action':action,'room':state.get('current_room',{}).get('name'),'player':state.get('player'),'inventory':state.get('inventory'),'visible':state.get('visible_environment'),'interaction_reachable':state.get('interaction_reachable'),'speech_reachable':state.get('speech_reachable'),'conversation':state.get('conversation'),'result':data,'elapsed_ms':result['elapsed_ms'],'first_delta_ms':result.get('first_delta_ms'),'usage':result['usage'],'stream':True}
+            data=_enforce_action_scope(_expand_action_wire(result['data']),state,action,mode)
+            record={'time_ms':started_ms,'request_id':request_id,'attempt':attempt,'mode':mode,'action':action,'room':state.get('current_room',{}).get('name'),'player':state.get('player'),'inventory':state.get('inventory'),'visible':state.get('visible_environment'),'interaction_reachable':state.get('interaction_reachable'),'speech_reachable':state.get('speech_reachable'),'conversation':state.get('conversation'),'result':data,'elapsed_ms':result['elapsed_ms'],'first_delta_ms':result.get('first_delta_ms'),'usage':result['usage'],'finish_reason':result.get('finish_reason'),'stream':True}
             _append_jsonl(ACTION_LOG,record)
             await send({'type':'final','ok':True,'engine':'thor-qwen3.5-9b','model':THOR_GAME_LLM_MODEL,'elapsed_ms':result['elapsed_ms'],'first_delta_ms':result.get('first_delta_ms'),'result':data,'usage':result['usage']})
         except Exception as exc:
             if not worker.done(): worker.cancel()
-            _append_jsonl(ACTION_LOG,{'time_ms':started_ms,'action':action,'state':state,'error':f'{exc.__class__.__name__}: {exc}','stream':True})
+            _append_jsonl(ACTION_LOG,{'time_ms':started_ms,'request_id':request_id,'attempt':attempt,'mode':mode,'action':action,'state':state,'error':f'{exc.__class__.__name__}: {exc}','stream':True})
             await send({'type':'error','ok':False,'engine':'thor-qwen3.5-9b','error':f'{exc.__class__.__name__}: {exc}'})
     await response.write_eof()
     return response
