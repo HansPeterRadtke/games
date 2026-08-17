@@ -71,6 +71,36 @@ BACKGROUND_EVENT_SYSTEM = (
     'Return exactly the same compact wire JSON schema/order as the action engine: {"n":string,"s":string,"d":string,"a":boolean,"i":string,"c":[tool calls],"g":boolean}. a=true; g darf den Auftrag nicht ohne echte Zustandsgrundlage abschließen.'
 )
 
+ACTOR_REPAIR_SYSTEM = (
+    'Du bist ein strenger Ausführungsplaner für eine persistente physische Spielwelt. Alle spielersichtbaren Texte Deutsch. '
+    'Du erhältst user_action, preliminary_result und den vollständigen lokalen Zustand. Wenn ein in speech_reachable befindlicher NPC durch den Benutzer gebeten/angewiesen wird, physisch zu gehen, etwas zu holen, zu prüfen, zu öffnen, zu verschieben, zu bedienen, zu reparieren, zu bringen, zu warten oder etwas Ähnliches zu tun, MUSST du set_actor_plan ausgeben, sofern der kanonische Zustand keinen konkreten Hinderungsgrund zeigt. '
+    'Verwende exakte IDs aus visible_environment. Ein physischer Plan besteht aus kausalen Schritten: optional say, dann move_to zum Ziel, dann interact; bei interact target_patch/target_move nur für die Zustandsänderung, die tatsächlich am Ziel passiert. Keine Fernwirkung. Keine bloße Erzählung einer Bewegung ohne Plan. '
+    'Wenn die Aufgabe wirklich unmöglich ist, gib keinen Plan aus; nenne in n den konkreten kanonischen Grund. Sonst n,s,d leer halten und ausschließlich die nötigen Tools zurückgeben. '
+    'Return compact wire JSON in der normalen Reihenfolge mit a=true, g=false.'
+)
+
+def _needs_actor_repair(action: str, state: dict[str, Any], data: dict[str, Any]) -> bool:
+    import re
+    if any(isinstance(c,dict) and c.get('tool')=='set_actor_plan' for c in (data.get('tool_calls') or [])): return False
+    if not _subset_ids(state,'speech_reachable'): return False
+    text=str(action or '').casefold()
+    directive=re.compile(r'\b(bitte|geh|gehen|komm|kommen|hol|holen|bring|bringen|prüf|prüfen|reparier|reparieren|öffn\w*|schließ\w*|schieb\w*|zieh\w*|räum\w*|trag\w*|drück\w*|stell\w*|hilf|helfen|mach\w*|warte\w*|sag\w*|go|move|check|open|close|push|pull|bring|carry|help|repair|wait)\b')
+    return bool(directive.search(text))
+
+def _repair_actor_plan(action: str, state: dict[str, Any], data: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any] | None]:
+    if not _needs_actor_repair(action,state,data): return data,None
+    payload={'user_action':action,'preliminary_result':data,'state':state}
+    compact=json.dumps(payload,ensure_ascii=False,separators=(',',':'))[:16000]
+    repair=_chat_endpoint(THOR_GAME_LLM_URL,THOR_GAME_LLM_MODEL,ACTOR_REPAIR_SYSTEM,compact,180,0.0,ACTION_READ_TIMEOUT,ACTION_RESPONSE_FORMAT)
+    repaired=_enforce_action_scope(_expand_action_wire(repair['data']),state,action,'action')
+    actor_calls=[c for c in repaired.get('tool_calls',[]) if c.get('tool')=='set_actor_plan']
+    if actor_calls:
+        existing=list(data.get('tool_calls') or [])
+        data['tool_calls']=(existing+actor_calls)[:16]
+    elif repaired.get('n') and not data.get('narration'):
+        data['narration']=str(repaired.get('n'))
+    return data,{'elapsed_ms':repair.get('elapsed_ms'),'first_delta_ms':repair.get('first_delta_ms'),'usage':repair.get('usage'),'result':repaired}
+
 TOPOLOGY_SYSTEM = (
     'SPRACHE: Alle neu erzeugten spielersichtbaren Namen und Beschreibungen müssen Deutsch sein; technische JSON-Schlüssel/IDs bleiben Englisch. '
     'You expand an UNSEEN top-down RPG frontier. The target room has never been observed. Do not alter any visited room or contradict observed_facts. '
@@ -441,9 +471,11 @@ async def game_action(request: web.Request) -> web.StreamResponse:
                 await send({'type':'delta','delta':delta})
             result=await worker
             data=_enforce_action_scope(_expand_action_wire(result['data']),state,action,mode)
-            record={'time_ms':started_ms,'request_id':request_id,'attempt':attempt,'mode':mode,'action':action,'room':state.get('current_room',{}).get('name'),'player':state.get('player'),'inventory':state.get('inventory'),'visible':state.get('visible_environment'),'interaction_reachable':state.get('interaction_reachable'),'speech_reachable':state.get('speech_reachable'),'conversation':state.get('conversation'),'result':data,'elapsed_ms':result['elapsed_ms'],'first_delta_ms':result.get('first_delta_ms'),'usage':result['usage'],'finish_reason':result.get('finish_reason'),'stream':True}
+            repair_info=None
+            if mode=='action': data,repair_info=await asyncio.to_thread(_repair_actor_plan,action,state,data)
+            record={'time_ms':started_ms,'request_id':request_id,'attempt':attempt,'mode':mode,'action':action,'room':state.get('current_room',{}).get('name'),'player':state.get('player'),'inventory':state.get('inventory'),'visible':state.get('visible_environment'),'interaction_reachable':state.get('interaction_reachable'),'speech_reachable':state.get('speech_reachable'),'conversation':state.get('conversation'),'result':data,'repair':repair_info,'elapsed_ms':result['elapsed_ms']+(repair_info.get('elapsed_ms',0) if repair_info else 0),'first_delta_ms':result.get('first_delta_ms'),'usage':result['usage'],'finish_reason':result.get('finish_reason'),'stream':True}
             _append_jsonl(ACTION_LOG,record)
-            await send({'type':'final','ok':True,'engine':'thor-qwen3.5-9b','model':THOR_GAME_LLM_MODEL,'elapsed_ms':result['elapsed_ms'],'first_delta_ms':result.get('first_delta_ms'),'result':data,'usage':result['usage']})
+            await send({'type':'final','ok':True,'engine':'thor-qwen3.5-9b','model':THOR_GAME_LLM_MODEL,'elapsed_ms':result['elapsed_ms']+(repair_info.get('elapsed_ms',0) if repair_info else 0),'first_delta_ms':result.get('first_delta_ms'),'result':data,'usage':result['usage'],'actor_repair':bool(repair_info)})
         except Exception as exc:
             if not worker.done(): worker.cancel()
             _append_jsonl(ACTION_LOG,{'time_ms':started_ms,'request_id':request_id,'attempt':attempt,'mode':mode,'action':action,'state':state,'error':f'{exc.__class__.__name__}: {exc}','stream':True})
