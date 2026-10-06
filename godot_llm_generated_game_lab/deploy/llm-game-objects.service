@@ -1,0 +1,31 @@
+[Unit]
+Description=Constrained LLM game-object and generated-motion asset service
+ConditionHost=nitro
+Wants=network-online.target llm-game-stt.service
+After=network-online.target llm-game-stt.service
+RequiresMountsFor=/data /data/src/github/games/godot_llm_generated_game_lab /data/var/llm_game
+
+[Service]
+Type=simple
+User=hans
+Group=hans
+WorkingDirectory=/data/src/github/games/godot_llm_generated_game_lab/server
+Environment=PYTHONUNBUFFERED=1
+Environment=LLM_GAME_OBJECT_HOST=127.0.0.1
+Environment=LLM_GAME_OBJECT_PORT=15303
+Environment=LLM_GAME_OBJECT_LLAMA_URL=http://127.0.0.1:14829/v1/chat/completions
+Environment=LLM_GAME_OBJECT_THOR_URL=http://10.8.0.7:15310/generate
+Environment=LLM_GAME_OBJECT_STORE=/data/var/llm_game/generated_objects
+ExecStartPre=/usr/bin/install -d -o hans -g hans -m 0750 /data/var/llm_game/generated_objects
+ExecStart=/data/venv/bin/python3 /data/src/github/games/godot_llm_generated_game_lab/server/generated_object_service.py
+Restart=on-failure
+RestartSec=4
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0027
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

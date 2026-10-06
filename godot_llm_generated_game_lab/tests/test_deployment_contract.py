@@ -9,6 +9,10 @@ build = (ROOT / 'deploy/build-web.sh').read_text()
 assert 'pose controls leaked into index.pck' in build
 assert 'for generated_site in generated_assets; do' in build
 install = (ROOT / 'deploy/install-nitro.sh').read_text()
+object_unit = (ROOT / 'deploy/llm-game-objects.service').read_text()
+assert 'generated_object_service.py' in object_unit
+assert 'install -m 0644 \"$ROOT/deploy/llm-game-objects.service\"' in install
+assert 'systemctl enable llm-game-objects.service' in install
 verify = (ROOT / 'deploy/nitro-verify.sh').read_text()
 generated_build = (ROOT / 'deploy/build-generated-world.sh').read_text()
 temporal_build = (ROOT / 'deploy/build-temporal-world.sh').read_text()

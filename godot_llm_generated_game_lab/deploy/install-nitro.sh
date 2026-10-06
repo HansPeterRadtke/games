@@ -7,6 +7,10 @@ ROOT=$DATA/src/github/games/godot_llm_generated_game_lab
 WS_PORT=${LLM_GAME_WS_PORT:-15301}
 HTTP_PORT=${LLM_GAME_HTTP_PORT:-15302}
 [[ -s "$ROOT/web/index.html" && -s "$ROOT/web/index.wasm" && -s "$ROOT/web/index.pck" ]] || { echo 'run deploy/build-web.sh as hans first' >&2; exit 1; }
+install -m 0644 "$ROOT/deploy/llm-game-objects.service" /etc/systemd/system/llm-game-objects.service
+systemctl daemon-reload
+systemctl enable llm-game-objects.service >/dev/null
+systemctl restart llm-game-objects.service
 systemctl is-active --quiet llm-game-objects.service || { echo 'llm-game-objects.service is not active' >&2; exit 1; }
 TS=$(date +%Y%m%dT%H%M%S)
 BACKUP=$DATA/var/backups/godot-llm-game-deploy-$TS

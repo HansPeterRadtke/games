@@ -1,0 +1,32 @@
+[Unit]
+Description=Thor on-demand reviewed canonical image generation service
+ConditionHost=thor
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=/data /data/src/github/games /data/models/image/sdxl/sd_xl_base_1.0.safetensors /data/models/vlm/qwen2.5-vl-3b /data/var/llm_game
+
+[Service]
+Type=simple
+User=hans
+Group=hans
+WorkingDirectory=/data/src/github/games/services
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONPATH=/data/var/llm_game/image_python
+Environment=THOR_IMAGE_HOST=10.8.0.7
+Environment=THOR_IMAGE_PORT=15310
+Environment=THOR_SDXL_CHECKPOINT=/data/models/image/sdxl/sd_xl_base_1.0.safetensors
+Environment=THOR_IMAGE_CACHE=/data/var/llm_game/grounded_asset_cache
+Environment=THOR_VLM_BIN=/data/src/external/llama.cpp/build/bin/llama-mtmd-cli
+Environment=THOR_VLM_MODEL=/data/models/vlm/qwen2.5-vl-3b/Qwen2.5-VL-3B-Instruct-Q4_K_M.gguf
+Environment=THOR_VLM_MMPROJ=/data/models/vlm/qwen2.5-vl-3b/mmproj-Qwen2.5-VL-3B-Instruct-Q8_0.gguf
+ExecStartPre=/usr/bin/install -d -o hans -g hans -m 0750 /data/var/llm_game/grounded_asset_cache
+ExecStart=/data/venv/bin/python3 /data/src/github/games/services/thor_grounded_rpg_asset_service.py
+Restart=no
+TimeoutStartSec=180
+TimeoutStopSec=45
+KillMode=mixed
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0027
+StandardOutput=journal
+StandardError=journal
