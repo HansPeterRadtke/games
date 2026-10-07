@@ -27,10 +27,10 @@ access token or Asset Store session secret.
 - Review the existing icon, marketing images, and screenshots in the Publisher Portal preview.
 - Complete any publisher-account legal, tax, payout, or provider-agreement steps that the portal still marks incomplete.
 - Use Publisher Portal Preview for the final storefront check.
-- Submit package 414626 for Asset Store review, choosing auto-publish or manual publish deliberately.
+- Submitted package 414626 for Asset Store review on 2026-10-07 16:15 UTC. Server status: pendingReview. Existing auto-publish setting remains enabled.
 
 Do not create another Unity ID, publisher profile, or duplicate EventBus draft. Do not re-upload
-the package merely to advance the portal workflow unless the package itself changes.
+the package while it is in review unless Unity rejects it with a package-level issue or the package itself changes.
 
 ## Later packages
 
