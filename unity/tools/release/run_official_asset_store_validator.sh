@@ -19,16 +19,17 @@ if [[ ! -x "$unity_bin" ]]; then
 fi
 
 run_as_hans() {
+  local -a runtime_env=(
+    HOME=/home/hans USER=hans LOGNAME=hans
+    DISPLAY="${DISPLAY:-:1}"
+    XAUTHORITY="${XAUTHORITY:-/home/hans/.Xauthority}"
+    XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/1000}"
+    DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/1000/bus}"
+  )
   if [[ "$(id -un)" == "hans" ]]; then
-    "$@"
+    env "${runtime_env[@]}" "$@"
   else
-    runuser -u hans -- env \
-      HOME=/home/hans USER=hans LOGNAME=hans \
-      DISPLAY="${DISPLAY:-:1}" \
-      XAUTHORITY="${XAUTHORITY:-/home/hans/.Xauthority}" \
-      XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/1000}" \
-      DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/1000/bus}" \
-      "$@"
+    runuser -u hans -- env "${runtime_env[@]}" "$@"
   fi
 }
 

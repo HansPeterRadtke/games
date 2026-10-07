@@ -1,7 +1,7 @@
 package: com.hpr.eventbus
 project: /data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_eventbus
 unitypackage: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.eventbus/com.hpr.eventbus.unitypackage
-unitypackage_size_bytes: 11529
+unitypackage_size_bytes: 11477
 upm_zip: /data/tmp/hpr_assetstore_sale/artifacts/com.hpr.eventbus/com.hpr.eventbus_upm.zip
 upm_zip_size_bytes: 23149
 resolved_packages: com.hpr.eventbus

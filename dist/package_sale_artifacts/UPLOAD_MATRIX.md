@@ -7,7 +7,7 @@ This matrix reflects the current tracked repo state and the latest regenerated s
 - Release recommendation: `launch_now`
 - Category recommendation: `Tools / Scripting`
 - Price recommendation: `$9.99`
-- Unitypackage: `com.hpr.eventbus/com.hpr.eventbus.unitypackage` (11529 bytes)
+- Unitypackage: `com.hpr.eventbus/com.hpr.eventbus.unitypackage` (11477 bytes)
 - UPM zip: `com.hpr.eventbus/com.hpr.eventbus_upm.zip` (23149 bytes)
 - Listing draft: `com.hpr.eventbus/com.hpr.eventbus_listing_draft.md`
 - Info file: `com.hpr.eventbus/com.hpr.eventbus_info.txt`
