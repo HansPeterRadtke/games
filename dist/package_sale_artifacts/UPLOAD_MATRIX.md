@@ -55,7 +55,7 @@ This matrix reflects the current tracked repo state and the latest regenerated s
 - Release recommendation: `launch_now`
 - Category recommendation: `Templates / Systems`
 - Price recommendation: `$14.99`
-- Unitypackage: `com.hpr.stats/com.hpr.stats.unitypackage` (22129 bytes)
+- Unitypackage: `com.hpr.stats/com.hpr.stats.unitypackage` (22228 bytes)
 - UPM zip: `com.hpr.stats/com.hpr.stats_upm.zip` (22968 bytes)
 - Listing draft: `com.hpr.stats/com.hpr.stats_listing_draft.md`
 - Info file: `com.hpr.stats/com.hpr.stats_info.txt`
