@@ -48,6 +48,17 @@ namespace HPR
                 {
                     throw new System.InvalidOperationException($"Weapons demo preview missing for '{weapon.DisplayName}'.");
                 }
+
+                var runtime = new WeaponRuntimeState(weapon);
+                if (!runtime.TryFire(out WeaponFireResult fireResult))
+                {
+                    throw new System.InvalidOperationException($"Weapon '{weapon.DisplayName}' cannot fire from its configured starting state.");
+                }
+
+                if (fireResult.Damage != weapon.Damage || fireResult.Pellets != System.Math.Max(1, weapon.Pellets))
+                {
+                    throw new System.InvalidOperationException($"Weapon '{weapon.DisplayName}' runtime firing result does not match authored data.");
+                }
             }
 
             Debug.Log($"WeaponsPackageValidator: validated {weapons.Count} weapon assets.");

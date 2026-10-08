@@ -57,14 +57,25 @@
         "No persistence or message recording system.",
         "Delivery order follows subscription order only."
       ],
-      "keywords": ["event bus", "typed events", "publish subscribe", "modular architecture", "unity scripting"],
+      "keywords": [
+        "event bus",
+        "typed events",
+        "publish subscribe",
+        "modular architecture",
+        "unity scripting"
+      ],
       "screenshot_captions": [
         "Overview of the typed event bus architecture and included API surface.",
         "Publisher to event transport to multiple subscriber workflow.",
         "Headless and Unity scene integration details and boundaries."
       ],
       "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
-      "cross_sell": ["com.hpr.composition", "com.hpr.stats", "com.hpr.abilities", "com.hpr.interaction"],
+      "cross_sell": [
+        "com.hpr.composition",
+        "com.hpr.stats",
+        "com.hpr.abilities",
+        "com.hpr.interaction"
+      ],
       "rename_recommendation": "Use 'HPR Typed Event Bus' as the storefront title; keep the package id unchanged.",
       "free_vs_paid_recommendation": "Paid low-ticket first-wave package."
     },
@@ -108,14 +119,25 @@
         "No attribute injection or automatic construction.",
         "No serialization or persistence layer."
       ],
-      "keywords": ["composition root", "service registry", "dependency wiring", "unity architecture", "modular runtime"],
+      "keywords": [
+        "composition root",
+        "service registry",
+        "dependency wiring",
+        "unity architecture",
+        "modular runtime"
+      ],
       "screenshot_captions": [
         "Overview of the composition root, registry, and service contracts.",
         "Registration, initialization, ticking, and disposal workflow.",
         "Boundaries, non-goals, and package-safe composition guidance."
       ],
       "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
-      "cross_sell": ["com.hpr.eventbus", "com.hpr.save", "com.hpr.stats", "com.hpr.abilities"],
+      "cross_sell": [
+        "com.hpr.eventbus",
+        "com.hpr.save",
+        "com.hpr.stats",
+        "com.hpr.abilities"
+      ],
       "rename_recommendation": "Use 'HPR Composition Root' as the storefront title.",
       "free_vs_paid_recommendation": "Paid low-ticket first-wave package."
     },
@@ -159,14 +181,25 @@
         "No cross-device sync.",
         "No save menu UI."
       ],
-      "keywords": ["save system", "snapshot", "restore state", "persistence", "unity utilities"],
+      "keywords": [
+        "save system",
+        "snapshot",
+        "restore state",
+        "persistence",
+        "unity utilities"
+      ],
       "screenshot_captions": [
         "Overview of capture, mutate, and restore contracts.",
         "The sample capture -> runtime mutation -> restore flow.",
         "Technical boundaries and extension points for backend integration."
       ],
       "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
-      "cross_sell": ["com.hpr.stats", "com.hpr.inventory", "com.hpr.interaction", "com.hpr.abilities"],
+      "cross_sell": [
+        "com.hpr.stats",
+        "com.hpr.inventory",
+        "com.hpr.interaction",
+        "com.hpr.abilities"
+      ],
       "rename_recommendation": "Use 'HPR Save Snapshots' as the storefront title for clearer buyer-facing value.",
       "free_vs_paid_recommendation": "Paid low-ticket first-wave package."
     },
@@ -210,14 +243,25 @@
         "No RPG progression or talent tree.",
         "No built-in UI skin."
       ],
-      "keywords": ["stats", "damage", "health", "stamina", "combat systems"],
+      "keywords": [
+        "stats",
+        "damage",
+        "health",
+        "stamina",
+        "combat systems"
+      ],
       "screenshot_captions": [
         "Overview of the packaged health, stamina, damage, and healing runtime.",
         "Damage, heal, spend, and regenerate workflow in one view.",
         "Runtime hooks, boundaries, and integration details."
       ],
       "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
-      "cross_sell": ["com.hpr.abilities", "com.hpr.eventbus", "com.hpr.save", "com.hpr.interaction"],
+      "cross_sell": [
+        "com.hpr.abilities",
+        "com.hpr.eventbus",
+        "com.hpr.save",
+        "com.hpr.interaction"
+      ],
       "rename_recommendation": "Use 'HPR Stats & Damage' as the storefront title.",
       "free_vs_paid_recommendation": "Paid first-wave package."
     },
@@ -261,14 +305,24 @@
         "No drag-and-drop equipment grid.",
         "No crafting or vendor subsystem."
       ],
-      "keywords": ["inventory", "items", "ammo", "keys", "consumables"],
+      "keywords": [
+        "inventory",
+        "items",
+        "ammo",
+        "keys",
+        "consumables"
+      ],
       "screenshot_captions": [
         "Overview of item definitions, runtime storage, and package scope.",
         "Pickup to stored-quantity workflow for keys, potions, and ammo.",
         "Detailed runtime features, sample items, and non-goals."
       ],
       "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
-      "cross_sell": ["com.hpr.interaction", "com.hpr.save", "com.hpr.abilities"],
+      "cross_sell": [
+        "com.hpr.interaction",
+        "com.hpr.save",
+        "com.hpr.abilities"
+      ],
       "rename_recommendation": "Use 'HPR Inventory Core' as the storefront title.",
       "free_vs_paid_recommendation": "Paid first-wave package."
     },
@@ -312,14 +366,25 @@
         "No animation graph integration.",
         "No quest scripting or controller-specific input wrappers."
       ],
-      "keywords": ["interaction", "pickup", "door", "key system", "unity gameplay"],
+      "keywords": [
+        "interaction",
+        "pickup",
+        "door",
+        "key system",
+        "unity gameplay"
+      ],
       "screenshot_captions": [
         "Overview of sensors, pickups, and key-door runtime components.",
         "Actor sensor to interactable to result workflow.",
         "Included runtime pieces, package boundaries, and non-goals."
       ],
       "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
-      "cross_sell": ["com.hpr.inventory", "com.hpr.stats", "com.hpr.abilities", "com.hpr.eventbus"],
+      "cross_sell": [
+        "com.hpr.inventory",
+        "com.hpr.stats",
+        "com.hpr.abilities",
+        "com.hpr.eventbus"
+      ],
       "rename_recommendation": "Use 'HPR Interaction Toolkit' as the storefront title.",
       "free_vs_paid_recommendation": "Paid first-wave package."
     },
@@ -363,67 +428,88 @@
         "No multiplayer authority layer.",
         "No full combo or talent-tree system."
       ],
-      "keywords": ["abilities", "cooldowns", "effects", "combat", "scriptable objects"],
+      "keywords": [
+        "abilities",
+        "cooldowns",
+        "effects",
+        "combat",
+        "scriptable objects"
+      ],
       "screenshot_captions": [
         "Overview of the ability assets, runner, and effect assets.",
         "Ability asset to effect asset to runtime result workflow.",
         "Sample content, extension points, and package boundaries."
       ],
       "cover_art_recommendation": "Use screenshots/01_overview.png as the initial store cover image.",
-      "cross_sell": ["com.hpr.stats", "com.hpr.eventbus", "com.hpr.save", "com.hpr.interaction"],
+      "cross_sell": [
+        "com.hpr.stats",
+        "com.hpr.eventbus",
+        "com.hpr.save",
+        "com.hpr.interaction"
+      ],
       "rename_recommendation": "Use 'HPR Ability Runtime' as the storefront title.",
       "free_vs_paid_recommendation": "Paid first-wave package."
     },
     "com.hpr.weapons": {
-      "title": "HPR Weapon Data Kit",
-      "status": "second_wave",
-      "reason": "Technically clean, but the current value proposition is data-definition heavy and weaker than the first-wave systems unless paired with a stronger runtime controller or bundle story.",
-      "price_usd": 9.99,
+      "title": "HPR Weapon Runtime",
+      "status": "second_wave_ready",
+      "reason": "Now includes real package-owned firing state: magazine/reserve ammo, cooldown, deterministic fire results, ammo pickups, reload behavior, demo validation, and EditMode tests. Strong enough for a standalone second-wave submission without depending on project-specific FPS code.",
+      "price_usd": 14.99,
       "category": "Templates",
       "subcategory": "Systems",
-      "positioning": "A data-definition layer for hitscan and scatter weapons that is better pitched as a follow-on product or bundle companion than a first-wave standalone SKU.",
-      "short_description": "Reusable weapon definition assets for hitscan, scatter, ammo, and preview geometry in Unity shooter prototypes.",
+      "positioning": "A compact data-driven weapon runtime that owns ammo, cooldown, firing state, pickups, and reloads while leaving input, physics, animation, audio, and VFX to the consuming project.",
+      "short_description": "Data-driven weapon definitions with magazine ammo, reserve ammo, fire cooldowns, deterministic firing results, pickups, and reloads.",
       "long_description": [
-        "HPR Weapon Data Kit packages WeaponData assets for common shooter fields such as damage, range, ammo, fire mode, scatter count, and preview geometry. It is useful when a team already owns the runtime shooting controller and wants to move weapon tuning into clean reusable assets.",
-        "The package is technically sellable, but it is not the strongest first-wave storefront product because it does not yet lead with a full runtime weapon controller."
+        "HPR Weapon Runtime combines authored WeaponData assets with reusable per-instance runtime state for the loops most weapon systems need immediately: magazine ammo, reserve ammo, fire cooldowns, firing, ammo pickups, and reloads.",
+        "The runtime stays deliberately presentation-agnostic. A successful fire returns a clean WeaponFireResult containing damage, range, pellet count, and spread so your own hitscan, projectile, input, animation, audio, recoil, and VFX layers can remain project-specific."
       ],
       "feature_bullets": [
-        "WeaponData assets for hitscan and scatter weapons.",
-        "Damage, range, ammo, pellet, and preview fields.",
-        "Rifle and scattergun sample content included.",
-        "Clean package boundary and isolated validation.",
-        "Good companion product to stats and AI content."
+        "WeaponData assets for hitscan, shotgun, projectile, melee, and utility metadata.",
+        "WeaponRuntimeState with magazine ammo, reserve ammo, cooldown, firing, pickup, and reload behavior.",
+        "WeaponFireResult handoff for deterministic damage/range/pellet/spread execution.",
+        "Rifle and scattergun sample content with runtime validation.",
+        "Clean-project validator plus EditMode tests for firing, cooldown, reload, and ammo limits."
       ],
       "use_cases": [
-        "Move weapon tuning into assets in a shooter prototype.",
-        "Share weapon definitions across multiple runtime controllers.",
-        "Use as a data layer inside a broader combat bundle."
+        "Add a reusable ammo/reload/fire state layer beneath a custom shooter controller.",
+        "Drive both hitscan and scatter weapon execution from authored data and deterministic fire results.",
+        "Run weapon-state tests or simulations without scene objects or an input stack."
       ],
       "installation_summary": [
-        "Import the .unitypackage and review the included weapon data samples.",
-        "Create WeaponData assets for each weapon profile you need.",
-        "Consume the assets from your own firing, reload, and presentation code."
+        "Import the .unitypackage and open the included weapon demo.",
+        "Create WeaponData assets and instantiate WeaponRuntimeState for each equipped/runtime weapon instance.",
+        "Call Tick, TryFire, Reload, and AddReserveAmmo from your own controller and presentation layers."
       ],
       "technical_summary": [
-        "Focused on data assets rather than a full runtime controller.",
-        "Cleanly isolated from fpsdemo-specific code.",
-        "Validated in clean projects and tests."
+        "Package-owned runtime state rather than data assets only.",
+        "No dependency on fpsdemo, input systems, animation controllers, or project-specific managers.",
+        "Validated in clean Unity 6000.4 projects with package validator and EditMode tests."
       ],
       "known_limits": [
-        "No recoil system or input/controller layer.",
-        "No muzzle flash or combat VFX pipeline.",
-        "No equip flow or reload animation system."
+        "No built-in raycast/projectile execution, recoil, camera, animation, audio, or VFX layer.",
+        "No equip/loadout UI.",
+        "Reload is state transfer only; animation timing remains external."
       ],
-      "keywords": ["weapons", "shooter", "data assets", "hitscan", "scattergun"],
+      "keywords": [
+        "weapons",
+        "ammo",
+        "reload",
+        "shooter runtime",
+        "weapon system"
+      ],
       "screenshot_captions": [
-        "Overview of authored weapon data, fire modes, and scope.",
-        "Weapon data authored once and consumed by runtime systems.",
-        "Commercial recommendation and non-goals for the package."
+        "Overview of WeaponData plus package-owned ammo, cooldown, firing, and reload runtime state.",
+        "WeaponData to WeaponRuntimeState to WeaponFireResult workflow.",
+        "Integration boundaries: package state versus consuming physics, animation, audio, and VFX."
       ],
-      "cover_art_recommendation": "Use screenshots/01_overview.png as the initial cover only if you launch it later as a standalone SKU.",
-      "cross_sell": ["com.hpr.stats", "com.hpr.ai", "com.hpr.world"],
-      "rename_recommendation": "Use 'HPR Weapon Data Kit' as the storefront title.",
-      "free_vs_paid_recommendation": "Paid second-wave package or bundle component."
+      "cover_art_recommendation": "Use screenshots/01_overview.png as the store cover image.",
+      "cross_sell": [
+        "com.hpr.stats",
+        "com.hpr.ai",
+        "com.hpr.world"
+      ],
+      "rename_recommendation": "Use 'HPR Weapon Runtime' as the storefront title.",
+      "free_vs_paid_recommendation": "Paid second-wave standalone package; recommended launch price $14.99."
     },
     "com.hpr.ai": {
       "title": "HPR Enemy Archetype Data",
@@ -465,14 +551,24 @@
         "No perception/senses runtime.",
         "No spawner system or animation layer."
       ],
-      "keywords": ["ai", "enemy", "archetype", "scriptable object", "combat data"],
+      "keywords": [
+        "ai",
+        "enemy",
+        "archetype",
+        "scriptable object",
+        "combat data"
+      ],
       "screenshot_captions": [
         "Overview of enemy archetype assets and included behavior categories.",
         "How the data flows into a consuming runtime controller.",
         "Why the package is better as a later-wave or bundled product."
       ],
       "cover_art_recommendation": "Use screenshots/01_overview.png only if launching it later as a standalone SKU.",
-      "cross_sell": ["com.hpr.weapons", "com.hpr.stats", "com.hpr.world"],
+      "cross_sell": [
+        "com.hpr.weapons",
+        "com.hpr.stats",
+        "com.hpr.world"
+      ],
       "rename_recommendation": "Use 'HPR Enemy Archetype Data' as the storefront title.",
       "free_vs_paid_recommendation": "Paid second-wave package or bundle component."
     },
@@ -516,14 +612,23 @@
         "No world streaming or procedural generation.",
         "No import normalization or batch tooling included here."
       ],
-      "keywords": ["world", "registry", "metadata", "props", "asset catalog"],
+      "keywords": [
+        "world",
+        "registry",
+        "metadata",
+        "props",
+        "asset catalog"
+      ],
       "screenshot_captions": [
         "Overview of world metadata and registry assets.",
         "Metadata-to-registry-to-consumer workflow.",
         "Bundle-only commercial recommendation and current non-goals."
       ],
       "cover_art_recommendation": "Do not allocate standalone cover art; keep this package as a bundle/supporting component.",
-      "cross_sell": ["com.hpr.ai", "com.hpr.weapons"],
+      "cross_sell": [
+        "com.hpr.ai",
+        "com.hpr.weapons"
+      ],
       "rename_recommendation": "Use 'HPR World Asset Registry' if it is ever surfaced directly.",
       "free_vs_paid_recommendation": "Bundle-only; do not prioritize a standalone paid upload in wave one."
     }

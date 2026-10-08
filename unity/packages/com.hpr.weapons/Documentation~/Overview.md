@@ -1,18 +1,30 @@
-# HPR Weapons Overview
+# HPR Weapon Runtime Overview
 
-Reusable weapon data definitions and fire-mode metadata for combat packages.
+HPR Weapon Runtime combines authored `WeaponData` assets with deterministic per-instance runtime state for common weapon loops.
+
+## Runtime model
+`WeaponData` is immutable authored configuration. `WeaponRuntimeState` owns transient magazine ammo, reserve ammo, and fire cooldown for one runtime weapon instance.
+
+A successful `TryFire(out WeaponFireResult result)` consumes ammo when required, starts the configured cooldown, and returns the authored damage, range, pellet count, and spread. The package deliberately leaves raycasts, projectile spawning, animation, sound, recoil, and VFX to the consuming project.
+
+## Reload and pickups
+`Reload()` transfers only the number of rounds required to fill the magazine. `AddReserveAmmo()` adds pickup ammo and respects `WeaponData.MaxAmmo` when configured.
+
+## Headless use
+The state machine does not require a scene object or `MonoBehaviour`. Consumers can run the same fire/reload logic in EditMode tests, simulations, server-side validation, or scene code.
 
 ## Install
 1. Add `com.hpr.weapons` to your project.
-2. Import the sample from Package Manager if you want the demo scene in your project.
-3. Run the batch validator documented in the package README to confirm the package imports cleanly.
+2. Import the sample from Package Manager if you want the demo scene.
+3. Create `WeaponData` assets and one `WeaponRuntimeState` per runtime weapon instance.
+4. Run the batch validator documented in the package README to confirm the package imports cleanly.
 
 ## Included folders
-- `Runtime`: package runtime code and assets
+- `Runtime`: weapon definitions and runtime state
 - `Editor`: editor-only builders and validators
 - `Demo`: package-owned demo source scene used inside the package repository
 - `Samples~/Demo`: importable sample for external Unity projects
-- `Tests/EditMode`: edit-mode test coverage for the package runtime
+- `Tests/EditMode`: edit-mode test coverage for firing, cooldown, reload, and ammo handling
 
 ## Release assets
 - README, changelog, license, and third-party notices live at the package root.

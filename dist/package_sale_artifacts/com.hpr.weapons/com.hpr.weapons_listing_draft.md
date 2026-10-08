@@ -1,71 +1,71 @@
-# HPR Weapon Data Kit Listing Draft
+# HPR Weapon Runtime Listing Draft
 
 ## Release recommendation
-- Status: `second_wave`
-- Reason: Technically clean, but the current value proposition is data-definition heavy and weaker than the first-wave systems unless paired with a stronger runtime controller or bundle story.
+- Status: `second_wave_ready`
+- Reason: Now includes real package-owned firing state: magazine/reserve ammo, cooldown, deterministic fire results, ammo pickups, reload behavior, demo validation, and EditMode tests. Strong enough for a standalone second-wave submission without depending on project-specific FPS code.
 
 ## Title
-HPR Weapon Data Kit
+HPR Weapon Runtime
 
 ## Short description
-Reusable weapon definition assets for hitscan, scatter, ammo, and preview geometry in Unity shooter prototypes.
+Data-driven weapon definitions with magazine ammo, reserve ammo, fire cooldowns, deterministic firing results, pickups, and reloads.
 
 ## Positioning
-A data-definition layer for hitscan and scatter weapons that is better pitched as a follow-on product or bundle companion than a first-wave standalone SKU.
+A compact data-driven weapon runtime that owns ammo, cooldown, firing state, pickups, and reloads while leaving input, physics, animation, audio, and VFX to the consuming project.
 
 ## Long description
-HPR Weapon Data Kit packages WeaponData assets for common shooter fields such as damage, range, ammo, fire mode, scatter count, and preview geometry. It is useful when a team already owns the runtime shooting controller and wants to move weapon tuning into clean reusable assets.
-The package is technically sellable, but it is not the strongest first-wave storefront product because it does not yet lead with a full runtime weapon controller.
+HPR Weapon Runtime combines authored WeaponData assets with reusable per-instance runtime state for the loops most weapon systems need immediately: magazine ammo, reserve ammo, fire cooldowns, firing, ammo pickups, and reloads.
+The runtime stays deliberately presentation-agnostic. A successful fire returns a clean WeaponFireResult containing damage, range, pellet count, and spread so your own hitscan, projectile, input, animation, audio, recoil, and VFX layers can remain project-specific.
 
 ## Feature bullets
-- WeaponData assets for hitscan and scatter weapons.
-- Damage, range, ammo, pellet, and preview fields.
-- Rifle and scattergun sample content included.
-- Clean package boundary and isolated validation.
-- Good companion product to stats and AI content.
+- WeaponData assets for hitscan, shotgun, projectile, melee, and utility metadata.
+- WeaponRuntimeState with magazine ammo, reserve ammo, cooldown, firing, pickup, and reload behavior.
+- WeaponFireResult handoff for deterministic damage/range/pellet/spread execution.
+- Rifle and scattergun sample content with runtime validation.
+- Clean-project validator plus EditMode tests for firing, cooldown, reload, and ammo limits.
 
 ## Use cases
-- Move weapon tuning into assets in a shooter prototype.
-- Share weapon definitions across multiple runtime controllers.
-- Use as a data layer inside a broader combat bundle.
+- Add a reusable ammo/reload/fire state layer beneath a custom shooter controller.
+- Drive both hitscan and scatter weapon execution from authored data and deterministic fire results.
+- Run weapon-state tests or simulations without scene objects or an input stack.
 
 ## Installation summary
-- Import the .unitypackage and review the included weapon data samples.
-- Create WeaponData assets for each weapon profile you need.
-- Consume the assets from your own firing, reload, and presentation code.
+- Import the .unitypackage and open the included weapon demo.
+- Create WeaponData assets and instantiate WeaponRuntimeState for each equipped/runtime weapon instance.
+- Call Tick, TryFire, Reload, and AddReserveAmmo from your own controller and presentation layers.
 - Demo/sample path after import: `Assets/com.hpr.weapons/Samples~/Demo`
 
 ## Technical details
 - Package id: `com.hpr.weapons`
-- Version: `0.1.0`
+- Version: `0.2.0`
 - Unity version: `6000.4`
 - Category recommendation: `Templates / Systems`
-- Price recommendation: `$9.99`
+- Price recommendation: `$14.99`
 - Explicit dependencies: `none`
-- Focused on data assets rather than a full runtime controller.
-- Cleanly isolated from fpsdemo-specific code.
-- Validated in clean projects and tests.
+- Package-owned runtime state rather than data assets only.
+- No dependency on fpsdemo, input systems, animation controllers, or project-specific managers.
+- Validated in clean Unity 6000.4 projects with package validator and EditMode tests.
 - Artifact info file: `com.hpr.weapons_info.txt`
 
 ## Known limits / non-goals
-- No recoil system or input/controller layer.
-- No muzzle flash or combat VFX pipeline.
-- No equip flow or reload animation system.
+- No built-in raycast/projectile execution, recoil, camera, animation, audio, or VFX layer.
+- No equip/loadout UI.
+- Reload is state transfer only; animation timing remains external.
 
 ## Screenshot order recommendation
-- `screenshots/01_overview.png` — Overview of authored weapon data, fire modes, and scope.
-- `screenshots/02_workflow.png` — Weapon data authored once and consumed by runtime systems.
-- `screenshots/03_details.png` — Commercial recommendation and non-goals for the package.
+- `screenshots/01_overview.png` — Overview of WeaponData plus package-owned ammo, cooldown, firing, and reload runtime state.
+- `screenshots/02_workflow.png` — WeaponData to WeaponRuntimeState to WeaponFireResult workflow.
+- `screenshots/03_details.png` — Integration boundaries: package state versus consuming physics, animation, audio, and VFX.
 
 ## Cover art recommendation
-Use screenshots/01_overview.png as the initial cover only if you launch it later as a standalone SKU.
+Use screenshots/01_overview.png as the store cover image.
 
 ## Keywords
 - weapons
-- shooter
-- data assets
-- hitscan
-- scattergun
+- ammo
+- reload
+- shooter runtime
+- weapon system
 
 ## Cross-sell / bundle recommendation
 - com.hpr.stats
@@ -73,10 +73,10 @@ Use screenshots/01_overview.png as the initial cover only if you launch it later
 - com.hpr.world
 
 ## Naming recommendation
-Use 'HPR Weapon Data Kit' as the storefront title.
+Use 'HPR Weapon Runtime' as the storefront title.
 
 ## Pricing strategy note
-Paid second-wave package or bundle component.
+Paid second-wave standalone package; recommended launch price $14.99.
 
 ## Support field
 Set one publisher support email address or support URL in the Asset Store portal before upload. Keep it consistent across every listing.

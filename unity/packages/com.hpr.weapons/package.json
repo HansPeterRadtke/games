@@ -1,9 +1,9 @@
 {
   "name": "com.hpr.weapons",
-  "displayName": "HPR Weapons",
-  "version": "0.1.0",
+  "displayName": "HPR Weapon Runtime",
+  "version": "0.2.0",
   "unity": "6000.4",
-  "description": "Reusable weapon data definitions and fire-mode metadata for combat packages.",
+  "description": "Reusable weapon definitions plus runtime magazine, reserve-ammo, cooldown, firing, ammo pickup, and reload state for Unity combat systems.",
   "author": {
     "name": "HansPeterRadtke",
     "url": "https://github.com/HansPeterRadtke"
@@ -17,7 +17,8 @@
     "weapons",
     "combat",
     "firemodes",
-    "data"
+    "ammo",
+    "runtime"
   ],
   "samples": [
     {
