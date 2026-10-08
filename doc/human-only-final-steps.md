@@ -34,6 +34,16 @@ The authenticated Asset Store preview currently renders `File size 0 Bytes` and 
 Do not create another Unity ID, publisher profile, or duplicate EventBus draft. Do not re-upload
 the package while it is in review unless Unity rejects it with a package-level issue or the package itself changes.
 
+
+## Current Asset Store review queue (verified 2026-10-08)
+
+- HPR Typed Event Bus — package 414626 / version 1506320 — pendingReview — $9.99 — auto-publish enabled.
+- HPR Inventory Core — package 415296 / version 1508780 — pendingReview — $14.99 — auto-publish enabled.
+- HPR Composition Root — package 415312 / version 1508798 — pendingReview — $9.99 — auto-publish enabled.
+- HPR Save Snapshots — package 415314 / version 1508802 — pendingReview — $9.99 — auto-publish enabled.
+
+All four have current Unity 6000.4.0f1 uploads, current publisher terms accepted, storefront metadata, screenshots, key images, and AI-use disclosure. Do not create duplicate drafts for these products while they are under review.
+
 ## Later packages
 
 For the remaining prepared packages, use the same validated Hub-authenticated upload workflow.

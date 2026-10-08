@@ -71,7 +71,7 @@ This matrix reflects the current tracked repo state and the latest regenerated s
 - Release recommendation: `launch_now`
 - Category recommendation: `Templates / Systems`
 - Price recommendation: `$14.99`
-- Unitypackage: `com.hpr.inventory/com.hpr.inventory.unitypackage` (13809 bytes)
+- Unitypackage: `com.hpr.inventory/com.hpr.inventory.unitypackage` (13799 bytes)
 - UPM zip: `com.hpr.inventory/com.hpr.inventory_upm.zip` (29188 bytes)
 - Listing draft: `com.hpr.inventory/com.hpr.inventory_listing_draft.md`
 - Info file: `com.hpr.inventory/com.hpr.inventory_info.txt`
