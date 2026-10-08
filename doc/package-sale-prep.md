@@ -1,8 +1,8 @@
 # Package Sale Preparation
 
-Generated on 2026-04-02T11:31:37+02:00
+Generated on 2026-10-08T09:03:05+02:00
 
-## Prepared sellable packages
+## Current prepared sellable packages
 - `com.hpr.eventbus`: project `/data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_eventbus`, unitypackage `/data/src/github/games/dist/package_sale_artifacts/com.hpr.eventbus/com.hpr.eventbus.unitypackage`, zip `/data/src/github/games/dist/package_sale_artifacts/com.hpr.eventbus/com.hpr.eventbus_upm.zip`, dependencies `com.hpr.eventbus`
 - `com.hpr.composition`: project `/data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_composition`, unitypackage `/data/src/github/games/dist/package_sale_artifacts/com.hpr.composition/com.hpr.composition.unitypackage`, zip `/data/src/github/games/dist/package_sale_artifacts/com.hpr.composition/com.hpr.composition_upm.zip`, dependencies `com.hpr.composition`
 - `com.hpr.save`: project `/data/tmp/hpr_assetstore_sale/projects/sale_com_hpr_save`, unitypackage `/data/src/github/games/dist/package_sale_artifacts/com.hpr.save/com.hpr.save.unitypackage`, zip `/data/src/github/games/dist/package_sale_artifacts/com.hpr.save/com.hpr.save_upm.zip`, dependencies `com.hpr.save`

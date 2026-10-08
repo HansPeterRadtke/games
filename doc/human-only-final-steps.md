@@ -45,11 +45,14 @@ the package while it is in review unless Unity rejects it with a package-level i
 - HPR Interaction Toolkit — package 415322 / version 1508820 — pendingReview — $14.99 — auto-publish enabled.
 - HPR Ability Runtime — package 415324 / version 1508834 — pendingReview — $19.99 — auto-publish enabled.
 
-All four have current Unity 6000.4.0f1 uploads, current publisher terms accepted, storefront metadata, screenshots, key images, and AI-use disclosure. Do not create duplicate drafts for these products while they are under review.
+All seven have current Unity 6000.4.0f1 uploads, current publisher terms accepted, storefront metadata, screenshots, key images, and AI-use disclosure. Do not create duplicate drafts for these products while they are under review.
 
 ## Later packages
 
-For the remaining prepared packages, use the same validated Hub-authenticated upload workflow.
-A browser login and manual .unitypackage upload are no longer assumed to be required. Human
-review is still required for commercial/legal choices, storefront presentation, and the final
-submission/publish decision.
+The remaining prepared packages are intentionally not in the current first-wave review queue:
+
+- `com.hpr.weapons` — second-wave; current storefront assessment says the standalone runtime/value story is too thin.
+- `com.hpr.ai` — second-wave; current storefront assessment says the data-only AI archetype story is too thin without a stronger runtime controller.
+- `com.hpr.world` — bundle-only; do not create a standalone paid listing in its current form.
+
+For a future second wave, first strengthen the buyer-facing runtime value of Weapons and AI, then run the same clean-project, EditMode, official Asset Store Tools, Hub-authenticated upload, preview, and submission workflow. Keep World as a bundle/support component unless its product scope materially expands.
