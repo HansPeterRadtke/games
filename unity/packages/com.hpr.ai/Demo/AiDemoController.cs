@@ -43,6 +43,23 @@ namespace HPR
                 {
                     throw new System.InvalidOperationException($"AI demo preview missing for '{enemy.DisplayName}'.");
                 }
+
+                var runtime = new EnemyRuntimeState(enemy);
+                EnemyRuntimeDecision closeDecision = runtime.Decide(System.Math.Max(0f, enemy.AttackRange * 0.5f));
+                if (closeDecision != EnemyRuntimeDecision.Attack)
+                {
+                    throw new System.InvalidOperationException($"Enemy '{enemy.DisplayName}' does not enter Attack state inside its attack range.");
+                }
+
+                if (!runtime.TryAttack(System.Math.Max(0f, enemy.AttackRange * 0.5f), out EnemyAttackResult attackResult))
+                {
+                    throw new System.InvalidOperationException($"Enemy '{enemy.DisplayName}' cannot execute its configured attack.");
+                }
+
+                if (attackResult.Damage != enemy.AttackDamage || attackResult.Style != enemy.AttackStyle)
+                {
+                    throw new System.InvalidOperationException($"Enemy '{enemy.DisplayName}' runtime attack result does not match authored data.");
+                }
             }
 
             Debug.Log($"AiPackageValidator: validated {enemies.Count} enemy assets.");

@@ -10,8 +10,8 @@
 - `com.hpr.abilities` — HPR Ability Runtime — $19.99 — The package already reads like a real product: ability assets, effect assets, cooldowns, unlock tracking, and visible runtime behavior backed by clean validations.
 
 ## Second wave
-- `com.hpr.weapons` — HPR Weapon Data Kit — $9.99 — Technically clean, but the current value proposition is data-definition heavy and weaker than the first-wave systems unless paired with a stronger runtime controller or bundle story.
-- `com.hpr.ai` — HPR Enemy Archetype Data — $9.99 — The package is technically solid, but buyer-facing value is narrower because it defines AI archetype data without a stronger runtime behavior/controller story.
+- `com.hpr.weapons` — HPR Weapon Runtime — $14.99 — Now includes real package-owned firing state: magazine/reserve ammo, cooldown, deterministic fire results, ammo pickups, reload behavior, demo validation, and EditMode tests. Strong enough for a standalone second-wave submission without depending on project-specific FPS code.
+- `com.hpr.ai` — HPR Enemy Runtime — $14.99 — Now includes package-owned health/death state, attack cooldown, deterministic patrol/chase/hold/attack decisions, combat results, demo validation, and five EditMode tests. Strong enough for a standalone second-wave submission without coupling to NavMesh or project-specific AI controllers.
 
 ## Bundle-only / support packages
 - `com.hpr.world` — HPR World Asset Registry — Useful supporting code, but too thin to lead as a standalone paid Asset Store listing today; best packaged inside a broader world-authoring or gameplay-data bundle.
@@ -36,8 +36,8 @@
 - `com.hpr.inventory` — Use 'HPR Inventory Core' as the storefront title.
 - `com.hpr.interaction` — Use 'HPR Interaction Toolkit' as the storefront title.
 - `com.hpr.abilities` — Use 'HPR Ability Runtime' as the storefront title.
-- `com.hpr.weapons` — Use 'HPR Weapon Data Kit' as the storefront title.
-- `com.hpr.ai` — Use 'HPR Enemy Archetype Data' as the storefront title.
+- `com.hpr.weapons` — Use 'HPR Weapon Runtime' as the storefront title.
+- `com.hpr.ai` — Use 'HPR Enemy Runtime' as the storefront title.
 - `com.hpr.world` — Use 'HPR World Asset Registry' if it is ever surfaced directly.
 
 ## Free vs paid recommendation
@@ -48,6 +48,6 @@
 - `com.hpr.inventory` — Paid first-wave package.
 - `com.hpr.interaction` — Paid first-wave package.
 - `com.hpr.abilities` — Paid first-wave package.
-- `com.hpr.weapons` — Paid second-wave package or bundle component.
-- `com.hpr.ai` — Paid second-wave package or bundle component.
+- `com.hpr.weapons` — Paid second-wave standalone package; recommended launch price $14.99.
+- `com.hpr.ai` — Paid second-wave standalone package; recommended launch price $14.99.
 - `com.hpr.world` — Bundle-only; do not prioritize a standalone paid upload in wave one.

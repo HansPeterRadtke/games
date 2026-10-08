@@ -512,65 +512,65 @@
       "free_vs_paid_recommendation": "Paid second-wave standalone package; recommended launch price $14.99."
     },
     "com.hpr.ai": {
-      "title": "HPR Enemy Archetype Data",
-      "status": "second_wave",
-      "reason": "The package is technically solid, but buyer-facing value is narrower because it defines AI archetype data without a stronger runtime behavior/controller story.",
-      "price_usd": 9.99,
+      "title": "HPR Enemy Runtime",
+      "status": "second_wave_ready",
+      "reason": "Now includes package-owned health/death state, attack cooldown, deterministic patrol/chase/hold/attack decisions, combat results, demo validation, and five EditMode tests. Strong enough for a standalone second-wave submission without coupling to NavMesh or project-specific AI controllers.",
+      "price_usd": 14.99,
       "category": "Templates",
       "subcategory": "Systems",
-      "positioning": "Enemy archetype data assets for teams that already have or plan to add their own AI controller layer.",
-      "short_description": "Reusable enemy archetype data for melee, ranged, chase, and stationary attack behaviors in Unity combat projects.",
+      "positioning": "A compact data-driven enemy runtime that owns health, death, attack cooldown, and high-level distance decisions while leaving navigation, perception, animation, and combat presentation to the consuming project.",
+      "short_description": "Enemy archetypes with health/death state, attack cooldowns, patrol/chase/hold/attack decisions, and deterministic combat results.",
       "long_description": [
-        "HPR Enemy Archetype Data packages enemy tuning into reusable ScriptableObject assets. Buyers get clean fields for health, speed, chase range, attack range, damage, and high-level behavior categories that a separate AI runtime can consume.",
-        "That makes it technically clean and reusable, but commercially it is better positioned as a follow-on release or a bundle companion until the runtime story is stronger."
+        "HPR Enemy Runtime combines authored EnemyData archetypes with reusable per-instance state for health, death, attack cooldowns, and the high-level decisions most combat enemies need: patrol, chase, hold, attack, and dead.",
+        "The runtime is deliberately navigation-agnostic. Feed it target distance, then map its decisions to your own NavMesh, steering, animation, perception, projectile, melee, audio, and VFX systems. Successful attacks return a clean EnemyAttackResult containing the authored combat values."
       ],
       "feature_bullets": [
-        "EnemyData assets for melee and ranged archetypes.",
-        "Aggressive chase and stationary attack behavior categories.",
-        "Sample raider and sentry content included.",
-        "Designed for teams that want data-driven enemy tuning.",
-        "Isolated validation, docs, samples, and tests included."
+        "EnemyData assets for melee/ranged archetypes and authored combat/range tuning.",
+        "EnemyRuntimeState with health, damage, healing, death, and attack cooldown behavior.",
+        "Deterministic Patrol, Hold, Chase, Attack, and Dead decisions from target distance and AI type.",
+        "EnemyAttackResult handoff for melee/ranged combat execution.",
+        "Raider and sentry samples plus clean-project validator and five EditMode tests."
       ],
       "use_cases": [
-        "Move enemy balance out of scripts and into authored assets.",
-        "Share AI archetype data across multiple scenes or modes.",
-        "Pair with your own navigation and behavior execution layer."
+        "Put a deterministic behavior/combat-state layer beneath NavMesh or custom movement controllers.",
+        "Share the same enemy decisions in scene gameplay, headless tests, and simulation code.",
+        "Keep authored enemy balance data separate from perception, animation, and presentation systems."
       ],
       "installation_summary": [
-        "Import the .unitypackage and open the included AI demo/sample content.",
-        "Create EnemyData assets for each archetype you want to expose.",
-        "Consume those assets from your own behavior controller or combat runtime."
+        "Import the .unitypackage and open the included enemy demo.",
+        "Create EnemyData assets and instantiate EnemyRuntimeState for each live enemy.",
+        "Feed target distance into Decide/TryAttack and connect the results to your own navigation/combat layers."
       ],
       "technical_summary": [
-        "Enemy data layer only; no navigation or behavior-tree runtime included.",
-        "Package boundaries are clean and independently validated.",
-        "Best paired with combat or controller packages."
+        "Package-owned behavior/combat state rather than data assets only.",
+        "No dependency on NavMesh, fpsdemo, physics queries, animation controllers, or project managers.",
+        "Validated in clean Unity 6000.4 projects with package validator and five EditMode tests."
       ],
       "known_limits": [
-        "No pathfinding or navigation controller.",
-        "No perception/senses runtime.",
-        "No spawner system or animation layer."
+        "No pathfinding, steering, perception, or target-selection implementation.",
+        "No behavior tree, spawner, animation, audio, or VFX layer.",
+        "High-level decisions are distance/archetype based; richer tactical logic remains external."
       ],
       "keywords": [
-        "ai",
-        "enemy",
-        "archetype",
-        "scriptable object",
-        "combat data"
+        "enemy ai",
+        "enemy runtime",
+        "combat ai",
+        "ai behavior",
+        "enemy system"
       ],
       "screenshot_captions": [
-        "Overview of enemy archetype assets and included behavior categories.",
-        "How the data flows into a consuming runtime controller.",
-        "Why the package is better as a later-wave or bundled product."
+        "Overview of EnemyData plus package-owned health, cooldown, and behavior decision state.",
+        "Target distance to Patrol/Chase/Hold/Attack decision and EnemyAttackResult workflow.",
+        "Integration boundaries between deterministic package state and consuming navigation/perception/presentation systems."
       ],
-      "cover_art_recommendation": "Use screenshots/01_overview.png only if launching it later as a standalone SKU.",
+      "cover_art_recommendation": "Use screenshots/01_overview.png as the store cover image.",
       "cross_sell": [
         "com.hpr.weapons",
         "com.hpr.stats",
         "com.hpr.world"
       ],
-      "rename_recommendation": "Use 'HPR Enemy Archetype Data' as the storefront title.",
-      "free_vs_paid_recommendation": "Paid second-wave package or bundle component."
+      "rename_recommendation": "Use 'HPR Enemy Runtime' as the storefront title.",
+      "free_vs_paid_recommendation": "Paid second-wave standalone package; recommended launch price $14.99."
     },
     "com.hpr.world": {
       "title": "HPR World Asset Registry",

@@ -10,8 +10,8 @@ This report covers the frozen sellable package set from the current repo state.
 - `com.hpr.inventory` — `launch_now` — Clear reusable runtime value with actual quantity tracking, sample items, and straightforward integration into pickups, save systems, and gameplay logic.
 - `com.hpr.interaction` — `launch_now` — Buyer-facing value is easy to understand from demos and screenshots: sensors, pickups, keys, and doors with explicit bindings and package-safe runtime boundaries.
 - `com.hpr.abilities` — `launch_now` — The package already reads like a real product: ability assets, effect assets, cooldowns, unlock tracking, and visible runtime behavior backed by clean validations.
-- `com.hpr.weapons` — `second_wave` — Technically clean, but the current value proposition is data-definition heavy and weaker than the first-wave systems unless paired with a stronger runtime controller or bundle story.
-- `com.hpr.ai` — `second_wave` — The package is technically solid, but buyer-facing value is narrower because it defines AI archetype data without a stronger runtime behavior/controller story.
+- `com.hpr.weapons` — `second_wave_ready` — Now includes real package-owned firing state: magazine/reserve ammo, cooldown, deterministic fire results, ammo pickups, reload behavior, demo validation, and EditMode tests. Strong enough for a standalone second-wave submission without depending on project-specific FPS code.
+- `com.hpr.ai` — `second_wave_ready` — Now includes package-owned health/death state, attack cooldown, deterministic patrol/chase/hold/attack decisions, combat results, demo validation, and five EditMode tests. Strong enough for a standalone second-wave submission without coupling to NavMesh or project-specific AI controllers.
 - `com.hpr.world` — `bundle_only` — Useful supporting code, but too thin to lead as a standalone paid Asset Store listing today; best packaged inside a broader world-authoring or gameplay-data bundle.
 
 ## Screenshot regeneration

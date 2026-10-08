@@ -44,15 +44,13 @@ the package while it is in review unless Unity rejects it with a package-level i
 - HPR Stats & Damage — package 415320 / version 1508814 — pendingReview — $14.99 — auto-publish enabled.
 - HPR Interaction Toolkit — package 415322 / version 1508820 — pendingReview — $14.99 — auto-publish enabled.
 - HPR Ability Runtime — package 415324 / version 1508834 — pendingReview — $19.99 — auto-publish enabled.
+- HPR Weapon Runtime — package 415334 / version 1508886 — pendingReview — $14.99 — auto-publish enabled.
+- HPR Enemy Runtime — package 415342 / version 1508904 — pendingReview — $14.99 — auto-publish enabled.
 
-All seven have current Unity 6000.4.0f1 uploads, current publisher terms accepted, storefront metadata, screenshots, key images, and AI-use disclosure. Do not create duplicate drafts for these products while they are under review.
+All nine standalone-ready products have current Unity 6000.4.0f1 uploads, current publisher terms accepted, storefront metadata, screenshots, key images, and AI-use disclosure. Do not create duplicate drafts for these products while they are under review. Weapons and Enemy Runtime were submitted on 2026-10-08 and currently show `Pending: Processing data` in the Publisher Portal.
 
 ## Later packages
 
-The remaining prepared packages are intentionally not in the current first-wave review queue:
+- `com.hpr.world` remains bundle-only; do not create a standalone paid listing in its current form.
 
-- `com.hpr.weapons` — second-wave candidate now strengthened and release-ready as **HPR Weapon Runtime 0.2.0**. Fresh clean-project validation, 4/4 EditMode tests, regenerated export/screenshots, and official Asset Store Tools validation all pass. Keep it out of the current first-wave queue until the second-wave submission decision.
-- `com.hpr.ai` — second-wave; current storefront assessment says the data-only AI archetype story is too thin without a stronger runtime controller.
-- `com.hpr.world` — bundle-only; do not create a standalone paid listing in its current form.
-
-For a future second wave, Weapons is now technically/storefront ready. Strengthen AI next, then use the same Hub-authenticated upload, preview, and submission workflow for whichever second-wave products are deliberately launched. Keep World as a bundle/support component unless its product scope materially expands.
+The standalone release queue is now complete for the current product set. Continue only with review responses, materially improved/new products, or a deliberately designed bundle.

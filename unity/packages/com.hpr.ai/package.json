@@ -1,9 +1,9 @@
 {
   "name": "com.hpr.ai",
-  "displayName": "HPR AI",
-  "version": "0.1.0",
+  "displayName": "HPR Enemy Runtime",
+  "version": "0.2.0",
   "unity": "6000.4",
-  "description": "Reusable enemy and agent data definitions for AI-driven gameplay packages.",
+  "description": "Data-driven enemy archetypes plus deterministic health, death, attack cooldown, distance-based behavior decisions, and attack results for Unity combat systems.",
   "author": {
     "name": "HansPeterRadtke",
     "url": "https://github.com/HansPeterRadtke"
@@ -16,8 +16,9 @@
   "keywords": [
     "ai",
     "enemy",
-    "agent",
-    "data"
+    "combat",
+    "runtime",
+    "behavior"
   ],
   "samples": [
     {

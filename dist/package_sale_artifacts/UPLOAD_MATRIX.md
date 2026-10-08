@@ -114,37 +114,39 @@ This matrix reflects the current tracked repo state and the latest regenerated s
 - Cover art recommendation: Use screenshots/01_overview.png as the initial store cover image.
 - Launch reason: The package already reads like a real product: ability assets, effect assets, cooldowns, unlock tracking, and visible runtime behavior backed by clean validations.
 
-## HPR Weapon Data Kit
+## HPR Weapon Runtime
 - Package id: `com.hpr.weapons`
-- Release recommendation: `second_wave`
+- Release recommendation: `second_wave_ready`
 - Category recommendation: `Templates / Systems`
-- Price recommendation: `$9.99`
-- Unitypackage: `com.hpr.weapons/com.hpr.weapons.unitypackage` (13290 bytes)
-- UPM zip: `com.hpr.weapons/com.hpr.weapons_upm.zip` (27628 bytes)
+- Price recommendation: `$14.99`
+- Unitypackage: `com.hpr.weapons/com.hpr.weapons.unitypackage` (15699 bytes)
+- UPM zip: `com.hpr.weapons/com.hpr.weapons_upm.zip` (29809 bytes)
 - Listing draft: `com.hpr.weapons/com.hpr.weapons_listing_draft.md`
 - Info file: `com.hpr.weapons/com.hpr.weapons_info.txt`
 - Screenshots:
-  - `com.hpr.weapons/screenshots/01_overview.png` — Overview of authored weapon data, fire modes, and scope.
-  - `com.hpr.weapons/screenshots/02_workflow.png` — Weapon data authored once and consumed by runtime systems.
-  - `com.hpr.weapons/screenshots/03_details.png` — Commercial recommendation and non-goals for the package.
-- Cover art recommendation: Use screenshots/01_overview.png as the initial cover only if you launch it later as a standalone SKU.
-- Launch reason: Technically clean, but the current value proposition is data-definition heavy and weaker than the first-wave systems unless paired with a stronger runtime controller or bundle story.
+  - `com.hpr.weapons/screenshots/01_overview.png` — Overview of WeaponData plus package-owned ammo, cooldown, firing, and reload runtime state.
+  - `com.hpr.weapons/screenshots/02_workflow.png` — WeaponData to WeaponRuntimeState to WeaponFireResult workflow.
+  - `com.hpr.weapons/screenshots/03_details.png` — Integration boundaries: package state versus consuming physics, animation, audio, and VFX.
+- Cover art recommendation: Use screenshots/01_overview.png as the store cover image.
+- Launch reason: Now includes real package-owned firing state: magazine/reserve ammo, cooldown, deterministic fire results, ammo pickups, reload behavior, demo validation, and EditMode tests. Strong enough for a standalone second-wave submission without depending on project-specific FPS code.
+- Asset Store state (2026-10-08): package `415334`, version `1508886`, submitted and `pendingReview`, storefront version `1.0.0`, price `$14.99`, auto-publish enabled.
 
-## HPR Enemy Archetype Data
+## HPR Enemy Runtime
 - Package id: `com.hpr.ai`
-- Release recommendation: `second_wave`
+- Release recommendation: `second_wave_ready`
 - Category recommendation: `Templates / Systems`
-- Price recommendation: `$9.99`
-- Unitypackage: `com.hpr.ai/com.hpr.ai.unitypackage` (12758 bytes)
-- UPM zip: `com.hpr.ai/com.hpr.ai_upm.zip` (26352 bytes)
+- Price recommendation: `$14.99`
+- Unitypackage: `com.hpr.ai/com.hpr.ai.unitypackage` (15584 bytes)
+- UPM zip: `com.hpr.ai/com.hpr.ai_upm.zip` (28882 bytes)
 - Listing draft: `com.hpr.ai/com.hpr.ai_listing_draft.md`
 - Info file: `com.hpr.ai/com.hpr.ai_info.txt`
 - Screenshots:
-  - `com.hpr.ai/screenshots/01_overview.png` — Overview of enemy archetype assets and included behavior categories.
-  - `com.hpr.ai/screenshots/02_workflow.png` — How the data flows into a consuming runtime controller.
-  - `com.hpr.ai/screenshots/03_details.png` — Why the package is better as a later-wave or bundled product.
-- Cover art recommendation: Use screenshots/01_overview.png only if launching it later as a standalone SKU.
-- Launch reason: The package is technically solid, but buyer-facing value is narrower because it defines AI archetype data without a stronger runtime behavior/controller story.
+  - `com.hpr.ai/screenshots/01_overview.png` — Overview of EnemyData plus package-owned health, cooldown, and behavior decision state.
+  - `com.hpr.ai/screenshots/02_workflow.png` — Target distance to Patrol/Chase/Hold/Attack decision and EnemyAttackResult workflow.
+  - `com.hpr.ai/screenshots/03_details.png` — Integration boundaries between deterministic package state and consuming navigation/perception/presentation systems.
+- Cover art recommendation: Use screenshots/01_overview.png as the store cover image.
+- Launch reason: Now includes package-owned health/death state, attack cooldown, deterministic patrol/chase/hold/attack decisions, combat results, demo validation, and five EditMode tests. Strong enough for a standalone second-wave submission without coupling to NavMesh or project-specific AI controllers.
+- Asset Store state (2026-10-08): package `415342`, version `1508904`, submitted and `pendingReview`, storefront version `1.0.0`, price `$14.99`, auto-publish enabled.
 
 ## HPR World Asset Registry
 - Package id: `com.hpr.world`

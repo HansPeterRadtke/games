@@ -1,18 +1,33 @@
-# HPR AI Overview
+# HPR Enemy Runtime Overview
 
-Reusable enemy and agent data definitions for AI-driven gameplay packages.
+HPR Enemy Runtime combines authored `EnemyData` assets with deterministic per-instance state for health, attack cooldown, and high-level distance-based decisions.
+
+## Runtime model
+`EnemyData` is authored configuration. `EnemyRuntimeState` owns transient health and cooldown state for one runtime enemy.
+
+`Decide(targetDistance)` returns a small package-level decision (`Patrol`, `Hold`, `Chase`, `Attack`, or `Dead`) without depending on NavMesh, physics, animation, or a scene hierarchy. A consuming controller decides how to move or present the enemy.
+
+`TryAttack(...)` enforces range/cooldown and returns `EnemyAttackResult` with authored damage, melee/ranged style, projectile speed, and projectile impact.
+
+## Health model
+`ApplyDamage(...)` clamps health at zero. `Heal(...)` clamps at authored max health and does not resurrect a dead runtime state. This keeps death semantics explicit for the consuming project.
+
+## Headless use
+The runtime does not require a `MonoBehaviour`. The same decision/combat state can run in EditMode tests, simulations, server validation, or live scene controllers.
 
 ## Install
 1. Add `com.hpr.ai` to your project.
-2. Import the sample from Package Manager if you want the demo scene in your project.
-3. Run the batch validator documented in the package README to confirm the package imports cleanly.
+2. Import the sample from Package Manager if you want the demo scene.
+3. Create `EnemyData` archetypes and one `EnemyRuntimeState` per live enemy.
+4. Connect package decisions/results to your movement, perception, animation, and combat systems.
+5. Run the batch validator documented in the README to confirm the package imports cleanly.
 
 ## Included folders
-- `Runtime`: package runtime code and assets
+- `Runtime`: enemy definitions and deterministic runtime state
 - `Editor`: editor-only builders and validators
 - `Demo`: package-owned demo source scene used inside the package repository
 - `Samples~/Demo`: importable sample for external Unity projects
-- `Tests/EditMode`: edit-mode test coverage for the package runtime
+- `Tests/EditMode`: runtime decision/combat/health test coverage
 
 ## Release assets
 - README, changelog, license, and third-party notices live at the package root.
