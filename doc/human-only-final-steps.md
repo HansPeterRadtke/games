@@ -8,9 +8,12 @@ Verified on 2026-10-07 against the authenticated Unity Hub / Asset Store session
 
 - Unity account: multiverse3dhpr@gmail.com
 - Publisher account linked: yes (publisher id 161382)
-- Publisher Portal draft: package 414626, version 1506320, status draft
+- Publisher Portal version: package 414626, version 1506320, status pendingReview
 - Server category: Tools/Utilities
 - Uploaded package size: 11477 bytes
+- Storefront price: $9.99
+- Uploaded package: 21 files, Unity 6000.4.0f1, server upload status finished
+- Vetting status: submitted; auto-publish: enabled
 - Server icon present: yes
 - Official Asset Store Tools validation: clean (RanToCompletion, no compilation errors, zero validation issues)
 - Package upload: completed successfully
@@ -19,15 +22,13 @@ The repository now contains authenticated upload and read-only publisher-audit r
 unity/tools/release/. They use the Unity Hub session and must never log or persist the Hub
 access token or Asset Store session secret.
 
-## Remaining EventBus portal work
+## Remaining EventBus work
 
-- Review the draft's Product Information against the generated listing draft and enter/fix any missing fields.
-- Confirm the final storefront price. The current release recommendation is $9.99.
-- Confirm the support email or support URL that should be used consistently across listings.
-- Review the existing icon, marketing images, and screenshots in the Publisher Portal preview.
-- Complete any publisher-account legal, tax, payout, or provider-agreement steps that the portal still marks incomplete.
-- Use Publisher Portal Preview for the final storefront check.
-- Submitted package 414626 for Asset Store review on 2026-10-07 16:15 UTC. Server status: pendingReview. Existing auto-publish setting remains enabled.
+- No package edit, upload, draft creation, or resubmission is currently required while the package is in review.
+- Wait for Unity's curation result and act only if the review status changes or Unity requests a package/listing correction.
+- Complete any separate publisher-account tax, payout, or legal steps only if the account dashboard still marks them outstanding.
+
+The authenticated Asset Store preview currently renders `File size 0 Bytes` and does not show the price while this submitted version is in preview/review mode. This is a preview rendering issue, not missing source data: the embedded preview payload reports `downloadSize: 31.0 kB`, while the Publisher Portal package-version API reports price `9.99`, package size `11477`, upload status `finished`, 21 files, vetting status `submitted`, and auto-publish enabled. Do not create a new draft or re-upload solely to address the preview's `0 Bytes` or hidden-price display.
 
 Do not create another Unity ID, publisher profile, or duplicate EventBus draft. Do not re-upload
 the package while it is in review unless Unity rejects it with a package-level issue or the package itself changes.
