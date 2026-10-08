@@ -10,23 +10,24 @@ using UnityEngine;
 
 public static class HprAssetStoreUploaderRunner
 {
-    public static void RunFromEnvironment()
+    public static async void RunFromEnvironment()
     {
         var resultPath = Environment.GetEnvironmentVariable("HPR_UPLOAD_RESULT") ?? "/tmp/hpr_asset_store_upload_result.txt";
         try
         {
-            Run(resultPath);
+            await Run(resultPath);
+            EditorApplication.Exit(0);
         }
         catch (Exception ex)
         {
             Append(resultPath, "result=FAIL");
             Append(resultPath, "error=" + Sanitize(ex.GetBaseException().Message));
             Debug.LogException(ex);
-            throw;
+            EditorApplication.Exit(1);
         }
     }
 
-    private static void Run(string resultPath)
+    private static async Task Run(string resultPath)
     {
         File.WriteAllText(resultPath, string.Empty);
         var packagePath = RequireEnv("HPR_UPLOAD_PACKAGE_PATH");
@@ -44,27 +45,43 @@ public static class HprAssetStoreUploaderRunner
 
         var cloudUser = CloudProjectSettings.userName ?? string.Empty;
         var cloudToken = CloudProjectSettings.accessToken ?? string.Empty;
+        var cloudAuthAvailable = !string.IsNullOrEmpty(cloudToken) && !string.Equals(cloudUser, "anonymous", StringComparison.OrdinalIgnoreCase);
         Append(resultPath, "cloud_user=" + Sanitize(cloudUser));
-        Append(resultPath, "cloud_auth_available=" + (!string.IsNullOrEmpty(cloudToken) && !string.Equals(cloudUser, "anonymous", StringComparison.OrdinalIgnoreCase)));
-        if (string.IsNullOrEmpty(cloudToken) || string.Equals(cloudUser, "anonymous", StringComparison.OrdinalIgnoreCase))
-            throw new InvalidOperationException("Unity cloud login is unavailable in this Editor session");
+        Append(resultPath, "cloud_auth_available=" + cloudAuthAvailable);
 
         var clientType = RequireType(toolsAssembly, "AssetStoreTools.Api.AssetStoreClient");
         var apiType = RequireType(toolsAssembly, "AssetStoreTools.Api.AssetStoreApi");
         var cloudAuthType = RequireType(toolsAssembly, "AssetStoreTools.Api.CloudTokenAuthentication");
+        var credentialsAuthType = RequireType(toolsAssembly, "AssetStoreTools.Api.CredentialsAuthentication");
         var uploadSettingsType = RequireType(toolsAssembly, "AssetStoreTools.Api.UnityPackageUploadSettings");
         var uploaderType = RequireType(toolsAssembly, "AssetStoreTools.Api.UnityPackageUploader");
 
         var client = Activator.CreateInstance(clientType);
         var api = Activator.CreateInstance(apiType, client);
-        var cloudAuth = Activator.CreateInstance(cloudAuthType, cloudToken);
 
-        var authResponse = InvokeTaskResult(api, "Authenticate", cloudAuth, CancellationToken.None);
+        object authentication;
+        string authMethod;
+        if (cloudAuthAvailable)
+        {
+            authentication = Activator.CreateInstance(cloudAuthType, cloudToken);
+            authMethod = "cloud";
+        }
+        else
+        {
+            var credentialFile = RequireEnv("HPR_UPLOAD_CREDENTIAL_FILE");
+            var expectedLogin = Environment.GetEnvironmentVariable("HPR_UPLOAD_EXPECTED_LOGIN") ?? string.Empty;
+            var credentials = ReadCredentialFile(credentialFile, expectedLogin);
+            authentication = Activator.CreateInstance(credentialsAuthType, credentials.Item1, credentials.Item2);
+            authMethod = "credentials_file";
+        }
+
+        var authResponse = await InvokeTaskResult(api, "Authenticate", authentication, CancellationToken.None);
         if (!GetBool(authResponse, "Success"))
-            throw new InvalidOperationException("Asset Store cloud authentication failed: " + GetExceptionMessage(authResponse));
+            throw new InvalidOperationException("Asset Store authentication failed: " + GetExceptionMessage(authResponse));
         Append(resultPath, "asset_store_auth=OK");
+        Append(resultPath, "auth_method=" + authMethod);
 
-        var packagesResponse = InvokeTaskResult(api, "GetPackages", CancellationToken.None);
+        var packagesResponse = await InvokeTaskResult(api, "GetPackages", CancellationToken.None);
         if (!GetBool(packagesResponse, "Success"))
             throw new InvalidOperationException("Fetching publisher packages failed: " + GetExceptionMessage(packagesResponse));
 
@@ -91,22 +108,26 @@ public static class HprAssetStoreUploaderRunner
 
             var idMatches = string.Equals(packageId, expectedPortalId, StringComparison.Ordinal) ||
                             string.Equals(versionId, expectedPortalId, StringComparison.Ordinal);
-            if (idMatches && string.Equals(status, "draft", StringComparison.OrdinalIgnoreCase))
+            if (idMatches)
             {
                 if (target != null)
-                    throw new InvalidOperationException("More than one exact draft matched the requested portal id");
+                    throw new InvalidOperationException("More than one exact package matched the requested portal id");
                 target = package;
             }
         }
 
         Append(resultPath, "exact_name_candidates=" + exactNameCount);
         if (target == null)
-            throw new InvalidOperationException("No exact draft matched both expected name and portal id");
+            throw new InvalidOperationException("No exact package matched both expected name and portal id");
 
         var targetPackageId = GetString(target, "PackageId");
         var targetVersionId = GetString(target, "VersionId");
+        var targetStatus = GetString(target, "Status");
+        var uploadable = string.Equals(targetStatus, "draft", StringComparison.OrdinalIgnoreCase);
         Append(resultPath, "target_package_id=" + Sanitize(targetPackageId));
         Append(resultPath, "target_version_id=" + Sanitize(targetVersionId));
+        Append(resultPath, "target_status=" + Sanitize(targetStatus));
+        Append(resultPath, "uploadable=" + uploadable);
         Append(resultPath, "package_size_bytes=" + new FileInfo(packagePath).Length);
 
         if (!execute)
@@ -115,6 +136,9 @@ public static class HprAssetStoreUploaderRunner
             Debug.Log("HPR Asset Store uploader dry run passed");
             return;
         }
+
+        if (!uploadable)
+            throw new InvalidOperationException("Exact package is not uploadable because its status is " + targetStatus);
 
         var settings = Activator.CreateInstance(uploadSettingsType);
         SetProperty(settings, "VersionId", targetVersionId);
@@ -134,7 +158,7 @@ public static class HprAssetStoreUploaderRunner
         });
 
         Append(resultPath, "upload_started=true");
-        var uploadResponse = InvokeTaskResult(api, "UploadPackage", uploader, progress, CancellationToken.None);
+        var uploadResponse = await InvokeTaskResult(api, "UploadPackage", uploader, progress, CancellationToken.None);
         var statusValue = GetProperty(uploadResponse, "Status");
         Append(resultPath, "upload_status=" + Sanitize(statusValue == null ? string.Empty : statusValue.ToString()));
         if (!GetBool(uploadResponse, "Success"))
@@ -144,6 +168,29 @@ public static class HprAssetStoreUploaderRunner
         Debug.Log("HPR Asset Store upload completed successfully");
     }
 
+    private static Tuple<string, string> ReadCredentialFile(string path, string expectedLogin)
+    {
+        if (!File.Exists(path))
+            throw new FileNotFoundException("Unity credential file not found", path);
+
+        var values = File.ReadAllLines(path)
+            .Select(line => line.Trim())
+            .Where(line => !string.IsNullOrEmpty(line))
+            .ToArray();
+        var markerIndex = Array.FindIndex(values, value => string.Equals(value, "login:", StringComparison.OrdinalIgnoreCase));
+        if (markerIndex < 0 || markerIndex + 2 >= values.Length)
+            throw new InvalidOperationException("Unity credential file format is invalid");
+
+        var login = values[markerIndex + 1];
+        var password = values[markerIndex + 2];
+        if (string.IsNullOrWhiteSpace(login) || string.IsNullOrEmpty(password))
+            throw new InvalidOperationException("Unity credential file contains an empty login or password");
+        if (!string.IsNullOrEmpty(expectedLogin) && !string.Equals(login, expectedLogin, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidOperationException("Unity credential login does not match expected account");
+
+        return Tuple.Create(login, password);
+    }
+
     private static Type RequireType(Assembly assembly, string name)
     {
         var type = assembly.GetType(name, false);
@@ -151,7 +198,7 @@ public static class HprAssetStoreUploaderRunner
         return type;
     }
 
-    private static object InvokeTaskResult(object target, string name, params object[] args)
+    private static async Task<object> InvokeTaskResult(object target, string name, params object[] args)
     {
         var methods = target.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
             .Where(m => m.Name == name && m.GetParameters().Length == args.Length).ToArray();
@@ -159,7 +206,7 @@ public static class HprAssetStoreUploaderRunner
             throw new MissingMethodException(target.GetType().FullName, name + "(" + args.Length + ")");
         var task = methods[0].Invoke(target, args) as Task;
         if (task == null) throw new InvalidOperationException(name + " did not return Task");
-        task.GetAwaiter().GetResult();
+        await task;
         var resultProperty = task.GetType().GetProperty("Result", BindingFlags.Public | BindingFlags.Instance);
         return resultProperty == null ? null : resultProperty.GetValue(task, null);
     }
