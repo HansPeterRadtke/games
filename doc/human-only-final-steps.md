@@ -26,7 +26,8 @@ access token or Asset Store session secret.
 
 - No package edit, upload, draft creation, or resubmission is currently required while the package is in review.
 - Wait for Unity's curation result and act only if the review status changes or Unity requests a package/listing correction.
-- Complete any separate publisher-account tax, payout, or legal steps only if the account dashboard still marks them outstanding.
+- The dedicated `Multiverse3d AS Publisher` organization currently has no payout profile. Unity states that a payout profile is required only to receive payouts; this does not block the current package review.
+- Creating that payout profile requires activating TFA on the Unity account first, then entering the payout/tax/payment information. Those security, tax, and banking declarations remain human-only.
 
 The authenticated Asset Store preview currently renders `File size 0 Bytes` and does not show the price while this submitted version is in preview/review mode. This is a preview rendering issue, not missing source data: the embedded preview payload reports `downloadSize: 31.0 kB`, while the Publisher Portal package-version API reports price `9.99`, package size `11477`, upload status `finished`, 21 files, vetting status `submitted`, and auto-publish enabled. Do not create a new draft or re-upload solely to address the preview's `0 Bytes` or hidden-price display.
 
