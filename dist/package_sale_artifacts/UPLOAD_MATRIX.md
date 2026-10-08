@@ -103,7 +103,7 @@ This matrix reflects the current tracked repo state and the latest regenerated s
 - Release recommendation: `launch_now`
 - Category recommendation: `Templates / Systems`
 - Price recommendation: `$19.99`
-- Unitypackage: `com.hpr.abilities/com.hpr.abilities.unitypackage` (39591 bytes)
+- Unitypackage: `com.hpr.abilities/com.hpr.abilities.unitypackage` (39582 bytes)
 - UPM zip: `com.hpr.abilities/com.hpr.abilities_upm.zip` (38602 bytes)
 - Listing draft: `com.hpr.abilities/com.hpr.abilities_listing_draft.md`
 - Info file: `com.hpr.abilities/com.hpr.abilities_info.txt`
