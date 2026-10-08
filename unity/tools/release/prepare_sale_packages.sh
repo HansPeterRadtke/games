@@ -279,13 +279,53 @@ done
 bash "$script_dir/run_official_asset_store_validator.sh" "${requested_packages[@]}"
 python3 "$listing_generator" "$repo_root" "$config_path" "$dist_artifacts_root" "$storefront_catalog"
 
+mapfile -t report_summary_lines < <(python3 - <<'PY' "$config_path" "$packages_root" "$projects_root" "$dist_artifacts_root"
+import json
+import sys
+from pathlib import Path
+
+config = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+packages_root = Path(sys.argv[2])
+projects_root = Path(sys.argv[3])
+dist_root = Path(sys.argv[4])
+
+def resolve(name: str):
+    resolved = []
+    seen = set()
+    def visit(package_name: str):
+        if package_name in seen:
+            return
+        seen.add(package_name)
+        manifest = json.loads((packages_root / package_name / "package.json").read_text(encoding="utf-8"))
+        for dep_name in manifest.get("dependencies", {}):
+            if dep_name.startswith("com.hpr."):
+                visit(dep_name)
+        resolved.append(package_name)
+    visit(name)
+    return resolved
+
+for entry in config["sellable_packages"]:
+    name = entry["name"]
+    artifact_dir = dist_root / name
+    unitypackage = artifact_dir / f"{name}.unitypackage"
+    upm_zip = artifact_dir / f"{name}_upm.zip"
+    info = artifact_dir / f"{name}_info.txt"
+    screenshots = artifact_dir / "screenshots"
+    if not (unitypackage.is_file() and upm_zip.is_file() and info.is_file() and screenshots.is_dir()):
+        continue
+    project = projects_root / f"sale_{name.replace('.', '_')}"
+    deps = " ".join(resolve(name))
+    print(f"- `{name}`: project `{project}`, unitypackage `{unitypackage}`, zip `{upm_zip}`, dependencies `{deps}`")
+PY
+)
+
 cat >"$report_path" <<EOF
 # Package Sale Preparation
 
 Generated on $(date --iso-8601=seconds)
 
-## Prepared sellable packages
-$(printf '%s\n' "${summary_lines[@]}")
+## Current prepared sellable packages
+$(printf '%s\n' "${report_summary_lines[@]}")
 
 ## Artifact root
 - \`$artifacts_root\`

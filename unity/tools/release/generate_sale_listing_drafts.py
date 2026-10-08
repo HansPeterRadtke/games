@@ -261,13 +261,20 @@ def write_launch_strategy_doc(repo_root: Path, catalog: dict) -> None:
 
 
 def write_human_only_doc(repo_root: Path, catalog: dict) -> None:
+    # This file contains live operational state (submitted/reviewed packages and
+    # genuinely human-only commercial/legal checkpoints). Package artifact
+    # regeneration must never erase that state. Create the generic checklist only
+    # for a new checkout where the maintained document is genuinely absent.
+    path = repo_root / "doc" / "human-only-final-steps.md"
+    if path.exists():
+        return
+
     lines = ["# Human-Only Final Steps", ""]
     lines.append("- Choose and enter the single support email address or support URL you want to use across every listing.")
     lines.append("- Accept or override the proposed prices before entering them in the publisher portal.")
     lines.append("- Do a final visual sign-off on the generated screenshots and the chosen screenshot order per package.")
-    lines.append("- Log into the Unity Asset Store publisher portal and upload the selected .unitypackage files.")
     lines.append("- Complete publisher-account, tax, payout, and legal agreement steps in the portal.")
-    (repo_root / "doc" / "human-only-final-steps.md").write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+    path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
 
 
 def main() -> int:
