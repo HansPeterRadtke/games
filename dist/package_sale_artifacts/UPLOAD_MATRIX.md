@@ -87,7 +87,7 @@ This matrix reflects the current tracked repo state and the latest regenerated s
 - Release recommendation: `launch_now`
 - Category recommendation: `Templates / Systems`
 - Price recommendation: `$14.99`
-- Unitypackage: `com.hpr.interaction/com.hpr.interaction.unitypackage` (40635 bytes)
+- Unitypackage: `com.hpr.interaction/com.hpr.interaction.unitypackage` (40627 bytes)
 - UPM zip: `com.hpr.interaction/com.hpr.interaction_upm.zip` (34189 bytes)
 - Listing draft: `com.hpr.interaction/com.hpr.interaction_listing_draft.md`
 - Info file: `com.hpr.interaction/com.hpr.interaction_info.txt`
