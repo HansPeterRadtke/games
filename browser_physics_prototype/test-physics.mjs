@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {initializePhysics,GameCore,SETTINGS as S} from './physics-core.js';
+await initializePhysics();
+const settle=g=>{for(let i=0;i<120;i++)g.step();};
+const g=new GameCore();settle(g);assert.ok(g.grounded(),'ground collision must exist');assert.ok(Math.abs(g.state().player.y-(S.playerRadius+S.playerHalfHeight))<.05,'feet should be on ground');
+assert.equal(g.command({type:'Move',direction:3}),false,'invalid move must be rejected');assert.equal(g.command({type:'Invalid'}),false,'unknown commands must fail');
+g.command({type:'Jump'});let highest=-Infinity;for(let i=0;i<160;i++){g.step();highest=Math.max(highest,g.state().player.y);}const peak=highest-S.playerRadius-S.playerHalfHeight;assert.ok(peak>.95&&peak<1.3,`jump must stay near human scale; got ${peak}m`);assert.equal(g.events.filter(e=>e.type==='jump').length,1,'one jump should only produce one jump event');
+g.create();settle(g);assert.equal(g.command({type:'Goal',intent:'crossFence'}),true);for(let i=0;i<460&&!g.events.some(e=>e.type==='goal_success');i++)g.step();assert.ok(g.events.some(e=>e.type==='goal_success'),'automatic fence crossing must succeed through real physics');assert.ok(g.state().player.x>S.fenceX+0.8,'physical position must be beyond fence');assert.equal(g.events.filter(e=>e.type==='jump').length,1,'goal must jump once');
+const saved=g.snapshot();const h=new GameCore();assert.equal(h.restore(saved),true,'valid snapshot must load');assert.ok(Math.abs(h.state().player.x-g.state().player.x)<1e-4,'restore must preserve position');assert.equal(h.restore({...saved,player:{...saved.player,p:{...saved.player.p,x:Infinity}}}),false,'invalid numeric state must be rejected');
+const n=new GameCore();settle(n);n.command({type:'Goal',intent:'crossFence'});n.command({type:'Move',direction:-1});assert.equal(n.goal,null,'manual override must cancel automation');
+const c=new GameCore();settle(c);c.player.setTranslation({x:7,y:.86,z:0},true);c.command({type:'Move',direction:1});for(let i=0;i<120;i++)c.step();assert.ok(c.state().crate.x>S.crateX+.1,`crate must be pushed by rigid-body contact: ${c.state().crate.x}`);
+console.log(JSON.stringify({passed:true,jumpPeakMeters:peak,goalEndX:g.state().player.x,crateFinalX:c.state().crate.x,tests:['ground','jump','jump count','goal','3D collision','snapshot','invalid state','manual override','crate pushing']}));
