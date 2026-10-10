@@ -3,11 +3,11 @@ import {GameCore,initializePhysics,SETTINGS} from './physics-core.js';
 import {SideViewRenderer} from './side-view-renderer.js';
 const $=id=>document.getElementById(id);
 const renderer=new SideViewRenderer($('scene'));
-let core,moveLeft=false,moveRight=false,frameBefore=0,accumulator=0,eventCount=0,lastSave=null;
-let lastNoteCount=-1,lastUiState='';
+let core,moveLeft=false,moveRight=false,frameBefore=0,accumulator=0,eventCursor=0,lastSave=null;
+let lastJournalKey='',lastUiState='';
 function say(message){$('message').textContent=message;}
-function locationName(x){if(x< -4.5)return 'Old beech grove';if(x<5.2)return 'The clearing';if(x<14)return 'Beyond the fence';if(x<22.2)return 'Stream approach';return 'Far bank';}
-function missionText(character){if(character.farBankReached)return 'You crossed the footbridge. Continue exploring the world.';
+function locationName(x){if(x< -4.5)return 'Old beech grove';if(x<5.2)return 'The clearing';if(x<14)return 'Beyond the fence';if(x<22.2)return 'Stream approach';if(x<33)return 'Far bank';if(x<42)return 'Riverside shelter';return 'Valley path';}
+function missionText(character){if(character.farBankReached)return 'You crossed the footbridge. Explore the abandoned shelter further east →';
  if(character.bridgeRepaired)return 'Cross the repaired footbridge and reach the far bank →';
  if(character.inventory.plank<2)return 'Find two loose timber planks by the old beech tree ←';
  return 'Carry the timber past the fence to the bridge repair stand →';}
@@ -16,10 +16,18 @@ function updateUI(state){const character=state.character,$near=$('nearby-prompt'
  if(key!==lastUiState){lastUiState=key;$('location').textContent=locationName(state.player.x);$('mission').textContent=missionText(character);
   const fatigue=character.fatigue<25?'Rested':character.fatigue<60?'Tiring':'Exhausted';$('condition').textContent=`Timber ${character.inventory.plank}/2 · ${character.inventory.plank*6} kg carried · ${fatigue}`;
   $near.textContent=state.nearby?`E · ${state.nearby.label}`:'';}
- if(character.notes.length!==lastNoteCount){lastNoteCount=character.notes.length;$('field-notes').replaceChildren();
-  if(!character.notes.length)$('field-notes').textContent='No measurements yet.';
-  else{const list=document.createElement('ul');for(const item of character.notes.slice(-16).reverse()){const li=document.createElement('li');li.textContent=`Time ${item.time.toFixed(1)} s — needle ${item.intensity}, ${item.trend}`;list.append(li);}$('field-notes').append(list);}}
- if(core.events.length>eventCount){for(const event of core.events.slice(eventCount)){if(event.type==='limb_contact'&&!$('physical-experiment').open)continue;say(event.message);}eventCount=core.events.length;}
+ const journalKey=`${character.notes.length}:${character.knowledge?.length||0}`;
+ if(journalKey!==lastJournalKey){lastJournalKey=journalKey;$('field-notes').replaceChildren();
+  if(!character.notes.length&&!(character.knowledge||[]).length)$('field-notes').textContent='No observations yet.';
+  else{const list=document.createElement('ul');
+   for(const item of character.notes.slice(-16).reverse()){const li=document.createElement('li');li.textContent=`Time ${item.time.toFixed(1)} s — needle ${item.intensity}, ${item.trend}`;list.append(li);}
+   for(const fact of (character.knowledge||[]).slice(-16).reverse()){const li=document.createElement('li');li.textContent=`Observed: ${fact.text}`;list.append(li);}
+   $('field-notes').append(list);}}
+ if(core.events.some(e=>e.sequence>eventCursor)){for(const event of core.events.filter(e=>e.sequence>eventCursor)){
+   if(event.visibility==='offscreen'||event.type==='limb_contact'&&!$('physical-experiment').open)continue;
+   if(event.message)say(event.message);
+  }eventCursor=core.eventSequence;}
+
 }
 function runFrame(now){if(!core)return;const dt=frameBefore?Math.min(.12,(now-frameBefore)/1000):0;frameBefore=now;accumulator+=dt;let count=0;
  while(accumulator>=SETTINGS.step&&count++<7){core.step();accumulator-=SETTINGS.step;}
@@ -44,9 +52,9 @@ function handleKey(e,down){const inField=e.target instanceof HTMLInputElement||e
  else if(!down||e.repeat)return;else if(k===' ')command('Jump');else if(k==='e')command('Interact');else if(k==='f')command('Experiment');else if(k==='g')command('Goal',{intent:'crossFence'});else if(k==='escape')command('CancelGoal');}
 window.addEventListener('keydown',e=>handleKey(e,true));window.addEventListener('keyup',e=>handleKey(e,false));window.addEventListener('blur',()=>{moveLeft=false;moveRight=false;movement();});
 $('semantic-form').addEventListener('submit',event=>{event.preventDefault();if(!core)return;const field=$('semantic-input');const text=field.value.trim();if(!text)return;say(core.textCommand(text));field.value='';field.blur();});
-$('save').addEventListener('click',()=>{if(!core)return;lastSave=JSON.stringify(core.snapshot());try{localStorage.setItem('prse-world-save-v4',lastSave);say('World and physical state saved on this device.');}catch{say('World saved for this browser session.');}});
-$('load').addEventListener('click',()=>{if(!core)return;try{const text=lastSave||localStorage.getItem('prse-world-save-v4')||localStorage.getItem('world-physics-prototype-save-v3')||localStorage.getItem('world-physics-prototype-save-v2');if(!text){say('No saved world found.');return;}if(!core.restore(JSON.parse(text)))throw Error('Invalid save');eventCount=core.events.length;lastUiState='';lastNoteCount=-1;say('Saved world restored.');}catch(e){say('Could not restore that save.');}});
-$('restart').addEventListener('click',()=>{if(!core)return;core.create();renderer.setView('world');eventCount=0;accumulator=0;lastUiState='';lastNoteCount=-1;say('New world started.');});
+$('save').addEventListener('click',()=>{if(!core)return;lastSave=JSON.stringify(core.snapshot());try{localStorage.setItem('prse-world-save-v5',lastSave);say('World and physical state saved on this device.');}catch{say('World saved for this browser session.');}});
+$('load').addEventListener('click',()=>{if(!core)return;try{const text=lastSave||localStorage.getItem('prse-world-save-v5')||localStorage.getItem('prse-world-save-v4')||localStorage.getItem('world-physics-prototype-save-v3')||localStorage.getItem('world-physics-prototype-save-v2');if(!text){say('No saved world found.');return;}if(!core.restore(JSON.parse(text)))throw Error('Invalid save');eventCursor=core.eventSequence;lastUiState='';lastJournalKey='';say('Saved world restored.');}catch(e){say('Could not restore that save.');}});
+$('restart').addEventListener('click',()=>{if(!core)return;core.create();renderer.setView('world');eventCursor=0;accumulator=0;lastUiState='';lastJournalKey='';say('New world started.');});
 try{await initializePhysics();core=new GameCore();$('status').textContent='3D physics ready';$('details').textContent='Rapier 3D simulation · semantic world · 2D renderer · works offline after loading';
  say('Gather two planks by the old tree, then repair the stream crossing.');window.__gameDebug={core,snapshot:()=>core.snapshot(),settings:SETTINGS,renderer};requestAnimationFrame(runFrame);
 }catch(error){$('status').textContent='Simulation unavailable';say(`Physics failed: ${error.message}`);console.error(error);}

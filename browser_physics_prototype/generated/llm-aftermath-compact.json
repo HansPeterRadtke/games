@@ -1,0 +1,9 @@
+{
+  "created": "2026-10-10T12:23:40.179043+00:00",
+  "prompt_sha256": "cacfb02a358048f4fb0c6d86c2c97cd11610c96bd3ce651a16420d2075045a81",
+  "elapsed_seconds": 50.31,
+  "text": null,
+  "error": "TimeoutError: timed out",
+  "model": "Qwen3.8-27B",
+  "tokens_predicted": null
+}

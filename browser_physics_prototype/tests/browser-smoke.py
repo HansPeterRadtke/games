@@ -5,6 +5,7 @@ from pathlib import Path
 HOST=os.environ.get('CDP_HOST','http://127.0.0.1:40297')
 URL=os.environ.get('GAME_URL','http://127.0.0.1/llm_game/physics-prototype/')
 MOBILE=os.environ.get('MOBILE','0')=='1'
+SCENE=os.environ.get('SCENE','0')=='1'
 class CDP:
  def __init__(self):
   ws_url=requests.get(HOST+'/json/version',timeout=5).json()['webSocketDebuggerUrl'];self.ws=websocket.create_connection(ws_url,timeout=10,origin='http://127.0.0.1');self.ids=itertools.count(1);self.context=None;self.target=None;self.session=None
@@ -88,6 +89,23 @@ try:
  c.call('Network.emulateNetworkConditions',{'offline':False,'latency':0,'downloadThroughput':-1,'uploadThroughput':-1},session=True)
  c.eval('window.scrollTo(0,0)');time.sleep(.2)
  screenshot=c.call('Page.captureScreenshot',{'format':'png','captureBeyondViewport':False},True)['data'];path=Path('/data/tmp/game-active-mobile.png' if MOBILE else '/data/tmp/game-active-smoke.png');path.write_bytes(base64.b64decode(screenshot));print('SCREENSHOT',path,path.stat().st_size,flush=True)
+ if SCENE:
+  # Traverse same renderer/physics path using an isolated browser context to validate generated story objects.
+  c.eval('document.getElementById("restart").click()')
+  c.eval('(function(){let g=window.__gameDebug.core;g.player.setTranslation({x:37.1,y:.86,z:0},true);g.player.setLinvel({x:0,y:0,z:0},true);for(let i=0;i<65;i++)g.step()})()')
+  members=c.eval('JSON.stringify(["shelter-bench","shelter-candle","shelter-jug","shelter-note"].map(id=>({id,exists:!!window.__gameDebug.core.worldBridge.active.get(id)})))')
+  assert all(item['exists'] for item in json.loads(members)),'Generated 3D scene not materialized in public browser'
+  for textcmd in ['read note','light candle','ignite note']:
+   c.eval('document.getElementById("semantic-input").value='+json.dumps(textcmd))
+   c.eval('document.getElementById("semantic-form").requestSubmit()')
+  assert c.eval('window.__gameDebug.core.character.knows("warning_note")'),'reading note should persist knowledge'
+  assert c.eval('window.__gameDebug.core.consequences.pending.length')>0,'no fire cause/effect schedule'
+  c.eval('(function(){let g=window.__gameDebug.core;for(let i=0;i<1510;i++)g.step();window.__gameDebug.renderer.draw(g.state())})()')
+  c.eval('window.scrollTo(0,0)');time.sleep(.4)
+  screenshot=c.call('Page.captureScreenshot',{'format':'png','captureBeyondViewport':False},True)['data']
+  scene_path=Path('/data/tmp/game-scene-mobile.png' if MOBILE else '/data/tmp/game-scene-desktop.png')
+  scene_path.write_bytes(base64.b64decode(screenshot))
+  print('LLM_SCENE',members,'knowledge',c.eval('window.__gameDebug.core.character.knowledge.length'),'condition',c.eval('window.__gameDebug.core.semantic.entity("shelter-bench").state.condition'),'screenshot',scene_path,flush=True)
  print('SUCCEEDED',flush=True)
 finally:
  c.close()

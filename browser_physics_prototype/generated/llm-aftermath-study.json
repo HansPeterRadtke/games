@@ -1,0 +1,17 @@
+{
+  "created": "2026-10-10T12:21:39.533129+00:00",
+  "prompt_sha256": "348f22308cf821b608f4083e29b0484cbd2cfb5f7068ec3c704e061ce3968bb6",
+  "model": "Qwen3.8-27B",
+  "elapsed_seconds": 90.49,
+  "source_scene_id": "riverside-shelter",
+  "physical_outcomes": {
+    "shelter-setting": "smoky",
+    "shelter-bench": "scorched",
+    "shelter-candle": "lit",
+    "shelter-note": "ashes",
+    "shelter-jug": "intact_water"
+  },
+  "output": null,
+  "error": "TimeoutError: timed out",
+  "tokens_predicted": null
+}

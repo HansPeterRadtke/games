@@ -45,11 +45,14 @@ export class ActiveRagdoll {
  }
  contactWithObstacle(collider){if(!collider)return [];const result=[];for(const name of ['leftShin','rightShin'])this.world.contactPair(collider,this.parts[name].collider(0),(manifold)=>{if(!result.includes(name))result.push(name);});return result;}
  state(){return {mode:this.mode,walkTime:this.walkTime,targetX:this.targetX,footContacts:this.footContacts,health:structuredClone(this.health),parts:Object.fromEntries(Object.entries(this.parts).map(([name,b])=>[name,{position:{...b.translation()},rotation:{...b.rotation()},velocity:{...b.linvel()},angularVelocity:{...b.angvel()}}]))};}
- restore(snapshot){
+ validateSnapshot(snapshot){
  if(!snapshot||!['balance','walk','relax'].includes(snapshot.mode)||!Number.isFinite(snapshot.walkTime)||snapshot.walkTime<0||snapshot.walkTime>1e9||!Number.isFinite(snapshot.targetX)||Math.abs(snapshot.targetX)>1e5||!snapshot.parts||typeof snapshot.parts!=='object'||!snapshot.health)return false;
  const validateVector=(o,keys)=>o&&keys.every(k=>typeof o[k]==='number'&&Number.isFinite(o[k])&&Math.abs(o[k])<=1e5);
  for(const key of Object.keys(PARTS)){const s=snapshot.parts[key];if(!s||!validateVector(s.position,['x','y','z'])||!validateVector(s.velocity,['x','y','z'])||!validateVector(s.angularVelocity,['x','y','z'])||!validateVector(s.rotation,['x','y','z','w']))return false;const q=s.rotation,norm=q.x*q.x+q.y*q.y+q.z*q.z+q.w*q.w;if(norm<.5||norm>1.5)return false;}
  for(const key of ['leftKnee','rightKnee']){const h=snapshot.health[key];if(!h||!['healthy','sprain','bruise','cut'].includes(h.type)||!Number.isFinite(h.severity)||h.severity<0||h.severity>1||(h.type==='healthy'&&h.severity!==0))return false;}
+ return true;}
+ restore(snapshot){
+ if(!this.validateSnapshot(snapshot))return false;
  this.mode=snapshot.mode;this.walkTime=snapshot.walkTime;this.targetX=snapshot.targetX;
  for(const key of Object.keys(PARTS)){const b=this.parts[key],s=snapshot.parts[key];b.setTranslation(s.position,true);b.setRotation(s.rotation,true);b.setLinvel(s.velocity,true);b.setAngvel(s.angularVelocity,true);}
  for(const key of ['leftKnee','rightKnee'])this.health[key]={...snapshot.health[key]};

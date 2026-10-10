@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';import{GameCore,initializePhysics}from '../physics-core.js';await initializePhysics();
+const g=new GameCore();g.player.setTranslation({x:34,y:.86,z:0},true);for(let i=0;i<55;i++)g.step();const current=g.snapshot();assert.ok(current.worldStreaming.generated.includes(0));const before=current.semantic.entities.length;
+const old=structuredClone(current);old.version=4;delete old.consequences;delete old.eventSequence;old.semantic.entities=old.semantic.entities.filter(e=>!e.id.startsWith('shelter-'));
+assert.ok(before>old.semantic.entities.length,'older save must lack the new generated scene');const fresh=new GameCore();assert.equal(fresh.restore(old),true,'previous save version accepted');
+for(const id of ['shelter-setting','shelter-bench','shelter-candle','shelter-jug','shelter-note'])assert.ok(fresh.semantic.entity(id),`backfilled scene ${id}`);
+const v5=fresh.snapshot(),again=new GameCore();assert.equal(again.restore(v5),true);assert.equal(again.semantic.entities.filter(e=>e.id==='shelter-note').length,1,'no duplicate after migration');
+const damaged=structuredClone(v5);damaged.consequences.pending=[{time:-1,type:'paper_burning',entity:'shelter-note',condition:'burning',message:'bad',episode:1}];const marker=again.player.translation().x;assert.equal(again.restore(damaged),false);assert.equal(again.player.translation().x,marker,'invalid save must not alter world');
+console.log(JSON.stringify({passed:true,oldVersion:old.version,newVersion:v5.version,backfilled:before-old.semantic.entities.length,duplicates:0}));
+const motorMode=again.activeRagdoll.mode;
+const motorX=again.activeRagdoll.parts.torso.translation().x;
+assert.equal(again.restore({...v5,character:{...v5.character,fatigue:Infinity}}),false);
+assert.equal(again.activeRagdoll.mode,motorMode,'failed restore must not alter ragdoll mode');
+assert.equal(again.activeRagdoll.parts.torso.translation().x,motorX,'failed restore must not move physics rig');
+const waiting=new GameCore();waiting.command({type:'Goal',intent:'wait',duration:6});for(let i=0;i<100;i++)waiting.step();const waitSnapshot=waiting.snapshot();const waited=new GameCore();assert.equal(waited.restore(waitSnapshot),true);
+assert.equal(waited.goal?.intent,'wait','interruptible timed goals must resume');for(let i=0;i<350;i++)waited.step();assert.equal(waited.goal,null);assert.ok(waited.events.some(e=>e.type==='goal_success'));
+console.log('Atomic invalid-save rejection and resumable timed goal PASSED');

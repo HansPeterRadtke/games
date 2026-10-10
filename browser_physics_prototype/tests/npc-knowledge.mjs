@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';import{initializePhysics,GameCore}from '../physics-core.js';await initializePhysics();
+const g=new GameCore(),tick=n=>{for(let i=0;i<n;i++)g.step();},locate=x=>{g.player.setTranslation({x,y:.86,z:0},true);g.player.setLinvel({x:0,y:0,z:0},true);tick(5);};
+locate(37.1);assert.ok(g.command({type:'Interact',targetId:'shelter-candle',verb:'light'}));assert.ok(g.command({type:'Interact',targetId:'shelter-note',verb:'ignite'}));
+locate(27);tick(2450);assert.equal(g.semantic.entity('shelter-setting').state.condition,'smoky');
+assert.equal(g.character.knows('shelter_fire'),false,'player far away must not know hidden change');
+const traveler=g.semantic.entity('wanderer-1');assert.notEqual(traveler.state.knowsShelterFire,true);
+locate(traveler.x);g.command({type:'Interact',targetId:traveler.id});
+assert.notEqual(traveler.state.knowsShelterFire,true);
+assert.equal(g.character.knows('shelter_fire'),false);
+locate(35);assert.equal(g.character.knows('shelter_fire'),true,'player learns from actual soot on return');
+locate(g.semantic.entity('wanderer-1').x);assert.ok(g.command({type:'Interact',targetId:traveler.id}),'player can share observed fact');
+assert.equal(traveler.state.knowsShelterFire,true,'traveler only knows after being told');
+assert.equal(traveler.state.informedAt<=g.time,true);
+const remembered=g.snapshot(),restored=new GameCore();assert.ok(restored.restore(remembered));assert.ok(restored.character.knows('shelter_fire'));assert.equal(restored.semantic.entity('wanderer-1').state.knowsShelterFire,true);
+console.log(JSON.stringify({passed:true,playerLearnedAfterObserving:true,npcLearnedAfterConversation:true,historySaved:true}));
