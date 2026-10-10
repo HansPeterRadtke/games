@@ -1,0 +1,8 @@
+import assert from 'node:assert/strict';import {GameCore,initializePhysics,SETTINGS}from '../physics-core.js';import {TextAdapter}from '../text-adapter.js';await initializePhysics();
+const graphical=new GameCore(),terminal=new GameCore(),adapter=new TextAdapter(terminal);
+// The textual adapter and GUI control path issue the same low-level movement in the same 3D core.
+const manual={type:'Move',direction:-1};graphical.command(manual);for(let i=0;i<120;i++)graphical.step();graphical.command({type:'Move',direction:0});
+let answer=adapter.run('left 2');assert.ok(answer.ok);assert.ok(Math.abs(terminal.state().player.x-graphical.state().player.x)<.00001,'text and graphics must agree on physical state');assert.ok(answer.output.includes('Nearby:'));const before=terminal.snapshot();assert.equal(adapter.run('wait -1').ok,false);assert.equal(terminal.state().player.x,before.player.p.x,'invalid command must have no effect');
+const initial=new GameCore(),text=new TextAdapter(initial);const goal=text.run('jump over fence');assert.ok(goal.ok,'text-level goal must use real fence-crossing simulation');assert.ok(initial.state().player.x>5.2);
+const p=initial.state().player;assert.ok(p.z===0&&Number.isFinite(p.y),'world coordinates remain three-dimensional');const save=initial.snapshot();const restored=new GameCore();assert.ok(restored.restore(save));assert.equal(new TextAdapter(restored).describe().includes('You are at x'),true);
+console.log(JSON.stringify({passed:true,samePhysicsPosition:terminal.state().player.x,textGoalX:initial.state().player.x,representations:['headless text','Canvas 2D','shared Rapier 3D core']}));

@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {resonanceAt,attemptResonance}from '../hidden-mechanism.js';
+import {initializePhysics,GameCore}from '../physics-core.js';
+import {CharacterModel}from '../character-model.js';
+await initializePhysics();
+let strong=0,weak=0;for(let i=0;i<2000;i++){const x=resonanceAt(i/60);assert.ok(Number.isFinite(x)&&Math.abs(x)<=1.00001);strong+=x>=.66;weak+=x<.66;}assert.ok(strong>30&&weak>30,'hidden function must have fair opportunities and misses');assert.equal(resonanceAt(19.85),resonanceAt(19.85),'learned law must be stable');
+const g=new GameCore();g.player.setTranslation({x:2.46,y:.86,z:0},true);g.player.setLinvel({x:0,y:0,z:0},true);for(let i=0;i<90;i++)g.step();
+assert.ok(g.command({type:'Interact'}),'mechanism must be measurable');assert.equal(g.character.notes.length,1);let missed=0,win=false;for(let i=0;i<1200;i++){g.step();if(g.time>=.25&&resonanceAt(g.time)<.3&&!missed){assert.equal(g.command({type:'Experiment'}),false);missed++;}if(resonanceAt(g.time)>.66){win=g.command({type:'Experiment'});if(win)break;}}
+assert.ok(win,'timing based discovery must be possible');const startGate=g.gateProgress;for(let i=0;i<120;i++)g.step();assert.equal(g.character.fenceOpened,true);assert.ok(g.gateProgress>=.99);assert.ok(g.fence.translation().y>2.4);assert.ok(startGate<g.gateProgress,'physical fence must lift over time, not teleport');
+const save=g.snapshot(),h=new GameCore();assert.ok(h.restore(save));assert.deepEqual(h.character.snapshot(),g.character.snapshot());assert.ok(Math.abs(h.fence.translation().y-g.fence.translation().y)<.001,'mechanical transition must survive snapshot');
+const character=new CharacterModel();let full=character.locomotion().speedFactor;assert.equal(character.collectPlank(),true);assert.equal(character.collectPlank(),true);assert.ok(character.locomotion().speedFactor<full,'physical carrying must cost locomotion');let heavy=character.locomotion().speedFactor;character.spendPlanks(2);assert.ok(character.locomotion().speedFactor>heavy);character.injuries.leftKnee={kind:'sprain',severity:1};assert.ok(character.locomotion().speedFactor<full);const bad={...character.snapshot(),fatigue:Infinity};assert.equal(character.restore(bad),false);
+console.log(JSON.stringify({passed:true,strongWindows:strong,weakWindows:weak,researchNotes:g.character.notes.length,tuneMisses:missed,gateHeight:g.fence.translation().y,loadSpeedFactor:heavy,worldTime:g.time}));

@@ -51,6 +51,28 @@ try:
  c.call('Input.dispatchKeyEvent',{'type':'keyUp','key':'Enter','code':'Enter','windowsVirtualKeyCode':13},session=True)
  focused=c.eval('document.activeElement.id');assert focused=='semantic-input',f'Enter did not focus command input: {focused}'
  print('ENTER_FOCUS',focused,flush=True)
+ # Verify the actual game UI, not merely the isolated physics laboratory.
+ c.eval('document.getElementById("semantic-input").value="look"')
+ c.eval('document.getElementById("semantic-form").requestSubmit()')
+ assert 'footbridge' in c.eval('document.getElementById("message").textContent').lower(),'text RPG description missing'
+ gathered=0
+ for _ in range(10):
+  if c.eval('window.__gameDebug.core.state().nearby?.kind')!='plank':
+   c.eval('(function(){let g=window.__gameDebug.core;g.command({type:"Move",direction:-1});for(let i=0;i<15;i++)g.step();g.command({type:"Move",direction:0});})()')
+  if c.eval('window.__gameDebug.core.state().nearby?.kind')=='plank':c.eval('document.getElementById("interact").click()')
+  gathered=c.eval('window.__gameDebug.core.character.inventory.plank')
+  if gathered>=2:break
+ assert gathered>=2,f'Cannot gather timber by physically walking left and using Interact: {gathered}'
+ c.eval('window.__gameDebug.core.command({type:"Goal",intent:"crossFence"})')
+ crossed=c.eval('(function(){let g=window.__gameDebug.core;for(let i=0;i<950&&g.goal;i++)g.step();return g.events.some(e=>e.type==="goal_success")})()')
+ assert crossed,'high-level fence goal failed in real browser'
+ found=c.eval('(function(){let g=window.__gameDebug.core;g.command({type:"Move",direction:1});for(let i=0;i<850&&g.state().nearby?.kind!=="workbench";i++)g.step();g.command({type:"Move",direction:0});for(let i=0;i<7;i++)g.step();return g.state().nearby?.kind})()')
+ assert found=='workbench',f'workbench unreachable in browser: {found}'
+ c.eval('document.getElementById("interact").click()')
+ repaired=c.eval('window.__gameDebug.core.character.bridgeRepaired')
+ assert repaired,'bridge repair button failed in browser'
+ print('GAMEPLAY_JOURNEY',json.dumps({'gathered':gathered,'fenceGoal':crossed,'bridgeRepaired':repaired}),flush=True)
+ c.eval('document.getElementById("restart").click()')
  for id in ['ragdoll-walk','ragdoll','ragdoll-injure','save','load','ragdoll-relax','ragdoll-balance']:
   c.eval(f'document.getElementById({json.dumps(id)}).click()');time.sleep(.18)
   print('CLICK',id,'mode',c.eval('window.__gameDebug.core.state().ragdoll.mode'),'event',c.eval('document.querySelector("#message").textContent'),flush=True)
