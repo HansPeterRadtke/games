@@ -1,7 +1,7 @@
 import RAPIER from './vendor/rapier.es.js';
 const canvas=document.querySelector('#scene'),ctx=canvas.getContext('2d'),status=document.querySelector('#status'),message=document.querySelector('#message'),details=document.querySelector('#details');
 const W=1152,H=648;canvas.width=W;canvas.height=H;
-const images={};for(const [name,file] of Object.entries({player:'player.png',table:'table.png',sideboard:'sideboard.png',walk:'walk.png'})){const img=new Image();img.src='./assets/'+file;images[name]=img;}
+const images={};for(const [name,file] of Object.entries({player:'player.png',table:'table.png',sideboard:'sideboard.png',walk:'walk.png',hills:'kenney/background_color_hills.png',clouds:'kenney/background_clouds.png'})){const img=new Image();img.src='./assets/'+file;images[name]=img;}
 let world,player,crate,fence,goal=false,moveLeft=false,moveRight=false,desiredJump=false,wasGrounded=false,lastTime=0,accumulator=0,ticks=0,cam=0,lastSave=null,active=true;
 const R=()=>Math.round(player.translation().x*100)/100;
 function say(v){message.textContent=v;}
@@ -22,7 +22,7 @@ function tick(){const p=player.translation(),v=player.linvel();let dir=(moveRigh
 function imageDraw(name,x,y,w,h){const im=images[name];if(!im?.complete||!im.naturalWidth)return false;ctx.drawImage(im,x,y,w,h);return true;}
 function draw(){ctx.clearRect(0,0,W,H);const x=player.translation().x,px=(u)=>W*.48+(u-cam)*91;cam+=(x+1-cam)*.085;
  const sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#8eb6c6');sky.addColorStop(.66,'#e0d5b7');sky.addColorStop(1,'#73846a');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
- ctx.fillStyle='#98a9a0';for(let i=-3;i<11;i++){const center=px(i*4-7)*.45+W*.25;ctx.beginPath();ctx.ellipse(center,420,230,70,0,0,Math.PI*2);ctx.fill();}
+ if(images.hills.complete&&images.hills.naturalWidth){ctx.globalAlpha=.28;ctx.drawImage(images.hills,0,90,W,425);ctx.globalAlpha=1;}if(images.clouds.complete&&images.clouds.naturalWidth){ctx.globalAlpha=.2;ctx.drawImage(images.clouds,0,50,W,260);ctx.globalAlpha=1;}ctx.fillStyle='#98a9a0';for(let i=-3;i<11;i++{const center=px(i*4-7)*.45+W*.25;ctx.beginPath();ctx.ellipse(center,420,230,70,0,0,Math.PI*2);ctx.fill();}
  ctx.fillStyle='#748874';ctx.fillRect(0,512,W,136);ctx.fillStyle='#536956';ctx.fillRect(0,510,W,7);
  for(let i=-18;i<48;i++){const screen=px(i*2.9);if(screen<-90||screen>W+90)continue;ctx.fillStyle='#334d36';ctx.beginPath();ctx.moveTo(screen-17,510);ctx.lineTo(screen+7,478);ctx.lineTo(screen+22,510);ctx.fill();}
  const ground=512; const cx=px(crate.translation().x),cy=ground-crate.translation().y*91;
