@@ -1,0 +1,53 @@
+{
+  "utc": "2026-10-10T14:23:28.450658+00:00",
+  "model": "Qwen3.8-27B",
+  "duration": 24.12,
+  "input": {
+    "old_description": "An undamaged wooden bench supports a legible handwritten warning. The shelter is clean. A small lit candle stands on the bench.",
+    "current_structured_state": {
+      "shelter": {
+        "condition": "smoky",
+        "lit": null,
+        "water": null
+      },
+      "bench": {
+        "condition": "scorched",
+        "lit": false,
+        "water": 0
+      },
+      "candle": {
+        "condition": "intact",
+        "lit": true,
+        "water": 0
+      },
+      "jug": {
+        "condition": "intact",
+        "lit": false,
+        "water": 1
+      },
+      "note": {
+        "condition": "ashes",
+        "lit": false,
+        "water": 0
+      }
+    },
+    "completed_world_events": [
+      "candle_lit",
+      "note_ignited",
+      "paper_smolders",
+      "paper_burning",
+      "bench_smoldering",
+      "paper_ashes",
+      "bench_scorching",
+      "bench_scorched",
+      "shelter_smoky"
+    ]
+  },
+  "output": {
+    "now": "2026-0 grey, smoky air fills the heavy, smoky air fills the now heavily smoky shelter. The bench is scorched but still physically present. The candle remains lit and intact. A jug of water sits nearby. The note has burned to ashes and can no longer be answered. can no longer be read.",
+    "note_readable": false,
+    "bench_still_present": true
+  },
+  "error": null,
+  "tokens": 88
+}

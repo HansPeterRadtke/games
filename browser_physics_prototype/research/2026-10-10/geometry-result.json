@@ -1,0 +1,113 @@
+{
+  "utc": "2026-10-10T14:20:14.990166+00:00",
+  "duration": 20.94,
+  "model": "Qwen3.8-27B",
+  "cases": [
+    {
+      "case": "A",
+      "objects": [
+        {
+          "id": "bench",
+          "center_m": [
+            0,
+            0.225,
+            0
+          ],
+          "half_extents_m": [
+            0.9,
+            0.225,
+            0.2
+          ]
+        },
+        {
+          "id": "candle",
+          "center_m": [
+            0.3,
+            0.525,
+            0
+          ],
+          "half_extents_m": [
+            0.04,
+            0.075,
+            0.04
+          ]
+        }
+      ]
+    },
+    {
+      "case": "B",
+      "objects": [
+        {
+          "id": "bench",
+          "center_m": [
+            0,
+            0.225,
+            0
+          ],
+          "half_extents_m": [
+            0.9,
+            0.225,
+            0.2
+          ]
+        },
+        {
+          "id": "candle",
+          "center_m": [
+            0.3,
+            1.525,
+            0
+          ],
+          "half_extents_m": [
+            0.04,
+            0.075,
+            0.04
+          ]
+        }
+      ]
+    },
+    {
+      "case": "C",
+      "objects": [
+        {
+          "id": "bench",
+          "center_m": [
+            0,
+            0.225,
+            0
+          ],
+          "half_extents_m": [
+            0.9,
+            0.225,
+            0.2
+          ]
+        },
+        {
+          "id": "candle",
+          "center_m": [
+            0.3,
+            0.225,
+            0
+          ],
+          "half_extents_m": [
+            0.04,
+            0.075,
+            0.04
+          ]
+        }
+      ]
+    }
+  ],
+  "predicted": {
+    "A": "intersecting",
+    "B": "floating",
+    "C": "intersecting"
+  },
+  "expected": {
+    "A": "supported",
+    "B": "floating",
+    "C": "intersecting"
+  },
+  "error": null,
+  "tokens": 16,
+  "correct": 2
+}

@@ -1,0 +1,369 @@
+{
+  "original": {
+    "label": "unlit",
+    "objects": [
+      {
+        "id": "shelter-setting",
+        "kind": "shelter",
+        "description": "A rain-worn wooden shelter on the far bank, with a long oak bench on the stacking floor, on the supports: a small beeswax candle in a metal holder and a handwritten note lying flat on the bench, and a clay water jug on the floor beside the bench.",
+        "condition": "intact",
+        "position": {
+          "x": 37,
+          "y": 1.399999976158142,
+          "z": 0.30000001192092896
+        }
+      },
+      {
+        "id": "shelter-bench",
+        "kind": "bench",
+        "description": "A long rain-worn oak bench resting on the shelter floor.",
+        "condition": "intact",
+        "lit": false,
+        "wet": false,
+        "water": 0,
+        "size": {
+          "x": 1.8,
+          "y": 0.45,
+          "z": 0.4
+        },
+        "position": {
+          "x": 37,
+          "y": 0.22499999403953552,
+          "z": 0
+        },
+        "support": null
+      },
+      {
+        "id": "shelter-candle",
+        "kind": "candle",
+        "description": "A small beeswax candle standing in a metal holder on the bench.",
+        "condition": "intact",
+        "lit": false,
+        "wet": false,
+        "water": 0,
+        "size": {
+          "x": 0.08,
+          "y": 0.15,
+          "z": 0.08
+        },
+        "position": {
+          "x": 37.3407096862793,
+          "y": 0.5237708687782288,
+          "z": 0
+        },
+        "support": "shelter-bench"
+      },
+      {
+        "id": "shelter-jug",
+        "kind": "jug",
+        "description": "A clay water jug resting on the ground beside the bench.",
+        "condition": "intact",
+        "lit": false,
+        "wet": false,
+        "water": 1,
+        "size": {
+          "x": 0.2,
+          "y": 0.3,
+          "z": 0.2
+        },
+        "position": {
+          "x": 38.20000076293945,
+          "y": 0.14873486757278442,
+          "z": 0.30000001192092896
+        },
+        "support": null
+      },
+      {
+        "id": "shelter-note",
+        "kind": "note",
+        "description": "A handwritten note lying flat on the bench, warning of fire in the old woods.",
+        "condition": "intact",
+        "lit": false,
+        "wet": false,
+        "water": 0,
+        "size": {
+          "x": 0.15,
+          "y": 0.002,
+          "z": 0.21
+        },
+        "position": {
+          "x": 36.70000076293945,
+          "y": 0.45100000500679016,
+          "z": 0.05000000074505806
+        },
+        "support": "shelter-bench"
+      }
+    ],
+    "worldTime": 1.1666666666666674,
+    "visible": [
+      "shelter-setting",
+      "shelter-bench",
+      "shelter-candle",
+      "shelter-jug",
+      "shelter-note"
+    ]
+  },
+  "lit": {
+    "label": "lit but not ignited",
+    "objects": [
+      {
+        "id": "shelter-setting",
+        "kind": "shelter",
+        "description": "A rain-worn wooden shelter on the far bank, with a long oak bench on the stacking floor, on the supports: a small beeswax candle in a metal holder and a handwritten note lying flat on the bench, and a clay water jug on the floor beside the bench.",
+        "condition": "intact",
+        "position": {
+          "x": 37,
+          "y": 1.399999976158142,
+          "z": 0.30000001192092896
+        }
+      },
+      {
+        "id": "shelter-bench",
+        "kind": "bench",
+        "description": "A long rain-worn oak bench resting on the shelter floor.",
+        "condition": "intact",
+        "lit": false,
+        "wet": false,
+        "water": 0,
+        "size": {
+          "x": 1.8,
+          "y": 0.45,
+          "z": 0.4
+        },
+        "position": {
+          "x": 37,
+          "y": 0.22499999403953552,
+          "z": 0
+        },
+        "support": null
+      },
+      {
+        "id": "shelter-candle",
+        "kind": "candle",
+        "description": "A small beeswax candle standing in a metal holder on the bench.",
+        "condition": "intact",
+        "lit": true,
+        "wet": false,
+        "water": 0,
+        "size": {
+          "x": 0.08,
+          "y": 0.15,
+          "z": 0.08
+        },
+        "position": {
+          "x": 37.3407096862793,
+          "y": 0.5237708687782288,
+          "z": 0
+        },
+        "support": "shelter-bench"
+      },
+      {
+        "id": "shelter-jug",
+        "kind": "jug",
+        "description": "A clay water jug resting on the ground beside the bench.",
+        "condition": "intact",
+        "lit": false,
+        "wet": false,
+        "water": 1,
+        "size": {
+          "x": 0.2,
+          "y": 0.3,
+          "z": 0.2
+        },
+        "position": {
+          "x": 38.20000076293945,
+          "y": 0.14873486757278442,
+          "z": 0.30000001192092896
+        },
+        "support": null
+      },
+      {
+        "id": "shelter-note",
+        "kind": "note",
+        "description": "A handwritten note lying flat on the bench, warning of fire in the old woods.",
+        "condition": "intact",
+        "lit": false,
+        "wet": false,
+        "water": 0,
+        "size": {
+          "x": 0.15,
+          "y": 0.002,
+          "z": 0.21
+        },
+        "position": {
+          "x": 36.70000076293945,
+          "y": 0.45100000500679016,
+          "z": 0.05000000074505806
+        },
+        "support": "shelter-bench"
+      }
+    ],
+    "worldTime": 1.8333333333333317,
+    "visible": [
+      "shelter-setting",
+      "shelter-bench",
+      "shelter-candle",
+      "shelter-jug",
+      "shelter-note"
+    ]
+  },
+  "burned": {
+    "label": "after paper fire",
+    "objects": [
+      {
+        "id": "shelter-setting",
+        "kind": "shelter",
+        "description": "A rain-worn wooden shelter on the far bank, with a long oak bench on the stacking floor, on the supports: a small beeswax candle in a metal holder and a handwritten note lying flat on the bench, and a clay water jug on the floor beside the bench.",
+        "condition": "smoky",
+        "position": {
+          "x": 37,
+          "y": 1.399999976158142,
+          "z": 0.30000001192092896
+        }
+      },
+      {
+        "id": "shelter-bench",
+        "kind": "bench",
+        "description": "A long rain-worn oak bench resting on the shelter floor.",
+        "condition": "scorched",
+        "lit": false,
+        "wet": false,
+        "water": 0,
+        "size": {
+          "x": 1.8,
+          "y": 0.45,
+          "z": 0.4
+        },
+        "position": {
+          "x": 37,
+          "y": 0.22499999403953552,
+          "z": 0
+        },
+        "support": null
+      },
+      {
+        "id": "shelter-candle",
+        "kind": "candle",
+        "description": "A small beeswax candle standing in a metal holder on the bench.",
+        "condition": "intact",
+        "lit": true,
+        "wet": false,
+        "water": 0,
+        "size": {
+          "x": 0.08,
+          "y": 0.15,
+          "z": 0.08
+        },
+        "position": {
+          "x": 37.3407096862793,
+          "y": 0.5237708687782288,
+          "z": 0
+        },
+        "support": "shelter-bench"
+      },
+      {
+        "id": "shelter-jug",
+        "kind": "jug",
+        "description": "A clay water jug resting on the ground beside the bench.",
+        "condition": "intact",
+        "lit": false,
+        "wet": false,
+        "water": 1,
+        "size": {
+          "x": 0.2,
+          "y": 0.3,
+          "z": 0.2
+        },
+        "position": {
+          "x": 38.20000076293945,
+          "y": 0.14873486757278442,
+          "z": 0.30000001192092896
+        },
+        "support": null
+      },
+      {
+        "id": "shelter-note",
+        "kind": "note",
+        "description": "A handwritten note lying flat on the bench, warning of fire in the old woods.",
+        "condition": "ashes",
+        "lit": false,
+        "wet": false,
+        "water": 0,
+        "size": {
+          "x": 0.15,
+          "y": 0.002,
+          "z": 0.21
+        },
+        "position": {
+          "x": 36.70000076293945,
+          "y": 0.45100000500679016,
+          "z": 0.05000000074505806
+        },
+        "support": "shelter-bench"
+      }
+    ],
+    "worldTime": 43.49999999999881,
+    "visible": [
+      "shelter-setting",
+      "shelter-bench",
+      "shelter-candle",
+      "shelter-jug",
+      "shelter-note"
+    ]
+  },
+  "events": [
+    {
+      "type": "candle_lit",
+      "message": "You light the candle. A small steady flame appears.",
+      "time": 1.1666666666666674
+    },
+    {
+      "type": "note_ignited",
+      "message": "You hold the lit candle to the note. A tiny ember starts to glow.",
+      "time": 1.8333333333333317
+    },
+    {
+      "type": "paper_smolders",
+      "message": "The paper begins to smolder.",
+      "time": 1.8333333333333317,
+      "visibility": "visible"
+    },
+    {
+      "type": "paper_burning",
+      "message": "Flames begin consuming the paper.",
+      "time": 6.833333333333332,
+      "visibility": "visible"
+    },
+    {
+      "type": "bench_smoldering",
+      "message": "Heat spreads to the dry oak bench.",
+      "time": 13.833333333333332,
+      "visibility": "visible"
+    },
+    {
+      "type": "paper_ashes",
+      "message": "The writing crumbles into ash.",
+      "time": 20.833333333333332,
+      "visibility": "visible"
+    },
+    {
+      "type": "bench_scorching",
+      "message": "Small flames crawl along the wooden bench.",
+      "time": 24.833333333333332,
+      "visibility": "visible"
+    },
+    {
+      "type": "bench_scorched",
+      "message": "The bench is blackened, but its supports remain standing.",
+      "time": 35.83333333333333,
+      "visibility": "visible"
+    },
+    {
+      "type": "shelter_smoky",
+      "message": "Soot settles under the shelter roof.",
+      "time": 39.83333333333333,
+      "visibility": "visible"
+    }
+  ],
+  "queued": 0
+}

@@ -1,0 +1,192 @@
+{
+  "utc": "2026-10-10T14:18:15.975295+00:00",
+  "model": "Qwen3.8-27B",
+  "duration": 43.29,
+  "input": {
+    "phase_1": [
+      {
+        "id": "shelter-setting",
+        "kind": "shelter",
+        "condition": "intact",
+        "lit": null,
+        "wet": null,
+        "position_m": {
+          "x": 37,
+          "y": 1.399999976158142,
+          "z": 0.30000001192092896
+        },
+        "size_m": null,
+        "support_id": null
+      },
+      {
+        "id": "shelter-bench",
+        "kind": "bench",
+        "condition": "intact",
+        "lit": false,
+        "wet": false,
+        "position_m": {
+          "x": 37,
+          "y": 0.22499999403953552,
+          "z": 0
+        },
+        "size_m": {
+          "x": 1.8,
+          "y": 0.45,
+          "z": 0.4
+        },
+        "support_id": null
+      },
+      {
+        "id": "shelter-candle",
+        "kind": "candle",
+        "condition": "intact",
+        "lit": true,
+        "wet": false,
+        "position_m": {
+          "x": 37.3407096862793,
+          "y": 0.5237708687782288,
+          "z": 0
+        },
+        "size_m": {
+          "x": 0.08,
+          "y": 0.15,
+          "z": 0.08
+        },
+        "support_id": "shelter-bench"
+      },
+      {
+        "id": "shelter-jug",
+        "kind": "jug",
+        "condition": "intact",
+        "lit": false,
+        "wet": false,
+        "position_m": {
+          "x": 38.20000076293945,
+          "y": 0.14873486757278442,
+          "z": 0.30000001192092896
+        },
+        "size_m": {
+          "x": 0.2,
+          "y": 0.3,
+          "z": 0.2
+        },
+        "support_id": null
+      },
+      {
+        "id": "shelter-note",
+        "kind": "note",
+        "condition": "intact",
+        "lit": false,
+        "wet": false,
+        "position_m": {
+          "x": 36.70000076293945,
+          "y": 0.45100000500679016,
+          "z": 0.05000000074505806
+        },
+        "size_m": {
+          "x": 0.15,
+          "y": 0.002,
+          "z": 0.21
+        },
+        "support_id": "shelter-bench"
+      }
+    ],
+    "phase_2": [
+      {
+        "id": "shelter-setting",
+        "kind": "shelter",
+        "condition": "smoky",
+        "lit": null,
+        "wet": null,
+        "position_m": {
+          "x": 37,
+          "y": 1.399999976158142,
+          "z": 0.30000001192092896
+        },
+        "size_m": null,
+        "support_id": null
+      },
+      {
+        "id": "shelter-bench",
+        "kind": "bench",
+        "condition": "scorched",
+        "lit": false,
+        "wet": false,
+        "position_m": {
+          "x": 37,
+          "y": 0.22499999403953552,
+          "z": 0
+        },
+        "size_m": {
+          "x": 1.8,
+          "y": 0.45,
+          "z": 0.4
+        },
+        "support_id": null
+      },
+      {
+        "id": "shelter-candle",
+        "kind": "candle",
+        "condition": "intact",
+        "lit": true,
+        "wet": false,
+        "position_m": {
+          "x": 37.3407096862793,
+          "y": 0.5237708687782288,
+          "z": 0
+        },
+        "size_m": {
+          "x": 0.08,
+          "y": 0.15,
+          "z": 0.08
+        },
+        "support_id": "shelter-bench"
+      },
+      {
+        "id": "shelter-jug",
+        "kind": "jug",
+        "condition": "intact",
+        "lit": false,
+        "wet": false,
+        "position_m": {
+          "x": 38.20000076293945,
+          "y": 0.14873486757278442,
+          "z": 0.30000001192092896
+        },
+        "size_m": {
+          "x": 0.2,
+          "y": 0.3,
+          "z": 0.2
+        },
+        "support_id": null
+      },
+      {
+        "id": "shelter-note",
+        "kind": "note",
+        "condition": "ashes",
+        "lit": false,
+        "wet": false,
+        "position_m": {
+          "x": 36.70000076293945,
+          "y": 0.45100000500679016,
+          "z": 0.05000000074505806
+        },
+        "size_m": {
+          "x": 0.15,
+          "y": 0.002,
+          "z": 0.21
+        },
+        "support_id": "shelter-bench"
+      }
+    ]
+  },
+  "result": {
+    "phase1": "A shelter interior contains an intact bench, a lit candle on the bench, an intact jug on the floor, and an intact note on the bench. The shelter setting is intact.",
+    "phase2": "The shelter setting is smoky. The bench is scorched. The candle remains lit and intact. The jug is intact. The note is in ashes.",
+    "paper_burning_phase1": false,
+    "note_readable_phase2": false
+  },
+  "error": null,
+  "token_count": 90,
+  "stopped": null
+}
