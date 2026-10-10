@@ -1,7 +1,7 @@
 import {GameCore,initializePhysics,SETTINGS} from './physics-core.js';
 const canvas=document.querySelector('#scene'),ctx=canvas.getContext('2d'),status=document.querySelector('#status'),message=document.querySelector('#message'),details=document.querySelector('#details');
 const W=1152,H=648;canvas.width=W;canvas.height=H;
-const images={};for(const [name,file] of Object.entries({player:'player.png',walk:'walk.png',hills:'kenney/background_color_hills.png',clouds:'kenney/background_clouds.png'})){const img=new Image();img.src='./assets/'+file;images[name]=img;}
+const images={};for(const [name,file] of Object.entries({idle:'kenney/character/idle.png',walkA:'kenney/character/walk_a.png',walkB:'kenney/character/walk_b.png',jump:'kenney/character/jump.png',hills:'kenney/background_color_hills.png',clouds:'kenney/background_clouds.png'})){const img=new Image();img.src='./assets/'+file;images[name]=img;}
 let core,moveLeft=false,moveRight=false,lastTime=0,accumulator=0,camera=-2,eventCount=0,frameIndex=0,lastSave=null,paused=false;
 const say=(text)=>{message.textContent=text;};
 const keyMove=()=>{if(core)core.command({type:'Move',direction:Number(moveRight)-Number(moveLeft)});};
@@ -16,8 +16,8 @@ function render(){if(!core)return;const state=core.state(),pos=state.player,px=u
  const fx=px(SETTINGS.fenceX),fTop=ground-SETTINGS.fenceHeight*91;ctx.fillStyle='#606a62';ctx.fillRect(fx-9,fTop,18,ground-fTop+4);ctx.fillStyle='#8c9b91';for(let j=0;j<2;j++)ctx.fillRect(fx-34,fTop+10+j*24,68,9);
  for(const e of state.visibleEntities){const ex=px(e.position.x),ey=ground-e.position.y*91;ctx.fillStyle='#384b40';ctx.fillRect(ex-17,ey-63,34,62);ctx.fillStyle='#d8b893';ctx.beginPath();ctx.arc(ex,ey-72,17,0,Math.PI*2);ctx.fill();ctx.fillStyle='#faf4d9';ctx.font='13px system-ui';ctx.textAlign='center';ctx.fillText(e.name,ex,ey-99);}
  const sx=px(pos.x),foot=ground-(pos.y-(SETTINGS.playerRadius+SETTINGS.playerHalfHeight))*91;ctx.save();ctx.translate(sx,foot);if(core.direction===-1)ctx.scale(-1,1);
- const walk=images.walk;let animated=false;if(state.grounded&&Math.abs(state.velocity.x)>.3&&walk.complete&&walk.naturalWidth){const frames=Math.floor(walk.naturalWidth/288);if(frames>0){frameIndex=Math.floor(state.time*11)%frames;ctx.drawImage(walk,frameIndex*288,0,288,384,-39,-135,78,135);animated=true;}}
- if(!animated&&!drawSprite('player',-39,-135,78,135)){ctx.fillStyle='#2e3a4b';ctx.fillRect(-22,-110,44,108);ctx.fillStyle='#cfad88';ctx.beginPath();ctx.arc(0,-120,18,0,7);ctx.fill();}ctx.restore();
+ const moving=Math.abs(state.velocity.x)>.3,pose=!state.grounded?'jump':moving?(Math.floor(state.time*7)%2===0?'walkA':'walkB'):'idle';
+ if(!drawSprite(pose,-57,-143,114,143)){ctx.fillStyle='#2e3a4b';ctx.fillRect(-22,-110,44,108);ctx.fillStyle='#cfad88';ctx.beginPath();ctx.arc(0,-120,18,0,7);ctx.fill();}ctx.restore();
  ctx.fillStyle='#fffbe6';ctx.textAlign='center';ctx.font='bold 16px system-ui';ctx.fillText('FENCE',fx,fTop-13);ctx.fillText('CRATE',cx,cy-58);
  ctx.fillStyle='#263c32';ctx.fillRect(0,H-34,W,34);ctx.fillStyle='#e5f0dc';ctx.font='15px system-ui';ctx.textAlign='left';ctx.fillText(`X ${pos.x.toFixed(2)} m    Z ${pos.z.toFixed(2)} m    Jump ${(Math.max(0,pos.y-SETTINGS.playerRadius-SETTINGS.playerHalfHeight)).toFixed(2)} m    ${state.grounded?'Grounded':'Airborne'}    ${state.goal?'Automatic: '+state.goal:''}`,20,H-12);
  if(core.events.length>eventCount){say(core.events.at(-1).message);eventCount=core.events.length;}
