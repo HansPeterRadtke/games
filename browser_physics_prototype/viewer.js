@@ -5,13 +5,18 @@ import {SideViewRenderer} from './side-view-renderer.js';
 const $=id=>document.getElementById(id),renderer=new SideViewRenderer($('scene'));
 let ws=null,world=null,lastGameTime=0,eventCursor=0,ready=false,moveLeft=false,moveRight=false;
 let requestId=1,backoff=500,closed=false,lastUI='',lastJournal='',displayFrame=0,frameId=0,lastPong=Date.now();
+let sentDirection=null,disconnectNoticeTimer=null,disconnectCount=0,connectedBefore=false;
 let lastStateAt=0,sessionToken=null;
 const TOKEN_KEY='prse-remote-session-v1';
 function say(text){if(text)$('message').textContent=text;}
 function notice(text){$('status').textContent=text;}
 function send(packet){if(ws?.readyState!==WebSocket.OPEN)return false;try{ws.send(JSON.stringify(packet));return true;}catch{return false;}}
 function control(command){return send({type:'command',requestId:requestId++,command});}
-function movement(){return control({type:'Move',direction:Number(moveRight)-Number(moveLeft)});}
+function movement(force=false){const direction=Number(moveRight)-Number(moveLeft);
+ if(!force&&direction===sentDirection)return true;
+ if(!ready){sentDirection=null;return false;}
+ const sent=control({type:'Move',direction});if(sent)sentDirection=direction;return sent;}
+
 function locationName(x){if(x< -4.5)return 'Old beech grove';if(x<5.2)return 'The clearing';if(x<14)return 'Beyond the fence';if(x<22.2)return 'Stream approach';if(x<33)return 'Far bank';if(x<42)return 'Riverside shelter';return 'Valley path';}
 function missionText(c){if(c.farBankReached)return 'Explore the abandoned shelter further east →';if(c.bridgeRepaired)return 'Cross the repaired footbridge →';return c.inventory.plank<2?'Find two timber planks near the old beech ←':'Take timber past the fence to the bridge repairs →';}
 function updateUI(state){const c=state.character;
@@ -22,13 +27,17 @@ function updateUI(state){const c=state.character;
 function acceptState(s){if(!s||!s.player||!s.character||!s.visibleEntities)return;world=s;lastGameTime=s.time;lastStateAt=performance.now();updateUI(s);}
 function acceptEvents(events){if(!Array.isArray(events))return;for(const e of events){if((e.sequence||0)<=eventCursor)continue;eventCursor=Math.max(eventCursor,e.sequence||0);if(e.visibility==='offscreen'||e.type==='limb_contact'&&!$('physical-experiment').open)continue;say(e.message);}}
 function processPacket(packet){switch(packet.type){
- case 'welcome':{ready=true;sessionToken=packet.token;try{localStorage.setItem(TOKEN_KEY,packet.token)}catch{};$('session-info').textContent=`Authoritative host: ${packet.host}. Physics: ${packet.physicsHz}Hz. Display updates: ${packet.displayHz}Hz. Saving: ${packet.saveLocation}.`;
-   notice('Nitro simulation connected');acceptState(packet.state);backoff=500;say('Connected to the authoritative PRSE simulation.');break;}
+ case 'welcome':{ready=true;lastPong=Date.now();sessionToken=packet.token;try{localStorage.setItem(TOKEN_KEY,packet.token)}catch{try{sessionStorage.setItem(TOKEN_KEY,packet.token)}catch{}};$('session-info').textContent=`Authoritative host: ${packet.host}. Physics: ${packet.physicsHz}Hz. Display updates: ${packet.displayHz}Hz. Saving: ${packet.saveLocation}.`;
+   clearTimeout(disconnectNoticeTimer);disconnectNoticeTimer=null;
+   notice(disconnectCount?'Nitro simulation reconnected':'Nitro simulation connected');
+   acceptState(packet.state);backoff=500;sentDirection=null;movement(true);
+   if(!connectedBefore)say('Connected to the authoritative PRSE simulation.');
+   connectedBefore=true;break;}
  case 'state':acceptState(packet.state);break;case 'world_reset':eventCursor=packet.eventSequence||0;lastJournal='';lastUI='';break;
  case 'events':acceptEvents(packet.events);break;
  case 'text_result':say(packet.text);break;
  case 'message':say(packet.text);break;
- case 'error':case 'rejected':say(packet.message);break;
+ case 'error':case 'rejected':say(packet.message);if(packet.message?.includes('capacity')&&ws?.readyState===WebSocket.OPEN)ws.close(1013,'capacity');break;
  case 'command_result':if(!packet.accepted)say('That action was rejected by the authoritative game core.');break;
  case 'llm_status':$('llm-status').textContent=packet.message||packet.status;break;
  case 'llm_result':{const a=packet.answer;$('llm-status').textContent=`Jetson model responded in ${packet.durationSeconds.toFixed(1)}s. The physics core remains authoritative.`;
@@ -37,15 +46,53 @@ function processPacket(packet){switch(packet.type){
   const uncertainty=document.createElement('p');uncertainty.textContent='Uncertainty: '+a.uncertainty;result.append(uncertainty);break;}
  case 'pong':lastPong=Date.now();break;
  }}
-function connect(){if(closed)return;const origin=location.protocol==='https:'?'wss:':'ws:';const url=`${origin}//${location.host}/llm_game_runtime/ws`;
- notice('Connecting to Nitro game core…');try{ws=new WebSocket(url);}catch{scheduleRetry();return;}
- ws.onopen=()=>{let token=null;try{token=localStorage.getItem(TOKEN_KEY)}catch{}send({type:'hello',token});};
- ws.onmessage=e=>{try{processPacket(JSON.parse(e.data));}catch(err){console.warn('Remote protocol response rejected',err)}};
- ws.onclose=()=>{ready=false;moveLeft=false;moveRight=false;notice('Connection interrupted · reconnecting');scheduleRetry();};
- ws.onerror=()=>{notice('Remote simulation unavailable');};
+let retryTimer=null;
+function scheduleRetry(){if(closed||retryTimer)return;
+ const delay=backoff+Math.floor(Math.random()*backoff*.2);
+ retryTimer=setTimeout(()=>{retryTimer=null;connect();},delay);
+ backoff=Math.min(12000,Math.floor(backoff*1.55));
 }
-let retryTimer=null;function scheduleRetry(){if(closed||retryTimer)return;retryTimer=setTimeout(()=>{retryTimer=null;connect();},backoff);backoff=Math.min(10000,Math.floor(backoff*1.6));}
-function render(t){if(world)renderer.draw(world);frameId=requestAnimationFrame(render);}frameId=requestAnimationFrame(render);
+function connect(){
+ if(closed||ws?.readyState===WebSocket.OPEN||ws?.readyState===WebSocket.CONNECTING)return;
+ const origin=location.protocol==='https:'?'wss:':'ws:',url=`${origin}//${location.host}/llm_game_runtime/ws`;
+ lastPong=Date.now(); // Critical: a stale heartbeat must not immediately close a new socket after sleep/reconnect.
+ if(!world)notice('Connecting to Nitro game core…');
+ let socket;try{socket=new WebSocket(url);}catch{scheduleRetry();return;}
+ ws=socket;
+ socket.onopen=()=>{
+  if(ws!==socket)return;
+  lastPong=Date.now();let token=sessionToken;
+  try{token=localStorage.getItem(TOKEN_KEY)||sessionStorage.getItem(TOKEN_KEY)||token}catch{try{token=sessionStorage.getItem(TOKEN_KEY)||token}catch{}}
+  send({type:'hello',token});
+ };
+ socket.onmessage=e=>{
+  if(ws!==socket)return;
+  lastPong=Date.now();
+  try{processPacket(JSON.parse(e.data));}catch(err){console.warn('PRSE transport packet could not be processed',err)}
+ };
+ socket.onclose=e=>{
+  if(ws!==socket)return;
+  ws=null;ready=false;sentDirection=null;moveLeft=false;moveRight=false;disconnectCount++;
+  console.warn('PRSE WebSocket closed',{code:e.code,reason:e.reason||'',count:disconnectCount});
+  $('session-info').textContent=`Connection retry ${disconnectCount}; last close code ${e.code}. Your world remains on Nitro.`;
+  clearTimeout(disconnectNoticeTimer);
+  disconnectNoticeTimer=setTimeout(()=>{if(!ready)notice(`Reconnecting to Nitro (code ${e.code})…`);},900);
+  scheduleRetry();
+ };
+ socket.onerror=()=>{if(ws!==socket)return;console.warn('PRSE WebSocket transport failure');};
+}
+function render(t){
+ if(world){let display=world;
+  if(ready&&lastStateAt&&t-lastStateAt<170){
+   // Visual-only, capped extrapolation. Physics and game rules remain on Nitro.
+   const dt=Math.min(.12,Math.max(0,(t-lastStateAt)/1000)),p=world.player,v=world.velocity;
+   display={...world,time:world.time+dt,player:{...p,x:p.x+v.x*dt,y:world.grounded?p.y:p.y+v.y*dt-.5*19.6*dt*dt}};
+  }
+  renderer.draw(display);
+ }
+ frameId=requestAnimationFrame(render);
+}
+frameId=requestAnimationFrame(render);
 function hold(id,direction){const el=$(id),down=()=>{if(direction<0)moveLeft=true;else moveRight=true;movement();},up=()=>{if(direction<0)moveLeft=false;else moveRight=false;movement();};el.addEventListener('pointerdown',ev=>{ev.preventDefault();el.setPointerCapture(ev.pointerId);down();});for(const type of ['pointerup','pointercancel','lostpointercapture'])el.addEventListener(type,up);}
 hold('left',-1);hold('right',1);
 const bindings={jump:()=>control({type:'Jump'}),interact:()=>control({type:'Interact'}),tune:()=>control({type:'Experiment'}),goal:()=>control({type:'Goal',intent:'crossFence'}),cancel:()=>control({type:'CancelGoal'}),ragdoll:()=>control({type:'PushRagdoll'}),'ragdoll-balance':()=>control({type:'SetRagdollMode',mode:'balance'}),'ragdoll-walk':()=>control({type:'SetRagdollMode',mode:'walk'}),'ragdoll-relax':()=>control({type:'SetRagdollMode',mode:'relax'}),'ragdoll-injure':()=>control({type:'InjureRagdoll',part:'leftKnee',injury:'sprain',severity:.85}),'ragdoll-heal':()=>control({type:'HealRagdoll'})};
@@ -53,14 +100,28 @@ for(const [id,fn] of Object.entries(bindings))$(id).addEventListener('click',fn)
 $('view-lab').addEventListener('click',()=>renderer.setView('lab'));$('view-world').addEventListener('click',()=>renderer.setView('world'));
 function onKey(e,pressed){if(e.target instanceof HTMLInputElement||e.target instanceof HTMLTextAreaElement){if(pressed&&e.key==='Escape')e.target.blur();return;}
  const k=e.key.toLowerCase();if(['arrowleft','arrowright',' ','a','d','e','f','g','escape','enter'].includes(k))e.preventDefault();if(k==='enter'&&pressed&&!e.repeat&&!e.isComposing){$('semantic-input').focus();return;}
- if(k==='a'||k==='arrowleft'){moveLeft=pressed;movement();}else if(k==='d'||k==='arrowright'){moveRight=pressed;movement();}else if(pressed&&!e.repeat){if(k===' ')control({type:'Jump'});if(k==='e')control({type:'Interact'});if(k==='f')control({type:'Experiment'});if(k==='g')control({type:'Goal',intent:'crossFence'});if(k==='escape')control({type:'CancelGoal'});}}
+ if(k==='a'||k==='arrowleft'){if(pressed&&e.repeat)return;moveLeft=pressed;movement();}else if(k==='d'||k==='arrowright'){if(pressed&&e.repeat)return;moveRight=pressed;movement();}else if(pressed&&!e.repeat){if(k===' ')control({type:'Jump'});if(k==='e')control({type:'Interact'});if(k==='f')control({type:'Experiment'});if(k==='g')control({type:'Goal',intent:'crossFence'});if(k==='escape')control({type:'CancelGoal'});}}
 window.addEventListener('keydown',e=>onKey(e,true));window.addEventListener('keyup',e=>onKey(e,false));window.addEventListener('blur',()=>{moveLeft=false;moveRight=false;movement();});
 $('semantic-form').addEventListener('submit',event=>{event.preventDefault();const el=$('semantic-input'),text=el.value.trim();if(!text)return;if(!send({type:'text',requestId:requestId++,text})){say('Not connected to the simulation. Please retry after reconnection.');return;}el.value='';el.blur();});
 $('save').addEventListener('click',()=>send({type:'save'}));$('load').addEventListener('click',()=>send({type:'load'}));$('restart').addEventListener('click',()=>{send({type:'restart'});eventCursor=0;lastJournal='';lastUI='';});
 $('ask-llm').addEventListener('click',()=>send({type:'ask_llm'}));
 $('import-local').addEventListener('click',()=>{try{let source=null;for(const key of ['prse-world-save-v5','prse-world-save-v4','world-physics-prototype-save-v3','world-physics-prototype-save-v2']){source=localStorage.getItem(key);if(source)break;}if(!source){say('There is no old browser-local save on this device.');return;}const snapshot=JSON.parse(source);if(!send({type:'import_legacy',snapshot}))say('Connect to Nitro first, then import the old save.');}catch{say('The old browser-local save is damaged or unavailable.');}});
-const heartbeat=setInterval(()=>{if(ws?.readyState===WebSocket.OPEN){if(Date.now()-lastPong>60000){ws.close();return;}send({type:'ping'});}},15000);
+const heartbeat=setInterval(()=>{
+ if(ws?.readyState===WebSocket.OPEN){
+  if(Date.now()-lastPong>90000){console.warn('PRSE heartbeat stale; reconnecting once');ws.close(4001,'heartbeat stale');return;}
+  send({type:'ping'});
+ }
+},12000);
+function accelerateReconnect(){
+ if(ready||closed)return;
+ if(ws?.readyState===WebSocket.CONNECTING)return;
+ clearTimeout(retryTimer);retryTimer=null;
+ connect();
+}
+window.addEventListener('online',accelerateReconnect);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)accelerateReconnect();});
+
 $('runtime-info').textContent='Simulation, physics, semantic world, events, saves and the LLM gateway are running on Nitro. Browser displays snapshots and sends commands. The LLM receives current visible facts only when explicitly requested.';
-window.__prseView={get state(){return world},get connected(){return ready},get gameTime(){return lastGameTime},get eventSequence(){return eventCursor},get socket(){return ws}};
+window.__prseView={get state(){return world},get connected(){return ready},get gameTime(){return lastGameTime},get eventSequence(){return eventCursor},get socket(){return ws},get disconnectCount(){return disconnectCount},get lastPongAgeMs(){return Date.now()-lastPong}};
 connect();
-window.addEventListener('beforeunload',()=>{closed=true;clearTimeout(retryTimer);cancelAnimationFrame(frameId);clearInterval(heartbeat);ws?.close();});
+window.addEventListener('beforeunload',()=>{closed=true;clearTimeout(retryTimer);cancelAnimationFrame(frameId);clearInterval(heartbeat);clearTimeout(disconnectNoticeTimer);ws?.close();});

@@ -10,7 +10,7 @@ Group=hans
 WorkingDirectory=/data/src/github/games/prse_runtime
 Environment=PRSE_PORT=18764
 Environment=PRSE_STATE_DIR=/data/var/llm_game/prse_sessions
-Environment=PRSE_MAX_ACTIVE=4
+Environment=PRSE_MAX_ACTIVE=8
 Environment=PRSE_LOG_LEVEL=normal
 ExecStart=/usr/bin/node --max-old-space-size=512 /data/src/github/games/prse_runtime/server.mjs
 Restart=on-failure

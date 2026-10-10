@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {initializePhysics,GameCore} from '../../browser_physics_prototype/physics-core.js';
+import {projectViewerState} from '../view-projection.mjs';
+await initializePhysics();const c=new GameCore();for(let i=0;i<90;i++)c.step();
+const baseline=c.state(),small=projectViewerState(baseline);
+assert.ok(JSON.stringify(small).length<JSON.stringify(baseline).length*.45,'transport must shed >=55% of unneeded JSON');
+for(const key of ['time','player','velocity','crate','grounded','goal','character','nearby','fence','gateProgress','direction','playerDimensions','visibleEntities','ragdoll'])assert.ok(Object.hasOwn(small,key),`missing renderer property ${key}`);
+assert.ok(Object.values(small.ragdoll.parts).every(b=>b.position&&b.rotation),'all physical body transforms must be renderable');
+assert.ok(small.visibleEntities.every(e=>e.id&&e.position&&e.state),'active semantic objects must be identifiable');
+const viewBytes=JSON.stringify(small).length;const before=c.player.translation().x;small.player.x+=100;assert.equal(c.player.translation().x,before,'network view must not be authoritative or mutate the core');
+console.log(JSON.stringify({passed:true,legacyBytes:JSON.stringify(baseline).length,projectedBytes:viewBytes,reductionPercent:Math.round((1-viewBytes/JSON.stringify(baseline).length)*100),corePreserved:true}));c.world.free();

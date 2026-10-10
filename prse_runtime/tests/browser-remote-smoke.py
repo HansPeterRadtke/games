@@ -61,10 +61,29 @@ try:
  assert c.eval('localStorage.getItem("prse-remote-session-v1")')==token,'must retain session identity after reload'
  after=c.eval('window.__prseView.state.player.x');assert after>=new-.25,f'Headless simulation did not resume: {new} -> {after}'
  # Force a transport interruption without destroying the actual server world.
+ oldCount=c.eval('window.__prseView.disconnectCount')
  c.eval('window.__prseView.socket.close()')
+ c.wait(f'window.__prseView?.disconnectCount>{oldCount}',8)
  c.wait('window.__prseView?.connected===true',12)
  assert c.eval('localStorage.getItem("prse-remote-session-v1")')==token,'transport reconnect changed world identity'
  recovered=c.eval('window.__prseView.state.player.x');assert abs(recovered-after)<.85,f'World reset after reconnect: {after} -> {recovered}'
+ for cycle in range(int(os.environ.get('RECONNECT_CYCLES','0'))):
+  old=c.eval('window.__prseView.disconnectCount')
+  current=c.eval('window.__prseView.state.player.x')
+  c.eval('window.__prseView.socket.close()')
+  c.wait(f'window.__prseView.disconnectCount>{old}',9)
+  c.wait('window.__prseView.connected===true',15)
+  restored=c.eval('window.__prseView.state.player.x')
+  assert abs(restored-current)<.9,'Server-side world reset during link interruption'
+  assert c.eval('localStorage.getItem("prse-remote-session-v1")')==token
+ if os.environ.get('SLOW_LINK')=='1':
+  previous=c.eval('window.__prseView.gameTime')
+  c.call('Network.enable',session=True)
+  c.call('Network.emulateNetworkConditions',{'offline':False,'latency':450,'downloadThroughput':16000,'uploadThroughput':3000},True)
+  time.sleep(6)
+  c.call('Network.emulateNetworkConditions',{'offline':False,'latency':0,'downloadThroughput':-1,'uploadThroughput':-1},True)
+  c.wait(f'window.__prseView.gameTime>{previous+2}',10)
+  print('SLOW_LINK_OK',json.dumps({'timeBefore':previous,'timeAfter':c.eval('window.__prseView.gameTime'),'disconnects':c.eval('window.__prseView.disconnectCount')}),flush=True)
  c.eval('window.scrollTo(0,0)');time.sleep(.25)
  screenshot=c.call('Page.captureScreenshot',{'format':'png','captureBeyondViewport':False},True)['data'];dest=pathlib.Path('/data/tmp/prse-headless-mobile.png' if MOBILE else '/data/tmp/prse-headless-desktop.png');dest.write_bytes(base64.b64decode(screenshot))
  print(json.dumps({'passed':True,'url':URL,'mobile':MOBILE,'connected':True,'backend':'Nitro authoritative headless','tokenPersisted':True,'initialX':old,'newX':new,'reloadedX':after,'reconnectedX':recovered,'health':health,'layout':layout,'screenshot':str(dest)}),flush=True)
