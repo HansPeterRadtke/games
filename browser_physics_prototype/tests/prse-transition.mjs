@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {GameCore,initializePhysics} from '../physics-core.js';
+await initializePhysics();const step=(g,n=1)=>{for(let i=0;i<n;i++)g.step();};
+const g=new GameCore(),id='wanderer-1';step(g,120);
+assert.equal(g.worldBridge.active.size,0,'distant actor must not have physical rigid body');const semanticBefore=g.semantic.entity(id).x;step(g,120);assert.notEqual(g.semantic.entity(id).x,semanticBefore,'off-screen actor must evolve without physics');
+const x=g.semantic.entity(id).x;g.player.setTranslation({x:x-3,y:.86,z:0},true);g.player.setLinvel({x:0,y:0,z:0},true);step(g,1);
+assert.equal(g.worldBridge.active.size,1,'actor must create a physical body when perceived');assert.equal(g.semantic.entity(id).materialized,true);const firstBody=g.worldBridge.active.get(id);assert.ok(firstBody&&Number.isFinite(firstBody.translation().x));
+const old=firstBody.translation().x;firstBody.applyImpulse({x:.3,y:.08,z:0},true);step(g,18);const moved=firstBody.translation().x;assert.ok(Math.abs(moved-old)>.04,'physical force must move perceived actor');
+const activeSave=g.snapshot();const fresh=new GameCore();assert.equal(fresh.restore(activeSave),true,'snapshot must restore active actor');assert.equal(fresh.worldBridge.active.size,1,'physical materialization must resume');assert.equal(fresh.semantic.entities[0].id,id,'stable ID must survive');assert.ok(Math.abs(fresh.worldBridge.active.get(id).translation().x-moved)<.03,'materialized physical position must survive');
+g.player.setTranslation({x:-4.1,y:.86,z:0},true);g.player.setLinvel({x:0,y:0,z:0},true);step(g,1);
+assert.equal(g.worldBridge.active.size,0,'distant actor physical body must be removed');assert.equal(g.semantic.entity(id).materialized,false);const released=g.semantic.entity(id).x;assert.ok(Math.abs(released-moved)<.04,'physical-to-semantic transition must keep changed position');step(g,40);const traveled=g.semantic.entity(id).x;assert.notEqual(traveled,released,'coarse semantic motion must resume');
+g.player.setTranslation({x:traveled-2,y:.86,z:0},true);step(g,1);assert.equal(g.worldBridge.active.size,1,'actor must rematerialize');assert.equal(g.semantic.entity(id).id,'wanderer-1');assert.ok(Math.abs(g.worldBridge.active.get(id).translation().x-traveled)<.1,'rematerialized body must retain evolved semantic position');
+assert.ok(g.worldBridge.events.some(e=>e.type==='dematerialized'),'semantic bridge must emit transition events');
+console.log(JSON.stringify({passed:true,id,firstBodyX:old,pushedBodyX:moved,semanticAfterDematerialize:released,semanticAfterCoarseTicks:traveled,activeCount:g.worldBridge.active.size,transitionEvents:g.worldBridge.events.map(e=>e.type)}));
