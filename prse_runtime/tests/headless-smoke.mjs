@@ -1,0 +1,45 @@
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+import {mkdtemp,readFile,readdir} from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import {createRequire} from 'node:module';
+import {GameCore, initializePhysics} from '../../browser_physics_prototype/physics-core.js';
+const require=createRequire(import.meta.url),WS=require('ws');
+const port=18780+Math.floor(Math.random()*600),dir=await mkdtemp(path.join(os.tmpdir(),'prse-host-test-'));
+const proc=spawn(process.execPath,[path.resolve(import.meta.dirname||path.dirname(new URL(import.meta.url).pathname),'../server.mjs')],{env:{...process.env,PRSE_PORT:String(port),PRSE_STATE_DIR:dir,PRSE_LOG_LEVEL:'quiet'},stdio:['ignore','pipe','pipe']});
+let output='';proc.stdout.on('data',buf=>output+=buf.toString());proc.stderr.on('data',buf=>output+=buf.toString());
+const delay=ms=>new Promise(r=>setTimeout(r,ms));
+async function when(fn,timeout=7000){const end=Date.now()+timeout;while(Date.now()<end){const v=await fn();if(v)return v;await delay(50)}throw Error('timeout: '+output.slice(-1400));}
+const connect=async token=>{const ws=new WS(`ws://127.0.0.1:${port}/ws`),packets=[];ws.on('message',b=>{try{packets.push(JSON.parse(b.toString()))}catch{}});await new Promise((res,rej)=>{ws.once('open',res);ws.once('error',rej)});ws.send(JSON.stringify({type:'hello',token:token||null}));await when(()=>packets.some(p=>p.type==='welcome'));return {ws,packets, welcome:packets.find(p=>p.type==='welcome')};};
+try{
+ await when(async()=>{try{const res=await fetch(`http://127.0.0.1:${port}/health`);return res.ok?await res.json():null}catch{return null}});
+ const {ws,packets,welcome}=await connect();assert.equal(welcome.authoritative,true);assert.equal(welcome.physicsHz,60);const token=welcome.token;assert.match(token,/^[0-9a-f]{32}$/);
+ const initial=welcome.state.player.x;ws.send(JSON.stringify({type:'command',command:{type:'Move',direction:1},requestId:1}));await when(()=>packets.some(p=>p.type==='command_result'&&p.requestId===1));await delay(500);ws.send(JSON.stringify({type:'command',command:{type:'Move',direction:0},requestId:2}));await when(()=>packets.some(p=>p.type==='command_result'&&p.requestId===2));
+ await when(()=>packets.some(p=>p.type==='state'&&p.state.player.x>initial+.3));const latest=packets.filter(p=>p.type==='state').at(-1).state.player.x;assert.ok(latest>initial+.3);
+ ws.send(JSON.stringify({type:'text',text:'look',requestId:3}));await when(()=>packets.some(p=>p.type==='text_result'&&p.requestId===3));assert.ok(packets.find(p=>p.type==='text_result'&&p.requestId===3).text.includes('forest'));
+ ws.send(JSON.stringify({type:'save'}));await when(()=>packets.some(p=>p.type==='message'&&p.text.includes('saved')));ws.close();await delay(350);
+ const again=await connect(token);assert.equal(again.welcome.token,token);assert.ok(again.welcome.state.player.x>=latest-.1, 'server session survives WS disconnect');
+ await initializePhysics();const oldCore=new GameCore(),legacy=oldCore.snapshot();legacy.player.p.x=6.7;
+ again.ws.send(JSON.stringify({type:'import_legacy',snapshot:legacy}));
+ await when(()=>again.packets.some(p=>p.type==='message'&&p.text.includes('imported')));
+ await when(()=>again.packets.some(p=>p.type==='state'&&Math.abs(p.state.player.x-6.7)<.02));
+ const stateCount=again.packets.filter(p=>p.type==='state').length;
+ again.ws.send(JSON.stringify({type:'import_legacy',snapshot:{version:999}}));
+ await when(()=>again.packets.some(p=>p.type==='error'&&p.message.includes('validation')));
+ assert.ok(Math.abs(again.packets.filter(p=>p.type==='state').at(-1).state.player.x-6.7)<.15,'invalid import must not mutate current session');
+ oldCore.world.free();
+ const shelterCore=new GameCore();shelterCore.player.setTranslation({x:37,y:.86,z:0},true);for(let i=0;i<70;i++)shelterCore.step();
+ again.ws.send(JSON.stringify({type:'import_legacy',snapshot:shelterCore.snapshot()}));
+ await when(()=>again.packets.filter(p=>p.type==='message'&&p.text.includes('imported')).length>=2);
+ again.ws.send(JSON.stringify({type:'command',command:{type:'Interact',targetId:'shelter-candle',verb:'light'},requestId:9}));
+ await when(()=>again.packets.some(p=>p.type==='command_result'&&p.requestId===9));
+ assert.equal(again.packets.find(p=>p.type==='command_result'&&p.requestId===9).accepted,true,'headless simulation must execute candle interaction');
+ await when(()=>again.packets.some(p=>p.type==='events'&&p.events.some(e=>e.type==='candle_lit')));
+ shelterCore.world.free();
+ again.ws.send(JSON.stringify({type:'restart'}));await when(()=>again.packets.some(p=>p.type==='state'&&p.tick===0));
+ again.ws.send(JSON.stringify({type:'command',command:{type:'DANGEROUS'},requestId:4}));await when(()=>again.packets.some(p=>p.type==='rejected'));
+ again.ws.close();await delay(200);
+ const logs=(await readdir(dir)).filter(x=>x.endsWith('.events.ndjson'));assert.equal(logs.length,1);const content=await readFile(path.join(dir,logs[0]),'utf8');assert.ok(content.includes('"kind":"command"'));assert.ok(content.includes('"kind":"text_command"'));assert.ok(content.includes('"eventType":"candle_lit"'),'immediate physical interaction must be durably logged');assert.ok(content.includes('"kind":"viewer_disconnected"'));assert.ok(content.includes('"kind":"summary"')===false,'quiet telemetry should avoid summary spam');
+ console.log(JSON.stringify({passed:true,port,sessions:1,initialX:initial,movedX:latest,commands:true,reconnect:true,persistedLogBytes:content.length,serverPhysicsHz:60}));
+}finally{proc.kill('SIGTERM');await delay(300)}

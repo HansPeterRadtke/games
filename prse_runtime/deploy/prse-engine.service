@@ -1,0 +1,29 @@
+[Unit]
+Description=PRSE authoritative headless game simulation and event recorder
+After=network.target
+RequiresMountsFor=/data /data/var/llm_game/prse_sessions
+
+[Service]
+Type=simple
+User=hans
+Group=hans
+WorkingDirectory=/data/src/github/games/prse_runtime
+Environment=PRSE_PORT=18764
+Environment=PRSE_STATE_DIR=/data/var/llm_game/prse_sessions
+Environment=PRSE_MAX_ACTIVE=4
+Environment=PRSE_LOG_LEVEL=normal
+ExecStart=/usr/bin/node --max-old-space-size=512 /data/src/github/games/prse_runtime/server.mjs
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+LimitNOFILE=4096
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/data/var/llm_game/prse_sessions
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

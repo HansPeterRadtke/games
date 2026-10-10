@@ -1,0 +1,13 @@
+# Rotate only bounded anonymous PRSE session event logs, never player saved worlds.
+/data/var/llm_game/prse_sessions/*.events.ndjson {
+    su hans hans
+    daily
+    size 8M
+    rotate 7
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+    create 0600 hans hans
+}

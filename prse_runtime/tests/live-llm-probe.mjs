@@ -1,0 +1,9 @@
+// Doability only: one real authoritative Nitro session with current structured facts sent to Jetson.
+import {createRequire} from 'node:module';
+import {GameCore,initializePhysics} from '../../browser_physics_prototype/physics-core.js';
+const require=createRequire(import.meta.url),WebSocket=require('ws');
+await initializePhysics();const core=new GameCore();core.player.setTranslation({x:37,y:.86,z:0},true);for(let i=0;i<75;i++)core.step();const light=core.command({type:'Interact',targetId:'shelter-candle',verb:'light'});if(!light)throw Error('Cannot light fixture candle');
+const snapshot=core.snapshot();const ws=new WebSocket('wss://nitro.jonnyontherun.org/llm_game_runtime/ws',{origin:'https://nitro.jonnyontherun.org',handshakeTimeout:10000});
+const p=new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('LLM response not delivered within 73 seconds')),73000);let sawImport=false,sawPrompt=false;
+ ws.on('open',()=>ws.send(JSON.stringify({type:'hello'})));ws.on('message',data=>{try{const r=JSON.parse(data.toString());if(r.type==='welcome')ws.send(JSON.stringify({type:'import_legacy',snapshot}));else if(r.type==='message'&&r.text.includes('imported')){sawImport=true;ws.send(JSON.stringify({type:'ask_llm'}));}else if(r.type==='llm_status'&&r.status==='working')sawPrompt=true;else if(r.type==='llm_result'){clearTimeout(timer);resolve({ok:true,sawImport,sawPrompt,answer:r.answer,time:r.durationSeconds,model:r.model});}else if(r.type==='llm_status'&&r.status==='failed'){clearTimeout(timer);resolve({ok:false,sawImport,sawPrompt,reason:r.message});}else if(r.type==='error'){clearTimeout(timer);reject(Error(r.message));}}catch(e){clearTimeout(timer);reject(e)}});ws.on('error',e=>{clearTimeout(timer);reject(e)})});
+try{const result=await p;console.log(JSON.stringify(result));}finally{ws.close();core.world.free()}

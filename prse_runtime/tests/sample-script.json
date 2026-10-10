@@ -1,0 +1,1 @@
+[{"text":"look"},{"command":{"type":"Move","direction":1},"steps":120},{"command":{"type":"Move","direction":0}},{"text":"look"}]
