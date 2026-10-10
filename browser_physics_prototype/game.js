@@ -1,6 +1,7 @@
 // DOM and keyboard/touch adapter. All gameplay mutations go through typed core commands.
 import {GameCore,initializePhysics,SETTINGS} from './physics-core.js';
 import {SideViewRenderer} from './side-view-renderer.js';
+import {observeResearch} from './research-view.js';
 const $=id=>document.getElementById(id);
 const renderer=new SideViewRenderer($('scene'));
 let core,moveLeft=false,moveRight=false,frameBefore=0,accumulator=0,eventCursor=0,lastSave=null;
@@ -42,6 +43,19 @@ bindHold('left',-1);bindHold('right',1);
 const bindings={jump:()=>command('Jump'),interact:()=>command('Interact'),tune:()=>command('Experiment'),goal:()=>command('Goal',{intent:'crossFence'}),cancel:()=>command('CancelGoal'),
  ragdoll:()=>command('PushRagdoll'),'ragdoll-balance':()=>command('SetRagdollMode',{mode:'balance'}),'ragdoll-walk':()=>command('SetRagdollMode',{mode:'walk'}),'ragdoll-relax':()=>command('SetRagdollMode',{mode:'relax'}),'ragdoll-injure':()=>command('InjureRagdoll',{part:'leftKnee',injury:'sprain',severity:.85}),'ragdoll-heal':()=>command('HealRagdoll')};
 for(const [id,action]of Object.entries(bindings))$(id).addEventListener('click',action);
+function refreshResearch(){if(!core)return;const state=observeResearch(core);$('research-result').textContent=state.explain+'\n\n'+state.text;$('research-raw').textContent=JSON.stringify(state.detail,null,2);}
+const shelterVisit=x=>{if(!core)return;core.command({type:'CancelGoal'});core.command({type:'Move',direction:0});core.player.setTranslation({x,y:.86,z:0},true);core.player.setLinvel({x:0,y:0,z:0},true);for(let i=0;i<10;i++)core.step();refreshResearch();};
+const experiments={
+ 'research-shelter':()=>shelterVisit(37),
+ 'research-light':()=>{core.command({type:'Interact',targetId:'shelter-candle',verb:'light'});refreshResearch();},
+ 'research-ignite':()=>{core.command({type:'Interact',targetId:'shelter-note',verb:'ignite'});refreshResearch();},
+ 'research-observe':()=>{for(let i=0;i<60*12;i++)core.step();refreshResearch();},
+ 'research-offscreen':()=>shelterVisit(26),
+ 'research-return':()=>shelterVisit(37),
+ 'research-inspect':refreshResearch
+};
+for(const [id,action]of Object.entries(experiments))$(id).addEventListener('click',action);
+$('prse-research').addEventListener('toggle',()=>{if($('prse-research').open)refreshResearch();});
 $('view-lab').addEventListener('click',()=>renderer.setView('lab'));
 $('view-world').addEventListener('click',()=>renderer.setView('world'));
 function handleKey(e,down){const inField=e.target instanceof HTMLInputElement||e.target instanceof HTMLTextAreaElement;
