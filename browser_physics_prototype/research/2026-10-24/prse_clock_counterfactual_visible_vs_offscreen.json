@@ -1,0 +1,155 @@
+{
+  "metadata": {
+    "kind": "headless native game physics vs semantic-only external-region progression",
+    "source": "Existing GameCore plus WorldConsequences official shelter fire, same initial snapshot",
+    "rerunVariance": "Host shares heavy CPU work; durations are single observations, not stable speed benchmark"
+  },
+  "startingTime": 1.4999999999999996,
+  "initialDifference": {
+    "playerYDelta": 5.960464477539063e-8,
+    "torsoYDelta": -0.00008404254913330078,
+    "clockDelta": 0,
+    "nativeSemanticDelta": 0
+  },
+  "durationSeconds": 40,
+  "fullSimulation": {
+    "wallMs": 3206.57,
+    "clock": 41.49999999999893,
+    "semanticClock": 41.5,
+    "remainingAccumulator": 0,
+    "physicsTicks": 2490,
+    "note": "ashes",
+    "bench": "scorched",
+    "shelter": "smoky",
+    "events": [
+      {
+        "type": "paper_smolders",
+        "when": 1.4999999999999996,
+        "cause": "fire_spread",
+        "outcome": "smoldering",
+        "visibility": "offscreen"
+      },
+      {
+        "type": "paper_burning",
+        "when": 6.5,
+        "cause": "fire_spread",
+        "outcome": "burning",
+        "visibility": "offscreen"
+      },
+      {
+        "type": "bench_smoldering",
+        "when": 13.5,
+        "cause": "fire_spread",
+        "outcome": "smoldering",
+        "visibility": "offscreen"
+      },
+      {
+        "type": "paper_ashes",
+        "when": 20.5,
+        "cause": "fire_spread",
+        "outcome": "ashes",
+        "visibility": "offscreen"
+      },
+      {
+        "type": "bench_scorching",
+        "when": 24.5,
+        "cause": "fire_spread",
+        "outcome": "burning",
+        "visibility": "offscreen"
+      },
+      {
+        "type": "bench_scorched",
+        "when": 35.5,
+        "cause": "fire_spread",
+        "outcome": "scorched",
+        "visibility": "offscreen"
+      },
+      {
+        "type": "shelter_smoky",
+        "when": 39.5,
+        "cause": "fire_spread",
+        "outcome": "smoky",
+        "visibility": "offscreen"
+      }
+    ],
+    "fatigue": 0,
+    "hydration": 99.83399999999396
+  },
+  "offscreenOnly": {
+    "wallMs": 42.43,
+    "clock": 41.5,
+    "semanticClock": 41.5,
+    "remainingAccumulator": 0,
+    "physicsTicks": 90,
+    "note": "ashes",
+    "bench": "scorched",
+    "shelter": "smoky",
+    "events": [
+      {
+        "type": "paper_smolders",
+        "when": 1.4999999999999996,
+        "cause": "fire_spread",
+        "outcome": "smoldering",
+        "visibility": "offscreen"
+      },
+      {
+        "type": "paper_burning",
+        "when": 6.5,
+        "cause": "fire_spread",
+        "outcome": "burning",
+        "visibility": "offscreen"
+      },
+      {
+        "type": "bench_smoldering",
+        "when": 13.5,
+        "cause": "fire_spread",
+        "outcome": "smoldering",
+        "visibility": "offscreen"
+      },
+      {
+        "type": "paper_ashes",
+        "when": 20.5,
+        "cause": "fire_spread",
+        "outcome": "ashes",
+        "visibility": "offscreen"
+      },
+      {
+        "type": "bench_scorching",
+        "when": 24.5,
+        "cause": "fire_spread",
+        "outcome": "burning",
+        "visibility": "offscreen"
+      },
+      {
+        "type": "bench_scorched",
+        "when": 35.5,
+        "cause": "fire_spread",
+        "outcome": "scorched",
+        "visibility": "offscreen"
+      },
+      {
+        "type": "shelter_smoky",
+        "when": 39.5,
+        "cause": "fire_spread",
+        "outcome": "smoky",
+        "visibility": "offscreen"
+      }
+    ],
+    "fatigue": 0,
+    "hydration": 99.99399999999959
+  },
+  "comparison": {
+    "sameSevenNativeCausalEvents": true,
+    "sameNativeSemanticFinalConditions": true,
+    "timeDifferenceSeconds": -1.0729195309977513e-12,
+    "nativeSemanticTimeDifferenceSeconds": 0,
+    "noteStayedUnmaterialized": true,
+    "controlledDifferences": {
+      "fatigueDelta": 0,
+      "hydrationDelta": 0.1600000000056241,
+      "physicsTicksDifference": 2400
+    },
+    "fullStateEquivalent": false,
+    "reason": "Offscreen path deliberately does not advance player physics, ragdoll, stamina/fatigue, or physics-step counters"
+  }
+}

@@ -1,6 +1,8 @@
 # PRSE semantic ↔ authoritative three-dimensional physics ↔ semantic persistence
 Research continuation, 24–25 October 2026, Games research branch
 
+> **Later continuation and clock correction:** The subsequent isolated research-sidecar experiments corrected this report's observed independent world-clock divergence and added causal/observer and physical-ash reentry tests. The original defect and its measurements remain preserved below; read [PRSE semantic/physical continuation, October 25](PRSE_SEMANTIC_PHYSICAL_CONTINUATION_2026-10-25.md) for the later verified results and remaining live-integration gaps.
+
 ## Priority and bottom-line outcome
 
 The owner's defining PRSE research task is the persistent **literary/semantic world → validated three-dimensional entities → authoritative live rigid-body physics and observable events → truthful updated semantic/literary facts → economical off-screen causal story → consistent rematerialization**. This is more important than the optional player-trained skills previously studied. Read original recorded voice texts (see source ledger below). A model can propose a scene or prose; it does **not** get to override measured geometry, object identity, physical outcomes or what the player could have perceived.

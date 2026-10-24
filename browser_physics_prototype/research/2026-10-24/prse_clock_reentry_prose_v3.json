@@ -1,0 +1,273 @@
+{
+  "metadata": {
+    "kind": "research-sidecar, source GameCore and native WorldConsequences are exercised",
+    "saveVersion": 2,
+    "originalPriorResult": "prse_semantic_adversarial_results.json",
+    "fullOffscreenSeconds": 46,
+    "noPhysicsDuringUnobservedTime": true,
+    "nativeRuntimeIntegratesThis": false
+  },
+  "visibleStart": {
+    "gameTime": 1.4999999999999996,
+    "sceneTime": 1.4999999999999996,
+    "nativeSemanticTime": 1.5,
+    "nativeAccumulator": 0,
+    "actualPhysicsTicks": 90
+  },
+  "unobservedBaseline": {
+    "time": 47.5,
+    "nativeSemanticTime": 47.5,
+    "accumulator": 0,
+    "physicsTicks": 90,
+    "noteCondition": "ashes",
+    "benchCondition": "scorched",
+    "shelterCondition": "smoky",
+    "fireEvents": [
+      {
+        "type": "paper_smolders",
+        "time": 1.4999999999999996,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "smoldering"
+      },
+      {
+        "type": "paper_burning",
+        "time": 6.5,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "burning"
+      },
+      {
+        "type": "bench_smoldering",
+        "time": 13.5,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "smoldering"
+      },
+      {
+        "type": "paper_ashes",
+        "time": 20.5,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "ashes"
+      },
+      {
+        "type": "bench_scorching",
+        "time": 24.5,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "burning"
+      },
+      {
+        "type": "bench_scorched",
+        "time": 35.5,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "scorched"
+      },
+      {
+        "type": "shelter_smoky",
+        "time": 39.5,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "smoky"
+      }
+    ],
+    "pending": 0,
+    "emittedNativeEventCount": 7
+  },
+  "splitRestore": {
+    "time": 47.5,
+    "nativeSemanticTime": 47.5,
+    "accumulator": 0,
+    "physicsTicks": 90,
+    "noteCondition": "ashes",
+    "benchCondition": "scorched",
+    "shelterCondition": "smoky",
+    "fireEvents": [
+      {
+        "type": "paper_smolders",
+        "time": 1.4999999999999996,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "smoldering"
+      },
+      {
+        "type": "paper_burning",
+        "time": 6.5,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "burning"
+      },
+      {
+        "type": "bench_smoldering",
+        "time": 13.5,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "smoldering"
+      },
+      {
+        "type": "paper_ashes",
+        "time": 20.5,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "ashes"
+      },
+      {
+        "type": "bench_scorching",
+        "time": 24.5,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "burning"
+      },
+      {
+        "type": "bench_scorched",
+        "time": 35.5,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "scorched"
+      },
+      {
+        "type": "shelter_smoky",
+        "time": 39.5,
+        "visibility": "offscreen",
+        "cause": "fire_spread",
+        "outcome": "smoky"
+      }
+    ],
+    "pending": 0,
+    "emittedNativeEventCount": 7
+  },
+  "sidecarBaseline": {
+    "time": 47.5,
+    "events": [
+      {
+        "sequence": 1,
+        "time": 1.5,
+        "type": "scorched",
+        "ids": [
+          "timed-paper-note"
+        ],
+        "details": {
+          "cause": "explicit_offscreen_ignition"
+        },
+        "origin": "semantic_rule"
+      },
+      {
+        "sequence": 2,
+        "time": 7.5,
+        "type": "reduced_to_ashes",
+        "ids": [
+          "timed-paper-note"
+        ],
+        "details": {
+          "cause": "scheduled_offscreen_combustion",
+          "triggerTime": 7.5
+        },
+        "origin": "semantic_rule"
+      },
+      {
+        "sequence": 3,
+        "time": 7.5,
+        "type": "ash_remains",
+        "ids": [
+          "ash-timed-paper-note",
+          "timed-paper-note"
+        ],
+        "details": {
+          "generatedFrom": "timed-paper-note",
+          "location": {
+            "x": -26.0000057220459,
+            "y": 0.905999988079071,
+            "z": 8.999995231628418
+          },
+          "approximation": "fixed thin ash patch, not heat/fracture chemistry"
+        },
+        "origin": "semantic_rule"
+      }
+    ],
+    "noteState": {
+      "condition": "ashes",
+      "destroyed": true
+    },
+    "activeBodies": 0,
+    "currentProse": "bench is present. note was destroyed; ash from note remains."
+  },
+  "sidecarRestored": {
+    "time": 47.5,
+    "events": [
+      {
+        "sequence": 1,
+        "time": 1.5,
+        "type": "scorched",
+        "ids": [
+          "timed-paper-note"
+        ],
+        "details": {
+          "cause": "explicit_offscreen_ignition"
+        },
+        "origin": "semantic_rule"
+      },
+      {
+        "sequence": 2,
+        "time": 7.5,
+        "type": "reduced_to_ashes",
+        "ids": [
+          "timed-paper-note"
+        ],
+        "details": {
+          "cause": "scheduled_offscreen_combustion",
+          "triggerTime": 7.5
+        },
+        "origin": "semantic_rule"
+      },
+      {
+        "sequence": 3,
+        "time": 7.5,
+        "type": "ash_remains",
+        "ids": [
+          "ash-timed-paper-note",
+          "timed-paper-note"
+        ],
+        "details": {
+          "generatedFrom": "timed-paper-note",
+          "location": {
+            "x": -26.0000057220459,
+            "y": 0.905999988079071,
+            "z": 8.999995231628418
+          },
+          "approximation": "fixed thin ash patch, not heat/fracture chemistry"
+        },
+        "origin": "semantic_rule"
+      }
+    ],
+    "noteState": {
+      "condition": "ashes",
+      "destroyed": true
+    },
+    "activeBodies": 0,
+    "currentProse": "bench is present. note was destroyed; ash from note remains."
+  },
+  "differences": {
+    "authoritativeSceneClockDelta": 0,
+    "semanticClockPlusAccumulatorDelta": 0,
+    "splitUninterruptedWorldDelta": 0,
+    "offscreenPhysicsTicks": 0,
+    "chronologicalSidecarAshAt": 7.5,
+    "sidecarFireTimestampNotAtFinalReturn": true,
+    "splitNativeEventSequenceEqual": true,
+    "nativeEvents": 7,
+    "chronologyAfterReloadCorrect": true,
+    "invalidSnapshotRejections": {
+      "priorUnsynchronizedFormat": true,
+      "forgedClockDisagreement": true
+    }
+  },
+  "reentry": {
+    "materializedSurvivingEntities": 2,
+    "destroyedStableIdPreserved": true,
+    "prose": "bench is present. note was destroyed; ash from note remains.",
+    "allNativeEventsStillInHistory": true,
+    "nativePhysicsStepsAfterReturn": 15
+  }
+}

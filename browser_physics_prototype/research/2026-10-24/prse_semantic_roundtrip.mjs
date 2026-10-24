@@ -13,6 +13,12 @@ const quat=q=>q&&['x','y','z','w'].every(k=>finite(q[k]));
 const identity=()=>({x:0,y:0,z:0,w:1});
 const pose=e=>({position:clone(e.position),velocity:clone(e.velocity),rotation:clone(e.rotation),angular:clone(e.angular)});
 const normalized={x:0,y:0,z:0};
+const ashIdentity=sourceId=>{
+ if(sourceId.length<=76)return 'ash-'+sourceId;
+ let hash=2166136261;
+ for(const character of sourceId){hash^=character.charCodeAt(0);hash=Math.imul(hash,16777619);}
+ return 'ash-'+sourceId.slice(0,62)+'-'+(hash>>>0).toString(16).padStart(8,'0');
+};
 export function validateScene(scene){
  if(!scene||!names(scene.id)||typeof scene.prose!=='string'||scene.prose.length<5||scene.prose.length>10000
   ||!Array.isArray(scene.entities)||scene.entities.length<1||scene.entities.length>320)return {ok:false,reason:'scene header/count'};
@@ -33,6 +39,10 @@ export function validateScene(scene){
   ids.add(e.id);
  }
  for(const e of scene.entities){
+  if(e.originId!==undefined&&e.originId!==null){
+   if(!names(e.originId)||!ids.has(e.originId)||e.originId===e.id)
+    return {ok:false,reason:'invalid replacement lineage'};
+  }
   const seen=new Set([e.id]);let at=e;
   while(at.supportId&&at.supportId!=='floor'){
    if(!ids.has(at.supportId)||seen.has(at.supportId))return {ok:false,reason:'support graph missing/cycle'};
@@ -170,7 +180,42 @@ export class PRSELoop{
  }
  tick(n=1){
   if(!Number.isInteger(n)||n<0||n>1200)throw Error('invalid ticks');
-  for(let i=0;i<n;i++){this.game.world.step();this.time+=this.game.world.timestep;this.capture();this.detectContacts();}
+  // The native GameCore owns the one world clock, physics ticks, coarse semantic
+  // accumulator and pre-existing delayed consequences. Do not step its Rapier
+  // World behind its back (the first research adapter did exactly that).
+  for(let i=0;i<n;i++){
+   this.game.step();
+   this.time=this.game.time;
+   this.capture();
+   this.detectContacts();
+  }
+ }
+ // Advance existing GameCore semantic timers WITHOUT advancing any rigid body,
+ // ragdoll, player movement, or physics tick counter. This is only an unloaded
+ // research region; it is not a global pause/resume implementation.
+ #advanceNativeCoarsely(end){
+  const core=this.game,epsilon=1e-8;
+  if(core.goal)throw Error('Native player goal cannot be advanced as an offscreen scene rule');
+  if(end<core.time-epsilon||!finite(end)||end>1e9)throw Error('Invalid world clock');
+  while(core.time+epsilon<end){
+   const next=.25-core.semanticAccumulator;
+   const delta=Math.min(end-core.time,next>epsilon?next:.25);
+   core.time+=delta;
+   core.semanticAccumulator+=delta;
+   if(core.semanticAccumulator>=.25-epsilon){
+    core.semantic.step(.25);
+    core.semanticAccumulator=Math.max(0,core.semanticAccumulator-.25);
+    core.consequences.advance(core.time,core.semantic,()=>false,event=>{
+     core.emit(event.type,event.message,{
+      entityId:event.entityId,cause:event.cause,outcome:event.outcome,
+      visibility:'offscreen',time:event.time
+     });
+    });
+   }
+  }
+  // No simulation tick happened for offscreen time: stepCount is an actual
+  // physics-step count, not a fake wall/game-time surrogate.
+  this.time=core.time;
  }
  detectContacts(){
   // Actual Rapier contact manifolds; no event is inferred merely from a nearby location.
@@ -191,14 +236,23 @@ export class PRSELoop{
   this.contactPairs=current;
  }
  currentProse(){
-  // Canonical NOW text is derived from observed authoritative entity state; the original
-  // literary source is retained separately as historical provenance, not reused as truth.
-  const clauses=[];
+  // Internal all-knowing factual cache, NOT an observer description. Separate the
+  // immutable literary source from current state; never duplicate one ash remnant
+  // as if it were a second independent object.
+  const clauses=[],described=new Set();
   for(const e of this.scene.entities){
-   const suffix=e.state.condition==='ashes'?'was destroyed and only ash remains':
-     e.state.tipped?'is tipped over':e.state.rotated?'rotated':
-     e.state.moved?'has changed position':'is present';
-   clauses.push(e.name+' '+suffix+'.');
+   if(described.has(e.id))continue;
+   if(e.state.condition==='ashes'){
+    const child=this.scene.entities.find(x=>x.originId===e.id&&!x.state.destroyed);
+    if(child){clauses.push(e.name+' was destroyed; '+child.name+' remains.');
+     described.add(child.id);}
+    else clauses.push(e.name+' was destroyed; no physical remnant is represented.');
+   }else if(e.kind==='ash')clauses.push(e.name+' remains.');
+   else{
+    const suffix=e.state.tipped?'is tipped over':e.state.rotated?'has rotated':
+      e.state.moved?'has changed position':'is present';
+    clauses.push(e.name+' '+suffix+'.');
+   }
   }
   return clauses.join(' ');
  }
@@ -218,47 +272,125 @@ export class PRSELoop{
   this.offscreenRules.push({at:this.time+6,id,action:'ashes'});return true;
  }
  advanceOffscreen(seconds){
-  if(this.active.size||!finite(seconds)||seconds<0||seconds>3600)throw Error('invalid offscreen interval');
-  this.time+=seconds;
-  for(const r of this.offscreenRules.filter(x=>x.at<=this.time)){
-   const e=this.entities.get(r.id);
-   if(e&&e.state.condition!=='ashes'){
-    e.state.condition='ashes';e.state.destroyed=true;e.revision++;
-    this.emit('reduced_to_ashes',[e.id],{cause:'scheduled_offscreen_combustion'},'semantic_rule');
+  if(this.active.size||!finite(seconds)||seconds<0||seconds>3600)
+   throw Error('invalid offscreen interval');
+  if(Math.abs(this.time-this.game.time)>1e-6)throw Error('World time already divergent');
+  const end=this.time+seconds;
+  if(end>1e9)throw Error('Offscreen world time out of bounds');
+  const due=this.offscreenRules.filter(x=>x.at<=end+1e-8).sort((a,b)=>a.at-b.at);
+  const needed=[];
+  for(const rule of due){
+   const item=this.entities.get(rule.id);
+   if(!item||item.state.condition==='ashes')continue;
+   const residueId=ashIdentity(item.id),exists=this.entities.get(residueId);
+   if(exists&&exists.originId!==item.id)throw Error('Ash identity collision');
+   if(!exists&&!needed.includes(residueId))needed.push(residueId);
+  }
+  if(this.scene.entities.length+needed.length>320)
+   throw Error('Cannot record all physical remains within bounded scene capacity');
+  for(const rule of due){
+   // Each event becomes true AT its scheduled time, not retroactively after
+   // returning; real GameCore offscreen semantic processes advance as well.
+   this.#advanceNativeCoarsely(Math.max(this.time,rule.at));
+   const entity=this.entities.get(rule.id);
+   if(entity&&entity.state.condition!=='ashes'){
+    entity.state.condition='ashes';entity.state.destroyed=true;entity.revision++;
+    this.emit('reduced_to_ashes',[rule.id],{
+     cause:'scheduled_offscreen_combustion',triggerTime:rule.at
+    },'semantic_rule');
+    // A destroyed object must NOT merely vanish in prose while the text
+    // promises visible ash. Preserve the original ID as a tombstone and add a
+    // simple, real, fixed Rapier ash patch with explicit source lineage.
+    // This is a coarse game collider, NOT particulate combustion physics.
+    const ashId=ashIdentity(entity.id);
+    if(!this.entities.has(ashId)){
+     const parent=this.entities.get(entity.supportId),supported=parent&&!parent.state.destroyed;
+     const height=.012;
+     const residue=object(ashId,'ash',{
+      x:entity.position.x,
+      y:supported?parent.position.y+parent.size.y/2+height/2:height/2,
+      z:entity.position.z
+     },{
+      x:Math.min(.45,entity.size.x),y:height,z:Math.min(.45,entity.size.z)
+     },{
+      name:'ash from '+entity.name,description:'A thin remnant of ash from '+entity.name,
+      material:'unknown',body:'fixed',mass:.01,
+      source:'derived-from:'+entity.id, supportId:supported?parent.id:'floor',
+      state:{condition:'intact',residue:true}
+     });
+     residue.originId=entity.id;
+     this.scene.entities.push(residue);
+     this.entities.set(ashId,residue);
+     this.original.set(ashId,clone(residue.position));
+     this.emit('ash_remains',[ashId,entity.id],{
+      generatedFrom:entity.id,location:clone(residue.position),
+      approximation:'fixed thin ash patch, not heat/fracture chemistry'
+     },'semantic_rule');
+    }
    }
   }
-  this.offscreenRules=this.offscreenRules.filter(x=>x.at>this.time);this.scene.currentProse=this.currentProse();
+  this.#advanceNativeCoarsely(end);
+  this.offscreenRules=this.offscreenRules.filter(x=>x.at>end+1e-8);
+  this.scene.currentProse=this.currentProse();
+ }
+ visibleIds(observerPosition=this.game.player.translation(),radius=7.5){
+  if(!vec(observerPosition)||!finite(radius)||radius<0||radius>50)throw Error('Invalid observer bounds');
+  // Conservative distance-only perception. Occlusion and facing direction are
+  // NOT implemented; visibility here is an upper bound, not proven line of sight.
+  return this.scene.entities.filter(e=>dist(e.position,observerPosition)<=radius).map(e=>e.id);
  }
  narrate(cursor=0,knownIds=null){
-  const visible=new Set(knownIds||this.scene.entities.map(e=>e.id));
-  const statements=[],used=[];
+  // Supplying no explicit observer no longer grants omniscient access to every
+  // offscreen scene event (a real bug in the original research adapter).
+  const visible=new Set(knownIds||this.visibleIds());
+  const statements=[],used=[],announcedDestruction=new Set();
   for(const ev of this.events){
    if(ev.sequence<=cursor||!ev.ids.some(id=>visible.has(id)))continue;
+   if(ev.type==='ash_remains'&&announcedDestruction.has(ev.ids[1]))continue;
+   if(ev.type==='reduced_to_ashes')announcedDestruction.add(ev.ids[0]);
    const e=this.entities.get(ev.ids[0]);if(!e)continue;
    const phrase={displaced:'has moved from its earlier position',tipped:'tipped over',rotated:'rotated',
     impact:'physically collided with '+(this.entities.get(ev.ids[1])?.name||'another object'),
     lost_support:'lost its former support',
     external_impulse:'was pushed by an external force',scorched:'was scorched while unobserved',
-    reduced_to_ashes:'was reduced to ashes while unobserved'}[ev.type];
+    reduced_to_ashes:'was reduced to ashes while unobserved',
+    ash_remains:'is a remnant of '+(this.entities.get(ev.ids[1])?.name||'a destroyed item')}[ev.type];
    if(phrase){statements.push(e.name+' '+phrase+'.');used.push(ev.sequence);}
   }
   return {text:statements.join(' '),usedSequences:used,cursor:this.nextSeq-1};
  }
  describe(ids=null){
-  const wanted=new Set(ids||this.scene.entities.map(e=>e.id));
-  return this.scene.entities.filter(e=>wanted.has(e.id)).map(e=>
-   e.state.condition==='ashes'?'Ash remains where '+e.name+' used to be.':
-   e.name+(e.state.tipped?' is tipped.':e.state.moved?' is displaced.':' is present.')).join(' ');
+  const wanted=new Set(ids||this.visibleIds()),described=new Set(),parts=[];
+  for(const e of this.scene.entities){
+   if(!wanted.has(e.id)||described.has(e.id))continue;
+   if(e.state.condition==='ashes'){
+    const child=this.scene.entities.find(x=>x.originId===e.id&&!x.state.destroyed&&wanted.has(x.id));
+    if(child){parts.push('Ash from '+e.name+' remains at the former location.');
+     described.add(child.id);}
+    else parts.push(e.name+' has been destroyed, with no remnant visible here.');
+   }else if(e.kind==='ash')parts.push(e.name+' remains at this location.');
+   else parts.push(e.name+(e.state.tipped?' is tipped.':e.state.moved?' is displaced.':' is present.'));
+  }
+  return parts.join(' ');
  }
  snapshot(){
   this.capture();
-  return {version:1,game:this.game.snapshot(),scene:clone(this.scene),events:clone(this.events),
+  if(Math.abs(this.game.time-this.time)>1e-6)throw Error('World clocks disagree at save');
+  return {version:2,game:this.game.snapshot(),scene:clone(this.scene),events:clone(this.events),
    time:this.time,nextSeq:this.nextSeq,original:[...this.original],offscreenRules:clone(this.offscreenRules),
    materialized:this.active.size>0};
  }
  static restore(s){
-  if(!s||s.version!==1||!validateScene(s.scene).ok||!finite(s.time)||s.time<0
-   ||!Array.isArray(s.events)||s.events.length>20000||!Array.isArray(s.offscreenRules))return {ok:false};
+  if(!s||s.version!==2||!validateScene(s.scene).ok||!finite(s.time)||s.time<0
+   ||!finite(s.game?.time)||Math.abs(s.game.time-s.time)>1e-6
+   ||!Number.isSafeInteger(s.nextSeq)||s.nextSeq<1||s.nextSeq>20001
+   ||!Array.isArray(s.events)||s.events.length>20000
+   ||!s.events.every(e=>Number.isSafeInteger(e?.sequence)&&e.sequence>0&&e.sequence<s.nextSeq)
+   ||!Array.isArray(s.offscreenRules)||s.offscreenRules.length>100
+   ||!s.offscreenRules.every(e=>finite(e.at)&&e.at>=s.time-1e-6&&typeof e.id==='string'
+       &&s.scene.entities.some(x=>x.id===e.id)&&e.action==='ashes')
+   ||!Array.isArray(s.original)||s.original.length!==s.scene.entities.length
+   )return {ok:false,reason:'Invalid or pre-fix unsynchronized snapshot'};
   const loop=new PRSELoop(s.scene,{startMaterialized:false,checkGeometry:false});
   if(!loop.game.restore(s.game)){loop.dispose();return {ok:false,reason:'invalid core save'};}
   loop.scene=clone(s.scene);loop.entities=new Map(loop.scene.entities.map(e=>[e.id,e]));

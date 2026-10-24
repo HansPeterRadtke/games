@@ -1,0 +1,1500 @@
+{
+  "metadata": {
+    "project": "Existing Nitro PRSE GameCore world/Rapier",
+    "sceneProvenance": "SceneEval-500 IDs 0,2,7,10,15,22 externally written human prompts; mapping to spatial spec manually authored",
+    "notProven": "Unconstrained text to 3D generation, fully general LLM world rewriting, multi-GPU graphics",
+    "ownScenarioSources": "August 13 & October 9 original recordings; synthetic authored stress counts",
+    "physics": "Actual GameCore Rapier 3D bodies with all 3 axes of translation and rotation unlocked for research objects",
+    "modelCalls": 0
+  },
+  "rooms": [
+    {
+      "scene": "sceneeval-bedroom-0",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 624.6
+    },
+    {
+      "scene": "sceneeval-bedroom-2",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 607.9
+    },
+    {
+      "scene": "sceneeval-living-7",
+      "externalHumanAuthoredDescription": true,
+      "entities": 3,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 361.8
+    },
+    {
+      "scene": "sceneeval-living-10",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 371.9
+    },
+    {
+      "scene": "sceneeval-dining-15",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 200.1
+    },
+    {
+      "scene": "sceneeval-bedroom-22",
+      "externalHumanAuthoredDescription": true,
+      "entities": 6,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 234.6
+    }
+  ],
+  "sourceCountResults": [
+    {
+      "id": "sceneeval-bedroom-0",
+      "sourceId": 0,
+      "facts": [
+        {
+          "op": "eq",
+          "kind": "bed",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "nightstand",
+          "min": 2,
+          "actual": 2,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "wardrobe",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        }
+      ],
+      "allCountFactsSatisfied": true,
+      "relationClaims": "",
+      "roomRelationClaims": "eq,1,corner,wardrobe,room"
+    },
+    {
+      "id": "sceneeval-bedroom-2",
+      "sourceId": 2,
+      "facts": [
+        {
+          "op": "eq",
+          "kind": "bed",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "armchair",
+          "min": 2,
+          "actual": 2,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "floor_lamp",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        }
+      ],
+      "allCountFactsSatisfied": true,
+      "relationClaims": "eq,1,near,0,armchair,floor_lamp",
+      "roomRelationClaims": "eq,1,corner,bed,room"
+    },
+    {
+      "id": "sceneeval-living-7",
+      "sourceId": 7,
+      "facts": [
+        {
+          "op": "eq",
+          "kind": "TV",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "sofa",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "bookshelf",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "coffee_table",
+          "min": 0,
+          "actual": 0,
+          "satisfied": true
+        }
+      ],
+      "allCountFactsSatisfied": true,
+      "relationClaims": "",
+      "roomRelationClaims": ""
+    },
+    {
+      "id": "sceneeval-living-10",
+      "sourceId": 10,
+      "facts": [
+        {
+          "op": "eq",
+          "kind": "bookcase",
+          "min": 2,
+          "actual": 2,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "chair",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "painting",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        }
+      ],
+      "allCountFactsSatisfied": true,
+      "relationClaims": "eq,1,near,0,bookcase,chair; eq,2,across,0,bookcase,painting",
+      "roomRelationClaims": "eq,2,against,bookcase,wall; eq,2,far,bookcase,door; eq,1,on,painting,wall"
+    },
+    {
+      "id": "sceneeval-dining-15",
+      "sourceId": 15,
+      "facts": [
+        {
+          "op": "eq",
+          "kind": "dining_chair",
+          "min": 3,
+          "actual": 3,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "dining_table",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        }
+      ],
+      "allCountFactsSatisfied": true,
+      "relationClaims": "eq,1,surround,0,dining_table,dining_chair:0,dining_chair:1,dining_chair:2",
+      "roomRelationClaims": ""
+    },
+    {
+      "id": "sceneeval-bedroom-22",
+      "sourceId": 22,
+      "facts": [
+        {
+          "op": "eq",
+          "kind": "bed",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "ge",
+          "kind": "nightstand",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "monitor",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "office_desk",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "sofa_chair",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "lamp",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        }
+      ],
+      "allCountFactsSatisfied": true,
+      "relationClaims": "ge,1,next_to,0,bed,nightstand; eq,1,on,0,office_desk,monitor; eq,1,front,0,office_desk,sofa_chair; eq,1,face,0,monitor,sofa_chair; eq,1,face,0,office_desk,sofa_chair; eq,1,on,0,nightstand,lamp",
+      "roomRelationClaims": "eq,1,against,bed,wall"
+    }
+  ],
+  "roomPlans": [
+    {
+      "id": "sceneeval-bedroom-0",
+      "entities": [
+        {
+          "id": "bed0-bed-1",
+          "kind": "bed",
+          "name": "bed 1",
+          "description": "bed",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 2,
+            "y": 0.55,
+            "z": 1.8
+          },
+          "position": {
+            "x": -25,
+            "y": 0.275,
+            "z": 6
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "bed0-nightstand-1",
+          "kind": "nightstand",
+          "name": "nightstand 1",
+          "description": "nightstand",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.55,
+            "y": 0.65,
+            "z": 0.55
+          },
+          "position": {
+            "x": -27.1,
+            "y": 0.325,
+            "z": 6
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "bed0-nightstand-2",
+          "kind": "nightstand",
+          "name": "nightstand 2",
+          "description": "nightstand",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.55,
+            "y": 0.65,
+            "z": 0.55
+          },
+          "position": {
+            "x": -22.95,
+            "y": 0.325,
+            "z": 6
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "bed0-wardrobe-1",
+          "kind": "wardrobe",
+          "name": "wardrobe 1",
+          "description": "wardrobe",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 1.3,
+            "y": 2,
+            "z": 0.65
+          },
+          "position": {
+            "x": -29.2,
+            "y": 1,
+            "z": 8.8
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        }
+      ]
+    },
+    {
+      "id": "sceneeval-bedroom-2",
+      "entities": [
+        {
+          "id": "bed2-bed-1",
+          "kind": "bed",
+          "name": "bed 1",
+          "description": "bed",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 2.1,
+            "y": 0.52,
+            "z": 1.9
+          },
+          "position": {
+            "x": -28,
+            "y": 0.26,
+            "z": 7
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "bed2-armchair-1",
+          "kind": "armchair",
+          "name": "armchair 1",
+          "description": "armchair",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.9,
+            "y": 0.8,
+            "z": 0.9
+          },
+          "position": {
+            "x": -24,
+            "y": 0.4,
+            "z": 7
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "bed2-armchair-2",
+          "kind": "armchair",
+          "name": "armchair 2",
+          "description": "armchair",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.9,
+            "y": 0.8,
+            "z": 0.9
+          },
+          "position": {
+            "x": -21.7,
+            "y": 0.4,
+            "z": 7
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "bed2-floor-lamp-1",
+          "kind": "floor-lamp",
+          "name": "floor-lamp 1",
+          "description": "floor-lamp",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.25,
+            "y": 1.8,
+            "z": 0.25
+          },
+          "position": {
+            "x": -24,
+            "y": 0.9,
+            "z": 9
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        }
+      ]
+    },
+    {
+      "id": "sceneeval-living-7",
+      "entities": [
+        {
+          "id": "liv7-television-1",
+          "kind": "television",
+          "name": "television 1",
+          "description": "television",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.9,
+            "y": 1.1,
+            "z": 0.3
+          },
+          "position": {
+            "x": -27,
+            "y": 0.55,
+            "z": 7
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "liv7-sofa-1",
+          "kind": "sofa",
+          "name": "sofa 1",
+          "description": "sofa",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 2.1,
+            "y": 0.8,
+            "z": 0.9
+          },
+          "position": {
+            "x": -23,
+            "y": 0.4,
+            "z": 8
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "liv7-bookshelf-1",
+          "kind": "bookshelf",
+          "name": "bookshelf 1",
+          "description": "bookshelf",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 1.2,
+            "y": 2,
+            "z": 0.4
+          },
+          "position": {
+            "x": -20,
+            "y": 1,
+            "z": 7
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        }
+      ]
+    },
+    {
+      "id": "sceneeval-living-10",
+      "entities": [
+        {
+          "id": "liv10-bookcase-1",
+          "kind": "bookcase",
+          "name": "bookcase 1",
+          "description": "bookcase",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 1,
+            "y": 2,
+            "z": 0.38
+          },
+          "position": {
+            "x": -29,
+            "y": 1,
+            "z": 7
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "liv10-bookcase-2",
+          "kind": "bookcase",
+          "name": "bookcase 2",
+          "description": "bookcase",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 1,
+            "y": 2,
+            "z": 0.38
+          },
+          "position": {
+            "x": -26,
+            "y": 1,
+            "z": 7
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "liv10-chair-1",
+          "kind": "chair",
+          "name": "chair 1",
+          "description": "chair",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.55,
+            "y": 1,
+            "z": 0.6
+          },
+          "position": {
+            "x": -24,
+            "y": 0.5,
+            "z": 8
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "liv10-painting-1",
+          "kind": "painting",
+          "name": "painting 1",
+          "description": "painting",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.8,
+            "y": 1.1,
+            "z": 0.04
+          },
+          "position": {
+            "x": -21,
+            "y": 0.55,
+            "z": 7
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        }
+      ]
+    },
+    {
+      "id": "sceneeval-dining-15",
+      "entities": [
+        {
+          "id": "din15-dining-table-1",
+          "kind": "dining-table",
+          "name": "dining-table 1",
+          "description": "dining-table",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 1.7,
+            "y": 0.9,
+            "z": 1.4
+          },
+          "position": {
+            "x": -25,
+            "y": 0.45,
+            "z": 6
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "din15-chair-1",
+          "kind": "chair",
+          "name": "chair 1",
+          "description": "chair",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.5,
+            "y": 0.85,
+            "z": 0.5
+          },
+          "position": {
+            "x": -27.2,
+            "y": 0.425,
+            "z": 6
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "din15-chair-2",
+          "kind": "chair",
+          "name": "chair 2",
+          "description": "chair",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.5,
+            "y": 0.85,
+            "z": 0.5
+          },
+          "position": {
+            "x": -23,
+            "y": 0.425,
+            "z": 6
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "din15-chair-3",
+          "kind": "chair",
+          "name": "chair 3",
+          "description": "chair",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.5,
+            "y": 0.85,
+            "z": 0.5
+          },
+          "position": {
+            "x": -25,
+            "y": 0.425,
+            "z": 8
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        }
+      ]
+    },
+    {
+      "id": "sceneeval-bedroom-22",
+      "entities": [
+        {
+          "id": "bed22-bed-1",
+          "kind": "bed",
+          "name": "bed 1",
+          "description": "bed",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 2,
+            "y": 0.56,
+            "z": 1.8
+          },
+          "position": {
+            "x": -27,
+            "y": 0.28,
+            "z": 6
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "bed22-nightstand-1",
+          "kind": "nightstand",
+          "name": "nightstand 1",
+          "description": "nightstand",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.6,
+            "y": 0.67,
+            "z": 0.6
+          },
+          "position": {
+            "x": -25.5,
+            "y": 0.335,
+            "z": 6
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "bed22-lamp-1",
+          "kind": "lamp",
+          "name": "lamp",
+          "description": "lamp",
+          "source": "SceneEval authored support mapping",
+          "material": "metal",
+          "shape": "box",
+          "body": "dynamic",
+          "mass": 0.4,
+          "size": {
+            "x": 0.22,
+            "y": 0.6,
+            "z": 0.22
+          },
+          "position": {
+            "x": -25.5,
+            "y": 0.97,
+            "z": 6
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "bed22-nightstand-1",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "bed22-office-desk-1",
+          "kind": "office-desk",
+          "name": "office-desk 1",
+          "description": "office-desk",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 1.2,
+            "y": 0.75,
+            "z": 0.7
+          },
+          "position": {
+            "x": -21.5,
+            "y": 0.375,
+            "z": 8
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "bed22-monitor-1",
+          "kind": "monitor",
+          "name": "monitor",
+          "description": "monitor",
+          "source": "SceneEval authored support mapping",
+          "material": "metal",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 0.8,
+          "size": {
+            "x": 0.45,
+            "y": 0.6,
+            "z": 0.12
+          },
+          "position": {
+            "x": -21.5,
+            "y": 1.05,
+            "z": 8
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "bed22-office-desk-1",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        },
+        {
+          "id": "bed22-sofa-chair-1",
+          "kind": "sofa-chair",
+          "name": "sofa-chair 1",
+          "description": "sofa-chair",
+          "source": "SceneEval manually mapped; NOT model-generated",
+          "material": "wood",
+          "shape": "box",
+          "body": "fixed",
+          "mass": 1,
+          "size": {
+            "x": 0.7,
+            "y": 0.85,
+            "z": 0.7
+          },
+          "position": {
+            "x": -21.5,
+            "y": 0.425,
+            "z": 6.3
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "supportId": "floor",
+          "state": {
+            "condition": "intact"
+          },
+          "revision": 0,
+          "materialized": false
+        }
+      ]
+    }
+  ],
+  "physicalContact": {
+    "physical3D": true,
+    "impulseOnExistingRapier": true,
+    "physicallyMoved": [
+      "ball-1"
+    ],
+    "impactEvents": [
+      {
+        "ids": [
+          "ball-1",
+          "workbench-1"
+        ],
+        "speed": 1.119
+      },
+      {
+        "ids": [
+          "ball-1",
+          "pot-2"
+        ],
+        "speed": 0.9
+      }
+    ],
+    "allCurrentNarrative": "workbench is present. pot is present. pot is present. ball has rotated.",
+    "physicalEventCount": 5,
+    "duplicateAfterCursor": 0,
+    "maxSavePositionError": 0,
+    "rematerialized": 4,
+    "stableIds": true,
+    "causalEvents": "ball was pushed by an external force. ball physically collided with workbench. ball has moved from its earlier position. ball rotated. ball physically collided with pot.",
+    "returnsText": "workbench is present. pot is present. pot is present. ball is displaced.",
+    "restoredOffscreenSnapshotWithoutBodies": true
+  },
+  "offscreenDamage": {
+    "currentNarrative": "desk is present. note was destroyed; ash from note remains.",
+    "preBurnState": "scorched",
+    "finalCondition": "ashes",
+    "stableTombstoneId": true,
+    "survivingBodies": 2,
+    "remainingNotePhysicalBody": false,
+    "narrative": "note was scorched while unobserved. note was reduced to ashes while unobserved.",
+    "offscreenNoLeak": true,
+    "descriptiveReturn": "desk is present. Ash from note remains at the former location.",
+    "offscreenCausalEvents": 3
+  },
+  "negativeSceneValidation": [
+    {
+      "name": "overlap",
+      "rejected": true
+    },
+    {
+      "name": "float",
+      "rejected": true
+    },
+    {
+      "name": "duplicate_identity",
+      "rejected": true
+    },
+    {
+      "name": "missing_support",
+      "rejected": true
+    }
+  ],
+  "stress": [
+    {
+      "entities": 10,
+      "actualRapierRigidBodies": 10,
+      "sceneJsonBytes": 18225,
+      "elapsedMs": 38.7,
+      "estimatedPerFrameMs": 2.58,
+      "processHeapDeltaBytes": 825016,
+      "initialGeometryIssues": 0
+    },
+    {
+      "entities": 30,
+      "actualRapierRigidBodies": 30,
+      "sceneJsonBytes": 32820,
+      "elapsedMs": 98,
+      "estimatedPerFrameMs": 6.53,
+      "processHeapDeltaBytes": 2839624,
+      "initialGeometryIssues": 0
+    },
+    {
+      "entities": 100,
+      "actualRapierRigidBodies": 100,
+      "sceneJsonBytes": 84407,
+      "elapsedMs": 253.2,
+      "estimatedPerFrameMs": 16.88,
+      "processHeapDeltaBytes": -348160,
+      "initialGeometryIssues": 0
+    },
+    {
+      "entities": 300,
+      "actualRapierRigidBodies": 300,
+      "sceneJsonBytes": 232568,
+      "elapsedMs": 553,
+      "estimatedPerFrameMs": 36.87,
+      "processHeapDeltaBytes": 6451416,
+      "initialGeometryIssues": 0
+    }
+  ]
+}

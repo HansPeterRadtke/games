@@ -67,6 +67,7 @@ const summary={inputCount:selected.length,parsedNonempty:results.filter(x=>x.obj
 const out={source:'External human-curated SceneEval-100 text predictions from regex-only baseline (no gold used)',
  metadata:{notes:'Automatic pipeline only tests lexical entity detection, generic sized boxes, simulation, save/reentry. No relation geometry, scene style or semantics beyond lexical counts.',
  originalExternalPromptCount:100,selectedIds:results.map(x=>x.id)},summary,results};
-writeFileSync(new URL('prse_auto_external_text_to_physics_results.json',import.meta.url),
- JSON.stringify(out,null,2)+'\n',{flag:'wx'});
+const outfile=process.argv.find(s=>s.startsWith('--output='))?.slice(9)||'prse_auto_external_text_to_physics_results.json';
+if(!/^[a-z][a-z0-9_.-]*\.json$/.test(outfile))throw Error('unsafe output name');
+writeFileSync(new URL(outfile,import.meta.url),JSON.stringify(out,null,2)+'\n',{flag:'wx'});
 console.log(JSON.stringify(summary));

@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "scope": "Existing GameCore research adapter; observer distance only, not occlusion",
+    "method": "Real Rapier dynamic pot impulse and explicit offscreen semantic burn; no LLM inference",
+    "sourceProseIsHistorical": true
+  },
+  "before": {
+    "remotePlayer": {
+      "x": -4.099997043609619,
+      "y": 0.8188592791557312,
+      "z": 0
+    },
+    "offscreenNoEventsLeaked": true,
+    "offscreenNoCurrentDescriptionLeaked": true,
+    "noSpontaneousSupportLoss": true
+  },
+  "offscreen": {
+    "nativeTimeError": 0,
+    "acceptedForgedOldCurrentProseButRecomputed": true,
+    "offscreenNoLeakAfterRestore": true
+  },
+  "reentry": {
+    "rematerializedBodies": 3,
+    "visibleIds": [
+      "oak-table",
+      "ceramic-pot",
+      "loose-note",
+      "ash-loose-note"
+    ],
+    "events": {
+      "text": "note was scorched while unobserved. note was reduced to ashes while unobserved. ash from note is a remnant of note.",
+      "usedSequences": [
+        1,
+        2,
+        3
+      ],
+      "cursor": 3
+    },
+    "description": "table is present. pot is present. Ash remains where note used to be. ash from note is present.",
+    "stableIds": [
+      "oak-table",
+      "ceramic-pot",
+      "loose-note",
+      "ash-loose-note"
+    ],
+    "duplicateAfterCursor": 0
+  },
+  "support": {
+    "potPosition": {
+      "x": -16.78086280822754,
+      "y": 0.17342090606689453,
+      "z": 9.533995628356934
+    },
+    "potSupport": null,
+    "supportEvents": [
+      {
+        "sequence": 3,
+        "time": 0.517,
+        "type": "lost_support",
+        "ids": [
+          "pot-1",
+          "platform-1"
+        ],
+        "details": {
+          "formerSupport": "platform-1"
+        },
+        "origin": "physics"
+      }
+    ],
+    "sourceProseUnchanged": true,
+    "currentFactText": "platform is present. pot is tipped over.",
+    "events": [
+      "external_impulse",
+      "displaced",
+      "lost_support",
+      "tipped"
+    ]
+  }
+}

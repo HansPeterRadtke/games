@@ -118,7 +118,11 @@ const initial=structuredClone(moving.scene.entities.map(e=>({id:e.id,pos:e.posit
 assert(moving.applyImpulse('ball-1',{x:-4,y:.1,z:0}));
 moving.tick(150);
 const firstMoved=moving.scene.entities.filter(e=>e.state.moved).map(e=>e.id);
-const physicalEvents=moving.narrate(0);const dedupe=moving.narrate(physicalEvents.cursor);
+const impactObserverIds=moving.visibleIds({x:-25,y:1,z:6.2});
+const physicalEvents=moving.narrate(0,impactObserverIds);
+const dedupe=moving.narrate(physicalEvents.cursor,impactObserverIds);
+assert(physicalEvents.usedSequences.length>=3,'audited observer lost genuine impact or motion events');
+assert(dedupe.text==='','observer replayed events already displayed');
 const impulseSceneSave=moving.snapshot();
 const saved=PRSELoop.restore(JSON.parse(JSON.stringify(impulseSceneSave)));
 assert(saved.ok&&saved.loop.entities.has('ball-1')&&saved.loop.entities.has('pot-1'));
@@ -135,7 +139,7 @@ const preserved=PRSELoop.restore(JSON.parse(JSON.stringify(savedAfterAway)));
 assert(preserved.ok&&preserved.loop.active.size===0);
 const returnReentry=preserved.loop.materialize();
 const reentryIdentity=[...preserved.loop.entities.keys()];
-const returnStatement=preserved.loop.describe();
+const returnStatement=preserved.loop.describe(preserved.loop.visibleIds({x:-25,y:1,z:6.2}));
 preserved.loop.dispose();
 const returnTest={physical3D:true,impulseOnExistingRapier:true,physicallyMoved:firstMoved,impactEvents:impactEvents.map(e=>({ids:e.ids,speed:e.details.relativeSpeedMetersPerSecond})),
   allCurrentNarrative:moving.scene.currentProse.slice(0,290),
@@ -160,15 +164,17 @@ burning.advanceOffscreen(12);
 const fireSaved=burning.snapshot(),fireRestored=PRSELoop.restore(JSON.parse(JSON.stringify(fireSaved)));
 assert(fireRestored.ok);
 const note=fireRestored.loop.entities.get('paper-note');
-const beforeReentry=fireRestored.loop.describe();
+const offscreenNoLeak=fireRestored.loop.narrate().text==='';
 const activeAfterFire=fireRestored.loop.materialize();
+const fireObserverIds=fireRestored.loop.visibleIds({x:-25,y:1,z:6});
+const beforeReentry=fireRestored.loop.describe(fireObserverIds);
 assert(note.state.condition==='ashes'&&note.state.destroyed);
 assert(!fireRestored.loop.active.has('paper-note'));
 assert(fireRestored.loop.entities.has('paper-note'));
 const offscreenTest={currentNarrative:fireRestored.loop.scene.currentProse,preBurnState:beforeBurn.scene.entities.find(e=>e.id==='paper-note').state.condition,
  finalCondition:note.state.condition,stableTombstoneId:fireRestored.loop.entities.has('paper-note'),
  survivingBodies:activeAfterFire,remainingNotePhysicalBody:fireRestored.loop.active.has('paper-note'),
- narrative:fireRestored.loop.narrate().text,descriptiveReturn:beforeReentry,
+ narrative:fireRestored.loop.narrate(0,fireObserverIds).text,offscreenNoLeak,descriptiveReturn:beforeReentry,
  offscreenCausalEvents:fireRestored.loop.events.filter(e=>e.origin==='semantic_rule').length};
 fireRestored.loop.dispose();burning.dispose();
 // A wrong scene from an LLM should be rejected, not teleported into validity.
@@ -217,6 +223,7 @@ assert(rooms.every(x=>x.stableIds&&x.sceneProsePreserved&&x.maxReloadPositionErr
 assert(sourceCountResults.every(x=>x.allCountFactsSatisfied),'manually mapped source object counts inconsistent');
 assert(negatives.every(x=>x.rejected));
 assert(offscreenTest.stableTombstoneId&&!offscreenTest.remainingNotePhysicalBody);
+assert(offscreenTest.offscreenNoLeak&&offscreenTest.narrative.includes('ashes'));
 assert(returnTest.stableIds&&returnTest.maxSavePositionError<.0001);
 const out=process.argv.find(x=>x.startsWith('--output='))?.slice('--output='.length)||'prse_semantic_physics_results.json';
 if(!/^[a-z][a-z0-9_.-]*\.json$/.test(out))throw Error('unsafe result file');

@@ -1,0 +1,24 @@
+{
+  "semantic": {
+    "originalNoteStillPresent": true,
+    "noteCondition": "ashes",
+    "sourceID": "shelter-note",
+    "sourceTextPreserved": true
+  },
+  "nativePhysical": {
+    "originalNoteBodyMaterialized": true,
+    "originalNoteColliderCount": 0,
+    "distinctAshEntityFound": false,
+    "sourceNoteVisibleInProjection": true,
+    "returnedLocation": {
+      "x": 37,
+      "z": 0
+    }
+  },
+  "narrative": {
+    "textClaimsAsh": true,
+    "textLeaksReadableWarning": false,
+    "snippet": "You are at x 37.0m, y 1.1m, z 0.0m. Smoke and soot stain the shelter roof. Something burned here. Nearby: Beeswax Candle in Metal Holder, Handwritten Note, Long Oak Bench, Clay Water Jug. A small beeswax candle standing in a metal holder on the bench. The wick is burning. Only fragile gray ash remains where a handwritten warning once lay. Its words cannot be read. The oak bench is blackened by fir"
+  },
+  "limitation": "Existing production-like GameCore renders ash through note state; it does not create a distinct physically colliding remnant identity. The research sidecar now tests one coarse fixed ash-body approach, NOT deployed."
+}
