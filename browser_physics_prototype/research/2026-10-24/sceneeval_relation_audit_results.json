@@ -1,0 +1,166 @@
+{
+  "provenance": "SceneEval-500 externally annotated test descriptions; manually authored 3D plans evaluated",
+  "method": "No learned scene generation; relation heuristics deliberately limited, unsupported claims are not passed",
+  "count": {
+    "pass": 7,
+    "fail": 0,
+    "unverifiable": 18
+  },
+  "cases": [
+    {
+      "sceneId": "sceneeval-bedroom-0",
+      "sourceId": "0",
+      "claims": [
+        {
+          "annotation": "eq,1,corner,wardrobe,room",
+          "state": "unverifiable",
+          "reason": "No wall/room/door boundary geometry in these manually mapped scenes",
+          "multiplicity": 1
+        }
+      ]
+    },
+    {
+      "sceneId": "sceneeval-bedroom-2",
+      "sourceId": "2",
+      "claims": [
+        {
+          "annotation": "eq,1,near,0,armchair,floor_lamp",
+          "state": "pass",
+          "reason": "Threshold-near is a provisional spatial heuristic",
+          "multiplicity": 1
+        },
+        {
+          "annotation": "eq,1,corner,bed,room",
+          "state": "unverifiable",
+          "reason": "No wall/room/door boundary geometry in these manually mapped scenes",
+          "multiplicity": 1
+        },
+        {
+          "annotation": "eq,1,bed,king_size",
+          "state": "unverifiable",
+          "reason": "No independently measured style, color or exact object-attribute grounding",
+          "multiplicity": 1
+        },
+        {
+          "annotation": "eq,2,armchair,large",
+          "state": "unverifiable",
+          "reason": "No independently measured style, color or exact object-attribute grounding",
+          "multiplicity": 2
+        },
+        {
+          "annotation": "eq,2,armchair,blue",
+          "state": "unverifiable",
+          "reason": "No independently measured style, color or exact object-attribute grounding",
+          "multiplicity": 2
+        }
+      ]
+    },
+    {
+      "sceneId": "sceneeval-living-7",
+      "sourceId": "7",
+      "claims": []
+    },
+    {
+      "sceneId": "sceneeval-living-10",
+      "sourceId": "10",
+      "claims": [
+        {
+          "annotation": "eq,1,near,0,bookcase,chair",
+          "state": "pass",
+          "reason": "Threshold-near is a provisional spatial heuristic",
+          "multiplicity": 1
+        },
+        {
+          "annotation": "eq,2,across,0,bookcase,painting",
+          "state": "unverifiable",
+          "reason": "Requires wall/door geometry, orientation or interaction semantics absent from plan",
+          "multiplicity": 2
+        },
+        {
+          "annotation": "eq,2,against,bookcase,wall",
+          "state": "unverifiable",
+          "reason": "No wall/room/door boundary geometry in these manually mapped scenes",
+          "multiplicity": 2
+        },
+        {
+          "annotation": "eq,2,far,bookcase,door",
+          "state": "unverifiable",
+          "reason": "No wall/room/door boundary geometry in these manually mapped scenes",
+          "multiplicity": 2
+        },
+        {
+          "annotation": "eq,1,on,painting,wall",
+          "state": "unverifiable",
+          "reason": "No wall/room/door boundary geometry in these manually mapped scenes",
+          "multiplicity": 1
+        },
+        {
+          "annotation": "eq,1,chair,wooden",
+          "state": "unverifiable",
+          "reason": "No independently measured style, color or exact object-attribute grounding",
+          "multiplicity": 1
+        }
+      ]
+    },
+    {
+      "sceneId": "sceneeval-dining-15",
+      "sourceId": "15",
+      "claims": [
+        {
+          "annotation": "eq,1,surround,0,dining_table,dining_chair:0,dining_chair:1,dining_chair:2",
+          "state": "pass",
+          "reason": "At least three distinct surrounding sectors",
+          "multiplicity": 1
+        }
+      ]
+    },
+    {
+      "sceneId": "sceneeval-bedroom-22",
+      "sourceId": "22",
+      "claims": [
+        {
+          "annotation": "ge,1,next_to,0,bed,nightstand",
+          "state": "pass",
+          "reason": "Approximate side-adjacency; no room geometry",
+          "multiplicity": 1
+        },
+        {
+          "annotation": "eq,1,on,0,office_desk,monitor",
+          "state": "pass",
+          "reason": "Verified authored physical support ID, not visual contact proof",
+          "multiplicity": 1
+        },
+        {
+          "annotation": "eq,1,front,0,office_desk,sofa_chair",
+          "state": "pass",
+          "reason": "Conventional camera axis assumed; no viewer orientation",
+          "multiplicity": 1
+        },
+        {
+          "annotation": "eq,1,face,0,monitor,sofa_chair",
+          "state": "unverifiable",
+          "reason": "Requires wall/door geometry, orientation or interaction semantics absent from plan",
+          "multiplicity": 1
+        },
+        {
+          "annotation": "eq,1,face,0,office_desk,sofa_chair",
+          "state": "unverifiable",
+          "reason": "Requires wall/door geometry, orientation or interaction semantics absent from plan",
+          "multiplicity": 1
+        },
+        {
+          "annotation": "eq,1,on,0,nightstand,lamp",
+          "state": "pass",
+          "reason": "Verified authored physical support ID, not visual contact proof",
+          "multiplicity": 1
+        },
+        {
+          "annotation": "eq,1,against,bed,wall",
+          "state": "unverifiable",
+          "reason": "No wall/room/door boundary geometry in these manually mapped scenes",
+          "multiplicity": 1
+        }
+      ]
+    }
+  ]
+}

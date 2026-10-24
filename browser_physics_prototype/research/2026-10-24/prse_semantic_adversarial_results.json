@@ -1,0 +1,54 @@
+{
+  "metadata": {
+    "source": "PRSE GameCore Rapier, prior authentic model shelter proposal from October 10 (reused, not rerun)",
+    "notProof": "No new LLM call; no general language parsing; no new scene assets or renderer; offscreen logic is a bounded research-only causal rule"
+  },
+  "realThreeDimensionalImpulse": {
+    "start": {
+      "x": -26,
+      "y": 0.3,
+      "z": 9
+    },
+    "after70": {
+      "x": -25.228721618652344,
+      "y": 0.29852503538131714,
+      "z": 11.869783401489258
+    },
+    "displacementZ": 2.869783401489258,
+    "immediatePositionError": 0,
+    "replay70PositionError": 0.0000068802067726746094,
+    "post1": {
+      "x": -25.228723526000977,
+      "y": 0.29846644401550293,
+      "z": 11.869840621948242
+    },
+    "post2": {
+      "x": -25.228727340698242,
+      "y": 0.2984662353992462,
+      "z": 11.86984634399414
+    },
+    "detectedPhysicalEvents": 2,
+    "sourceProseUnchanged": true,
+    "currentProse": "crate has changed position."
+  },
+  "noCauseNoDamage": {
+    "intact": true,
+    "noHallucinatedFire": true,
+    "rereadAfterLongOffscreen": true,
+    "semanticVsGameCoreTimeGapSeconds": 60.13333334028721
+  },
+  "recordedModelProposal": {
+    "modelElapsedSeconds": 69.31,
+    "rawModelValid": false,
+    "rawModelObjectCount": 4,
+    "deterministicCorrections": 3,
+    "rawObjectRoles": [
+      "bench",
+      "candle",
+      "jug",
+      "note"
+    ],
+    "liveModelWasCalledNow": false,
+    "noteRawPhysicsIssue": true
+  }
+}

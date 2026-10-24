@@ -1,0 +1,2045 @@
+{
+  "metadata": {
+    "dataset": "SceneEval-500_v250610",
+    "source": "https://github.com/3dlg-hcvc/SceneEval/releases/tag/SceneEval-500_v250610",
+    "sha256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "human_annotations": 100,
+    "vlm_assisted_annotations": 400,
+    "transformer": "regex + finite vocabulary; no learned model calls",
+    "limitations": "Exploratory curated lexicon, support/spatial relations and attributes not evaluated; annotations not used as parser input. Counts are not physics.",
+    "model_comparison": "existing old shelter translator has fixed four roles; no same-prompt model comparison was performed"
+  },
+  "results": {
+    "human_curated_first_100": {
+      "legacy": {
+        "prompts": 100,
+        "gold_objects": 586,
+        "predicted_objects": 0,
+        "true_positive_count": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "exact_scene_counts": 0,
+        "exact_scene_rate": 0.0,
+        "mean_scene_recall": 0.0,
+        "mean_scene_precision": 0.0,
+        "examples": [
+          {
+            "id": "0",
+            "description": "A bedroom with a bed, two nightstands, and a wardrobe in the corner of the room.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2,
+              "wardrobe": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "1",
+            "description": "A bedroom with a bed and a wardrobe.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "2",
+            "description": "A bedroom with a king-size bed in the corner of the room, two large blue armchairs, and a floor lamp near a armchair.",
+            "expected": {
+              "bed": 1,
+              "armchair": 2,
+              "floor_lamp": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "3",
+            "description": "A bedroom with a double bed and a mini fridge near the bed, a table across from the door, and a painting on the wall above the bed.",
+            "expected": {
+              "bed": 1,
+              "fridge": 1,
+              "table": 1,
+              "painting": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "4",
+            "description": "A bedroom with two bunk beds in the corners of the room, a desk placed against the wall far from the door, and a light hanging from the ceiling in the center of the room.",
+            "expected": {
+              "bed": 2,
+              "desk": 1,
+              "light": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "5",
+            "description": "A simple bedroom featuring a twin bed against the wall, with a wardrobe positioned in the corner of the room, and a desk next to the window.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "desk": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "6",
+            "description": "A minimal bedroom with a queen bed against the wall, flanked by two nightstands on each side.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "7",
+            "description": "A living room with a TV, sofa, and bookshelf. There is no coffee table in the room.",
+            "expected": {
+              "TV": 1,
+              "sofa": 1,
+              "bookshelf": 1,
+              "coffee_table": 0
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "8",
+            "description": "A living room with a TV, sofa, bookshelf, and coffee table.",
+            "expected": {
+              "TV": 1,
+              "sofa": 1,
+              "bookshelf": 1,
+              "coffee_table": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "9",
+            "description": "A living room with a sofa in front of a wall-mounted TV, a lamp behind the sofa, and a stool near the TV against the wall.",
+            "expected": {
+              "sofa": 1,
+              "TV": 1,
+              "lamp": 1,
+              "stool": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "10",
+            "description": "A living room with two bookcases along the wall far from the door, a wooden chair near the bookcases, and a painting on the wall opposite the bookcases.",
+            "expected": {
+              "bookcase": 2,
+              "chair": 1,
+              "painting": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "11",
+            "description": "A living room with a two-seater sofa against the wall, a square rug in the middle in front of the sofa, and two large plants on the floor near the sofa.",
+            "expected": {
+              "sofa": 1,
+              "rug": 1,
+              "plant": 2
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          }
+        ],
+        "low_recall_examples": [
+          {
+            "id": "0",
+            "description": "A bedroom with a bed, two nightstands, and a wardrobe in the corner of the room.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2,
+              "wardrobe": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "1",
+            "description": "A bedroom with a bed and a wardrobe.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "2",
+            "description": "A bedroom with a king-size bed in the corner of the room, two large blue armchairs, and a floor lamp near a armchair.",
+            "expected": {
+              "bed": 1,
+              "armchair": 2,
+              "floor_lamp": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "3",
+            "description": "A bedroom with a double bed and a mini fridge near the bed, a table across from the door, and a painting on the wall above the bed.",
+            "expected": {
+              "bed": 1,
+              "fridge": 1,
+              "table": 1,
+              "painting": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "4",
+            "description": "A bedroom with two bunk beds in the corners of the room, a desk placed against the wall far from the door, and a light hanging from the ceiling in the center of the room.",
+            "expected": {
+              "bed": 2,
+              "desk": 1,
+              "light": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "5",
+            "description": "A simple bedroom featuring a twin bed against the wall, with a wardrobe positioned in the corner of the room, and a desk next to the window.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "desk": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "6",
+            "description": "A minimal bedroom with a queen bed against the wall, flanked by two nightstands on each side.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "7",
+            "description": "A living room with a TV, sofa, and bookshelf. There is no coffee table in the room.",
+            "expected": {
+              "TV": 1,
+              "sofa": 1,
+              "bookshelf": 1,
+              "coffee_table": 0
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          }
+        ]
+      },
+      "lexicon": {
+        "prompts": 100,
+        "gold_objects": 586,
+        "predicted_objects": 524,
+        "true_positive_count": 302,
+        "precision": 0.5763358778625954,
+        "recall": 0.515358361774744,
+        "f1": 0.5441441441441441,
+        "exact_scene_counts": 5,
+        "exact_scene_rate": 0.05,
+        "mean_scene_recall": 0.5294493537508242,
+        "mean_scene_precision": 0.5993316267066267,
+        "examples": [
+          {
+            "id": "0",
+            "description": "A bedroom with a bed, two nightstands, and a wardrobe in the corner of the room.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2,
+              "wardrobe": 1
+            },
+            "predicted": {
+              "nightstand": 2,
+              "wardrobe": 1,
+              "bed": 1
+            },
+            "recall": 1.0,
+            "precision": 1.0,
+            "exact": true,
+            "difficulty": "easy"
+          },
+          {
+            "id": "1",
+            "description": "A bedroom with a bed and a wardrobe.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1
+            },
+            "predicted": {
+              "wardrobe": 1,
+              "bed": 1
+            },
+            "recall": 1.0,
+            "precision": 1.0,
+            "exact": true,
+            "difficulty": "easy"
+          },
+          {
+            "id": "2",
+            "description": "A bedroom with a king-size bed in the corner of the room, two large blue armchairs, and a floor lamp near a armchair.",
+            "expected": {
+              "bed": 1,
+              "armchair": 2,
+              "floor_lamp": 1
+            },
+            "predicted": {
+              "floor_lamp": 1,
+              "armchair": 3,
+              "bed": 1
+            },
+            "recall": 1.0,
+            "precision": 0.8,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "3",
+            "description": "A bedroom with a double bed and a mini fridge near the bed, a table across from the door, and a painting on the wall above the bed.",
+            "expected": {
+              "bed": 1,
+              "fridge": 1,
+              "table": 1,
+              "painting": 1
+            },
+            "predicted": {
+              "painting": 1,
+              "refrigerator": 1,
+              "table": 1,
+              "bed": 3
+            },
+            "recall": 0.75,
+            "precision": 0.5,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "4",
+            "description": "A bedroom with two bunk beds in the corners of the room, a desk placed against the wall far from the door, and a light hanging from the ceiling in the center of the room.",
+            "expected": {
+              "bed": 2,
+              "desk": 1,
+              "light": 1
+            },
+            "predicted": {
+              "bed": 1,
+              "desk": 1
+            },
+            "recall": 0.5,
+            "precision": 1.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "5",
+            "description": "A simple bedroom featuring a twin bed against the wall, with a wardrobe positioned in the corner of the room, and a desk next to the window.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "desk": 1
+            },
+            "predicted": {
+              "wardrobe": 1,
+              "window": 1,
+              "desk": 1,
+              "bed": 1
+            },
+            "recall": 1.0,
+            "precision": 0.75,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "6",
+            "description": "A minimal bedroom with a queen bed against the wall, flanked by two nightstands on each side.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2
+            },
+            "predicted": {
+              "nightstand": 2,
+              "bed": 1
+            },
+            "recall": 1.0,
+            "precision": 1.0,
+            "exact": true,
+            "difficulty": "easy"
+          },
+          {
+            "id": "7",
+            "description": "A living room with a TV, sofa, and bookshelf. There is no coffee table in the room.",
+            "expected": {
+              "TV": 1,
+              "sofa": 1,
+              "bookshelf": 1,
+              "coffee_table": 0
+            },
+            "predicted": {
+              "coffee_table": 1,
+              "bookshelf": 1,
+              "sofa": 1,
+              "television": 1
+            },
+            "recall": 0.6666666666666666,
+            "precision": 0.5,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "8",
+            "description": "A living room with a TV, sofa, bookshelf, and coffee table.",
+            "expected": {
+              "TV": 1,
+              "sofa": 1,
+              "bookshelf": 1,
+              "coffee_table": 1
+            },
+            "predicted": {
+              "coffee_table": 1,
+              "bookshelf": 1,
+              "sofa": 1,
+              "television": 1
+            },
+            "recall": 0.75,
+            "precision": 0.75,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "9",
+            "description": "A living room with a sofa in front of a wall-mounted TV, a lamp behind the sofa, and a stool near the TV against the wall.",
+            "expected": {
+              "sofa": 1,
+              "TV": 1,
+              "lamp": 1,
+              "stool": 1
+            },
+            "predicted": {
+              "stool": 1,
+              "sofa": 2,
+              "lamp": 1,
+              "television": 2
+            },
+            "recall": 0.75,
+            "precision": 0.5,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "10",
+            "description": "A living room with two bookcases along the wall far from the door, a wooden chair near the bookcases, and a painting on the wall opposite the bookcases.",
+            "expected": {
+              "bookcase": 2,
+              "chair": 1,
+              "painting": 1
+            },
+            "predicted": {
+              "bookshelf": 4,
+              "painting": 1,
+              "chair": 1
+            },
+            "recall": 0.5,
+            "precision": 0.3333333333333333,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "11",
+            "description": "A living room with a two-seater sofa against the wall, a square rug in the middle in front of the sofa, and two large plants on the floor near the sofa.",
+            "expected": {
+              "sofa": 1,
+              "rug": 1,
+              "plant": 2
+            },
+            "predicted": {
+              "plant": 2,
+              "sofa": 3,
+              "rug": 1
+            },
+            "recall": 1.0,
+            "precision": 0.6666666666666666,
+            "exact": false,
+            "difficulty": "easy"
+          }
+        ],
+        "low_recall_examples": [
+          {
+            "id": "12",
+            "description": "A living room with a bean bag near a wall cabinet, which is across from the window. There is a stool next to the bean bag.",
+            "expected": {
+              "bean_bag": 1,
+              "wall_cabinet": 1,
+              "stool": 1
+            },
+            "predicted": {
+              "cabinet": 1,
+              "window": 1,
+              "stool": 1
+            },
+            "recall": 0.3333333333333333,
+            "precision": 0.3333333333333333,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "14",
+            "description": "A dining room with two bar stools at the short sides of a bar table.",
+            "expected": {
+              "bar_stool": 2,
+              "bar_table": 1
+            },
+            "predicted": {
+              "stool": 1,
+              "table": 1
+            },
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "15",
+            "description": "A dining room with three dining chairs surrounding a dining table.",
+            "expected": {
+              "dining_chair": 3,
+              "dining_table": 1
+            },
+            "predicted": {
+              "dining_table": 1,
+              "chair": 1
+            },
+            "recall": 0.25,
+            "precision": 0.5,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "17",
+            "description": "A dining room with a cabinet next to the door against the wall, and two wine cabinets against the wall near a bar table.",
+            "expected": {
+              "cabinet": 1,
+              "wine_cabinet": 2,
+              "bar_table": 1
+            },
+            "predicted": {
+              "cabinet": 2,
+              "table": 1
+            },
+            "recall": 0.25,
+            "precision": 0.3333333333333333,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "22",
+            "description": "A bedroom with a bed against the wall and at least one nightstand next to it, featuring a lamp on the nightstand. There is an office desk with a monitor on top and a sofa chair in front of it.",
+            "expected": {
+              "bed": 1,
+              "monitor": 1,
+              "office_desk": 1,
+              "sofa_chair": 1,
+              "lamp": 1
+            },
+            "predicted": {
+              "nightstand": 2,
+              "chair": 1,
+              "lamp": 1,
+              "desk": 1,
+              "sofa": 1,
+              "bed": 1
+            },
+            "recall": 0.4,
+            "precision": 0.2857142857142857,
+            "exact": false,
+            "difficulty": "medium"
+          },
+          {
+            "id": "26",
+            "description": "A bedroom with three extendable beds, one of which has a doll placed on top. Two of the beds are positioned in the corners of the room, and a dresser is located next to the door. There are two dolls outside a toy box.",
+            "expected": {
+              "bed": 3,
+              "doll": 2,
+              "dresser": 1,
+              "toy_box": 1
+            },
+            "predicted": {
+              "dresser": 1,
+              "bed": 2,
+              "box": 1
+            },
+            "recall": 0.42857142857142855,
+            "precision": 0.75,
+            "exact": false,
+            "difficulty": "medium"
+          },
+          {
+            "id": "34",
+            "description": "A dining room with a bar table positioned in the middle of the room. A wooden shelf is mounted on the wall, holding a potted plant and a jug, adding a touch of decor and functionality. Along the wall, there is a fridge and a wine cabinet, providing ample storage and a cohesive design.",
+            "expected": {
+              "bar_table": 1,
+              "wall_shelf": 1,
+              "potted_plant": 1,
+              "jug": 1,
+              "fridge": 1,
+              "wine_cabinet": 1
+            },
+            "predicted": {
+              "cabinet": 1,
+              "refrigerator": 1,
+              "table": 1,
+              "shelf": 1,
+              "plant": 1
+            },
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "medium"
+          },
+          {
+            "id": "36",
+            "description": "A dining room with six wooden dining chairs surrounding a round wooden table in the middle of the room. There is no coffee table in the room.",
+            "expected": {
+              "dining_chair": 6,
+              "dining_table": 1,
+              "coffee_table": 0
+            },
+            "predicted": {
+              "coffee_table": 1,
+              "chair": 1,
+              "table": 1
+            },
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "medium"
+          }
+        ]
+      }
+    },
+    "vlm_assisted_remaining_400": {
+      "legacy": {
+        "prompts": 400,
+        "gold_objects": 3596,
+        "predicted_objects": 0,
+        "true_positive_count": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "exact_scene_counts": 0,
+        "exact_scene_rate": 0.0,
+        "mean_scene_recall": 0.0,
+        "mean_scene_precision": 0.0,
+        "examples": [
+          {
+            "id": "100",
+            "description": "A bedroom with a queen-sized bed and a nightstand on the right side of the bed, plus a wardrobe in the corner of the room.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 1,
+              "wardrobe": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "101",
+            "description": "A bedroom with a queen-sized bed and an armchair in front of the bed.",
+            "expected": {
+              "bed": 1,
+              "armchair": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "102",
+            "description": "A bedroom with two twin beds and a wardrobe in the corner of the room.",
+            "expected": {
+              "bed": 2,
+              "wardrobe": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "103",
+            "description": "A bedroom with a wooden bunk bed placed against the back wall and a tall floor lamp standing next to it.",
+            "expected": {
+              "bunk_bed": 1,
+              "floor_lamp": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "104",
+            "description": "A bedroom with a polished walnut canopy bed draped in gauzy white curtains, an antique oak armoire with brass handles nestled in the corner, and a marble-top vanity set against a wall.",
+            "expected": {
+              "canopy_bed": 1,
+              "armoire": 1,
+              "vanity": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "105",
+            "description": "A bedroom with a white queen bed against the back wall, a tall wooden wardrobe to the right of the bed, a simple desk to the left of the bed, and a chair nearby.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "desk": 1,
+              "chair": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "106",
+            "description": "A kid's bedroom with a pastel pink twin bed against the back wall, a low white dresser to the right of the bed, and a simple wooden desk to the left of the bed",
+            "expected": {
+              "bed": 1,
+              "dresser": 1,
+              "desk": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "107",
+            "description": "A modern bedroom featuring a charcoal grey king bed with a velvet headboard against the back wall, two nightstands flanking the bed, and a sleek dark wood dresser against the left wall",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2,
+              "dresser": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "108",
+            "description": "A modern bedroom with a slate grey queen bed against the back wall, a tall white wardrobe to the right of the bed, and a sleek black dresser to the left of the bed",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "dresser": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "109",
+            "description": "A bedroom with an antique wooden bed against the back wall, an old carved wardrobe opposite the foot of the bed, and a vintage dresser to the right of the bed.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "dresser": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "110",
+            "description": "A bedroom with a vintage iron bed nestled in the corner of the room, a weathered wooden wardrobe against the opposite wall, and a rustic chest at the foot of the bed.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "chest": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "111",
+            "description": "A living room with a gray sofa against the back wall, a rectangular coffee table directly in front of the sofa, and a wooden armchair to the left of the sofa.",
+            "expected": {
+              "sofa": 1,
+              "coffee_table": 1,
+              "armchair": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          }
+        ],
+        "low_recall_examples": [
+          {
+            "id": "100",
+            "description": "A bedroom with a queen-sized bed and a nightstand on the right side of the bed, plus a wardrobe in the corner of the room.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 1,
+              "wardrobe": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "101",
+            "description": "A bedroom with a queen-sized bed and an armchair in front of the bed.",
+            "expected": {
+              "bed": 1,
+              "armchair": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "102",
+            "description": "A bedroom with two twin beds and a wardrobe in the corner of the room.",
+            "expected": {
+              "bed": 2,
+              "wardrobe": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "103",
+            "description": "A bedroom with a wooden bunk bed placed against the back wall and a tall floor lamp standing next to it.",
+            "expected": {
+              "bunk_bed": 1,
+              "floor_lamp": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "104",
+            "description": "A bedroom with a polished walnut canopy bed draped in gauzy white curtains, an antique oak armoire with brass handles nestled in the corner, and a marble-top vanity set against a wall.",
+            "expected": {
+              "canopy_bed": 1,
+              "armoire": 1,
+              "vanity": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "105",
+            "description": "A bedroom with a white queen bed against the back wall, a tall wooden wardrobe to the right of the bed, a simple desk to the left of the bed, and a chair nearby.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "desk": 1,
+              "chair": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "106",
+            "description": "A kid's bedroom with a pastel pink twin bed against the back wall, a low white dresser to the right of the bed, and a simple wooden desk to the left of the bed",
+            "expected": {
+              "bed": 1,
+              "dresser": 1,
+              "desk": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "107",
+            "description": "A modern bedroom featuring a charcoal grey king bed with a velvet headboard against the back wall, two nightstands flanking the bed, and a sleek dark wood dresser against the left wall",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2,
+              "dresser": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          }
+        ]
+      },
+      "lexicon": {
+        "prompts": 400,
+        "gold_objects": 3596,
+        "predicted_objects": 2170,
+        "true_positive_count": 997,
+        "precision": 0.4594470046082949,
+        "recall": 0.2772525027808676,
+        "f1": 0.3458203260492542,
+        "exact_scene_counts": 1,
+        "exact_scene_rate": 0.0025,
+        "mean_scene_recall": 0.34468805175494505,
+        "mean_scene_precision": 0.4658387609122903,
+        "examples": [
+          {
+            "id": "100",
+            "description": "A bedroom with a queen-sized bed and a nightstand on the right side of the bed, plus a wardrobe in the corner of the room.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 1,
+              "wardrobe": 1
+            },
+            "predicted": {
+              "nightstand": 1,
+              "wardrobe": 1,
+              "bed": 2
+            },
+            "recall": 1.0,
+            "precision": 0.75,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "101",
+            "description": "A bedroom with a queen-sized bed and an armchair in front of the bed.",
+            "expected": {
+              "bed": 1,
+              "armchair": 1
+            },
+            "predicted": {
+              "armchair": 1,
+              "bed": 2
+            },
+            "recall": 1.0,
+            "precision": 0.6666666666666666,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "102",
+            "description": "A bedroom with two twin beds and a wardrobe in the corner of the room.",
+            "expected": {
+              "bed": 2,
+              "wardrobe": 1
+            },
+            "predicted": {
+              "wardrobe": 1,
+              "bed": 1
+            },
+            "recall": 0.6666666666666666,
+            "precision": 1.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "103",
+            "description": "A bedroom with a wooden bunk bed placed against the back wall and a tall floor lamp standing next to it.",
+            "expected": {
+              "bunk_bed": 1,
+              "floor_lamp": 1
+            },
+            "predicted": {
+              "floor_lamp": 1,
+              "bed": 1
+            },
+            "recall": 0.5,
+            "precision": 0.5,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "104",
+            "description": "A bedroom with a polished walnut canopy bed draped in gauzy white curtains, an antique oak armoire with brass handles nestled in the corner, and a marble-top vanity set against a wall.",
+            "expected": {
+              "canopy_bed": 1,
+              "armoire": 1,
+              "vanity": 1
+            },
+            "predicted": {
+              "bed": 1
+            },
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "105",
+            "description": "A bedroom with a white queen bed against the back wall, a tall wooden wardrobe to the right of the bed, a simple desk to the left of the bed, and a chair nearby.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "desk": 1,
+              "chair": 1
+            },
+            "predicted": {
+              "wardrobe": 1,
+              "chair": 1,
+              "desk": 1,
+              "bed": 3
+            },
+            "recall": 1.0,
+            "precision": 0.6666666666666666,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "106",
+            "description": "A kid's bedroom with a pastel pink twin bed against the back wall, a low white dresser to the right of the bed, and a simple wooden desk to the left of the bed",
+            "expected": {
+              "bed": 1,
+              "dresser": 1,
+              "desk": 1
+            },
+            "predicted": {
+              "dresser": 1,
+              "desk": 1,
+              "bed": 3
+            },
+            "recall": 1.0,
+            "precision": 0.6,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "107",
+            "description": "A modern bedroom featuring a charcoal grey king bed with a velvet headboard against the back wall, two nightstands flanking the bed, and a sleek dark wood dresser against the left wall",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2,
+              "dresser": 1
+            },
+            "predicted": {
+              "nightstand": 2,
+              "dresser": 1,
+              "bed": 2
+            },
+            "recall": 1.0,
+            "precision": 0.8,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "108",
+            "description": "A modern bedroom with a slate grey queen bed against the back wall, a tall white wardrobe to the right of the bed, and a sleek black dresser to the left of the bed",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "dresser": 1
+            },
+            "predicted": {
+              "wardrobe": 1,
+              "dresser": 1,
+              "bed": 3
+            },
+            "recall": 1.0,
+            "precision": 0.6,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "109",
+            "description": "A bedroom with an antique wooden bed against the back wall, an old carved wardrobe opposite the foot of the bed, and a vintage dresser to the right of the bed.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "dresser": 1
+            },
+            "predicted": {
+              "wardrobe": 1,
+              "dresser": 1,
+              "bed": 3
+            },
+            "recall": 1.0,
+            "precision": 0.6,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "110",
+            "description": "A bedroom with a vintage iron bed nestled in the corner of the room, a weathered wooden wardrobe against the opposite wall, and a rustic chest at the foot of the bed.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "chest": 1
+            },
+            "predicted": {
+              "wardrobe": 1,
+              "bed": 2
+            },
+            "recall": 0.6666666666666666,
+            "precision": 0.6666666666666666,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "111",
+            "description": "A living room with a gray sofa against the back wall, a rectangular coffee table directly in front of the sofa, and a wooden armchair to the left of the sofa.",
+            "expected": {
+              "sofa": 1,
+              "coffee_table": 1,
+              "armchair": 1
+            },
+            "predicted": {
+              "coffee_table": 1,
+              "armchair": 1,
+              "sofa": 3
+            },
+            "recall": 1.0,
+            "precision": 0.6,
+            "exact": false,
+            "difficulty": "easy"
+          }
+        ],
+        "low_recall_examples": [
+          {
+            "id": "104",
+            "description": "A bedroom with a polished walnut canopy bed draped in gauzy white curtains, an antique oak armoire with brass handles nestled in the corner, and a marble-top vanity set against a wall.",
+            "expected": {
+              "canopy_bed": 1,
+              "armoire": 1,
+              "vanity": 1
+            },
+            "predicted": {
+              "bed": 1
+            },
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "115",
+            "description": "A living room with a tatami mat at the center of the room, a low wooden coffee table placed on the mat, and a beige futon sofa against the far wall",
+            "expected": {
+              "tatami_mat": 1,
+              "coffee_table": 1,
+              "futon_sofa": 1
+            },
+            "predicted": {
+              "coffee_table": 1,
+              "sofa": 1
+            },
+            "recall": 0.3333333333333333,
+            "precision": 0.5,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "116",
+            "description": "A living room with a minimalist beige futon sofa against the right wall, a low wooden coffee table centered in front of it, and a white shoji screen placed directly behind the sofa",
+            "expected": {
+              "futon_sofa": 1,
+              "coffee_table": 1,
+              "shoji_screen": 1
+            },
+            "predicted": {
+              "coffee_table": 1,
+              "sofa": 2
+            },
+            "recall": 0.3333333333333333,
+            "precision": 0.3333333333333333,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "120",
+            "description": "A living room with a sofa flanked by two floor potted plants, one on each side of the sofa. In the corner of the room stands a marble sculpture on the floor.",
+            "expected": {
+              "sofa": 1,
+              "potted_plant": 2,
+              "sculpture": 1
+            },
+            "predicted": {
+              "plant": 1,
+              "sofa": 2
+            },
+            "recall": 0.25,
+            "precision": 0.3333333333333333,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "121",
+            "description": "A living room with a flat-screen TV, a sofa facing the TV, and two floor speakers placed on either side of the TV",
+            "expected": {
+              "TV": 1,
+              "sofa": 1,
+              "floor_speaker": 2
+            },
+            "predicted": {
+              "sofa": 1,
+              "television": 3
+            },
+            "recall": 0.25,
+            "precision": 0.25,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "127",
+            "description": "A dining room with a rectangular wood table tucked into the corner, a matching bench placed by the table, and a decorative rug laid in the center of the room",
+            "expected": {
+              "dining_table": 1,
+              "bench": 1,
+              "rug": 1
+            },
+            "predicted": {
+              "table": 2,
+              "rug": 1
+            },
+            "recall": 0.3333333333333333,
+            "precision": 0.3333333333333333,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "129",
+            "description": "A dining room with a circular stone dining table, a curved wooden bench wrapping around one side of the table, and a tall room divider positioned behind the bench",
+            "expected": {
+              "dining_table": 1,
+              "bench": 1,
+              "room_divider": 1
+            },
+            "predicted": {
+              "dining_table": 1,
+              "table": 1
+            },
+            "recall": 0.3333333333333333,
+            "precision": 0.5,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "136",
+            "description": "A playroom with a rectangular play mat in a corner with a bean bag on top and a toy box at the center of the room",
+            "expected": {
+              "play_mat": 1,
+              "bean_bag": 1,
+              "toy_box": 1
+            },
+            "predicted": {
+              "box": 1
+            },
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          }
+        ]
+      }
+    },
+    "all_500": {
+      "legacy": {
+        "prompts": 500,
+        "gold_objects": 4182,
+        "predicted_objects": 0,
+        "true_positive_count": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "exact_scene_counts": 0,
+        "exact_scene_rate": 0.0,
+        "mean_scene_recall": 0.0,
+        "mean_scene_precision": 0.0,
+        "examples": [
+          {
+            "id": "0",
+            "description": "A bedroom with a bed, two nightstands, and a wardrobe in the corner of the room.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2,
+              "wardrobe": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "1",
+            "description": "A bedroom with a bed and a wardrobe.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "2",
+            "description": "A bedroom with a king-size bed in the corner of the room, two large blue armchairs, and a floor lamp near a armchair.",
+            "expected": {
+              "bed": 1,
+              "armchair": 2,
+              "floor_lamp": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "3",
+            "description": "A bedroom with a double bed and a mini fridge near the bed, a table across from the door, and a painting on the wall above the bed.",
+            "expected": {
+              "bed": 1,
+              "fridge": 1,
+              "table": 1,
+              "painting": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "4",
+            "description": "A bedroom with two bunk beds in the corners of the room, a desk placed against the wall far from the door, and a light hanging from the ceiling in the center of the room.",
+            "expected": {
+              "bed": 2,
+              "desk": 1,
+              "light": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "5",
+            "description": "A simple bedroom featuring a twin bed against the wall, with a wardrobe positioned in the corner of the room, and a desk next to the window.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "desk": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "6",
+            "description": "A minimal bedroom with a queen bed against the wall, flanked by two nightstands on each side.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "7",
+            "description": "A living room with a TV, sofa, and bookshelf. There is no coffee table in the room.",
+            "expected": {
+              "TV": 1,
+              "sofa": 1,
+              "bookshelf": 1,
+              "coffee_table": 0
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "8",
+            "description": "A living room with a TV, sofa, bookshelf, and coffee table.",
+            "expected": {
+              "TV": 1,
+              "sofa": 1,
+              "bookshelf": 1,
+              "coffee_table": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "9",
+            "description": "A living room with a sofa in front of a wall-mounted TV, a lamp behind the sofa, and a stool near the TV against the wall.",
+            "expected": {
+              "sofa": 1,
+              "TV": 1,
+              "lamp": 1,
+              "stool": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "10",
+            "description": "A living room with two bookcases along the wall far from the door, a wooden chair near the bookcases, and a painting on the wall opposite the bookcases.",
+            "expected": {
+              "bookcase": 2,
+              "chair": 1,
+              "painting": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "11",
+            "description": "A living room with a two-seater sofa against the wall, a square rug in the middle in front of the sofa, and two large plants on the floor near the sofa.",
+            "expected": {
+              "sofa": 1,
+              "rug": 1,
+              "plant": 2
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          }
+        ],
+        "low_recall_examples": [
+          {
+            "id": "0",
+            "description": "A bedroom with a bed, two nightstands, and a wardrobe in the corner of the room.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2,
+              "wardrobe": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "1",
+            "description": "A bedroom with a bed and a wardrobe.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "2",
+            "description": "A bedroom with a king-size bed in the corner of the room, two large blue armchairs, and a floor lamp near a armchair.",
+            "expected": {
+              "bed": 1,
+              "armchair": 2,
+              "floor_lamp": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "3",
+            "description": "A bedroom with a double bed and a mini fridge near the bed, a table across from the door, and a painting on the wall above the bed.",
+            "expected": {
+              "bed": 1,
+              "fridge": 1,
+              "table": 1,
+              "painting": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "4",
+            "description": "A bedroom with two bunk beds in the corners of the room, a desk placed against the wall far from the door, and a light hanging from the ceiling in the center of the room.",
+            "expected": {
+              "bed": 2,
+              "desk": 1,
+              "light": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "5",
+            "description": "A simple bedroom featuring a twin bed against the wall, with a wardrobe positioned in the corner of the room, and a desk next to the window.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "desk": 1
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "6",
+            "description": "A minimal bedroom with a queen bed against the wall, flanked by two nightstands on each side.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "7",
+            "description": "A living room with a TV, sofa, and bookshelf. There is no coffee table in the room.",
+            "expected": {
+              "TV": 1,
+              "sofa": 1,
+              "bookshelf": 1,
+              "coffee_table": 0
+            },
+            "predicted": {},
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          }
+        ]
+      },
+      "lexicon": {
+        "prompts": 500,
+        "gold_objects": 4182,
+        "predicted_objects": 2694,
+        "true_positive_count": 1299,
+        "precision": 0.4821826280623608,
+        "recall": 0.31061692969870874,
+        "f1": 0.37783595113438045,
+        "exact_scene_counts": 6,
+        "exact_scene_rate": 0.012,
+        "mean_scene_recall": 0.3816403121541209,
+        "mean_scene_precision": 0.49253733407115763,
+        "examples": [
+          {
+            "id": "0",
+            "description": "A bedroom with a bed, two nightstands, and a wardrobe in the corner of the room.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2,
+              "wardrobe": 1
+            },
+            "predicted": {
+              "nightstand": 2,
+              "wardrobe": 1,
+              "bed": 1
+            },
+            "recall": 1.0,
+            "precision": 1.0,
+            "exact": true,
+            "difficulty": "easy"
+          },
+          {
+            "id": "1",
+            "description": "A bedroom with a bed and a wardrobe.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1
+            },
+            "predicted": {
+              "wardrobe": 1,
+              "bed": 1
+            },
+            "recall": 1.0,
+            "precision": 1.0,
+            "exact": true,
+            "difficulty": "easy"
+          },
+          {
+            "id": "2",
+            "description": "A bedroom with a king-size bed in the corner of the room, two large blue armchairs, and a floor lamp near a armchair.",
+            "expected": {
+              "bed": 1,
+              "armchair": 2,
+              "floor_lamp": 1
+            },
+            "predicted": {
+              "floor_lamp": 1,
+              "armchair": 3,
+              "bed": 1
+            },
+            "recall": 1.0,
+            "precision": 0.8,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "3",
+            "description": "A bedroom with a double bed and a mini fridge near the bed, a table across from the door, and a painting on the wall above the bed.",
+            "expected": {
+              "bed": 1,
+              "fridge": 1,
+              "table": 1,
+              "painting": 1
+            },
+            "predicted": {
+              "painting": 1,
+              "refrigerator": 1,
+              "table": 1,
+              "bed": 3
+            },
+            "recall": 0.75,
+            "precision": 0.5,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "4",
+            "description": "A bedroom with two bunk beds in the corners of the room, a desk placed against the wall far from the door, and a light hanging from the ceiling in the center of the room.",
+            "expected": {
+              "bed": 2,
+              "desk": 1,
+              "light": 1
+            },
+            "predicted": {
+              "bed": 1,
+              "desk": 1
+            },
+            "recall": 0.5,
+            "precision": 1.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "5",
+            "description": "A simple bedroom featuring a twin bed against the wall, with a wardrobe positioned in the corner of the room, and a desk next to the window.",
+            "expected": {
+              "bed": 1,
+              "wardrobe": 1,
+              "desk": 1
+            },
+            "predicted": {
+              "wardrobe": 1,
+              "window": 1,
+              "desk": 1,
+              "bed": 1
+            },
+            "recall": 1.0,
+            "precision": 0.75,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "6",
+            "description": "A minimal bedroom with a queen bed against the wall, flanked by two nightstands on each side.",
+            "expected": {
+              "bed": 1,
+              "nightstand": 2
+            },
+            "predicted": {
+              "nightstand": 2,
+              "bed": 1
+            },
+            "recall": 1.0,
+            "precision": 1.0,
+            "exact": true,
+            "difficulty": "easy"
+          },
+          {
+            "id": "7",
+            "description": "A living room with a TV, sofa, and bookshelf. There is no coffee table in the room.",
+            "expected": {
+              "TV": 1,
+              "sofa": 1,
+              "bookshelf": 1,
+              "coffee_table": 0
+            },
+            "predicted": {
+              "coffee_table": 1,
+              "bookshelf": 1,
+              "sofa": 1,
+              "television": 1
+            },
+            "recall": 0.6666666666666666,
+            "precision": 0.5,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "8",
+            "description": "A living room with a TV, sofa, bookshelf, and coffee table.",
+            "expected": {
+              "TV": 1,
+              "sofa": 1,
+              "bookshelf": 1,
+              "coffee_table": 1
+            },
+            "predicted": {
+              "coffee_table": 1,
+              "bookshelf": 1,
+              "sofa": 1,
+              "television": 1
+            },
+            "recall": 0.75,
+            "precision": 0.75,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "9",
+            "description": "A living room with a sofa in front of a wall-mounted TV, a lamp behind the sofa, and a stool near the TV against the wall.",
+            "expected": {
+              "sofa": 1,
+              "TV": 1,
+              "lamp": 1,
+              "stool": 1
+            },
+            "predicted": {
+              "stool": 1,
+              "sofa": 2,
+              "lamp": 1,
+              "television": 2
+            },
+            "recall": 0.75,
+            "precision": 0.5,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "10",
+            "description": "A living room with two bookcases along the wall far from the door, a wooden chair near the bookcases, and a painting on the wall opposite the bookcases.",
+            "expected": {
+              "bookcase": 2,
+              "chair": 1,
+              "painting": 1
+            },
+            "predicted": {
+              "bookshelf": 4,
+              "painting": 1,
+              "chair": 1
+            },
+            "recall": 0.5,
+            "precision": 0.3333333333333333,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "11",
+            "description": "A living room with a two-seater sofa against the wall, a square rug in the middle in front of the sofa, and two large plants on the floor near the sofa.",
+            "expected": {
+              "sofa": 1,
+              "rug": 1,
+              "plant": 2
+            },
+            "predicted": {
+              "plant": 2,
+              "sofa": 3,
+              "rug": 1
+            },
+            "recall": 1.0,
+            "precision": 0.6666666666666666,
+            "exact": false,
+            "difficulty": "easy"
+          }
+        ],
+        "low_recall_examples": [
+          {
+            "id": "12",
+            "description": "A living room with a bean bag near a wall cabinet, which is across from the window. There is a stool next to the bean bag.",
+            "expected": {
+              "bean_bag": 1,
+              "wall_cabinet": 1,
+              "stool": 1
+            },
+            "predicted": {
+              "cabinet": 1,
+              "window": 1,
+              "stool": 1
+            },
+            "recall": 0.3333333333333333,
+            "precision": 0.3333333333333333,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "14",
+            "description": "A dining room with two bar stools at the short sides of a bar table.",
+            "expected": {
+              "bar_stool": 2,
+              "bar_table": 1
+            },
+            "predicted": {
+              "stool": 1,
+              "table": 1
+            },
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "15",
+            "description": "A dining room with three dining chairs surrounding a dining table.",
+            "expected": {
+              "dining_chair": 3,
+              "dining_table": 1
+            },
+            "predicted": {
+              "dining_table": 1,
+              "chair": 1
+            },
+            "recall": 0.25,
+            "precision": 0.5,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "17",
+            "description": "A dining room with a cabinet next to the door against the wall, and two wine cabinets against the wall near a bar table.",
+            "expected": {
+              "cabinet": 1,
+              "wine_cabinet": 2,
+              "bar_table": 1
+            },
+            "predicted": {
+              "cabinet": 2,
+              "table": 1
+            },
+            "recall": 0.25,
+            "precision": 0.3333333333333333,
+            "exact": false,
+            "difficulty": "easy"
+          },
+          {
+            "id": "22",
+            "description": "A bedroom with a bed against the wall and at least one nightstand next to it, featuring a lamp on the nightstand. There is an office desk with a monitor on top and a sofa chair in front of it.",
+            "expected": {
+              "bed": 1,
+              "monitor": 1,
+              "office_desk": 1,
+              "sofa_chair": 1,
+              "lamp": 1
+            },
+            "predicted": {
+              "nightstand": 2,
+              "chair": 1,
+              "lamp": 1,
+              "desk": 1,
+              "sofa": 1,
+              "bed": 1
+            },
+            "recall": 0.4,
+            "precision": 0.2857142857142857,
+            "exact": false,
+            "difficulty": "medium"
+          },
+          {
+            "id": "26",
+            "description": "A bedroom with three extendable beds, one of which has a doll placed on top. Two of the beds are positioned in the corners of the room, and a dresser is located next to the door. There are two dolls outside a toy box.",
+            "expected": {
+              "bed": 3,
+              "doll": 2,
+              "dresser": 1,
+              "toy_box": 1
+            },
+            "predicted": {
+              "dresser": 1,
+              "bed": 2,
+              "box": 1
+            },
+            "recall": 0.42857142857142855,
+            "precision": 0.75,
+            "exact": false,
+            "difficulty": "medium"
+          },
+          {
+            "id": "34",
+            "description": "A dining room with a bar table positioned in the middle of the room. A wooden shelf is mounted on the wall, holding a potted plant and a jug, adding a touch of decor and functionality. Along the wall, there is a fridge and a wine cabinet, providing ample storage and a cohesive design.",
+            "expected": {
+              "bar_table": 1,
+              "wall_shelf": 1,
+              "potted_plant": 1,
+              "jug": 1,
+              "fridge": 1,
+              "wine_cabinet": 1
+            },
+            "predicted": {
+              "cabinet": 1,
+              "refrigerator": 1,
+              "table": 1,
+              "shelf": 1,
+              "plant": 1
+            },
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "medium"
+          },
+          {
+            "id": "36",
+            "description": "A dining room with six wooden dining chairs surrounding a round wooden table in the middle of the room. There is no coffee table in the room.",
+            "expected": {
+              "dining_chair": 6,
+              "dining_table": 1,
+              "coffee_table": 0
+            },
+            "predicted": {
+              "coffee_table": 1,
+              "chair": 1,
+              "table": 1
+            },
+            "recall": 0.0,
+            "precision": 0.0,
+            "exact": false,
+            "difficulty": "medium"
+          }
+        ]
+      }
+    }
+  }
+}

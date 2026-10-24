@@ -1,0 +1,171 @@
+{
+  "metadata": {
+    "project": "Existing Nitro PRSE GameCore world/Rapier",
+    "sceneProvenance": "SceneEval-500 IDs 0,2,7,10,15,22 externally written human prompts; mapping to spatial spec manually authored",
+    "notProven": "Unconstrained text to 3D generation, fully general LLM world rewriting, multi-GPU graphics",
+    "ownScenarioSources": "August 13 & October 9 original recordings; synthetic authored stress counts",
+    "physics": "Actual GameCore Rapier 3D bodies with all 3 axes of translation and rotation unlocked for research objects",
+    "modelCalls": 0
+  },
+  "rooms": [
+    {
+      "scene": "sceneeval-bedroom-0",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 525
+    },
+    {
+      "scene": "sceneeval-bedroom-2",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 151.2
+    },
+    {
+      "scene": "sceneeval-living-7",
+      "externalHumanAuthoredDescription": true,
+      "entities": 3,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 88.7
+    },
+    {
+      "scene": "sceneeval-living-10",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 175.5
+    },
+    {
+      "scene": "sceneeval-dining-15",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 115.3
+    },
+    {
+      "scene": "sceneeval-bedroom-22",
+      "externalHumanAuthoredDescription": true,
+      "entities": 3,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 197.1
+    }
+  ],
+  "physicalContact": {
+    "physical3D": true,
+    "impulseOnExistingRapier": true,
+    "physicallyMoved": [
+      "ball-1"
+    ],
+    "physicalEventCount": 3,
+    "duplicateAfterCursor": 0,
+    "maxSavePositionError": 0,
+    "rematerialized": 4,
+    "stableIds": true,
+    "causalEvents": "ball was pushed by an external force. ball has moved from its earlier position. ball tipped over.",
+    "returnsText": "workbench is present. pot is present. pot is present. ball is tipped.",
+    "restoredOffscreenSnapshotWithoutBodies": true
+  },
+  "offscreenDamage": {
+    "preBurnState": "scorched",
+    "finalCondition": "ashes",
+    "stableTombstoneId": true,
+    "survivingBodies": 1,
+    "remainingNotePhysicalBody": false,
+    "narrative": "note was scorched while unobserved. note was reduced to ashes while unobserved.",
+    "descriptiveReturn": "desk is present. Ash remains where note used to be.",
+    "offscreenCausalEvents": 2
+  },
+  "negativeSceneValidation": [
+    {
+      "name": "overlap",
+      "rejected": true
+    },
+    {
+      "name": "float",
+      "rejected": true
+    },
+    {
+      "name": "duplicate_identity",
+      "rejected": true
+    },
+    {
+      "name": "missing_support",
+      "rejected": true
+    }
+  ],
+  "stress": [
+    {
+      "entities": 10,
+      "actualRapierRigidBodies": 10,
+      "sceneJsonBytes": 17340,
+      "elapsedMs": 48.6,
+      "estimatedPerFrameMs": 3.24,
+      "processHeapDeltaBytes": 321752,
+      "initialGeometryIssues": 0
+    },
+    {
+      "entities": 30,
+      "actualRapierRigidBodies": 30,
+      "sceneJsonBytes": 31598,
+      "elapsedMs": 112.7,
+      "estimatedPerFrameMs": 7.51,
+      "processHeapDeltaBytes": -2821088,
+      "initialGeometryIssues": 0
+    },
+    {
+      "entities": 100,
+      "actualRapierRigidBodies": 100,
+      "sceneJsonBytes": 81947,
+      "elapsedMs": 220.9,
+      "estimatedPerFrameMs": 14.73,
+      "processHeapDeltaBytes": 3249312,
+      "initialGeometryIssues": 0
+    },
+    {
+      "entities": 300,
+      "actualRapierRigidBodies": 300,
+      "sceneJsonBytes": 226466,
+      "elapsedMs": 449.6,
+      "estimatedPerFrameMs": 29.97,
+      "processHeapDeltaBytes": 1962600,
+      "initialGeometryIssues": 0
+    }
+  ]
+}

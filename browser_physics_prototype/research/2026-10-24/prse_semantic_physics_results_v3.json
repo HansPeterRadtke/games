@@ -1,0 +1,392 @@
+{
+  "metadata": {
+    "project": "Existing Nitro PRSE GameCore world/Rapier",
+    "sceneProvenance": "SceneEval-500 IDs 0,2,7,10,15,22 externally written human prompts; mapping to spatial spec manually authored",
+    "notProven": "Unconstrained text to 3D generation, fully general LLM world rewriting, multi-GPU graphics",
+    "ownScenarioSources": "August 13 & October 9 original recordings; synthetic authored stress counts",
+    "physics": "Actual GameCore Rapier 3D bodies with all 3 axes of translation and rotation unlocked for research objects",
+    "modelCalls": 0
+  },
+  "rooms": [
+    {
+      "scene": "sceneeval-bedroom-0",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 420.2
+    },
+    {
+      "scene": "sceneeval-bedroom-2",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 197.4
+    },
+    {
+      "scene": "sceneeval-living-7",
+      "externalHumanAuthoredDescription": true,
+      "entities": 3,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 202.9
+    },
+    {
+      "scene": "sceneeval-living-10",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 84.7
+    },
+    {
+      "scene": "sceneeval-dining-15",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 102.8
+    },
+    {
+      "scene": "sceneeval-bedroom-22",
+      "externalHumanAuthoredDescription": true,
+      "entities": 6,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 187.2
+    }
+  ],
+  "sourceCountResults": [
+    {
+      "id": "sceneeval-bedroom-0",
+      "sourceId": 0,
+      "facts": [
+        {
+          "op": "eq",
+          "kind": "bed",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "nightstand",
+          "min": 2,
+          "actual": 2,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "wardrobe",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        }
+      ],
+      "allCountFactsSatisfied": true,
+      "relationClaims": "",
+      "roomRelationClaims": "eq,1,corner,wardrobe,room"
+    },
+    {
+      "id": "sceneeval-bedroom-2",
+      "sourceId": 2,
+      "facts": [
+        {
+          "op": "eq",
+          "kind": "bed",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "armchair",
+          "min": 2,
+          "actual": 2,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "floor_lamp",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        }
+      ],
+      "allCountFactsSatisfied": true,
+      "relationClaims": "eq,1,near,0,armchair,floor_lamp",
+      "roomRelationClaims": "eq,1,corner,bed,room"
+    },
+    {
+      "id": "sceneeval-living-7",
+      "sourceId": 7,
+      "facts": [
+        {
+          "op": "eq",
+          "kind": "TV",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "sofa",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "bookshelf",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "coffee_table",
+          "min": 0,
+          "actual": 0,
+          "satisfied": true
+        }
+      ],
+      "allCountFactsSatisfied": true,
+      "relationClaims": "",
+      "roomRelationClaims": ""
+    },
+    {
+      "id": "sceneeval-living-10",
+      "sourceId": 10,
+      "facts": [
+        {
+          "op": "eq",
+          "kind": "bookcase",
+          "min": 2,
+          "actual": 2,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "chair",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "painting",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        }
+      ],
+      "allCountFactsSatisfied": true,
+      "relationClaims": "eq,1,near,0,bookcase,chair; eq,2,across,0,bookcase,painting",
+      "roomRelationClaims": "eq,2,against,bookcase,wall; eq,2,far,bookcase,door; eq,1,on,painting,wall"
+    },
+    {
+      "id": "sceneeval-dining-15",
+      "sourceId": 15,
+      "facts": [
+        {
+          "op": "eq",
+          "kind": "dining_chair",
+          "min": 3,
+          "actual": 3,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "dining_table",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        }
+      ],
+      "allCountFactsSatisfied": true,
+      "relationClaims": "eq,1,surround,0,dining_table,dining_chair:0,dining_chair:1,dining_chair:2",
+      "roomRelationClaims": ""
+    },
+    {
+      "id": "sceneeval-bedroom-22",
+      "sourceId": 22,
+      "facts": [
+        {
+          "op": "eq",
+          "kind": "bed",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "ge",
+          "kind": "nightstand",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "monitor",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "office_desk",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "sofa_chair",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        },
+        {
+          "op": "eq",
+          "kind": "lamp",
+          "min": 1,
+          "actual": 1,
+          "satisfied": true
+        }
+      ],
+      "allCountFactsSatisfied": true,
+      "relationClaims": "ge,1,next_to,0,bed,nightstand; eq,1,on,0,office_desk,monitor; eq,1,front,0,office_desk,sofa_chair; eq,1,face,0,monitor,sofa_chair; eq,1,face,0,office_desk,sofa_chair; eq,1,on,0,nightstand,lamp",
+      "roomRelationClaims": "eq,1,against,bed,wall"
+    }
+  ],
+  "physicalContact": {
+    "physical3D": true,
+    "impulseOnExistingRapier": true,
+    "physicallyMoved": [
+      "ball-1"
+    ],
+    "impactEvents": [
+      {
+        "ids": [
+          "ball-1",
+          "workbench-1"
+        ],
+        "speed": 1.119
+      },
+      {
+        "ids": [
+          "ball-1",
+          "pot-2"
+        ],
+        "speed": 0.9
+      }
+    ],
+    "allCurrentNarrative": "workbench is present. pot is present. pot is present. ball rotated.",
+    "physicalEventCount": 5,
+    "duplicateAfterCursor": 0,
+    "maxSavePositionError": 0,
+    "rematerialized": 4,
+    "stableIds": true,
+    "causalEvents": "ball was pushed by an external force. ball physically collided with workbench. ball has moved from its earlier position. ball rotated. ball physically collided with pot.",
+    "returnsText": "workbench is present. pot is present. pot is present. ball is displaced.",
+    "restoredOffscreenSnapshotWithoutBodies": true
+  },
+  "offscreenDamage": {
+    "currentNarrative": "desk is present. note was destroyed and only ash remains.",
+    "preBurnState": "scorched",
+    "finalCondition": "ashes",
+    "stableTombstoneId": true,
+    "survivingBodies": 1,
+    "remainingNotePhysicalBody": false,
+    "narrative": "note was scorched while unobserved. note was reduced to ashes while unobserved.",
+    "descriptiveReturn": "desk is present. Ash remains where note used to be.",
+    "offscreenCausalEvents": 2
+  },
+  "negativeSceneValidation": [
+    {
+      "name": "overlap",
+      "rejected": true
+    },
+    {
+      "name": "float",
+      "rejected": true
+    },
+    {
+      "name": "duplicate_identity",
+      "rejected": true
+    },
+    {
+      "name": "missing_support",
+      "rejected": true
+    }
+  ],
+  "stress": [
+    {
+      "entities": 10,
+      "actualRapierRigidBodies": 10,
+      "sceneJsonBytes": 17537,
+      "elapsedMs": 129.5,
+      "estimatedPerFrameMs": 8.63,
+      "processHeapDeltaBytes": 474520,
+      "initialGeometryIssues": 0
+    },
+    {
+      "entities": 30,
+      "actualRapierRigidBodies": 30,
+      "sceneJsonBytes": 32155,
+      "elapsedMs": 134.9,
+      "estimatedPerFrameMs": 8.99,
+      "processHeapDeltaBytes": -1514512,
+      "initialGeometryIssues": 0
+    },
+    {
+      "entities": 100,
+      "actualRapierRigidBodies": 100,
+      "sceneJsonBytes": 83764,
+      "elapsedMs": 348.5,
+      "estimatedPerFrameMs": 23.24,
+      "processHeapDeltaBytes": 3143576,
+      "initialGeometryIssues": 0
+    },
+    {
+      "entities": 300,
+      "actualRapierRigidBodies": 300,
+      "sceneJsonBytes": 231883,
+      "elapsedMs": 424.4,
+      "estimatedPerFrameMs": 28.29,
+      "processHeapDeltaBytes": 2348568,
+      "initialGeometryIssues": 0
+    }
+  ]
+}

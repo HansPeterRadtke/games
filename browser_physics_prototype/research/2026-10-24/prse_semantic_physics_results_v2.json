@@ -1,0 +1,189 @@
+{
+  "metadata": {
+    "project": "Existing Nitro PRSE GameCore world/Rapier",
+    "sceneProvenance": "SceneEval-500 IDs 0,2,7,10,15,22 externally written human prompts; mapping to spatial spec manually authored",
+    "notProven": "Unconstrained text to 3D generation, fully general LLM world rewriting, multi-GPU graphics",
+    "ownScenarioSources": "August 13 & October 9 original recordings; synthetic authored stress counts",
+    "physics": "Actual GameCore Rapier 3D bodies with all 3 axes of translation and rotation unlocked for research objects",
+    "modelCalls": 0
+  },
+  "rooms": [
+    {
+      "scene": "sceneeval-bedroom-0",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 832.4
+    },
+    {
+      "scene": "sceneeval-bedroom-2",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 669.1
+    },
+    {
+      "scene": "sceneeval-living-7",
+      "externalHumanAuthoredDescription": true,
+      "entities": 3,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 334.5
+    },
+    {
+      "scene": "sceneeval-living-10",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 217.1
+    },
+    {
+      "scene": "sceneeval-dining-15",
+      "externalHumanAuthoredDescription": true,
+      "entities": 4,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 152.9
+    },
+    {
+      "scene": "sceneeval-bedroom-22",
+      "externalHumanAuthoredDescription": true,
+      "entities": 3,
+      "sceneProsePreserved": true,
+      "stableIds": true,
+      "all3D": true,
+      "maxReloadPositionError": 0,
+      "initialInterpenetrations": 0,
+      "narrativeEvents": 0,
+      "duplicateNarrativeOnCursor": false,
+      "wallMs": 159.9
+    }
+  ],
+  "physicalContact": {
+    "physical3D": true,
+    "impulseOnExistingRapier": true,
+    "physicallyMoved": [
+      "ball-1"
+    ],
+    "impactEvents": [
+      {
+        "ids": [
+          "ball-1",
+          "workbench-1"
+        ],
+        "speed": 1.119
+      },
+      {
+        "ids": [
+          "ball-1",
+          "pot-2"
+        ],
+        "speed": 0.9
+      }
+    ],
+    "allCurrentNarrative": "workbench is present. pot is present. pot is present. ball rotated.",
+    "physicalEventCount": 5,
+    "duplicateAfterCursor": 0,
+    "maxSavePositionError": 0,
+    "rematerialized": 4,
+    "stableIds": true,
+    "causalEvents": "ball was pushed by an external force. ball physically collided with workbench. ball has moved from its earlier position. ball rotated. ball physically collided with pot.",
+    "returnsText": "workbench is present. pot is present. pot is present. ball is displaced.",
+    "restoredOffscreenSnapshotWithoutBodies": true
+  },
+  "offscreenDamage": {
+    "currentNarrative": "desk is present. note was destroyed and only ash remains.",
+    "preBurnState": "scorched",
+    "finalCondition": "ashes",
+    "stableTombstoneId": true,
+    "survivingBodies": 1,
+    "remainingNotePhysicalBody": false,
+    "narrative": "note was scorched while unobserved. note was reduced to ashes while unobserved.",
+    "descriptiveReturn": "desk is present. Ash remains where note used to be.",
+    "offscreenCausalEvents": 2
+  },
+  "negativeSceneValidation": [
+    {
+      "name": "overlap",
+      "rejected": true
+    },
+    {
+      "name": "float",
+      "rejected": true
+    },
+    {
+      "name": "duplicate_identity",
+      "rejected": true
+    },
+    {
+      "name": "missing_support",
+      "rejected": true
+    }
+  ],
+  "stress": [
+    {
+      "entities": 10,
+      "actualRapierRigidBodies": 10,
+      "sceneJsonBytes": 17537,
+      "elapsedMs": 22.3,
+      "estimatedPerFrameMs": 1.49,
+      "processHeapDeltaBytes": -3316600,
+      "initialGeometryIssues": 0
+    },
+    {
+      "entities": 30,
+      "actualRapierRigidBodies": 30,
+      "sceneJsonBytes": 32155,
+      "elapsedMs": 101.5,
+      "estimatedPerFrameMs": 6.77,
+      "processHeapDeltaBytes": -1247080,
+      "initialGeometryIssues": 0
+    },
+    {
+      "entities": 100,
+      "actualRapierRigidBodies": 100,
+      "sceneJsonBytes": 83764,
+      "elapsedMs": 357.6,
+      "estimatedPerFrameMs": 23.84,
+      "processHeapDeltaBytes": -7824,
+      "initialGeometryIssues": 0
+    },
+    {
+      "entities": 300,
+      "actualRapierRigidBodies": 300,
+      "sceneJsonBytes": 231883,
+      "elapsedMs": 504.4,
+      "estimatedPerFrameMs": 33.63,
+      "processHeapDeltaBytes": 2289456,
+      "initialGeometryIssues": 0
+    }
+  ]
+}

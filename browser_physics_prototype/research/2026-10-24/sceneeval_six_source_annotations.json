@@ -1,0 +1,54 @@
+{
+  "source": "SceneEval-500 release v250610, annotations.csv, first 100 human-authored descriptions",
+  "source_sha256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+  "selected": {
+    "0": {
+      "description": "A bedroom with a bed, two nightstands, and a wardrobe in the corner of the room.",
+      "count": "eq,1,bed; eq,2,nightstand; eq,1,wardrobe",
+      "attributes": "",
+      "relations": "",
+      "roomRelations": "eq,1,corner,wardrobe,room",
+      "difficulty": "easy"
+    },
+    "2": {
+      "description": "A bedroom with a king-size bed in the corner of the room, two large blue armchairs, and a floor lamp near a armchair.",
+      "count": "eq,1,bed; eq,2,armchair; eq,1,floor_lamp",
+      "attributes": "eq,1,bed,king_size; eq,2,armchair,large; eq,2,armchair,blue",
+      "relations": "eq,1,near,0,armchair,floor_lamp",
+      "roomRelations": "eq,1,corner,bed,room",
+      "difficulty": "easy"
+    },
+    "7": {
+      "description": "A living room with a TV, sofa, and bookshelf. There is no coffee table in the room.",
+      "count": "eq,1,TV; eq,1,sofa; eq,1,bookshelf; eq,0,coffee_table",
+      "attributes": "",
+      "relations": "",
+      "roomRelations": "",
+      "difficulty": "easy"
+    },
+    "10": {
+      "description": "A living room with two bookcases along the wall far from the door, a wooden chair near the bookcases, and a painting on the wall opposite the bookcases.",
+      "count": "eq,2,bookcase; eq,1,chair; eq,1,painting",
+      "attributes": "eq,1,chair,wooden",
+      "relations": "eq,1,near,0,bookcase,chair; eq,2,across,0,bookcase,painting",
+      "roomRelations": "eq,2,against,bookcase,wall; eq,2,far,bookcase,door; eq,1,on,painting,wall",
+      "difficulty": "easy"
+    },
+    "15": {
+      "description": "A dining room with three dining chairs surrounding a dining table.",
+      "count": "eq,3,dining_chair; eq,1,dining_table",
+      "attributes": "",
+      "relations": "eq,1,surround,0,dining_table,dining_chair:0,dining_chair:1,dining_chair:2",
+      "roomRelations": "",
+      "difficulty": "easy"
+    },
+    "22": {
+      "description": "A bedroom with a bed against the wall and at least one nightstand next to it, featuring a lamp on the nightstand. There is an office desk with a monitor on top and a sofa chair in front of it.",
+      "count": "eq,1,bed; ge,1,nightstand; eq,1,monitor; eq,1,office_desk; eq,1,sofa_chair; eq,1,lamp",
+      "attributes": "",
+      "relations": "ge,1,next_to,0,bed,nightstand; eq,1,on,0,office_desk,monitor; eq,1,front,0,office_desk,sofa_chair; eq,1,face,0,monitor,sofa_chair; eq,1,face,0,office_desk,sofa_chair; eq,1,on,0,nightstand,lamp",
+      "roomRelations": "eq,1,against,bed,wall",
+      "difficulty": "medium"
+    }
+  }
+}

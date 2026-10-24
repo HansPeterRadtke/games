@@ -1,5 +1,10 @@
 # PRSE modular game core and browser presentation experiments
 
+## Main PRSE research priority — semantic ↔ authoritative 3D physical world ↔ semantic
+
+The **central** unresolved PRSE direction from the owner's original August 13 and October 9 game recordings is the durable literary/semantic world, validated real 3D physical materialization and observed changes, faithful current-state prose, and coherent off-screen causality and re-entry. Optional player-trained habits are **secondary**. See [the dated evidence and negative-result report](research/2026-10-24/PRSE_SEMANTIC_PHYSICAL_RESEARCH_2026-10-25.md) and its source-linked reproduction scripts, independent SceneEval descriptions, physical/identity/rematerialization evaluations and global-clock blocker. The general research adapter is **not live/deployed**. Do not use scripted fence or motion-clone scores as proof of the semantic ↔ physics transformation. Retain earlier data and notes, and reconcile concurrent changes before any main/production integration.
+
+
 ## Runtime correction (October 10, 2026)
 
 The original public URL now serves only a **thin, remote browser viewer** of the Nitro-hosted, authoritative PRSE game simulation. The actual GameCore, Rapier 3D physics, semantic world, commands, saving, event logs and optional Jetson-LLM interpretation run in the separate headless `../prse_runtime/` service. Browser code no longer advances physics on the main public page. `viewer.html` / `viewer.js` are the presentation/controls adapter; the older standalone browser experiment is retained as `index.html` / `game.js` only for historic tests and saved games. See `../prse_runtime/README.md` and its doability study. This change trades continuous offline play for reliable server state/logging and LLM access, with automatic reconnection after mobile-link interruptions.
