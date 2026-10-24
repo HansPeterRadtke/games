@@ -1,6 +1,6 @@
 {
   "scope": "Originals and topic-specific Infra guidance needed for game research; not full Infra human-readable repository.",
-  "method": "Full file contents printed/read in bounded research calls for statuses semantically_read_full; headings/ranges are navigation, not sufficient evidence on their own. Remaining files only term-scanned.",
+  "method": "Each of the 23 original Games recording contents was actually read via bounded Nitro file output in this chat; repeated transcript loops are not extra evidence. Specific interpretations logged per recording. Applicable game/general guidance was read; whole Infra repository remains unreviewed semantically.",
   "entries": [
     {
       "path": "AGENTS.md",
@@ -639,30 +639,30 @@
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-08-14 13-01-57-849.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 10442,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Semantic text to 3D object scenes and back; physically observable events need actual intermediate states; candidate contextual generated interactions.",
       "sha256": "d602098ca19c0f1e8bb2453a85090d4d0682253939c985458f3fc9c6cd03da17"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-08-14 16-27-52-325.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 2976,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Game physical realism, localized body attributes and different consequences of hits; separate health effects versus gameplay tradeoffs.",
       "sha256": "7ce23bc83ac7fdd5c85fa8b456aed2e5f9387a9546b7a9016aff0880b9837665"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-08-14 17-01-32-916.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 4192,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Fine-grained potential injury model and location/weapon damage; source includes repetitive transcript, not multiple independent claims.",
       "sha256": "9cd207a20a887f28effc8c8b9023796c0b910f3e6dbe2bc566e7d5411ab93e0b"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-08-14 17-49-02-029.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 17610,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Weighted capabilities mesh, context-sensitive skill transfer, task-specific strength/speed/endurance curves; physics remains outcome authority.",
       "sha256": "81d7ac73d31229f022fcf8a51bad781c4da0572cb582edd40ac8b1403c9da323"
     },
     {
@@ -681,72 +681,72 @@
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-09-23 07-45-59-368.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 16241,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Engine-agnostic portable modules and framework doability comparisons; headless quantitative tests before full UI integration.",
       "sha256": "e29aa5fcaa0bcf78c287f51964c45b0f5d6db4b8c7dc3b59ecba91d8347e57ab"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-09-23 12-43-37-539.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 11989,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Resource constraints for local AI and procedurally evolving semantic worlds; suggestions of strictly opt-in sensor/private-data source experiments.",
       "sha256": "d91626236ecc48415fec87879af7e7dc7df4e61ffc77ee4bfb0ddeadf5b734bd"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-09-23 18-07-16-763.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 20271,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Player-dependent semantic world creation, branching ahead-of-player geography and optional source inputs; imaginative causality explicitly brainstorming.",
       "sha256": "7a6e34efe08afb378e1436c2e51b9bc0312e188110267ab1790266ce80df687b"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-09-24 11-11-22-318.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 6804,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Hidden causal rules and repetitive work can be worthwhile without AI; avoid sacrificing playability merely to frustrate scripts or bots.",
       "sha256": "b7506f7b65e0666d827739093087cba1d76af66d4d5290173a8c585520893798"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-09-24 14-06-13-020.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 24310,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Human-controlled humor and difficult early locomotion condensed after training; optional unrealistic comic consequences and virtual world recursion.",
       "sha256": "07c826d47d0a137c7b522f205d6ba6cbb9226bd7898b9dcc4c1f16cff9813c35"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-09-24 19-08-31-060.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 14196,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Continuous localized fatigue, soreness, sleepiness and possible autonomous behavior values; optional psychological state brainstorming.",
       "sha256": "61908746caac02f4cce87ffb8cdbd0ec38d590f47d614533438b842dec367d6f"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-09-24 20-20-06-214.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 25959,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Explicit suggestion of randomized hidden influence/causal graphs followed by independent player or agent inference and LLM explanation; physical injuries and persistent effects.",
       "sha256": "1e9b4314614d1b1ac9e8396cdc5811cd24e6612bb18ae179610c679c4c1ac969"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-09-25 18-40-43-161.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 23517,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Actual human fun/competence, progressive skill feedback, balancing versus mechanical realism; challenge and reward research not equated with addiction.",
       "sha256": "131abd68f988d114c068ac940a7393926084b3aeb24c4ec4c587055c30aa3a95"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-09-25 21-49-14-988.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 124,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Extremely brief transitional recording, no substantive additional mechanic.",
       "sha256": "38671b9aa30d4fb20e50a4e75334a3a3aceafe6d9417c8e8cf20e3b401e74670"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-09-25 21-49-53-432.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 10284,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Prefer credible local physical wounds and ability impairment over arbitrary level-scaled hit points and enemies; actual gameplay difficulty stays testable.",
       "sha256": "15f087efafc7e24d5a5fa83bddaff99ff27b930c7c14a24f312c07721ecb17c2"
     },
     {
@@ -765,16 +765,16 @@
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-10-10 18-14-53-924.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 10065,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "Functional baseline conventional controls, attribute/inventory/camera interactions, 3D authoritative world with text and sprite render adaptations.",
       "sha256": "eec72cfb205a06533b1ed4ee38443fe4ba61d2aaf1eb40a2a336e1e50c32ed50"
     },
     {
       "path": "docs/guidlines/original-recordings/games/Recording 2026-10-10 18-42-09-059.txt",
-      "status": "term_scanned_only",
+      "status": "semantically_read_full",
       "characters": 4715,
-      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "semanticNote": "First-minute voluntary hook, discoverable actions and entirely optional tutorial; practice controls cannot trap player.",
       "sha256": "186296281d738b065509c4a4362ef7506a82306ddfe30900193e10090eea46ac"
     },
     {
@@ -787,8 +787,8 @@
   ],
   "summary": {
     "guidelineFilesFullyRead": 17,
-    "originalGameRecordingsFullyRead": 7,
-    "originalGameRecordingsScannedOnly": 16,
+    "originalGameRecordingsFullyRead": 23,
+    "originalGameRecordingsScannedOnly": 0,
     "otherInfraTrackedTextFilesSemanticallyUnread": true
   }
 }

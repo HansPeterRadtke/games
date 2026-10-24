@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "kind": "unverified-interactive-participant-protocol",
+  "participantHumanStatus": "unverified",
+  "budgets": {
+    "timeRange": [
+      0,
+      24
+    ],
+    "measurementsMax": 12,
+    "forecastTimes": [
+      28,
+      33,
+      38,
+      43
+    ],
+    "causalInterventionsMax": 3
+  },
+  "results": [
+    {
+      "anonymousTrial": "rule_a",
+      "measurements": [],
+      "reportedFamily": "constant",
+      "familyCorrect": false,
+      "forecasts": [
+        {
+          "time": 28,
+          "predicted": false,
+          "correct": true
+        },
+        {
+          "time": 33,
+          "predicted": false,
+          "correct": true
+        },
+        {
+          "time": 38,
+          "predicted": false,
+          "correct": false
+        },
+        {
+          "time": 43,
+          "predicted": false,
+          "correct": true
+        }
+      ]
+    },
+    {
+      "anonymousTrial": "rule_b",
+      "measurements": [],
+      "reportedFamily": "constant",
+      "familyCorrect": false,
+      "forecasts": [
+        {
+          "time": 28,
+          "predicted": false,
+          "correct": true
+        },
+        {
+          "time": 33,
+          "predicted": false,
+          "correct": true
+        },
+        {
+          "time": 38,
+          "predicted": false,
+          "correct": true
+        },
+        {
+          "time": 43,
+          "predicted": false,
+          "correct": false
+        }
+      ]
+    },
+    {
+      "anonymousTrial": "rule_c",
+      "measurements": [],
+      "reportedFamily": "constant",
+      "familyCorrect": true,
+      "forecasts": [
+        {
+          "time": 28,
+          "predicted": false,
+          "correct": true
+        },
+        {
+          "time": 33,
+          "predicted": false,
+          "correct": true
+        },
+        {
+          "time": 38,
+          "predicted": false,
+          "correct": true
+        },
+        {
+          "time": 43,
+          "predicted": false,
+          "correct": true
+        }
+      ]
+    },
+    {
+      "anonymousTrial": "causal",
+      "switchInterventions": [
+        {
+          "time": 6,
+          "enabled": true,
+          "roundedIntensity": 55
+        },
+        {
+          "time": 18,
+          "enabled": false,
+          "roundedIntensity": 20
+        }
+      ],
+      "reportedCause": "switch",
+      "correct": true
+    }
+  ]
+}
