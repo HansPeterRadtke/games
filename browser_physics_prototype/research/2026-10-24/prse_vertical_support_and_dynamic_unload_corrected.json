@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "source": "Independent SceneEval manually authored row22, text-only constraint parser and existing GameCore Rapier 3D",
+    "oldNegativesPreserved": [
+      "prse_vertical_support_false_claim_before_fix.json",
+      "prse_offscreen_dynamic_freeze_before_guard.json"
+    ],
+    "humanLearning": false,
+    "modelCalls": 0,
+    "limits": "single selected case with axis-aligned support geometry; no unrestricted language understanding"
+  },
+  "earlierContradictions": {
+    "verticalFalseClaim": true,
+    "frozenMovingBody": true
+  },
+  "correctedLift": {
+    "sourceId": "22",
+    "heightAboveSupport": 0.875021344423294,
+    "sourceIdentity": "sem-22-lamp-0",
+    "supportClaim": null,
+    "dislodgedFrom": "sem-22-nightstand-0",
+    "lastEvent": {
+      "sequence": 3,
+      "time": 0.367,
+      "type": "lost_support",
+      "ids": [
+        "sem-22-lamp-0",
+        "sem-22-nightstand-0"
+      ],
+      "details": {
+        "formerSupport": "sem-22-nightstand-0",
+        "reason": "separated_vertically",
+        "gapMeters": 0.2194
+      },
+      "origin": "physics"
+    }
+  },
+  "activePhysicsUnloadingRefused": {
+    "reason": "Unresolved dynamic motion at materialization boundary: sem-22-lamp-0",
+    "bodiesRetained": 18,
+    "timeUnchanged": true
+  },
+  "recontact": {
+    "newSupportedBy": "sem-22-nightstand-0",
+    "verifiedContactEvent": {
+      "sequence": 5,
+      "time": 1.05,
+      "type": "rested_on",
+      "ids": [
+        "sem-22-lamp-0",
+        "sem-22-nightstand-0"
+      ],
+      "details": {
+        "previousSupport": "sem-22-nightstand-0",
+        "cause": "verified_rigid_body_contact",
+        "gapMeters": -0.0055
+      },
+      "origin": "physics"
+    },
+    "savedActiveTrajectoryDivergenceMeters": 0.000003815162898494067,
+    "updatedCurrentProse": "bed 1 is present. nightstand 1 is present. lamp 1 has changed position; resting on nightstand 1. office_desk 1 is present. monitor 1 is present. sofa_chair 1 is present."
+  },
+  "finalReentry": {
+    "physicalBodiesUnloadCount": 18,
+    "offscreenSeconds": 5,
+    "originalSourceTextKept": true,
+    "stableLampId": true,
+    "restingSupport": "sem-22-nightstand-0"
+  }
+}

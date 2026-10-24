@@ -1,0 +1,34 @@
+{
+  "kind": "pre-fix offscreen dynamic freeze negative finding",
+  "source": "SceneEval22 manually selected external text, parsed lamp-on-nightstand and real Rapier impulse",
+  "before": {
+    "time": 0.49999999999999994,
+    "position": {
+      "x": -30.399980545043945,
+      "y": 1.8750213384628296,
+      "z": 8.150003433227539
+    },
+    "velocity": {
+      "x": 0.00011464500130387023,
+      "y": 3.6051793098449707,
+      "z": 0.00007040522177703679
+    },
+    "supportId": "sem-22-nightstand-0"
+  },
+  "after": {
+    "time": 5.5,
+    "position": {
+      "x": -30.399980545043945,
+      "y": 1.8750213384628296,
+      "z": 8.150003433227539
+    },
+    "velocity": {
+      "x": 0.00011464500130387023,
+      "y": 3.6051793098449707,
+      "z": 0.00007040522177703679
+    },
+    "supportId": "sem-22-nightstand-0"
+  },
+  "positionFrozen": true,
+  "velocityStillNonzero": true
+}

@@ -1,0 +1,19 @@
+{
+  "kind": "pre-fix vertical support validity negative test",
+  "source": "SceneEval human authored row22; existing PRSE GameCore Rapier 3D",
+  "before": {
+    "gap": -0.0012919843196869119,
+    "support": "sem-22-nightstand-0"
+  },
+  "after": {
+    "gap": 0.875021344423294,
+    "support": "sem-22-nightstand-0",
+    "verticalVelocity": 3.6051793098449707,
+    "physicalPosition": {
+      "x": -30.399980545043945,
+      "y": 1.8750213384628296,
+      "z": 8.150003433227539
+    },
+    "incorrectSupportClaim": true
+  }
+}

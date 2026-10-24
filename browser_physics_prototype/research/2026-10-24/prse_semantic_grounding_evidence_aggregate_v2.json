@@ -1,0 +1,251 @@
+{
+  "metadata": {
+    "researchDate": "2026-10-25",
+    "source": "SceneEval-500_v250610, https://github.com/3dlg-hcvc/SceneEval/releases/tag/SceneEval-500_v250610",
+    "sourceZipSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "sourceTextsNotRepublished": "Raw external descriptions and all original per-case evidence are retained in owner-private Nitro runtime storage; authors release is authoritative.",
+    "code": "prse_semantic_constraints.py, prse_sceneeval_constraint_physics.mjs, PRSELoop existing GameCore Rapier adapter",
+    "noModelCall": true,
+    "limitations": "The directional ordering of relations and full room attributes are NOT scored; counted matches are optimistic upper bound. This is exploratory and NOT a blind model contest.",
+    "sampleProtocol": "Human first100 including development first35; VLM-assisted every fourth row among ID100..499 (exact 100), not a randomized population sample"
+  },
+  "language": {
+    "human35_development": {
+      "quant": {
+        "f1": 0.93913,
+        "precision": 0.936416,
+        "recall": 0.94186,
+        "goldFacts": 172,
+        "matchedFacts": 162
+      },
+      "relation": {
+        "f1": 0.433735,
+        "precision": 0.642857,
+        "recall": 0.327273,
+        "goldFacts": 110,
+        "matchedFacts": 36
+      },
+      "room": {
+        "f1": 0.609524,
+        "precision": 0.864865,
+        "recall": 0.470588,
+        "goldFacts": 68,
+        "matchedFacts": 32
+      },
+      "attribute": {
+        "f1": 0.771429,
+        "precision": 0.964286,
+        "recall": 0.642857,
+        "goldFacts": 42,
+        "matchedFacts": 27
+      }
+    },
+    "human65_later": {
+      "quant": {
+        "f1": 0.588101,
+        "precision": 0.781155,
+        "recall": 0.47156,
+        "goldFacts": 545,
+        "matchedFacts": 257
+      },
+      "relation": {
+        "f1": 0.055046,
+        "precision": 0.176471,
+        "recall": 0.032609,
+        "goldFacts": 368,
+        "matchedFacts": 12
+      },
+      "room": {
+        "f1": 0.202166,
+        "precision": 0.509091,
+        "recall": 0.126126,
+        "goldFacts": 222,
+        "matchedFacts": 28
+      },
+      "attribute": {
+        "f1": 0.38814,
+        "precision": 0.888889,
+        "recall": 0.248276,
+        "goldFacts": 290,
+        "matchedFacts": 72
+      }
+    },
+    "assisted400": {
+      "quant": {
+        "f1": 0.432706,
+        "precision": 0.637187,
+        "recall": 0.327581,
+        "goldFacts": 3651,
+        "matchedFacts": 1196
+      },
+      "relation": {
+        "f1": 0.057787,
+        "precision": 0.182149,
+        "recall": 0.034341,
+        "goldFacts": 2912,
+        "matchedFacts": 100
+      },
+      "room": {
+        "f1": 0.205128,
+        "precision": 0.358543,
+        "recall": 0.143659,
+        "goldFacts": 891,
+        "matchedFacts": 128
+      },
+      "attribute": {
+        "f1": 0.151693,
+        "precision": 0.811989,
+        "recall": 0.083661,
+        "goldFacts": 3562,
+        "matchedFacts": 298
+      }
+    }
+  },
+  "physics": {
+    "human100": {
+      "sourceProposals": 100,
+      "scenesWithPhysicalBodies": 97,
+      "physicallyRejected": 2,
+      "noRecognizedEntities": 1,
+      "physicallyGroundedRelationCount": 112,
+      "physicallyViolatedRelationCount": 32,
+      "unsupportedRelationCount": 35
+    },
+    "assisted100": {
+      "sourceProposals": 100,
+      "scenesWithPhysicalBodies": 99,
+      "physicallyRejected": 1,
+      "noRecognizedEntities": 0,
+      "physicallyGroundedRelationCount": 108,
+      "physicallyViolatedRelationCount": 40,
+      "unsupportedRelationCount": 80
+    }
+  },
+  "externalGoldRelationAudit": {
+    "human100": {
+      "goldAnnotatedTypedPairRelations": 478,
+      "physicallyGroundedMatchedGold": 22,
+      "extractedMatchedGold": 40,
+      "groundedPrecisionIgnoringDirection": 0.39285714285714285,
+      "groundedRecallIgnoringDirection": 0.04602510460251046,
+      "groundedF1": 0.08239700374531835
+    },
+    "assisted100": {
+      "goldAnnotatedTypedPairRelations": 743,
+      "physicallyGroundedMatchedGold": 17,
+      "extractedMatchedGold": 24,
+      "groundedPrecisionIgnoringDirection": 0.22077922077922077,
+      "groundedRecallIgnoringDirection": 0.02288021534320323,
+      "groundedF1": 0.041463414634146344
+    }
+  },
+  "causalSelectedExternalRows": {
+    "eligible": 2,
+    "tested": 2,
+    "passed": 2,
+    "rowIDs": [
+      "22",
+      "29"
+    ],
+    "row22SavedPhysicalSupportLoss": true,
+    "annotationAudit": [
+      {
+        "sceneId": "22",
+        "physicallyConsistent": true,
+        "officialAnnotatedRelationAgreement": true,
+        "sourceGoldRelationTypes": [
+          "next_to",
+          "on",
+          "front",
+          "face",
+          "face",
+          "on"
+        ],
+        "relationFromParser": "on"
+      },
+      {
+        "sceneId": "29",
+        "physicallyConsistent": true,
+        "officialAnnotatedRelationAgreement": false,
+        "sourceGoldRelationTypes": [
+          "inside",
+          "near",
+          "on",
+          "on"
+        ],
+        "relationFromParser": "on"
+      }
+    ],
+    "strictOfficialAnnotationAgreementCount": 1
+  },
+  "negativeThenCorrected": {
+    "preFixVerticalFalseSupportClaim": true,
+    "preFixUnloadedBodyFrozenWhileMoving": true,
+    "correctedPhysicalSupportReturn": true,
+    "movingUnloadingRefused": true,
+    "savedActiveTrajectoryDifferenceMeters": 3.815162898494067e-06,
+    "guardedRerunSixExternallyMappedRooms": true
+  },
+  "privateEvidenceManifest": {
+    "prse_semantic_constraints_eval_v1.json": {
+      "sha256": "9cb18c9d4e0310bbd5c691d6ad1f919b5b97d86fd18a053768024bf32dbe11c2",
+      "bytes": 472564,
+      "privateAfterArchiving": true
+    },
+    "prse_semantic_constraints_eval_v2.json": {
+      "sha256": "bbaa45124a7ec7f306238ac6b07b0abb2f0f31cbc20bfde4e2ebf271805ff2a5",
+      "bytes": 462240,
+      "privateAfterArchiving": true
+    },
+    "prse_semantic_constraints_eval_all500_v3.json": {
+      "sha256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+      "bytes": 2171705,
+      "privateAfterArchiving": true
+    },
+    "prse_sceneeval_constraint_physics_v1.json": {
+      "sha256": "cf536fcca8dad0257484f29640d44b7379974862e2fa174b240e21255def041e",
+      "bytes": 179833,
+      "privateAfterArchiving": true
+    },
+    "prse_sceneeval_constraint_physics_v2_after_support.json": {
+      "sha256": "74b26b6809e699734cfa4229101d7688772f98bf5995072d97a2fcd00e3586a3",
+      "bytes": 179836,
+      "privateAfterArchiving": true
+    },
+    "prse_sceneeval_assisted_100_physics_v1.json": {
+      "sha256": "5c405a08119209d08abd2d37c8431c78c6f0d37610d1c6f7814d7bbc6bd5687a",
+      "bytes": 206403,
+      "privateAfterArchiving": true
+    },
+    "prse_sceneeval_relation_grounding_score_v1.json": {
+      "sha256": "05f06a0a92d26b97fcf7d1bb3d07e214bc0e348d87f8c4283f2b8c06abd90427",
+      "bytes": 17818,
+      "privateAfterArchiving": true
+    },
+    "prse_sceneeval_relation_grounding_score_v2.json": {
+      "sha256": "05f06a0a92d26b97fcf7d1bb3d07e214bc0e348d87f8c4283f2b8c06abd90427",
+      "bytes": 17818,
+      "privateAfterArchiving": true
+    },
+    "prse_sceneeval_assisted_100_grounded_score_v1.json": {
+      "sha256": "31581f900afefda49bad747f8c823c42db4911ea37843663eb27eb72b6466fa2",
+      "bytes": 6131,
+      "privateAfterArchiving": true
+    },
+    "prse_external_text_causal_relationship_roundtrip.json": {
+      "sha256": "caf5763a49a076f5b88fc790a5102474ad617dd4e474e5ddf1b0a76c93de696c",
+      "bytes": 3505,
+      "privateAfterArchiving": true
+    },
+    "prse_external_movable_support_causal_batch_v1.json": {
+      "sha256": "64d9b862e72bad43f88beeec97115f6465b3de52e1e77fcfba68f40d5e9f8990",
+      "bytes": 4107,
+      "privateAfterArchiving": true
+    },
+    "prse_constraint_guard_full_physics_regression.json": {
+      "sha256": "b5f296e3526a8c6a1fc020ddbfd7a436c15a20970780af6b173aedaa8b6babcc",
+      "bytes": 35613,
+      "privateAfterArchiving": true
+    }
+  }
+}

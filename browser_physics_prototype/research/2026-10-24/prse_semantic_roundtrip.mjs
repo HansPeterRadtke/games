@@ -163,10 +163,39 @@ export class PRSELoop{
    }
    if(e.supportId&&e.supportId!=='floor'){
     const parent=this.entities.get(e.supportId);
-    if(parent&&(Math.abs(p.x-parent.position.x)>parent.size.x/2+e.size.x/2
-       ||Math.abs(p.z-parent.position.z)>parent.size.z/2+e.size.z/2)){
+    if(parent){
+     const gap=p.y-e.size.y/2-parent.position.y-parent.size.y/2;
+     const outside=Math.abs(p.x-parent.position.x)>parent.size.x/2+e.size.x/2
+       ||Math.abs(p.z-parent.position.z)>parent.size.z/2+e.size.z/2;
+     // Vertical loss of support is just as real as leaving the X/Z footprint.
+     // These are conservative axis-aligned bounds; rotated/compound platforms
+     // require an actual contact-normal/support-geometry solver later.
+     if(outside||gap>.12||gap<-.2){
       const former=e.supportId;e.supportId=null;e.revision++;
-      this.emit('lost_support',[id,former],{formerSupport:former});
+      e.state.dislodgedFrom=former;
+      this.emit('lost_support',[id,former],{formerSupport:former,
+       reason:outside?'outside_support_footprint':'separated_vertically',gapMeters:+gap.toFixed(4)});
+     }
+    }
+   }
+   if(!e.supportId&&e.state.dislodgedFrom&&body.numColliders()&&e.body==='dynamic'){
+    for(const [otherId,parentBody] of this.active){
+     if(otherId===id||!parentBody.numColliders())continue;
+     const parent=this.entities.get(otherId);
+     if(!parent||parent.kind==='wall'||parent.state?.destroyed||parent.body!=='fixed')continue;
+     const gap=p.y-e.size.y/2-parent.position.y-parent.size.y/2;
+     if(Math.abs(gap)>.045||Math.abs(v.y)>.45
+      ||Math.abs(p.x-parent.position.x)+e.size.x/2>parent.size.x/2+.015
+      ||Math.abs(p.z-parent.position.z)+e.size.z/2>parent.size.z/2+.015)continue;
+     let contact=false;
+     this.game.world.contactPair(body.collider(0),parentBody.collider(0),manifold=>{
+      if(manifold.numContacts()>0)contact=true;
+     });
+     if(!contact)continue;
+     const old=e.state.dislodgedFrom;e.supportId=parent.id;e.state.dislodgedFrom=null;e.revision++;
+     this.emit('rested_on',[id,parent.id],{previousSupport:old,
+       cause:'verified_rigid_body_contact',gapMeters:+gap.toFixed(4)});
+     break;
     }
    }
 
@@ -241,7 +270,7 @@ export class PRSELoop{
   // as if it were a second independent object.
   const clauses=[],described=new Set();
   for(const e of this.scene.entities){
-   if(described.has(e.id))continue;
+   if(described.has(e.id)||e.source==='provisional_3D_room_boundary')continue;
    if(e.state.condition==='ashes'){
     const child=this.scene.entities.find(x=>x.originId===e.id&&!x.state.destroyed);
     if(child){clauses.push(e.name+' was destroyed; '+child.name+' remains.');
@@ -249,14 +278,24 @@ export class PRSELoop{
     else clauses.push(e.name+' was destroyed; no physical remnant is represented.');
    }else if(e.kind==='ash')clauses.push(e.name+' remains.');
    else{
+    const former=e.state.dislodgedFrom&&this.entities.get(e.state.dislodgedFrom);
+    const supporter=e.supportId&&this.entities.get(e.supportId);
     const suffix=e.state.tipped?'is tipped over':e.state.rotated?'has rotated':
       e.state.moved?'has changed position':'is present';
-    clauses.push(e.name+' '+suffix+'.');
+    clauses.push(e.name+' '+suffix+(former?'; no longer supported by '+former.name: supporter?'; resting on '+supporter.name:'')+'.');
    }
   }
   return clauses.join(' ');
  }
  dematerialize(){
+  // An airborne/fast rigid body cannot simply freeze for an unbounded offscreen
+  // story interval. No ballistics/contact approximation is yet validated here:
+  // refuse transition and leave physics active until all such bodies settle.
+  for(const [id,body]of this.active){
+   if(!body.isDynamic())continue;
+   const v=body.linvel(),speed=Math.hypot(v.x,v.y,v.z);
+   if(speed>.35)throw Error('Unresolved dynamic motion at materialization boundary: '+id);
+  }
   this.capture();
   for(const [id,body]of this.active){
    this.game.world.removeRigidBody(body);this.entities.get(id).materialized=false;
@@ -351,7 +390,8 @@ export class PRSELoop{
    const e=this.entities.get(ev.ids[0]);if(!e)continue;
    const phrase={displaced:'has moved from its earlier position',tipped:'tipped over',rotated:'rotated',
     impact:'physically collided with '+(this.entities.get(ev.ids[1])?.name||'another object'),
-    lost_support:'lost its former support',
+    lost_support:'is no longer supported by '+(this.entities.get(ev.ids[1])?.name||'its former support'),
+    rested_on:'has settled on '+(this.entities.get(ev.ids[1])?.name||'a supporting surface'),
     external_impulse:'was pushed by an external force',scorched:'was scorched while unobserved',
     reduced_to_ashes:'was reduced to ashes while unobserved',
     ash_remains:'is a remnant of '+(this.entities.get(ev.ids[1])?.name||'a destroyed item')}[ev.type];
@@ -362,14 +402,19 @@ export class PRSELoop{
  describe(ids=null){
   const wanted=new Set(ids||this.visibleIds()),described=new Set(),parts=[];
   for(const e of this.scene.entities){
-   if(!wanted.has(e.id)||described.has(e.id))continue;
+   if(!wanted.has(e.id)||described.has(e.id)||e.source==='provisional_3D_room_boundary')continue;
    if(e.state.condition==='ashes'){
     const child=this.scene.entities.find(x=>x.originId===e.id&&!x.state.destroyed&&wanted.has(x.id));
     if(child){parts.push('Ash from '+e.name+' remains at the former location.');
      described.add(child.id);}
     else parts.push(e.name+' has been destroyed, with no remnant visible here.');
    }else if(e.kind==='ash')parts.push(e.name+' remains at this location.');
-   else parts.push(e.name+(e.state.tipped?' is tipped.':e.state.moved?' is displaced.':' is present.'));
+   else{
+    const old=e.state.dislodgedFrom&&this.entities.get(e.state.dislodgedFrom);
+    const support=e.supportId&&this.entities.get(e.supportId);
+    parts.push(e.name+(e.state.tipped?' is tipped':e.state.moved?' is displaced':' is present')
+      +(old?'; no longer on '+old.name:support?'; resting on '+support.name:'')+'.');
+   }
   }
   return parts.join(' ');
  }

@@ -2,6 +2,8 @@
 
 This is a continuation of the prior third scheduled game research attempt, not a new topic. The owner confirmed that the central PRSE work is a persistent literary/semantic world ↔ authoritative full three-dimensional physical/materialized world ↔ consistent updated literary/semantic and offscreen world, ahead of optional player-trained habits.
 
+**A later independent corpus benchmark and corrected support/unloading guards are in PRSE_GENERAL_SCENE_CONSTRAINT_RESEARCH_2026-10-25.md. The original limited physical and clock experiments in this report remain preserved as separate evidence.**
+
 The previous report, PRSE_SEMANTIC_PHYSICAL_RESEARCH_2026-10-25.md, source SceneEval dataset, four prior versions of raw scene physics results and all previous negative outcomes remain unchanged. At the start of this continuation the remote research branch already contained the previous verified commit and had a clean worktree, so no previous external effect was replayed. Canonical Games main had eighty-three existing unrelated dirty entries, including separate currently uncommitted shelter candle/physics changes, and was deliberately untouched. Infra guidelines and preserved originals remain authoritative. Read current Infra AGENTS.md first and used the prior same-chat full-text reading of the original August thirteenth and October ninth game recordings and their recent high-priority normalized game guidelines. Production Nitro/Thor inferencing, commercial rendering and live PRSE service were not modified, restarted or allocated GPU time.
 
 ## Summary of this independent continuation
