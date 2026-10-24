@@ -1,0 +1,73 @@
+{
+  "algorithms": {
+    "knn_state": {
+      "end_effector_mse": 0.008490142465711571,
+      "episode_mean_mse": 0.025008046986437542,
+      "episode_mse_sd": 0.015105156998820115,
+      "gripper_sign_accuracy": 0.9629629629629629,
+      "median_abs_error": 0.020210263027583206,
+      "step_mse": 0.025144373044683522
+    },
+    "mean_action": {
+      "end_effector_mse": 0.051695603877305984,
+      "episode_mean_mse": 0.16334048360586167,
+      "episode_mse_sd": 0.017270785929994637,
+      "gripper_sign_accuracy": 0.7124756335282652,
+      "median_abs_error": 0.07496237754821777,
+      "step_mse": 0.1614237278699875
+    },
+    "ridge_four_frame_history": {
+      "end_effector_mse": 0.004965548403561115,
+      "episode_mean_mse": 0.025479839742183687,
+      "episode_mse_sd": 0.006289253948685694,
+      "gripper_sign_accuracy": 0.9649122807017544,
+      "median_abs_error": 0.02145814150571823,
+      "step_mse": 0.025566916912794113,
+      "training_action_mse": 0.024444308131933212
+    },
+    "ridge_state": {
+      "end_effector_mse": 0.005825485102832317,
+      "episode_mean_mse": 0.02858350593596697,
+      "episode_mse_sd": 0.009160246692293436,
+      "gripper_sign_accuracy": 0.9571150097465887,
+      "median_abs_error": 0.02437507174909115,
+      "step_mse": 0.028758946806192398,
+      "training_action_mse": 0.02736673317849636
+    },
+    "time_only_macro": {
+      "end_effector_mse": 0.021182764321565628,
+      "episode_mean_mse": 0.06281306948512792,
+      "episode_mse_sd": 0.030020180265402572,
+      "gripper_sign_accuracy": 0.8820662768031189,
+      "median_abs_error": 0.036679476499557495,
+      "step_mse": 0.06472387909889221
+    },
+    "tiny_mlp_state": {
+      "end_effector_mse": 0.004803906194865704,
+      "episode_mean_mse": 0.015272246347740293,
+      "episode_mse_sd": 0.007699158153638287,
+      "gripper_sign_accuracy": 0.969785575048733,
+      "median_abs_error": 0.019107520580291748,
+      "step_mse": 0.015564266592264175,
+      "training_action_mse": 0.013841195963323116
+    }
+  },
+  "assessment": "No model was executed in MuJoCo or PRSE. Validation used human trajectories only. More accurate next-action predictions may still catastrophically fail in closed-loop control. The official validation episodes are consumed for comparison, not an untouched post-selection test.",
+  "metadata": {
+    "contact_rich_scope": "lifting task requires object grasp and physical contact, but cannot infer contact success from action error",
+    "environment": "robosuite Lift MuJoCo, not PRSE; human teleoperation",
+    "file_bytes": 21084088,
+    "fixed_random_seed": 1927,
+    "human_evidence_scope": "action prediction on authentic human demonstrations; NOT autonomous rollout",
+    "normalization": "train-only StandardScaler; no access to validation before predictions",
+    "sha256": "2067777cb8b532e9263dd09fd6448c41cc31224bb27be4a3b734010ae13eb540",
+    "source": "robomimic v1.5 Lift proficient human low_dim official public HDF5",
+    "source_attribution": "Original data creators Mandlekar et al., CoRL 2021",
+    "split": "official HDF5 mask/train and mask/valid, disjoint episodes",
+    "train_episodes": 180,
+    "train_steps": 8640,
+    "url": "https://huggingface.co/datasets/robomimic/robomimic_datasets/resolve/main/v1.5/lift/ph/low_dim_v15.hdf5",
+    "valid_episodes": 20,
+    "valid_steps": 1026
+  }
+}

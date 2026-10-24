@@ -1,5 +1,7 @@
 # Game skills and hidden rules — bounded source-linked research, 2026-10-24
 
+> **Owner correction, 2026-10-24:** Prior results using scripted teachers and fixed x-coordinate or fence objectives are **engineering tests, not evidence that a real human-taught physical skill was learned**. See [corrected source- and human-data-based research](CORRECTED_HUMAN_SKILL_RESEARCH_2026-10-24.md). The original results and failures remain preserved unchanged.
+
 ## Provenance and scope
 
 Conducted in isolated Games worktree `research/game-skills-hidden-20261024` off `ada2611`, while canonical `/data/src/github/games` main had substantial unrelated dirty changes. Did not start or stop live PRSE, production render or other GPU processes. Primary sources: `/data/infra/docs/guidlines/games/learned_habits_and_automation.md`, `/data/infra/docs/guidlines/games/hidden_systems_and_player_research.md`, `/data/infra/docs/guidlines/original-recordings/games/Recording 2026-08-13 17-37-45-601.txt`, `Recording 2026-08-13 18-11-36-235.txt`, `browser_physics_prototype/physics-core.js`, `hidden-mechanism.js`, `tests/hidden-and-character.mjs`, `prse_runtime/README.md`. Recorded context in other target game guidelines and complete Infra source still needs in-depth reading; do not mark this complete. `infra_inventory.json` is byte-level inventory only, not claim of human/semantic reading. Secret-bearing files were not printed.

@@ -1,5 +1,7 @@
 # Game skill and hidden-mechanic research: continuation, 2026-10-24
 
+> **Owner correction, 2026-10-24:** Prior results using scripted teachers and fixed x-coordinate or fence objectives are **engineering tests, not evidence that a real human-taught physical skill was learned**. See [corrected source- and human-data-based research](CORRECTED_HUMAN_SKILL_RESEARCH_2026-10-24.md). The original results and failures remain preserved unchanged.
+
 This is an independent continuation of [the initial bounded report](REPORT.md). All experiments live in the existing Games repo, on the owned isolated research worktree. The dirty canonical main tree, live PRSE service, GPU rendering and production workloads were untouched. Do not re-label or retune the previous **7/8** original kNN versus **0/8** fixed macro study: it was already used and remains preserved in [results.json](results.json).
 
 ## Primary sources and evidence levels

@@ -1,5 +1,7 @@
 # Game Skill Learning and Hidden-Mechanic Research — second continuation, 2026-10-24
 
+> **Owner correction, 2026-10-24:** Prior results using scripted teachers and fixed x-coordinate or fence objectives are **engineering tests, not evidence that a real human-taught physical skill was learned**. See [corrected source- and human-data-based research](CORRECTED_HUMAN_SKILL_RESEARCH_2026-10-24.md). The original results and failures remain preserved unchanged.
+
 This is the second scheduled continuation of the **same task**, not a new holdout. It adds independent constrained headless fence studies, input-latency and cancellation diagnostics, and a save/resume defect investigation to [REPORT.md](REPORT.md) and [CONTINUATION_2026-10-24.md](CONTINUATION_2026-10-24.md). The formerly consumed 7/8 kNN versus 0/8 macro fixture and prior 56/56 movement scenarios remain unchanged, with the same negative evidence intact.
 
 ## Ownership, resources, primary sources

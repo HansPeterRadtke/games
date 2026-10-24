@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PRSE — Human Habit Research Lab (Local Only)</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#101c26;color:#e5eef4}
+body{margin:0}main{max-width:1160px;margin:auto;padding:12px 14px 24px}
+header{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+h1{font-size:1.4rem;margin:.2rem 0}small,p{line-height:1.45;color:#c1d0dc}
+#scene{display:block;width:100%;height:auto;background:#14212c;border:1px solid #5c7282;border-radius:10px}
+#status{background:#202f3b;border-radius:7px;padding:10px;margin:10px 0;min-height:24px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+button,select{font:inherit;color:#ecf5f8;background:#263e52;border:1px solid #6991ac;border-radius:7px;padding:10px;cursor:pointer}
+button:active{background:#4e7895}button:focus-visible,select:focus-visible{outline:3px solid #9ccdff}
+button:hover{border-color:#e2eaf2}button:disabled{opacity:.45;cursor:not-allowed}
+.panel{background:#192b38;padding:10px 14px;border-radius:10px;margin-top:10px;border:1px solid #3f5967}
+#metrics{font:14px ui-monospace,monospace;white-space:pre-wrap;color:#dce6e9;line-height:1.5}
+.warning{color:#e6bd81}
+fieldset{border:1px solid #567181;border-radius:8px;margin:5px 0;padding:10px}
+label{margin:6px}
+@media(max-width:650px){button{padding:12px 9px;flex-grow:1}}
+</style>
+</head>
+<body><main>
+<header><h1>PRSE · Human Skill Research</h1><small>Private local session · existing 3D Rapier world · no production connection</small></header>
+<p>Physically push the existing crate into the highlighted bay and let it stop without overshooting. Use A and D or the on-screen arrows; Space to jump. This records real controller commands and the authoritative game state only after you explicitly start teaching. Learning has not been verified with human participants.</p>
+<canvas id="scene" tabindex="0" aria-label="Physical game world, player, crate and target"></canvas>
+<div id="status" role="status">Connecting to the private headless research server…</div>
+<div class="controls" aria-label="Manual controls">
+<button id="left">A · Move left</button><button id="right">D · Move right</button><button id="jump">Space · Jump</button>
+<button id="interrupt">Interrupt / Manual control</button><button id="reset">Reset physical world</button>
+</div>
+<div class="panel">
+<strong>Teach from your own actions</strong>
+<p>Each demonstration uses a fresh physical state. Failed demonstrations are retained and never silently converted into successful examples. No microphone, camera, personal identity or unrelated computer input is captured.</p>
+<label><input id="attestation" type="checkbox"> I am personally demonstrating with the keyboard or buttons (self-report; not independent verification).</label>
+<div class="controls"><button id="start-demo">Start recording manual demonstration</button>
+<button id="finish-demo">Finish and evaluate demonstration</button></div>
+</div>
+<div class="panel"><strong>Optional learned habit</strong>
+<p>Train a small policy from successful manual demonstrations. Training loss does not prove success: use the preview, inspect physical outcomes, then decide whether to accept or reject. Manual input always interrupts.</p>
+<div class="controls">
+<select id="algorithm" aria-label="Candidate controller algorithm">
+<option value="tiny_mlp">Tiny neural controller</option><option value="knn">State-based nearest-neighbor controller</option>
+</select>
+<button id="train">Train candidate</button><button id="try">Try on a held-out starting condition</button>
+<button id="accept">Accept candidate</button><button id="reject">Reject candidate</button>
+<button id="enable">Enable accepted habit</button>
+<button id="forget">Disable / forget accepted habit</button>
+</div></div>
+<div class="panel"><strong>Recorded outcome (not a human-study result)</strong><div id="metrics">No trials yet.</div>
+<p class="warning">Human experiment pending. This local experimental route is not deployed to the public game, and no demonstration automatically proves reliable skill generalization.</p></div>
+</main><script type="module" src="/client.mjs"></script></body></html>
