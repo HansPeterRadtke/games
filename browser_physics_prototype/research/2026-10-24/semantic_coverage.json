@@ -1,0 +1,794 @@
+{
+  "scope": "Originals and topic-specific Infra guidance needed for game research; not full Infra human-readable repository.",
+  "method": "Full file contents printed/read in bounded research calls for statuses semantically_read_full; headings/ranges are navigation, not sufficient evidence on their own. Remaining files only term-scanned.",
+  "entries": [
+    {
+      "path": "AGENTS.md",
+      "status": "semantically_read_full",
+      "lineCount": 22,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Instructions for agents working in /data/infra"
+        }
+      ],
+      "semanticNote": "Repo ownership, inspect-before-edit, preserve dirty checkouts, October twenty-fourth commit/push rule, non-claim of external effects.",
+      "sha256": "56553de05a6e5d4ece604ffb0ef48493204e1f2bf632a6f89e764edcea310c00"
+    },
+    {
+      "path": "docs/guidlines/README.md",
+      "status": "semantically_read_full",
+      "lineCount": 73,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Recording-derived infra guidelines"
+        },
+        {
+          "line": 10,
+          "heading": "Introduction: the operating principles that must not get lost"
+        },
+        {
+          "line": 20,
+          "heading": "Mandatory user-facing response format"
+        },
+        {
+          "line": 26,
+          "heading": "Conversion rules"
+        },
+        {
+          "line": 36,
+          "heading": "Authority order"
+        },
+        {
+          "line": 40,
+          "heading": "Guideline map"
+        },
+        {
+          "line": 51,
+          "heading": "October fourteenth recording: fast SWAAG user-facing communication"
+        },
+        {
+          "line": 55,
+          "heading": "October fourteenth\u2013fifteenth additions: player habits and goal-aware replies"
+        },
+        {
+          "line": 61,
+          "heading": "October sixteenth: the human\u2013AI UI and live design loop"
+        },
+        {
+          "line": 65,
+          "heading": "October seventeenth\u2013twenty-third: context, research, history, media, and process evaluation"
+        }
+      ],
+      "semanticNote": "Recording authority, scope of brainstorming versus rules, cross-domain navigation, audio-style default.",
+      "sha256": "0601a9591faaa0d6819d69ff5e8df9e5a5632ef1e73d683b515284b2b7225239"
+    },
+    {
+      "path": "docs/guidlines/doc/audio_style.md",
+      "status": "semantically_read_full",
+      "lineCount": 33,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "AUDIO STYLE \u2014 MANDATORY DEFAULT FOR EVERY USER-FACING CHAT RESPONSE"
+        },
+        {
+          "line": 7,
+          "heading": "Non-negotiable audio-style rules"
+        },
+        {
+          "line": 25,
+          "heading": "Mandatory pre-send check"
+        },
+        {
+          "line": 31,
+          "heading": "Exceptions"
+        }
+      ],
+      "semanticNote": "Continuous concise spoken prose, words for numbers, no hashes/paths in ordinary reports.",
+      "sha256": "f4bab777990d08dbf2f8ca5c63dfcc25f6ea5b25822db8363f6c9816a03a252a"
+    },
+    {
+      "path": "docs/guidlines/programming/README.md",
+      "status": "semantically_read_full",
+      "lineCount": 144,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Programming rules from the recordings"
+        },
+        {
+          "line": 3,
+          "heading": "Rules"
+        },
+        {
+          "line": 43,
+          "heading": "Application-dependent possibilities"
+        },
+        {
+          "line": 51,
+          "heading": "Open questions and researched answers"
+        },
+        {
+          "line": 57,
+          "heading": "Naming and abstraction detail"
+        },
+        {
+          "line": 61,
+          "heading": "Questions, assumptions, and branch-complete reasoning"
+        },
+        {
+          "line": 81,
+          "heading": "Naming and externally visible behavior"
+        },
+        {
+          "line": 89,
+          "heading": "Language/runtime choice is an engineering tradeoff"
+        },
+        {
+          "line": 93,
+          "heading": "Algorithm selection and search strategy"
+        },
+        {
+          "line": 104,
+          "heading": "Search-space definition, grid search, and random search"
+        },
+        {
+          "line": 118,
+          "heading": "Static program structure and time structure"
+        },
+        {
+          "line": 126,
+          "heading": "Effect first, then speed and memory"
+        },
+        {
+          "line": 132,
+          "heading": "Repeated work, lifecycle initialization and refactoring (October 2026)"
+        },
+        {
+          "line": 142,
+          "heading": "Reusable agent helpers versus project code \u2014 October twelfth"
+        }
+      ],
+      "semanticNote": "Purpose/inputs/output, doability checks, proper failure paths, algorithm choice, validate actual system, resource limits.",
+      "sha256": "48b0173163d91ec1bf139949ceb73f3f963000f7dcc77d81f123adcc4a75db64"
+    },
+    {
+      "path": "docs/guidlines/testing.md",
+      "status": "semantically_read_full",
+      "lineCount": 118,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Testing and evaluation rules from the recordings"
+        },
+        {
+          "line": 3,
+          "heading": "Rules"
+        },
+        {
+          "line": 35,
+          "heading": "Application-dependent possibilities"
+        },
+        {
+          "line": 41,
+          "heading": "Open questions and researched answers"
+        },
+        {
+          "line": 54,
+          "heading": "Nested optimization and holdout hierarchy"
+        },
+        {
+          "line": 68,
+          "heading": "Function-level test metadata"
+        },
+        {
+          "line": 74,
+          "heading": "Branch, path, and expectation testing"
+        },
+        {
+          "line": 84,
+          "heading": "Multi-worker orchestration benchmarks"
+        },
+        {
+          "line": 90,
+          "heading": "Realistic testing and environment simulation"
+        },
+        {
+          "line": 104,
+          "heading": "SWAAG communication and orchestration preemption tests \u2014 October fourteenth"
+        },
+        {
+          "line": 108,
+          "heading": "October seventeenth\u2013twenty-third: new acceptance obligations"
+        }
+      ],
+      "semanticNote": "Independent test oracle, adversarial boundary cases, training/selection holdout separation, distinction between synthetic and human validation.",
+      "sha256": "3fe6c3f86c138adf9ec073fd9d63a1b1f98f5f9aa7b87a2f9f255f15880d0d16"
+    },
+    {
+      "path": "docs/guidlines/source_traceability.md",
+      "status": "semantically_read_full",
+      "lineCount": 27,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Recording conversion, provenance, and traceability"
+        },
+        {
+          "line": 3,
+          "heading": "Rules"
+        },
+        {
+          "line": 17,
+          "heading": "Application-dependent possibilities"
+        },
+        {
+          "line": 21,
+          "heading": "Open questions and researched answers"
+        },
+        {
+          "line": 25,
+          "heading": "Original recordings: source of truth"
+        }
+      ],
+      "semanticNote": "Originals remain authoritative; preserve category of recorded statements; research conclusions separate from recording requirements.",
+      "sha256": "8ced5659c817ac963f15381636e37b14ad5e069e0980b8524e036be2278dfec7"
+    },
+    {
+      "path": "docs/guidlines/security_privacy.md",
+      "status": "semantically_read_full",
+      "lineCount": 35,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Security and privacy constraints that bound the recording rules"
+        },
+        {
+          "line": 3,
+          "heading": "Rules"
+        },
+        {
+          "line": 15,
+          "heading": "Application-dependent possibilities"
+        },
+        {
+          "line": 21,
+          "heading": "Open questions and researched answers"
+        },
+        {
+          "line": 25,
+          "heading": "Agent forge execution boundaries and mutable guidance \u2014 October twelfth"
+        },
+        {
+          "line": 29,
+          "heading": "Safe communication handoff, cancellation and replay \u2014 October fourteenth"
+        },
+        {
+          "line": 33,
+          "heading": "October sixteenth: rich interaction recording and voice feedback"
+        }
+      ],
+      "semanticNote": "Least-privilege boundaries, preserve credentials and minimize retained private session telemetry.",
+      "sha256": "168c9f7cefbbe5429914866eff25b6d52150706e80754e2fbefa44f66cfcbd7c"
+    },
+    {
+      "path": "docs/guidlines/agents/research_and_evidence.md",
+      "status": "semantically_read_full",
+      "lineCount": 41,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Knowledge research, formal representation, and conditional evidence"
+        },
+        {
+          "line": 5,
+          "heading": "Research is more than collecting or shortening text"
+        },
+        {
+          "line": 15,
+          "heading": "Ordered source storage and context-sensitive claims"
+        },
+        {
+          "line": 23,
+          "heading": "Truth, agreement, and practical testing"
+        },
+        {
+          "line": 33,
+          "heading": "Ensembles and calibration are possibilities, not proof"
+        }
+      ],
+      "semanticNote": "Separate claims from evidence; causal falsification, provenance, scoped inference, skepticism of agreement.",
+      "sha256": "21fa109c534a38e7d8a38640688007dd26458b6824dac9d299b5526288e6a0fa"
+    },
+    {
+      "path": "docs/guidlines/games/learned_habits_and_automation.md",
+      "status": "semantically_read_full",
+      "lineCount": 49,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Player-trained habits and optional automation of repetitive gameplay"
+        },
+        {
+          "line": 5,
+          "heading": "Central idea"
+        },
+        {
+          "line": 9,
+          "heading": "Scope and examples"
+        },
+        {
+          "line": 15,
+          "heading": "Task boundaries and context"
+        },
+        {
+          "line": 21,
+          "heading": "How learning might work"
+        },
+        {
+          "line": 29,
+          "heading": "User activation and progressive control abstraction"
+        },
+        {
+          "line": 35,
+          "heading": "Gameplay after mastering a routine"
+        },
+        {
+          "line": 43,
+          "heading": "Research and acceptance"
+        }
+      ],
+      "semanticNote": "Optional user-trained skills with task boundaries, recency tradeoffs, small/temporal/non-neural candidates, actual rollouts, opt-in and interruption.",
+      "sha256": "e7c5e2cd6b42d566e2e00b32c30353f057239b36e7a0ec8098bc6481caa0c549"
+    },
+    {
+      "path": "docs/guidlines/games/hidden_systems_and_player_research.md",
+      "status": "semantically_read_full",
+      "lineCount": 33,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Hidden systems, frequencies, and player research from the recordings"
+        },
+        {
+          "line": 3,
+          "heading": "Rules"
+        },
+        {
+          "line": 17,
+          "heading": "Application-dependent possibilities"
+        },
+        {
+          "line": 27,
+          "heading": "Open questions"
+        },
+        {
+          "line": 31,
+          "heading": "October fourteenth: trained rhythmic actions"
+        }
+      ],
+      "semanticNote": "Hidden reproducible rules, player measurements, fast rhythm vs slow sequencers, partial tools and clue disclosure, research alternatives.",
+      "sha256": "53bc90372e83f9fd358f106a5286b006250a096fb5cfe9fe8eac73fb2fa5146d"
+    },
+    {
+      "path": "docs/guidlines/games/core_and_modalities.md",
+      "status": "semantically_read_full",
+      "lineCount": 39,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Engine-independent game core and modality adapters"
+        },
+        {
+          "line": 5,
+          "heading": "Recording-derived requirements"
+        },
+        {
+          "line": 19,
+          "heading": "Selected initial technical contract, subject to prototype tests"
+        },
+        {
+          "line": 31,
+          "heading": "Research and tradeoffs"
+        },
+        {
+          "line": 37,
+          "heading": "Later recording: October 9, 18:04"
+        }
+      ],
+      "semanticNote": "Authoritative shared 3D game state; input adapters and interruptible goal commands with player priority.",
+      "sha256": "a2b1bdb1d1e633bc0eb20aba6613b4da1238ac0493ca8d5038b45e41d6d37755"
+    },
+    {
+      "path": "docs/guidlines/games/semantic_physics_text_loop.md",
+      "status": "semantically_read_full",
+      "lineCount": 43,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Semantic scene \u2194 physical simulation \u2194 text: executable game-engine contract"
+        },
+        {
+          "line": 5,
+          "heading": "Non-negotiable design direction"
+        },
+        {
+          "line": 11,
+          "heading": "Practical data model and event flow"
+        },
+        {
+          "line": 19,
+          "heading": "Text-game renderer: change detection, pacing and perception"
+        },
+        {
+          "line": 25,
+          "heading": "Asset adapters and PRSE materialization"
+        },
+        {
+          "line": 31,
+          "heading": "Experiments and acceptance gates (bots run these autonomously)"
+        },
+        {
+          "line": 41,
+          "heading": "Open engineering choices, not immediate questions for the owner"
+        }
+      ],
+      "semanticNote": "Real physics source of truth and trustworthy text/scene event round trip; early headless acceptance.",
+      "sha256": "5872841698b0d1a0fc8a8604f74f2cb5fc0a306e0fd21fd83edc9ddd5ce4062d"
+    },
+    {
+      "path": "docs/guidlines/games/playability_realism_and_saving.md",
+      "status": "semantically_read_full",
+      "lineCount": 27,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Game realism, playability, reward, humor and saving"
+        },
+        {
+          "line": 5,
+          "heading": "Recorded rules and design emphasis"
+        },
+        {
+          "line": 19,
+          "heading": "Researched answers and cautions"
+        },
+        {
+          "line": 25,
+          "heading": "Autonomous research and experimental obligations"
+        }
+      ],
+      "semanticNote": "Save-anywhere, rewards not assumed fun, independent human testing, task-appropriate physical consequences.",
+      "sha256": "aa4971fb095968cebb6beb52f91bf04f5749e77f5d0abaf740cb46dfeacc944a"
+    },
+    {
+      "path": "docs/guidlines/games/world_and_generation.md",
+      "status": "semantically_read_full",
+      "lineCount": 72,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Game-world representation and generation possibilities from the recordings"
+        },
+        {
+          "line": 3,
+          "heading": "Rules"
+        },
+        {
+          "line": 11,
+          "heading": "Application-dependent possibilities"
+        },
+        {
+          "line": 21,
+          "heading": "Open questions"
+        },
+        {
+          "line": 26,
+          "heading": "PRSE semantic-world core"
+        },
+        {
+          "line": 38,
+          "heading": "PRSE naming status"
+        },
+        {
+          "line": 42,
+          "heading": "Engine independence and modular game systems"
+        },
+        {
+          "line": 52,
+          "heading": "AI-assisted and self-writing worlds"
+        },
+        {
+          "line": 70,
+          "heading": "October fourteenth: earned task automation and generated economies"
+        }
+      ],
+      "semanticNote": "PRSE semantic/physical boundary, exact name uncertain, materialization/persistence, self-writing world possibilities.",
+      "sha256": "22440062f4f9f1c9eaf63b6ae974c0f163a8388d4e3c2533d5e35970115dd922"
+    },
+    {
+      "path": "docs/guidlines/games/physical_character_model.md",
+      "status": "semantically_read_full",
+      "lineCount": 66,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Physical-character and game-capability rules from the recordings"
+        },
+        {
+          "line": 3,
+          "heading": "Rules"
+        },
+        {
+          "line": 17,
+          "heading": "Application-dependent possibilities"
+        },
+        {
+          "line": 21,
+          "heading": "Open questions and researched answers"
+        },
+        {
+          "line": 27,
+          "heading": "Probabilistic mesh and transferable skill model"
+        },
+        {
+          "line": 43,
+          "heading": "Capability examples are task-specific, not universal stats"
+        },
+        {
+          "line": 48,
+          "heading": "Detailed bodily state, adaptation, and needs"
+        },
+        {
+          "line": 64,
+          "heading": "October fourteenth: training habits from player demonstrations"
+        }
+      ],
+      "semanticNote": "Fatigue, load and unilateral injuries affect locomotion; skills context-bound and transferable only when demonstrated.",
+      "sha256": "764fa9d8c7a49ac3857bf99eaf6ffb3299c0f17f2b00a96dfdc2481d1dc65b94"
+    },
+    {
+      "path": "docs/guidlines/games/early_game_engagement_and_onboarding.md",
+      "status": "semantically_read_full",
+      "lineCount": 38,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Interesting first-minute play and optional in-world onboarding"
+        },
+        {
+          "line": 3,
+          "heading": "Recording-derived rules"
+        },
+        {
+          "line": 13,
+          "heading": "Example minimum playable first area (template, not a fixed story)"
+        },
+        {
+          "line": 19,
+          "heading": "Researched answers and their limits"
+        },
+        {
+          "line": 26,
+          "heading": "Experimental acceptance"
+        },
+        {
+          "line": 32,
+          "heading": "Relation to AI innovation"
+        },
+        {
+          "line": 36,
+          "heading": "October fourteenth: practice now, simplify later"
+        }
+      ],
+      "semanticNote": "Player agency, optional first-minute coaching, novel controls require actual playtesting.",
+      "sha256": "01b260494ae0b9911fdbf4f2b7de6804b5ca6e47fb05887985e00ed6109b334f"
+    },
+    {
+      "path": "docs/guidlines/games/standard_game_foundation.md",
+      "status": "semantically_read_full",
+      "lineCount": 51,
+      "headings": [
+        {
+          "line": 1,
+          "heading": "Conventional playable game baseline before experimental AI mechanics"
+        },
+        {
+          "line": 3,
+          "heading": "Recording-derived rules"
+        },
+        {
+          "line": 11,
+          "heading": "Research-backed initial input map \u2014 desktop/keyboard/mouse"
+        },
+        {
+          "line": 27,
+          "heading": "Core gameplay features and quality floor"
+        },
+        {
+          "line": 35,
+          "heading": "Android/touch/gamepad baseline"
+        },
+        {
+          "line": 43,
+          "heading": "Optional 2D-in-3D prototyping technique"
+        },
+        {
+          "line": 47,
+          "heading": "Research and autonomous verification obligations"
+        }
+      ],
+      "semanticNote": "Conventional controls and 3D gameplay baseline, not a 2D-only substitute for novel systems.",
+      "sha256": "020b8472fad0f75219e6970bc694622a1109118ea583e0e1640d4a54a761d66d"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-08-13 17-37-45-601.txt",
+      "status": "semantically_read_full",
+      "characters": 28644,
+      "semanticNote": "PRSE explicitly working title, forgotten expansion, semantic story primary world; substantial verbatim candle transcription loop, not repeated independent content.",
+      "sha256": "371af8a051aa51d6688cc33d5f40a2180be2311545866d39bad7b7b673c0aa44"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-08-13 18-11-36-235.txt",
+      "status": "semantically_read_full",
+      "characters": 13034,
+      "semanticNote": "Semantic descriptions convert to geometry on observation; offscreen large consequences remain story; object continuity and engine validation.",
+      "sha256": "c60b999c6f31dd9721b09dd08eaae9ac73d9500240eacde4b090c32161842a77"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-08-14 13-01-57-849.txt",
+      "status": "term_scanned_only",
+      "characters": 10442,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "d602098ca19c0f1e8bb2453a85090d4d0682253939c985458f3fc9c6cd03da17"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-08-14 16-27-52-325.txt",
+      "status": "term_scanned_only",
+      "characters": 2976,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "7ce23bc83ac7fdd5c85fa8b456aed2e5f9387a9546b7a9016aff0880b9837665"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-08-14 17-01-32-916.txt",
+      "status": "term_scanned_only",
+      "characters": 4192,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "9cd207a20a887f28effc8c8b9023796c0b910f3e6dbe2bc566e7d5411ab93e0b"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-08-14 17-49-02-029.txt",
+      "status": "term_scanned_only",
+      "characters": 17610,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "81d7ac73d31229f022fcf8a51bad781c4da0572cb582edd40ac8b1403c9da323"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-09-22 16-21-16-561.txt",
+      "status": "semantically_read_full",
+      "characters": 3193,
+      "semanticNote": "Discoverable hidden values and frequencies, possible occult or celestial factors, real player experiments and inference.",
+      "sha256": "ec9f9ac6c375841d2eee76552768a30369ebac3eacd1e055f96dd04e4f248d4f"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-09-22 19-29-45-708.txt",
+      "status": "semantically_read_full",
+      "characters": 17035,
+      "semanticNote": "Parameterized or composed oscillators, skill timing versus scripted rituals, player measurements and persistent knowledge, real-world long windows as possibilities.",
+      "sha256": "3caddbd244f4718cee9620ecbe854b85fe312d80dc3e0e58a1aba9c520002e06"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-09-23 07-45-59-368.txt",
+      "status": "term_scanned_only",
+      "characters": 16241,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "e29aa5fcaa0bcf78c287f51964c45b0f5d6db4b8c7dc3b59ecba91d8347e57ab"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-09-23 12-43-37-539.txt",
+      "status": "term_scanned_only",
+      "characters": 11989,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "d91626236ecc48415fec87879af7e7dc7df4e61ffc77ee4bfb0ddeadf5b734bd"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-09-23 18-07-16-763.txt",
+      "status": "term_scanned_only",
+      "characters": 20271,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "7a6e34efe08afb378e1436c2e51b9bc0312e188110267ab1790266ce80df687b"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-09-24 11-11-22-318.txt",
+      "status": "term_scanned_only",
+      "characters": 6804,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "b7506f7b65e0666d827739093087cba1d76af66d4d5290173a8c585520893798"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-09-24 14-06-13-020.txt",
+      "status": "term_scanned_only",
+      "characters": 24310,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "07c826d47d0a137c7b522f205d6ba6cbb9226bd7898b9dcc4c1f16cff9813c35"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-09-24 19-08-31-060.txt",
+      "status": "term_scanned_only",
+      "characters": 14196,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "61908746caac02f4cce87ffb8cdbd0ec38d590f47d614533438b842dec367d6f"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-09-24 20-20-06-214.txt",
+      "status": "term_scanned_only",
+      "characters": 25959,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "1e9b4314614d1b1ac9e8396cdc5811cd24e6612bb18ae179610c679c4c1ac969"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-09-25 18-40-43-161.txt",
+      "status": "term_scanned_only",
+      "characters": 23517,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "131abd68f988d114c068ac940a7393926084b3aeb24c4ec4c587055c30aa3a95"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-09-25 21-49-14-988.txt",
+      "status": "term_scanned_only",
+      "characters": 124,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "38671b9aa30d4fb20e50a4e75334a3a3aceafe6d9417c8e8cf20e3b401e74670"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-09-25 21-49-53-432.txt",
+      "status": "term_scanned_only",
+      "characters": 10284,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "15f087efafc7e24d5a5fa83bddaff99ff27b930c7c14a24f312c07721ecb17c2"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-10-09 12-16-12-908.txt",
+      "status": "semantically_read_full",
+      "characters": 11247,
+      "semanticNote": "Game input/output adapters must share 3D physics authority; semantic goals and manual moves co-exist, normal action interruption and feedback, PRSE acronym used without expansion.",
+      "sha256": "425cfc8b8587d7b44c5112d94cac5f8348c6eb0294eb19ace5a635565e80aee6"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-10-09 18-04-17-301.txt",
+      "status": "semantically_read_full",
+      "characters": 20640,
+      "semanticNote": "Core independent from input/render, text-to-physics-to-text priority, physical event interpretation and scene description challenges, PRSE named but not expanded.",
+      "sha256": "2d762aaf65d1dda21943a0d8c1612cc424f8df9c2b679f0e2e2409f958238cf0"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-10-10 18-14-53-924.txt",
+      "status": "term_scanned_only",
+      "characters": 10065,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "eec72cfb205a06533b1ed4ee38443fe4ba61d2aaf1eb40a2a336e1e50c32ed50"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-10-10 18-42-09-059.txt",
+      "status": "term_scanned_only",
+      "characters": 4715,
+      "semanticNote": "Not fully read; scanned for PRSE and skill/frequency terminology. Remaining original semantic coverage.",
+      "sha256": "186296281d738b065509c4a4362ef7506a82306ddfe30900193e10090eea46ac"
+    },
+    {
+      "path": "docs/guidlines/original-recordings/games/Recording 2026-10-14 18-33-46-960.txt",
+      "status": "semantically_read_full",
+      "characters": 16882,
+      "semanticNote": "Small per-skill habit models from player actions, user approval and manual option, hypothetical progressive gait/woodworking/rhythm; economy and work/time tradeoffs.",
+      "sha256": "319d21791b2e271bcb1b92f2c8ac297e8b5056a162e11100f69df614f9f68428"
+    }
+  ],
+  "summary": {
+    "guidelineFilesFullyRead": 17,
+    "originalGameRecordingsFullyRead": 7,
+    "originalGameRecordingsScannedOnly": 16,
+    "otherInfraTrackedTextFilesSemanticallyUnread": true
+  }
+}

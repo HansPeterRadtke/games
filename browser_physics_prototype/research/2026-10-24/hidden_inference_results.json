@@ -1,0 +1,247 @@
+{
+  "metadata": {
+    "provenance": "GameCore hidden-mechanism.js for existing; other rules synthetic comparison hypotheses",
+    "instrument": "rounded intensity with deterministic bounded sensor error",
+    "trainTimes": [
+      0,
+      1.5,
+      3,
+      4.5,
+      6,
+      7.5,
+      9,
+      10.5,
+      12,
+      13.5,
+      15,
+      16.5,
+      18,
+      19.5,
+      21,
+      22.5
+    ],
+    "testTimes": [
+      24,
+      25.5,
+      27,
+      28.5,
+      30,
+      31.5,
+      33,
+      34.5,
+      36,
+      37.5,
+      39,
+      40.5,
+      42,
+      43.5,
+      45,
+      46.5,
+      48,
+      49.5,
+      51,
+      52.5,
+      54,
+      55.5,
+      57,
+      58.5
+    ],
+    "candidateFamilies": "constant + Fourier periodic single and dual families, periods 2.5..12 at 0.25 increments; BIC penalized",
+    "warning": "Model inferability on specified signals is not people discovering laws"
+  },
+  "inference": {
+    "existing": {
+      "oracleClass": "two",
+      "selectedFamily": "two",
+      "periods": [
+        3.25,
+        8.25
+      ],
+      "trainRMSE": 0.04536479510460762,
+      "heldoutRMSE": 0.3674296765078579,
+      "heldoutWindowAccuracy": 0.8333333333333334,
+      "trainingSamples": 16,
+      "forecastSamples": 24
+    },
+    "simple": {
+      "oracleClass": "one",
+      "selectedFamily": "two",
+      "periods": [
+        7.5,
+        8.25
+      ],
+      "trainRMSE": 0.014906387746410359,
+      "heldoutRMSE": 0.23085352722435426,
+      "heldoutWindowAccuracy": 0.7083333333333334,
+      "trainingSamples": 16,
+      "forecastSamples": 24
+    },
+    "dual": {
+      "oracleClass": "two",
+      "selectedFamily": "two",
+      "periods": [
+        3.5,
+        8
+      ],
+      "trainRMSE": 0.08677971118623991,
+      "heldoutRMSE": 0.37745645711631265,
+      "heldoutWindowAccuracy": 0.8333333333333334,
+      "trainingSamples": 16,
+      "forecastSamples": 24
+    },
+    "constant": {
+      "oracleClass": "constant",
+      "selectedFamily": "two",
+      "periods": [
+        11.25,
+        12
+      ],
+      "trainRMSE": 0.00627629273630068,
+      "heldoutRMSE": 0.040483838015129725,
+      "heldoutWindowAccuracy": 1,
+      "trainingSamples": 16,
+      "forecastSamples": 24
+    },
+    "slow": {
+      "oracleClass": "one",
+      "selectedFamily": "constant",
+      "periods": [],
+      "trainRMSE": 0.2053655277791304,
+      "heldoutRMSE": 0.25222267093235134,
+      "heldoutWindowAccuracy": 0.5833333333333334,
+      "trainingSamples": 16,
+      "forecastSamples": 24
+    }
+  },
+  "causal": {
+    "observationalIdentical": true,
+    "passive": [
+      {
+        "t": 0,
+        "enabled": false,
+        "direct": 0,
+        "timeExplanation": 0
+      },
+      {
+        "t": 3,
+        "enabled": false,
+        "direct": 0.09256180832886862,
+        "timeExplanation": 0.09256180832886862
+      },
+      {
+        "t": 6,
+        "enabled": false,
+        "direct": 0.10002271695082499,
+        "timeExplanation": 0.10002271695082499
+      },
+      {
+        "t": 9,
+        "enabled": false,
+        "direct": 0.015523200886585393,
+        "timeExplanation": 0.015523200886585393
+      },
+      {
+        "t": 12,
+        "enabled": true,
+        "direct": 0.26675172551612786,
+        "timeExplanation": 0.26675172551612786
+      },
+      {
+        "t": 15,
+        "enabled": true,
+        "direct": 0.24451832978705473,
+        "timeExplanation": 0.24451832978705473
+      },
+      {
+        "t": 18,
+        "enabled": true,
+        "direct": 0.3192642951981181,
+        "timeExplanation": 0.3192642951981181
+      },
+      {
+        "t": 21,
+        "enabled": true,
+        "direct": 0.42226852585906677,
+        "timeExplanation": 0.42226852585906677
+      }
+    ],
+    "interventions": [
+      {
+        "t": 6,
+        "enabled": true,
+        "direct": 0.45002271695082496,
+        "timeExplanation": 0.10002271695082499
+      },
+      {
+        "t": 18,
+        "enabled": false,
+        "direct": -0.030735704801881845,
+        "timeExplanation": 0.3192642951981181
+      }
+    ],
+    "interventionDistinguishes": true,
+    "caveat": "synthetic causal counterexample, not implemented in production PRSE"
+  },
+  "timing": {
+    "existing": {
+      "events": 15,
+      "minWindowSeconds": 0.3499999999999993,
+      "meanWindowSeconds": 0.9822222222225523,
+      "onsetDelaySuccess": {
+        "1": {
+          "canAct": 9,
+          "windows": 15,
+          "fraction": 0.6
+        },
+        "0.15": {
+          "canAct": 15,
+          "windows": 15,
+          "fraction": 1
+        },
+        "0.3": {
+          "canAct": 15,
+          "windows": 15,
+          "fraction": 1
+        },
+        "0.6": {
+          "canAct": 13,
+          "windows": 15,
+          "fraction": 0.8666666666666667
+        }
+      }
+    },
+    "fast": {
+      "events": 30,
+      "minWindowSeconds": 1.074999999999939,
+      "meanWindowSeconds": 1.0750000000003723,
+      "onsetDelaySuccess": {
+        "1": {
+          "canAct": 30,
+          "windows": 30,
+          "fraction": 1
+        },
+        "0.15": {
+          "canAct": 30,
+          "windows": 30,
+          "fraction": 1
+        },
+        "0.3": {
+          "canAct": 30,
+          "windows": 30,
+          "fraction": 1
+        },
+        "0.6": {
+          "canAct": 30,
+          "windows": 30,
+          "fraction": 1
+        }
+      }
+    },
+    "slow": {
+      "events": 1,
+      "minWindowSeconds": 23380,
+      "meanWindowSeconds": 23380
+    },
+    "observation": "Analytic opportunity durations only; no perceptual latency, player ability or real-time fairness evidence"
+  }
+}

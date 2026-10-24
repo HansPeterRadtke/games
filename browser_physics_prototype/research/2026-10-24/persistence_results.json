@@ -1,0 +1,29 @@
+{
+  "reports": {
+    "active": {
+      "mode": "active",
+      "policyCommands": 48,
+      "manualFrames": 0,
+      "succeeded": true,
+      "final": {
+        "x": -1.3162426948547363,
+        "v": 1.8617143382471113e-9
+      },
+      "worldTime": 1.1333333333333342,
+      "controllerEnabled": true
+    },
+    "manual": {
+      "mode": "manual",
+      "policyCommands": 0,
+      "manualFrames": 160,
+      "succeeded": false,
+      "final": {
+        "x": -10.606953620910645,
+        "v": -2.9704182147979736
+      },
+      "worldTime": 3.016666666666661,
+      "controllerEnabled": false
+    }
+  },
+  "validationCorruptRejected": true
+}

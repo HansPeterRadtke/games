@@ -1,0 +1,6421 @@
+{
+  "metadata": {
+    "core": "GameCore/Rapier3D",
+    "sourceRevision": "ada2611",
+    "step": 0.016666666666666666,
+    "trialDesign": "additional distinct heldout starts; scenarios predeclared in this source",
+    "trainingStarts": [
+      -4.1,
+      -3.8,
+      -3.5,
+      -3.2
+    ],
+    "starts": [
+      -4.05,
+      -3.75,
+      -3.45,
+      -3.15,
+      -2.85,
+      -2.55,
+      -2.25,
+      -2
+    ],
+    "syntheticTeacher": "seven tick hold, deterministic xorshift seed, twelve percent wrong-key and nine percent pause per decision; not human input",
+    "trainingSamples": {
+      "clean": 255,
+      "noisy": 387,
+      "successfulNoisy": 387
+    },
+    "elapsedWallMilliseconds": 136337
+  },
+  "training": {
+    "clean": [
+      {
+        "start": -4.1,
+        "environment": "normal",
+        "perturbation": null,
+        "success": true,
+        "ticks": 72,
+        "final": {
+          "x": -1.316665768623352,
+          "v": 0.13386516273021698,
+          "y": 0.8187244534492493,
+          "speedFactor": 0.9996503591913352,
+          "time": 1.2000000000000006
+        },
+        "saveError": null,
+        "sampleCount": 72
+      },
+      {
+        "start": -3.8,
+        "environment": "normal",
+        "perturbation": null,
+        "success": true,
+        "ticks": 67,
+        "final": {
+          "x": -1.3132737874984741,
+          "v": 0.13499309122562408,
+          "y": 0.8187243342399597,
+          "speedFactor": 0.9997182188354622,
+          "time": 1.1166666666666676
+        },
+        "saveError": null,
+        "sampleCount": 67
+      },
+      {
+        "start": -3.5,
+        "environment": "normal",
+        "perturbation": null,
+        "success": true,
+        "ticks": 61,
+        "final": {
+          "x": -1.3128607273101807,
+          "v": 0.13475659489631653,
+          "y": 0.8187238574028015,
+          "speedFactor": 0.9997545436696639,
+          "time": 1.016666666666668
+        },
+        "saveError": null,
+        "sampleCount": 61
+      },
+      {
+        "start": -3.2,
+        "environment": "normal",
+        "perturbation": null,
+        "success": true,
+        "ticks": 55,
+        "final": {
+          "x": -1.3125780820846558,
+          "v": 0.1344701051712036,
+          "y": 0.8187243342399597,
+          "speedFactor": 0.999805495433945,
+          "time": 0.9166666666666679
+        },
+        "saveError": null,
+        "sampleCount": 55
+      }
+    ],
+    "syntheticNoisy": [
+      {
+        "start": -4.03,
+        "environment": "normal",
+        "perturbation": null,
+        "success": true,
+        "ticks": 102,
+        "final": {
+          "x": -1.2050166130065918,
+          "v": 0.20932775735855103,
+          "y": 0.8187237977981567,
+          "speedFactor": 0.999878491526829,
+          "time": 1.6999999999999988
+        },
+        "saveError": null,
+        "sampleCount": 102
+      },
+      {
+        "start": -3.83,
+        "environment": "normal",
+        "perturbation": null,
+        "success": true,
+        "ticks": 102,
+        "final": {
+          "x": -1.310506820678711,
+          "v": 0.2094181329011917,
+          "y": 0.8187239170074463,
+          "speedFactor": 0.9999159662468613,
+          "time": 1.6999999999999988
+        },
+        "saveError": null,
+        "sampleCount": 102
+      },
+      {
+        "start": -3.53,
+        "environment": "normal",
+        "perturbation": null,
+        "success": true,
+        "ticks": 123,
+        "final": {
+          "x": -0.92054283618927,
+          "v": 0.20949576795101166,
+          "y": 0.8187255859375,
+          "speedFactor": 0.9999424098055767,
+          "time": 2.0499999999999976
+        },
+        "saveError": null,
+        "sampleCount": 123
+      },
+      {
+        "start": -3.23,
+        "environment": "normal",
+        "perturbation": null,
+        "success": true,
+        "ticks": 60,
+        "final": {
+          "x": -0.9585230350494385,
+          "v": 0.20900537073612213,
+          "y": 0.8187249302864075,
+          "speedFactor": 0.9997594752825476,
+          "time": 1.0000000000000013
+        },
+        "saveError": null,
+        "sampleCount": 60
+      }
+    ]
+  },
+  "evaluation": {
+    "fixed_macro": {
+      "count": 56,
+      "successes": 4,
+      "byScenario": {
+        "normal": {
+          "success": 0,
+          "episodes": 8
+        },
+        "one_plank": {
+          "success": 0,
+          "episodes": 8
+        },
+        "two_planks": {
+          "success": 1,
+          "episodes": 8
+        },
+        "sprain": {
+          "success": 2,
+          "episodes": 8
+        },
+        "fatigue": {
+          "success": 1,
+          "episodes": 8
+        },
+        "push_forward": {
+          "success": 0,
+          "episodes": 8
+        },
+        "push_backward": {
+          "success": 0,
+          "episodes": 8
+        }
+      },
+      "rows": [
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.018753040581941605,
+            "v": 0,
+            "y": 0.8187237977981567,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.31873705983161926,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187245726585388,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.618742048740387,
+            "v": -5.86615001366142e-12,
+            "y": 0.8187241554260254,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.9187507033348083,
+            "v": 4.5452010211111116e-13,
+            "y": 0.8187239170074463,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.2187422513961792,
+            "v": 0,
+            "y": 0.8187239766120911,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.5187491178512573,
+            "v": -2.7860550672054174e-11,
+            "y": 0.8187240362167358,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.8187447786331177,
+            "v": -1.4203753190972224e-12,
+            "y": 0.8187239766120911,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 2.0687482357025146,
+            "v": 0,
+            "y": 0.8187240958213806,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -4.05,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.44880300760269165,
+            "v": -2.0453404595000002e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.75,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.14879991114139557,
+            "v": 1.8221965684397587e-14,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.45,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.15118218958377838,
+            "v": -7.954101786944445e-13,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.15,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.45119091868400574,
+            "v": 1.3635603063333335e-12,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.85,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.7511939406394958,
+            "v": 1.9130727004715992e-13,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.55,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.0511854887008667,
+            "v": 0,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.25,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.3511847257614136,
+            "v": -9.061184962078084e-13,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.6011847257614136,
+            "v": -9.090402042222223e-13,
+            "y": 0.8187237977981567,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -4.05,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 83,
+          "final": {
+            "x": -0.9165248274803162,
+            "v": 0.20664668083190918,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7812624526210165,
+            "time": 1.3833333333333333
+          },
+          "saveError": null,
+          "sampleCount": 83,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.75,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.616523802280426,
+            "v": 3.977051760833961e-12,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.45,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.3165207505226135,
+            "v": -2.6362165922444447e-11,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.15,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.01652718521654606,
+            "v": 4.261125957291667e-14,
+            "y": 0.8187239170074463,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.85,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.283473938703537,
+            "v": 0,
+            "y": 0.8187237977981567,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.55,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.5834693908691406,
+            "v": 3.3432583090853285e-11,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.25,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.8834725022315979,
+            "v": -3.8406947761027155e-11,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.1334725618362427,
+            "v": 2.7697319264496922e-12,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -4.05,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -1.5274392366409302,
+            "v": -2.2726005105555558e-11,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.75,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 82,
+          "final": {
+            "x": -1.2274341583251953,
+            "v": 0.4577973186969757,
+            "y": 0.8187237977981567,
+            "speedFactor": 0.6397828721060799,
+            "time": 1.3666666666666667
+          },
+          "saveError": null,
+          "sampleCount": 82,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.45,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 82,
+          "final": {
+            "x": -0.9274314641952515,
+            "v": 0.4577895700931549,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.6397828724397969,
+            "time": 1.3666666666666667
+          },
+          "saveError": null,
+          "sampleCount": 82,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.15,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.6274451613426208,
+            "v": -1.6135464492306184e-11,
+            "y": 0.8187238574028015,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.85,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.3274421989917755,
+            "v": 5.851946531520991e-12,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.55,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.027439087629318237,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.25,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.2725639045238495,
+            "v": 1.210869945977855e-12,
+            "y": 0.8187240958213806,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.522560179233551,
+            "v": -3.0646582493965013e-11,
+            "y": 0.8187240958213806,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -4.05,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 83,
+          "final": {
+            "x": -1.0219258069992065,
+            "v": 0.12599685788154602,
+            "y": 0.8187239766120911,
+            "speedFactor": 0.7567856463399965,
+            "time": 1.3833333333333333
+          },
+          "saveError": null,
+          "sampleCount": 83,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.75,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.7219200730323792,
+            "v": -4.410265555532256e-12,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.7589627886270685,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.45,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.42192843556404114,
+            "v": 0,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.7589627898021071,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.15,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.12193296104669571,
+            "v": 0,
+            "y": 0.8187240362167358,
+            "speedFactor": 0.7589627893011054,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.85,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.1780814826488495,
+            "v": -1.3635603063333335e-12,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.7589627883718533,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.55,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.47808071970939636,
+            "v": 0,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.7589627881405242,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.25,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.7780762314796448,
+            "v": 0,
+            "y": 0.8187240362167358,
+            "speedFactor": 0.7589627891879661,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.028072476387024,
+            "v": -9.9055503131062e-23,
+            "y": 0.8187239170074463,
+            "speedFactor": 0.7589627895129629,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.0394439734518528,
+            "v": 1.1793415907474653e-13,
+            "y": 0.8187237977981567,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.3394356071949005,
+            "v": 4.602015817034566e-12,
+            "y": 0.818724513053894,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.6394290328025818,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.9394341111183167,
+            "v": 0,
+            "y": 0.8187243938446045,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.2394295930862427,
+            "v": -2.772572622877778e-11,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.5394362211227417,
+            "v": -1.5624128510069446e-13,
+            "y": 0.818724513053894,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.8394354581832886,
+            "v": 4.654285568062022e-10,
+            "y": 0.8187240362167358,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 2.089428186416626,
+            "v": -2.786057842762979e-11,
+            "y": 0.8187240362167358,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.052604686468839645,
+            "v": 0,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.24740217626094818,
+            "v": 3.692975829652778e-13,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.5473937392234802,
+            "v": 1.7825710525720684e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 0.8473853468894958,
+            "v": -6.600423603942557e-14,
+            "y": 0.8187237977981567,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.1473885774612427,
+            "v": -2.479407235078668e-10,
+            "y": 0.8187238574028015,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.447391390800476,
+            "v": -5.0991472329287024e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.7473984956741333,
+            "v": -3.3134514576538265e-10,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": 1.9973810911178589,
+            "v": -3.6219571179080257e-12,
+            "y": 0.818724513053894,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        }
+      ]
+    },
+    "clean_knn": {
+      "count": 56,
+      "successes": 56,
+      "byScenario": {
+        "normal": {
+          "success": 8,
+          "episodes": 8
+        },
+        "one_plank": {
+          "success": 8,
+          "episodes": 8
+        },
+        "two_planks": {
+          "success": 8,
+          "episodes": 8
+        },
+        "sprain": {
+          "success": 8,
+          "episodes": 8
+        },
+        "fatigue": {
+          "success": 8,
+          "episodes": 8
+        },
+        "push_forward": {
+          "success": 8,
+          "episodes": 8
+        },
+        "push_backward": {
+          "success": 8,
+          "episodes": 8
+        }
+      },
+      "rows": [
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 74,
+          "final": {
+            "x": -1.313612461090088,
+            "v": 0,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.999711729660845,
+            "time": 1.2333333333333338
+          },
+          "saveError": null,
+          "sampleCount": 74,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 66,
+          "final": {
+            "x": -1.3159838914871216,
+            "v": 0.1350160539150238,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.9997273457884831,
+            "time": 1.100000000000001
+          },
+          "saveError": null,
+          "sampleCount": 66,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 63,
+          "final": {
+            "x": -1.3097599744796753,
+            "v": 0,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.9998159148830668,
+            "time": 1.0500000000000012
+          },
+          "saveError": null,
+          "sampleCount": 63,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 57,
+          "final": {
+            "x": -1.3094829320907593,
+            "v": 1.8617143382471113e-9,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.9998668666367291,
+            "time": 0.9500000000000013
+          },
+          "saveError": null,
+          "sampleCount": 57,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 49,
+          "final": {
+            "x": -1.3119738101959229,
+            "v": 0.1355135440826416,
+            "y": 0.8187248110771179,
+            "speedFactor": 0.999882505174732,
+            "time": 0.8166666666666675
+          },
+          "saveError": null,
+          "sampleCount": 49,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 44,
+          "final": {
+            "x": -1.3199326992034912,
+            "v": 0.41819533705711365,
+            "y": 0.818724513053894,
+            "speedFactor": 0.9999544248378015,
+            "time": 0.733333333333334
+          },
+          "saveError": null,
+          "sampleCount": 44,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 40,
+          "final": {
+            "x": -1.2997788190841675,
+            "v": 0.13011346757411957,
+            "y": 0.8187252879142761,
+            "speedFactor": 1,
+            "time": 0.6666666666666671
+          },
+          "saveError": null,
+          "sampleCount": 40,
+          "scenario": "normal"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 36,
+          "final": {
+            "x": -1.2972874641418457,
+            "v": 0.1635570228099823,
+            "y": 0.818726122379303,
+            "speedFactor": 1,
+            "time": 0.6000000000000002
+          },
+          "saveError": null,
+          "sampleCount": 36,
+          "scenario": "normal"
+        },
+        {
+          "start": -4.05,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 78,
+          "final": {
+            "x": -1.3075448274612427,
+            "v": 1.8617143382471113e-9,
+            "y": 0.818724513053894,
+            "speedFactor": 0.890548536111081,
+            "time": 1.3000000000000003
+          },
+          "saveError": null,
+          "sampleCount": 78,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.75,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 70,
+          "final": {
+            "x": -1.3182647228240967,
+            "v": 0.4127002954483032,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.8905878941599781,
+            "time": 1.1666666666666674
+          },
+          "saveError": null,
+          "sampleCount": 70,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.45,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 63,
+          "final": {
+            "x": -1.3183979988098145,
+            "v": 0.33669787645339966,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.890643829486083,
+            "time": 1.0500000000000012
+          },
+          "saveError": null,
+          "sampleCount": 63,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.15,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 57,
+          "final": {
+            "x": -1.3151650428771973,
+            "v": 0.3373147249221802,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8906997778217234,
+            "time": 0.9500000000000013
+          },
+          "saveError": null,
+          "sampleCount": 57,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.85,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 53,
+          "final": {
+            "x": -1.308385968208313,
+            "v": 0,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.8907710699084056,
+            "time": 0.8833333333333344
+          },
+          "saveError": null,
+          "sampleCount": 53,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.55,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 47,
+          "final": {
+            "x": -1.2898222208023071,
+            "v": 0.18528303503990173,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.890827913914434,
+            "time": 0.7833333333333341
+          },
+          "saveError": null,
+          "sampleCount": 47,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.25,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 38,
+          "final": {
+            "x": -1.297685146331787,
+            "v": 0.16964739561080933,
+            "y": 0.8187254071235657,
+            "speedFactor": 0.8908734056851085,
+            "time": 0.6333333333333336
+          },
+          "saveError": null,
+          "sampleCount": 38,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 36,
+          "final": {
+            "x": -1.2914828062057495,
+            "v": 0.13015161454677582,
+            "y": 0.8187260031700134,
+            "speedFactor": 0.8909090909090909,
+            "time": 0.6000000000000002
+          },
+          "saveError": null,
+          "sampleCount": 36,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -4.05,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 84,
+          "final": {
+            "x": -1.317642092704773,
+            "v": 0.2888840436935425,
+            "y": 0.8187242150306702,
+            "speedFactor": 0.7814519500688026,
+            "time": 1.4
+          },
+          "saveError": null,
+          "sampleCount": 84,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.75,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 75,
+          "final": {
+            "x": -1.3162155151367188,
+            "v": 0.00545670697465539,
+            "y": 0.8187243342399597,
+            "speedFactor": 0.781457956451476,
+            "time": 1.2500000000000004
+          },
+          "saveError": null,
+          "sampleCount": 75,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.45,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 72,
+          "final": {
+            "x": -1.2980893850326538,
+            "v": 0.1366928368806839,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.7815824766433086,
+            "time": 1.2000000000000006
+          },
+          "saveError": null,
+          "sampleCount": 72,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.15,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 61,
+          "final": {
+            "x": -1.319338321685791,
+            "v": 0.00672527588903904,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.7816032395744203,
+            "time": 1.016666666666668
+          },
+          "saveError": null,
+          "sampleCount": 61,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.85,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 53,
+          "final": {
+            "x": -1.3117902278900146,
+            "v": 0.005983525887131691,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7816264080314452,
+            "time": 0.8833333333333344
+          },
+          "saveError": null,
+          "sampleCount": 53,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.55,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 50,
+          "final": {
+            "x": -1.2936651706695557,
+            "v": 0.13733160495758057,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.7817509520989395,
+            "time": 0.8333333333333343
+          },
+          "saveError": null,
+          "sampleCount": 50,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.25,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 39,
+          "final": {
+            "x": -1.3163483142852783,
+            "v": 0.2890084683895111,
+            "y": 0.8187251687049866,
+            "speedFactor": 0.7817584513769253,
+            "time": 0.6500000000000004
+          },
+          "saveError": null,
+          "sampleCount": 39,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 37,
+          "final": {
+            "x": -1.3099396228790283,
+            "v": 0.030447708442807198,
+            "y": 0.8187259435653687,
+            "speedFactor": 0.7818181818181819,
+            "time": 0.6166666666666669
+          },
+          "saveError": null,
+          "sampleCount": 37,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -4.05,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 99,
+          "final": {
+            "x": -1.3105285167694092,
+            "v": 1.8171375515407817e-9,
+            "y": 0.818724513053894,
+            "speedFactor": 0.6398740593818171,
+            "time": 1.649999999999999
+          },
+          "saveError": null,
+          "sampleCount": 99,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.75,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 90,
+          "final": {
+            "x": -1.3067976236343384,
+            "v": 0,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.6399050863233628,
+            "time": 1.4999999999999996
+          },
+          "saveError": null,
+          "sampleCount": 90,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.45,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 78,
+          "final": {
+            "x": -1.3166404962539673,
+            "v": 0.41272422671318054,
+            "y": 0.8187240362167358,
+            "speedFactor": 0.639885350664684,
+            "time": 1.3000000000000003
+          },
+          "saveError": null,
+          "sampleCount": 78,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.15,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 69,
+          "final": {
+            "x": -1.3129569292068481,
+            "v": 0.4127332270145416,
+            "y": 0.8187236785888672,
+            "speedFactor": 0.6399163843091624,
+            "time": 1.1500000000000008
+          },
+          "saveError": null,
+          "sampleCount": 69,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.85,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 59,
+          "final": {
+            "x": -1.3175137042999268,
+            "v": 0.13015303015708923,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.6399302789309391,
+            "time": 0.9833333333333347
+          },
+          "saveError": null,
+          "sampleCount": 59,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.55,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 50,
+          "final": {
+            "x": -1.3138363361358643,
+            "v": 0.13017584383487701,
+            "y": 0.8187242150306702,
+            "speedFactor": 0.6399613188042685,
+            "time": 0.8333333333333343
+          },
+          "saveError": null,
+          "sampleCount": 50,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.25,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 45,
+          "final": {
+            "x": -1.3152281045913696,
+            "v": 0.2826220393180847,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.6399999999999999,
+            "time": 0.7500000000000007
+          },
+          "saveError": null,
+          "sampleCount": 45,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 34,
+          "final": {
+            "x": -1.315377116203308,
+            "v": 0.4127228558063507,
+            "y": 0.8187270164489746,
+            "speedFactor": 0.6399999999999999,
+            "time": 0.5666666666666668
+          },
+          "saveError": null,
+          "sampleCount": 34,
+          "scenario": "sprain"
+        },
+        {
+          "start": -4.05,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 86,
+          "final": {
+            "x": -1.2956867218017578,
+            "v": 0.2072882056236267,
+            "y": 0.8187240362167358,
+            "speedFactor": 0.7568758475916759,
+            "time": 1.4333333333333331
+          },
+          "saveError": null,
+          "sampleCount": 86,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.75,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 78,
+          "final": {
+            "x": -1.3198169469833374,
+            "v": 0,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.7569480471044939,
+            "time": 1.3000000000000003
+          },
+          "saveError": null,
+          "sampleCount": 78,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.45,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 68,
+          "final": {
+            "x": -1.319664478302002,
+            "v": 0.3601835072040558,
+            "y": 0.8187242150306702,
+            "speedFactor": 0.7569348839654382,
+            "time": 1.1333333333333342
+          },
+          "saveError": null,
+          "sampleCount": 68,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.15,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 63,
+          "final": {
+            "x": -1.3008880615234375,
+            "v": 0.2076757252216339,
+            "y": 0.8187242150306702,
+            "speedFactor": 0.7569907951302539,
+            "time": 1.0500000000000012
+          },
+          "saveError": null,
+          "sampleCount": 63,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.85,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 56,
+          "final": {
+            "x": -1.3190394639968872,
+            "v": 0.28262537717819214,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.7570801528776052,
+            "time": 0.9333333333333346
+          },
+          "saveError": null,
+          "sampleCount": 56,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.55,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 48,
+          "final": {
+            "x": -1.2913031578063965,
+            "v": 0.20791514217853546,
+            "y": 0.8187240362167358,
+            "speedFactor": 0.7570657791392083,
+            "time": 0.8000000000000008
+          },
+          "saveError": null,
+          "sampleCount": 48,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.25,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 40,
+          "final": {
+            "x": -1.3062500953674316,
+            "v": 0.2079198658466339,
+            "y": 0.8187254071235657,
+            "speedFactor": 0.7571057818944652,
+            "time": 0.6666666666666671
+          },
+          "saveError": null,
+          "sampleCount": 40,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 34,
+          "final": {
+            "x": -1.3130539655685425,
+            "v": 0.130135178565979,
+            "y": 0.8187273144721985,
+            "speedFactor": 0.7571694294839761,
+            "time": 0.5666666666666668
+          },
+          "saveError": null,
+          "sampleCount": 34,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 74,
+          "final": {
+            "x": -1.3093570470809937,
+            "v": 0,
+            "y": 0.8187240958213806,
+            "speedFactor": 0.9997071803536072,
+            "time": 1.2333333333333338
+          },
+          "saveError": null,
+          "sampleCount": 74,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 68,
+          "final": {
+            "x": -1.3090823888778687,
+            "v": 1.8171375515407817e-9,
+            "y": 0.8187242150306702,
+            "speedFactor": 0.9997581234496914,
+            "time": 1.1333333333333342
+          },
+          "saveError": null,
+          "sampleCount": 68,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 60,
+          "final": {
+            "x": -1.3115012645721436,
+            "v": 0.1351592242717743,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.9997737503031606,
+            "time": 1.0000000000000013
+          },
+          "saveError": null,
+          "sampleCount": 60,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 55,
+          "final": {
+            "x": -1.3194431066513062,
+            "v": 0.4178125262260437,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.9998456597862391,
+            "time": 0.9166666666666679
+          },
+          "saveError": null,
+          "sampleCount": 55,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 49,
+          "final": {
+            "x": -1.3191827535629272,
+            "v": 0.417508989572525,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.9998966142443299,
+            "time": 0.8166666666666675
+          },
+          "saveError": null,
+          "sampleCount": 49,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 41,
+          "final": {
+            "x": -1.319336175918579,
+            "v": 0.28262537717819214,
+            "y": 0.8187248706817627,
+            "speedFactor": 0.9999415341843055,
+            "time": 0.6833333333333338
+          },
+          "saveError": null,
+          "sampleCount": 41,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 34,
+          "final": {
+            "x": -1.3187196254730225,
+            "v": 0.1301749348640442,
+            "y": 0.8187269568443298,
+            "speedFactor": 0.9999449099921913,
+            "time": 0.5666666666666668
+          },
+          "saveError": null,
+          "sampleCount": 34,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 37,
+          "final": {
+            "x": -1.290170669555664,
+            "v": 0.14612503349781036,
+            "y": 0.8187260627746582,
+            "speedFactor": 1,
+            "time": 0.6166666666666669
+          },
+          "saveError": null,
+          "sampleCount": 37,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 73,
+          "final": {
+            "x": -1.3184415102005005,
+            "v": 0.13488654792308807,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.9996845693126051,
+            "time": 1.2166666666666672
+          },
+          "saveError": null,
+          "sampleCount": 73,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 70,
+          "final": {
+            "x": -1.3122100830078125,
+            "v": 1.8617143382471113e-9,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.9997731352729144,
+            "time": 1.1666666666666674
+          },
+          "saveError": null,
+          "sampleCount": 70,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 64,
+          "final": {
+            "x": -1.311989665031433,
+            "v": 0,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.9998240917531959,
+            "time": 1.0666666666666678
+          },
+          "saveError": null,
+          "sampleCount": 64,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 56,
+          "final": {
+            "x": -1.3144047260284424,
+            "v": 0.13538707792758942,
+            "y": 0.818724513053894,
+            "speedFactor": 0.9998397190254065,
+            "time": 0.9333333333333346
+          },
+          "saveError": null,
+          "sampleCount": 56,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 51,
+          "final": {
+            "x": -1.2984033823013306,
+            "v": 0.13013887405395508,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.9998908097407069,
+            "time": 0.850000000000001
+          },
+          "saveError": null,
+          "sampleCount": 51,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 45,
+          "final": {
+            "x": -1.3150221109390259,
+            "v": 0.0008764466620050371,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.9999395536636854,
+            "time": 0.7500000000000007
+          },
+          "saveError": null,
+          "sampleCount": 45,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 40,
+          "final": {
+            "x": -1.3185218572616577,
+            "v": 0.41272109746932983,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 0.6666666666666671
+          },
+          "saveError": null,
+          "sampleCount": 40,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 40,
+          "final": {
+            "x": -1.3023604154586792,
+            "v": 0.13012796640396118,
+            "y": 0.8187254071235657,
+            "speedFactor": 1,
+            "time": 0.6666666666666671
+          },
+          "saveError": null,
+          "sampleCount": 40,
+          "scenario": "push_backward"
+        }
+      ]
+    },
+    "clean_temporal_knn": {
+      "count": 56,
+      "successes": 56,
+      "byScenario": {
+        "normal": {
+          "success": 8,
+          "episodes": 8
+        },
+        "one_plank": {
+          "success": 8,
+          "episodes": 8
+        },
+        "two_planks": {
+          "success": 8,
+          "episodes": 8
+        },
+        "sprain": {
+          "success": 8,
+          "episodes": 8
+        },
+        "fatigue": {
+          "success": 8,
+          "episodes": 8
+        },
+        "push_forward": {
+          "success": 8,
+          "episodes": 8
+        },
+        "push_backward": {
+          "success": 8,
+          "episodes": 8
+        }
+      },
+      "rows": [
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 71,
+          "final": {
+            "x": -1.3193880319595337,
+            "v": 0.13387764990329742,
+            "y": 0.8187239170074463,
+            "speedFactor": 0.9996594878434568,
+            "time": 1.183333333333334
+          },
+          "saveError": null,
+          "sampleCount": 71,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 66,
+          "final": {
+            "x": -1.2994879484176636,
+            "v": 0.1345215141773224,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.9997235383757723,
+            "time": 1.100000000000001
+          },
+          "saveError": null,
+          "sampleCount": 66,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 60,
+          "final": {
+            "x": -1.3157048225402832,
+            "v": 0.13467459380626678,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.9997782943911163,
+            "time": 1.0000000000000013
+          },
+          "saveError": null,
+          "sampleCount": 60,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 54,
+          "final": {
+            "x": -1.3152915239334106,
+            "v": 0.13443246483802795,
+            "y": 0.8187247514724731,
+            "speedFactor": 0.9998146245231984,
+            "time": 0.9000000000000011
+          },
+          "saveError": null,
+          "sampleCount": 54,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 49,
+          "final": {
+            "x": -1.295470952987671,
+            "v": 0.13500593602657318,
+            "y": 0.8187249302864075,
+            "speedFactor": 0.9998786956878151,
+            "time": 0.8166666666666675
+          },
+          "saveError": null,
+          "sampleCount": 49,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 43,
+          "final": {
+            "x": -1.311767816543579,
+            "v": 0.13513092696666718,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.9999334736252751,
+            "time": 0.7166666666666672
+          },
+          "saveError": null,
+          "sampleCount": 43,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 59,
+          "final": {
+            "x": -1.2825942039489746,
+            "v": 0.1157798022031784,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 0.9833333333333347
+          },
+          "saveError": null,
+          "sampleCount": 59,
+          "scenario": "normal"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 45,
+          "final": {
+            "x": -1.3167531490325928,
+            "v": 0.16505303978919983,
+            "y": 0.8187243938446045,
+            "speedFactor": 1,
+            "time": 0.7500000000000007
+          },
+          "saveError": null,
+          "sampleCount": 45,
+          "scenario": "normal"
+        },
+        {
+          "start": -4.05,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 80,
+          "final": {
+            "x": -1.3192963600158691,
+            "v": 0.46783164143562317,
+            "y": 0.8187242150306702,
+            "speedFactor": 0.8906052221644448,
+            "time": 1.3333333333333335
+          },
+          "saveError": null,
+          "sampleCount": 80,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.75,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 74,
+          "final": {
+            "x": -1.3160301446914673,
+            "v": 0.4684980511665344,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.890660450949184,
+            "time": 1.2333333333333338
+          },
+          "saveError": null,
+          "sampleCount": 74,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.45,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 69,
+          "final": {
+            "x": -1.3106070756912231,
+            "v": 0.03336447477340698,
+            "y": 0.8187240362167358,
+            "speedFactor": 0.8907340593785396,
+            "time": 1.1500000000000008
+          },
+          "saveError": null,
+          "sampleCount": 69,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.15,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 63,
+          "final": {
+            "x": -1.3073524236679077,
+            "v": 0.033990632742643356,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.8907893005046039,
+            "time": 1.0500000000000012
+          },
+          "saveError": null,
+          "sampleCount": 63,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.85,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 54,
+          "final": {
+            "x": -1.3125585317611694,
+            "v": 0.18651196360588074,
+            "y": 0.818724513053894,
+            "speedFactor": 0.8908075438257274,
+            "time": 0.9000000000000011
+          },
+          "saveError": null,
+          "sampleCount": 54,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.55,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 48,
+          "final": {
+            "x": -1.3138270378112793,
+            "v": 0.46877753734588623,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.8908818381091893,
+            "time": 0.8000000000000008
+          },
+          "saveError": null,
+          "sampleCount": 48,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.25,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 59,
+          "final": {
+            "x": -1.2825942039489746,
+            "v": 0.1157798022031784,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8909090909090909,
+            "time": 0.9833333333333347
+          },
+          "saveError": null,
+          "sampleCount": 59,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 45,
+          "final": {
+            "x": -1.3167531490325928,
+            "v": 0.16505303978919983,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.8909090909090909,
+            "time": 0.7500000000000007
+          },
+          "saveError": null,
+          "sampleCount": 45,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -4.05,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 87,
+          "final": {
+            "x": -1.2872002124786377,
+            "v": 0.1363324075937271,
+            "y": 0.8187251091003418,
+            "speedFactor": 0.781453775606066,
+            "time": 1.4499999999999997
+          },
+          "saveError": null,
+          "sampleCount": 87,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.75,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 79,
+          "final": {
+            "x": -1.3127951622009277,
+            "v": 0.1365727335214615,
+            "y": 0.818724513053894,
+            "speedFactor": 0.7815150139024273,
+            "time": 1.3166666666666669
+          },
+          "saveError": null,
+          "sampleCount": 79,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.45,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 72,
+          "final": {
+            "x": -1.2977657318115234,
+            "v": 0.13658593595027924,
+            "y": 0.8187247514724731,
+            "speedFactor": 0.7815686104126724,
+            "time": 1.2000000000000006
+          },
+          "saveError": null,
+          "sampleCount": 72,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.15,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 65,
+          "final": {
+            "x": -1.2826528549194336,
+            "v": 0.13695061206817627,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.7816222015363716,
+            "time": 1.0833333333333344
+          },
+          "saveError": null,
+          "sampleCount": 65,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.85,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 57,
+          "final": {
+            "x": -1.308329463005066,
+            "v": 0.13712850213050842,
+            "y": 0.8187240958213806,
+            "speedFactor": 0.7816834667300491,
+            "time": 0.9500000000000013
+          },
+          "saveError": null,
+          "sampleCount": 57,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.55,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 50,
+          "final": {
+            "x": -1.293325424194336,
+            "v": 0.13728690147399902,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.7817370846031031,
+            "time": 0.8333333333333343
+          },
+          "saveError": null,
+          "sampleCount": 50,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.25,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 59,
+          "final": {
+            "x": -1.2825942039489746,
+            "v": 0.1157798022031784,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7818181818181819,
+            "time": 0.9833333333333347
+          },
+          "saveError": null,
+          "sampleCount": 59,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 45,
+          "final": {
+            "x": -1.3167531490325928,
+            "v": 0.16505303978919983,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.7818181818181819,
+            "time": 0.7500000000000007
+          },
+          "saveError": null,
+          "sampleCount": 45,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -4.05,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 106,
+          "final": {
+            "x": -1.3055931329727173,
+            "v": 0.2600146234035492,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.639903640707365,
+            "time": 1.7666666666666653
+          },
+          "saveError": null,
+          "sampleCount": 106,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.75,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 97,
+          "final": {
+            "x": -1.3018306493759155,
+            "v": 0.2600325644016266,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.6399346655698701,
+            "time": 1.6166666666666658
+          },
+          "saveError": null,
+          "sampleCount": 97,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.45,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 88,
+          "final": {
+            "x": -1.2981106042861938,
+            "v": 0.26004111766815186,
+            "y": 0.8187243342399597,
+            "speedFactor": 0.6399656972568677,
+            "time": 1.4666666666666663
+          },
+          "saveError": null,
+          "sampleCount": 88,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.15,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 79,
+          "final": {
+            "x": -1.2944095134735107,
+            "v": 0.26001986861228943,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.6399967311279608,
+            "time": 1.3166666666666669
+          },
+          "saveError": null,
+          "sampleCount": 79,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.85,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 70,
+          "final": {
+            "x": -1.2907124757766724,
+            "v": 0.2600090205669403,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.6399999999999999,
+            "time": 1.1666666666666674
+          },
+          "saveError": null,
+          "sampleCount": 70,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.55,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 64,
+          "final": {
+            "x": -1.3000479936599731,
+            "v": 0.18571880459785461,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.6399999999999999,
+            "time": 1.0666666666666678
+          },
+          "saveError": null,
+          "sampleCount": 64,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.25,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 59,
+          "final": {
+            "x": -1.2825942039489746,
+            "v": 0.1157798022031784,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 0.9833333333333347
+          },
+          "saveError": null,
+          "sampleCount": 59,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 45,
+          "final": {
+            "x": -1.3167531490325928,
+            "v": 0.16505303978919983,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.6399999999999999,
+            "time": 0.7500000000000007
+          },
+          "saveError": null,
+          "sampleCount": 45,
+          "scenario": "sprain"
+        },
+        {
+          "start": -4.05,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 92,
+          "final": {
+            "x": -1.3023715019226074,
+            "v": 0.18594227731227875,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.7569523398877904,
+            "time": 1.5333333333333328
+          },
+          "saveError": null,
+          "sampleCount": 92,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.75,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 84,
+          "final": {
+            "x": -1.3172152042388916,
+            "v": 0.1860395222902298,
+            "y": 0.8187239170074463,
+            "speedFactor": 0.7569923190637191,
+            "time": 1.4
+          },
+          "saveError": null,
+          "sampleCount": 84,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.45,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 77,
+          "final": {
+            "x": -1.2926878929138184,
+            "v": 0.18620982766151428,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.7570273033013994,
+            "time": 1.2833333333333337
+          },
+          "saveError": null,
+          "sampleCount": 77,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.15,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 69,
+          "final": {
+            "x": -1.307525634765625,
+            "v": 0.18633200228214264,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.7570672878938927,
+            "time": 1.1500000000000008
+          },
+          "saveError": null,
+          "sampleCount": 69,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.85,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 59,
+          "final": {
+            "x": -1.315651774406433,
+            "v": 0.33904165029525757,
+            "y": 0.8187239170074463,
+            "speedFactor": 0.7570862947933066,
+            "time": 0.9833333333333347
+          },
+          "saveError": null,
+          "sampleCount": 59,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.55,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 54,
+          "final": {
+            "x": -1.297932505607605,
+            "v": 0.1865593045949936,
+            "y": 0.8187243342399597,
+            "speedFactor": 0.7571422747604687,
+            "time": 0.9000000000000011
+          },
+          "saveError": null,
+          "sampleCount": 54,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.25,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 59,
+          "final": {
+            "x": -1.2825942039489746,
+            "v": 0.1157798022031784,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7572409276094767,
+            "time": 0.9833333333333347
+          },
+          "saveError": null,
+          "sampleCount": 59,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 45,
+          "final": {
+            "x": -1.3167531490325928,
+            "v": 0.16505303978919983,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.7572764019692168,
+            "time": 0.7500000000000007
+          },
+          "saveError": null,
+          "sampleCount": 45,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 71,
+          "final": {
+            "x": -1.3152631521224976,
+            "v": 0.1343448907136917,
+            "y": 0.8187247514724731,
+            "speedFactor": 0.9996695577002143,
+            "time": 1.183333333333334
+          },
+          "saveError": null,
+          "sampleCount": 71,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 65,
+          "final": {
+            "x": -1.3148695230484009,
+            "v": 0.1340344399213791,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.9997058817256547,
+            "time": 1.0833333333333344
+          },
+          "saveError": null,
+          "sampleCount": 65,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 60,
+          "final": {
+            "x": -1.29499351978302,
+            "v": 0.13468106091022491,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.9997699413307201,
+            "time": 1.0000000000000013
+          },
+          "saveError": null,
+          "sampleCount": 60,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 54,
+          "final": {
+            "x": -1.3112765550613403,
+            "v": 0.13474911451339722,
+            "y": 0.8187239766120911,
+            "speedFactor": 0.9998247098455584,
+            "time": 0.9000000000000011
+          },
+          "saveError": null,
+          "sampleCount": 54,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 48,
+          "final": {
+            "x": -1.3108961582183838,
+            "v": 0.1344437450170517,
+            "y": 0.8187248706817627,
+            "speedFactor": 0.9998610437479473,
+            "time": 0.8000000000000008
+          },
+          "saveError": null,
+          "sampleCount": 48,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 40,
+          "final": {
+            "x": -1.3148466348648071,
+            "v": 0.13015584647655487,
+            "y": 0.8187249302864075,
+            "speedFactor": 0.9999216742127305,
+            "time": 0.6666666666666671
+          },
+          "saveError": null,
+          "sampleCount": 40,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 48,
+          "final": {
+            "x": -1.314342975616455,
+            "v": 0.4190486669540405,
+            "y": 0.8187243342399597,
+            "speedFactor": 1,
+            "time": 0.8000000000000008
+          },
+          "saveError": null,
+          "sampleCount": 48,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 36,
+          "final": {
+            "x": -1.31472909450531,
+            "v": 0.31969329714775085,
+            "y": 0.8187265396118164,
+            "speedFactor": 0.9999800935657431,
+            "time": 0.6000000000000002
+          },
+          "saveError": null,
+          "sampleCount": 36,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 73,
+          "final": {
+            "x": -1.3019378185272217,
+            "v": 0.1344400942325592,
+            "y": 0.8187240362167358,
+            "speedFactor": 0.9996807618311007,
+            "time": 1.2166666666666672
+          },
+          "saveError": null,
+          "sampleCount": 73,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 67,
+          "final": {
+            "x": -1.3181418180465698,
+            "v": 0.1345890313386917,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.9997355141966582,
+            "time": 1.1166666666666676
+          },
+          "saveError": null,
+          "sampleCount": 67,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 61,
+          "final": {
+            "x": -1.3177818059921265,
+            "v": 0.13420890271663666,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.9997718497065602,
+            "time": 1.016666666666668
+          },
+          "saveError": null,
+          "sampleCount": 61,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 56,
+          "final": {
+            "x": -1.2979272603988647,
+            "v": 0.134795680642128,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.99983591285272,
+            "time": 0.9333333333333346
+          },
+          "saveError": null,
+          "sampleCount": 56,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 55,
+          "final": {
+            "x": -1.3032203912734985,
+            "v": 0.26002436876296997,
+            "y": 0.8187240958213806,
+            "speedFactor": 0.999917541272059,
+            "time": 0.9166666666666679
+          },
+          "saveError": null,
+          "sampleCount": 55,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 45,
+          "final": {
+            "x": -1.3151017427444458,
+            "v": 0.0009239091887138784,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.9999551861713983,
+            "time": 0.7500000000000007
+          },
+          "saveError": null,
+          "sampleCount": 45,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 60,
+          "final": {
+            "x": -1.3177673816680908,
+            "v": 0.011254671961069107,
+            "y": 0.8187241554260254,
+            "speedFactor": 1,
+            "time": 1.0000000000000013
+          },
+          "saveError": null,
+          "sampleCount": 60,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 47,
+          "final": {
+            "x": -1.314334511756897,
+            "v": 0.41268935799598694,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 0.7833333333333341
+          },
+          "saveError": null,
+          "sampleCount": 47,
+          "scenario": "push_backward"
+        }
+      ]
+    },
+    "noisy_temporal_knn": {
+      "count": 56,
+      "successes": 12,
+      "byScenario": {
+        "normal": {
+          "success": 0,
+          "episodes": 8
+        },
+        "one_plank": {
+          "success": 4,
+          "episodes": 8
+        },
+        "two_planks": {
+          "success": 3,
+          "episodes": 8
+        },
+        "sprain": {
+          "success": 2,
+          "episodes": 8
+        },
+        "fatigue": {
+          "success": 3,
+          "episodes": 8
+        },
+        "push_forward": {
+          "success": 0,
+          "episodes": 8
+        },
+        "push_backward": {
+          "success": 0,
+          "episodes": 8
+        }
+      },
+      "rows": [
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4554901123046875,
+            "v": -4.654285568062022e-10,
+            "y": 0.8187245726585388,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4189949631690979,
+            "v": 3.343259696864109e-11,
+            "y": 0.818724513053894,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.449998617172241,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.150001287460327,
+            "v": -1.1363002552777779e-13,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.849998712539673,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.549999475479126,
+            "v": 9.77218219538889e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.42590710520744324,
+            "v": 1.7044503829166668e-12,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.41856762766838074,
+            "v": 5.170166378354324e-12,
+            "y": 0.818724513053894,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -4.05,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 66,
+          "final": {
+            "x": -1.2893887758255005,
+            "v": -4.4542970006888893e-11,
+            "y": 0.8187238574028015,
+            "speedFactor": 0.8904365357585846,
+            "time": 1.100000000000001
+          },
+          "saveError": null,
+          "sampleCount": 66,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.75,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 60,
+          "final": {
+            "x": -1.2696257829666138,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.890488386919586,
+            "time": 1.0000000000000013
+          },
+          "saveError": null,
+          "sampleCount": 60,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.45,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.449998617172241,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.15,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.150001287460327,
+            "v": -1.1363002552777779e-13,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.85,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.849998712539673,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.55,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.549999475479126,
+            "v": 9.77218219538889e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.25,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 37,
+          "final": {
+            "x": -1.3071433305740356,
+            "v": 0,
+            "y": 0.8187259435653687,
+            "speedFactor": 0.8907890283696955,
+            "time": 0.6166666666666669
+          },
+          "saveError": null,
+          "sampleCount": 37,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 34,
+          "final": {
+            "x": -1.1307421922683716,
+            "v": -4.48621105542113e-11,
+            "y": 0.8187281489372253,
+            "speedFactor": 0.8908409230938122,
+            "time": 0.5666666666666668
+          },
+          "saveError": null,
+          "sampleCount": 34,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -4.05,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 85,
+          "final": {
+            "x": -1.2149953842163086,
+            "v": 0.2072557955980301,
+            "y": 0.8187251091003418,
+            "speedFactor": 0.7814376861831697,
+            "time": 1.4166666666666665
+          },
+          "saveError": null,
+          "sampleCount": 85,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.75,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.4836156368255615,
+            "v": 5.454241225333334e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.45,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.449998617172241,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.15,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.150001287460327,
+            "v": -1.1363002552777779e-13,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.85,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.849998712539673,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.55,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.549999475479126,
+            "v": 9.77218219538889e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.25,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 50,
+          "final": {
+            "x": -1.1693596839904785,
+            "v": 0.20837698876857758,
+            "y": 0.818725049495697,
+            "speedFactor": 0.7817671866137154,
+            "time": 0.8333333333333343
+          },
+          "saveError": null,
+          "sampleCount": 50,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 32,
+          "final": {
+            "x": -1.2582426071166992,
+            "v": 0.20830371975898743,
+            "y": 0.8187301158905029,
+            "speedFactor": 0.781762230716051,
+            "time": 0.5333333333333333
+          },
+          "saveError": null,
+          "sampleCount": 32,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -4.05,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.729053258895874,
+            "v": 2.3934521069557683e-24,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.75,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.521324396133423,
+            "v": 1.2908371593844947e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.45,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.449998617172241,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.15,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.150001287460327,
+            "v": -1.1363002552777779e-13,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.85,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.849998712539673,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.55,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.549999475479126,
+            "v": 9.77218219538889e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.25,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 65,
+          "final": {
+            "x": -1.0576821565628052,
+            "v": 0.4584675431251526,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.6399882101519965,
+            "time": 1.0833333333333344
+          },
+          "saveError": null,
+          "sampleCount": 65,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 48,
+          "final": {
+            "x": -1.0689212083816528,
+            "v": 0.4584639370441437,
+            "y": 0.8187238574028015,
+            "speedFactor": 0.6399882097075908,
+            "time": 0.8000000000000008
+          },
+          "saveError": null,
+          "sampleCount": 48,
+          "scenario": "sprain"
+        },
+        {
+          "start": -4.05,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 95,
+          "final": {
+            "x": -1.2376853227615356,
+            "v": 0.12680788338184357,
+            "y": 0.8187248110771179,
+            "speedFactor": 0.7570219643604363,
+            "time": 1.5833333333333326
+          },
+          "saveError": null,
+          "sampleCount": 95,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.75,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.4891321659088135,
+            "v": 1.2037680964874231e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7605570916959834,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.45,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.449998617172241,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7607428571428573,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.15,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.150001287460327,
+            "v": -1.1363002552777779e-13,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7607428571428573,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.85,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.849998712539673,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7607428571428573,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.55,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.549999475479126,
+            "v": 9.77218219538889e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7607428571428573,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.25,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 50,
+          "final": {
+            "x": -1.2343698740005493,
+            "v": 0.12758566439151764,
+            "y": 0.8187256455421448,
+            "speedFactor": 0.7572646593008588,
+            "time": 0.8333333333333343
+          },
+          "saveError": null,
+          "sampleCount": 50,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 32,
+          "final": {
+            "x": -1.2759135961532593,
+            "v": 0.1274266242980957,
+            "y": 0.8187297582626343,
+            "speedFactor": 0.7571999129237577,
+            "time": 0.5333333333333333
+          },
+          "saveError": null,
+          "sampleCount": 32,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4347992241382599,
+            "v": -1.1434021047682097e-12,
+            "y": 0.818724513053894,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.450992614030838,
+            "v": 5.681501276388889e-13,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.45178598165512085,
+            "v": 2.22884072309526e-11,
+            "y": 0.8187238574028015,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.41530224680900574,
+            "v": -5.775245906503024e-11,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4315299987792969,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4477863013744354,
+            "v": 2.228838988371784e-11,
+            "y": 0.818724513053894,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.40990447998046875,
+            "v": 3.5793458041250004e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4553070366382599,
+            "v": 0,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.421470582485199,
+            "v": 4.654285845617778e-10,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.43765634298324585,
+            "v": 2.2288379475376985e-11,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.4735472202301025,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.173553228378296,
+            "v": 3.6361608168888893e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.873552083969116,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.573547601699829,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4565467834472656,
+            "v": 6.817801531666667e-12,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.44537729024887085,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        }
+      ]
+    },
+    "successful_noisy_temporal_knn": {
+      "count": 56,
+      "successes": 12,
+      "byScenario": {
+        "normal": {
+          "success": 0,
+          "episodes": 8
+        },
+        "one_plank": {
+          "success": 4,
+          "episodes": 8
+        },
+        "two_planks": {
+          "success": 3,
+          "episodes": 8
+        },
+        "sprain": {
+          "success": 2,
+          "episodes": 8
+        },
+        "fatigue": {
+          "success": 3,
+          "episodes": 8
+        },
+        "push_forward": {
+          "success": 0,
+          "episodes": 8
+        },
+        "push_backward": {
+          "success": 0,
+          "episodes": 8
+        }
+      },
+      "rows": [
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4554901123046875,
+            "v": -4.654285568062022e-10,
+            "y": 0.8187245726585388,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4189949631690979,
+            "v": 3.343259696864109e-11,
+            "y": 0.818724513053894,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.449998617172241,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.150001287460327,
+            "v": -1.1363002552777779e-13,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.849998712539673,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.549999475479126,
+            "v": 9.77218219538889e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.42590710520744324,
+            "v": 1.7044503829166668e-12,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.41856762766838074,
+            "v": 5.170166378354324e-12,
+            "y": 0.818724513053894,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "normal"
+        },
+        {
+          "start": -4.05,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 66,
+          "final": {
+            "x": -1.2893887758255005,
+            "v": -4.4542970006888893e-11,
+            "y": 0.8187238574028015,
+            "speedFactor": 0.8904365357585846,
+            "time": 1.100000000000001
+          },
+          "saveError": null,
+          "sampleCount": 66,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.75,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 60,
+          "final": {
+            "x": -1.2696257829666138,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.890488386919586,
+            "time": 1.0000000000000013
+          },
+          "saveError": null,
+          "sampleCount": 60,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.45,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.449998617172241,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.15,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.150001287460327,
+            "v": -1.1363002552777779e-13,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.85,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.849998712539673,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.55,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.549999475479126,
+            "v": 9.77218219538889e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8909090909090909,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.25,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 37,
+          "final": {
+            "x": -1.3071433305740356,
+            "v": 0,
+            "y": 0.8187259435653687,
+            "speedFactor": 0.8907890283696955,
+            "time": 0.6166666666666669
+          },
+          "saveError": null,
+          "sampleCount": 37,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 34,
+          "final": {
+            "x": -1.1307421922683716,
+            "v": -4.48621105542113e-11,
+            "y": 0.8187281489372253,
+            "speedFactor": 0.8908409230938122,
+            "time": 0.5666666666666668
+          },
+          "saveError": null,
+          "sampleCount": 34,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -4.05,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 85,
+          "final": {
+            "x": -1.2149953842163086,
+            "v": 0.2072557955980301,
+            "y": 0.8187251091003418,
+            "speedFactor": 0.7814376861831697,
+            "time": 1.4166666666666665
+          },
+          "saveError": null,
+          "sampleCount": 85,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.75,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.4836156368255615,
+            "v": 5.454241225333334e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.45,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.449998617172241,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.15,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.150001287460327,
+            "v": -1.1363002552777779e-13,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.85,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.849998712539673,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.55,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.549999475479126,
+            "v": 9.77218219538889e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7818181818181819,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.25,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 50,
+          "final": {
+            "x": -1.1693596839904785,
+            "v": 0.20837698876857758,
+            "y": 0.818725049495697,
+            "speedFactor": 0.7817671866137154,
+            "time": 0.8333333333333343
+          },
+          "saveError": null,
+          "sampleCount": 50,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 32,
+          "final": {
+            "x": -1.2582426071166992,
+            "v": 0.20830371975898743,
+            "y": 0.8187301158905029,
+            "speedFactor": 0.781762230716051,
+            "time": 0.5333333333333333
+          },
+          "saveError": null,
+          "sampleCount": 32,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -4.05,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.729053258895874,
+            "v": 2.3934521069557683e-24,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.75,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.521324396133423,
+            "v": 1.2908371593844947e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.45,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.449998617172241,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.15,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.150001287460327,
+            "v": -1.1363002552777779e-13,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.85,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.849998712539673,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.55,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.549999475479126,
+            "v": 9.77218219538889e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.6399999999999999,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.25,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 65,
+          "final": {
+            "x": -1.0576821565628052,
+            "v": 0.4584675431251526,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.6399882101519965,
+            "time": 1.0833333333333344
+          },
+          "saveError": null,
+          "sampleCount": 65,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 48,
+          "final": {
+            "x": -1.0689212083816528,
+            "v": 0.4584639370441437,
+            "y": 0.8187238574028015,
+            "speedFactor": 0.6399882097075908,
+            "time": 0.8000000000000008
+          },
+          "saveError": null,
+          "sampleCount": 48,
+          "scenario": "sprain"
+        },
+        {
+          "start": -4.05,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 95,
+          "final": {
+            "x": -1.2376853227615356,
+            "v": 0.12680788338184357,
+            "y": 0.8187248110771179,
+            "speedFactor": 0.7570219643604363,
+            "time": 1.5833333333333326
+          },
+          "saveError": null,
+          "sampleCount": 95,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.75,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.4891321659088135,
+            "v": 1.2037680964874231e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7605570916959834,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.45,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.449998617172241,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7607428571428573,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.15,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.150001287460327,
+            "v": -1.1363002552777779e-13,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7607428571428573,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.85,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.849998712539673,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7607428571428573,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.55,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.549999475479126,
+            "v": 9.77218219538889e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7607428571428573,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.25,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 50,
+          "final": {
+            "x": -1.2343698740005493,
+            "v": 0.12758566439151764,
+            "y": 0.8187256455421448,
+            "speedFactor": 0.7572646593008588,
+            "time": 0.8333333333333343
+          },
+          "saveError": null,
+          "sampleCount": 50,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 32,
+          "final": {
+            "x": -1.2759135961532593,
+            "v": 0.1274266242980957,
+            "y": 0.8187297582626343,
+            "speedFactor": 0.7571999129237577,
+            "time": 0.5333333333333333
+          },
+          "saveError": null,
+          "sampleCount": 32,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4347992241382599,
+            "v": -1.1434021047682097e-12,
+            "y": 0.818724513053894,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.450992614030838,
+            "v": 5.681501276388889e-13,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.45178598165512085,
+            "v": 2.22884072309526e-11,
+            "y": 0.8187238574028015,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.41530224680900574,
+            "v": -5.775245906503024e-11,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4315299987792969,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4477863013744354,
+            "v": 2.228838988371784e-11,
+            "y": 0.818724513053894,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.40990447998046875,
+            "v": 3.5793458041250004e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4553070366382599,
+            "v": 0,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.421470582485199,
+            "v": 4.654285845617778e-10,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.43765634298324585,
+            "v": 2.2288379475376985e-11,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.4735472202301025,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -3.173553228378296,
+            "v": 3.6361608168888893e-12,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.873552083969116,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -2.573547601699829,
+            "v": -4.654285845617778e-10,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.4565467834472656,
+            "v": 6.817801531666667e-12,
+            "y": 0.8187246918678284,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": false,
+          "ticks": 210,
+          "final": {
+            "x": -0.44537729024887085,
+            "v": 0,
+            "y": 0.8187246322631836,
+            "speedFactor": 1,
+            "time": 3.4999999999999925
+          },
+          "saveError": null,
+          "sampleCount": 210,
+          "scenario": "push_backward"
+        }
+      ]
+    },
+    "feedback_reference": {
+      "count": 56,
+      "successes": 56,
+      "byScenario": {
+        "normal": {
+          "success": 8,
+          "episodes": 8
+        },
+        "one_plank": {
+          "success": 8,
+          "episodes": 8
+        },
+        "two_planks": {
+          "success": 8,
+          "episodes": 8
+        },
+        "sprain": {
+          "success": 8,
+          "episodes": 8
+        },
+        "fatigue": {
+          "success": 8,
+          "episodes": 8
+        },
+        "push_forward": {
+          "success": 8,
+          "episodes": 8
+        },
+        "push_backward": {
+          "success": 8,
+          "episodes": 8
+        }
+      },
+      "rows": [
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 71,
+          "final": {
+            "x": -1.3193880319595337,
+            "v": 0.13387764990329742,
+            "y": 0.8187239170074463,
+            "speedFactor": 0.9996594878434568,
+            "time": 1.183333333333334
+          },
+          "saveError": null,
+          "sampleCount": 71,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 66,
+          "final": {
+            "x": -1.3159838914871216,
+            "v": 0.1350160539150238,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.9997273457884831,
+            "time": 1.100000000000001
+          },
+          "saveError": null,
+          "sampleCount": 66,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 60,
+          "final": {
+            "x": -1.3157048225402832,
+            "v": 0.13467459380626678,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.9997782943911163,
+            "time": 1.0000000000000013
+          },
+          "saveError": null,
+          "sampleCount": 60,
+          "scenario": "normal"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 54,
+          "final": {
+            "x": -1.3152915239334106,
+            "v": 0.13443246483802795,
+            "y": 0.8187247514724731,
+            "speedFactor": 0.9998146245231984,
+            "time": 0.9000000000000011
+          },
+          "saveError": null,
+          "sampleCount": 54,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 48,
+          "final": {
+            "x": -1.3150962591171265,
+            "v": 0.13410016894340515,
+            "y": 0.8187240958213806,
+            "speedFactor": 0.9998647554780388,
+            "time": 0.8000000000000008
+          },
+          "saveError": null,
+          "sampleCount": 48,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 43,
+          "final": {
+            "x": -1.311629295349121,
+            "v": 0.13516518473625183,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.9999191686961192,
+            "time": 0.7166666666666672
+          },
+          "saveError": null,
+          "sampleCount": 43,
+          "scenario": "normal"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 40,
+          "final": {
+            "x": -1.3141354322433472,
+            "v": 0.28263241052627563,
+            "y": 0.8187248110771179,
+            "speedFactor": 1,
+            "time": 0.6666666666666671
+          },
+          "saveError": null,
+          "sampleCount": 40,
+          "scenario": "normal"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": null,
+          "success": true,
+          "ticks": 32,
+          "final": {
+            "x": -1.3188241720199585,
+            "v": 0.03298481926321983,
+            "y": 0.8187296390533447,
+            "speedFactor": 1,
+            "time": 0.5333333333333333
+          },
+          "saveError": null,
+          "sampleCount": 32,
+          "scenario": "normal"
+        },
+        {
+          "start": -4.05,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 77,
+          "final": {
+            "x": -1.3136142492294312,
+            "v": 0.49358007311820984,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.8905615433158619,
+            "time": 1.2833333333333337
+          },
+          "saveError": null,
+          "sampleCount": 77,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.75,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 73,
+          "final": {
+            "x": -1.3055267333984375,
+            "v": 0.13015992939472198,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.8906351381450969,
+            "time": 1.2166666666666672
+          },
+          "saveError": null,
+          "sampleCount": 73,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.45,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 66,
+          "final": {
+            "x": -1.3041187524795532,
+            "v": 0.0589679516851902,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.8906903377519004,
+            "time": 1.100000000000001
+          },
+          "saveError": null,
+          "sampleCount": 66,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -3.15,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 58,
+          "final": {
+            "x": -1.3174713850021362,
+            "v": 0.4945574700832367,
+            "y": 0.8187242746353149,
+            "speedFactor": 0.8907305666890859,
+            "time": 0.966666666666668
+          },
+          "saveError": null,
+          "sampleCount": 58,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.85,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 51,
+          "final": {
+            "x": -1.3113830089569092,
+            "v": 0.49371567368507385,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8907669006052616,
+            "time": 0.850000000000001
+          },
+          "saveError": null,
+          "sampleCount": 51,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.55,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 47,
+          "final": {
+            "x": -1.3163105249404907,
+            "v": 0.28260424733161926,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.8908585028181105,
+            "time": 0.7833333333333341
+          },
+          "saveError": null,
+          "sampleCount": 47,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2.25,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 38,
+          "final": {
+            "x": -1.314173698425293,
+            "v": 0.1701950877904892,
+            "y": 0.8187255859375,
+            "speedFactor": 0.8908781101454173,
+            "time": 0.6333333333333336
+          },
+          "saveError": null,
+          "sampleCount": 38,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -2,
+          "environment": "one_plank",
+          "perturbation": null,
+          "success": true,
+          "ticks": 35,
+          "final": {
+            "x": -1.3105733394622803,
+            "v": 4.45768144619052e-11,
+            "y": 0.8187267780303955,
+            "speedFactor": 0.8909090909090909,
+            "time": 0.5833333333333335
+          },
+          "saveError": null,
+          "sampleCount": 35,
+          "scenario": "one_plank"
+        },
+        {
+          "start": -4.05,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 85,
+          "final": {
+            "x": -1.314427375793457,
+            "v": 3.9060321275173615e-14,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.7814696468937349,
+            "time": 1.4166666666666665
+          },
+          "saveError": null,
+          "sampleCount": 85,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.75,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 78,
+          "final": {
+            "x": -1.3158410787582397,
+            "v": -8.522251914583334e-14,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.7815278987217784,
+            "time": 1.3000000000000003
+          },
+          "saveError": null,
+          "sampleCount": 78,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.45,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 71,
+          "final": {
+            "x": -1.3188780546188354,
+            "v": 0.28262531757354736,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.7816016173606257,
+            "time": 1.183333333333334
+          },
+          "saveError": null,
+          "sampleCount": 71,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -3.15,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 63,
+          "final": {
+            "x": -1.309922218322754,
+            "v": 1.3128022106900783e-11,
+            "y": 0.8187242150306702,
+            "speedFactor": 0.7816380766896689,
+            "time": 1.0500000000000012
+          },
+          "saveError": null,
+          "sampleCount": 63,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.85,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 56,
+          "final": {
+            "x": -1.3113865852355957,
+            "v": 4.4542970006888893e-11,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.78169635105337,
+            "time": 0.9333333333333346
+          },
+          "saveError": null,
+          "sampleCount": 56,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.55,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 49,
+          "final": {
+            "x": -1.3145358562469482,
+            "v": 0.28262534737586975,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.781770103564006,
+            "time": 0.8166666666666675
+          },
+          "saveError": null,
+          "sampleCount": 49,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2.25,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 42,
+          "final": {
+            "x": -1.3160784244537354,
+            "v": 0.28263235092163086,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.7818181818181819,
+            "time": 0.7000000000000005
+          },
+          "saveError": null,
+          "sampleCount": 42,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -2,
+          "environment": "two_planks",
+          "perturbation": null,
+          "success": true,
+          "ticks": 35,
+          "final": {
+            "x": -1.3163846731185913,
+            "v": 0.46757280826568604,
+            "y": 0.8187265396118164,
+            "speedFactor": 0.7818181818181819,
+            "time": 0.5833333333333335
+          },
+          "saveError": null,
+          "sampleCount": 35,
+          "scenario": "two_planks"
+        },
+        {
+          "start": -4.05,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 100,
+          "final": {
+            "x": -1.3098714351654053,
+            "v": 0,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.6398760459613464,
+            "time": 1.6666666666666656
+          },
+          "saveError": null,
+          "sampleCount": 100,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.75,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 89,
+          "final": {
+            "x": -1.3169174194335938,
+            "v": 0.2826254069805145,
+            "y": 0.8187240362167358,
+            "speedFactor": 0.6398902373280937,
+            "time": 1.483333333333333
+          },
+          "saveError": null,
+          "sampleCount": 89,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.45,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 81,
+          "final": {
+            "x": -1.3187507390975952,
+            "v": 4.465660133345928e-11,
+            "y": 0.8187239766120911,
+            "speedFactor": 0.6399394673103918,
+            "time": 1.35
+          },
+          "saveError": null,
+          "sampleCount": 81,
+          "scenario": "sprain"
+        },
+        {
+          "start": -3.15,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 72,
+          "final": {
+            "x": -1.31505286693573,
+            "v": -4.457137783853149e-11,
+            "y": 0.8187242150306702,
+            "speedFactor": 0.6399705005890348,
+            "time": 1.2000000000000006
+          },
+          "saveError": null,
+          "sampleCount": 72,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.85,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 63,
+          "final": {
+            "x": -1.3113585710525513,
+            "v": -1.9323398201096138e-14,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.6399999999999999,
+            "time": 1.0500000000000012
+          },
+          "saveError": null,
+          "sampleCount": 63,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.55,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 55,
+          "final": {
+            "x": -1.318198561668396,
+            "v": 0.2826182544231415,
+            "y": 0.8187243342399597,
+            "speedFactor": 0.6399999999999999,
+            "time": 0.9166666666666679
+          },
+          "saveError": null,
+          "sampleCount": 55,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2.25,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 46,
+          "final": {
+            "x": -1.314529538154602,
+            "v": 0.28263938426971436,
+            "y": 0.8187243342399597,
+            "speedFactor": 0.6399999999999999,
+            "time": 0.7666666666666674
+          },
+          "saveError": null,
+          "sampleCount": 46,
+          "scenario": "sprain"
+        },
+        {
+          "start": -2,
+          "environment": "sprain",
+          "perturbation": null,
+          "success": true,
+          "ticks": 37,
+          "final": {
+            "x": -1.3174673318862915,
+            "v": 1.160712964545091e-13,
+            "y": 0.8187254667282104,
+            "speedFactor": 0.6399999999999999,
+            "time": 0.6166666666666669
+          },
+          "saveError": null,
+          "sampleCount": 37,
+          "scenario": "sprain"
+        },
+        {
+          "start": -4.05,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 88,
+          "final": {
+            "x": -1.3170686960220337,
+            "v": 0.28262537717819214,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.7569457013170671,
+            "time": 1.4666666666666663
+          },
+          "saveError": null,
+          "sampleCount": 88,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.75,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 80,
+          "final": {
+            "x": -1.3152168989181519,
+            "v": 0,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.7569825153701368,
+            "time": 1.3333333333333335
+          },
+          "saveError": null,
+          "sampleCount": 80,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.45,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 71,
+          "final": {
+            "x": -1.3160219192504883,
+            "v": 0.49005836248397827,
+            "y": 0.8187243342399597,
+            "speedFactor": 0.7570048425346807,
+            "time": 1.183333333333334
+          },
+          "saveError": null,
+          "sampleCount": 71,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -3.15,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 66,
+          "final": {
+            "x": -1.3160550594329834,
+            "v": 0.2826394736766815,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.7570777443550908,
+            "time": 1.100000000000001
+          },
+          "saveError": null,
+          "sampleCount": 66,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.85,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 58,
+          "final": {
+            "x": -1.31442129611969,
+            "v": 0.28262537717819214,
+            "y": 0.8187240362167358,
+            "speedFactor": 0.7571146215319663,
+            "time": 0.966666666666668
+          },
+          "saveError": null,
+          "sampleCount": 58,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.55,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 50,
+          "final": {
+            "x": -1.3047574758529663,
+            "v": 0.05560854449868202,
+            "y": 0.8187242150306702,
+            "speedFactor": 0.7571363808146908,
+            "time": 0.8333333333333343
+          },
+          "saveError": null,
+          "sampleCount": 50,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2.25,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 42,
+          "final": {
+            "x": -1.3109594583511353,
+            "v": -3.550938297743056e-14,
+            "y": 0.8187246322631836,
+            "speedFactor": 0.7571724751783095,
+            "time": 0.7000000000000005
+          },
+          "saveError": null,
+          "sampleCount": 42,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -2,
+          "environment": "fatigue",
+          "perturbation": null,
+          "success": true,
+          "ticks": 35,
+          "final": {
+            "x": -1.3145811557769775,
+            "v": -4.4576842217480817e-11,
+            "y": 0.8187263607978821,
+            "speedFactor": 0.7571877198458941,
+            "time": 0.5833333333333335
+          },
+          "saveError": null,
+          "sampleCount": 35,
+          "scenario": "fatigue"
+        },
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 71,
+          "final": {
+            "x": -1.3152631521224976,
+            "v": 0.1343448907136917,
+            "y": 0.8187247514724731,
+            "speedFactor": 0.9996695577002143,
+            "time": 1.183333333333334
+          },
+          "saveError": null,
+          "sampleCount": 71,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 65,
+          "final": {
+            "x": -1.3148695230484009,
+            "v": 0.1340344399213791,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.9997058817256547,
+            "time": 1.0833333333333344
+          },
+          "saveError": null,
+          "sampleCount": 65,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 59,
+          "final": {
+            "x": -1.3145854473114014,
+            "v": 0.13381142914295197,
+            "y": 0.8187238574028015,
+            "speedFactor": 0.9997559952913723,
+            "time": 0.9833333333333347
+          },
+          "saveError": null,
+          "sampleCount": 59,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 54,
+          "final": {
+            "x": -1.3111358880996704,
+            "v": 0.13474680483341217,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.9998104045512246,
+            "time": 0.9000000000000011
+          },
+          "saveError": null,
+          "sampleCount": 54,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 49,
+          "final": {
+            "x": -1.308087944984436,
+            "v": -8.91536289238104e-11,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.9998792667253442,
+            "time": 0.8166666666666675
+          },
+          "saveError": null,
+          "sampleCount": 49,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 44,
+          "final": {
+            "x": -1.306065320968628,
+            "v": 0.13012124598026276,
+            "y": 0.8187248706817627,
+            "speedFactor": 0.9999616448609089,
+            "time": 0.733333333333334
+          },
+          "saveError": null,
+          "sampleCount": 44,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 35,
+          "final": {
+            "x": -1.3130173683166504,
+            "v": 0.3821377158164978,
+            "y": 0.818726658821106,
+            "speedFactor": 0.999963126551041,
+            "time": 0.5833333333333335
+          },
+          "saveError": null,
+          "sampleCount": 35,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": 1.7
+          },
+          "success": true,
+          "ticks": 30,
+          "final": {
+            "x": -1.3179970979690552,
+            "v": 0.16736741364002228,
+            "y": 0.8187335133552551,
+            "speedFactor": 0.999987251135205,
+            "time": 0.49999999999999994
+          },
+          "saveError": null,
+          "sampleCount": 30,
+          "scenario": "push_forward"
+        },
+        {
+          "start": -4.05,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 73,
+          "final": {
+            "x": -1.3184415102005005,
+            "v": 0.13488654792308807,
+            "y": 0.8187245726585388,
+            "speedFactor": 0.9996845693126051,
+            "time": 1.2166666666666672
+          },
+          "saveError": null,
+          "sampleCount": 73,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.75,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 67,
+          "final": {
+            "x": -1.3181418180465698,
+            "v": 0.1345890313386917,
+            "y": 0.8187241554260254,
+            "speedFactor": 0.9997355141966582,
+            "time": 1.1166666666666676
+          },
+          "saveError": null,
+          "sampleCount": 67,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.45,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 61,
+          "final": {
+            "x": -1.3177818059921265,
+            "v": 0.13420890271663666,
+            "y": 0.8187244534492493,
+            "speedFactor": 0.9997718497065602,
+            "time": 1.016666666666668
+          },
+          "saveError": null,
+          "sampleCount": 61,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -3.15,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 56,
+          "final": {
+            "x": -1.3144047260284424,
+            "v": 0.13538707792758942,
+            "y": 0.818724513053894,
+            "speedFactor": 0.9998397190254065,
+            "time": 0.9333333333333346
+          },
+          "saveError": null,
+          "sampleCount": 56,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.85,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 51,
+          "final": {
+            "x": -1.3150733709335327,
+            "v": 0.13016659021377563,
+            "y": 0.8187243938446045,
+            "speedFactor": 0.9999076145561676,
+            "time": 0.850000000000001
+          },
+          "saveError": null,
+          "sampleCount": 51,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.55,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 43,
+          "final": {
+            "x": -1.31317138671875,
+            "v": 0.4352143704891205,
+            "y": 0.8187246918678284,
+            "speedFactor": 0.9999212282539894,
+            "time": 0.7166666666666672
+          },
+          "saveError": null,
+          "sampleCount": 43,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2.25,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 39,
+          "final": {
+            "x": -1.3101222515106201,
+            "v": 0.13015225529670715,
+            "y": 0.8187251091003418,
+            "speedFactor": 1,
+            "time": 0.6500000000000004
+          },
+          "saveError": null,
+          "sampleCount": 39,
+          "scenario": "push_backward"
+        },
+        {
+          "start": -2,
+          "environment": "normal",
+          "perturbation": {
+            "tick": 20,
+            "deltaV": -1.7
+          },
+          "success": true,
+          "ticks": 37,
+          "final": {
+            "x": -1.318196415901184,
+            "v": 0.28263938426971436,
+            "y": 0.8187252879142761,
+            "speedFactor": 1,
+            "time": 0.6166666666666669
+          },
+          "saveError": null,
+          "sampleCount": 37,
+          "scenario": "push_backward"
+        }
+      ]
+    }
+  },
+  "interruption": [
+    {
+      "interruptTick": 1,
+      "controllerCommandsBefore": 1,
+      "controllerCommandsAfter": 1,
+      "interruptedNoReassert": true,
+      "resumedNoReassert": true,
+      "controllerStatePersisted": true
+    },
+    {
+      "interruptTick": 20,
+      "controllerCommandsBefore": 20,
+      "controllerCommandsAfter": 20,
+      "interruptedNoReassert": true,
+      "resumedNoReassert": true,
+      "controllerStatePersisted": true
+    },
+    {
+      "interruptTick": 45,
+      "controllerCommandsBefore": 45,
+      "controllerCommandsAfter": 45,
+      "interruptedNoReassert": true,
+      "resumedNoReassert": true,
+      "controllerStatePersisted": true
+    },
+    {
+      "interruptTick": 70,
+      "controllerCommandsBefore": 70,
+      "controllerCommandsAfter": 70,
+      "interruptedNoReassert": true,
+      "resumedNoReassert": true,
+      "controllerStatePersisted": true
+    }
+  ],
+  "preconditionRefused": true,
+  "invalidPolicyFallback": true,
+  "savedCoreOneEpisode": 0,
+  "observation": "research-side arbiter, not integrated production controller"
+}
