@@ -1,0 +1,1072 @@
+{
+  "provenance": {
+    "core": "GameCore/Rapier, same existing fence",
+    "trainedBoundsSource": "fence_skill_results.json",
+    "noHumanTeacher": true,
+    "kind": "exploratory follow-up after fence holdouts; not another untouched final holdout"
+  },
+  "trials": {
+    "instant": {
+      "success": 5,
+      "n": 5,
+      "jumpEvents": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "rows": [
+        {
+          "start": 1.7,
+          "lag": 0,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 106,
+          "maxY": 1.9179185628890991,
+          "final": {
+            "x": 6.674323081970215,
+            "v": 0.20703770220279694,
+            "grounded": true,
+            "y": 0.8183363080024719
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 2,
+            "appliedMoves": 106,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 1.8,
+          "lag": 0,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 104,
+          "maxY": 1.9179154634475708,
+          "final": {
+            "x": 6.668952465057373,
+            "v": 0.20715540647506714,
+            "grounded": true,
+            "y": 0.8183386325836182
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 2,
+            "appliedMoves": 104,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.1,
+          "lag": 0,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 98,
+          "maxY": 1.91791570186615,
+          "final": {
+            "x": 6.652896404266357,
+            "v": 0.2072753757238388,
+            "grounded": true,
+            "y": 0.8182130455970764
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 2,
+            "appliedMoves": 98,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.3,
+          "lag": 0,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 94,
+          "maxY": 1.917918086051941,
+          "final": {
+            "x": 6.642132759094238,
+            "v": 0.20741549134254456,
+            "grounded": true,
+            "y": 0.8182125091552734
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 2,
+            "appliedMoves": 94,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.6,
+          "lag": 0,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 89,
+          "maxY": 1.9179261922836304,
+          "final": {
+            "x": 6.678574562072754,
+            "v": 0.20758911967277527,
+            "grounded": true,
+            "y": 0.8183371424674988
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 2,
+            "appliedMoves": 89,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        }
+      ]
+    },
+    "sensor_lag_6": {
+      "success": 5,
+      "n": 5,
+      "jumpEvents": [
+        6,
+        6,
+        5,
+        5,
+        6
+      ],
+      "rows": [
+        {
+          "start": 1.7,
+          "lag": 6,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 111,
+          "maxY": 1.9179149866104126,
+          "final": {
+            "x": 6.937830924987793,
+            "v": 0.2068837285041809,
+            "grounded": true,
+            "y": 0.8182131052017212
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 111,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 1.8,
+          "lag": 6,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 109,
+          "maxY": 1.9179149866104126,
+          "final": {
+            "x": 6.932528495788574,
+            "v": 0.20696410536766052,
+            "grounded": true,
+            "y": 0.8182129263877869
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 109,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.1,
+          "lag": 6,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 103,
+          "maxY": 1.917913794517517,
+          "final": {
+            "x": 6.9168171882629395,
+            "v": 0.20713508129119873,
+            "grounded": true,
+            "y": 0.8180486559867859
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 5,
+            "appliedMoves": 103,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.3,
+          "lag": 6,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 99,
+          "maxY": 1.9179171323776245,
+          "final": {
+            "x": 6.905700206756592,
+            "v": 0.20727811753749847,
+            "grounded": true,
+            "y": 0.8180490732192993
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 5,
+            "appliedMoves": 99,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.6,
+          "lag": 6,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 94,
+          "maxY": 1.917916178703308,
+          "final": {
+            "x": 6.942135334014893,
+            "v": 0.20748718082904816,
+            "grounded": true,
+            "y": 0.8182131052017212
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 94,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        }
+      ]
+    },
+    "sensor_lag_12": {
+      "success": 5,
+      "n": 5,
+      "jumpEvents": [
+        6,
+        6,
+        5,
+        5,
+        6
+      ],
+      "rows": [
+        {
+          "start": 1.7,
+          "lag": 12,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 99,
+          "maxY": 1.8767979145050049,
+          "final": {
+            "x": 6.680449485778809,
+            "v": -2.9089286535111114e-11,
+            "grounded": true,
+            "y": 0.7629503607749939
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 99,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 1.8,
+          "lag": 12,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 97,
+          "maxY": 1.87359619140625,
+          "final": {
+            "x": 6.6749067306518555,
+            "v": 0,
+            "grounded": true,
+            "y": 0.7571715116500854
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 97,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.1,
+          "lag": 12,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 113,
+          "maxY": 1.6628016233444214,
+          "final": {
+            "x": 7.309604644775391,
+            "v": 0.2069886028766632,
+            "grounded": true,
+            "y": 0.8186999559402466
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 5,
+            "appliedMoves": 113,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.3,
+          "lag": 12,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 109,
+          "maxY": 1.657883644104004,
+          "final": {
+            "x": 7.294153690338135,
+            "v": 0.20707395672798157,
+            "grounded": true,
+            "y": 0.8186947107315063
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 5,
+            "appliedMoves": 109,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.6,
+          "lag": 12,
+          "delay": 0,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 82,
+          "maxY": 1.8791463375091553,
+          "final": {
+            "x": 6.685076713562012,
+            "v": -9.090402042222223e-13,
+            "grounded": true,
+            "y": 0.7671491503715515
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 82,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        }
+      ]
+    },
+    "delivery_delay_6": {
+      "success": 5,
+      "n": 5,
+      "jumpEvents": [
+        5,
+        6,
+        6,
+        5,
+        5
+      ],
+      "rows": [
+        {
+          "start": 1.7,
+          "lag": 0,
+          "delay": 6,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 120,
+          "maxY": 1.917915940284729,
+          "final": {
+            "x": 6.947974681854248,
+            "v": 0.2069319784641266,
+            "grounded": true,
+            "y": 0.8182135820388794
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 5,
+            "appliedMoves": 114,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 1.8,
+          "lag": 0,
+          "delay": 6,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 118,
+          "maxY": 1.9179126024246216,
+          "final": {
+            "x": 6.942604064941406,
+            "v": 0.20699523389339447,
+            "grounded": true,
+            "y": 0.8182116746902466
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 112,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.1,
+          "lag": 0,
+          "delay": 6,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 112,
+          "maxY": 1.9179152250289917,
+          "final": {
+            "x": 6.9264817237854,
+            "v": 0.2071501910686493,
+            "grounded": true,
+            "y": 0.8182125091552734
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 106,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.3,
+          "lag": 0,
+          "delay": 6,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 108,
+          "maxY": 1.917916178703308,
+          "final": {
+            "x": 6.915842056274414,
+            "v": 0.207270085811615,
+            "grounded": true,
+            "y": 0.8180497288703918
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 5,
+            "appliedMoves": 102,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.6,
+          "lag": 0,
+          "delay": 6,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 103,
+          "maxY": 1.91791570186615,
+          "final": {
+            "x": 6.952271461486816,
+            "v": 0.20743194222450256,
+            "grounded": true,
+            "y": 0.8182126879692078
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 5,
+            "appliedMoves": 97,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        }
+      ]
+    },
+    "combined_6": {
+      "success": 5,
+      "n": 5,
+      "jumpEvents": [
+        5,
+        6,
+        6,
+        5,
+        5
+      ],
+      "rows": [
+        {
+          "start": 1.7,
+          "lag": 6,
+          "delay": 6,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 108,
+          "maxY": 1.8828238248825073,
+          "final": {
+            "x": 6.69179105758667,
+            "v": 0,
+            "grounded": true,
+            "y": 0.7736727595329285
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 5,
+            "appliedMoves": 102,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 1.8,
+          "lag": 6,
+          "delay": 6,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 106,
+          "maxY": 1.879603624343872,
+          "final": {
+            "x": 6.685648441314697,
+            "v": 5.817857307022223e-11,
+            "grounded": true,
+            "y": 0.7679644227027893
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 100,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.1,
+          "lag": 6,
+          "delay": 6,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 100,
+          "maxY": 1.8700109720230103,
+          "final": {
+            "x": 6.668050289154053,
+            "v": 0,
+            "grounded": true,
+            "y": 0.750519335269928
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 94,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.3,
+          "lag": 6,
+          "delay": 6,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 118,
+          "maxY": 1.6628960371017456,
+          "final": {
+            "x": 7.3098602294921875,
+            "v": 0.2070913016796112,
+            "grounded": true,
+            "y": 0.8187004327774048
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 5,
+            "appliedMoves": 112,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.6,
+          "lag": 6,
+          "delay": 6,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 91,
+          "maxY": 1.8851654529571533,
+          "final": {
+            "x": 6.696771621704102,
+            "v": 0,
+            "grounded": true,
+            "y": 0.7777985334396362
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 5,
+            "appliedMoves": 85,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        }
+      ]
+    },
+    "combined_12": {
+      "success": 5,
+      "n": 5,
+      "jumpEvents": [
+        6,
+        6,
+        5,
+        6,
+        6
+      ],
+      "rows": [
+        {
+          "start": 1.7,
+          "lag": 12,
+          "delay": 12,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 158,
+          "maxY": 1.536275029182434,
+          "final": {
+            "x": 7.936878204345703,
+            "v": 0.20714415609836578,
+            "grounded": true,
+            "y": 0.8187252879142761
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 146,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 1.8,
+          "lag": 12,
+          "delay": 12,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 156,
+          "maxY": 1.5368438959121704,
+          "final": {
+            "x": 7.9384541511535645,
+            "v": 0.20721150934696198,
+            "grounded": true,
+            "y": 0.8187257647514343
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 144,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.1,
+          "lag": 12,
+          "delay": 12,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 151,
+          "maxY": 1.5323302745819092,
+          "final": {
+            "x": 7.938685417175293,
+            "v": 0.2073475867509842,
+            "grounded": true,
+            "y": 0.8187243342399597
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 5,
+            "appliedMoves": 139,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.3,
+          "lag": 12,
+          "delay": 12,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 147,
+          "maxY": 1.5336815118789673,
+          "final": {
+            "x": 7.932814121246338,
+            "v": 0.2074645310640335,
+            "grounded": true,
+            "y": 0.818724513053894
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 135,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        },
+        {
+          "start": 2.6,
+          "lag": 12,
+          "delay": 12,
+          "guard": true,
+          "manualAt": null,
+          "perturbAt": null,
+          "saveAt": null,
+          "success": true,
+          "ticks": 141,
+          "maxY": 1.5358867645263672,
+          "final": {
+            "x": 7.936547756195068,
+            "v": 0.20761123299598694,
+            "grounded": true,
+            "y": 0.8187251091003418
+          },
+          "events": {
+            "staleApplied": 0,
+            "postInterruptAutoApplied": 0,
+            "jumpsRequested": 6,
+            "appliedMoves": 129,
+            "saveRestored": false
+          },
+          "manualMaintained": true
+        }
+      ]
+    }
+  },
+  "overrides": [
+    {
+      "tick": 30,
+      "delay": 0,
+      "guard": true,
+      "manualMaintained": true,
+      "afterManualAutoCommands": 0,
+      "rejectedQueueEntries": 0
+    },
+    {
+      "tick": 30,
+      "delay": 0,
+      "guard": false,
+      "manualMaintained": true,
+      "afterManualAutoCommands": 0,
+      "rejectedQueueEntries": 0
+    },
+    {
+      "tick": 30,
+      "delay": 6,
+      "guard": true,
+      "manualMaintained": true,
+      "afterManualAutoCommands": 0,
+      "rejectedQueueEntries": 6
+    },
+    {
+      "tick": 30,
+      "delay": 6,
+      "guard": false,
+      "manualMaintained": false,
+      "afterManualAutoCommands": 6,
+      "rejectedQueueEntries": 0
+    },
+    {
+      "tick": 30,
+      "delay": 12,
+      "guard": true,
+      "manualMaintained": true,
+      "afterManualAutoCommands": 0,
+      "rejectedQueueEntries": 12
+    },
+    {
+      "tick": 30,
+      "delay": 12,
+      "guard": false,
+      "manualMaintained": false,
+      "afterManualAutoCommands": 12,
+      "rejectedQueueEntries": 0
+    },
+    {
+      "tick": 48,
+      "delay": 0,
+      "guard": true,
+      "manualMaintained": true,
+      "afterManualAutoCommands": 0,
+      "rejectedQueueEntries": 0
+    },
+    {
+      "tick": 48,
+      "delay": 0,
+      "guard": false,
+      "manualMaintained": true,
+      "afterManualAutoCommands": 0,
+      "rejectedQueueEntries": 0
+    },
+    {
+      "tick": 48,
+      "delay": 6,
+      "guard": true,
+      "manualMaintained": true,
+      "afterManualAutoCommands": 0,
+      "rejectedQueueEntries": 6
+    },
+    {
+      "tick": 48,
+      "delay": 6,
+      "guard": false,
+      "manualMaintained": false,
+      "afterManualAutoCommands": 6,
+      "rejectedQueueEntries": 0
+    },
+    {
+      "tick": 48,
+      "delay": 12,
+      "guard": true,
+      "manualMaintained": true,
+      "afterManualAutoCommands": 0,
+      "rejectedQueueEntries": 12
+    },
+    {
+      "tick": 48,
+      "delay": 12,
+      "guard": false,
+      "manualMaintained": false,
+      "afterManualAutoCommands": 12,
+      "rejectedQueueEntries": 0
+    },
+    {
+      "tick": 58,
+      "delay": 0,
+      "guard": true,
+      "manualMaintained": true,
+      "afterManualAutoCommands": 0,
+      "rejectedQueueEntries": 0
+    },
+    {
+      "tick": 58,
+      "delay": 0,
+      "guard": false,
+      "manualMaintained": true,
+      "afterManualAutoCommands": 0,
+      "rejectedQueueEntries": 0
+    },
+    {
+      "tick": 58,
+      "delay": 6,
+      "guard": true,
+      "manualMaintained": true,
+      "afterManualAutoCommands": 0,
+      "rejectedQueueEntries": 6
+    },
+    {
+      "tick": 58,
+      "delay": 6,
+      "guard": false,
+      "manualMaintained": false,
+      "afterManualAutoCommands": 6,
+      "rejectedQueueEntries": 0
+    },
+    {
+      "tick": 58,
+      "delay": 12,
+      "guard": true,
+      "manualMaintained": true,
+      "afterManualAutoCommands": 0,
+      "rejectedQueueEntries": 12
+    },
+    {
+      "tick": 58,
+      "delay": 12,
+      "guard": false,
+      "manualMaintained": false,
+      "afterManualAutoCommands": 12,
+      "rejectedQueueEntries": 0
+    }
+  ],
+  "restores": [
+    {
+      "start": 2.1,
+      "lag": 0,
+      "delay": 6,
+      "guard": true,
+      "manualAt": null,
+      "perturbAt": null,
+      "saveAt": 52,
+      "success": false,
+      "ticks": 250,
+      "maxY": 0.9965976476669312,
+      "final": {
+        "x": 4.751143455505371,
+        "v": 1.5635491512622224e-10,
+        "grounded": true,
+        "y": 0.8187317252159119
+      },
+      "events": {
+        "staleApplied": 0,
+        "postInterruptAutoApplied": 0,
+        "jumpsRequested": 6,
+        "appliedMoves": 244,
+        "saveRestored": true,
+        "savePositionError": 0,
+        "saveVelocityError": 0
+      },
+      "manualMaintained": true
+    },
+    {
+      "start": 2.1,
+      "lag": 12,
+      "delay": 12,
+      "guard": true,
+      "manualAt": null,
+      "perturbAt": null,
+      "saveAt": 52,
+      "success": true,
+      "ticks": 151,
+      "maxY": 1.5322352647781372,
+      "final": {
+        "x": 7.938706398010254,
+        "v": 0.20730598270893097,
+        "grounded": true,
+        "y": 0.8187240362167358
+      },
+      "events": {
+        "staleApplied": 0,
+        "postInterruptAutoApplied": 0,
+        "jumpsRequested": 4,
+        "appliedMoves": 139,
+        "saveRestored": true,
+        "savePositionError": 0,
+        "saveVelocityError": 0
+      },
+      "manualMaintained": true
+    }
+  ]
+}

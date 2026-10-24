@@ -1,0 +1,93 @@
+{
+  "original": {
+    "mode": "original",
+    "success": true,
+    "finalTick": 111,
+    "jumpTicks": [
+      53
+    ],
+    "guardBefore": null,
+    "guardAfter": null,
+    "firstPositionDivergenceTick": null
+  },
+  "standard_restore": {
+    "mode": "standard_restore",
+    "success": false,
+    "finalTick": 249,
+    "jumpTicks": [],
+    "guardBefore": {
+      "nextJumpAt": 0,
+      "manualDirection": 1,
+      "jumpRequested": false,
+      "previousGrounded": true
+    },
+    "guardAfter": {
+      "nextJumpAt": 1.0333333333333343,
+      "manualDirection": 0,
+      "jumpRequested": false,
+      "previousGrounded": false
+    },
+    "firstPositionDivergenceTick": 53
+  },
+  "preserve_jump_guard": {
+    "mode": "preserve_jump_guard",
+    "success": true,
+    "finalTick": 111,
+    "jumpTicks": [
+      54
+    ],
+    "guardBefore": {
+      "nextJumpAt": 0,
+      "manualDirection": 1,
+      "jumpRequested": false,
+      "previousGrounded": true
+    },
+    "guardAfter": {
+      "nextJumpAt": 1.0333333333333343,
+      "manualDirection": 0,
+      "jumpRequested": false,
+      "previousGrounded": false
+    },
+    "firstPositionDivergenceTick": 53
+  },
+  "preserve_input": {
+    "mode": "preserve_input",
+    "success": false,
+    "finalTick": 249,
+    "jumpTicks": [],
+    "guardBefore": {
+      "nextJumpAt": 0,
+      "manualDirection": 1,
+      "jumpRequested": false,
+      "previousGrounded": true
+    },
+    "guardAfter": {
+      "nextJumpAt": 1.0333333333333343,
+      "manualDirection": 0,
+      "jumpRequested": false,
+      "previousGrounded": false
+    },
+    "firstPositionDivergenceTick": 53
+  },
+  "preserve_both": {
+    "mode": "preserve_both",
+    "success": true,
+    "finalTick": 111,
+    "jumpTicks": [
+      54
+    ],
+    "guardBefore": {
+      "nextJumpAt": 0,
+      "manualDirection": 1,
+      "jumpRequested": false,
+      "previousGrounded": true
+    },
+    "guardAfter": {
+      "nextJumpAt": 1.0333333333333343,
+      "manualDirection": 0,
+      "jumpRequested": false,
+      "previousGrounded": false
+    },
+    "firstPositionDivergenceTick": 53
+  }
+}

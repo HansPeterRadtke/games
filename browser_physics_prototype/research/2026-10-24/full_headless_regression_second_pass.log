@@ -1,0 +1,37 @@
+== test-physics.mjs ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"jumpPeakMeters":1.0979145097732546,"goalEndX":6.011394500732422,"crateFinalX":13.971193313598633,"tests":["ground","jump","jump count","goal","3D collision","snapshot","invalid state","manual override","crate pushing"]}
+PRSE semantic evolution, visibility and save/load PASSED
+ACTIVE RAGDOLL physics, nine motors, command validation, save/load PASSED
+Physics impulse movement and travel-facing direction PASSED
+== tests/active-regression.mjs ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"parts":10,"joints":9,"torsoStandingY":1.5950571298599243,"impactDisplacement":0.08606886817142367,"positionRecoveredX":0.0009591440320946276,"walkAngleRange":0.08310184566857656,"passiveHeight":0.3381580114364624,"activeHeight":1.6012113094329834}
+Injury save/load validation PASSED
+Knee joint physical limits PASSED
+== tests/local-obstacle-regression.mjs ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"stoneX":-14.119999885559082,"torsoMaxX":-13.590008735656738,"leftShinContact":true,"rightShinContact":true,"contactsReported":2,"eventsPersisted":3}
+== tests/prse-transition.mjs ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"id":"wanderer-1","firstBodyX":19.40913963317871,"pushedBodyX":19.798803329467773,"semanticAfterDematerialize":19.798803329467773,"semanticAfterCoarseTicks":20.499833971261978,"activeCount":3,"transitionEvents":["materialized","materialized","materialized","materialized","materialized","materialized","dematerialized","materialized","materialized","dematerialized","dematerialized","dematerialized","dematerialized","dematerialized","materialized","dematerialized","dematerialized","materialized","materialized","materialized","materialized","materialized","dematerialized","materialized","materialized","dematerialized","dematerialized","dematerialized","dematerialized"]}
+== tests/semantic-input-regression.mjs ==
+{"passed":true,"test":"bounded constant-time semantic reflection, malformed input, nonfinite and extreme speeds","time":1000}
+== tests/hidden-and-character.mjs ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"strongWindows":207,"weakWindows":1793,"researchNotes":1,"tuneMisses":1,"gateHeight":2.6449999809265137,"loadSpeedFactor":0.7818181818181819,"worldTime":11.100000000000131}
+== tests/world-proposals.mjs ==
+{"passed":true,"generated":8,"entities":31,"retainedEditedDescription":"A flat, gray rock covered in a thick layer of green moss, with a small puddle of water forming in a shallow depression on its surface. Player wrote a note.","invalidCases":7}
+== tests/scene-translation.mjs ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"modelDurationSeconds":69.31,"llmRawValid":false,"corrections":[{"id":"bench","modelCenterY":0.45,"physicalCenterY":0.225,"reason":"support geometry reconciled"},{"id":"candle","modelCenterY":0.625,"physicalCenterY":0.525,"reason":"support geometry reconciled"},{"id":"note","modelCenterY":0.475,"physicalCenterY":0.451,"reason":"support geometry reconciled"}],"benchY":0.22499999403953552,"candleY":0.5237708687782288,"entityCount":5}
+== tests/affordance-boundary.mjs ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"sceneObjects":4,"safeAffordances":3,"rejectedFromGenerator":4,"typedInteractionConfirmed":true}
+== tests/causal-world.mjs ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"litWithoutFlameBlocked":true,"fireStages":["paper_smolders","paper_burning","bench_smoldering","paper_ashes","bench_scorching","bench_scorched","shelter_smoky"],"offscreenEvents":7,"returnedDiscovery":"Soot and the smell of smoke reveal that something burned here while you were away.","wetAfterRescue":"wet"}
+== tests/npc-knowledge.mjs ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"playerLearnedAfterObserving":true,"npcLearnedAfterConversation":true,"historySaved":true}
+== tests/narrative-roundtrip.mjs ==

@@ -1,0 +1,13 @@
+== save-migration ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"oldVersion":4,"newVersion":5,"backfilled":5,"duplicates":0}
+Atomic invalid-save rejection and resumable timed goal PASSED
+== modality-contract ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"samePhysicsPosition":-10.02278995513916,"textGoalX":6.017766952514648,"representations":["headless text","Canvas 2D","shared Rapier 3D core"]}
+== event-journal ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"boundedEvents":100,"lastSequence":171,"restoredContinuity":true}
+== gameplay-journey ==
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"stages":["walk_to_timber","pickup_two_physical_logs","load_affects_movement","semantic_fence_goal","walk_to_bridge","repair_with_resources","cross_physical_bridge","save_everything"],"walkToPlanks":0,"crossTicks":256,"workTicks":339,"finishTicks":116,"playerX":25.354835510253906,"character":{"version":1,"fatigue":1.8356879565152282,"hydration":99.78911213927968,"skill":{"hauling":0.0692863339438583},"injuries":{"leftKnee":{"kind":"healthy","severity":0},"rightKnee":{"kind":"healthy","severity":0}},"inventory":{"plank":0},"notes":[],"knowledge":[],"bridgeRepaired":true,"fenceOpened":false,"farBankReached":true}}

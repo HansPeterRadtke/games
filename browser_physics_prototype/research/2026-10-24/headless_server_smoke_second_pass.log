@@ -1,0 +1,2 @@
+using deprecated parameters for the initialization function; pass a single object instead
+{"passed":true,"port":19168,"sessions":1,"initialX":-4.1,"movedX":0.389,"commands":true,"reconnect":true,"persistedLogBytes":2080,"serverPhysicsHz":60}

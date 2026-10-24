@@ -1,0 +1,2163 @@
+{
+  "meta": {
+    "core": "GameCore Rapier 3D",
+    "realAxis": "x/y physical fence, z intentionally locked by core",
+    "trainingStarts": [
+      1.6,
+      1.9,
+      2.2,
+      2.5
+    ],
+    "heldoutStarts": [
+      1.75,
+      1.85,
+      2.05,
+      2.15,
+      2.35,
+      2.45,
+      2.65,
+      2.75
+    ],
+    "goalX": 6.550000000000001,
+    "ticks": 260,
+    "firstPriorTrialNotReused": true,
+    "manualTeacher": "scripted Move and Jump at physical position, NOT human demonstrations"
+  },
+  "training": {
+    "trained": [
+      {
+        "start": 1.6,
+        "success": true,
+        "firstJumpTick": 50,
+        "maxY": 1.917913794517517,
+        "finalX": 6.679882526397705
+      },
+      {
+        "start": 1.9,
+        "success": true,
+        "firstJumpTick": 44,
+        "maxY": 1.9179142713546753,
+        "finalX": 6.663771629333496
+      },
+      {
+        "start": 2.2,
+        "success": true,
+        "firstJumpTick": 38,
+        "maxY": 1.9179192781448364,
+        "finalX": 6.647629261016846
+      },
+      {
+        "start": 2.5,
+        "success": true,
+        "firstJumpTick": 33,
+        "maxY": 1.9179202318191528,
+        "finalX": 6.684156894683838
+      }
+    ],
+    "positives": 8,
+    "negatives": 217
+  },
+  "learnedJumpBounds": {
+    "low": 3.9640965461730957,
+    "high": 4.055495262145996
+  },
+  "medianJumpTick": 44,
+  "evaluation": {
+    "feedback_teacher": {
+      "episodes": 32,
+      "succeeded": 32,
+      "byScenario": {
+        "normal": 8,
+        "carry_2": 8,
+        "knee_sprain": 8,
+        "mid_push": 8
+      },
+      "rows": [
+        {
+          "scenario": "normal",
+          "start": 1.75,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 47,
+          "maxY": 1.9179154634475708,
+          "last": {
+            "x": 6.671833515167236,
+            "y": 0.818048357963562,
+            "vx": 0.20708684623241425,
+            "vy": 0.0000022060185074224137,
+            "grounded": true,
+            "tick": 105
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 1.85,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 45,
+          "maxY": 1.9179145097732544,
+          "last": {
+            "x": 6.666450500488281,
+            "y": 0.8180491924285889,
+            "vx": 0.20715545117855072,
+            "vy": 0.0000022096451175457332,
+            "grounded": true,
+            "tick": 103
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.05,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 41,
+          "maxY": 1.9179149866104126,
+          "last": {
+            "x": 6.655703067779541,
+            "y": 0.8180487751960754,
+            "vx": 0.20729270577430725,
+            "vy": -5.531157398763753e-7,
+            "grounded": true,
+            "tick": 99
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.15,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 39,
+          "maxY": 1.9179171323776245,
+          "last": {
+            "x": 6.650312423706055,
+            "y": 0.8180479407310486,
+            "vx": 0.20732739567756653,
+            "vy": -0.0000011035823490601615,
+            "grounded": true,
+            "tick": 97
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.35,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 35,
+          "maxY": 1.9179192781448364,
+          "last": {
+            "x": 6.692131996154785,
+            "y": 0.8182128667831421,
+            "vx": 0.2073952853679657,
+            "vy": 0.00000662735556034022,
+            "grounded": true,
+            "tick": 94
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.45,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 33,
+          "maxY": 1.9179173707962036,
+          "last": {
+            "x": 6.6867451667785645,
+            "y": 0.8182122111320496,
+            "vx": 0.20743750035762787,
+            "vy": 9.308571691235557e-10,
+            "grounded": true,
+            "tick": 92
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.65,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 30,
+          "maxY": 1.9179245233535767,
+          "last": {
+            "x": 6.676071643829346,
+            "y": 0.8180488348007202,
+            "vx": 0.207589253783226,
+            "vy": -9.308571691235557e-10,
+            "grounded": true,
+            "tick": 88
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.75,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 28,
+          "maxY": 1.9179316759109497,
+          "last": {
+            "x": 6.670680522918701,
+            "y": 0.8180491328239441,
+            "vx": 0.20770707726478577,
+            "vy": -5.522678634406475e-7,
+            "grounded": true,
+            "tick": 86
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 1.75,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 59,
+          "maxY": 1.91791570186615,
+          "last": {
+            "x": 6.6004204750061035,
+            "y": 0.818674623966217,
+            "vx": 0.20555998384952545,
+            "vy": 0.000006559288522112183,
+            "grounded": true,
+            "tick": 128
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 1.85,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 56,
+          "maxY": 1.9179168939590454,
+          "last": {
+            "x": 6.6007490158081055,
+            "y": 0.8186737298965454,
+            "vx": 0.2056593894958496,
+            "vy": 5.48420700852148e-7,
+            "grounded": true,
+            "tick": 126
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.05,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 51,
+          "maxY": 1.917916178703308,
+          "last": {
+            "x": 6.6407341957092285,
+            "y": 0.8187117576599121,
+            "vx": 0.2057463526725769,
+            "vy": 0.000004376269771455554,
+            "grounded": true,
+            "tick": 122
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.15,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 49,
+          "maxY": 1.917916178703308,
+          "last": {
+            "x": 6.604728698730469,
+            "y": 0.8185300827026367,
+            "vx": 0.20581568777561188,
+            "vy": 0,
+            "grounded": true,
+            "tick": 119
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.35,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 44,
+          "maxY": 1.9179152250289917,
+          "last": {
+            "x": 6.603227615356445,
+            "y": 0.818562388420105,
+            "vx": 0.2059733122587204,
+            "vy": -0.0000043849645408045035,
+            "grounded": true,
+            "tick": 114
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.45,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 42,
+          "maxY": 1.9179164171218872,
+          "last": {
+            "x": 6.602176666259766,
+            "y": 0.81861811876297,
+            "vx": 0.2059972882270813,
+            "vy": -0.0000021924322481936542,
+            "grounded": true,
+            "tick": 111
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.65,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 37,
+          "maxY": 1.917915940284729,
+          "last": {
+            "x": 6.601728439331055,
+            "y": 0.8186419010162354,
+            "vx": 0.20614926517009735,
+            "vy": 1.1635717389602007e-10,
+            "grounded": true,
+            "tick": 106
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.75,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 34,
+          "maxY": 1.9179192781448364,
+          "last": {
+            "x": 6.601494312286377,
+            "y": 0.8186319470405579,
+            "vx": 0.2061825394630432,
+            "vy": 0.000006580327863048296,
+            "grounded": true,
+            "tick": 104
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 1.75,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 72,
+          "maxY": 1.9179147481918335,
+          "last": {
+            "x": 6.605891704559326,
+            "y": 0.8187099695205688,
+            "vx": -1.1909587899205931e-12,
+            "vy": 2.9089286535111114e-11,
+            "grounded": true,
+            "tick": 159
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 1.85,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 69,
+          "maxY": 1.917916178703308,
+          "last": {
+            "x": 6.598911762237549,
+            "y": 0.818701446056366,
+            "vx": 0,
+            "vy": 8.726785960533334e-11,
+            "grounded": true,
+            "tick": 156
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.05,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 62,
+          "maxY": 1.917915940284729,
+          "last": {
+            "x": 6.588069438934326,
+            "y": 0.8186851143836975,
+            "vx": 8.443477681082095e-15,
+            "vy": 5.817857307022223e-11,
+            "grounded": true,
+            "tick": 150
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.15,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 59,
+          "maxY": 1.9179152250289917,
+          "last": {
+            "x": 6.592003345489502,
+            "y": 0.818726122379303,
+            "vx": -1.819855877593316e-14,
+            "vy": -4.850671730602385e-14,
+            "grounded": true,
+            "tick": 146
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.35,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 53,
+          "maxY": 1.9179147481918335,
+          "last": {
+            "x": 6.5927510261535645,
+            "y": 0.8187230229377747,
+            "vx": -1.531342056198398e-14,
+            "vy": 9.619365240877246e-15,
+            "grounded": true,
+            "tick": 140
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.45,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 50,
+          "maxY": 1.9179145097732544,
+          "last": {
+            "x": 6.59301233291626,
+            "y": 0.8187216520309448,
+            "vx": 2.2271485003444447e-11,
+            "vy": 3.6361608168888893e-12,
+            "grounded": true,
+            "tick": 137
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.65,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 44,
+          "maxY": 1.9179145097732544,
+          "last": {
+            "x": 6.593503475189209,
+            "y": 0.8187191486358643,
+            "vx": -3.863420867944445e-12,
+            "vy": 5.013519599472716e-10,
+            "grounded": true,
+            "tick": 131
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.75,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 41,
+          "maxY": 1.917915940284729,
+          "last": {
+            "x": 6.593747138977051,
+            "y": 0.8187188506126404,
+            "vx": -4.2167393979764684e-14,
+            "vy": 8.364643422353879e-10,
+            "grounded": true,
+            "tick": 128
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 1.75,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 47,
+          "maxY": 1.9179154634475708,
+          "last": {
+            "x": 6.656764030456543,
+            "y": 0.8180496692657471,
+            "vx": 0.2070823758840561,
+            "vy": 0,
+            "grounded": true,
+            "tick": 105
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 1.85,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 45,
+          "maxY": 1.9179145097732544,
+          "last": {
+            "x": 6.651395320892334,
+            "y": 0.8180484175682068,
+            "vx": 0.2071710079908371,
+            "vy": -0.000004416614956426201,
+            "grounded": true,
+            "tick": 103
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.05,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 41,
+          "maxY": 1.9179149866104126,
+          "last": {
+            "x": 6.640637397766113,
+            "y": 0.8180498480796814,
+            "vx": 0.2073225975036621,
+            "vy": 0,
+            "grounded": true,
+            "tick": 99
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.15,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 39,
+          "maxY": 1.9179171323776245,
+          "last": {
+            "x": 6.687826156616211,
+            "y": 0.8182128667831421,
+            "vx": 0.20725075900554657,
+            "vy": -0.000006624462912441231,
+            "grounded": true,
+            "tick": 98
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.35,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 35,
+          "maxY": 1.9179192781448364,
+          "last": {
+            "x": 6.67706298828125,
+            "y": 0.8182140588760376,
+            "vx": 0.2073712944984436,
+            "vy": 0.00000662873526380281,
+            "grounded": true,
+            "tick": 94
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.45,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 33,
+          "maxY": 1.9179173707962036,
+          "last": {
+            "x": 6.672203063964844,
+            "y": 0.8182129263877869,
+            "vx": 0.20748470723628998,
+            "vy": -0.000006632794338656822,
+            "grounded": true,
+            "tick": 92
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.65,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 30,
+          "maxY": 1.9179245233535767,
+          "last": {
+            "x": 6.661005973815918,
+            "y": 0.818049430847168,
+            "vx": 0.2075963020324707,
+            "vy": -0.000004426604846230475,
+            "grounded": true,
+            "tick": 88
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.75,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 28,
+          "maxY": 1.9179316759109497,
+          "last": {
+            "x": 6.655611991882324,
+            "y": 0.8180495500564575,
+            "vx": 0.2076319307088852,
+            "vy": 0.00000664082654111553,
+            "grounded": true,
+            "tick": 86
+          }
+        }
+      ]
+    },
+    "timed_macro": {
+      "episodes": 32,
+      "succeeded": 4,
+      "byScenario": {
+        "normal": 2,
+        "carry_2": 0,
+        "knee_sprain": 0,
+        "mid_push": 2
+      },
+      "rows": [
+        {
+          "scenario": "normal",
+          "start": 1.75,
+          "perturb": "none",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179164171218872,
+          "last": {
+            "x": 14.945625305175781,
+            "y": 0.8187239170074463,
+            "vx": 3.0713822841644287,
+            "vy": 0.00006485719495685771,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 1.85,
+          "perturb": "none",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179149866104126,
+          "last": {
+            "x": 15.046146392822266,
+            "y": 0.8187227845191956,
+            "vx": 3.0713446140289307,
+            "vy": -0.0000040550744415668305,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.05,
+          "perturb": "none",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179152250289917,
+          "last": {
+            "x": 15.245522499084473,
+            "y": 0.8187222480773926,
+            "vx": 3.0714924335479736,
+            "vy": -0.00006485742051154375,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.15,
+          "perturb": "none",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.917916178703308,
+          "last": {
+            "x": 15.345449447631836,
+            "y": 0.8187264204025269,
+            "vx": 3.0713460445404053,
+            "vy": 0.0001297096023336053,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.35,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 44,
+          "maxY": 1.9179164171218872,
+          "last": {
+            "x": 6.683856964111328,
+            "y": 0.7514174580574036,
+            "vx": 1.8180804084444446e-12,
+            "vy": 1.101099463343691e-12,
+            "grounded": true,
+            "tick": 86
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.45,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 44,
+          "maxY": 1.8839755058288574,
+          "last": {
+            "x": 6.694271087646484,
+            "y": 0.7757112979888916,
+            "vx": 0,
+            "vy": 1.4383554568751789e-13,
+            "grounded": true,
+            "tick": 85
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.65,
+          "perturb": "none",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.138521432876587,
+          "last": {
+            "x": 4.751002788543701,
+            "y": 0.8187248706817627,
+            "vx": 2.257879082167441e-16,
+            "vy": 1.0097981207723289e-14,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.75,
+          "perturb": "none",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.5282801389694214,
+          "last": {
+            "x": 15.397350311279297,
+            "y": 0.8187292218208313,
+            "vx": 3.0722732543945312,
+            "vy": 0.00012974851415492594,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 1.75,
+          "perturb": "carry_2",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179164171218872,
+          "last": {
+            "x": 4.7518086433410645,
+            "y": 1.170501708984375,
+            "vx": -0.014652074314653873,
+            "vy": -0.23399324715137482,
+            "grounded": false,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 1.85,
+          "perturb": "carry_2",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179168939590454,
+          "last": {
+            "x": 4.89401388168335,
+            "y": 1.4362229108810425,
+            "vx": -0.005440759472548962,
+            "vy": -0.004105659201741219,
+            "grounded": false,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.05,
+          "perturb": "carry_2",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179166555404663,
+          "last": {
+            "x": 12.126350402832031,
+            "y": 0.8187242746353149,
+            "vx": 2.3534038066864014,
+            "vy": -0.00009938813309418038,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.15,
+          "perturb": "carry_2",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179145097732544,
+          "last": {
+            "x": 12.247252464294434,
+            "y": 0.8187263607978821,
+            "vx": 2.3532087802886963,
+            "vy": 0.00004968932626070455,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.35,
+          "perturb": "carry_2",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179152250289917,
+          "last": {
+            "x": 12.60649585723877,
+            "y": 0.8187262415885925,
+            "vx": 2.353010416030884,
+            "vy": 0.000024842693164828233,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.45,
+          "perturb": "carry_2",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179147481918335,
+          "last": {
+            "x": 12.74544620513916,
+            "y": 0.8187247514724731,
+            "vx": 2.352964162826538,
+            "vy": 8.04188104996939e-10,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.65,
+          "perturb": "carry_2",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179149866104126,
+          "last": {
+            "x": 12.915627479553223,
+            "y": 0.8187232613563538,
+            "vx": 2.353015422821045,
+            "vy": -0.00002484294782334473,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.75,
+          "perturb": "carry_2",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179149866104126,
+          "last": {
+            "x": 13.015414237976074,
+            "y": 0.8187229037284851,
+            "vx": 2.3530290126800537,
+            "vy": -0.00004968829671270214,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 1.75,
+          "perturb": "knee_sprain",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179171323776245,
+          "last": {
+            "x": 4.7511305809021,
+            "y": 0.8186278343200684,
+            "vx": -9.897881819709298e-11,
+            "vy": -3.4075514632192494e-10,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 1.85,
+          "perturb": "knee_sprain",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179145097732544,
+          "last": {
+            "x": 4.751132488250732,
+            "y": 0.8186260461807251,
+            "vx": 2.1911571168597987e-10,
+            "vy": 2.2760093809637283e-10,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.05,
+          "perturb": "knee_sprain",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179164171218872,
+          "last": {
+            "x": 4.751224517822266,
+            "y": 0.8185394406318665,
+            "vx": -0.000004695505140261957,
+            "vy": -1.1538538180477786e-10,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.15,
+          "perturb": "knee_sprain",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179171323776245,
+          "last": {
+            "x": 4.7511305809021,
+            "y": 0.8186277747154236,
+            "vx": -6.108367284207716e-11,
+            "vy": 5.717862849863309e-10,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.35,
+          "perturb": "knee_sprain",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179145097732544,
+          "last": {
+            "x": 4.778792381286621,
+            "y": 1.3210515975952148,
+            "vx": -0.047727033495903015,
+            "vy": -0.05090796574950218,
+            "grounded": false,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.45,
+          "perturb": "knee_sprain",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179152250289917,
+          "last": {
+            "x": 4.974168300628662,
+            "y": 1.4893860816955566,
+            "vx": -0.00002820124791469425,
+            "vy": -0.000018345333955949172,
+            "grounded": false,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.65,
+          "perturb": "knee_sprain",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179145097732544,
+          "last": {
+            "x": 10.903313636779785,
+            "y": 0.8187242746353149,
+            "vx": 1.8889858722686768,
+            "vy": 6.703249066930539e-10,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.75,
+          "perturb": "knee_sprain",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179168939590454,
+          "last": {
+            "x": 10.97695541381836,
+            "y": 0.8187265992164612,
+            "vx": 1.8889636993408203,
+            "vy": 0.00005983240407658741,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 1.75,
+          "perturb": "none",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179164171218872,
+          "last": {
+            "x": 14.930708885192871,
+            "y": 0.818721354007721,
+            "vx": 3.0715689659118652,
+            "vy": -0.00012972055992577225,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 1.85,
+          "perturb": "none",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179149866104126,
+          "last": {
+            "x": 15.030659675598145,
+            "y": 0.8187236785888672,
+            "vx": 3.0714566707611084,
+            "vy": 1.166582608291833e-9,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.05,
+          "perturb": "none",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.9179152250289917,
+          "last": {
+            "x": 15.230584144592285,
+            "y": 0.8187261819839478,
+            "vx": 3.0713553428649902,
+            "vy": 0.00012971046089660376,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.15,
+          "perturb": "none",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.917916178703308,
+          "last": {
+            "x": 15.330567359924316,
+            "y": 0.8187223672866821,
+            "vx": 3.0713746547698975,
+            "vy": 1.231039298277281e-10,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.35,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 44,
+          "maxY": 1.9179164171218872,
+          "last": {
+            "x": 6.668789863586426,
+            "y": 0.7514174580574036,
+            "vx": 4.176102145298996e-14,
+            "vy": 0,
+            "grounded": true,
+            "tick": 86
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.45,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 44,
+          "maxY": 1.8839755058288574,
+          "last": {
+            "x": 6.679203510284424,
+            "y": 0.7757112979888916,
+            "vx": 2.772731859650851e-14,
+            "vy": 0,
+            "grounded": true,
+            "tick": 85
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.65,
+          "perturb": "none",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.138521432876587,
+          "last": {
+            "x": 4.751030445098877,
+            "y": 0.8187078237533569,
+            "vx": -6.832129913897367e-12,
+            "vy": 6.814392383702739e-10,
+            "grounded": true,
+            "tick": 260
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.75,
+          "perturb": "none",
+          "successful": false,
+          "firstJumpTick": 44,
+          "maxY": 1.5136662721633911,
+          "last": {
+            "x": 15.314994812011719,
+            "y": 0.8187262415885925,
+            "vx": 3.072404623031616,
+            "vy": 6.600341939666521e-10,
+            "grounded": true,
+            "tick": 260
+          }
+        }
+      ]
+    },
+    "kNN_two_head": {
+      "episodes": 32,
+      "succeeded": 32,
+      "byScenario": {
+        "normal": 8,
+        "carry_2": 8,
+        "knee_sprain": 8,
+        "mid_push": 8
+      },
+      "rows": [
+        {
+          "scenario": "normal",
+          "start": 1.75,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 47,
+          "maxY": 1.9179154634475708,
+          "last": {
+            "x": 6.671833515167236,
+            "y": 0.818048357963562,
+            "vx": 0.20708684623241425,
+            "vy": 0.0000022060185074224137,
+            "grounded": true,
+            "tick": 105
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 1.85,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 45,
+          "maxY": 1.9179145097732544,
+          "last": {
+            "x": 6.666450500488281,
+            "y": 0.8180491924285889,
+            "vx": 0.20715545117855072,
+            "vy": 0.0000022096451175457332,
+            "grounded": true,
+            "tick": 103
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.05,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 41,
+          "maxY": 1.9179149866104126,
+          "last": {
+            "x": 6.655703067779541,
+            "y": 0.8180487751960754,
+            "vx": 0.20729270577430725,
+            "vy": -5.531157398763753e-7,
+            "grounded": true,
+            "tick": 99
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.15,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 39,
+          "maxY": 1.9179171323776245,
+          "last": {
+            "x": 6.650312423706055,
+            "y": 0.8180479407310486,
+            "vx": 0.20732739567756653,
+            "vy": -0.0000011035823490601615,
+            "grounded": true,
+            "tick": 97
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.35,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 35,
+          "maxY": 1.9179192781448364,
+          "last": {
+            "x": 6.692131996154785,
+            "y": 0.8182128667831421,
+            "vx": 0.2073952853679657,
+            "vy": 0.00000662735556034022,
+            "grounded": true,
+            "tick": 94
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.45,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 34,
+          "maxY": 1.9179164171218872,
+          "last": {
+            "x": 6.686862945556641,
+            "y": 0.818048894405365,
+            "vx": 0.20756179094314575,
+            "vy": -0.000006637348178628599,
+            "grounded": true,
+            "tick": 92
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.65,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 30,
+          "maxY": 1.9179245233535767,
+          "last": {
+            "x": 6.676071643829346,
+            "y": 0.8180488348007202,
+            "vx": 0.207589253783226,
+            "vy": -9.308571691235557e-10,
+            "grounded": true,
+            "tick": 88
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.75,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 28,
+          "maxY": 1.9179316759109497,
+          "last": {
+            "x": 6.670680522918701,
+            "y": 0.8180491328239441,
+            "vx": 0.20770707726478577,
+            "vy": -5.522678634406475e-7,
+            "grounded": true,
+            "tick": 86
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 1.75,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 59,
+          "maxY": 1.91791570186615,
+          "last": {
+            "x": 6.559750556945801,
+            "y": 0.8186586499214172,
+            "vx": 0.20559832453727722,
+            "vy": 0.0000021886835384066217,
+            "grounded": true,
+            "tick": 127
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 1.85,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 57,
+          "maxY": 1.9179176092147827,
+          "last": {
+            "x": 6.565136909484863,
+            "y": 0.8184874057769775,
+            "vx": 0.2056521475315094,
+            "vy": 4.654285845617778e-10,
+            "grounded": true,
+            "tick": 125
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.05,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 52,
+          "maxY": 1.9179142713546753,
+          "last": {
+            "x": 6.56378173828125,
+            "y": 0.8185212016105652,
+            "vx": 0.20575028657913208,
+            "vy": -0.00000438084862253163,
+            "grounded": true,
+            "tick": 120
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.15,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 49,
+          "maxY": 1.917916178703308,
+          "last": {
+            "x": 6.564083099365234,
+            "y": 0.8184687495231628,
+            "vx": 0.20580996572971344,
+            "vy": 0.0000021889445633860305,
+            "grounded": true,
+            "tick": 118
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.35,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 44,
+          "maxY": 1.9179152250289917,
+          "last": {
+            "x": 6.562575340270996,
+            "y": 0.8185107111930847,
+            "vx": 0.206014946103096,
+            "vy": 5.485129577209591e-7,
+            "grounded": true,
+            "tick": 113
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.45,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 42,
+          "maxY": 1.9179164171218872,
+          "last": {
+            "x": 6.561511039733887,
+            "y": 0.8185839653015137,
+            "vx": 0.2060185670852661,
+            "vy": -0.000002192764441133477,
+            "grounded": true,
+            "tick": 110
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.65,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 37,
+          "maxY": 1.917915940284729,
+          "last": {
+            "x": 6.561051368713379,
+            "y": 0.8186163902282715,
+            "vx": 0.20613597333431244,
+            "vy": -1.1635714614044446e-10,
+            "grounded": true,
+            "tick": 105
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.75,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 34,
+          "maxY": 1.9179192781448364,
+          "last": {
+            "x": 6.560820579528809,
+            "y": 0.8186022043228149,
+            "vx": 0.20621134340763092,
+            "vy": 0.000002194500439145486,
+            "grounded": true,
+            "tick": 103
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 1.75,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 72,
+          "maxY": 1.9179147481918335,
+          "last": {
+            "x": 6.572987079620361,
+            "y": 0.8187047839164734,
+            "vx": 1.775469148871528e-15,
+            "vy": 1.0186587129368263e-9,
+            "grounded": true,
+            "tick": 158
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 1.85,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 69,
+          "maxY": 1.917916178703308,
+          "last": {
+            "x": 6.566006183624268,
+            "y": 0.818693995475769,
+            "vx": -4.5465198739941906e-39,
+            "vy": 5.817857307022223e-11,
+            "grounded": true,
+            "tick": 155
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.05,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 63,
+          "maxY": 1.917915940284729,
+          "last": {
+            "x": 6.5909199714660645,
+            "y": 0.8187263011932373,
+            "vx": -2.2413522426933952e-11,
+            "vy": -9.090402042222223e-11,
+            "grounded": true,
+            "tick": 149
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.15,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 60,
+          "maxY": 1.9179152250289917,
+          "last": {
+            "x": 6.591947078704834,
+            "y": 0.8187258839607239,
+            "vx": 1.181752265488889e-11,
+            "vy": -8.249224914269604e-11,
+            "grounded": true,
+            "tick": 146
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.35,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 54,
+          "maxY": 1.917915940284729,
+          "last": {
+            "x": 6.592442035675049,
+            "y": 0.8187220692634583,
+            "vx": -3.417777942171102e-14,
+            "vy": 8.10996603206604e-10,
+            "grounded": true,
+            "tick": 140
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.45,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 51,
+          "maxY": 1.9179147481918335,
+          "last": {
+            "x": 6.5926971435546875,
+            "y": 0.8187210559844971,
+            "vx": -1.97520934341628e-14,
+            "vy": 8.145222274436037e-10,
+            "grounded": true,
+            "tick": 137
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.65,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 44,
+          "maxY": 1.9179145097732544,
+          "last": {
+            "x": 6.593503475189209,
+            "y": 0.8187191486358643,
+            "vx": -3.863420867944445e-12,
+            "vy": 5.013519599472716e-10,
+            "grounded": true,
+            "tick": 131
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.75,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 41,
+          "maxY": 1.917915940284729,
+          "last": {
+            "x": 6.576260566711426,
+            "y": 0.8187184929847717,
+            "vx": 0.02264665998518467,
+            "vy": 2.7612953548002827e-18,
+            "grounded": true,
+            "tick": 128
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 1.75,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 47,
+          "maxY": 1.9179154634475708,
+          "last": {
+            "x": 6.656764030456543,
+            "y": 0.8180496692657471,
+            "vx": 0.2070823758840561,
+            "vy": 0,
+            "grounded": true,
+            "tick": 105
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 1.85,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 45,
+          "maxY": 1.9179145097732544,
+          "last": {
+            "x": 6.651395320892334,
+            "y": 0.8180484175682068,
+            "vx": 0.2071710079908371,
+            "vy": -0.000004416614956426201,
+            "grounded": true,
+            "tick": 103
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.05,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 41,
+          "maxY": 1.9179149866104126,
+          "last": {
+            "x": 6.640637397766113,
+            "y": 0.8180498480796814,
+            "vx": 0.2073225975036621,
+            "vy": 0,
+            "grounded": true,
+            "tick": 99
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.15,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 39,
+          "maxY": 1.9179171323776245,
+          "last": {
+            "x": 6.687826156616211,
+            "y": 0.8182128667831421,
+            "vx": 0.20725075900554657,
+            "vy": -0.000006624462912441231,
+            "grounded": true,
+            "tick": 98
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.35,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 35,
+          "maxY": 1.9179192781448364,
+          "last": {
+            "x": 6.67706298828125,
+            "y": 0.8182140588760376,
+            "vx": 0.2073712944984436,
+            "vy": 0.00000662873526380281,
+            "grounded": true,
+            "tick": 94
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.45,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 34,
+          "maxY": 1.9179164171218872,
+          "last": {
+            "x": 6.671789169311523,
+            "y": 0.8180493712425232,
+            "vx": 0.20747694373130798,
+            "vy": 0,
+            "grounded": true,
+            "tick": 92
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.65,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 30,
+          "maxY": 1.9179245233535767,
+          "last": {
+            "x": 6.661005973815918,
+            "y": 0.818049430847168,
+            "vx": 0.2075963020324707,
+            "vy": -0.000004426604846230475,
+            "grounded": true,
+            "tick": 88
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.75,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 28,
+          "maxY": 1.9179316759109497,
+          "last": {
+            "x": 6.655611991882324,
+            "y": 0.8180495500564575,
+            "vx": 0.2076319307088852,
+            "vy": 0.00000664082654111553,
+            "grounded": true,
+            "tick": 86
+          }
+        }
+      ]
+    },
+    "positive_class_guard": {
+      "episodes": 32,
+      "succeeded": 32,
+      "byScenario": {
+        "normal": 8,
+        "carry_2": 8,
+        "knee_sprain": 8,
+        "mid_push": 8
+      },
+      "rows": [
+        {
+          "scenario": "normal",
+          "start": 1.75,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 45,
+          "maxY": 1.9179171323776245,
+          "last": {
+            "x": 6.671642303466797,
+            "y": 0.8183367252349854,
+            "vx": 0.20714369416236877,
+            "vy": 5.512735583579342e-7,
+            "grounded": true,
+            "tick": 105
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 1.85,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 43,
+          "maxY": 1.9179149866104126,
+          "last": {
+            "x": 6.666254043579102,
+            "y": 0.8183367252349854,
+            "vx": 0.20713627338409424,
+            "vy": -0.000002206486442446476,
+            "grounded": true,
+            "tick": 103
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.05,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 39,
+          "maxY": 1.917916178703308,
+          "last": {
+            "x": 6.655503749847412,
+            "y": 0.8183364272117615,
+            "vx": 0.207289457321167,
+            "vy": -0.000004416307092469651,
+            "grounded": true,
+            "tick": 99
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.15,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 38,
+          "maxY": 1.9179188013076782,
+          "last": {
+            "x": 6.650204181671143,
+            "y": 0.8182135820388794,
+            "vx": 0.20733550190925598,
+            "vy": 0.000004418048774823546,
+            "grounded": true,
+            "tick": 97
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.35,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 34,
+          "maxY": 1.9179199934005737,
+          "last": {
+            "x": 6.692041397094727,
+            "y": 0.8183367848396301,
+            "vx": 0.2073657363653183,
+            "vy": 0.000004415763669385342,
+            "grounded": true,
+            "tick": 94
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.45,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 32,
+          "maxY": 1.9179202318191528,
+          "last": {
+            "x": 6.686968803405762,
+            "y": 0.8183388113975525,
+            "vx": 0.2074914425611496,
+            "vy": -0.000004419877768668812,
+            "grounded": true,
+            "tick": 92
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.65,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 28,
+          "maxY": 1.917932152748108,
+          "last": {
+            "x": 6.675878047943115,
+            "y": 0.8183367848396301,
+            "vx": 0.20764289796352386,
+            "vy": -0.000006634262717852835,
+            "grounded": true,
+            "tick": 88
+          }
+        },
+        {
+          "scenario": "normal",
+          "start": 2.75,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 26,
+          "maxY": 1.9179445505142212,
+          "last": {
+            "x": 6.6704840660095215,
+            "y": 0.8183388710021973,
+            "vx": 0.20766566693782806,
+            "vy": 0.0000066350044107821304,
+            "grounded": true,
+            "tick": 86
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 1.75,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 57,
+          "maxY": 1.9179168939590454,
+          "last": {
+            "x": 6.567812442779541,
+            "y": 0.818720281124115,
+            "vx": 0.20576447248458862,
+            "vy": 0.0000065648350755509455,
+            "grounded": true,
+            "tick": 130
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 1.85,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 54,
+          "maxY": 1.9179173707962036,
+          "last": {
+            "x": 6.569462299346924,
+            "y": 0.8185315132141113,
+            "vx": 0.20581428706645966,
+            "vy": -5.485771339408529e-7,
+            "grounded": true,
+            "tick": 129
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.05,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 49,
+          "maxY": 1.9179142713546753,
+          "last": {
+            "x": 6.567765712738037,
+            "y": 0.8185712099075317,
+            "vx": 0.20591329038143158,
+            "vy": -0.000004382596671348438,
+            "grounded": true,
+            "tick": 124
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.15,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 47,
+          "maxY": 1.9179145097732544,
+          "last": {
+            "x": 6.566395282745361,
+            "y": 0.8186134696006775,
+            "vx": 0.20594625174999237,
+            "vy": 0.0000021916209789196728,
+            "grounded": true,
+            "tick": 121
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.35,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 42,
+          "maxY": 1.9179152250289917,
+          "last": {
+            "x": 6.567388534545898,
+            "y": 0.818667471408844,
+            "vx": 0.206131711602211,
+            "vy": 0.000004386572527437238,
+            "grounded": true,
+            "tick": 116
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.45,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 40,
+          "maxY": 1.9179164171218872,
+          "last": {
+            "x": 6.566631317138672,
+            "y": 0.8185076117515564,
+            "vx": 0.2061133235692978,
+            "vy": 0.000004385849024401978,
+            "grounded": true,
+            "tick": 113
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.65,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 35,
+          "maxY": 1.9179176092147827,
+          "last": {
+            "x": 6.565555572509766,
+            "y": 0.8185923099517822,
+            "vx": 0.20621605217456818,
+            "vy": 0.0000021936307348369155,
+            "grounded": true,
+            "tick": 108
+          }
+        },
+        {
+          "scenario": "carry_2",
+          "start": 2.75,
+          "perturb": "carry_2",
+          "successful": true,
+          "firstJumpTick": 32,
+          "maxY": 1.9179197549819946,
+          "last": {
+            "x": 6.571536064147949,
+            "y": 0.8184773921966553,
+            "vx": 0.20630407333374023,
+            "vy": -0.0000021971877686155494,
+            "grounded": true,
+            "tick": 107
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 1.75,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 69,
+          "maxY": 1.9179149866104126,
+          "last": {
+            "x": 6.572855472564697,
+            "y": 0.8186988830566406,
+            "vx": 2.2726005105555558e-12,
+            "vy": -1.6709243710888444e-10,
+            "grounded": true,
+            "tick": 160
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 1.85,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 66,
+          "maxY": 1.9179152250289917,
+          "last": {
+            "x": 6.576761722564697,
+            "y": 0.8187005519866943,
+            "vx": 3.522530878097285e-11,
+            "vy": -8.55611345662588e-11,
+            "grounded": true,
+            "tick": 157
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.05,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 60,
+          "maxY": 1.917915940284729,
+          "last": {
+            "x": 6.580936908721924,
+            "y": 0.8186973333358765,
+            "vx": -9.321213031575522e-15,
+            "vy": 8.727906591898815e-11,
+            "grounded": true,
+            "tick": 151
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.15,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 57,
+          "maxY": 1.9179140329360962,
+          "last": {
+            "x": 6.5808281898498535,
+            "y": 0.818691611289978,
+            "vx": 4.727009061955556e-11,
+            "vy": -1.693038820249626e-9,
+            "grounded": true,
+            "tick": 148
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.35,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 51,
+          "maxY": 1.9179154634475708,
+          "last": {
+            "x": 6.578090190887451,
+            "y": 0.8186777830123901,
+            "vx": -4.616219787065973e-14,
+            "vy": 1.2230101376076163e-9,
+            "grounded": true,
+            "tick": 142
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.45,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 48,
+          "maxY": 1.917915940284729,
+          "last": {
+            "x": 6.580402851104736,
+            "y": 0.8187265396118164,
+            "vx": 2.8407506381944447e-14,
+            "vy": -8.726785960533334e-11,
+            "grounded": true,
+            "tick": 138
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.65,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 42,
+          "maxY": 1.9179140329360962,
+          "last": {
+            "x": 6.584338665008545,
+            "y": 0.8187224268913269,
+            "vx": 1.0482767946870183e-14,
+            "vy": -8.726785960533334e-11,
+            "grounded": true,
+            "tick": 132
+          }
+        },
+        {
+          "scenario": "knee_sprain",
+          "start": 2.75,
+          "perturb": "knee_sprain",
+          "successful": true,
+          "firstJumpTick": 39,
+          "maxY": 1.917915940284729,
+          "last": {
+            "x": 6.58318567276001,
+            "y": 0.8187152743339539,
+            "vx": -2.2726005105555558e-11,
+            "vy": 3.562975192661355e-10,
+            "grounded": true,
+            "tick": 129
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 1.75,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 45,
+          "maxY": 1.9179171323776245,
+          "last": {
+            "x": 6.656571865081787,
+            "y": 0.8183373212814331,
+            "vx": 0.2070642113685608,
+            "vy": 0.000002206413682870334,
+            "grounded": true,
+            "tick": 105
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 1.85,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 43,
+          "maxY": 1.9179149866104126,
+          "last": {
+            "x": 6.651190280914307,
+            "y": 0.8183367848396301,
+            "vx": 0.2071378529071808,
+            "vy": 0.0000088218912424054,
+            "grounded": true,
+            "tick": 103
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.05,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 39,
+          "maxY": 1.917916178703308,
+          "last": {
+            "x": 6.6406402587890625,
+            "y": 0.8183363676071167,
+            "vx": 0.20728935301303864,
+            "vy": -0.000002206537374149775,
+            "grounded": true,
+            "tick": 99
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.15,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 38,
+          "maxY": 1.9179188013076782,
+          "last": {
+            "x": 6.687741756439209,
+            "y": 0.8183375597000122,
+            "vx": 0.20734423398971558,
+            "vy": 0.0000022063866254029563,
+            "grounded": true,
+            "tick": 98
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.35,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 34,
+          "maxY": 1.9179199934005737,
+          "last": {
+            "x": 6.6769795417785645,
+            "y": 0.8183361291885376,
+            "vx": 0.20737436413764954,
+            "vy": 5.508280764843221e-7,
+            "grounded": true,
+            "tick": 94
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.45,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 32,
+          "maxY": 1.9179202318191528,
+          "last": {
+            "x": 6.671617031097412,
+            "y": 0.8183367848396301,
+            "vx": 0.20754393935203552,
+            "vy": 0,
+            "grounded": true,
+            "tick": 92
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.65,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 28,
+          "maxY": 1.917932152748108,
+          "last": {
+            "x": 6.660806179046631,
+            "y": 0.8183370232582092,
+            "vx": 0.2076626569032669,
+            "vy": -4.654285845617778e-10,
+            "grounded": true,
+            "tick": 88
+          }
+        },
+        {
+          "scenario": "mid_push",
+          "start": 2.75,
+          "perturb": "none",
+          "successful": true,
+          "firstJumpTick": 26,
+          "maxY": 1.9179445505142212,
+          "last": {
+            "x": 6.6554059982299805,
+            "y": 0.8183373808860779,
+            "vx": 0.20762357115745544,
+            "vy": 0.000004420358436618699,
+            "grounded": true,
+            "tick": 86
+          }
+        }
+      ]
+    }
+  }
+}
