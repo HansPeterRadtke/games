@@ -1,0 +1,2031 @@
+{
+  "metadata": {
+    "source": "Fixed SceneEval descriptions first 100 human + 100 every-fourth assisted, unchanged parser and 3D spatial compiler",
+    "comparison": "Old per-entity current-document factual text vs explicitly 3D region-scoped grouped physical count prose",
+    "actualAuthority": "Same native GameCore/Rapier, authoritative object identities, prior observer and trusted native full world snapshot",
+    "warnings": "Improved economy/readability is NOT independently rated literary quality or original-source quantitative fidelity",
+    "noGoldOrGPUorLLM": true,
+    "privateRawSHA256": "bec886e936ddaf7d975c7bf507249b8dca56e9f034478927d1769431b5d6df3c",
+    "privateRawPath": "/data/var/games/prse_semantic_research/runs/2026-10-25-quantity-provenance/prse_scoped_quantity_world_text_200_raw_v2.json"
+  },
+  "summary": {
+    "sourceScenes": 200,
+    "acceptedNativeSavedWorlds": 197,
+    "rejectedByGeometry": 3,
+    "realExecutionFailures": 0,
+    "exactNativePhysicsSourceTextAndCountRestoration": 197,
+    "meaningfulQuantitySourceClaims": 844,
+    "referentialUniquenessStillUnknown": 844,
+    "explicitlyAbsentSourceClassesPhysicallyGrounded": 6,
+    "nativePhysicalObjectCount": 938,
+    "physicallyVerifiedSourceRelationshipsInDocument": 100,
+    "previousBareEntityPresentStatements": 938,
+    "previousPerObjectTextBytes": 22913,
+    "scopedGroupedPhysicalTextBytes": 18509,
+    "initialLiterarySourceBytes": 51707,
+    "changedPhysicalMotionDidNotChangeEntityCounts": 64,
+    "elapsedSeconds": 32.49
+  },
+  "cases": [
+    {
+      "id": 0,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 66,
+      "baselineBytes": 90,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 1,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 49,
+      "baselineBytes": 40,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 2,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 66,
+      "baselineBytes": 88,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 3,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 150,
+      "baselineBytes": 159,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 4,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 57,
+      "baselineBytes": 74,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 5,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 99,
+      "baselineBytes": 108,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 6,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 52,
+      "baselineBytes": 67,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 7,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 59,
+      "baselineBytes": 59,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 8,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 77,
+      "baselineBytes": 86,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 9,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 87,
+      "baselineBytes": 96,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 10,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 68,
+      "baselineBytes": 90,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 11,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 57,
+      "baselineBytes": 76,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 12,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 147,
+      "baselineBytes": 156,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 13,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 125,
+      "baselineBytes": 125,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 14,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 57,
+      "baselineBytes": 71,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 15,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 65,
+      "baselineBytes": 107,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 16,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 123,
+      "baselineBytes": 141,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 17,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 73,
+      "baselineBytes": 99,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 18,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 48,
+      "baselineBytes": 39,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 19,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 136,
+      "baselineBytes": 155,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 20,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 113,
+      "baselineBytes": 191,
+      "physicsBodyCount": 9,
+      "sourceReferenceUnknowns": 7,
+      "error": null
+    },
+    {
+      "id": 21,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 87,
+      "baselineBytes": 120,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 22,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 137,
+      "baselineBytes": 164,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 23,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 147,
+      "baselineBytes": 201,
+      "physicsBodyCount": 8,
+      "sourceReferenceUnknowns": 7,
+      "error": null
+    },
+    {
+      "id": 24,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 149,
+      "baselineBytes": 185,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 7,
+      "error": null
+    },
+    {
+      "id": 25,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 169,
+      "baselineBytes": 242,
+      "physicsBodyCount": 9,
+      "sourceReferenceUnknowns": 7,
+      "error": null
+    },
+    {
+      "id": 26,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 72,
+      "baselineBytes": 99,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 27,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 182,
+      "baselineBytes": 209,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 28,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 114,
+      "baselineBytes": 151,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 29,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 176,
+      "baselineBytes": 234,
+      "physicsBodyCount": 8,
+      "sourceReferenceUnknowns": 7,
+      "error": null
+    },
+    {
+      "id": 30,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 72,
+      "baselineBytes": 103,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 31,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 81,
+      "baselineBytes": 161,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 32,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 145,
+      "baselineBytes": 199,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 33,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 93,
+      "baselineBytes": 135,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 34,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 109,
+      "baselineBytes": 136,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 35,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 74,
+      "baselineBytes": 102,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 36,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 56,
+      "baselineBytes": 181,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 37,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 93,
+      "baselineBytes": 112,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 38,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 134,
+      "baselineBytes": 219,
+      "physicsBodyCount": 9,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 39,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 69,
+      "baselineBytes": 106,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 40,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 173,
+      "baselineBytes": 260,
+      "physicsBodyCount": 11,
+      "sourceReferenceUnknowns": 10,
+      "error": null
+    },
+    {
+      "id": 41,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 231,
+      "baselineBytes": 312,
+      "physicsBodyCount": 12,
+      "sourceReferenceUnknowns": 12,
+      "error": null
+    },
+    {
+      "id": 42,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 121,
+      "baselineBytes": 148,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 43,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 203,
+      "baselineBytes": 319,
+      "physicsBodyCount": 12,
+      "sourceReferenceUnknowns": 10,
+      "error": null
+    },
+    {
+      "id": 44,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 222,
+      "baselineBytes": 364,
+      "physicsBodyCount": 13,
+      "sourceReferenceUnknowns": 10,
+      "error": null
+    },
+    {
+      "id": 45,
+      "subset": "human",
+      "status": "rejected_geometry",
+      "currentBytes": null,
+      "baselineBytes": null,
+      "physicsBodyCount": null,
+      "sourceReferenceUnknowns": null,
+      "error": null
+    },
+    {
+      "id": 46,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 99,
+      "baselineBytes": 168,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 47,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 89,
+      "baselineBytes": 170,
+      "physicsBodyCount": 8,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 48,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 84,
+      "baselineBytes": 126,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 49,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 143,
+      "baselineBytes": 366,
+      "physicsBodyCount": 17,
+      "sourceReferenceUnknowns": 9,
+      "error": null
+    },
+    {
+      "id": 50,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 60,
+      "baselineBytes": 60,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 51,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 60,
+      "baselineBytes": 78,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 52,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 57,
+      "baselineBytes": 57,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 53,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 65,
+      "baselineBytes": 74,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 54,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 47,
+      "baselineBytes": 38,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 55,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 46,
+      "baselineBytes": 37,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 56,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 54,
+      "baselineBytes": 45,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 57,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 78,
+      "baselineBytes": 69,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 58,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 37,
+      "baselineBytes": 19,
+      "physicsBodyCount": 1,
+      "sourceReferenceUnknowns": 1,
+      "error": null
+    },
+    {
+      "id": 59,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 48,
+      "baselineBytes": 39,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 60,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 0,
+      "baselineBytes": 0,
+      "physicsBodyCount": 0,
+      "sourceReferenceUnknowns": 0,
+      "error": null
+    },
+    {
+      "id": 61,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 35,
+      "baselineBytes": 17,
+      "physicsBodyCount": 1,
+      "sourceReferenceUnknowns": 1,
+      "error": null
+    },
+    {
+      "id": 62,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 90,
+      "baselineBytes": 99,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 63,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 47,
+      "baselineBytes": 38,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 64,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 61,
+      "baselineBytes": 80,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 65,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 58,
+      "baselineBytes": 49,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 66,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 82,
+      "baselineBytes": 73,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 67,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 61,
+      "baselineBytes": 81,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 68,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 68,
+      "baselineBytes": 91,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 69,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 38,
+      "baselineBytes": 20,
+      "physicsBodyCount": 1,
+      "sourceReferenceUnknowns": 1,
+      "error": null
+    },
+    {
+      "id": 70,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 83,
+      "baselineBytes": 125,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 71,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 167,
+      "baselineBytes": 203,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 7,
+      "error": null
+    },
+    {
+      "id": 72,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 112,
+      "baselineBytes": 154,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 73,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 89,
+      "baselineBytes": 107,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 74,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 54,
+      "baselineBytes": 45,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 75,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 48,
+      "baselineBytes": 39,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 76,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 64,
+      "baselineBytes": 64,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 77,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 67,
+      "baselineBytes": 67,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 78,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 48,
+      "baselineBytes": 39,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 79,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 50,
+      "baselineBytes": 99,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 80,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 51,
+      "baselineBytes": 79,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 81,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 110,
+      "baselineBytes": 119,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 82,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 60,
+      "baselineBytes": 60,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 83,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 62,
+      "baselineBytes": 62,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 84,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 141,
+      "baselineBytes": 159,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 85,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 69,
+      "baselineBytes": 127,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 86,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 38,
+      "baselineBytes": 20,
+      "physicsBodyCount": 1,
+      "sourceReferenceUnknowns": 1,
+      "error": null
+    },
+    {
+      "id": 87,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 94,
+      "baselineBytes": 94,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 88,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 56,
+      "baselineBytes": 56,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 89,
+      "subset": "human",
+      "status": "rejected_geometry",
+      "currentBytes": null,
+      "baselineBytes": null,
+      "physicsBodyCount": null,
+      "sourceReferenceUnknowns": null,
+      "error": null
+    },
+    {
+      "id": 90,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 121,
+      "baselineBytes": 163,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 91,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 123,
+      "baselineBytes": 150,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 92,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 174,
+      "baselineBytes": 210,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 7,
+      "error": null
+    },
+    {
+      "id": 93,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 89,
+      "baselineBytes": 107,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 94,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 59,
+      "baselineBytes": 59,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 95,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 37,
+      "baselineBytes": 19,
+      "physicsBodyCount": 1,
+      "sourceReferenceUnknowns": 1,
+      "error": null
+    },
+    {
+      "id": 96,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 74,
+      "baselineBytes": 65,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 97,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 161,
+      "baselineBytes": 233,
+      "physicsBodyCount": 10,
+      "sourceReferenceUnknowns": 9,
+      "error": null
+    },
+    {
+      "id": 98,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 171,
+      "baselineBytes": 276,
+      "physicsBodyCount": 13,
+      "sourceReferenceUnknowns": 12,
+      "error": null
+    },
+    {
+      "id": 99,
+      "subset": "human",
+      "status": "verified",
+      "currentBytes": 188,
+      "baselineBytes": 302,
+      "physicsBodyCount": 14,
+      "sourceReferenceUnknowns": 13,
+      "error": null
+    },
+    {
+      "id": 100,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 94,
+      "baselineBytes": 94,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 104,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 35,
+      "baselineBytes": 17,
+      "physicsBodyCount": 1,
+      "sourceReferenceUnknowns": 1,
+      "error": null
+    },
+    {
+      "id": 108,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 62,
+      "baselineBytes": 62,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 112,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 68,
+      "baselineBytes": 68,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 116,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 54,
+      "baselineBytes": 45,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 120,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 55,
+      "baselineBytes": 72,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 124,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 107,
+      "baselineBytes": 116,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 128,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 104,
+      "baselineBytes": 113,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 132,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 119,
+      "baselineBytes": 128,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 136,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 53,
+      "baselineBytes": 44,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 140,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 47,
+      "baselineBytes": 38,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 144,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 76,
+      "baselineBytes": 76,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 148,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 73,
+      "baselineBytes": 82,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 152,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 49,
+      "baselineBytes": 40,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 156,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 82,
+      "baselineBytes": 73,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 160,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 69,
+      "baselineBytes": 69,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 164,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 62,
+      "baselineBytes": 62,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 168,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 51,
+      "baselineBytes": 62,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 172,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 38,
+      "baselineBytes": 20,
+      "physicsBodyCount": 1,
+      "sourceReferenceUnknowns": 1,
+      "error": null
+    },
+    {
+      "id": 176,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 51,
+      "baselineBytes": 42,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 180,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 34,
+      "baselineBytes": 16,
+      "physicsBodyCount": 1,
+      "sourceReferenceUnknowns": 1,
+      "error": null
+    },
+    {
+      "id": 184,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 50,
+      "baselineBytes": 41,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 188,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 93,
+      "baselineBytes": 93,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 192,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 58,
+      "baselineBytes": 58,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 196,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 83,
+      "baselineBytes": 101,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 200,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 47,
+      "baselineBytes": 38,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 204,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 88,
+      "baselineBytes": 88,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 208,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 96,
+      "baselineBytes": 96,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 212,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 86,
+      "baselineBytes": 104,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 216,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 91,
+      "baselineBytes": 118,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 220,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 169,
+      "baselineBytes": 205,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 7,
+      "error": null
+    },
+    {
+      "id": 224,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 66,
+      "baselineBytes": 75,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 228,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 65,
+      "baselineBytes": 65,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 232,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 80,
+      "baselineBytes": 89,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 236,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 184,
+      "baselineBytes": 220,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 7,
+      "error": null
+    },
+    {
+      "id": 240,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 247,
+      "baselineBytes": 301,
+      "physicsBodyCount": 9,
+      "sourceReferenceUnknowns": 9,
+      "error": null
+    },
+    {
+      "id": 244,
+      "subset": "assisted",
+      "status": "rejected_geometry",
+      "currentBytes": null,
+      "baselineBytes": null,
+      "physicsBodyCount": null,
+      "sourceReferenceUnknowns": null,
+      "error": null
+    },
+    {
+      "id": 248,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 118,
+      "baselineBytes": 155,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 252,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 47,
+      "baselineBytes": 38,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 256,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 48,
+      "baselineBytes": 39,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 260,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 65,
+      "baselineBytes": 65,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 264,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 69,
+      "baselineBytes": 78,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 268,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 95,
+      "baselineBytes": 113,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 272,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 113,
+      "baselineBytes": 122,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 276,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 76,
+      "baselineBytes": 85,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 280,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 117,
+      "baselineBytes": 126,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 284,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 167,
+      "baselineBytes": 203,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 7,
+      "error": null
+    },
+    {
+      "id": 288,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 101,
+      "baselineBytes": 128,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 292,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 64,
+      "baselineBytes": 87,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 296,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 68,
+      "baselineBytes": 77,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 300,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 97,
+      "baselineBytes": 106,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 304,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 68,
+      "baselineBytes": 68,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 308,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 72,
+      "baselineBytes": 81,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 312,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 49,
+      "baselineBytes": 40,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 316,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 60,
+      "baselineBytes": 60,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 320,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 73,
+      "baselineBytes": 82,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 324,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 49,
+      "baselineBytes": 40,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 328,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 83,
+      "baselineBytes": 97,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 332,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 77,
+      "baselineBytes": 86,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 336,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 84,
+      "baselineBytes": 84,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 340,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 96,
+      "baselineBytes": 123,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 344,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 71,
+      "baselineBytes": 80,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 348,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 143,
+      "baselineBytes": 170,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 352,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 64,
+      "baselineBytes": 64,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 356,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 148,
+      "baselineBytes": 166,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 360,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 87,
+      "baselineBytes": 105,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 364,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 104,
+      "baselineBytes": 122,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 368,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 68,
+      "baselineBytes": 68,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 372,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 159,
+      "baselineBytes": 195,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 7,
+      "error": null
+    },
+    {
+      "id": 376,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 122,
+      "baselineBytes": 167,
+      "physicsBodyCount": 8,
+      "sourceReferenceUnknowns": 8,
+      "error": null
+    },
+    {
+      "id": 380,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 140,
+      "baselineBytes": 203,
+      "physicsBodyCount": 10,
+      "sourceReferenceUnknowns": 10,
+      "error": null
+    },
+    {
+      "id": 384,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 132,
+      "baselineBytes": 186,
+      "physicsBodyCount": 9,
+      "sourceReferenceUnknowns": 9,
+      "error": null
+    },
+    {
+      "id": 388,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 166,
+      "baselineBytes": 220,
+      "physicsBodyCount": 9,
+      "sourceReferenceUnknowns": 9,
+      "error": null
+    },
+    {
+      "id": 392,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 206,
+      "baselineBytes": 269,
+      "physicsBodyCount": 10,
+      "sourceReferenceUnknowns": 10,
+      "error": null
+    },
+    {
+      "id": 396,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 140,
+      "baselineBytes": 185,
+      "physicsBodyCount": 8,
+      "sourceReferenceUnknowns": 8,
+      "error": null
+    },
+    {
+      "id": 400,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 101,
+      "baselineBytes": 110,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 404,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 126,
+      "baselineBytes": 153,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 408,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 48,
+      "baselineBytes": 39,
+      "physicsBodyCount": 2,
+      "sourceReferenceUnknowns": 2,
+      "error": null
+    },
+    {
+      "id": 412,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 109,
+      "baselineBytes": 185,
+      "physicsBodyCount": 8,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 416,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 86,
+      "baselineBytes": 104,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 420,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 78,
+      "baselineBytes": 124,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 424,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 235,
+      "baselineBytes": 325,
+      "physicsBodyCount": 13,
+      "sourceReferenceUnknowns": 13,
+      "error": null
+    },
+    {
+      "id": 428,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 124,
+      "baselineBytes": 151,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 432,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 83,
+      "baselineBytes": 101,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 436,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 69,
+      "baselineBytes": 136,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 440,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 101,
+      "baselineBytes": 168,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 444,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 94,
+      "baselineBytes": 103,
+      "physicsBodyCount": 4,
+      "sourceReferenceUnknowns": 4,
+      "error": null
+    },
+    {
+      "id": 448,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 116,
+      "baselineBytes": 134,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 452,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 84,
+      "baselineBytes": 102,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 456,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 109,
+      "baselineBytes": 127,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 460,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 61,
+      "baselineBytes": 61,
+      "physicsBodyCount": 3,
+      "sourceReferenceUnknowns": 3,
+      "error": null
+    },
+    {
+      "id": 464,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 119,
+      "baselineBytes": 146,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 468,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 131,
+      "baselineBytes": 149,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 472,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 133,
+      "baselineBytes": 151,
+      "physicsBodyCount": 5,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 476,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 164,
+      "baselineBytes": 200,
+      "physicsBodyCount": 7,
+      "sourceReferenceUnknowns": 7,
+      "error": null
+    },
+    {
+      "id": 480,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 143,
+      "baselineBytes": 170,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 484,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 229,
+      "baselineBytes": 309,
+      "physicsBodyCount": 11,
+      "sourceReferenceUnknowns": 10,
+      "error": null
+    },
+    {
+      "id": 488,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 117,
+      "baselineBytes": 144,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 6,
+      "error": null
+    },
+    {
+      "id": 492,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 86,
+      "baselineBytes": 171,
+      "physicsBodyCount": 8,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    },
+    {
+      "id": 496,
+      "subset": "assisted",
+      "status": "verified",
+      "currentBytes": 121,
+      "baselineBytes": 161,
+      "physicsBodyCount": 6,
+      "sourceReferenceUnknowns": 5,
+      "error": null
+    }
+  ]
+}

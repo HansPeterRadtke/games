@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "sourceA": "External original human SceneEval room row7, with authored adversarial physical violation intentionally inserted only in separate branch",
+    "sourceB": "Original PRSE paper/desk offscreen burn research hypothesis, explicitly authored, NOT simulated chemical fire",
+    "actualPhysics": "PRSE GameCore/Rapier with stable identities, semantic evolution and native save/reentry",
+    "scope": "Negative/contradictory/temporal quantifier status; not a human general-language evaluation"
+  },
+  "originalHumanNegation": {
+    "explicitlyAbsentType": "coffee_table",
+    "originallyPhysicallyAbsent": true,
+    "unloadedRegionCorrectlyUnknown": true,
+    "originalSourceAndIDsRetained": true,
+    "noForbiddenObjectCreatedByNativeRematerialization": true,
+    "sameSourceAfterFourSecondsOffscreen": true
+  },
+  "deliberatelyContradictedPhysicalScene": {
+    "adversarialSourceObjectID": "adversarial-coffee-table",
+    "originalSourceProseStillDemandsAbsence": true,
+    "nativeWorldPhysicallyIncludesOneCoffeeTable": true,
+    "sourceNegationProvedPhysicallyFalse": true,
+    "truthConflictPersistsAcrossTrustedNativeSave": true,
+    "currentWorldTextTruthfullyMentionsContradictoryPhysicalBody": true,
+    "correctiveSemanticsMustNotPretendOriginalSourceWasAlwaysCorrect": true
+  },
+  "offscreenAuthoredFire": {
+    "sourceNoteOriginallyPhysicallyPresent": true,
+    "nativeOffscreenWorldAndSourceSavedAfterTwelveSeconds": true,
+    "sourceNoteNowPhysicallyAbsent": true,
+    "originalNoteIdentityHistoricalDestroyed": true,
+    "physicallyDistinctAshPresentWithNativeCollider": true,
+    "currentSemanticCountDoesNotReuseOldLiteralSourceAsPresentTruth": true,
+    "originalLiterarySourceStillHistorical": true,
+    "currentWorldTextMentionsAshAndHistoricDestruction": true
+  }
+}

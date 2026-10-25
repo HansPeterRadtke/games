@@ -1,4 +1,7 @@
 # PRSE research: persistent current semantic document, native 3D truth, and literary limits
+
+> **Subsequent independent source-fidelity audit:** [quantifiers, object-reference ambiguity and physically scoped current text](PRSE_SOURCE_QUANTIFIER_AND_PHYSICAL_WORLD_FIDELITY_2026-10-25.md) compares native 3D body counts against official independent SceneEval source count and attribute annotations. Compiler agreement with its own invented world is circular; most original source requirements remain unanswered. The factual current-world and save observations in this report remain preserved as separate evidence.
+
 25 October 2026 — final scheduled continuation in the same Games research branch
 
 ## Original owner objective

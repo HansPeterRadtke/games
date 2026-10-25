@@ -1,0 +1,73 @@
+{
+  "metadata": {
+    "source": "Official SceneEval-500 annotated ObjCount and ObjAttr, only loaded after original source/physics predictions frozen",
+    "sourceSha256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "frozenParserProposalSha256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "frozenPhysicsRawSha256": "c9ae7a0500069f1a7f7c5c5affcd6260ea776bf6dbb8e23ad82e52e4d51fdc66",
+    "countSemantics": "Gold eq/ge/gt interpreted as within-scene type count; the source parser's eq may not mean exhaustive universe closure",
+    "attributeCaveat": "Attributes guessed from source text or assigned by same compiler are not independent physical/visual verification",
+    "unsupported": "No semantic source coreference, negation scope, full scene entailment or human evaluation is claimed",
+    "humanAndAssistedSampling": "Same first100 human and every4th 100 from assisted400 source data",
+    "privateGoldAuditRawSHA256": "11b56b44b47628e878c3c1d1ca71ca013e1314e17ade781542b4ea49a6c0669c",
+    "privateGoldAuditRawFile": "/data/var/games/prse_semantic_research/runs/2026-10-25-quantity-provenance/prse_source_quantity_official_gold_per_case_v1.json"
+  },
+  "splits": {
+    "human100": {
+      "descriptions": 100,
+      "physicallyValidatedScenes": 98,
+      "goldCountClauses": 508,
+      "goldCountSatisfiedByPhysicalWorld": 310,
+      "goldCountSatisfiedBySourceLexicalProposal": 310,
+      "goldCountClausesWithRecognizedNoun": 335,
+      "goldAttributeClauses": 264,
+      "lexicalAttributeMatchesGold": 76,
+      "goldExplicitZeroClaims": 4,
+      "goldExplicitZeroPhysicallySatisfied": 4,
+      "goldExplicitZeroParsedAsAbsence": 4,
+      "goldExplicitZeroParsedAndPhysicallySatisfied": 4,
+      "goldCountContradictedByPhysicalWorld": 198,
+      "goldPhysicalUnderCount": 196,
+      "physicalSceneRejectedOrFailed": 2,
+      "independentlyAnnotatedCountClausesUnableToCheck": 14,
+      "independentlyAnnotatedAttributeClausesUnableToCheck": 10
+    },
+    "assisted100": {
+      "descriptions": 100,
+      "physicallyValidatedScenes": 99,
+      "goldCountClauses": 729,
+      "goldCountSatisfiedByPhysicalWorld": 255,
+      "goldCountSatisfiedBySourceLexicalProposal": 255,
+      "goldCountClausesWithRecognizedNoun": 282,
+      "goldAttributeClauses": 708,
+      "goldCountContradictedByPhysicalWorld": 474,
+      "goldPhysicalUnderCount": 474,
+      "lexicalAttributeMatchesGold": 63,
+      "goldExplicitZeroClaims": 2,
+      "goldExplicitZeroPhysicallySatisfied": 2,
+      "goldExplicitZeroParsedAsAbsence": 2,
+      "goldExplicitZeroParsedAndPhysicallySatisfied": 2,
+      "physicalSceneRejectedOrFailed": 1,
+      "independentlyAnnotatedCountClausesUnableToCheck": 5,
+      "independentlyAnnotatedAttributeClausesUnableToCheck": 6
+    }
+  },
+  "combined": {
+    "descriptions": 200,
+    "physicallyValidatedScenes": 197,
+    "goldCountClauses": 1237,
+    "goldCountSatisfiedByPhysicalWorld": 565,
+    "goldCountSatisfiedBySourceLexicalProposal": 565,
+    "goldCountClausesWithRecognizedNoun": 617,
+    "goldAttributeClauses": 972,
+    "lexicalAttributeMatchesGold": 139,
+    "goldExplicitZeroClaims": 6,
+    "goldExplicitZeroPhysicallySatisfied": 6,
+    "goldExplicitZeroParsedAsAbsence": 6,
+    "goldExplicitZeroParsedAndPhysicallySatisfied": 6,
+    "goldCountContradictedByPhysicalWorld": 672,
+    "goldPhysicalUnderCount": 670,
+    "physicalSceneRejectedOrFailed": 3,
+    "independentlyAnnotatedCountClausesUnableToCheck": 19,
+    "independentlyAnnotatedAttributeClausesUnableToCheck": 16
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "metadata": {
+    "method": "Scene-level nonparametric bootstrap, 4000 independent resamples per source category with fixed seed",
+    "source": "Frozen official SceneEval source/physics count audit, manually authored human and partly assisted disjoint source groups",
+    "sampleLimit": "Curated previous-benchmark-exposed prompts, not pristine withheld or random general PRSE fiction; CI conditional on this dataset",
+    "metric": "Fraction of independently annotated exact/inequality object-type count claims satisfied by PRSE actual native 3D population",
+    "unit": "source descriptions, not individual dependent annotated claims"
+  },
+  "splits": {
+    "human100": {
+      "acceptedPhysicalScenes": 98,
+      "authorAnnotatedQuantityClauses": 508,
+      "physicallySatisfiedGoldQuantityClauses": 310,
+      "observedClauseFraction": 0.610236220472441,
+      "conditionalBootstrap95": [
+        0.5582959641255605,
+        0.668724279835391
+      ],
+      "authorAnnotatedAttributes": 264,
+      "lexicallyMatchingAttributes": 76,
+      "attributeTextOnlyFraction": 0.2878787878787879,
+      "attributeBootstrap95": [
+        0.22761194029850745,
+        0.3489208633093525
+      ],
+      "sourceVsPhysicsQualifier": "Actual materialized count, but no independent source-reference entailment or appearance verification"
+    },
+    "assisted100": {
+      "acceptedPhysicalScenes": 99,
+      "authorAnnotatedQuantityClauses": 729,
+      "physicallySatisfiedGoldQuantityClauses": 255,
+      "observedClauseFraction": 0.3497942386831276,
+      "conditionalBootstrap95": [
+        0.3128205128205128,
+        0.39154929577464787
+      ],
+      "authorAnnotatedAttributes": 708,
+      "lexicallyMatchingAttributes": 63,
+      "attributeTextOnlyFraction": 0.08898305084745763,
+      "attributeBootstrap95": [
+        0.06580829756795423,
+        0.11408450704225352
+      ],
+      "sourceVsPhysicsQualifier": "Actual materialized count, but no independent source-reference entailment or appearance verification"
+    }
+  }
+}

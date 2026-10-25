@@ -1,0 +1,2050 @@
+{
+  "metadata": {
+    "description": "Frozen external source quantity parser proposal vs real PRSE GameCore/Rapier physical count and native save",
+    "sourceAnnotationsNeverLoaded": true,
+    "noGPUorLLM": true,
+    "limitation": "A physical count produced FROM the interpreter proposal does not establish independent faithful source quantifier interpretation",
+    "sourceTextNotInPublicSafeResult": true,
+    "privateRawSHA256": "c9ae7a0500069f1a7f7c5c5affcd6260ea776bf6dbb8e23ad82e52e4d51fdc66",
+    "privateRawPath": "/data/var/games/prse_semantic_research/runs/2026-10-25-quantity-provenance/prse_source_quantity_physics_200_raw_v1.json"
+  },
+  "summary": {
+    "sourceDescriptionsTotal": 500,
+    "descriptionsWithRepeatedObjectTypeMentions": 300,
+    "sourceMentionSpansTotal": 2787,
+    "sourceMentionsExplicitlyQuantified": 736,
+    "sourceMentionsWithoutExplicitNumericalQuantifier": 2051,
+    "parserProposedNegatedTypeInSourceScenes": 6,
+    "physicalSampleDescriptions": 200,
+    "acceptedAndActuallySaved": 197,
+    "rejectedSceneGeometry": 3,
+    "failureCases": 0,
+    "physicalBodiesAcrossAcceptedScenes": 938,
+    "numericSourceProposalCount": 844,
+    "numericalCompilerMatchTrue": 844,
+    "numericalCompilerMatchFalse": 0,
+    "numericalCompilerMatchUnknown": 0,
+    "explicitSourceAbsencesChecked": 6,
+    "explicitSourceAbsencesPhysicallyPresentDespiteNegation": 0,
+    "sourceTypeClaimsWithRepeatedReferents": 171,
+    "originalExactCountClaimsIndependentlyEntailed": 0,
+    "objectVisualAttributesIndependentlyVerified": 0,
+    "matchedNativeSaveCounts": 197,
+    "originalProsePreserved": 197,
+    "wallSeconds": 22.52
+  },
+  "scenarios": [
+    {
+      "id": 0,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 1,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 2,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 3,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 4,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 5,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 6,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 7,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [
+        "coffee_table"
+      ],
+      "error": null
+    },
+    {
+      "id": 8,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 9,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 10,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 11,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 12,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 13,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 14,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 15,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 16,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 17,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 18,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 19,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 20,
+      "status": "native_3d_verified",
+      "sourceTypes": 7,
+      "compilerQuantities": 7,
+      "realBodies": 9,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 21,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 0,
+      "absentTypes": [
+        "wardrobe"
+      ],
+      "error": null
+    },
+    {
+      "id": 22,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 6,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 23,
+      "status": "native_3d_verified",
+      "sourceTypes": 7,
+      "compilerQuantities": 7,
+      "realBodies": 8,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 24,
+      "status": "native_3d_verified",
+      "sourceTypes": 7,
+      "compilerQuantities": 7,
+      "realBodies": 7,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 25,
+      "status": "native_3d_verified",
+      "sourceTypes": 7,
+      "compilerQuantities": 7,
+      "realBodies": 9,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 26,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 5,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 27,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 6,
+      "repeatedTypes": 3,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 28,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 6,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 29,
+      "status": "native_3d_verified",
+      "sourceTypes": 7,
+      "compilerQuantities": 7,
+      "realBodies": 8,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 30,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 5,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 31,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 7,
+      "repeatedTypes": 2,
+      "absentTypes": [
+        "TV"
+      ],
+      "error": null
+    },
+    {
+      "id": 32,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 7,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 33,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 6,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 34,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 6,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 35,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 5,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 36,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 7,
+      "repeatedTypes": 0,
+      "absentTypes": [
+        "coffee_table"
+      ],
+      "error": null
+    },
+    {
+      "id": 37,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 38,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 9,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 39,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 5,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 40,
+      "status": "native_3d_verified",
+      "sourceTypes": 10,
+      "compilerQuantities": 10,
+      "realBodies": 11,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 41,
+      "status": "native_3d_verified",
+      "sourceTypes": 12,
+      "compilerQuantities": 12,
+      "realBodies": 12,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 42,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 5,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 43,
+      "status": "native_3d_verified",
+      "sourceTypes": 10,
+      "compilerQuantities": 10,
+      "realBodies": 12,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 44,
+      "status": "native_3d_verified",
+      "sourceTypes": 10,
+      "compilerQuantities": 10,
+      "realBodies": 13,
+      "repeatedTypes": 5,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 45,
+      "status": "geometrically_rejected",
+      "sourceTypes": 8,
+      "compilerQuantities": 0,
+      "realBodies": null,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 46,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 7,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 47,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 8,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 48,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 6,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 49,
+      "status": "native_3d_verified",
+      "sourceTypes": 9,
+      "compilerQuantities": 9,
+      "realBodies": 17,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 50,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 51,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 52,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 53,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 54,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 55,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 56,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 57,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 58,
+      "status": "native_3d_verified",
+      "sourceTypes": 1,
+      "compilerQuantities": 1,
+      "realBodies": 1,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 59,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 60,
+      "status": "native_3d_verified",
+      "sourceTypes": 0,
+      "compilerQuantities": 0,
+      "realBodies": 0,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 61,
+      "status": "native_3d_verified",
+      "sourceTypes": 1,
+      "compilerQuantities": 1,
+      "realBodies": 1,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 62,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 63,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 64,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 65,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 66,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 67,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 68,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 69,
+      "status": "native_3d_verified",
+      "sourceTypes": 1,
+      "compilerQuantities": 1,
+      "realBodies": 1,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 70,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 6,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 71,
+      "status": "native_3d_verified",
+      "sourceTypes": 7,
+      "compilerQuantities": 7,
+      "realBodies": 7,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 72,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 6,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 73,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 74,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 75,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 76,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 77,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 78,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 79,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 5,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 80,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 81,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 82,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 83,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 84,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 85,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 6,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 86,
+      "status": "native_3d_verified",
+      "sourceTypes": 1,
+      "compilerQuantities": 1,
+      "realBodies": 1,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 87,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 88,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 89,
+      "status": "geometrically_rejected",
+      "sourceTypes": 6,
+      "compilerQuantities": 0,
+      "realBodies": null,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 90,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 6,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 91,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 6,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 92,
+      "status": "native_3d_verified",
+      "sourceTypes": 7,
+      "compilerQuantities": 7,
+      "realBodies": 7,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 93,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 94,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 95,
+      "status": "native_3d_verified",
+      "sourceTypes": 1,
+      "compilerQuantities": 1,
+      "realBodies": 1,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 96,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 97,
+      "status": "native_3d_verified",
+      "sourceTypes": 9,
+      "compilerQuantities": 9,
+      "realBodies": 10,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 98,
+      "status": "native_3d_verified",
+      "sourceTypes": 12,
+      "compilerQuantities": 12,
+      "realBodies": 13,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 99,
+      "status": "native_3d_verified",
+      "sourceTypes": 13,
+      "compilerQuantities": 13,
+      "realBodies": 14,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 100,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 104,
+      "status": "native_3d_verified",
+      "sourceTypes": 1,
+      "compilerQuantities": 1,
+      "realBodies": 1,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 108,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 112,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [
+        "TV"
+      ],
+      "error": null
+    },
+    {
+      "id": 116,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 120,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 124,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 128,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 132,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 136,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 140,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 144,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 148,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 152,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 156,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 160,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 164,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 168,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 172,
+      "status": "native_3d_verified",
+      "sourceTypes": 1,
+      "compilerQuantities": 1,
+      "realBodies": 1,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 176,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 180,
+      "status": "native_3d_verified",
+      "sourceTypes": 1,
+      "compilerQuantities": 1,
+      "realBodies": 1,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 184,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 188,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 192,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 196,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 200,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 204,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 208,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [
+        "chair"
+      ],
+      "error": null
+    },
+    {
+      "id": 212,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 216,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 5,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 220,
+      "status": "native_3d_verified",
+      "sourceTypes": 7,
+      "compilerQuantities": 7,
+      "realBodies": 7,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 224,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 228,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 232,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 236,
+      "status": "native_3d_verified",
+      "sourceTypes": 7,
+      "compilerQuantities": 7,
+      "realBodies": 7,
+      "repeatedTypes": 3,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 240,
+      "status": "native_3d_verified",
+      "sourceTypes": 9,
+      "compilerQuantities": 9,
+      "realBodies": 9,
+      "repeatedTypes": 4,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 244,
+      "status": "geometrically_rejected",
+      "sourceTypes": 4,
+      "compilerQuantities": 0,
+      "realBodies": null,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 248,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 5,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 252,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 256,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 260,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 264,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 268,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 272,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 276,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 280,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 284,
+      "status": "native_3d_verified",
+      "sourceTypes": 7,
+      "compilerQuantities": 7,
+      "realBodies": 7,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 288,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 6,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 292,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 296,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 300,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 304,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 308,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 312,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 316,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 320,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 324,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 328,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 332,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 336,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 340,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 6,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 344,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 348,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 6,
+      "repeatedTypes": 3,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 352,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 356,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 360,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 364,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 368,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 372,
+      "status": "native_3d_verified",
+      "sourceTypes": 7,
+      "compilerQuantities": 7,
+      "realBodies": 7,
+      "repeatedTypes": 3,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 376,
+      "status": "native_3d_verified",
+      "sourceTypes": 8,
+      "compilerQuantities": 8,
+      "realBodies": 8,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 380,
+      "status": "native_3d_verified",
+      "sourceTypes": 10,
+      "compilerQuantities": 10,
+      "realBodies": 10,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 384,
+      "status": "native_3d_verified",
+      "sourceTypes": 9,
+      "compilerQuantities": 9,
+      "realBodies": 9,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 388,
+      "status": "native_3d_verified",
+      "sourceTypes": 9,
+      "compilerQuantities": 9,
+      "realBodies": 9,
+      "repeatedTypes": 4,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 392,
+      "status": "native_3d_verified",
+      "sourceTypes": 10,
+      "compilerQuantities": 10,
+      "realBodies": 10,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 396,
+      "status": "native_3d_verified",
+      "sourceTypes": 8,
+      "compilerQuantities": 8,
+      "realBodies": 8,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 400,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 404,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 6,
+      "repeatedTypes": 3,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 408,
+      "status": "native_3d_verified",
+      "sourceTypes": 2,
+      "compilerQuantities": 2,
+      "realBodies": 2,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 412,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 8,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 416,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 420,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 6,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 424,
+      "status": "native_3d_verified",
+      "sourceTypes": 13,
+      "compilerQuantities": 13,
+      "realBodies": 13,
+      "repeatedTypes": 4,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 428,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 6,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 432,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 436,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 7,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 440,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 7,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 444,
+      "status": "native_3d_verified",
+      "sourceTypes": 4,
+      "compilerQuantities": 4,
+      "realBodies": 4,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 448,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 452,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 456,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 460,
+      "status": "native_3d_verified",
+      "sourceTypes": 3,
+      "compilerQuantities": 3,
+      "realBodies": 3,
+      "repeatedTypes": 0,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 464,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 6,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 468,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 472,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 5,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 476,
+      "status": "native_3d_verified",
+      "sourceTypes": 7,
+      "compilerQuantities": 7,
+      "realBodies": 7,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 480,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 6,
+      "repeatedTypes": 3,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 484,
+      "status": "native_3d_verified",
+      "sourceTypes": 10,
+      "compilerQuantities": 10,
+      "realBodies": 11,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 488,
+      "status": "native_3d_verified",
+      "sourceTypes": 6,
+      "compilerQuantities": 6,
+      "realBodies": 6,
+      "repeatedTypes": 3,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 492,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 8,
+      "repeatedTypes": 1,
+      "absentTypes": [],
+      "error": null
+    },
+    {
+      "id": 496,
+      "status": "native_3d_verified",
+      "sourceTypes": 5,
+      "compilerQuantities": 5,
+      "realBodies": 6,
+      "repeatedTypes": 2,
+      "absentTypes": [],
+      "error": null
+    }
+  ]
+}

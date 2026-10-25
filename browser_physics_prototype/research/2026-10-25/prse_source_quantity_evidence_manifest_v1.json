@@ -1,0 +1,68 @@
+{
+  "metadata": {
+    "source": "SceneEval-500 official author-supplied source and annotations, separated from the actual physics interpreter",
+    "sceneEvalSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "sourceParserRawSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "noGoldDuringInterpreterOrRapierPhysics": true,
+    "frozenSourceIDs": "Human rows 0..99 and assisted rows 100,104,...496",
+    "ownerPrivateCompleteRawResults": true,
+    "noGPUorLLMorHumanEvaluation": true,
+    "sourceCountWarning": "Self-consistency with compiler-generated scene populations is tautological and DOES NOT validate the literary source.",
+    "attributeWarning": "Visual and material properties parsed from prose are not independently verified by Rapier objects."
+  },
+  "observedSourceParserAmbiguity": {
+    "totalMentions": 2787,
+    "withoutExplicitQuantification": 2051,
+    "explicitQuantifiedMentions": 736,
+    "scenesWithRepeatedObjectTypeMentions": 300
+  },
+  "actualPhysicalWorldCountVsIndependentSourceLabels": {
+    "physicallyAcceptedScenes": 197,
+    "compilerCountClaimsSelfMatched": 844,
+    "independentGoldCountClauses": 1237,
+    "goldClausesMatchedByRealBodies": 565,
+    "goldClausesContradicted": 672,
+    "mostlyUnderCounted": 670,
+    "goldSourceNegationsRealized": 6,
+    "annotatedAttributesNotIndependentlyMeasured": 972
+  },
+  "scopedCurrentText": {
+    "v1": {
+      "bytes": 26017,
+      "baselineBytes": 22913,
+      "nativeSaveVerifications": 197
+    },
+    "v2": {
+      "bytes": 18509,
+      "baselineBytes": 22913,
+      "nativeSaveVerifications": 197
+    }
+  },
+  "adversarialNativeCausalTruth": {
+    "realOriginalSourceNegationSurvivesUnloading": true,
+    "deliberatelyContradictoryPhysicalObjectIsCaught": true,
+    "authoredOffscreenDestructionDoesNotReuseOldSourceCount": true
+  },
+  "privateRawManifest": {
+    "prse_source_quantity_physics_200_raw_v1.json": {
+      "sha256": "c9ae7a0500069f1a7f7c5c5affcd6260ea776bf6dbb8e23ad82e52e4d51fdc66",
+      "bytes": 1102680,
+      "ownerPrivate": true
+    },
+    "prse_source_quantity_official_gold_per_case_v1.json": {
+      "sha256": "11b56b44b47628e878c3c1d1ca71ca013e1314e17ade781542b4ea49a6c0669c",
+      "bytes": 682798,
+      "ownerPrivate": true
+    },
+    "prse_scoped_quantity_world_text_200_raw_v1.json": {
+      "sha256": "ad711408b82fe8cca327cd37302fb6cb47b491db44957bfadfc08fd7828f5ee7",
+      "bytes": 168117,
+      "ownerPrivate": true
+    },
+    "prse_scoped_quantity_world_text_200_raw_v2.json": {
+      "sha256": "bec886e936ddaf7d975c7bf507249b8dca56e9f034478927d1769431b5d6df3c",
+      "bytes": 160727,
+      "ownerPrivate": true
+    }
+  }
+}
