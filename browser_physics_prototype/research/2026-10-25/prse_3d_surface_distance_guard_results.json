@@ -1,0 +1,50 @@
+{
+  "provenance": {
+    "task": "PRSE physically grounded near-relation correctness in three real dimensions",
+    "method": "Native PRSELoop/GameCore/Rapier fixed bodies and saved/reloaded physics",
+    "priorNegativeSources": [
+      "prse_false_near_vertical_gap_prefixed_negative.json",
+      "prse_false_diagonal_near_before_distance_fix.json"
+    ],
+    "noExternalHumanExamplesClaimed": true
+  },
+  "preFixCounterexamples": {
+    "verticalWrong": true,
+    "diagonalWrong": true
+  },
+  "corrected": [
+    {
+      "id": "vertical",
+      "truth": "false",
+      "physicsReason": "metric_three_dimensional_surface_clearance",
+      "actualDelta": {
+        "x": 0,
+        "y": 4.75,
+        "z": 0
+      },
+      "afterNativeSave": "false"
+    },
+    {
+      "id": "diagonal",
+      "truth": "false",
+      "physicsReason": "metric_three_dimensional_surface_clearance",
+      "actualDelta": {
+        "x": 1.6999999999999993,
+        "y": 0,
+        "z": 1.6999999999999993
+      },
+      "afterNativeSave": "false"
+    },
+    {
+      "id": "same-floor-near",
+      "truth": "true",
+      "physicsReason": "metric_three_dimensional_surface_clearance",
+      "actualDelta": {
+        "x": 0.8999999999999986,
+        "y": 0,
+        "z": 0
+      },
+      "afterNativeSave": "true"
+    }
+  ]
+}

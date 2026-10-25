@@ -1,0 +1,61 @@
+{
+  "metadata": {
+    "source": "External SceneEval-500, human first100 and systematic assisted100, unchanged source-lexical parser proposals",
+    "noGoldInput": true,
+    "noGenerativeModel": true,
+    "claims": "Only physically measured supported factual relations; unknown withheld; observer rays control delivery",
+    "scientificLimit": "Independent geometry oracle only approximately aligned; no lexical literary fluency, no blinded human evaluation, no production integration"
+  },
+  "variants": [
+    {
+      "summary": {
+        "method": "deterministic",
+        "scenes": 200,
+        "humanScenes": 100,
+        "assistedScenes": 100,
+        "verifiedSceneSaves": 195,
+        "rejectedBeforeSimulation": 4,
+        "failed": 1,
+        "sourceParsedRelations": 418,
+        "knownPhysicallyTrue": 100,
+        "knownPhysicallyFalse": 34,
+        "physicallyUnknownOrAmbiguous": 273,
+        "emittedVerifiedFactStatements": 268,
+        "sameFactRepeatedOnSameObserver": 0,
+        "independentOracleDisagreements": 0,
+        "independentOracleComparisons": 110,
+        "changedRelationTruthAfterRealImpulse": 7,
+        "physicallyNoLongerTrueAfterImpulse": 7,
+        "noSourceProseMutation": true,
+        "elapsedWallSeconds": 27.11
+      },
+      "privateRawSHA256": "6e049d5837c4d4c8b047d143adc352b0fe9c8b2b691c71a2a4c026bf7baf9234",
+      "privatePath": "/data/var/games/prse_semantic_research/runs/2026-10-25-grounded-prose/prse_grounded_prose_deterministic_200_raw_v1.json"
+    },
+    {
+      "summary": {
+        "method": "union",
+        "scenes": 200,
+        "humanScenes": 100,
+        "assistedScenes": 100,
+        "verifiedSceneSaves": 194,
+        "rejectedBeforeSimulation": 6,
+        "failed": 0,
+        "sourceParsedRelations": 610,
+        "knownPhysicallyTrue": 133,
+        "knownPhysicallyFalse": 41,
+        "physicallyUnknownOrAmbiguous": 407,
+        "emittedVerifiedFactStatements": 336,
+        "sameFactRepeatedOnSameObserver": 0,
+        "independentOracleDisagreements": 0,
+        "independentOracleComparisons": 148,
+        "changedRelationTruthAfterRealImpulse": 8,
+        "physicallyNoLongerTrueAfterImpulse": 8,
+        "noSourceProseMutation": true,
+        "elapsedWallSeconds": 22.89
+      },
+      "privateRawSHA256": "264d3bfdf1b002e4729a7c1acf1da818b8f1e5859c6eb7226d824a4c38f31dd1",
+      "privatePath": "/data/var/games/prse_semantic_research/runs/2026-10-25-grounded-prose/prse_grounded_prose_union_200_raw_v1.json"
+    }
+  ]
+}

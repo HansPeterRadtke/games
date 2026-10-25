@@ -1,0 +1,13 @@
+{
+  "source": "Adversarial physical GameCore research fixture, NOT third-party human narrative data",
+  "actualZDistance": 0,
+  "actualVerticalGapMeters": 4.3,
+  "preFixTruth": "true",
+  "wronglyVerified": true,
+  "proposed": {
+    "kind": "object",
+    "type": "near",
+    "a": "crate",
+    "b": "lamp"
+  }
+}

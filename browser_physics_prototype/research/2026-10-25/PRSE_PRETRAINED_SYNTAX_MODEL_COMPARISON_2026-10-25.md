@@ -1,4 +1,7 @@
 # PRSE — matched pretrained syntax model versus deterministic semantic scene interpretation
+
+> **Later source/physical truth audit:** The [grounded current-fact and re-entry study](PRSE_GROUNDED_FACTUAL_WORLD_RESEARCH_2026-10-25.md) deliberately refuses unverified relations in factual narration, separately scores independent source annotations, and preserves a one-frame restored contact-manifold failure. The earlier text/physics model comparison remains unchanged.
+
 25 October 2026 · Existing Nitro Games research branch
 
 The owner’s **primary** PRSE research objective remains the bidirectional transformation of a persistent literary/semantic world into one authoritative three-dimensional physical world and back: source-grounded object identities and relations, real physical events, truthful observer-relevant changed prose, economic offscreen causal evolution, and consistent rematerialization. Habit learning, scripted walking and fence jumps are lower-priority separate work. Preserve the original PRSE acronym expansion as **UNKNOWN**: the August 13 recording explicitly says the speaker forgot it.

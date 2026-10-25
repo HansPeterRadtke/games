@@ -1,0 +1,37 @@
+{
+  "provenance": {
+    "source": "SceneEval-500 original human-authored description ID 22",
+    "afterEvent": "Source-specific Rapier 3D physical impulse, NOT an authored after-scene",
+    "status": "Illustrative selected example with genuine source-annotated on-relation; not blind corpus science",
+    "limitations": "No generated literary style or exact visual material proof, no player-human perceptual test"
+  },
+  "initial": {
+    "originalLiteraryInputWasPreserved": true,
+    "rigidBodyIdentity": "sem-22-lamp-0",
+    "supportIdentity": "sem-22-nightstand-0",
+    "authenticatedRayVisibility": [
+      "sem-22-lamp-0",
+      "sem-22-nightstand-0"
+    ],
+    "verifiedNarration": [
+      "lamp 1 rests on nightstand 1."
+    ]
+  },
+  "changed": {
+    "actualPhysicsEventCount": 4,
+    "physicallyLostSourceSupport": true,
+    "sourceLiteraryTextStillHistorical": true,
+    "narratorDidNotRevealHiddenChange": true
+  },
+  "savedReentry": {
+    "originalClock": 0.6666666666666671,
+    "elapsedUnloadedSeconds": 7,
+    "rematerializedBodies": 18,
+    "sameEntityIdentity": true,
+    "currentFact": "no longer on nightstand",
+    "noInventedCause": true,
+    "observableCorrectRetraction": "lamp 1 no longer rests on nightstand 1.",
+    "noDuplicateNextRead": true,
+    "keptOriginalProse": true
+  }
+}

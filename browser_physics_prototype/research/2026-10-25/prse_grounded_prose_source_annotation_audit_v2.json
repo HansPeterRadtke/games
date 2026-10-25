@@ -1,0 +1,248 @@
+{
+  "metadata": {
+    "source": "Official SceneEval-500 external annotation ZIP, independent of PRSE source scene generation",
+    "sourceSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "unmodifiedSourceIDs": "0-99 human, 100-496 every fourth assisted",
+    "annotationScope": "Type-pair labels, and conditionally ordered as encoded; no per-instance exact entailment",
+    "sourceGoldNeverInGenerator": true,
+    "caution": "Physically verified but unannotated relation is not automatically a hallucination; annotation omissions/ambiguity possible",
+    "privateRawArtifacts": "Owner-private Nitro research folder, per-case references and exact hashes not copied to Git"
+  },
+  "version": "v4",
+  "results": {
+    "deterministic": {
+      "privateRawSHA256": "95a2b119d285f6c88031fcdd9cc1682c42e692149e03e49991d2176f013512cf",
+      "sourceAudit": {
+        "object_unordered": {
+          "human": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 478,
+            "naivelyProposedTypePairs": 90,
+            "confirmedActualPhysicalTypePairs": 44,
+            "refutedActualPhysicalTypePairs": 1,
+            "unknownOrAmbiguousTypePairs": 45,
+            "matchedGoldBeforePhysics": 35,
+            "matchedGoldAndPhysicallyVerified": 16,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.03347280334728033,
+            "annotationAgreementAmongPhysicalClaims": 0.36363636363636365
+          },
+          "assisted": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 743,
+            "naivelyProposedTypePairs": 135,
+            "confirmedActualPhysicalTypePairs": 56,
+            "refutedActualPhysicalTypePairs": 33,
+            "unknownOrAmbiguousTypePairs": 46,
+            "matchedGoldBeforePhysics": 24,
+            "matchedGoldAndPhysicallyVerified": 11,
+            "matchedGoldButPhysicallyFalse": 1,
+            "optimisticGoldRecall": 0.014804845222072678,
+            "annotationAgreementAmongPhysicalClaims": 0.19642857142857142
+          }
+        },
+        "object_ordered": {
+          "human": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 478,
+            "naivelyProposedTypePairs": 90,
+            "confirmedActualPhysicalTypePairs": 44,
+            "refutedActualPhysicalTypePairs": 1,
+            "unknownOrAmbiguousTypePairs": 45,
+            "matchedGoldBeforePhysics": 2,
+            "matchedGoldAndPhysicallyVerified": 0,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.0,
+            "annotationAgreementAmongPhysicalClaims": 0.0
+          },
+          "assisted": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 743,
+            "naivelyProposedTypePairs": 135,
+            "confirmedActualPhysicalTypePairs": 56,
+            "refutedActualPhysicalTypePairs": 33,
+            "unknownOrAmbiguousTypePairs": 46,
+            "matchedGoldBeforePhysics": 0,
+            "matchedGoldAndPhysicallyVerified": 0,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.0,
+            "annotationAgreementAmongPhysicalClaims": 0.0
+          }
+        },
+        "room_unordered": {
+          "human": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 290,
+            "naivelyProposedTypePairs": 89,
+            "confirmedActualPhysicalTypePairs": 0,
+            "refutedActualPhysicalTypePairs": 0,
+            "unknownOrAmbiguousTypePairs": 89,
+            "matchedGoldBeforePhysics": 57,
+            "matchedGoldAndPhysicallyVerified": 0,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.0,
+            "annotationAgreementAmongPhysicalClaims": 0
+          },
+          "assisted": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 223,
+            "naivelyProposedTypePairs": 93,
+            "confirmedActualPhysicalTypePairs": 0,
+            "refutedActualPhysicalTypePairs": 0,
+            "unknownOrAmbiguousTypePairs": 93,
+            "matchedGoldBeforePhysics": 35,
+            "matchedGoldAndPhysicallyVerified": 0,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.0,
+            "annotationAgreementAmongPhysicalClaims": 0
+          }
+        },
+        "room_ordered": {
+          "human": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 290,
+            "naivelyProposedTypePairs": 89,
+            "confirmedActualPhysicalTypePairs": 0,
+            "refutedActualPhysicalTypePairs": 0,
+            "unknownOrAmbiguousTypePairs": 89,
+            "matchedGoldBeforePhysics": 57,
+            "matchedGoldAndPhysicallyVerified": 0,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.0,
+            "annotationAgreementAmongPhysicalClaims": 0
+          },
+          "assisted": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 223,
+            "naivelyProposedTypePairs": 93,
+            "confirmedActualPhysicalTypePairs": 0,
+            "refutedActualPhysicalTypePairs": 0,
+            "unknownOrAmbiguousTypePairs": 93,
+            "matchedGoldBeforePhysics": 35,
+            "matchedGoldAndPhysicallyVerified": 0,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.0,
+            "annotationAgreementAmongPhysicalClaims": 0
+          }
+        }
+      }
+    },
+    "union": {
+      "privateRawSHA256": "bb2abe797c8e5d4faf7d94177de6c79f4930955c4495073ac55081d1a2cc168c",
+      "sourceAudit": {
+        "object_unordered": {
+          "human": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 478,
+            "naivelyProposedTypePairs": 131,
+            "confirmedActualPhysicalTypePairs": 56,
+            "refutedActualPhysicalTypePairs": 3,
+            "unknownOrAmbiguousTypePairs": 72,
+            "matchedGoldBeforePhysics": 44,
+            "matchedGoldAndPhysicallyVerified": 18,
+            "matchedGoldButPhysicallyFalse": 1,
+            "optimisticGoldRecall": 0.03765690376569038,
+            "annotationAgreementAmongPhysicalClaims": 0.32142857142857145
+          },
+          "assisted": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 743,
+            "naivelyProposedTypePairs": 184,
+            "confirmedActualPhysicalTypePairs": 77,
+            "refutedActualPhysicalTypePairs": 38,
+            "unknownOrAmbiguousTypePairs": 69,
+            "matchedGoldBeforePhysics": 30,
+            "matchedGoldAndPhysicallyVerified": 13,
+            "matchedGoldButPhysicallyFalse": 1,
+            "optimisticGoldRecall": 0.017496635262449527,
+            "annotationAgreementAmongPhysicalClaims": 0.16883116883116883
+          }
+        },
+        "object_ordered": {
+          "human": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 478,
+            "naivelyProposedTypePairs": 131,
+            "confirmedActualPhysicalTypePairs": 56,
+            "refutedActualPhysicalTypePairs": 3,
+            "unknownOrAmbiguousTypePairs": 72,
+            "matchedGoldBeforePhysics": 5,
+            "matchedGoldAndPhysicallyVerified": 1,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.0020920502092050207,
+            "annotationAgreementAmongPhysicalClaims": 0.017857142857142856
+          },
+          "assisted": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 743,
+            "naivelyProposedTypePairs": 184,
+            "confirmedActualPhysicalTypePairs": 77,
+            "refutedActualPhysicalTypePairs": 38,
+            "unknownOrAmbiguousTypePairs": 69,
+            "matchedGoldBeforePhysics": 0,
+            "matchedGoldAndPhysicallyVerified": 0,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.0,
+            "annotationAgreementAmongPhysicalClaims": 0.0
+          }
+        },
+        "room_unordered": {
+          "human": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 290,
+            "naivelyProposedTypePairs": 131,
+            "confirmedActualPhysicalTypePairs": 0,
+            "refutedActualPhysicalTypePairs": 0,
+            "unknownOrAmbiguousTypePairs": 131,
+            "matchedGoldBeforePhysics": 69,
+            "matchedGoldAndPhysicallyVerified": 0,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.0,
+            "annotationAgreementAmongPhysicalClaims": 0
+          },
+          "assisted": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 223,
+            "naivelyProposedTypePairs": 135,
+            "confirmedActualPhysicalTypePairs": 0,
+            "refutedActualPhysicalTypePairs": 0,
+            "unknownOrAmbiguousTypePairs": 135,
+            "matchedGoldBeforePhysics": 38,
+            "matchedGoldAndPhysicallyVerified": 0,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.0,
+            "annotationAgreementAmongPhysicalClaims": 0
+          }
+        },
+        "room_ordered": {
+          "human": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 290,
+            "naivelyProposedTypePairs": 131,
+            "confirmedActualPhysicalTypePairs": 0,
+            "refutedActualPhysicalTypePairs": 0,
+            "unknownOrAmbiguousTypePairs": 131,
+            "matchedGoldBeforePhysics": 69,
+            "matchedGoldAndPhysicallyVerified": 0,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.0,
+            "annotationAgreementAmongPhysicalClaims": 0
+          },
+          "assisted": {
+            "sourceScenes": 100,
+            "independentlyAnnotatedClaimCount": 223,
+            "naivelyProposedTypePairs": 135,
+            "confirmedActualPhysicalTypePairs": 0,
+            "refutedActualPhysicalTypePairs": 0,
+            "unknownOrAmbiguousTypePairs": 135,
+            "matchedGoldBeforePhysics": 38,
+            "matchedGoldAndPhysicallyVerified": 0,
+            "matchedGoldButPhysicallyFalse": 0,
+            "optimisticGoldRecall": 0.0,
+            "annotationAgreementAmongPhysicalClaims": 0
+          }
+        }
+      }
+    }
+  }
+}

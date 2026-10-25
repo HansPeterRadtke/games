@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "source": "Author official SceneEval-500 ZIP, independent annotations only in scorer",
+    "sha256SceneEvalZIP": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "fullCorpusNotRepublished": true,
+    "method": "Actual existing PRSE GameCore/Rapier, conservative source-linked relation facts; no GPU/LLM generation",
+    "limitations": "Optimistic type-pair annotations ignore instance-level source fidelity; physically true but unannotated need not be hallucination",
+    "selection": "First 100 human, systematic assisted 100 source IDs; selected illustrative case 22 and negative case 240 documented"
+  },
+  "sourceCaseIntegrity": {
+    "originalFailedReloadPreserved": true,
+    "conditionalPreviouslyVerifiedContactAtSamePose": true,
+    "noHiddenGamePhysicsTickAtLoad": true,
+    "invalidSourcePoseTimeEvidenceRejected": true,
+    "verifiedProseRetractionAfterReentry": "lamp 1 no longer rests on nightstand 1."
+  },
+  "methodGroups": {
+    "deterministic": {
+      "human": {
+        "physicallyVerified": 44,
+        "sourceAnnotationConcordant": 16,
+        "annotations": 478
+      },
+      "assisted": {
+        "physicallyVerified": 56,
+        "sourceAnnotationConcordant": 11,
+        "annotations": 743
+      }
+    },
+    "union": {
+      "human": {
+        "physicallyVerified": 56,
+        "sourceAnnotationConcordant": 18,
+        "annotations": 478
+      },
+      "assisted": {
+        "physicallyVerified": 77,
+        "sourceAnnotationConcordant": 13,
+        "annotations": 743
+      }
+    }
+  },
+  "rawPrivateArtifactManifest": {
+    "prse_grounded_prose_deterministic_200_raw_v1.json": {
+      "sha256": "6e049d5837c4d4c8b047d143adc352b0fe9c8b2b691c71a2a4c026bf7baf9234",
+      "bytes": 152625,
+      "ownerPrivate": true
+    },
+    "prse_grounded_prose_union_200_raw_v1.json": {
+      "sha256": "264d3bfdf1b002e4729a7c1acf1da818b8f1e5859c6eb7226d824a4c38f31dd1",
+      "bytes": 154906,
+      "ownerPrivate": true
+    },
+    "prse_grounded_prose_deterministic_200_raw_v2.json": {
+      "sha256": "9f0733cf13c7a9855bf5f5092dac62c4ace013bb346cb47dd7896f04323a1fd8",
+      "bytes": 152594,
+      "ownerPrivate": true
+    },
+    "prse_grounded_prose_union_200_raw_v2.json": {
+      "sha256": "15835a386af689d0d5604b3d8f7d929e085c7737609a7ab36c3f6ad081aa3697",
+      "bytes": 154906,
+      "ownerPrivate": true
+    },
+    "prse_grounded_prose_deterministic_200_raw_v3.json": {
+      "sha256": "653b34e93722f4bb112fe420f6cfe8d66bdfcba4858215c1c556b9006b51f649",
+      "bytes": 279087,
+      "ownerPrivate": true
+    },
+    "prse_grounded_prose_union_200_raw_v3.json": {
+      "sha256": "fab286bd8f50a78f18218681ab1c2cbe27c9a940d6efbf50ed1a0b048954ef6e",
+      "bytes": 332479,
+      "ownerPrivate": true
+    },
+    "prse_relation_restore_discontinuity_source240_negative.json": {
+      "sha256": "187ae5e10e662a1ed8b5f9c351c6618a714c86fdf491b7304a1682ece8c1e13a",
+      "bytes": 18223,
+      "ownerPrivate": true
+    }
+  }
+}

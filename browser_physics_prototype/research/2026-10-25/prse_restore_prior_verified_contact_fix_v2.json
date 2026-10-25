@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "kind": "Research-only GameCore/Rapier source-row240 truth continuity",
+    "originalNegative": "prse_relation_restore_discontinuity_source240_negative.json",
+    "noChangedEntityOrSourceAcrossSave": true,
+    "noExtraHiddenPhysicsStep": true,
+    "limitation": "Carries previously measured contact evidence only at unchanged saved pose and exact world time; no new contact claimed before solver warmup"
+  },
+  "before": {
+    "time": 2.2333333333333303,
+    "clock": 2.249999999999997,
+    "sourceRow": 240,
+    "positiveSupportCount": 1,
+    "relationTruth": "true"
+  },
+  "immediatelyAfterNativeReload": {
+    "withoutProvenance": "unknown",
+    "withPriorVerifiedEvidence": "true",
+    "evidenceAgeSeconds": 0,
+    "sourceIDs": [
+      "sem-240-potted-plant-0",
+      "sem-240-bookshelf-0"
+    ],
+    "canClaimFreshPhysicsContact": false,
+    "gamePhysicsStepCount": 134
+  },
+  "onceActualPhysicsResumed": {
+    "truth": "true",
+    "stillDependsOnSavedEvidence": false,
+    "regeneratedContactGraph": true,
+    "trajectoriesSameTruth": true
+  },
+  "tampering": {
+    "invalidSourceRejected": true,
+    "forgedPoseRejected": true,
+    "forgedTimeRejected": true
+  }
+}

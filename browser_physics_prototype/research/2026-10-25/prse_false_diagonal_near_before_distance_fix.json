@@ -1,0 +1,11 @@
+{
+  "source": "Authored 3D distance adversarial fixture in real PRSE GameCore/Rapier",
+  "sourceAnnotation": "Not an external SceneEval participant",
+  "horizontalSurfaceGapAxes": {
+    "x": 1.2999999999999994,
+    "z": 1.2999999999999994
+  },
+  "actualSurfaceEuclideanClearanceMetres": 1.8384776310850228,
+  "preFixTruth": "true",
+  "incorrectIfNear": true
+}
