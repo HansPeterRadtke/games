@@ -1,4 +1,7 @@
 # PRSE semantic/physical world research — overnight continuation 1
+
+> **Later observer/causality research:** The subsequent [physical perception and event-time delivery experiment](PRSE_PERCEPTION_EVENT_RESEARCH_2026-10-25.md) tested collider occlusion and persistent observer-specific knowledge on the same frozen source descriptions. The initial spatial extraction failures and this report's measured results remain unchanged.
+
 25 October 2026 — Existing Games research branch, owner priority: literary world ↔ authoritative 3D ↔ updated narrative
 
 ## Research scope and original intent

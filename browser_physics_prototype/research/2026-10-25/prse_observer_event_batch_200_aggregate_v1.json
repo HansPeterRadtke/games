@@ -1,0 +1,44 @@
+{
+  "metadata": {
+    "study": "Existing PRSE GameCore/Rapier real bodies, frozen text-only external SceneEval proposals",
+    "noGoldLabels": true,
+    "noModelCalls": true,
+    "impulse": "Fixed x=0.8,y=0.3,z=1.4 mass-dependent GameCore impulse; no human play",
+    "observer": "Five fixed candidate camera points, only physically non-overlapping and visibility-confirmed",
+    "limits": "Selected eligible dynamic bodies only; extrapolation to all story events and human perception not justified",
+    "rawSHA256": "50b24295b3c81c4220943ad16f274b9c9741c276b67d5268fc3ffea7ac7796a4",
+    "privateSource": "/data/var/games/prse_semantic_research/runs/2026-10-25-physical-visibility/prse_observer_event_batch_200_raw_v1.json"
+  },
+  "aggregate": {
+    "sourceScenes": 200,
+    "validScenes": 64,
+    "withDynamicBodies": 64,
+    "evaluated": 63,
+    "withOccludedContrast": 17,
+    "actualPhysicsWitnessQueued": 62,
+    "delayedPhysicsWitnessDelivered": 62,
+    "occludedCauseWronglyQueued": 1,
+    "occludedCauseWronglyDelivered": 1,
+    "repeatedAfterSave": 0,
+    "stableSourceProse": 63,
+    "runtimeFailures": 0,
+    "skippedNoValidViewpoint": 1,
+    "totalWallMs": 24522
+  },
+  "bySubset": {
+    "human": {
+      "scenes": 100,
+      "withDynamic": 29,
+      "evaluated": 28,
+      "occludedContrast": 8,
+      "delivered": 27
+    },
+    "assisted": {
+      "scenes": 100,
+      "withDynamic": 35,
+      "evaluated": 35,
+      "occludedContrast": 9,
+      "delivered": 35
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "source": "Frozen external SceneEval IDs 27 and 29; GameCore Rapier",
+    "selectedBecause": "Documented first-batch post-step observer failures; this is a regression comparison not independent population score",
+    "method": "Capture observer LOS from actual physical geometry synchronously at event emission before the next physics step"
+  },
+  "results": [
+    {
+      "id": 27,
+      "category": "cup",
+      "sequence": 1,
+      "priorOneFrameLateCapture": {
+        "visible": 0,
+        "blocked": 0
+      },
+      "atEmitterCapture": {
+        "visible": 1,
+        "blocked": 0
+      },
+      "afterStepVisibility": {
+        "visible": false,
+        "blocked": false
+      },
+      "persistedVisibleDelivered": true,
+      "persistedOccludedSuppressed": true,
+      "subscriberErrors": 0
+    },
+    {
+      "id": 29,
+      "category": "book",
+      "sequence": 1,
+      "priorOneFrameLateCapture": {
+        "visible": 1,
+        "blocked": 1
+      },
+      "atEmitterCapture": {
+        "visible": 1,
+        "blocked": 0
+      },
+      "afterStepVisibility": {
+        "visible": true,
+        "blocked": true
+      },
+      "persistedVisibleDelivered": true,
+      "persistedOccludedSuppressed": true,
+      "subscriberErrors": 0
+    }
+  ]
+}

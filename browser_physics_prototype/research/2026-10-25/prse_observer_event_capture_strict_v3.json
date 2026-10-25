@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "source": "Actual GameCore/Rapier physics partition and movable pottery; controlled observer viewpoints, no human playtest",
+    "limits": "Rays sample seven approximate shape points; no sound, lighting, FOV/camera actual player dynamics; current scene text remains deterministic"
+  },
+  "before": {
+    "hidden": [
+      "stone-partition"
+    ],
+    "openSide": [
+      "stone-partition",
+      "pottery-occluded"
+    ]
+  },
+  "physicalEvent": {
+    "type": "external_impulse",
+    "actualSourceAction": {
+      "x": 0,
+      "y": 0.4,
+      "z": 2.6
+    },
+    "beginningPosition": {
+      "x": -24.0000057220459,
+      "y": 0.21844890713691711,
+      "z": 8.999991416931152
+    },
+    "finalPosition": {
+      "x": -24.00012969970703,
+      "y": 0.21844562888145447,
+      "z": 9.47015380859375
+    }
+  },
+  "witnessed": {
+    "nearbyRightEvents": [
+      {
+        "sequence": 1,
+        "text": "pot received a physical impulse.",
+        "capturedAtEventTime": true
+      }
+    ],
+    "hiddenLeftEvents": [],
+    "hiddenEvenAfterDelay": []
+  },
+  "savedReentry": {
+    "sourceUnchanged": true,
+    "nowVisible": true,
+    "formerUnseenCauseNotNarrated": true,
+    "currentFactShown": true,
+    "duplicateOutput": 0,
+    "previouslySeenEventNotRepeated": true,
+    "tamperedObserverSequenceRejected": true
+  },
+  "observerMetadata": {
+    "schema": 2,
+    "radius": 5,
+    "eventWindow": 0.18,
+    "observers": [
+      {
+        "id": "left-player",
+        "processed": [
+          1,
+          2
+        ],
+        "queuedEvents": [],
+        "facts": [
+          [
+            "stone-partition",
+            "{\"condition\":\"intact\",\"destroyed\":false,\"tipped\":false,\"moved\":false,\"rotated\":false,\"supportId\":\"floor\",\"dislodgedFrom\":null,\"originId\":null}"
+          ],
+          [
+            "pottery-occluded",
+            "{\"condition\":\"intact\",\"destroyed\":false,\"tipped\":false,\"moved\":true,\"rotated\":false,\"supportId\":\"floor\",\"dislodgedFrom\":null,\"originId\":null}"
+          ]
+        ],
+        "lastVisible": [
+          "stone-partition",
+          "pottery-occluded"
+        ],
+        "lastTime": 1.1666666666666674
+      },
+      {
+        "id": "right-player",
+        "processed": [
+          1,
+          2
+        ],
+        "queuedEvents": [],
+        "facts": [
+          [
+            "stone-partition",
+            "{\"condition\":\"intact\",\"destroyed\":false,\"tipped\":false,\"moved\":false,\"rotated\":false,\"supportId\":\"floor\",\"dislodgedFrom\":null,\"originId\":null}"
+          ],
+          [
+            "pottery-occluded",
+            "{\"condition\":\"intact\",\"destroyed\":false,\"tipped\":false,\"moved\":true,\"rotated\":false,\"supportId\":\"floor\",\"dislodgedFrom\":null,\"originId\":null}"
+          ]
+        ],
+        "lastVisible": [
+          "stone-partition",
+          "pottery-occluded"
+        ],
+        "lastTime": 1.1666666666666674
+      }
+    ]
+  }
+}

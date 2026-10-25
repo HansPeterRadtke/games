@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "kind": "Source-derived, manually fixed camera positions and actual GameCore/Rapier raycasts",
+    "originalSource": "SceneEval-500 v250610 external descriptions, not copied into output",
+    "scope": "No visibility human ground truth, no camera facing/FOV or sensory audio, occluders approximate provisional geometry",
+    "objectMeaning": "Ray first-hit is an exact collider hit in the provisional scene, not proof the original intended layout is correct",
+    "sampleMethod": "same saved text-only source proposals and deterministic layout settings, 100 human and 100 assisted IDs",
+    "views": "center and four fixed interior viewpoints, max radius 9 m; observer colliders excluded if viewpoint embedded",
+    "reproducibility": "low priority CPU, real physics step state, preserved source and result hashes",
+    "rawSHA256": "abf18c54b45f697439f486fa382465320c357b149291b525fb317105c0d2bf42",
+    "privateRawData": "/data/var/games/prse_semantic_research/runs/2026-10-25-physical-visibility/prse_occlusion_raw_v1.json"
+  },
+  "elapsedMs": 17288.4,
+  "groups": [
+    {
+      "part": "human",
+      "descriptions": 100,
+      "physicallyAccepted": 97,
+      "validObserverViews": 482,
+      "rejectedObserverViewInsideCollider": 3,
+      "distanceVisibleObjectObservations": 1514,
+      "rayConfirmedVisibleObjectObservations": 1439,
+      "blockedAsOccluded": 75,
+      "blockedByRoomWall": 3,
+      "blockedByFurniture": 72,
+      "blockedByOtherCoreCollider": 0,
+      "actualRaycasts": 2052,
+      "failures": 0,
+      "distanceOnlyFalsePositiveFraction": 0.04953764861294584
+    },
+    {
+      "part": "assisted",
+      "descriptions": 100,
+      "physicallyAccepted": 99,
+      "validObserverViews": 491,
+      "rejectedObserverViewInsideCollider": 4,
+      "distanceVisibleObjectObservations": 1403,
+      "rayConfirmedVisibleObjectObservations": 1336,
+      "blockedAsOccluded": 67,
+      "blockedByRoomWall": 0,
+      "blockedByFurniture": 67,
+      "blockedByOtherCoreCollider": 0,
+      "actualRaycasts": 1967,
+      "failures": 0,
+      "distanceOnlyFalsePositiveFraction": 0.04775481111903065
+    }
+  ]
+}

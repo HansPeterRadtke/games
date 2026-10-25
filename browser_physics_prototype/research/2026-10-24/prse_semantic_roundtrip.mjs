@@ -102,6 +102,7 @@ export class PRSELoop{
   this.entities=new Map(this.scene.entities.map(e=>[e.id,e]));
   this.active=new Map();this.original=new Map(this.scene.entities.map(e=>[e.id,clone(e.position)]));
   this.events=[];this.nextSeq=1;this.time=0;this.offscreenRules=[];this.contactPairs=new Set();
+  this.eventSubscribers=new Set();this.eventSubscriberErrors=[];
   this.scene.currentProse=this.currentProse();
   const floor=this.game.world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(0,-.2,50));
   this.game.world.createCollider(RAPIER.ColliderDesc.cuboid(75,.2,75).setFriction(.85),floor);
@@ -110,7 +111,22 @@ export class PRSELoop{
  }
  emit(type,ids,details={},origin='physics'){
   const ev={sequence:this.nextSeq++,time:Number(this.time.toFixed(3)),type,ids:[...ids],details:clone(details),origin};
-  this.events.push(ev);this.scene.currentProse=this.currentProse();return ev;
+  this.events.push(ev);this.scene.currentProse=this.currentProse();
+  // Geometry-sensitive observation must happen at event emission, not after
+  // the next dynamic physics step. Optional research observers are read-only;
+  // a failed observer may not corrupt the authoritative world transition.
+  for(const listener of this.eventSubscribers){
+   try{listener(ev);}catch(e){
+    this.eventSubscriberErrors.push({sequence:ev.sequence,reason:String(e.message).slice(0,200)});
+   }
+  }
+  return ev;
+ }
+ subscribeEvents(listener){
+  if(typeof listener!=='function')throw Error('Invalid event subscriber');
+  if(this.eventSubscribers.size>=16)throw Error('Observer subscriber limit');
+  this.eventSubscribers.add(listener);
+  return ()=>this.eventSubscribers.delete(listener);
  }
  materialize(){
   let count=0;
@@ -445,5 +461,7 @@ export class PRSELoop{
   if(s.materialized){for(const e of loop.scene.entities)e.materialized=false;loop.materialize();}
   return {ok:true,loop};
  }
- dispose(){for(const body of this.active.values())this.game.world.removeRigidBody(body);this.active.clear();this.game.world.free();}
+ dispose(){this.eventSubscribers.clear();
+  for(const body of this.active.values())this.game.world.removeRigidBody(body);
+  this.active.clear();this.game.world.free();}
 }

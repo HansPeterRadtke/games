@@ -1,0 +1,56 @@
+{
+  "provenance": {
+    "source": "SceneEval-500_v250610 source ZIP via author-provided GitHub release",
+    "externalSourceSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "rawOwnerPrivateFiles": {
+      "prse_observer_event_batch_200_raw_v1.json": {
+        "sha256": "50b24295b3c81c4220943ad16f274b9c9741c276b67d5268fc3ffea7ac7796a4",
+        "bytes": 83530
+      },
+      "prse_observer_event_batch_200_raw_v2.json": {
+        "sha256": "729c091792c70862de19eafb634bc0d607a434fae2d147f745d436de8b6401ea",
+        "bytes": 83575
+      },
+      "prse_occlusion_raw_v1.json": {
+        "sha256": "abf18c54b45f697439f486fa382465320c357b149291b525fb317105c0d2bf42",
+        "bytes": 99363
+      }
+    },
+    "caveat": "Physically observed with sampled shape rays, not human visual judgments, original room geometry remains approximate"
+  },
+  "geometry": {
+    "sourceScenes": 200,
+    "validatedPhysicalScenes": 196,
+    "viewpointsPerScene": 5,
+    "distanceEligibleObjectObservations": 2917,
+    "blockedByActualRapierCollider": 142,
+    "oldDistanceOnlyOccludedFraction": 0.04868015083990401,
+    "humanSampleOccluded": 75,
+    "assistedSampleOccluded": 67
+  },
+  "eventTime": {
+    "physicalScenesWithSelectedDynamicBody": 63,
+    "withOccludedContrast": 17,
+    "priorPostStepCapture": {
+      "witnessedAndDelivered": 62,
+      "wronglyDeliveringOccludedCause": 1,
+      "repeatAfterReload": 0
+    },
+    "correctedEmissionTimeCapture": {
+      "witnessedAndDelivered": 63,
+      "wronglyDeliveringOccludedCause": 0,
+      "repeatAfterReload": 0
+    },
+    "previousFailureSceneIDsCorrected": [
+      27,
+      29
+    ],
+    "observerDeliveryAndWorldSnapshotsTested": true
+  },
+  "offscreen": {
+    "realAshColliderOnReturn": true,
+    "unseenOffscreenIgnitionNotRevealed": true,
+    "destroyedOriginalIDPreserved": true,
+    "sourceLiteraryDescriptionPreserved": true
+  }
+}

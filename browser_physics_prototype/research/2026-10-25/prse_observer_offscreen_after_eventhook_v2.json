@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "source": "Original PRSE August 13 semantic fire/reentry question, performed in research-only GameCore/Rapier",
+    "cause": "Explicit offscreen authored semantic ignition/process rule, NOT physics-simulated chemistry",
+    "observerPolicy": "physical seven-ray occlusion check and event-time-only witness ledger"
+  },
+  "simulation": {
+    "nativeTime": 12.916666666666668,
+    "semanticTime": 12.916666666666668,
+    "physicalObjectsAfterReturn": 2,
+    "ashColliderCount": 1,
+    "stableNoteId": true,
+    "ashOrigin": "paper-original",
+    "originalSourceIntact": true
+  },
+  "perception": {
+    "visibleIds": [
+      "desk-old",
+      "ash-paper-original"
+    ],
+    "reportedChangedState": [
+      {
+        "id": "desk-old",
+        "text": "desk is present.",
+        "sourceRevision": 0
+      },
+      {
+        "id": "ash-paper-original",
+        "text": "ash from note remains at this location.",
+        "sourceRevision": 0
+      }
+    ],
+    "previouslyUnseenCausesRevealed": 0,
+    "duplicateFactOnNextPoll": 0,
+    "duplicateEventOnNextPoll": 0
+  }
+}

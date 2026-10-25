@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "scope": "Authoritative GameCore/Rapier physics and event-time raycast against a solid physical partition",
+    "input": "Two investigator-defined observer positions, one genuine GameCore impulse, and an intentional 1.08-second UI polling gap",
+    "nonHuman": true,
+    "noLLM": true,
+    "limits": "CaptureFrame must be invoked at the simulation tick; it has not been integrated into the production UI dispatcher"
+  },
+  "comparison": {
+    "withoutTickCaptureWitnessedEvents": 0,
+    "recordedTickImmediateWitnesses": 1,
+    "hiddenTickWitnesses": 0,
+    "savedAndDelayedDelivered": 1,
+    "deliveredOriginalEventSequence": 1,
+    "deliveredOnlyOnce": true,
+    "hiddenObserverNoRetroactiveCause": true,
+    "currentVisibleStateDescribed": true,
+    "tamperedSavedQueueRejected": true,
+    "authoritativeWorldTime": 1.5166666666666662
+  },
+  "savedState": {
+    "observerSnapshotSchema": 2,
+    "observerCount": 2,
+    "persistedQueuedWitnesses": 1
+  },
+  "recordedEvent": {
+    "sequence": 1,
+    "origin": "explicit_action",
+    "worldObjectId": "vase"
+  }
+}
