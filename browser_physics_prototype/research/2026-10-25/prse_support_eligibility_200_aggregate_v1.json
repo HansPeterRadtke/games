@@ -1,0 +1,16 @@
+{
+  "tally": {
+    "sourceDescriptions": 200,
+    "parsedOnRelations": 53,
+    "originalScenesWithOn": 45,
+    "baselineTrue": 27,
+    "baselineFalse": 11,
+    "baselineUnknown": 12,
+    "eligibleForPotentialUnambiguousDynamicPhysicalRepair": 8,
+    "eligibleButNotPhysicallyTrue": 0,
+    "multipleOrUnresolvedReferences": 7,
+    "nonfittingSurface": 23
+  },
+  "privateRawSHA256": "c322fa376d830086ed3615438f37dae57e45bdff31179ab1f95623eb7d42e11c",
+  "originalGoldAnnotationsUnused": true
+}

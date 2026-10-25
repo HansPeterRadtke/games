@@ -1,0 +1,401 @@
+{
+  "metadata": {
+    "sourceSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "privateSourceRolesSHA256": "bf11d7e2eb3bf7c702ad3dedfbdf90f8048ff84ee6f1498c58bcadfb8e294ad6",
+    "noGold": true
+  },
+  "summary": {
+    "sourceSceneCount": 200,
+    "extractedOnSourceClaims": 54,
+    "syntaxRoleCandidates": 9,
+    "roleNotSourceConfirmedAbstentions": 45,
+    "abstentionReasons": {
+      "explicit_same_clause_source_roles": 9,
+      "pp_without_unambiguous_supported_object_roles": 19,
+      "wrong_child_or_support_in_actual_source_syntax": 26
+    },
+    "pretrainedGrammarOnly": true,
+    "authorGoldLabelsNotRead": true,
+    "unknownPhysicalTruthAndCoreference": true
+  },
+  "examplesBySourceId": [
+    {
+      "id": 22,
+      "role": "source_syntax_role_candidate",
+      "child": "lamp",
+      "support": "nightstand",
+      "reason": "explicit_same_clause_source_roles"
+    },
+    {
+      "id": 27,
+      "role": "source_syntax_role_candidate",
+      "child": "TV",
+      "support": "tv_stand",
+      "reason": "explicit_same_clause_source_roles"
+    },
+    {
+      "id": 27,
+      "role": "abstain",
+      "child": "chair",
+      "support": "coffee_table",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 27,
+      "role": "abstain",
+      "child": "cup",
+      "support": "tv_stand",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 28,
+      "role": "source_syntax_role_candidate",
+      "child": "TV",
+      "support": "tv_stand",
+      "reason": "explicit_same_clause_source_roles"
+    },
+    {
+      "id": 29,
+      "role": "source_syntax_role_candidate",
+      "child": "book",
+      "support": "bookshelf",
+      "reason": "explicit_same_clause_source_roles"
+    },
+    {
+      "id": 37,
+      "role": "abstain",
+      "child": "chair",
+      "support": "chair",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 37,
+      "role": "abstain",
+      "child": "chair",
+      "support": "table",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 42,
+      "role": "abstain",
+      "child": "window",
+      "support": "bed",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 44,
+      "role": "abstain",
+      "child": "coffee_table",
+      "support": "sofa",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 45,
+      "role": "abstain",
+      "child": "table",
+      "support": "rug",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 45,
+      "role": "abstain",
+      "child": "tray",
+      "support": "table",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 48,
+      "role": "abstain",
+      "child": "desk",
+      "support": "desk",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 75,
+      "role": "abstain",
+      "child": "chair",
+      "support": "shelf",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 84,
+      "role": "abstain",
+      "child": "shelf",
+      "support": "table",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 89,
+      "role": "source_syntax_role_candidate",
+      "child": "monitor",
+      "support": "desk",
+      "reason": "explicit_same_clause_source_roles"
+    },
+    {
+      "id": 91,
+      "role": "abstain",
+      "child": "painting",
+      "support": "bed",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 98,
+      "role": "abstain",
+      "child": "nightstand",
+      "support": "clock",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 100,
+      "role": "abstain",
+      "child": "nightstand",
+      "support": "bed",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 216,
+      "role": "abstain",
+      "child": "book",
+      "support": "desk",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 220,
+      "role": "abstain",
+      "child": "lamp",
+      "support": "nightstand",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 220,
+      "role": "abstain",
+      "child": "clock",
+      "support": "dresser",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 224,
+      "role": "abstain",
+      "child": "desk",
+      "support": "stool",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 228,
+      "role": "abstain",
+      "child": "sofa",
+      "support": "table",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 232,
+      "role": "abstain",
+      "child": "bookshelf",
+      "support": "shelf",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 236,
+      "role": "source_syntax_role_candidate",
+      "child": "book",
+      "support": "coffee_table",
+      "reason": "explicit_same_clause_source_roles"
+    },
+    {
+      "id": 240,
+      "role": "abstain",
+      "child": "bookshelf",
+      "support": "coffee_table",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 240,
+      "role": "abstain",
+      "child": "vase",
+      "support": "sofa",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 240,
+      "role": "abstain",
+      "child": "potted_plant",
+      "support": "bookshelf",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 244,
+      "role": "source_syntax_role_candidate",
+      "child": "vase",
+      "support": "table",
+      "reason": "explicit_same_clause_source_roles"
+    },
+    {
+      "id": 248,
+      "role": "abstain",
+      "child": "chair",
+      "support": "table",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 252,
+      "role": "abstain",
+      "child": "table",
+      "support": "table",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 284,
+      "role": "abstain",
+      "child": "window",
+      "support": "monitor",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 288,
+      "role": "abstain",
+      "child": "bookshelf",
+      "support": "tv_stand",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 300,
+      "role": "abstain",
+      "child": "fridge",
+      "support": "table",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 308,
+      "role": "abstain",
+      "child": "shelf",
+      "support": "shelf",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 324,
+      "role": "abstain",
+      "child": "cabinet",
+      "support": "cabinet",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 328,
+      "role": "abstain",
+      "child": "bar_stool",
+      "support": "table",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 336,
+      "role": "abstain",
+      "child": "shelf",
+      "support": "table",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 348,
+      "role": "abstain",
+      "child": "sofa",
+      "support": "table",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 348,
+      "role": "abstain",
+      "child": "floor_lamp",
+      "support": "rug",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 356,
+      "role": "abstain",
+      "child": "cabinet",
+      "support": "table",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 364,
+      "role": "abstain",
+      "child": "chair",
+      "support": "desk",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 368,
+      "role": "abstain",
+      "child": "armchair",
+      "support": "coffee_table",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 372,
+      "role": "source_syntax_role_candidate",
+      "child": "vase",
+      "support": "nightstand",
+      "reason": "explicit_same_clause_source_roles"
+    },
+    {
+      "id": 376,
+      "role": "abstain",
+      "child": "rug",
+      "support": "nightstand",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 380,
+      "role": "abstain",
+      "child": "bookshelf",
+      "support": "shelf",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 388,
+      "role": "abstain",
+      "child": "chair",
+      "support": "coffee_table",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 400,
+      "role": "abstain",
+      "child": "window",
+      "support": "table",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 404,
+      "role": "abstain",
+      "child": "chair",
+      "support": "table",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 456,
+      "role": "abstain",
+      "child": "stool",
+      "support": "bathtub",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 480,
+      "role": "abstain",
+      "child": "chair",
+      "support": "rug",
+      "reason": "pp_without_unambiguous_supported_object_roles"
+    },
+    {
+      "id": 488,
+      "role": "abstain",
+      "child": "desk",
+      "support": "desk",
+      "reason": "wrong_child_or_support_in_actual_source_syntax"
+    },
+    {
+      "id": 488,
+      "role": "source_syntax_role_candidate",
+      "child": "lamp",
+      "support": "desk",
+      "reason": "explicit_same_clause_source_roles"
+    }
+  ]
+}

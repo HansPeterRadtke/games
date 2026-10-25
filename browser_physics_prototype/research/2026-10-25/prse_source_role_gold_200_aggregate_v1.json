@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "sceneEvalZIPsha256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "frozenParserSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "sourceOnlyRoleSHA256": "bf11d7e2eb3bf7c702ad3dedfbdf90f8048ff84ee6f1498c58bcadfb8e294ad6",
+    "frozenNativeSupportSHA256": "c322fa376d830086ed3615438f37dae57e45bdff31179ab1f95623eb7d42e11c",
+    "privatePostGoldSHA256": "ec3dfa60c2ea072f112be76ce1af248dd81468c9ec2da86d4f984b43ed0c3ba2",
+    "notAFullCoreferenceEntailmentJudge": true
+  },
+  "summary": {
+    "originalParsedOnClaims": 54,
+    "originalParsedOnAnnotationConcordant": 11,
+    "originalParsedOnPhysicallyTrue": 27,
+    "originalParsedOnPhysicallyTrueAndGoldConcordant": 7,
+    "syntaxRoleAccept": 9,
+    "syntaxRoleAnnotationConcordant": 6,
+    "syntaxRolePhysicallyTrue": 6,
+    "syntaxRolePhysicalAndGoldConcordant": 5,
+    "syntaxAbstainedButAnnotationConcordant": 5,
+    "sourceRolePhysicallyTrueButNotInAuthorAnnotations": 1,
+    "proposedInUnacceptedOrMissingNativeScene": 4
+  }
+}

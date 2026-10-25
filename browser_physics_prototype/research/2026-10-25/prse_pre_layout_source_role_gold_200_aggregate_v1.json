@@ -1,0 +1,21 @@
+{
+  "metadata": {
+    "authorSceneEvalSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "frozenNativeBaselineSHA256": "01333bebd85448e469a19ba1670f9876fb5e7d0eadd175b79fcaae08cda2c30a",
+    "frozenRoleGuardNativeSHA256": "dd383efe424737db28c5712ae832e51c009d484e0dbbacbfa577acb77a417de4",
+    "privateOfficialPerCaseSHA256": "7a2a10a7d928453b9fa55e3f7135e1f4687351e0eee620f5ee5ddfa869eb8340",
+    "goldNeverEnteredPhysicalCompiler": true,
+    "metric": "Native Rapier contact + upright object top support type pair author ON only",
+    "sourceTypePairNotProvenInstanceGrounding": true
+  },
+  "counter": {
+    "acceptedScenes": 197,
+    "authorOnClauses": 354,
+    "bothTypesBaselinePresent": 47,
+    "bothTypesGuardedPresent": 47,
+    "authorOnPhysicallyConfirmedBaseline": 3,
+    "authorOnPhysicallyConfirmedGuarded": 2,
+    "newlyGainedPhysicalAuthorOn": 0,
+    "previouslyVerifiedAuthorOnNowLost": 1
+  }
+}

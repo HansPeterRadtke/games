@@ -1,0 +1,2026 @@
+{
+  "metadata": {
+    "method": "Frozen pretrained source-only on-PP role abstention before source constraint layout",
+    "benchmark": "Same first100 human + every fourth assisted100 frozen SceneEval scene descriptions as previous owned research",
+    "authoritative3D": "Native original PRSE GameCore/Rapier physics and full native whole-world physical/semantic/observer save",
+    "warning": "No author SceneEval gold was consulted; source PP syntax not full entailment; physical dimensions, visuals/3D assets and repeated object references unverified",
+    "privateNativeRawSHA256": "dd383efe424737db28c5712ae832e51c009d484e0dbbacbfa577acb77a417de4"
+  },
+  "summary": {
+    "frozenSourceDescriptions": 200,
+    "originalAcceptedNativeScenes": 197,
+    "sourceGuardedAcceptedNativeScenes": 197,
+    "sourceGuardedPhysicsFailures": 0,
+    "sourceGuardedGeometryRejections": 0,
+    "originalLiterarySourcesAndRealBodyIDsPreserved": 197,
+    "parsedOnClaimsInAccepted": 50,
+    "roleAcceptedOnClaims": 7,
+    "roleAbstainedOnClaims": 43,
+    "actual3DOnRelationsTrue": 6,
+    "actual3DOnRelationsTrueWithSourceSyntaxGate": 6,
+    "physicalOnTrueButNoSourceRoleProof": 0,
+    "actualNativeInterobjectRapierContactPairs": 6,
+    "changedPhysicalBodyPositionsRelativeToBaseline": 28,
+    "currentDocumentNativeSaveVerifications": 197,
+    "actualNativeGameCorePhysicalActions": 64,
+    "actionProducedMeaningfulSemanticRevision": 57,
+    "originalSourceRepresentationNotRewritten": 197,
+    "durationWallSeconds": 35.72
+  },
+  "cases": [
+    {
+      "sourceId": 0,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 1,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 2,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 3,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 4,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 5,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 6,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 7,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 8,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 9,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 10,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 11,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 12,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 13,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 14,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 15,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 16,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 17,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 18,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 19,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 20,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 21,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 22,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 1,
+      "onAbstained": 0,
+      "actualTrue": 1,
+      "trueWithRole": 1,
+      "error": null
+    },
+    {
+      "sourceId": 23,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 24,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 25,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 26,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 27,
+      "status": "native_valid_source_guarded",
+      "onProposals": 3,
+      "onAccepted": 1,
+      "onAbstained": 2,
+      "actualTrue": 1,
+      "trueWithRole": 1,
+      "error": null
+    },
+    {
+      "sourceId": 28,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 1,
+      "onAbstained": 0,
+      "actualTrue": 1,
+      "trueWithRole": 1,
+      "error": null
+    },
+    {
+      "sourceId": 29,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 1,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 30,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 31,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 32,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 33,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 34,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 35,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 36,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 37,
+      "status": "native_valid_source_guarded",
+      "onProposals": 2,
+      "onAccepted": 0,
+      "onAbstained": 2,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 38,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 39,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 40,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 41,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 42,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 43,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 44,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 45,
+      "status": "original_scene_not_physically_valid",
+      "onProposals": 2,
+      "onAccepted": 0,
+      "onAbstained": 2,
+      "error": null
+    },
+    {
+      "sourceId": 46,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 47,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 48,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 49,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 50,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 51,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 52,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 53,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 54,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 55,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 56,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 57,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 58,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 59,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 60,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 61,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 62,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 63,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 64,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 65,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 66,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 67,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 68,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 69,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 70,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 71,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 72,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 73,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 74,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 75,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 76,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 77,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 78,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 79,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 80,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 81,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 82,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 83,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 84,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 85,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 86,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 87,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 88,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 89,
+      "status": "original_scene_not_physically_valid",
+      "onProposals": 1,
+      "onAccepted": 1,
+      "onAbstained": 0,
+      "error": null
+    },
+    {
+      "sourceId": 90,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 91,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 92,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 93,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 94,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 95,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 96,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 97,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 98,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 99,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 100,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 104,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 108,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 112,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 116,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 120,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 124,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 128,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 132,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 136,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 140,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 144,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 148,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 152,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 156,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 160,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 164,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 168,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 172,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 176,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 180,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 184,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 188,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 192,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 196,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 200,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 204,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 208,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 212,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 216,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 220,
+      "status": "native_valid_source_guarded",
+      "onProposals": 2,
+      "onAccepted": 0,
+      "onAbstained": 2,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 224,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 228,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 232,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 236,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 1,
+      "onAbstained": 0,
+      "actualTrue": 1,
+      "trueWithRole": 1,
+      "error": null
+    },
+    {
+      "sourceId": 240,
+      "status": "native_valid_source_guarded",
+      "onProposals": 3,
+      "onAccepted": 0,
+      "onAbstained": 3,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 244,
+      "status": "original_scene_not_physically_valid",
+      "onProposals": 1,
+      "onAccepted": 1,
+      "onAbstained": 0,
+      "error": null
+    },
+    {
+      "sourceId": 248,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 252,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 256,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 260,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 264,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 268,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 272,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 276,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 280,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 284,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 288,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 292,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 296,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 300,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 304,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 308,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 312,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 316,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 320,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 324,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 328,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 332,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 336,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 340,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 344,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 348,
+      "status": "native_valid_source_guarded",
+      "onProposals": 2,
+      "onAccepted": 0,
+      "onAbstained": 2,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 352,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 356,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 360,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 364,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 368,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 372,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 1,
+      "onAbstained": 0,
+      "actualTrue": 1,
+      "trueWithRole": 1,
+      "error": null
+    },
+    {
+      "sourceId": 376,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 380,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 384,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 388,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 392,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 396,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 400,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 404,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 408,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 412,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 416,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 420,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 424,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 428,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 432,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 436,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 440,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 444,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 448,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 452,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 456,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 460,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 464,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 468,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 472,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 476,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 480,
+      "status": "native_valid_source_guarded",
+      "onProposals": 1,
+      "onAccepted": 0,
+      "onAbstained": 1,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 484,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 488,
+      "status": "native_valid_source_guarded",
+      "onProposals": 2,
+      "onAccepted": 1,
+      "onAbstained": 1,
+      "actualTrue": 1,
+      "trueWithRole": 1,
+      "error": null
+    },
+    {
+      "sourceId": 492,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    },
+    {
+      "sourceId": 496,
+      "status": "native_valid_source_guarded",
+      "onProposals": 0,
+      "onAccepted": 0,
+      "onAbstained": 0,
+      "actualTrue": 0,
+      "trueWithRole": 0,
+      "error": null
+    }
+  ]
+}

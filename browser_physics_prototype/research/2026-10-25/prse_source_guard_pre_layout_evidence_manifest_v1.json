@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "source": "Owner original PRSE literary \u2194 native 3D \u2194 true semantic/observer source study",
+    "frozenSourceParserSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "originalSceneEvalGoldSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "frozenPriorNative3DWorldSHA256": "01333bebd85448e469a19ba1670f9876fb5e7d0eadd175b79fcaae08cda2c30a",
+    "goldReadONLYPosthocAndNeverForGeometryOrActionSelection": true,
+    "method": "Two separate interventions: source-only role gate before narration and before native 3D spatial compiler",
+    "limitation": "Very small dynamic-source support eligible set (8), repeated physical conditions are not independent story samples, and type-pair source annotations are not full entailment/coreference",
+    "productionScope": "Research worktree only, no live GameCore integration, no model GPUs or asset generation"
+  },
+  "frozenSourceRoleAndFullLoop": {
+    "originalParsedOnClaims": 54,
+    "originalParsedOnAnnotationConcordant": 11,
+    "originalParsedOnPhysicallyTrue": 27,
+    "originalParsedOnPhysicallyTrueAndGoldConcordant": 7,
+    "syntaxRoleAccept": 9,
+    "syntaxRoleAnnotationConcordant": 6,
+    "syntaxRolePhysicallyTrue": 6,
+    "syntaxRolePhysicalAndGoldConcordant": 5,
+    "syntaxAbstainedButAnnotationConcordant": 5,
+    "sourceRolePhysicallyTrueButNotInAuthorAnnotations": 1,
+    "proposedInUnacceptedOrMissingNativeScene": 4
+  },
+  "prelayoutOriginalV1AndCorrectedV2AndV3": {
+    "originalVersionHasNullRevisionSummaryFromResearchCodeBug": true,
+    "correctedAcceptedSceneCount": 197,
+    "correctedMeaningfulSemanticChanges": 57,
+    "v2MisnamedOnCountIncludedOtherVerifiedSourceRelations": true,
+    "v3OnOnlyMetricVerifiedInSameFrozenScenes": true,
+    "originalPhysicalContactPairs": 11,
+    "sourceGuardedPhysicalContactPairs": 6,
+    "sourceOnConstraintsWithheldInAcceptedScenes": 43,
+    "allOriginalPhysicalBodyIDsPreserved": true
+  },
+  "postFrozenIndependentAuthorSourceOnResult": {
+    "acceptedScenes": 197,
+    "authorOnClauses": 354,
+    "bothTypesBaselinePresent": 47,
+    "bothTypesGuardedPresent": 47,
+    "authorOnPhysicallyConfirmedBaseline": 3,
+    "authorOnPhysicallyConfirmedGuarded": 2,
+    "newlyGainedPhysicalAuthorOn": 0,
+    "previouslyVerifiedAuthorOnNowLost": 1
+  },
+  "fullNativeBidirectionalLoop": {
+    "distinctPhysicalSourceScenesInDynamicStudy": 8,
+    "predeclaredImpulseVectors": 4,
+    "realPhysicallyUnloadedAndReenteredEpisodes": 32,
+    "contactTruthChangedFalseOrUnknown": 30,
+    "sourceSyntaxAcceptedObserverRetractions": 16,
+    "unseenCauseEyewitnessLeaks": 0,
+    "unchangedObserverNarrationDuplicates": 0,
+    "postSourceSyntaxGateScenesAccepted": 197,
+    "prelayoutAuthorContactSupportLost": 1,
+    "nativeCurrentWorldAndObserverSavesPassed": 197
+  },
+  "rawAdditionalEvidenceManifest": {
+    "prse_source_syntax_guarded_native_200_raw_v1.json": {
+      "sha256": "c7457e93464486e4050c2c82238d5a295d6bbb84c658a75fa0d4b866436f784d",
+      "bytes": 824722,
+      "ownerPrivate": true
+    },
+    "prse_source_syntax_guarded_native_200_raw_v2.json": {
+      "sha256": "dd383efe424737db28c5712ae832e51c009d484e0dbbacbfa577acb77a417de4",
+      "bytes": 824720,
+      "ownerPrivate": true
+    },
+    "prse_source_syntax_guarded_native_200_raw_v3.json": {
+      "sha256": "0625fa4cd4567f1d12dfde197b3f02391aa071240ad6800b46e5ac4a1fbe1e35",
+      "bytes": 824719,
+      "ownerPrivate": true
+    },
+    "prse_pre_layout_role_guard_on_gold_200_raw_v1.json": {
+      "sha256": "7a2a10a7d928453b9fa55e3f7135e1f4687351e0eee620f5ee5ddfa869eb8340",
+      "bytes": 156859,
+      "ownerPrivate": true
+    }
+  },
+  "earlierUnmodifiedBidirectionalRawManifest": {
+    "prse_source_role_on_200_raw_v1.json": {
+      "sha256": "bf11d7e2eb3bf7c702ad3dedfbdf90f8048ff84ee6f1498c58bcadfb8e294ad6",
+      "bytes": 24393,
+      "ownerPrivate": true
+    },
+    "prse_source_blind_support_eligibility_v1.json": {
+      "sha256": "c322fa376d830086ed3615438f37dae57e45bdff31179ab1f95623eb7d42e11c",
+      "bytes": 30436,
+      "ownerPrivate": true
+    },
+    "prse_source_role_independent_on_gold_v1.json": {
+      "sha256": "ec3dfa60c2ea072f112be76ce1af248dd81468c9ec2da86d4f984b43ed0c3ba2",
+      "bytes": 15038,
+      "ownerPrivate": true
+    },
+    "prse_source_role_full_loop_8_raw_v1.json": {
+      "sha256": "0ad652211de5648072c60d1d65632694c6c28c7ac7e4814448cac29f4c250236",
+      "bytes": 15342,
+      "ownerPrivate": true
+    },
+    "prse_source_role_full_loop_8_raw_v2.json": {
+      "sha256": "715866c9fb343ee13d495db88f453b838c6e7775232e48ef32542f8205cf8095",
+      "bytes": 15459,
+      "ownerPrivate": true
+    },
+    "prse_source_role_full_loop_8_raw_v3.json": {
+      "sha256": "2fc74193521a61548c0516101b0dd4c5780b168d51915f2072d3b13ea52e9e85",
+      "bytes": 15460,
+      "ownerPrivate": true
+    },
+    "prse_source_role_full_loop_8_raw_v4.json": {
+      "sha256": "92920b48480c831b3ebf552d8122c1fb1e0fb6e8bbc8a4e05176f6ea6151ec09",
+      "bytes": 15315,
+      "ownerPrivate": true
+    }
+  }
+}

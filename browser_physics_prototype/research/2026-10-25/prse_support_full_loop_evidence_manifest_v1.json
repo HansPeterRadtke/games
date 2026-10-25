@@ -1,0 +1,191 @@
+{
+  "metadata": {
+    "source": "Frozen original SceneEval 200 sample source, CPU-pretrained syntax PP role gate, actual native GameCore/Rapier full save and observer histories",
+    "sourceSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "authorSceneEvalOriginalSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "noAuthorGoldLoadedUntilAfterSceneSelectionAndPhysics": true,
+    "sourceRoleCaution": "Syntactic PP attachment is a selective heuristic and not source entailment or coreference resolution",
+    "repeatedSourceDesign": "8 selected native physically eligible source claims x 4 fixed impulses =32 repeated physical conditions, NOT 32 independent stories",
+    "noNewGPUorLLMorHumanStudy": true,
+    "privateOriginalProseAndPerCaseEvidence": true
+  },
+  "sourceRoleVsIndependentAuthorCategoryLabels": {
+    "originalParsedOnClaims": 54,
+    "originalParsedOnAnnotationConcordant": 11,
+    "originalParsedOnPhysicallyTrue": 27,
+    "originalParsedOnPhysicallyTrueAndGoldConcordant": 7,
+    "syntaxRoleAccept": 9,
+    "syntaxRoleAnnotationConcordant": 6,
+    "syntaxRolePhysicallyTrue": 6,
+    "syntaxRolePhysicalAndGoldConcordant": 5,
+    "syntaxAbstainedButAnnotationConcordant": 5,
+    "sourceRolePhysicallyTrueButNotInAuthorAnnotations": 1,
+    "proposedInUnacceptedOrMissingNativeScene": 4
+  },
+  "physicalEligibility": {
+    "sourceDescriptions": 200,
+    "parsedOnRelations": 53,
+    "originalScenesWithOn": 45,
+    "baselineTrue": 27,
+    "baselineFalse": 11,
+    "baselineUnknown": 12,
+    "eligibleForPotentialUnambiguousDynamicPhysicalRepair": 8,
+    "eligibleButNotPhysicallyTrue": 0,
+    "multipleOrUnresolvedReferences": 7,
+    "nonfittingSurface": 23
+  },
+  "independentGoldEightSelected": {
+    "eligibleSourceUniqueOnClaims": 8,
+    "syntaxAcceptedClaimsPerVector": 4,
+    "syntaxAcceptedAlsoAuthorAnnotated": 3,
+    "syntaxAbstainedAlsoAuthorAnnotated": 1,
+    "annotationUncertainOrMissingShouldNotBeAssumedFalse": true
+  },
+  "nativeFullLoops": {
+    "physicalEpisodes": 32,
+    "distinctEligibleSourceRelationships": 8,
+    "successfulSourcePhysicalSemanticOffscreenNativeReentryEpisodes": 32,
+    "physicalContactBecameFalseOrUnknownAfterImpulse": 30,
+    "sourceSyntacticApprovedRelationshipRetractions": 16,
+    "actualNativeUnloadedAreaWithSemanticTimeAndReentry": 32,
+    "unseenImpulseEyewitnessLeaks": 0,
+    "repeatedUnchangedNarration": 0,
+    "sceneSourceArchiveAndOriginalEntityIdsPreserved": 32,
+    "oneCaseReturnedOutsideJointLineOfSight": true
+  },
+  "perVersion": [
+    {
+      "name": "v1",
+      "summary": {
+        "sourceBlindPredefinedEligiblePhysicalRelations": 8,
+        "sourceSyntaxAccepted": 4,
+        "successfullyEvaluated": 8,
+        "executionFailures": 0,
+        "initialSourceSupportedRelationsActuallyNarrated": 4,
+        "originalPhysicalTrue": 8,
+        "realPhysicalImpulsesApplied": 8,
+        "realImpulsesLedToFalseOrUnknownSupport": 7,
+        "physicallyDisprovedSourceClaimsStillPrinted": 0,
+        "actualSafeOffscreenRegionUnloads": 8,
+        "unknownUnloadedSemanticsQualified": 8,
+        "nativeSavedAndRematerialized": 8,
+        "fromPhysicalWorldToCurrentWorldAfterReentry": 7,
+        "initialPhysicallyVisibleSourceCases": 8,
+        "reentryPhysicallyVisibleBothObjects": 8,
+        "successfulObserverPhysicalRelationRetractions": 4,
+        "remoteHiddenPhysicalEventLeaks": 0,
+        "repeatedUnchangedReturnNarrative": 0,
+        "sourceTextsUnchanged": 8
+      }
+    },
+    {
+      "name": "v2",
+      "summary": {
+        "sourceBlindPredefinedEligiblePhysicalRelations": 8,
+        "sourceSyntaxAccepted": 4,
+        "successfullyEvaluated": 8,
+        "executionFailures": 0,
+        "initialSourceSupportedRelationsActuallyNarrated": 4,
+        "originalPhysicalTrue": 8,
+        "realPhysicalImpulsesApplied": 8,
+        "realImpulsesLedToFalseOrUnknownSupport": 7,
+        "physicallyDisprovedSourceClaimsStillPrinted": 0,
+        "actualSafeOffscreenRegionUnloads": 8,
+        "unknownUnloadedSemanticsQualified": 8,
+        "nativeSavedAndRematerialized": 8,
+        "fromPhysicalWorldToCurrentWorldAfterReentry": 7,
+        "initialPhysicallyVisibleSourceCases": 8,
+        "reentryPhysicallyVisibleBothObjects": 8,
+        "successfulObserverPhysicalRelationRetractions": 4,
+        "remoteHiddenPhysicalEventLeaks": 0,
+        "repeatedUnchangedReturnNarrative": 0,
+        "sourceTextsUnchanged": 8
+      }
+    },
+    {
+      "name": "v3",
+      "summary": {
+        "sourceBlindPredefinedEligiblePhysicalRelations": 8,
+        "sourceSyntaxAccepted": 4,
+        "successfullyEvaluated": 8,
+        "executionFailures": 0,
+        "initialSourceSupportedRelationsActuallyNarrated": 4,
+        "originalPhysicalTrue": 8,
+        "realPhysicalImpulsesApplied": 8,
+        "realImpulsesLedToFalseOrUnknownSupport": 8,
+        "physicallyDisprovedSourceClaimsStillPrinted": 0,
+        "actualSafeOffscreenRegionUnloads": 8,
+        "unknownUnloadedSemanticsQualified": 8,
+        "nativeSavedAndRematerialized": 8,
+        "fromPhysicalWorldToCurrentWorldAfterReentry": 8,
+        "initialPhysicallyVisibleSourceCases": 8,
+        "reentryPhysicallyVisibleBothObjects": 8,
+        "successfulObserverPhysicalRelationRetractions": 4,
+        "remoteHiddenPhysicalEventLeaks": 0,
+        "repeatedUnchangedReturnNarrative": 0,
+        "sourceTextsUnchanged": 8
+      }
+    },
+    {
+      "name": "v4",
+      "summary": {
+        "sourceBlindPredefinedEligiblePhysicalRelations": 8,
+        "sourceSyntaxAccepted": 4,
+        "successfullyEvaluated": 8,
+        "executionFailures": 0,
+        "initialSourceSupportedRelationsActuallyNarrated": 4,
+        "originalPhysicalTrue": 8,
+        "realPhysicalImpulsesApplied": 8,
+        "realImpulsesLedToFalseOrUnknownSupport": 8,
+        "physicallyDisprovedSourceClaimsStillPrinted": 0,
+        "actualSafeOffscreenRegionUnloads": 8,
+        "unknownUnloadedSemanticsQualified": 8,
+        "nativeSavedAndRematerialized": 8,
+        "fromPhysicalWorldToCurrentWorldAfterReentry": 8,
+        "initialPhysicallyVisibleSourceCases": 8,
+        "reentryPhysicallyVisibleBothObjects": 7,
+        "successfulObserverPhysicalRelationRetractions": 4,
+        "remoteHiddenPhysicalEventLeaks": 0,
+        "repeatedUnchangedReturnNarrative": 0,
+        "sourceTextsUnchanged": 8
+      }
+    }
+  ],
+  "privateRawManifest": {
+    "prse_source_role_on_200_raw_v1.json": {
+      "sha256": "bf11d7e2eb3bf7c702ad3dedfbdf90f8048ff84ee6f1498c58bcadfb8e294ad6",
+      "bytes": 24393,
+      "ownerPrivate": true
+    },
+    "prse_source_blind_support_eligibility_v1.json": {
+      "sha256": "c322fa376d830086ed3615438f37dae57e45bdff31179ab1f95623eb7d42e11c",
+      "bytes": 30436,
+      "ownerPrivate": true
+    },
+    "prse_source_role_independent_on_gold_v1.json": {
+      "sha256": "ec3dfa60c2ea072f112be76ce1af248dd81468c9ec2da86d4f984b43ed0c3ba2",
+      "bytes": 15038,
+      "ownerPrivate": true
+    },
+    "prse_source_role_full_loop_8_raw_v1.json": {
+      "sha256": "0ad652211de5648072c60d1d65632694c6c28c7ac7e4814448cac29f4c250236",
+      "bytes": 15342,
+      "ownerPrivate": true
+    },
+    "prse_source_role_full_loop_8_raw_v2.json": {
+      "sha256": "715866c9fb343ee13d495db88f453b838c6e7775232e48ef32542f8205cf8095",
+      "bytes": 15459,
+      "ownerPrivate": true
+    },
+    "prse_source_role_full_loop_8_raw_v3.json": {
+      "sha256": "2fc74193521a61548c0516101b0dd4c5780b168d51915f2072d3b13ea52e9e85",
+      "bytes": 15460,
+      "ownerPrivate": true
+    },
+    "prse_source_role_full_loop_8_raw_v4.json": {
+      "sha256": "92920b48480c831b3ebf552d8122c1fb1e0fb6e8bbc8a4e05176f6ea6151ec09",
+      "bytes": 15315,
+      "ownerPrivate": true
+    }
+  }
+}

@@ -1,5 +1,8 @@
 # PRSE: object-count gains fail to reconstruct original physical scene relationships
 
+> **Subsequent source-role and causal-history study:** [source-only ON-role language evidence versus native 3D contacts, complete semantic/offscreen/observer re-entry, and independent pre-layout gold audit](PRSE_SOURCE_ROLE_CAUSAL_ROUNDTRIP_RESEARCH_2026-10-25.md). This retains the previous source-count/spatial findings, documents 32 repeated physical conditions on eight selected source relations and preserves the negative result that hard grammar abstention removes a previously correct real native support. Source role ambiguity must remain provisional rather than destroy native world evidence.
+
+
 25 October 2026 — continuation of original owner PRSE semantic/literary world ↔ authoritative 3D ↔ semantic/literary world research.
 
 ## Original owner research priority and constraints

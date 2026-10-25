@@ -1,0 +1,130 @@
+{
+  "metadata": {
+    "source": "Original source-derived SceneEval relations before independent gold annotation reading, all 8 predeclared native 3D dynamically supported scenes",
+    "sourceSelection": "Previously saved physical eligibility list, not selected by author gold or desired outcomes",
+    "fixedNativeInput": "Actual GameCore/Rapier impulse x4 y1.1 z0.5, 155 native steps plus conditional real 7s offscreen process",
+    "caution": "Tiny previously exposed selected subset, not general unrestricted fiction; passed source syntax is NOT full source entailment",
+    "sourceGoldNeverLoaded": true,
+    "noLLMorGPUorHumanParticipants": true,
+    "privateRawSHA256": "0ad652211de5648072c60d1d65632694c6c28c7ac7e4814448cac29f4c250236"
+  },
+  "summary": {
+    "sourceBlindPredefinedEligiblePhysicalRelations": 8,
+    "sourceSyntaxAccepted": 4,
+    "successfullyEvaluated": 8,
+    "executionFailures": 0,
+    "initialSourceSupportedRelationsActuallyNarrated": 4,
+    "originalPhysicalTrue": 8,
+    "realPhysicalImpulsesApplied": 8,
+    "realImpulsesLedToFalseOrUnknownSupport": 7,
+    "physicallyDisprovedSourceClaimsStillPrinted": 0,
+    "actualSafeOffscreenRegionUnloads": 8,
+    "unknownUnloadedSemanticsQualified": 8,
+    "nativeSavedAndRematerialized": 8,
+    "fromPhysicalWorldToCurrentWorldAfterReentry": 7,
+    "initialPhysicallyVisibleSourceCases": 8,
+    "reentryPhysicallyVisibleBothObjects": 8,
+    "successfulObserverPhysicalRelationRetractions": 4,
+    "remoteHiddenPhysicalEventLeaks": 0,
+    "repeatedUnchangedReturnNarrative": 0,
+    "sourceTextsUnchanged": 8
+  },
+  "results": [
+    {
+      "sourceId": 22,
+      "parsedChild": "lamp",
+      "syntaxAccepted": true,
+      "original": "true",
+      "after": "false",
+      "final": "false",
+      "unloaded": true,
+      "observerRetractions": 1,
+      "status": "evaluated",
+      "error": null
+    },
+    {
+      "sourceId": 27,
+      "parsedChild": "cup",
+      "syntaxAccepted": false,
+      "original": "true",
+      "after": "false",
+      "final": "false",
+      "unloaded": true,
+      "observerRetractions": 0,
+      "status": "evaluated",
+      "error": null
+    },
+    {
+      "sourceId": 220,
+      "parsedChild": "lamp",
+      "syntaxAccepted": false,
+      "original": "true",
+      "after": "false",
+      "final": "false",
+      "unloaded": true,
+      "observerRetractions": 0,
+      "status": "evaluated",
+      "error": null
+    },
+    {
+      "sourceId": 236,
+      "parsedChild": "book",
+      "syntaxAccepted": true,
+      "original": "true",
+      "after": "false",
+      "final": "false",
+      "unloaded": true,
+      "observerRetractions": 1,
+      "status": "evaluated",
+      "error": null
+    },
+    {
+      "sourceId": 240,
+      "parsedChild": "vase",
+      "syntaxAccepted": false,
+      "original": "true",
+      "after": "false",
+      "final": "false",
+      "unloaded": true,
+      "observerRetractions": 0,
+      "status": "evaluated",
+      "error": null
+    },
+    {
+      "sourceId": 240,
+      "parsedChild": "potted_plant",
+      "syntaxAccepted": false,
+      "original": "true",
+      "after": "true",
+      "final": "true",
+      "unloaded": true,
+      "observerRetractions": 0,
+      "status": "evaluated",
+      "error": null
+    },
+    {
+      "sourceId": 372,
+      "parsedChild": "vase",
+      "syntaxAccepted": true,
+      "original": "true",
+      "after": "false",
+      "final": "false",
+      "unloaded": true,
+      "observerRetractions": 1,
+      "status": "evaluated",
+      "error": null
+    },
+    {
+      "sourceId": 488,
+      "parsedChild": "lamp",
+      "syntaxAccepted": true,
+      "original": "true",
+      "after": "false",
+      "final": "false",
+      "unloaded": true,
+      "observerRetractions": 1,
+      "status": "evaluated",
+      "error": null
+    }
+  ]
+}
