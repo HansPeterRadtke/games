@@ -1,0 +1,711 @@
+{
+  "metadata": {
+    "source": "Same fixed SceneEval-500 first100 human plus every fourth assisted100 actual frozen physically simulated GameCore/Rapier source descriptions",
+    "officialSceneEvalSha256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "sameSourceIDs": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      104,
+      108,
+      112,
+      116,
+      120,
+      124,
+      128,
+      132,
+      136,
+      140,
+      144,
+      148,
+      152,
+      156,
+      160,
+      164,
+      168,
+      172,
+      176,
+      180,
+      184,
+      188,
+      192,
+      196,
+      200,
+      204,
+      208,
+      212,
+      216,
+      220,
+      224,
+      228,
+      232,
+      236,
+      240,
+      244,
+      248,
+      252,
+      256,
+      260,
+      264,
+      268,
+      272,
+      276,
+      280,
+      284,
+      288,
+      292,
+      296,
+      300,
+      304,
+      308,
+      312,
+      316,
+      320,
+      324,
+      328,
+      332,
+      336,
+      340,
+      344,
+      348,
+      352,
+      356,
+      360,
+      364,
+      368,
+      372,
+      376,
+      380,
+      384,
+      388,
+      392,
+      396,
+      400,
+      404,
+      408,
+      412,
+      416,
+      420,
+      424,
+      428,
+      432,
+      436,
+      440,
+      444,
+      448,
+      452,
+      456,
+      460,
+      464,
+      468,
+      472,
+      476,
+      480,
+      484,
+      488,
+      492,
+      496
+    ],
+    "sourceAnnotationsOnlyOpenedPosthoc": true,
+    "existingPhysicalStateNeverChanged": true,
+    "totalOriginalGoldOnClauses": 363,
+    "originalGoldOnClausesOn197AcceptedNativeScenes": 354,
+    "physicalReality": "Actual native Rapier collider contacts and source-linked body xyz/quaternions read from already frozen physical world runs",
+    "criticalLimitation": "AABB dimension fit and hypothetical unoccupied placement are posthoc optimistic physical potential, NEVER contact proof. The three arms have different object budgets. Instance-level author reference identity and real visual asset fidelity are not established.",
+    "frozenPhysicalInputSHA256": {
+      "baseline": "01333bebd85448e469a19ba1670f9876fb5e7d0eadd175b79fcaae08cda2c30a",
+      "generic": "e34132e1a13f11a22a7cc46fdd00a394f9e2f9c8b09bbfe4a3f7ecc880c60ca5",
+      "catalog": "81102ddaeea7b2cb07fc997bf12a1a7affa1ded95cb1184ceb96bb4d29ad1ac9"
+    },
+    "privateRawSHA256": "3dd551dd18363470d52894e0c261af441b02e01440e26cd6a4fd7416ff8e9c21"
+  },
+  "summary": {
+    "baseline": {
+      "physicallyInstantiatedRapierBodies": 938,
+      "actualGameCoreNativeObjectContactPairs": 11,
+      "goldFailureCategories": {
+        "acceptedSources": 197,
+        "goldAuthorOnClausesChecked": 354,
+        "nominal_reposition_possible_but_no_real_support": 32,
+        "bothTypesPresent": 47,
+        "sufficientQuantityForRequiredChildInstances": 39,
+        "sufficientSizeCompatibleExistingChildInstances": 37,
+        "sufficientHypotheticalUnoccupiedAABBTopPositions": 35,
+        "confirmedNativeContactAndSupportRequirements": 3,
+        "childInstancesInGoldClauses": 474,
+        "real_native_supported": 3,
+        "child_type_missing": 160,
+        "no_sufficient_supported_footprint": 2,
+        "support_type_missing": 21,
+        "insufficient_child_instances": 8,
+        "both_types_missing": 126,
+        "geometryRejectedSources": 3,
+        "goldOnUnverifiedRejectedScenes": 9,
+        "nominal_fit_but_no_collision_free_top_position": 2
+      },
+      "mostMissingSupportTypes": [
+        [
+          "vanity",
+          20
+        ],
+        [
+          "sideboard",
+          16
+        ],
+        [
+          "side_table",
+          10
+        ],
+        [
+          "kitchen_island",
+          8
+        ],
+        [
+          "island",
+          5
+        ],
+        [
+          "media_console",
+          5
+        ],
+        [
+          "trestle_table",
+          4
+        ],
+        [
+          "sushi_counter",
+          4
+        ],
+        [
+          "craft_table",
+          3
+        ],
+        [
+          "console_table",
+          3
+        ],
+        [
+          "drafting_table",
+          3
+        ],
+        [
+          "activity_table",
+          3
+        ],
+        [
+          "cutting_board",
+          3
+        ],
+        [
+          "wall_shelf",
+          2
+        ],
+        [
+          "area_rug",
+          2
+        ]
+      ],
+      "mostMissingChildTypes": [
+        [
+          "candle",
+          8
+        ],
+        [
+          "mouse",
+          7
+        ],
+        [
+          "table_lamp",
+          6
+        ],
+        [
+          "keyboard",
+          5
+        ],
+        [
+          "fruit_bowl",
+          5
+        ],
+        [
+          "desk_lamp",
+          4
+        ],
+        [
+          "board_game",
+          4
+        ],
+        [
+          "laptop",
+          4
+        ],
+        [
+          "plate",
+          4
+        ],
+        [
+          "pillow",
+          4
+        ],
+        [
+          "wine_glass",
+          4
+        ],
+        [
+          "cushion",
+          3
+        ],
+        [
+          "remote_control",
+          3
+        ],
+        [
+          "magazine",
+          3
+        ],
+        [
+          "headset",
+          3
+        ]
+      ],
+      "conditionalSceneBootstrap95": {
+        "sceneClustersWithOnClauses": 110,
+        "conditionalBootstrap95ForTypePresent": [
+          0.0968586387434555,
+          0.17333333333333334
+        ],
+        "conditionalBootstrap95ForActualContact": [
+          0.0,
+          0.019337016574585635
+        ],
+        "conditionalBootstrap95ForOptimisticUnoccupiedTop": [
+          0.06896551724137931,
+          0.13414634146341464
+        ]
+      }
+    },
+    "generic": {
+      "physicallyInstantiatedRapierBodies": 2048,
+      "actualGameCoreNativeObjectContactPairs": 11,
+      "goldFailureCategories": {
+        "acceptedSources": 197,
+        "goldAuthorOnClausesChecked": 354,
+        "nominal_reposition_possible_but_no_real_support": 131,
+        "bothTypesPresent": 226,
+        "sufficientQuantityForRequiredChildInstances": 214,
+        "sufficientSizeCompatibleExistingChildInstances": 142,
+        "sufficientHypotheticalUnoccupiedAABBTopPositions": 134,
+        "confirmedNativeContactAndSupportRequirements": 3,
+        "childInstancesInGoldClauses": 474,
+        "real_native_supported": 3,
+        "child_type_missing": 83,
+        "no_sufficient_supported_footprint": 72,
+        "support_type_missing": 33,
+        "insufficient_child_instances": 12,
+        "geometryRejectedSources": 3,
+        "goldOnUnverifiedRejectedScenes": 9,
+        "both_types_missing": 12,
+        "nominal_fit_but_no_collision_free_top_position": 8
+      },
+      "mostMissingSupportTypes": [
+        [
+          "kitchen_island",
+          8
+        ],
+        [
+          "sideboard",
+          7
+        ],
+        [
+          "media_console",
+          3
+        ],
+        [
+          "island",
+          3
+        ],
+        [
+          "vanity",
+          3
+        ],
+        [
+          "wall_shelf",
+          2
+        ],
+        [
+          "area_rug",
+          2
+        ],
+        [
+          "shelving_unit",
+          2
+        ],
+        [
+          "tasting_table",
+          2
+        ],
+        [
+          "console_table",
+          2
+        ],
+        [
+          "potting_table",
+          2
+        ],
+        [
+          "daybed",
+          2
+        ],
+        [
+          "play_mat",
+          1
+        ],
+        [
+          "trestle_table",
+          1
+        ],
+        [
+          "serving_platter",
+          1
+        ]
+      ],
+      "mostMissingChildTypes": [
+        [
+          "remote_control",
+          3
+        ],
+        [
+          "plush_toy",
+          2
+        ],
+        [
+          "potted_succulent",
+          2
+        ],
+        [
+          "pen_set",
+          2
+        ],
+        [
+          "bowl",
+          2
+        ],
+        [
+          "plate",
+          2
+        ],
+        [
+          "wine_glass",
+          2
+        ],
+        [
+          "fruit_bowl",
+          2
+        ],
+        [
+          "decanter",
+          2
+        ],
+        [
+          "keyboard",
+          2
+        ],
+        [
+          "electronic_peripheral",
+          1
+        ],
+        [
+          "blanket",
+          1
+        ],
+        [
+          "charcuterie_board",
+          1
+        ],
+        [
+          "rocking_horse",
+          1
+        ],
+        [
+          "bowl_of_fruit",
+          1
+        ]
+      ],
+      "conditionalSceneBootstrap95": {
+        "sceneClustersWithOnClauses": 110,
+        "conditionalBootstrap95ForTypePresent": [
+          0.5686813186813187,
+          0.7082066869300911
+        ],
+        "conditionalBootstrap95ForActualContact": [
+          0.0,
+          0.019417475728155338
+        ],
+        "conditionalBootstrap95ForOptimisticUnoccupiedTop": [
+          0.30835734870317005,
+          0.4492753623188406
+        ]
+      }
+    },
+    "catalog": {
+      "physicallyInstantiatedRapierBodies": 955,
+      "actualGameCoreNativeObjectContactPairs": 11,
+      "goldFailureCategories": {
+        "acceptedSources": 197,
+        "goldAuthorOnClausesChecked": 354,
+        "nominal_reposition_possible_but_no_real_support": 32,
+        "bothTypesPresent": 47,
+        "sufficientQuantityForRequiredChildInstances": 39,
+        "sufficientSizeCompatibleExistingChildInstances": 37,
+        "sufficientHypotheticalUnoccupiedAABBTopPositions": 35,
+        "confirmedNativeContactAndSupportRequirements": 3,
+        "childInstancesInGoldClauses": 474,
+        "real_native_supported": 3,
+        "child_type_missing": 160,
+        "no_sufficient_supported_footprint": 2,
+        "support_type_missing": 21,
+        "insufficient_child_instances": 8,
+        "both_types_missing": 126,
+        "geometryRejectedSources": 3,
+        "goldOnUnverifiedRejectedScenes": 9,
+        "nominal_fit_but_no_collision_free_top_position": 2
+      },
+      "mostMissingSupportTypes": [
+        [
+          "vanity",
+          20
+        ],
+        [
+          "sideboard",
+          16
+        ],
+        [
+          "side_table",
+          10
+        ],
+        [
+          "kitchen_island",
+          8
+        ],
+        [
+          "island",
+          5
+        ],
+        [
+          "media_console",
+          5
+        ],
+        [
+          "trestle_table",
+          4
+        ],
+        [
+          "sushi_counter",
+          4
+        ],
+        [
+          "craft_table",
+          3
+        ],
+        [
+          "console_table",
+          3
+        ],
+        [
+          "drafting_table",
+          3
+        ],
+        [
+          "activity_table",
+          3
+        ],
+        [
+          "cutting_board",
+          3
+        ],
+        [
+          "wall_shelf",
+          2
+        ],
+        [
+          "area_rug",
+          2
+        ]
+      ],
+      "mostMissingChildTypes": [
+        [
+          "candle",
+          8
+        ],
+        [
+          "mouse",
+          7
+        ],
+        [
+          "table_lamp",
+          6
+        ],
+        [
+          "keyboard",
+          5
+        ],
+        [
+          "fruit_bowl",
+          5
+        ],
+        [
+          "desk_lamp",
+          4
+        ],
+        [
+          "board_game",
+          4
+        ],
+        [
+          "laptop",
+          4
+        ],
+        [
+          "plate",
+          4
+        ],
+        [
+          "pillow",
+          4
+        ],
+        [
+          "wine_glass",
+          4
+        ],
+        [
+          "cushion",
+          3
+        ],
+        [
+          "remote_control",
+          3
+        ],
+        [
+          "magazine",
+          3
+        ],
+        [
+          "headset",
+          3
+        ]
+      ],
+      "conditionalSceneBootstrap95": {
+        "sceneClustersWithOnClauses": 110,
+        "conditionalBootstrap95ForTypePresent": [
+          0.09711286089238845,
+          0.17464788732394365
+        ],
+        "conditionalBootstrap95ForActualContact": [
+          0.0,
+          0.019444444444444445
+        ],
+        "conditionalBootstrap95ForOptimisticUnoccupiedTop": [
+          0.06779661016949153,
+          0.13559322033898305
+        ]
+      }
+    }
+  }
+}

@@ -1,4 +1,7 @@
 # PRSE — physical events, factual current prose, and source-meaning limits
+
+> **Subsequent source-geometry limitation, independent of event-history fixes:** [source-author ON clause failure decomposition across original, generic noun and strict 3D category-catalog native Rapier scenes](PRSE_DECISIVE_SOURCE_ON_GEOMETRY_FAILURES_2026-10-25.md) finds that most original failures lack necessary object kinds, whereas broad generic object creation leaves many support sizes inappropriate or nominally possible placements unrealized. Actual native physically confirmed author support remains 3/354 in all arms. The physical event/currents facts improvements in this prior report remain separately verified.
+
 25 October 2026 — decisive research continuation, same Games branch
 
 The owner’s August 13 and October 9 original recordings establish the goal: an ordinary persistent literary world is selectively materialized as ONE authoritative three-dimensional physical environment, genuinely simulated through contacts, forces and causal events, and translated back into truthful literary updates. Offscreen time, observer limitations and later rematerialization must preserve history and identity. This is the priority, not gameplay macros or scripted jumps.
