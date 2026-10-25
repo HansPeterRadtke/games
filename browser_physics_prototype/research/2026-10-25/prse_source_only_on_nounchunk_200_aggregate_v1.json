@@ -1,0 +1,1017 @@
+{
+  "metadata": {
+    "sourceParserSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "frozenSourceNounCandidatesSHA256": "91fe872937596c9100515d7779c281d397ef4596f4a1c8c66d33cdfef124f1a8",
+    "completePrivateSourceOnlyRawSHA256": "1fbdfdd81bd2e4b20abd26bd392b0f6c4068f797696019b198c3c2b2d9dc24a8",
+    "notIndependentOriginalAuthorEntailment": true,
+    "noGoldUsed": true
+  },
+  "summary": {
+    "sources": 200,
+    "onRelationshipCandidates": 76,
+    "sourceScenesWithCandidates": 47,
+    "abstentions": 137
+  },
+  "perScene": [
+    {
+      "sourceId": 0,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 1,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 2,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 3,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 4,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 5,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 6,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 7,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 8,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 9,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 10,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 11,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 12,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 13,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 14,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 15,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 16,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 17,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 18,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 19,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 20,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 21,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 22,
+      "count": 1,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 23,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 24,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 25,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 26,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 27,
+      "count": 2,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 28,
+      "count": 2,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 29,
+      "count": 1,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 30,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 31,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 32,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 33,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 34,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 35,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 36,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 37,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 38,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 39,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 40,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 41,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 42,
+      "count": 1,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 43,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 44,
+      "count": 0,
+      "abstentions": 4
+    },
+    {
+      "sourceId": 45,
+      "count": 0,
+      "abstentions": 4
+    },
+    {
+      "sourceId": 46,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 47,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 48,
+      "count": 0,
+      "abstentions": 4
+    },
+    {
+      "sourceId": 49,
+      "count": 0,
+      "abstentions": 3
+    },
+    {
+      "sourceId": 50,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 51,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 52,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 53,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 54,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 55,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 56,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 57,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 58,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 59,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 60,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 61,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 62,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 63,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 64,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 65,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 66,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 67,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 68,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 69,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 70,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 71,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 72,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 73,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 74,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 75,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 76,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 77,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 78,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 79,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 80,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 81,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 82,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 83,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 84,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 85,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 86,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 87,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 88,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 89,
+      "count": 1,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 90,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 91,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 92,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 93,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 94,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 95,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 96,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 97,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 98,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 99,
+      "count": 0,
+      "abstentions": 3
+    },
+    {
+      "sourceId": 100,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 104,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 108,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 112,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 116,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 120,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 124,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 128,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 132,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 136,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 140,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 144,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 148,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 152,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 156,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 160,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 164,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 168,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 172,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 176,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 180,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 184,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 188,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 192,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 196,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 200,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 204,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 208,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 212,
+      "count": 2,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 216,
+      "count": 1,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 220,
+      "count": 1,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 224,
+      "count": 4,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 228,
+      "count": 2,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 232,
+      "count": 1,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 236,
+      "count": 2,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 240,
+      "count": 1,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 244,
+      "count": 2,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 248,
+      "count": 1,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 252,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 256,
+      "count": 3,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 260,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 264,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 268,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 272,
+      "count": 1,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 276,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 280,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 284,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 288,
+      "count": 1,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 292,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 296,
+      "count": 1,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 300,
+      "count": 1,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 304,
+      "count": 1,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 308,
+      "count": 0,
+      "abstentions": 3
+    },
+    {
+      "sourceId": 312,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 316,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 320,
+      "count": 0,
+      "abstentions": 3
+    },
+    {
+      "sourceId": 324,
+      "count": 1,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 328,
+      "count": 2,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 332,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 336,
+      "count": 1,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 340,
+      "count": 1,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 344,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 348,
+      "count": 4,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 352,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 356,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 360,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 364,
+      "count": 1,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 368,
+      "count": 1,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 372,
+      "count": 2,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 376,
+      "count": 2,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 380,
+      "count": 2,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 384,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 388,
+      "count": 2,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 392,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 396,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 400,
+      "count": 1,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 404,
+      "count": 5,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 408,
+      "count": 2,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 412,
+      "count": 0,
+      "abstentions": 3
+    },
+    {
+      "sourceId": 416,
+      "count": 2,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 420,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 424,
+      "count": 1,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 428,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 432,
+      "count": 1,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 436,
+      "count": 1,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 440,
+      "count": 0,
+      "abstentions": 3
+    },
+    {
+      "sourceId": 444,
+      "count": 2,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 448,
+      "count": 0,
+      "abstentions": 3
+    },
+    {
+      "sourceId": 452,
+      "count": 0,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 456,
+      "count": 2,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 460,
+      "count": 1,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 464,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 468,
+      "count": 1,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 472,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 476,
+      "count": 0,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 480,
+      "count": 0,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 484,
+      "count": 1,
+      "abstentions": 0
+    },
+    {
+      "sourceId": 488,
+      "count": 3,
+      "abstentions": 2
+    },
+    {
+      "sourceId": 492,
+      "count": 1,
+      "abstentions": 1
+    },
+    {
+      "sourceId": 496,
+      "count": 0,
+      "abstentions": 1
+    }
+  ]
+}

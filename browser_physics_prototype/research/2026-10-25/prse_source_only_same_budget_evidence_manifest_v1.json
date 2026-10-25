@@ -1,0 +1,177 @@
+{
+  "provenance": {
+    "originalSceneEvalSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "frozenSourceInterpreterRawSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "frozenPriorNativeGenericControlSHA256": "e34132e1a13f11a22a7cc46fdd00a394f9e2f9c8b09bbfe4a3f7ecc880c60ca5",
+    "noAuthorGoldInNounParserOrNativePlacement": true,
+    "originalInvalidNativeResearchVersionsV1V2V3Preserved": true,
+    "preflightMatchedPhysicalBodyPoseAndContactFromV4Onwards": true,
+    "sameBodyInventoryAndPhysicsStepBudget": true,
+    "limits": "Private previously researched SceneEval source corpus; pretrained noun parser plus uncalibrated generic box objects; type-pair gold not unique instance truth; eight gains all in assisted-source group"
+  },
+  "measured": {
+    "baselineRealNativeONGoldClauses": 3,
+    "pretrainedNativeRealONGoldClauses": 11,
+    "lexicalNativeRealONGoldClauses": 3,
+    "sameNativeBodiesAcrossAcceptedScenes": 2048,
+    "sameNativePhysicsContactsAtControl": 11,
+    "pretrainedRealNativeContactsAfterSourcePlacement": 29,
+    "sourceOnlyExtraRealNativeContacts": 18,
+    "pretrainedSourceGoldGains": 8,
+    "goldPreviouslySupportedRelationsLost": 0,
+    "humanOriginalSourceRelationImprovement": 0,
+    "assistedSourceRelationImprovement": 8,
+    "pretrainedMatchedGoldAllTestableRelations": 41,
+    "baselineMatchedGoldAllTestableRelations": 33,
+    "totalTestableAuthorRelations": 512,
+    "otherAuthorRelationTypesUnverifiable": 399,
+    "actualGrammarContactScenes": 13,
+    "nativeSourceHistoryPhysicalChangesOffscreenRestores": 13
+  },
+  "postFrozenGoldAudit": {
+    "byMethod": {
+      "baseline": {
+        "allAuthorObjectObjectClauses": 911,
+        "testableAuthorClauses": 512,
+        "physicallyConfirmed": 33,
+        "physicallyNotConfirmed": 479,
+        "near_sourceClauses": 32,
+        "near_confirmed": 6,
+        "unsupportedKindsHeldUnknown": 399,
+        "next_sourceClauses": 126,
+        "next_confirmed": 24,
+        "on_sourceClauses": 354,
+        "on_confirmed": 3
+      },
+      "pretrained": {
+        "allAuthorObjectObjectClauses": 911,
+        "testableAuthorClauses": 512,
+        "physicallyConfirmed": 41,
+        "physicallyNotConfirmed": 471,
+        "near_sourceClauses": 32,
+        "near_confirmed": 6,
+        "unsupportedKindsHeldUnknown": 399,
+        "next_sourceClauses": 126,
+        "next_confirmed": 24,
+        "on_sourceClauses": 354,
+        "on_confirmed": 11
+      },
+      "lexical": {
+        "allAuthorObjectObjectClauses": 911,
+        "testableAuthorClauses": 512,
+        "physicallyConfirmed": 33,
+        "physicallyNotConfirmed": 479,
+        "near_sourceClauses": 32,
+        "near_confirmed": 6,
+        "unsupportedKindsHeldUnknown": 399,
+        "next_sourceClauses": 126,
+        "next_confirmed": 24,
+        "on_sourceClauses": 354,
+        "on_confirmed": 3
+      }
+    },
+    "gainLoss": {
+      "baselineSupported": 33,
+      "lexicalSupported": 33,
+      "pretrainedSupported": 41,
+      "pretrainedGained": 8
+    },
+    "sceneClusterBootstrap": {
+      "human": {
+        "physicalSourceSceneClustersWithTestableRelations": 64,
+        "observedImprovementOnTestableRelations": 0.0,
+        "conditionalScenePairedBootstrap95": [
+          0.0,
+          0.0
+        ],
+        "previouslyExaminedSceneCorpusNotFreshHoldout": true
+      },
+      "assisted": {
+        "physicalSourceSceneClustersWithTestableRelations": 78,
+        "observedImprovementOnTestableRelations": 0.022099447513812154,
+        "conditionalScenePairedBootstrap95": [
+          0.007653061224489796,
+          0.04105571847507331
+        ],
+        "previouslyExaminedSceneCorpusNotFreshHoldout": true
+      }
+    }
+  },
+  "physicalToSourceCurrentOffscreen": {
+    "sourceDrivenScenesPreviouslySelected": 13,
+    "originallyValidatedNativeOnContacts": 18,
+    "actualNativeCurrentDocumentAndSaveCompleted": 13,
+    "executionFailures": 0,
+    "initiallyRealSourceContactRecordsVerified": 18,
+    "explicitlyPhysicalOnlyNotSourceEntailedStatements": 18,
+    "newActualGameCoreImpulses": 13,
+    "semanticRevisionsAfterImpulses": 13,
+    "postImpulseFalseSupportWronglyNarrated": 0,
+    "realOffscreenUnloads": 13,
+    "restoredFullWorldsWithUnchangedOriginalLiteraryText": 13,
+    "sourceHistoricallyOrPhysicalStateFalseClaimsAreNotElevated": true,
+    "sourceMeaningAndRealismLimit": "Source noun meanings and box physical assets not independently validated"
+  },
+  "ownerPrivateRawSHA256": {
+    "prse_source_only_on_nounchunk_200_raw_v1.json": {
+      "sha256": "1fbdfdd81bd2e4b20abd26bd392b0f6c4068f797696019b198c3c2b2d9dc24a8",
+      "bytes": 100511,
+      "ownerPrivate": true
+    },
+    "prse_source_only_nounchunk_same_budget_native_200_raw_v1.json": {
+      "sha256": "aa5ebddb86154cd946a14feeba7bba593b16ec45d89563ec51a9a186b09c57f7",
+      "bytes": 1482414,
+      "ownerPrivate": true
+    },
+    "prse_source_only_nounchunk_same_budget_native_200_raw_v2.json": {
+      "sha256": "b2f690287ab8b4150445aeb485430367885bf096a39db4c0791bd2006bd97ed3",
+      "bytes": 1492273,
+      "ownerPrivate": true
+    },
+    "prse_source_only_nounchunk_same_budget_native_200_raw_v3.json": {
+      "sha256": "eb5997d873829d51f9fbb5adbeb543296da72c6fdf925e346ee691dd83640c6f",
+      "bytes": 1472154,
+      "ownerPrivate": true
+    },
+    "prse_source_only_nounchunk_same_budget_native_200_raw_v4.json": {
+      "sha256": "3711f276b3e6c91f44651fdc066869fef325db8154fac9a1661ab460e83c2f53",
+      "bytes": 1522751,
+      "ownerPrivate": true
+    },
+    "prse_source_only_nounchunk_same_budget_native_200_raw_v5.json": {
+      "sha256": "62e175d71b2ab61e8fa5a93e1de7937408e98bbbb267a2fa7ba0766cbf14b453",
+      "bytes": 1502611,
+      "ownerPrivate": true
+    },
+    "prse_source_only_on_native_postgold_per_case_v1.json": {
+      "sha256": "4287bee0d99c5cd48c634cf9794c9438ae3cec271fcb15660b88725de129b143",
+      "bytes": 116972,
+      "ownerPrivate": true
+    },
+    "prse_source_only_on_native_postgold_lexical_per_case_v1.json": {
+      "sha256": "2e2f9a5f20e47155517330baf326d109e04535fd63eeb73fab4afdaa090c70ee",
+      "bytes": 117145,
+      "ownerPrivate": true
+    },
+    "prse_all_rapier_real_author_relations_postgold_200_raw_v1.json": {
+      "sha256": "71c95feba6d7ed06464f8ba896a26b0cc978f85227c6a4c0904fab719ca273cb",
+      "bytes": 304985,
+      "ownerPrivate": true
+    },
+    "prse_all_rapier_real_author_relations_postgold_200_raw_v2.json": {
+      "sha256": "fc89c454335a81ef357e4b598999fdf1cbc6452114f05880801ede3e0ef3bf70",
+      "bytes": 304981,
+      "ownerPrivate": true
+    },
+    "prse_source_only_native_contact_to_current_semantics_13_raw_v1.json": {
+      "sha256": "8857edd244a9a098b996e6c59bb2418919c3f01aa89862b0c2571ffb6d7e117d",
+      "bytes": 23558,
+      "ownerPrivate": true
+    },
+    "prse_source_only_native_contact_to_current_semantics_13_raw_v2.json": {
+      "sha256": "8857edd244a9a098b996e6c59bb2418919c3f01aa89862b0c2571ffb6d7e117d",
+      "bytes": 23558,
+      "ownerPrivate": true
+    }
+  }
+}

@@ -1,0 +1,2038 @@
+{
+  "metadata": {
+    "method": "Same existing generic source entities and native GameCore/Rapier world, grammar noun chunk on constrained vs original frozen arbitrary positions",
+    "sourceSelection": "First100 human and systematic every fourth100 assisted previously exposed SceneEval source paragraphs",
+    "sourceGrammarFrozenBeforeGold": true,
+    "sourceOnlyPolicy": "lexical",
+    "physicalBudgetExactlyMatchedPerScene": true,
+    "oraclePlacementOrAnnotationGoldUsed": false,
+    "privateNativeRawSHA256": "62e175d71b2ab61e8fa5a93e1de7937408e98bbbb267a2fa7ba0766cbf14b453"
+  },
+  "summary": {
+    "sourceDescriptions": 200,
+    "originalAcceptedSameSourceScenes": 197,
+    "actualNativeSourceOnlyPlacedAndSaved": 197,
+    "nativeReconstructionFailures": 0,
+    "originalNonwallPhysicalBodyBudgetAcrossScenes": 2048,
+    "sameNativePhysicalBodiesAcrossSourceOnlyScenes": 2048,
+    "sourceOnlyPretrainedOnCandidates": 50,
+    "candidateResultCategories": {
+      "already_has_support": 8,
+      "not_supported_dynamic_box": 30,
+      "ambiguous_or_missing_instance": 7,
+      "same_instance": 5
+    },
+    "acceptedSourceOnlyExtraNativePlacements": 0,
+    "actualNewSourceOnlyOnContactPairs": 0,
+    "allActualNativeContactsAfterSourceOnlyPlacement": 11,
+    "originalBaselineGenericNativeInterobjectContacts": 11,
+    "sourceHistoryAndNativeRapierContactsSavedExactly": 197,
+    "elapsedSeconds": 40.15,
+    "sourceAnnotationsNeverRead": true,
+    "originalBodyPoseAndNativeContactsActuallyPreflightChecked": true,
+    "policy": "lexical",
+    "physicalAssetCaveat": "Same 1110 extra uncalibrated generic boxes. Contact can be genuine native Rapier but generic categories are NOT realistic objects."
+  },
+  "scenes": [
+    {
+      "id": 0,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 1,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 2,
+      "error": null
+    },
+    {
+      "id": 2,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 3,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 4,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 5,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 6,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": null
+    },
+    {
+      "id": 7,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": null
+    },
+    {
+      "id": 8,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 9,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 10,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 11,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 12,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 13,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": null
+    },
+    {
+      "id": 14,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": null
+    },
+    {
+      "id": 15,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 16,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 17,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 18,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 2,
+      "error": null
+    },
+    {
+      "id": 19,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 20,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 21,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 22,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 23,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": null
+    },
+    {
+      "id": 24,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 17,
+      "error": null
+    },
+    {
+      "id": 25,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": null
+    },
+    {
+      "id": 26,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 27,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 3,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 28,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 29,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 30,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 31,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 32,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": null
+    },
+    {
+      "id": 33,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 34,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 35,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 36,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 37,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 38,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": null
+    },
+    {
+      "id": 39,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 40,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 20,
+      "error": null
+    },
+    {
+      "id": 41,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 28,
+      "error": null
+    },
+    {
+      "id": 42,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 16,
+      "error": null
+    },
+    {
+      "id": 43,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 26,
+      "error": null
+    },
+    {
+      "id": 44,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 29,
+      "error": null
+    },
+    {
+      "id": 45,
+      "status": "original_scene_not_physically_accepted",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": null,
+      "sourceBodyCount": null,
+      "error": null
+    },
+    {
+      "id": 46,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 21,
+      "error": null
+    },
+    {
+      "id": 47,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 13,
+      "error": null
+    },
+    {
+      "id": 48,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": null
+    },
+    {
+      "id": 49,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 30,
+      "error": null
+    },
+    {
+      "id": 50,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": null
+    },
+    {
+      "id": 51,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 52,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": null
+    },
+    {
+      "id": 53,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 54,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": null
+    },
+    {
+      "id": 55,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 56,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 57,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 58,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 59,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 60,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 61,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": null
+    },
+    {
+      "id": 62,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 63,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 64,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 65,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": null
+    },
+    {
+      "id": 66,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": null
+    },
+    {
+      "id": 67,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 68,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 69,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 70,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 71,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": null
+    },
+    {
+      "id": 72,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 13,
+      "error": null
+    },
+    {
+      "id": 73,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 74,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 75,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 76,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": null
+    },
+    {
+      "id": 77,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 78,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 79,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 80,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": null
+    },
+    {
+      "id": 81,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": null
+    },
+    {
+      "id": 82,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 83,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 84,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": null
+    },
+    {
+      "id": 85,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 86,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 87,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": null
+    },
+    {
+      "id": 88,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 89,
+      "status": "original_scene_not_physically_accepted",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": null,
+      "sourceBodyCount": null,
+      "error": null
+    },
+    {
+      "id": 90,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": null
+    },
+    {
+      "id": 91,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 15,
+      "error": null
+    },
+    {
+      "id": 92,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 14,
+      "error": null
+    },
+    {
+      "id": 93,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 15,
+      "error": null
+    },
+    {
+      "id": 94,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 95,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 14,
+      "error": null
+    },
+    {
+      "id": 96,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": null
+    },
+    {
+      "id": 97,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 19,
+      "error": null
+    },
+    {
+      "id": 98,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 29,
+      "error": null
+    },
+    {
+      "id": 99,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 30,
+      "error": null
+    },
+    {
+      "id": 100,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": null
+    },
+    {
+      "id": 104,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": null
+    },
+    {
+      "id": 108,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 112,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 116,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 120,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 124,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 128,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 132,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 136,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 140,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 144,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 148,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": null
+    },
+    {
+      "id": 152,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 156,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 160,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 164,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 168,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 172,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": null
+    },
+    {
+      "id": 176,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 180,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 184,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 188,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 192,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 196,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 200,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": null
+    },
+    {
+      "id": 204,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 208,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 212,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": null
+    },
+    {
+      "id": 216,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 14,
+      "error": null
+    },
+    {
+      "id": 220,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 10,
+      "error": null
+    },
+    {
+      "id": 224,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 13,
+      "error": null
+    },
+    {
+      "id": 228,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 232,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": null
+    },
+    {
+      "id": 236,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 10,
+      "error": null
+    },
+    {
+      "id": 240,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 3,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 2,
+      "sourceBodyCount": 13,
+      "error": null
+    },
+    {
+      "id": 244,
+      "status": "original_scene_not_physically_accepted",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": null,
+      "sourceBodyCount": null,
+      "error": null
+    },
+    {
+      "id": 248,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": null
+    },
+    {
+      "id": 252,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 256,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": null
+    },
+    {
+      "id": 260,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": null
+    },
+    {
+      "id": 264,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 268,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": null
+    },
+    {
+      "id": 272,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": null
+    },
+    {
+      "id": 276,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 280,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": null
+    },
+    {
+      "id": 284,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": null
+    },
+    {
+      "id": 288,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 14,
+      "error": null
+    },
+    {
+      "id": 292,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 296,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": null
+    },
+    {
+      "id": 300,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": null
+    },
+    {
+      "id": 304,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": null
+    },
+    {
+      "id": 308,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": null
+    },
+    {
+      "id": 312,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 316,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": null
+    },
+    {
+      "id": 320,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": null
+    },
+    {
+      "id": 324,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": null
+    },
+    {
+      "id": 328,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 332,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": null
+    },
+    {
+      "id": 336,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": null
+    },
+    {
+      "id": 340,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 15,
+      "error": null
+    },
+    {
+      "id": 344,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": null
+    },
+    {
+      "id": 348,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 15,
+      "error": null
+    },
+    {
+      "id": 352,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 13,
+      "error": null
+    },
+    {
+      "id": 356,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": null
+    },
+    {
+      "id": 360,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": null
+    },
+    {
+      "id": 364,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 14,
+      "error": null
+    },
+    {
+      "id": 368,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": null
+    },
+    {
+      "id": 372,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 18,
+      "error": null
+    },
+    {
+      "id": 376,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 22,
+      "error": null
+    },
+    {
+      "id": 380,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 26,
+      "error": null
+    },
+    {
+      "id": 384,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 25,
+      "error": null
+    },
+    {
+      "id": 388,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 25,
+      "error": null
+    },
+    {
+      "id": 392,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 26,
+      "error": null
+    },
+    {
+      "id": 396,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 24,
+      "error": null
+    },
+    {
+      "id": 400,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 20,
+      "error": null
+    },
+    {
+      "id": 404,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 22,
+      "error": null
+    },
+    {
+      "id": 408,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 18,
+      "error": null
+    },
+    {
+      "id": 412,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 24,
+      "error": null
+    },
+    {
+      "id": 416,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 21,
+      "error": null
+    },
+    {
+      "id": 420,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 21,
+      "error": null
+    },
+    {
+      "id": 424,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 25,
+      "error": null
+    },
+    {
+      "id": 428,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 20,
+      "error": null
+    },
+    {
+      "id": 432,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 16,
+      "error": null
+    },
+    {
+      "id": 436,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 23,
+      "error": null
+    },
+    {
+      "id": 440,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 23,
+      "error": null
+    },
+    {
+      "id": 444,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 20,
+      "error": null
+    },
+    {
+      "id": 448,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 21,
+      "error": null
+    },
+    {
+      "id": 452,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 18,
+      "error": null
+    },
+    {
+      "id": 456,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 21,
+      "error": null
+    },
+    {
+      "id": 460,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 17,
+      "error": null
+    },
+    {
+      "id": 464,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 17,
+      "error": null
+    },
+    {
+      "id": 468,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 12,
+      "error": null
+    },
+    {
+      "id": 472,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 21,
+      "error": null
+    },
+    {
+      "id": 476,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 20,
+      "error": null
+    },
+    {
+      "id": 480,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 15,
+      "error": null
+    },
+    {
+      "id": 484,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 22,
+      "error": null
+    },
+    {
+      "id": 488,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 20,
+      "error": null
+    },
+    {
+      "id": 492,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 18,
+      "error": null
+    },
+    {
+      "id": 496,
+      "status": "source_only_native_gamecore_verified",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 15,
+      "error": null
+    }
+  ]
+}

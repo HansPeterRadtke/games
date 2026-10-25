@@ -1,0 +1,168 @@
+{
+  "metadata": {
+    "officialSceneEvalSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "priorSourceNativeControlSHA256": "e34132e1a13f11a22a7cc46fdd00a394f9e2f9c8b09bbfe4a3f7ecc880c60ca5",
+    "lexicalFrozenNativeSHA256": "62e175d71b2ab61e8fa5a93e1de7937408e98bbbb267a2fa7ba0766cbf14b453",
+    "pretrainedFrozenNativeSHA256": "3711f276b3e6c91f44651fdc066869fef325db8154fac9a1661ab460e83c2f53",
+    "allModelAndPhysicalHypothesesAlreadyFrozenBeforeGoldScoring": true,
+    "sameNativePhysicalBodyCountsAcrossMethods": 2048,
+    "sourceDirectionCaveat": "ON first annotated object is support substrate, second is child. Type-pair only optimistic.",
+    "proximityCaveat": "NEAR/NEXT matches can occur by coincidence from the grid; physical support requires real Rapier contacts",
+    "unhandledLabels": "Other 399 author relation kinds withheld as unknown, not negatives",
+    "sourceAssetCaveat": "Pretrained noun-expanded bodies are generic 3D physics boxes with unverified real object shapes and sizes; this score is not general literary fidelity",
+    "privatePerCaseGoldSHA256": "fc89c454335a81ef357e4b598999fdf1cbc6452114f05880801ede3e0ef3bf70"
+  },
+  "methods": {
+    "baseline": {
+      "human": {
+        "allAuthorObjectObjectClauses": 334,
+        "testableAuthorClauses": 150,
+        "physicallyConfirmed": 14,
+        "physicallyNotConfirmed": 136,
+        "near_sourceClauses": 21,
+        "near_confirmed": 5,
+        "unsupportedKindsHeldUnknown": 184,
+        "next_sourceClauses": 38,
+        "next_confirmed": 7,
+        "on_sourceClauses": 91,
+        "on_confirmed": 2
+      },
+      "assisted": {
+        "allAuthorObjectObjectClauses": 577,
+        "unsupportedKindsHeldUnknown": 215,
+        "testableAuthorClauses": 362,
+        "physicallyConfirmed": 19,
+        "physicallyNotConfirmed": 343,
+        "next_sourceClauses": 88,
+        "next_confirmed": 17,
+        "on_sourceClauses": 263,
+        "on_confirmed": 1,
+        "near_sourceClauses": 11,
+        "near_confirmed": 1
+      }
+    },
+    "pretrained": {
+      "human": {
+        "allAuthorObjectObjectClauses": 334,
+        "testableAuthorClauses": 150,
+        "physicallyConfirmed": 14,
+        "physicallyNotConfirmed": 136,
+        "near_sourceClauses": 21,
+        "near_confirmed": 5,
+        "unsupportedKindsHeldUnknown": 184,
+        "next_sourceClauses": 38,
+        "next_confirmed": 7,
+        "on_sourceClauses": 91,
+        "on_confirmed": 2
+      },
+      "assisted": {
+        "allAuthorObjectObjectClauses": 577,
+        "unsupportedKindsHeldUnknown": 215,
+        "testableAuthorClauses": 362,
+        "physicallyConfirmed": 27,
+        "physicallyNotConfirmed": 335,
+        "next_sourceClauses": 88,
+        "next_confirmed": 17,
+        "on_sourceClauses": 263,
+        "on_confirmed": 9,
+        "near_sourceClauses": 11,
+        "near_confirmed": 1
+      }
+    },
+    "lexical": {
+      "human": {
+        "allAuthorObjectObjectClauses": 334,
+        "testableAuthorClauses": 150,
+        "physicallyConfirmed": 14,
+        "physicallyNotConfirmed": 136,
+        "near_sourceClauses": 21,
+        "near_confirmed": 5,
+        "unsupportedKindsHeldUnknown": 184,
+        "next_sourceClauses": 38,
+        "next_confirmed": 7,
+        "on_sourceClauses": 91,
+        "on_confirmed": 2
+      },
+      "assisted": {
+        "allAuthorObjectObjectClauses": 577,
+        "unsupportedKindsHeldUnknown": 215,
+        "testableAuthorClauses": 362,
+        "physicallyConfirmed": 19,
+        "physicallyNotConfirmed": 343,
+        "next_sourceClauses": 88,
+        "next_confirmed": 17,
+        "on_sourceClauses": 263,
+        "on_confirmed": 1,
+        "near_sourceClauses": 11,
+        "near_confirmed": 1
+      }
+    }
+  },
+  "combined": {
+    "baseline": {
+      "allAuthorObjectObjectClauses": 911,
+      "testableAuthorClauses": 512,
+      "physicallyConfirmed": 33,
+      "physicallyNotConfirmed": 479,
+      "near_sourceClauses": 32,
+      "near_confirmed": 6,
+      "unsupportedKindsHeldUnknown": 399,
+      "next_sourceClauses": 126,
+      "next_confirmed": 24,
+      "on_sourceClauses": 354,
+      "on_confirmed": 3
+    },
+    "pretrained": {
+      "allAuthorObjectObjectClauses": 911,
+      "testableAuthorClauses": 512,
+      "physicallyConfirmed": 41,
+      "physicallyNotConfirmed": 471,
+      "near_sourceClauses": 32,
+      "near_confirmed": 6,
+      "unsupportedKindsHeldUnknown": 399,
+      "next_sourceClauses": 126,
+      "next_confirmed": 24,
+      "on_sourceClauses": 354,
+      "on_confirmed": 11
+    },
+    "lexical": {
+      "allAuthorObjectObjectClauses": 911,
+      "testableAuthorClauses": 512,
+      "physicallyConfirmed": 33,
+      "physicallyNotConfirmed": 479,
+      "near_sourceClauses": 32,
+      "near_confirmed": 6,
+      "unsupportedKindsHeldUnknown": 399,
+      "next_sourceClauses": 126,
+      "next_confirmed": 24,
+      "on_sourceClauses": 354,
+      "on_confirmed": 3
+    }
+  },
+  "matchedDifferences": {
+    "baselineSupported": 33,
+    "lexicalSupported": 33,
+    "pretrainedSupported": 41,
+    "pretrainedGained": 8
+  },
+  "sourceClusteredPairedUncertainty": {
+    "human": {
+      "physicalSourceSceneClustersWithTestableRelations": 64,
+      "observedImprovementOnTestableRelations": 0.0,
+      "conditionalScenePairedBootstrap95": [
+        0.0,
+        0.0
+      ],
+      "previouslyExaminedSceneCorpusNotFreshHoldout": true
+    },
+    "assisted": {
+      "physicalSourceSceneClustersWithTestableRelations": 78,
+      "observedImprovementOnTestableRelations": 0.022099447513812154,
+      "conditionalScenePairedBootstrap95": [
+        0.007653061224489796,
+        0.04105571847507331
+      ],
+      "previouslyExaminedSceneCorpusNotFreshHoldout": true
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "independentAuthorSceneEvalZipSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "sourceOnlyProposalsSHA256": "1fbdfdd81bd2e4b20abd26bd392b0f6c4068f797696019b198c3c2b2d9dc24a8",
+    "nativeAlternativeSHA256": "b2f690287ab8b4150445aeb485430367885bf096a39db4c0791bd2006bd97ed3",
+    "frozenOriginalNativeGenericControlSHA256": "e34132e1a13f11a22a7cc46fdd00a394f9e2f9c8b09bbfe4a3f7ecc880c60ca5",
+    "goldNeverReadDuringParserOrGameCorePhysicalSimulation": true,
+    "originalSameBudgetAll2070Exception": "The true matched physical native source scenes have 2048 nonwall bodies in BOTH conditions",
+    "sourceAnnotationCaveat": "Class-level author ON type pairs may omit legal additional relationships; exact referent identity unproven",
+    "realismCaveat": "All added generic physical objects uncalibrated in shape, size and interactive affordance. A native collider contact is necessary but not sufficient for realistic support.",
+    "dataCaveat": "Same previously researched external corpus, not pristine future source-generalization data",
+    "privatePerCaseGoldSHA256": "4287bee0d99c5cd48c634cf9794c9438ae3cec271fcb15660b88725de129b143"
+  },
+  "byGroup": {
+    "human": {
+      "sourceDescriptions": 100,
+      "acceptedSameBudgetNativeWorlds": 98,
+      "actualOriginalNativeBodyCount": 833,
+      "actualAlternativeNativeBodyCount": 833,
+      "actualOldContactPairs": 3,
+      "actualNewContactPairs": 3,
+      "sourceOnlyProposedOnRelations": 7,
+      "sourceOnlyActuallyPositionedRelations": 0,
+      "newSourceOnlyPairActuallyContacted": 0,
+      "goldAuthorONClauses": 91,
+      "goldPhysicallySupportedOriginal": 2,
+      "goldPhysicallySupportedAlternative": 2,
+      "authorSupportedOnGained": 0,
+      "authorSupportedOnLost": 0,
+      "goldOnUnverifiedOriginalRejectedSource": 8
+    },
+    "assisted": {
+      "sourceDescriptions": 100,
+      "acceptedSameBudgetNativeWorlds": 99,
+      "actualOriginalNativeBodyCount": 1215,
+      "actualAlternativeNativeBodyCount": 1215,
+      "actualOldContactPairs": 8,
+      "actualNewContactPairs": 26,
+      "sourceOnlyProposedOnRelations": 66,
+      "sourceOnlyActuallyPositionedRelations": 18,
+      "newSourceOnlyPairActuallyContacted": 18,
+      "goldAuthorONClauses": 263,
+      "goldPhysicallySupportedOriginal": 1,
+      "goldPhysicallySupportedAlternative": 9,
+      "authorSupportedOnGained": 8,
+      "authorSupportedOnLost": 0,
+      "positionsBackedByAuthorONTypePair": 8,
+      "positionsNotNamedInAuthorONAnnotations": 10,
+      "goldOnUnverifiedOriginalRejectedSource": 1
+    }
+  },
+  "total": {
+    "sourceDescriptions": 200,
+    "acceptedSameBudgetNativeWorlds": 197,
+    "actualOriginalNativeBodyCount": 2048,
+    "actualAlternativeNativeBodyCount": 2048,
+    "actualOldContactPairs": 11,
+    "actualNewContactPairs": 29,
+    "sourceOnlyProposedOnRelations": 73,
+    "sourceOnlyActuallyPositionedRelations": 18,
+    "newSourceOnlyPairActuallyContacted": 18,
+    "goldAuthorONClauses": 354,
+    "goldPhysicallySupportedOriginal": 3,
+    "goldPhysicallySupportedAlternative": 11,
+    "authorSupportedOnGained": 8,
+    "authorSupportedOnLost": 0,
+    "goldOnUnverifiedOriginalRejectedSource": 9,
+    "positionsBackedByAuthorONTypePair": 8,
+    "positionsNotNamedInAuthorONAnnotations": 10
+  },
+  "pairedSceneBootstrap": {
+    "human": {
+      "sourceScenesWithOn": 41,
+      "paired95Difference": [
+        0.0,
+        0.0
+      ],
+      "sceneNotClausesIndependent": true
+    },
+    "assisted": {
+      "sourceScenesWithOn": 69,
+      "paired95Difference": [
+        0.010380622837370242,
+        0.05660377358490566
+      ],
+      "sceneNotClausesIndependent": true
+    }
+  }
+}

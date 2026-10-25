@@ -1,4 +1,7 @@
 # PRSE — decisive source-grounded 3D support feasibility and failure decomposition
+
+> **Subsequent exact same-body physics experiment:** [source-only pretrained grammar placement vs deterministic source ON and frozen arbitrary physical object layout](PRSE_SOURCE_ONLY_MATCHED_NATIVE_SUPPORT_2026-10-25.md) checks baseline native pose/contact EXACTLY before each alternative, and measures eight extra original author ON requirements physically supported without losing old NEAR/NEXT contacts. The original source ON failure decomposition is preserved; the baseline need for accurate objects, calibrated 3D assets and persistent literary reference handling remains.
+
 25 October 2026 — independent, real-source diagnostic, Round 2 of 5
 
 ## Original owner questions and usable decision

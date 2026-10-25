@@ -1,0 +1,2037 @@
+{
+  "metadata": {
+    "method": "Same existing generic source entities and native GameCore/Rapier world, grammar noun chunk on constrained vs original frozen arbitrary positions",
+    "sourceSelection": "First100 human and systematic every fourth100 assisted previously exposed SceneEval source paragraphs",
+    "sourceGrammarFrozenBeforeGold": true,
+    "physicalBudgetExactlyMatchedPerScene": true,
+    "oraclePlacementOrAnnotationGoldUsed": false,
+    "privateNativeRawSHA256": "aa5ebddb86154cd946a14feeba7bba593b16ec45d89563ec51a9a186b09c57f7"
+  },
+  "summary": {
+    "sourceDescriptions": 200,
+    "originalAcceptedSameSourceScenes": 197,
+    "actualNativeSourceOnlyPlacedAndSaved": 0,
+    "nativeReconstructionFailures": 197,
+    "originalNonwallPhysicalBodyBudgetAcrossScenes": 2048,
+    "sameNativePhysicalBodiesAcrossSourceOnlyScenes": 0,
+    "sourceOnlyPretrainedOnCandidates": 0,
+    "candidateResultCategories": {
+      "already_has_support": 6,
+      "not_supported_dynamic_box": 6,
+      "ambiguous_or_missing_instance": 17,
+      "nominally_valid_prephysics_source_on": 18,
+      "no_nonoverlapping_source_supported_position": 10,
+      "physically_incompatible_support_size": 16
+    },
+    "acceptedSourceOnlyExtraNativePlacements": 0,
+    "actualNewSourceOnlyOnContactPairs": 0,
+    "allActualNativeContactsAfterSourceOnlyPlacement": 0,
+    "originalBaselineGenericNativeInterobjectContacts": 11,
+    "sourceHistoryAndNativeRapierContactsSavedExactly": 0,
+    "elapsedSeconds": 45.89,
+    "sourceAnnotationsNeverRead": true,
+    "physicalAssetCaveat": "Same 1110 extra uncalibrated generic boxes. Contact can be genuine native Rapier but generic categories are NOT realistic objects."
+  },
+  "scenes": [
+    {
+      "id": 0,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 1,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 2,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 2,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 3,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 4,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 5,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 6,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 7,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 8,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 9,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 10,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 11,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 12,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 13,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 14,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 15,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 16,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 17,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 18,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 2,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 19,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 20,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 21,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 22,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 23,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 24,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 17,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 25,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 26,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 27,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 28,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 29,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 30,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 31,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 32,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 33,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 34,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 35,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 36,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 37,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 38,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 39,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 40,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 20,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 41,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 28,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 42,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 16,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 43,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 26,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 44,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 29,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 45,
+      "status": "original_scene_not_physically_accepted",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": null,
+      "sourceBodyCount": null,
+      "error": null
+    },
+    {
+      "id": 46,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 21,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 47,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 13,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 48,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 49,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 30,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 50,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 51,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 52,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 53,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 54,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 55,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 56,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 57,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 58,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 59,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 60,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 61,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 62,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 63,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 64,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 65,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 66,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 67,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 68,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 69,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 70,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 71,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 72,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 13,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 73,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 74,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 75,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 76,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 77,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 78,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 79,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 80,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 81,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 82,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 83,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 84,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 85,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 86,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 87,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 88,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 89,
+      "status": "original_scene_not_physically_accepted",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": null,
+      "sourceBodyCount": null,
+      "error": null
+    },
+    {
+      "id": 90,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 91,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 15,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 92,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 14,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 93,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 15,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 94,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 95,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 14,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 96,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 97,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 19,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 98,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 29,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 99,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 30,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 100,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 104,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 108,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 112,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 116,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 120,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 124,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 128,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 132,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 136,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 140,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 144,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 148,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 5,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 152,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 156,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 160,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 164,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 168,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 172,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 3,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 176,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 180,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 184,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 188,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 192,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 196,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 200,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 4,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 204,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 208,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 212,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 1,
+      "actualSourceNativeContact": 1,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 10,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 216,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 1,
+      "actualSourceNativeContact": 1,
+      "allNativeContacts": 2,
+      "sourceBodyCount": 14,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 220,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 10,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 224,
+      "status": "failed",
+      "attempted": 4,
+      "placed": 4,
+      "actualSourceNativeContact": 4,
+      "allNativeContacts": 4,
+      "sourceBodyCount": 13,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 228,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 1,
+      "actualSourceNativeContact": 1,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 232,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 236,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 10,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 240,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 1,
+      "actualSourceNativeContact": 1,
+      "allNativeContacts": 3,
+      "sourceBodyCount": 13,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 244,
+      "status": "original_scene_not_physically_accepted",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": null,
+      "sourceBodyCount": null,
+      "error": null
+    },
+    {
+      "id": 248,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 252,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 256,
+      "status": "failed",
+      "attempted": 3,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 260,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 264,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 268,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 272,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 276,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 280,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 284,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 288,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 14,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 292,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 296,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 10,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 300,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 7,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 304,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 308,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 312,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 316,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 6,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 320,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 324,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 328,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 332,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 336,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 12,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 340,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 15,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 344,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 348,
+      "status": "failed",
+      "attempted": 4,
+      "placed": 2,
+      "actualSourceNativeContact": 2,
+      "allNativeContacts": 2,
+      "sourceBodyCount": 15,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 352,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 13,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 356,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 11,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 360,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 8,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 364,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 14,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 368,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 1,
+      "actualSourceNativeContact": 1,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 9,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 372,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 18,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 376,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 1,
+      "actualSourceNativeContact": 1,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 22,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 380,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 1,
+      "actualSourceNativeContact": 1,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 26,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 384,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 25,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 388,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 25,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 392,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 26,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 396,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 24,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 400,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 20,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 404,
+      "status": "failed",
+      "attempted": 5,
+      "placed": 1,
+      "actualSourceNativeContact": 1,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 22,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 408,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 18,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 412,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 24,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 416,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 21,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 420,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 21,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 424,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 1,
+      "actualSourceNativeContact": 1,
+      "allNativeContacts": 1,
+      "sourceBodyCount": 25,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 428,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 20,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 432,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 16,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 436,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 23,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 440,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 23,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 444,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 20,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 448,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 21,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 452,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 18,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 456,
+      "status": "failed",
+      "attempted": 2,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 21,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 460,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 17,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 464,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 17,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 468,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 1,
+      "actualSourceNativeContact": 1,
+      "allNativeContacts": 2,
+      "sourceBodyCount": 12,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 472,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 21,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 476,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 20,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 480,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 15,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 484,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 22,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 488,
+      "status": "failed",
+      "attempted": 3,
+      "placed": 2,
+      "actualSourceNativeContact": 2,
+      "allNativeContacts": 3,
+      "sourceBodyCount": 20,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 492,
+      "status": "failed",
+      "attempted": 1,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 18,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "id": 496,
+      "status": "failed",
+      "attempted": 0,
+      "placed": 0,
+      "actualSourceNativeContact": 0,
+      "allNativeContacts": 0,
+      "sourceBodyCount": 15,
+      "error": "Cannot read properties of undefined (reading 'map')"
+    }
+  ]
+}
