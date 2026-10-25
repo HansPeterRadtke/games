@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "authorSceneEvalSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "baselineFrozenNativeSHA256": "c9ae7a0500069f1a7f7c5c5affcd6260ea776bf6dbb8e23ad82e52e4d51fdc66",
+    "frozenPretrainedNounProposalSHA256": "91fe872937596c9100515d7779c281d397ef4596f4a1c8c66d33cdfef124f1a8",
+    "frozenNativeAugmentedWorldSHA256": "0ffb62ae9f6dd2051eefcfba982f0000f88e4a806898dc04d8906f9ceb3dd1bd",
+    "privateFullGoldAuditSHA256": "b635f523aa36f43e5e56b79a9fc89bb76d52241b9b17838b942dbb381a083627",
+    "sameSourceIds": true,
+    "physicalWorld": "Real existing PRSE GameCore/Rapier rigid bodies + trusted native full-world save",
+    "model": "Pretrained spaCy en_core_web_sm 3.8.0 plus transparent generic noun-chunk/compound heuristics, NOT a language generative LLM",
+    "epistemicLimit": "Unknown noun types represented by tiny generic fallback box; correctness only count/category proxy, NOT physically faithful geometry/asset/affordance/relations, no original literary rewriting",
+    "noGoldDuringSourceNounExtractionOrPhysicalMaterialization": true
+  },
+  "groups": {
+    "human": {
+      "sourceScenes": 100,
+      "acceptedScenes": 98,
+      "nativeGenericExtraBodies": 350,
+      "extraTypeInstances": 257,
+      "extraCandidateTypesInAuthorLabels": 133,
+      "extraCandidateTypesNotAuthorAnnotated": 124,
+      "unverifiedPhysicalDimensionsAndAppearance": 350,
+      "annotationCountClauses": 508,
+      "baselineGoldClausesMatched": 310,
+      "augmentedGoldClausesMatched": 437,
+      "formerlyIncorrectNowCorrect": 127,
+      "formerlyCorrectNowBroken": 0,
+      "fromPreviouslyUnknownPhysicalKindsNowGoldMatched": 127,
+      "goldStillUnsatisfied": 71,
+      "stillUndercounted": 69,
+      "physicalSceneUnacceptedOrFailure": 2,
+      "unverifiedSourceClauses": 14
+    },
+    "assisted": {
+      "sourceScenes": 100,
+      "acceptedScenes": 99,
+      "nativeGenericExtraBodies": 760,
+      "extraTypeInstances": 632,
+      "extraCandidateTypesInAuthorLabels": 289,
+      "extraCandidateTypesNotAuthorAnnotated": 343,
+      "unverifiedPhysicalDimensionsAndAppearance": 760,
+      "annotationCountClauses": 729,
+      "baselineGoldClausesMatched": 255,
+      "augmentedGoldClausesMatched": 535,
+      "formerlyIncorrectNowCorrect": 280,
+      "formerlyCorrectNowBroken": 0,
+      "fromPreviouslyUnknownPhysicalKindsNowGoldMatched": 280,
+      "goldStillUnsatisfied": 194,
+      "stillUndercounted": 194,
+      "physicalSceneUnacceptedOrFailure": 1,
+      "unverifiedSourceClauses": 5
+    }
+  },
+  "total": {
+    "sourceScenes": 200,
+    "acceptedScenes": 197,
+    "nativeGenericExtraBodies": 1110,
+    "extraTypeInstances": 889,
+    "extraCandidateTypesInAuthorLabels": 422,
+    "extraCandidateTypesNotAuthorAnnotated": 467,
+    "unverifiedPhysicalDimensionsAndAppearance": 1110,
+    "annotationCountClauses": 1237,
+    "baselineGoldClausesMatched": 565,
+    "augmentedGoldClausesMatched": 972,
+    "formerlyIncorrectNowCorrect": 407,
+    "formerlyCorrectNowBroken": 0,
+    "fromPreviouslyUnknownPhysicalKindsNowGoldMatched": 407,
+    "goldStillUnsatisfied": 265,
+    "stillUndercounted": 263,
+    "physicalSceneUnacceptedOrFailure": 3,
+    "unverifiedSourceClauses": 19
+  }
+}

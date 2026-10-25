@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "officialSceneEvalSha256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "frozenCatalogNativeResultSha256": "3aff36c91e65cbd4da2771fadb1c389b6cbf94d771f05a2e999e50de6ca493cd",
+    "frozenOriginalNativeResultSha256": "c9ae7a0500069f1a7f7c5c5affcd6260ea776bf6dbb8e23ad82e52e4d51fdc66",
+    "privatePostGoldCaseSha256": "eb8c837f5585a01df2383a17f01fd3d2ea010425cdff0679eae6635a0894db8a",
+    "onlyExistingPRSECategoryGeometry": true,
+    "noSourceAnnotationInParserOrPhysicalSceneConstruction": true,
+    "stillNotValidated3DRenderableAssetsOrAllObjectShapes": true
+  },
+  "splits": {
+    "human": {
+      "originalScenes": 100,
+      "accepted": 98,
+      "actualNewCatalogBodies": 9,
+      "newCategories": 6,
+      "independentlyAuthorAnnotatedCountClauses": 508,
+      "baselineMatches": 310,
+      "catalogMatches": 313,
+      "newlyMatchedAuthorCountClauses": 3,
+      "previouslyCorrectNowWrong": 0,
+      "unaccepted": 2,
+      "unverifiedSourceCounts": 14
+    },
+    "assisted": {
+      "originalScenes": 100,
+      "accepted": 99,
+      "actualNewCatalogBodies": 8,
+      "newCategories": 7,
+      "independentlyAuthorAnnotatedCountClauses": 729,
+      "baselineMatches": 255,
+      "catalogMatches": 258,
+      "newlyMatchedAuthorCountClauses": 3,
+      "previouslyCorrectNowWrong": 0,
+      "unaccepted": 1,
+      "unverifiedSourceCounts": 5
+    }
+  },
+  "total": {
+    "originalScenes": 200,
+    "accepted": 197,
+    "actualNewCatalogBodies": 17,
+    "newCategories": 13,
+    "independentlyAuthorAnnotatedCountClauses": 1237,
+    "baselineMatches": 565,
+    "catalogMatches": 571,
+    "newlyMatchedAuthorCountClauses": 6,
+    "previouslyCorrectNowWrong": 0,
+    "unaccepted": 3,
+    "unverifiedSourceCounts": 19
+  }
+}

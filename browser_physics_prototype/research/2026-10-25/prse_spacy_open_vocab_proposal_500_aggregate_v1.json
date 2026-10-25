@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "frozenSourceSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "model": "Official pretrained spaCy en_core_web_sm 3.8.0",
+    "data": "SceneEval v250610 ORIGINAL TEXT ONLY, no official annotations",
+    "independentlyValidatedSourceMeaning": false,
+    "notA3DModelAndNotCoreferenceSolver": true,
+    "ownerPrivateRawSHA256": "91fe872937596c9100515d7779c281d397ef4596f4a1c8c66d33cdfef124f1a8"
+  },
+  "summary": {
+    "input500Sources": 500,
+    "sourceSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "modelVersion": "3.8.0",
+    "spaCyPretrainedModelName": "core_web_sm",
+    "newNounTokenMentionCandidates": 3044,
+    "distinctExtraSourceTypeCandidates": 2898,
+    "boundedPhysicallyEligibleExtraTypes": 2897,
+    "extraTypeCountOverflow": 0,
+    "sourceScenesWithAdditionalCandidate": 461,
+    "compoundCandidateMentions": 1684,
+    "overlappingEarlierTypeMentions": 841,
+    "sourceScenesWithPotentialUnrecognizedNewNouns": 422,
+    "goldAnnotationsNotReadOrImported": true,
+    "existingBaselineNotMutated": true
+  }
+}

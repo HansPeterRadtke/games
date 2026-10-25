@@ -1,4 +1,7 @@
 # PRSE — source quantifiers, authoritative 3D object populations, and literary fidelity
+
+> **Subsequent external count/object discovery comparison:** [frozen CPU pretrained noun-chunk source proposals, independent author labels and two actual native GameCore 3D arms](PRSE_OPEN_VOCAB_SOURCE_TO_NATIVE_3D_RESEARCH_2026-10-25.md) quantify improvements in source object-type count coverage and a major physically credible asset/size-catalog bottleneck. The original count mismatch findings in this prior report are preserved unmodified.
+
 25 October 2026 — recovery continuation of the last overnight Games research task
 
 ## Main owner question and original source priorities

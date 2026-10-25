@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "method": "Paired nonparametric 4000 bootstrap resamples of original SceneEval descriptions (not object claims), fixed RNG seed",
+    "important": "Previously evaluated curated scene corpus and no human source-meaning/3D scale ratings; confidence intervals are CONDITIONAL not true universal PRSE accuracy",
+    "exposure": "Old type-count benchmark and some author annotations were reviewed in previous work; no claim of independent pristine holdout",
+    "goldNeverEnteredParserOrPhysics": true
+  },
+  "byGroup": {
+    "human": {
+      "physicallyAcceptedScenes": 98,
+      "annotatedCountClauses": 508,
+      "baselinePhysicallySatisfied": 310,
+      "augmentedPhysicallySatisfied": 437,
+      "incrementalGoldClausesSatisfied": 127,
+      "baselineConditionalRecall": 0.610236220472441,
+      "augmentedConditionalRecall": 0.860236220472441,
+      "recallDifference": 0.25,
+      "sceneBootstrap95Difference": [
+        0.2039045553145336,
+        0.2950191570881226
+      ],
+      "additionalGenericNativeBodies": 350,
+      "extraPhysicalTypesNotInAuthorAnnotations": 124,
+      "conditionalUnknownTypeCountPerSceneBootstrap95": [
+        0.8979591836734694,
+        1.683673469387755
+      ],
+      "sourceDiscourseAndPhysicalDimensionalityStillNotValidated": true
+    },
+    "assisted": {
+      "physicallyAcceptedScenes": 99,
+      "annotatedCountClauses": 729,
+      "baselinePhysicallySatisfied": 255,
+      "augmentedPhysicallySatisfied": 535,
+      "incrementalGoldClausesSatisfied": 280,
+      "baselineConditionalRecall": 0.3497942386831276,
+      "augmentedConditionalRecall": 0.7338820301783264,
+      "recallDifference": 0.3840877914951989,
+      "sceneBootstrap95Difference": [
+        0.3428184281842818,
+        0.42349726775956287
+      ],
+      "additionalGenericNativeBodies": 760,
+      "extraPhysicalTypesNotInAuthorAnnotations": 343,
+      "conditionalUnknownTypeCountPerSceneBootstrap95": [
+        2.98989898989899,
+        3.95959595959596
+      ],
+      "sourceDiscourseAndPhysicalDimensionalityStillNotValidated": true
+    }
+  }
+}

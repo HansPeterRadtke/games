@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "sourceZIPsha256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "frozenSourceProposalSHA256": "91fe872937596c9100515d7779c281d397ef4596f4a1c8c66d33cdfef124f1a8",
+    "frozenOriginalGameCorePhysicsSHA256": "c9ae7a0500069f1a7f7c5c5affcd6260ea776bf6dbb8e23ad82e52e4d51fdc66",
+    "privateGoldAuditSHA256": "d5790f2cab37def322be40e3c53348b16f245d9d39d907a6646417e457df481d",
+    "sourceGroups": "same first100 human and assisted every fourth descriptions, physically accepted scenes only",
+    "caveat": "Text-only proposed extra count coverage, NOT 3D accepted scenes or fluent story entailment",
+    "noGoldInputToGrammar": true
+  },
+  "splits": {
+    "human100": {
+      "acceptedOriginalScenes": 98,
+      "goldRequirements": 508,
+      "matchedGoldByExisting3D": 310,
+      "matchedGoldBySourceNounCandidateOnly": 442,
+      "goldCorrectionsSuggestedBySyntax": 132,
+      "goldPreviouslySatisfiedNowContradicted": 0,
+      "additionalPositiveTypeProposals": 269,
+      "additionalTypeProposalsPresentInAuthorLabel": 134,
+      "additionalTypesNotInAuthorLabels": 135,
+      "numberCandidatePhysicalBodiesNeeded": 365,
+      "sourceScenesWithNewCandidates": 68
+    },
+    "assisted100": {
+      "acceptedOriginalScenes": 99,
+      "goldRequirements": 729,
+      "matchedGoldByExisting3D": 255,
+      "matchedGoldBySourceNounCandidateOnly": 547,
+      "goldCorrectionsSuggestedBySyntax": 292,
+      "goldPreviouslySatisfiedNowContradicted": 0,
+      "additionalPositiveTypeProposals": 653,
+      "additionalTypeProposalsPresentInAuthorLabel": 297,
+      "additionalTypesNotInAuthorLabels": 356,
+      "numberCandidatePhysicalBodiesNeeded": 791,
+      "sourceScenesWithNewCandidates": 98
+    }
+  },
+  "combined": {
+    "acceptedOriginalScenes": 197,
+    "goldRequirements": 1237,
+    "matchedGoldByExisting3D": 565,
+    "matchedGoldBySourceNounCandidateOnly": 989,
+    "goldCorrectionsSuggestedBySyntax": 424,
+    "goldPreviouslySatisfiedNowContradicted": 0,
+    "additionalPositiveTypeProposals": 922,
+    "additionalTypeProposalsPresentInAuthorLabel": 431,
+    "additionalTypesNotInAuthorLabels": 491,
+    "numberCandidatePhysicalBodiesNeeded": 1156,
+    "sourceScenesWithNewCandidates": 166
+  },
+  "newlyCorrectedTypeClasses": 275
+}

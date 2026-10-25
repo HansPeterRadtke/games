@@ -1,0 +1,181 @@
+{
+  "provenance": {
+    "source": "Official author SceneEval-500 v250610 source text and independent annotation labels; same fixed sample as previous Games research",
+    "SceneEvalZIPsha256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "baselineSourceSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "baselineNativePhysicalSHA256": "c9ae7a0500069f1a7f7c5c5affcd6260ea776bf6dbb8e23ad82e52e4d51fdc66",
+    "pretrainedSpaCyModelWheelSha256": "1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85",
+    "sourceOnlyNounCandidateGenerationBeforeGoldScoring": true,
+    "noTrainingOrGoldTuningInThisExperiment": true,
+    "priorDatasetExposure": "Prior agents examined some gold labels/results. This is an exploratory, NOT pristine blind evaluation.",
+    "hardware": "Nitro CPU, low-priority fixed pretrained parser; no additional GPU/production inference calls",
+    "visualPhysicalFidelityWarning": "Generic uncalibrated native collision boxes represent additional types. This validates type-count grounding and actual native saving ONLY, not 3D shape, identity/coreference, appearances, physical affordances or literary quality"
+  },
+  "originalErrorMechanisms": {
+    "original_type_not_extracted": 620,
+    "recognized_but_undercounted": 50,
+    "other": 2
+  },
+  "frozenPretrainedNounCandidates": {
+    "input500Sources": 500,
+    "sourceSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "modelVersion": "3.8.0",
+    "spaCyPretrainedModelName": "core_web_sm",
+    "newNounTokenMentionCandidates": 3044,
+    "distinctExtraSourceTypeCandidates": 2898,
+    "boundedPhysicallyEligibleExtraTypes": 2897,
+    "extraTypeCountOverflow": 0,
+    "sourceScenesWithAdditionalCandidate": 461,
+    "compoundCandidateMentions": 1684,
+    "overlappingEarlierTypeMentions": 841,
+    "sourceScenesWithPotentialUnrecognizedNewNouns": 422,
+    "goldAnnotationsNotReadOrImported": true,
+    "existingBaselineNotMutated": true
+  },
+  "textOnlyPotentialAgainstIndependentGold": {
+    "acceptedOriginalScenes": 197,
+    "goldRequirements": 1237,
+    "matchedGoldByExisting3D": 565,
+    "matchedGoldBySourceNounCandidateOnly": 989,
+    "goldCorrectionsSuggestedBySyntax": 424,
+    "goldPreviouslySatisfiedNowContradicted": 0,
+    "additionalPositiveTypeProposals": 922,
+    "additionalTypeProposalsPresentInAuthorLabel": 431,
+    "additionalTypesNotInAuthorLabels": 491,
+    "numberCandidatePhysicalBodiesNeeded": 1156,
+    "sourceScenesWithNewCandidates": 166
+  },
+  "actualNativeGameCoreAcceptance": {
+    "originalFrozenSourceScenes": 200,
+    "originalPhysicallyAccepted": 197,
+    "augmentedPhysicallyAcceptedAndRestored": 197,
+    "rejectedByOriginalGeometry": 3,
+    "rejectedAfterExtraGeometry": 0,
+    "runtimeSaveFailures": 0,
+    "addedActualGenericRapierBodies": 1110,
+    "addedNewTypes": 889,
+    "scenesWithExtraNativeBodies": 166,
+    "originalIDsAndTextPreserved": 197,
+    "unknownGeometryAndPhysicalScaleForEveryNewNoun": true,
+    "geometryModel": "Native real 3D Rapier contacts on arbitrarily small provisional generic boxes, NOT source-calibrated assets",
+    "wallSeconds": 25.55
+  },
+  "independentAuthorNativeCountResult": {
+    "sourceScenes": 200,
+    "acceptedScenes": 197,
+    "nativeGenericExtraBodies": 1110,
+    "extraTypeInstances": 889,
+    "extraCandidateTypesInAuthorLabels": 422,
+    "extraCandidateTypesNotAuthorAnnotated": 467,
+    "unverifiedPhysicalDimensionsAndAppearance": 1110,
+    "annotationCountClauses": 1237,
+    "baselineGoldClausesMatched": 565,
+    "augmentedGoldClausesMatched": 972,
+    "formerlyIncorrectNowCorrect": 407,
+    "formerlyCorrectNowBroken": 0,
+    "fromPreviouslyUnknownPhysicalKindsNowGoldMatched": 407,
+    "goldStillUnsatisfied": 265,
+    "stillUndercounted": 263,
+    "physicalSceneUnacceptedOrFailure": 3,
+    "unverifiedSourceClauses": 19
+  },
+  "sceneLevelBootstrap": {
+    "human": {
+      "physicallyAcceptedScenes": 98,
+      "annotatedCountClauses": 508,
+      "baselinePhysicallySatisfied": 310,
+      "augmentedPhysicallySatisfied": 437,
+      "incrementalGoldClausesSatisfied": 127,
+      "baselineConditionalRecall": 0.610236220472441,
+      "augmentedConditionalRecall": 0.860236220472441,
+      "recallDifference": 0.25,
+      "sceneBootstrap95Difference": [
+        0.2039045553145336,
+        0.2950191570881226
+      ],
+      "additionalGenericNativeBodies": 350,
+      "extraPhysicalTypesNotInAuthorAnnotations": 124,
+      "conditionalUnknownTypeCountPerSceneBootstrap95": [
+        0.8979591836734694,
+        1.683673469387755
+      ],
+      "sourceDiscourseAndPhysicalDimensionalityStillNotValidated": true
+    },
+    "assisted": {
+      "physicallyAcceptedScenes": 99,
+      "annotatedCountClauses": 729,
+      "baselinePhysicallySatisfied": 255,
+      "augmentedPhysicallySatisfied": 535,
+      "incrementalGoldClausesSatisfied": 280,
+      "baselineConditionalRecall": 0.3497942386831276,
+      "augmentedConditionalRecall": 0.7338820301783264,
+      "recallDifference": 0.3840877914951989,
+      "sceneBootstrap95Difference": [
+        0.3428184281842818,
+        0.42349726775956287
+      ],
+      "additionalGenericNativeBodies": 760,
+      "extraPhysicalTypesNotInAuthorAnnotations": 343,
+      "conditionalUnknownTypeCountPerSceneBootstrap95": [
+        2.98989898989899,
+        3.95959595959596
+      ],
+      "sourceDiscourseAndPhysicalDimensionalityStillNotValidated": true
+    }
+  },
+  "calibratedCategoryCatalogGateNativeResult": {
+    "originalSourceScenes": 200,
+    "baselineAccepted": 197,
+    "acceptedWithCatalogGate": 197,
+    "moreRejectedThanBaseline": 0,
+    "runtimeFailures": 0,
+    "addedApproxCategorySizeRealRapierBodies": 17,
+    "addedSourceTypeInstances": 13,
+    "physicalSceneWorldsWithNewCatalogEntities": 13,
+    "candidateCategoriesRefusedForNoKnownGeometry": 916,
+    "placementRefusals": 0,
+    "sourceTextAndNativeWorldIDRestored": 197,
+    "compiledNativeFixedBuildOnly": true,
+    "stillNotActual3DAssetOrSourceEntailment": true,
+    "elapsedSeconds": 21.16
+  },
+  "independentAuthorCatalogOnlyCountResult": {
+    "originalScenes": 200,
+    "accepted": 197,
+    "actualNewCatalogBodies": 17,
+    "newCategories": 13,
+    "independentlyAuthorAnnotatedCountClauses": 1237,
+    "baselineMatches": 565,
+    "catalogMatches": 571,
+    "newlyMatchedAuthorCountClauses": 6,
+    "previouslyCorrectNowWrong": 0,
+    "unaccepted": 3,
+    "unverifiedSourceCounts": 19
+  },
+  "privateRawManifest": {
+    "prse_spacy_open_vocab_500_proposals_raw_v1.json": {
+      "sha256": "91fe872937596c9100515d7779c281d397ef4596f4a1c8c66d33cdfef124f1a8",
+      "bytes": 4226239
+    },
+    "prse_spacy_open_vocab_independent_gold_per_case_v1.json": {
+      "sha256": "d5790f2cab37def322be40e3c53348b16f245d9d39d907a6646417e457df481d",
+      "bytes": 645495
+    },
+    "prse_spacy_open_vocab_native_200_raw_v1.json": {
+      "sha256": "0ffb62ae9f6dd2051eefcfba982f0000f88e4a806898dc04d8906f9ceb3dd1bd",
+      "bytes": 506264
+    },
+    "prse_spacy_open_vocab_native_independent_gold_cases_v1.json": {
+      "sha256": "b635f523aa36f43e5e56b79a9fc89bb76d52241b9b17838b942dbb381a083627",
+      "bytes": 551529
+    },
+    "prse_spacy_open_vocab_catalog_native_200_raw_v1.json": {
+      "sha256": "3aff36c91e65cbd4da2771fadb1c389b6cbf94d771f05a2e999e50de6ca493cd",
+      "bytes": 92173
+    },
+    "prse_spacy_open_vocab_catalog_postgold_cases_v1.json": {
+      "sha256": "eb8c837f5585a01df2383a17f01fd3d2ea010425cdff0679eae6635a0894db8a",
+      "bytes": 168042
+    }
+  }
+}

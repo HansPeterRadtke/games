@@ -1,0 +1,1426 @@
+{
+  "metadata": {
+    "source": "Same frozen external text and pretrained grammar source candidate proposals, NO author gold during physical scene generation",
+    "method": "Only existing PRSE DIM size catalog types, actual native GameCore/Rapier and source-ID native saved-state",
+    "important": "A catalog dimension approximation is not a renderable physical asset or validated literary semantic source meaning",
+    "privateRawSHA256": "3aff36c91e65cbd4da2771fadb1c389b6cbf94d771f05a2e999e50de6ca493cd"
+  },
+  "metrics": {
+    "originalSourceScenes": 200,
+    "baselineAccepted": 197,
+    "acceptedWithCatalogGate": 197,
+    "moreRejectedThanBaseline": 0,
+    "runtimeFailures": 0,
+    "addedApproxCategorySizeRealRapierBodies": 17,
+    "addedSourceTypeInstances": 13,
+    "physicalSceneWorldsWithNewCatalogEntities": 13,
+    "candidateCategoriesRefusedForNoKnownGeometry": 916,
+    "placementRefusals": 0,
+    "sourceTextAndNativeWorldIDRestored": 197,
+    "compiledNativeFixedBuildOnly": true,
+    "stillNotActual3DAssetOrSourceEntailment": true,
+    "elapsedSeconds": 21.16
+  },
+  "scenes": [
+    {
+      "id": 0,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 1,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 2,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 3,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 4,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 5,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 6,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 7,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 8,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 9,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 10,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 2,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 11,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 12,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 13,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 14,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 15,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 16,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 17,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 18,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 19,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 20,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 21,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 22,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 23,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 24,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 7,
+      "placementRefusals": 0
+    },
+    {
+      "id": 25,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 1,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 26,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 27,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 28,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 29,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 1,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 30,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 31,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 32,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 33,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 34,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 1,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 35,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 36,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 37,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 38,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 39,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 40,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 7,
+      "placementRefusals": 0
+    },
+    {
+      "id": 41,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 15,
+      "placementRefusals": 0
+    },
+    {
+      "id": 42,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 43,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 9,
+      "placementRefusals": 0
+    },
+    {
+      "id": 44,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 22,
+      "placementRefusals": 0
+    },
+    {
+      "id": 45,
+      "status": "original_rejected",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 46,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 3,
+      "geometryRefusals": 7,
+      "placementRefusals": 0
+    },
+    {
+      "id": 47,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 48,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 6,
+      "placementRefusals": 0
+    },
+    {
+      "id": 49,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 8,
+      "placementRefusals": 0
+    },
+    {
+      "id": 50,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 51,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 52,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 53,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 54,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 55,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 56,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 57,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 58,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 59,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 60,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 6,
+      "placementRefusals": 0
+    },
+    {
+      "id": 61,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 62,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 63,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 64,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 65,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 66,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 67,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 68,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 69,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 70,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 71,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 1,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 72,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 6,
+      "placementRefusals": 0
+    },
+    {
+      "id": 73,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 74,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 75,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 76,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 77,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 78,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 79,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 80,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 81,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 82,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 83,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 84,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 85,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 86,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 87,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 88,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 89,
+      "status": "original_rejected",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 90,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 91,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 92,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 93,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 7,
+      "placementRefusals": 0
+    },
+    {
+      "id": 94,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 95,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 8,
+      "placementRefusals": 0
+    },
+    {
+      "id": 96,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 97,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 7,
+      "placementRefusals": 0
+    },
+    {
+      "id": 98,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 14,
+      "placementRefusals": 0
+    },
+    {
+      "id": 99,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 13,
+      "placementRefusals": 0
+    },
+    {
+      "id": 100,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 104,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 108,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 112,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 116,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 120,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 2,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 124,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 128,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 132,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 1,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 136,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 140,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 144,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 148,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 152,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 156,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 160,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 164,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 168,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 1,
+      "placementRefusals": 0
+    },
+    {
+      "id": 172,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 176,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 180,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 184,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 188,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 1,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 192,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 196,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 200,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 204,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 208,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 212,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 216,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 8,
+      "placementRefusals": 0
+    },
+    {
+      "id": 220,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 224,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 9,
+      "placementRefusals": 0
+    },
+    {
+      "id": 228,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 232,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 236,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 240,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 1,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 244,
+      "status": "original_rejected",
+      "physicallyAdded": 0,
+      "geometryRefusals": 0,
+      "placementRefusals": 0
+    },
+    {
+      "id": 248,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 252,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 6,
+      "placementRefusals": 0
+    },
+    {
+      "id": 256,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 9,
+      "placementRefusals": 0
+    },
+    {
+      "id": 260,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 264,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 268,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 272,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 276,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 2,
+      "placementRefusals": 0
+    },
+    {
+      "id": 280,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 284,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 288,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 7,
+      "placementRefusals": 0
+    },
+    {
+      "id": 292,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 296,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 300,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 304,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 9,
+      "placementRefusals": 0
+    },
+    {
+      "id": 308,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 8,
+      "placementRefusals": 0
+    },
+    {
+      "id": 312,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 316,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 320,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 8,
+      "placementRefusals": 0
+    },
+    {
+      "id": 324,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 9,
+      "placementRefusals": 0
+    },
+    {
+      "id": 328,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 332,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 4,
+      "placementRefusals": 0
+    },
+    {
+      "id": 336,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 8,
+      "placementRefusals": 0
+    },
+    {
+      "id": 340,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 1,
+      "geometryRefusals": 8,
+      "placementRefusals": 0
+    },
+    {
+      "id": 344,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 7,
+      "placementRefusals": 0
+    },
+    {
+      "id": 348,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 8,
+      "placementRefusals": 0
+    },
+    {
+      "id": 352,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 8,
+      "placementRefusals": 0
+    },
+    {
+      "id": 356,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 1,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 360,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 3,
+      "placementRefusals": 0
+    },
+    {
+      "id": 364,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 7,
+      "placementRefusals": 0
+    },
+    {
+      "id": 368,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 6,
+      "placementRefusals": 0
+    },
+    {
+      "id": 372,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 10,
+      "placementRefusals": 0
+    },
+    {
+      "id": 376,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 12,
+      "placementRefusals": 0
+    },
+    {
+      "id": 380,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 15,
+      "placementRefusals": 0
+    },
+    {
+      "id": 384,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 13,
+      "placementRefusals": 0
+    },
+    {
+      "id": 388,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 12,
+      "placementRefusals": 0
+    },
+    {
+      "id": 392,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 14,
+      "placementRefusals": 0
+    },
+    {
+      "id": 396,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 9,
+      "placementRefusals": 0
+    },
+    {
+      "id": 400,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 13,
+      "placementRefusals": 0
+    },
+    {
+      "id": 404,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 15,
+      "placementRefusals": 0
+    },
+    {
+      "id": 408,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 13,
+      "placementRefusals": 0
+    },
+    {
+      "id": 412,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 13,
+      "placementRefusals": 0
+    },
+    {
+      "id": 416,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 1,
+      "geometryRefusals": 12,
+      "placementRefusals": 0
+    },
+    {
+      "id": 420,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 10,
+      "placementRefusals": 0
+    },
+    {
+      "id": 424,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 11,
+      "placementRefusals": 0
+    },
+    {
+      "id": 428,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 10,
+      "placementRefusals": 0
+    },
+    {
+      "id": 432,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 10,
+      "placementRefusals": 0
+    },
+    {
+      "id": 436,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 16,
+      "placementRefusals": 0
+    },
+    {
+      "id": 440,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 15,
+      "placementRefusals": 0
+    },
+    {
+      "id": 444,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 15,
+      "placementRefusals": 0
+    },
+    {
+      "id": 448,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 15,
+      "placementRefusals": 0
+    },
+    {
+      "id": 452,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 11,
+      "placementRefusals": 0
+    },
+    {
+      "id": 456,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 14,
+      "placementRefusals": 0
+    },
+    {
+      "id": 460,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 13,
+      "placementRefusals": 0
+    },
+    {
+      "id": 464,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 5,
+      "placementRefusals": 0
+    },
+    {
+      "id": 468,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 7,
+      "placementRefusals": 0
+    },
+    {
+      "id": 472,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 12,
+      "placementRefusals": 0
+    },
+    {
+      "id": 476,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 10,
+      "placementRefusals": 0
+    },
+    {
+      "id": 480,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 9,
+      "placementRefusals": 0
+    },
+    {
+      "id": 484,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 6,
+      "placementRefusals": 0
+    },
+    {
+      "id": 488,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 13,
+      "placementRefusals": 0
+    },
+    {
+      "id": 492,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 10,
+      "placementRefusals": 0
+    },
+    {
+      "id": 496,
+      "status": "accepted_native_3d_reentered",
+      "physicallyAdded": 0,
+      "geometryRefusals": 8,
+      "placementRefusals": 0
+    }
+  ]
+}
