@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "method": "Paired 4000-bootstrap, resample independently authored source SCENES not individual related clauses",
+    "scope": "Only supported native Rapier ON + coordinate-based NEXT/NEAR source predicate families; other relation types explicitly abstained",
+    "limitation": "Source type-pair existential score is optimistic, layout floor-grid proximity can match by chance; this is an exposed curated dataset, not blind future fiction",
+    "noSharedGPUorModelCalls": true
+  },
+  "byGroup": {
+    "human": {
+      "physicallyAcceptedScenes": 98,
+      "authorRelationClausesWithSupportedPhysicalPredicate": 150,
+      "baselineNativeSatisfied": 11,
+      "genericNativeSatisfied": 14,
+      "catalogNativeSatisfied": 11,
+      "baselineOnWithActualContact": 2,
+      "genericOnWithActualContact": 2,
+      "additionalGenericProximityMatchesNotNewOnSupport": 3,
+      "pairedConditionalRecallDifference": 0.02,
+      "sceneBootstrap95Difference": [
+        0.0,
+        0.04504504504504504
+      ],
+      "zeroSupportContactGain": true
+    },
+    "assisted": {
+      "physicallyAcceptedScenes": 99,
+      "authorRelationClausesWithSupportedPhysicalPredicate": 362,
+      "baselineNativeSatisfied": 7,
+      "genericNativeSatisfied": 19,
+      "catalogNativeSatisfied": 7,
+      "baselineOnWithActualContact": 1,
+      "genericOnWithActualContact": 1,
+      "additionalGenericProximityMatchesNotNewOnSupport": 12,
+      "pairedConditionalRecallDifference": 0.03314917127071823,
+      "sceneBootstrap95Difference": [
+        0.017142857142857144,
+        0.05070422535211268
+      ],
+      "zeroSupportContactGain": true
+    }
+  }
+}

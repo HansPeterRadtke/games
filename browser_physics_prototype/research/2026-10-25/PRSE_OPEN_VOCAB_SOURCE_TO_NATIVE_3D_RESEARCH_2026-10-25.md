@@ -1,4 +1,7 @@
 # PRSE — source nouns, three-dimensional fidelity and the asset-catalog bottleneck
+
+> **Subsequent independent physical/source SPATIAL test:** [same 197 native 3D source scenes across original, open-vocabulary generic and strict catalog](PRSE_POST_ASSET_SPATIAL_FIDELITY_RESEARCH_2026-10-25.md) measures actual GameCore/Rapier contact and only source-label-supported spatial relationships, exposing that newly generated generic objects add no new supported ON contacts. This earlier type-count/asset gate report remains unchanged as independently verified prior evidence.
+
 25 October 2026. Research continuation on the same isolated Games branch.
 
 ## Original owner objective and existing verified work

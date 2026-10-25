@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "frozenSourceSHA256": "b1cdac3e98237f3e14d004728ab22e676f435946337b293e62ec0b2a4d3f7d9c",
+    "independentGoldNotRead": true,
+    "geometry": "Same authoritative native GameCore/Rapier real body poses and collision manifolds",
+    "caveat": "This only freezes geometric inputs for later independent scorer; no spatial gold outcomes yet"
+  },
+  "methods": [
+    {
+      "summary": {
+        "method": "baseline",
+        "sampleSourceScenes": 200,
+        "acceptedNativeBodyScenes": 197,
+        "failedRebuilds": 0,
+        "nativePhysicalBodies": 938,
+        "actualNativeContactPairs": 11,
+        "provisionalAddedBodies": 0,
+        "sourceTextStillHasSameHash": true
+      },
+      "privateRawSHA256": "01333bebd85448e469a19ba1670f9876fb5e7d0eadd175b79fcaae08cda2c30a",
+      "privateBytes": 363174
+    },
+    {
+      "summary": {
+        "method": "generic",
+        "sampleSourceScenes": 200,
+        "acceptedNativeBodyScenes": 126,
+        "failedRebuilds": 71,
+        "nativePhysicalBodies": 1004,
+        "actualNativeContactPairs": 3,
+        "provisionalAddedBodies": 437,
+        "sourceTextStillHasSameHash": true
+      },
+      "privateRawSHA256": "b47d6fedd7a39d67c64c9b49a03fe3ec4c6260c1b9edb021f7696290ecfa854f",
+      "privateBytes": 420946
+    },
+    {
+      "summary": {
+        "method": "catalog",
+        "sampleSourceScenes": 200,
+        "acceptedNativeBodyScenes": 193,
+        "failedRebuilds": 4,
+        "nativePhysicalBodies": 926,
+        "actualNativeContactPairs": 9,
+        "provisionalAddedBodies": 13,
+        "sourceTextStillHasSameHash": true
+      },
+      "privateRawSHA256": "500cc4db18561689e5c424453d68c9ff5459f141f946fb66d1ae2c417775dbbf",
+      "privateBytes": 358472
+    }
+  ]
+}

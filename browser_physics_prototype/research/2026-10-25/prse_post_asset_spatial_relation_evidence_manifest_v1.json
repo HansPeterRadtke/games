@@ -1,0 +1,113 @@
+{
+  "metadata": {
+    "sceneEvalSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "frozenSourceProposalsSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "inputOfficialAnnotationOnlyAfterPhysicalOutput": true,
+    "artifactScope": "Only existing Games repository tracked asset manifest; not all other machines/pipelines",
+    "schemaCaveats": "Gold annotation relation type-pair existence; three-dimensional AABB current poses and actual native Rapier contacts; instance identity/direction/asset realism not independently proven",
+    "confidenceCaveats": "Near may match source author type-pairs by coincidence; most directional/containment/orientation types explicitly abstained",
+    "researchOriginalFailure": "First v1 assisted index mismatch retained as test/reproducer error, not physics failure",
+    "noSharedModelGPUorProductionEffects": true
+  },
+  "authorGoldSupportedPredicates": {
+    "baseline": {
+      "all": 911,
+      "testable": 512,
+      "pair": 95,
+      "satisfied": 18,
+      "nativeOn": 3,
+      "near": 15
+    },
+    "generic": {
+      "all": 911,
+      "testable": 512,
+      "pair": 335,
+      "satisfied": 33,
+      "nativeOn": 3,
+      "near": 30
+    },
+    "catalog": {
+      "all": 911,
+      "testable": 512,
+      "pair": 99,
+      "satisfied": 18,
+      "nativeOn": 3,
+      "near": 15
+    }
+  },
+  "genuinelyPhysicsContactingGoldOnClausesUnchanged": 3,
+  "strictCatalogSupportedGoldRelationsUnchanged": 18,
+  "accidentalNearMatchRisk": true,
+  "trackedGames3DMeshFiles": 0,
+  "GamesManifestSelectionKinds": 14,
+  "nativeRawAndIndependentGoldManifest": {
+    "prse_post_asset_native_baseline_200_raw_v1.json": {
+      "sha256": "01333bebd85448e469a19ba1670f9876fb5e7d0eadd175b79fcaae08cda2c30a",
+      "bytes": 684376,
+      "ownerPrivate": true
+    },
+    "prse_post_asset_native_generic_200_raw_v1.json": {
+      "sha256": "b47d6fedd7a39d67c64c9b49a03fe3ec4c6260c1b9edb021f7696290ecfa854f",
+      "bytes": 760223,
+      "ownerPrivate": true
+    },
+    "prse_post_asset_native_catalog_200_raw_v1.json": {
+      "sha256": "500cc4db18561689e5c424453d68c9ff5459f141f946fb66d1ae2c417775dbbf",
+      "bytes": 675527,
+      "ownerPrivate": true
+    },
+    "prse_post_asset_native_baseline_200_raw_v2.json": {
+      "sha256": "01333bebd85448e469a19ba1670f9876fb5e7d0eadd175b79fcaae08cda2c30a",
+      "bytes": 684376,
+      "ownerPrivate": true
+    },
+    "prse_post_asset_native_generic_200_raw_v2.json": {
+      "sha256": "e34132e1a13f11a22a7cc46fdd00a394f9e2f9c8b09bbfe4a3f7ecc880c60ca5",
+      "bytes": 1534940,
+      "ownerPrivate": true
+    },
+    "prse_post_asset_native_catalog_200_raw_v2.json": {
+      "sha256": "81102ddaeea7b2cb07fc997bf12a1a7affa1ded95cb1184ceb96bb4d29ad1ac9",
+      "bytes": 695874,
+      "ownerPrivate": true
+    }
+  },
+  "privateGoldAuditRaw": {
+    "sha256": "8d0165a611afec8f9699c08c391eb8cfe2dd15f71928981984f34b7ea1d7a1a0",
+    "bytes": 400400
+  },
+  "pairedSceneBootstrap": {
+    "human": {
+      "physicallyAcceptedScenes": 98,
+      "authorRelationClausesWithSupportedPhysicalPredicate": 150,
+      "baselineNativeSatisfied": 11,
+      "genericNativeSatisfied": 14,
+      "catalogNativeSatisfied": 11,
+      "baselineOnWithActualContact": 2,
+      "genericOnWithActualContact": 2,
+      "additionalGenericProximityMatchesNotNewOnSupport": 3,
+      "pairedConditionalRecallDifference": 0.02,
+      "sceneBootstrap95Difference": [
+        0.0,
+        0.04504504504504504
+      ],
+      "zeroSupportContactGain": true
+    },
+    "assisted": {
+      "physicallyAcceptedScenes": 99,
+      "authorRelationClausesWithSupportedPhysicalPredicate": 362,
+      "baselineNativeSatisfied": 7,
+      "genericNativeSatisfied": 19,
+      "catalogNativeSatisfied": 7,
+      "baselineOnWithActualContact": 1,
+      "genericOnWithActualContact": 1,
+      "additionalGenericProximityMatchesNotNewOnSupport": 12,
+      "pairedConditionalRecallDifference": 0.03314917127071823,
+      "sceneBootstrap95Difference": [
+        0.017142857142857144,
+        0.05070422535211268
+      ],
+      "zeroSupportContactGain": true
+    }
+  }
+}
