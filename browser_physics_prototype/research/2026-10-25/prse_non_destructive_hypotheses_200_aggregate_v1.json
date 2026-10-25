@@ -1,0 +1,2032 @@
+{
+  "metadata": {
+    "source": "Frozen 200 SceneEval text proposals and original actual 197 native GameCore/Rapier source scenes, SAME pre-existing grammar roles",
+    "noGoldInModelOrPhysicalWorld": true,
+    "scope": "Full original source interpretation hypotheses preserved despite grammar abstention; only strongly grammatical + physically confirmed ON facts eligible for source wording",
+    "uncertainty": "Pretrained syntactic match is not definitive author entailment; no new source-blind claim of lexical or artistic correctness",
+    "noProductionEditsOrGPU": true,
+    "privateRawSHA256": "6085520b111e3d5bcba98d7a2065229141b27eda2a6979c69b62c7b152498f07"
+  },
+  "summary": {
+    "sourceDescriptions": 200,
+    "physicallyAcceptedExistingScenes": 197,
+    "sourceHypothesisLedgerAndFullNativePhysicsSavePassed": 0,
+    "unanticipatedFailures": 197,
+    "baselineInvalidScenes": 3,
+    "sourceOriginalParsedRelationsRetained": 0,
+    "originalONSourceHypothesesRetained": 0,
+    "originalONRelationsWithSourceSyntaxEvidence": 0,
+    "originalONSourceRelationsWithUnresolvedRoleKept": 0,
+    "physicallyConfirmedOriginalONRelationsRetained": 0,
+    "physicallyTrueOnAndSourceRoleApproved": 0,
+    "physicallyTrueOnButSourceRoleUnresolved": 0,
+    "scenesWithActualGameCorePhysicalImpulse": 0,
+    "scenesWithNewHypothesisSemanticVersionAfterAction": 0,
+    "originalAllRealBodyIDsKept": 0,
+    "sourceHistoricallyUncertainHypothesesSurvivedSave": 0,
+    "futureAuthorGoldAndIndependent3DAssetTruthNotUsed": true,
+    "wallSeconds": 17.38
+  },
+  "cases": [
+    {
+      "id": 0,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 1,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 2,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 3,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 4,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 5,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 6,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 7,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 8,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 9,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 10,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 11,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 12,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 13,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 14,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 15,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 16,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 17,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 18,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 19,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 20,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 21,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 22,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 23,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 24,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 25,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 26,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 27,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 28,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 29,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 30,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 31,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 32,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 33,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 34,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 35,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 36,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 37,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 38,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 39,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 40,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 41,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 42,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 43,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 44,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 45,
+      "status": "original_geometry_rejected",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": null
+    },
+    {
+      "id": 46,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 47,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 48,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 49,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 50,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 51,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 52,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 53,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 54,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 55,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 56,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 57,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 58,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 59,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 60,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 61,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 62,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 63,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 64,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 65,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 66,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 67,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 68,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 69,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 70,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 71,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 72,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 73,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 74,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 75,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 76,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 77,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 78,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 79,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 80,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 81,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 82,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 83,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 84,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 85,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 86,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 87,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 88,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 89,
+      "status": "original_geometry_rejected",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": null
+    },
+    {
+      "id": 90,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 91,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 92,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 93,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 94,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 95,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 96,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 97,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 98,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 99,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 100,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 104,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 108,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 112,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 116,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 120,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 124,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 128,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 132,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 136,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 140,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 144,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 148,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 152,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 156,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 160,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 164,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 168,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 172,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 176,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 180,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 184,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 188,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 192,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 196,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 200,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 204,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 208,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 212,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 216,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 220,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 224,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 228,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 232,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 236,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 240,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 244,
+      "status": "original_geometry_rejected",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": null
+    },
+    {
+      "id": 248,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 252,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 256,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 260,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 264,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 268,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 272,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 276,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 280,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 284,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 288,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 292,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 296,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 300,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 304,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 308,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 312,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 316,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 320,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 324,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 328,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 332,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 336,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 340,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 344,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 348,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 352,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 356,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 360,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 364,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 368,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 372,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 376,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 380,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 384,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 388,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 392,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 396,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 400,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 404,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 408,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 412,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 416,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 420,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 424,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 428,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 432,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 436,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 440,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 444,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 448,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 452,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 456,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 460,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 464,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 468,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 472,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 476,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 480,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 484,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 488,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 492,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    },
+    {
+      "id": 496,
+      "status": "failed",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": "Non-destructive source hypothesis ledger modified materialized native body IDs"
+    }
+  ]
+}

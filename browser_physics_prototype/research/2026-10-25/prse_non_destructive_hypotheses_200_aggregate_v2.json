@@ -1,0 +1,2032 @@
+{
+  "metadata": {
+    "source": "Frozen 200 SceneEval text proposals and original actual 197 native GameCore/Rapier source scenes, SAME pre-existing grammar roles",
+    "noGoldInModelOrPhysicalWorld": true,
+    "scope": "Full original source interpretation hypotheses preserved despite grammar abstention; only strongly grammatical + physically confirmed ON facts eligible for source wording",
+    "uncertainty": "Pretrained syntactic match is not definitive author entailment; no new source-blind claim of lexical or artistic correctness",
+    "noProductionEditsOrGPU": true,
+    "privateRawSHA256": "2a9c0ab1b5b17aa78caa9ec42854e581636b2effdad588eecebf336c4f59d7fd"
+  },
+  "summary": {
+    "sourceDescriptions": 200,
+    "physicallyAcceptedExistingScenes": 197,
+    "sourceHypothesisLedgerAndFullNativePhysicsSavePassed": 197,
+    "unanticipatedFailures": 0,
+    "baselineInvalidScenes": 3,
+    "sourceOriginalParsedRelationsRetained": 407,
+    "originalONSourceHypothesesRetained": 50,
+    "originalONRelationsWithSourceSyntaxEvidence": 7,
+    "originalONSourceRelationsWithUnresolvedRoleKept": 43,
+    "physicallyConfirmedOriginalONRelationsRetained": 27,
+    "physicallyTrueOnAndSourceRoleApproved": 6,
+    "physicallyTrueOnButSourceRoleUnresolved": 21,
+    "scenesWithActualGameCorePhysicalImpulse": 64,
+    "scenesWithNewHypothesisSemanticVersionAfterAction": null,
+    "originalAllRealBodyIDsKept": 197,
+    "sourceHistoricallyUncertainHypothesesSurvivedSave": 43,
+    "futureAuthorGoldAndIndependent3DAssetTruthNotUsed": true,
+    "wallSeconds": 39.51
+  },
+  "cases": [
+    {
+      "id": 0,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 1,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 2,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 3,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 4,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 5,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 6,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 7,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 8,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 9,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 10,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 11,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 12,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 13,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 14,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 15,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 16,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 17,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 18,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 19,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 20,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 21,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 22,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 1,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 23,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 24,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 25,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 26,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 27,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 3,
+      "grammarApproved": 1,
+      "undecidedPersisted": 2,
+      "physicalTrueOn": 3,
+      "physicalTrueSourceUncertain": 2,
+      "error": null
+    },
+    {
+      "id": 28,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 1,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 29,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 1,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 30,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 31,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 32,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 33,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 34,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 35,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 36,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 37,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 2,
+      "grammarApproved": 0,
+      "undecidedPersisted": 2,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 38,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 39,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 40,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 41,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 42,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 43,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 44,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 45,
+      "status": "original_geometry_rejected",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": null
+    },
+    {
+      "id": 46,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 47,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 48,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 49,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 50,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 51,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 52,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 53,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 54,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 55,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 56,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 57,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 58,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 59,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 60,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 61,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 62,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 63,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 64,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 65,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 66,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 67,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 68,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 69,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 70,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 71,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 72,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 73,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 74,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 75,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 76,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 77,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 78,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 79,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 80,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 81,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 82,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 83,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 84,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 85,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 86,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 87,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 88,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 89,
+      "status": "original_geometry_rejected",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": null
+    },
+    {
+      "id": 90,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 91,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 92,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 93,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 94,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 95,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 96,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 97,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 98,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 99,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 100,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 104,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 108,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 112,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 116,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 120,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 124,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 128,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 132,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 136,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 140,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 144,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 148,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 152,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 156,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 160,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 164,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 168,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 172,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 176,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 180,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 184,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 188,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 192,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 196,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 200,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 204,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 208,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 212,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 216,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 220,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 2,
+      "grammarApproved": 0,
+      "undecidedPersisted": 2,
+      "physicalTrueOn": 2,
+      "physicalTrueSourceUncertain": 2,
+      "error": null
+    },
+    {
+      "id": 224,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 228,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 232,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 236,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 1,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 240,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 3,
+      "grammarApproved": 0,
+      "undecidedPersisted": 3,
+      "physicalTrueOn": 2,
+      "physicalTrueSourceUncertain": 2,
+      "error": null
+    },
+    {
+      "id": 244,
+      "status": "original_geometry_rejected",
+      "sourceON": 0,
+      "grammarApproved": null,
+      "undecidedPersisted": null,
+      "physicalTrueOn": null,
+      "physicalTrueSourceUncertain": null,
+      "error": null
+    },
+    {
+      "id": 248,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 252,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 256,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 260,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 264,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 268,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 272,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 276,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 280,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 284,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 288,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 292,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 296,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 300,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 304,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 308,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 312,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 316,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 320,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 324,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 328,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 332,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 336,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 340,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 344,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 348,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 2,
+      "grammarApproved": 0,
+      "undecidedPersisted": 2,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 352,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 356,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 360,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 364,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 368,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 372,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 1,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 376,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 380,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 384,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 388,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 392,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 396,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 400,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 404,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 408,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 412,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 416,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 420,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 424,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 428,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 432,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 436,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 440,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 444,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 448,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 452,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 456,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 460,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 464,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 468,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 472,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 476,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 480,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 1,
+      "grammarApproved": 0,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 1,
+      "error": null
+    },
+    {
+      "id": 484,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 488,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 2,
+      "grammarApproved": 1,
+      "undecidedPersisted": 1,
+      "physicalTrueOn": 1,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 492,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    },
+    {
+      "id": 496,
+      "status": "native_source_hypotheses_preserved",
+      "sourceON": 0,
+      "grammarApproved": 0,
+      "undecidedPersisted": 0,
+      "physicalTrueOn": 0,
+      "physicalTrueSourceUncertain": 0,
+      "error": null
+    }
+  ]
+}

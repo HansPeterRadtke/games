@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "frozenSceneEvalSourceSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "sourceInterpreterProposalSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "frozenNativeOriginalRapierWorldEvidenceSHA256": "01333bebd85448e469a19ba1670f9876fb5e7d0eadd175b79fcaae08cda2c30a",
+    "preexistingGrammarRoleScorerPrivateSHA256": "bf11d7e2eb3bf7c702ad3dedfbdf90f8048ff84ee6f1498c58bcadfb8e294ad6",
+    "actualGoldOnlyUsedPosthoc": true,
+    "noProductionGpuOrModelCalls": true,
+    "sourceHypothesisEvidenceNotIndependentNewGoldWorld": true,
+    "firstTwoInvalidReportingVersionsPreserved": true,
+    "originalOffscreenV1AggregateRawSHAWasIncorrect": true,
+    "versionOneQuaternionSelfDotMetricWasNotNormalized": true,
+    "warning": "Source-only grammar role and type-pair author labels cannot prove instance-level source entailment or realistic physical assets; history hashes are owner-trusted rather than adversarially authenticated"
+  },
+  "summary": {
+    "sourceDescriptions": 200,
+    "physicallyAcceptedNativeScenes": 197,
+    "originalSourceHypothesesRetained": 407,
+    "originalSourceOnHypothesesRetained": 50,
+    "syntaxRoleApprovedOriginalOn": 7,
+    "unresolvedOriginalOnPreservedWithoutDeletingPhysics": 43,
+    "physicallyTrueOnRetained": 27,
+    "physicallyTrueOnButSourceRoleUnresolved": 21,
+    "actualNativeContactPairsPreserved": 11,
+    "unmodifiedFrozenWorldOriginalAuthorOnContactMatches": 3,
+    "oldHardGrammarPruningOriginalAuthorOnContactMatches": 2,
+    "fullNativeWorldSourceAndObserverHypothesisSaveSuccesses": 197,
+    "actualNativeGameCoreImpulseSceneCount": 64,
+    "sourceHypothesisMeaninfulChangeAfterPhysicalActionScenes": 8,
+    "offscreenRealPhysicalEpisodes": 32,
+    "unknownLiveContactWhileDematerialized": 32,
+    "sourceHistoricalInterpretationsPersistedThroughOffscreen": 32,
+    "observerAppropriateRelationRetractions": 16,
+    "observerHiddenCauseLeaks": 0,
+    "physicallySupportedOriginalAuthorOnCountNotNew": true,
+    "scope": "Research only, source-role syntax uncertain, uncalibrated assets and incomplete 3D source meaning, not full ordinary literary rewrite"
+  },
+  "integrityCorruptionRejected": 6,
+  "privateRawManifest": {
+    "prse_non_destructive_source_hypothesis_native_200_raw_v1.json": {
+      "sha256": "6085520b111e3d5bcba98d7a2065229141b27eda2a6979c69b62c7b152498f07",
+      "bytes": 45237,
+      "ownerPrivate": true
+    },
+    "prse_non_destructive_source_hypothesis_native_200_raw_v2.json": {
+      "sha256": "2a9c0ab1b5b17aa78caa9ec42854e581636b2effdad588eecebf336c4f59d7fd",
+      "bytes": 219170,
+      "ownerPrivate": true
+    },
+    "prse_non_destructive_source_hypothesis_native_200_raw_v3.json": {
+      "sha256": "b661520149531b800647112eaf69385a6e200ead78d3f0b342770924defd0680",
+      "bytes": 219167,
+      "ownerPrivate": true
+    },
+    "prse_hypothesis_overlay_baseline_3d_contact_200_raw_v1.json": {
+      "sha256": "9ee0ef73d7e0f23f06c403403c4372756d654a558ad517d0b28debfcde67e99c",
+      "bytes": 73389,
+      "ownerPrivate": true
+    },
+    "prse_hypothesis_overlay_baseline_3d_contact_200_raw_v2.json": {
+      "sha256": "a640443312f807e4f82437ca130e02556a73c700ffeb150e1b1810245874e382",
+      "bytes": 72890,
+      "ownerPrivate": true
+    },
+    "prse_nondestructive_source_hypotheses_offscreen_32_raw_v1.json": {
+      "sha256": "355b056f96f1f9d93e7707e6651ac2e82b3c6c17f55f993e10a46542801a81d0",
+      "bytes": 38861,
+      "ownerPrivate": true
+    },
+    "prse_nondestructive_source_hypotheses_offscreen_32_raw_v2.json": {
+      "sha256": "355b056f96f1f9d93e7707e6651ac2e82b3c6c17f55f993e10a46542801a81d0",
+      "bytes": 38861,
+      "ownerPrivate": true
+    }
+  }
+}

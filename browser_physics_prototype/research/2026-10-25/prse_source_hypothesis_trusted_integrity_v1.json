@@ -1,0 +1,44 @@
+{
+  "metadata": {
+    "source": "Original SceneEval human-authored row27, existing native GameCore/Rapier world",
+    "method": "Trusted internal state source/role/clock/hypothesis and physical snapshot corruption rejection",
+    "warning": "Plain SHA checks and internal consistency are not an authenticated or adversarially tamper-proof provenance system",
+    "noAuthorGoldOrGPUorLLM": true
+  },
+  "validNativeRestore": true,
+  "originalSourceUnchanged": true,
+  "sourceHypothesesUnresolvedButRetained": 2,
+  "intentionallyCorruptTestCopies": 6,
+  "rejectedCorruptTestCopies": [
+    {
+      "name": "altered_hypothesis_truth_digest_after_outer_rehash",
+      "rejected": true,
+      "reason": "Claim status contradicts actual restored native world"
+    },
+    {
+      "name": "changed_grammar_approval_after_rehash",
+      "rejected": true,
+      "reason": "Mismatched source hypotheses and currently restored narrator/native world"
+    },
+    {
+      "name": "future_worldclock_after_outer_rehash",
+      "rejected": true,
+      "reason": "Mismatched source hypotheses and currently restored narrator/native world"
+    },
+    {
+      "name": "forged_later_history_after_outer_rehash",
+      "rejected": true,
+      "reason": "Forged or future-timed source-hypothesis historical claim"
+    },
+    {
+      "name": "physically_forged_source_relation_after_outer_rehash",
+      "rejected": true,
+      "reason": "Source grammatical role does not match literal source interpretation"
+    },
+    {
+      "name": "corrupted_inner_native_physics_without_rehash",
+      "rejected": true,
+      "reason": "Native GameCore/observer/source state cannot restore: Native GameCore / observer source transaction rejected: invalid_or_mixed_transaction_digest"
+    }
+  ]
+}

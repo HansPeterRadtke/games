@@ -1,0 +1,20 @@
+{
+  "metadata": {
+    "method": "Actual native GameCore source-body position/rotation and true Rapier collider contacts, frozen original baseline vs new non-destructive source hypothesis overlay",
+    "caution": "Exact same 38-step physical input; no guarantee of future contact determinism from single pose comparison; not a source-reference entailment proof",
+    "privateRawSHA256": "9ee0ef73d7e0f23f06c403403c4372756d654a558ad517d0b28debfcde67e99c"
+  },
+  "summary": {
+    "frozenExternalDescriptions": 200,
+    "originalPhysicallyAccepted": 197,
+    "unexpectedFailures": 0,
+    "maxObjectPositionDifferenceMeters": 0,
+    "maxObjectRotationDifferenceRadians": 0.0009764618539154916,
+    "casesPreservingAllRapierObjectToObjectContacts": 197,
+    "totalOriginalNativePhysicalContactPairs": 11,
+    "totalAfterHypothesisOverlayNativePhysicalContacts": 11,
+    "exactNativeWorldBinaryUnchangedByAddingSemanticHypothesisOverlay": 197,
+    "goldIndependent": true,
+    "noGPUorLLM": true
+  }
+}

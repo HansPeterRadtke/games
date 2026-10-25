@@ -1,4 +1,7 @@
 # PRSE — source-role semantics versus physical truth, full offscreen return and unsafe pre-layout filtering
+
+> **Subsequent non-destructive source-hypothesis continuity study:** The [provenance-preserving alternative](PRSE_SOURCE_HYPOTHESIS_PRESERVING_WORLD_RESEARCH_2026-10-25.md) retains ALL unresolved original source ON meanings without deleting physical contacts. It preserves the original three previously gold-confirmed native support pairs which hard grammatical pre-layout filtering had reduced to two, while only physically confirmed syntax-approved relations may be expressed as provisional source-linked facts. Complete native/offscreen history and rejected claims were evaluated separately. This earlier physically validated hard-filter loss remains unchanged.
+
 25 October 2026 · same original owner Games PRSE research, continuation following the verified native spatial-asset results
 
 ## Original owner question and ownership
