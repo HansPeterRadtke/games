@@ -1,0 +1,551 @@
+{
+  "metadata": {
+    "privateRawSHA256": "be1d4cf3568d73df5cea689fb73951f761ab26316cd5410cef2b60dbbc481e9d",
+    "benchmark": "Same frozen 64 external SceneEval physically active source rooms under four real GameCore impulses",
+    "warning": "Native rotation test is physically grounded but not arbitrary realistic articulated object behavior"
+  },
+  "summary": {
+    "frozenExternalSceneAndActualActionConditions": 256,
+    "successfullyMeasuredRealNativeActionCases": 256,
+    "executionErrors": 0,
+    "emittedHistoricalTippedEvents": 173,
+    "eventsWhereNativeBodyNotActuallyTiltedPastOriginalThreshold": 82,
+    "eventsWithNativeUpTiltLessThanTwelveHundredthsRad": 2,
+    "recordedStickyTippedCurrentEntityAtEnd": 173,
+    "actuallyTiltedNativeBodiesAtEnd": 161,
+    "currentSemanticTippedButNativeBodyUprightAtEnd": 11,
+    "maxEventTotalAngularVsActualTiltDifference": 0.953038183150879,
+    "wallSeconds": 78.58,
+    "scope": "Native actual orientations, event-time labels and post-event current-state physical truth, not source-language semantics"
+  },
+  "errors": [
+    {
+      "sourceId": 9,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 9,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 22,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 26,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 26,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 27,
+      "action": "east_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 27,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 27,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 29,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 1
+    },
+    {
+      "sourceId": 29,
+      "action": "north_low",
+      "falseTippedEvents": 0,
+      "stickyCurrentTippedDespiteNativeUpright": 1
+    },
+    {
+      "sourceId": 30,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 30,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 30,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 31,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 31,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 31,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 38,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 40,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 40,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 40,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 41,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 41,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 41,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 44,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 44,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 44,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 51,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 51,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 51,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 70,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 70,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 70,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 71,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 71,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 72,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 72,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 72,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 76,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 91,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 92,
+      "action": "south_up",
+      "falseTippedEvents": 0,
+      "stickyCurrentTippedDespiteNativeUpright": 1
+    },
+    {
+      "sourceId": 98,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 99,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 99,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 99,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 128,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 128,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 128,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 196,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 196,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 196,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 220,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 224,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 236,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 1
+    },
+    {
+      "sourceId": 240,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 260,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 260,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 260,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 284,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 284,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 296,
+      "action": "north_low",
+      "falseTippedEvents": 0,
+      "stickyCurrentTippedDespiteNativeUpright": 1
+    },
+    {
+      "sourceId": 344,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 344,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 344,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 364,
+      "action": "north_low",
+      "falseTippedEvents": 0,
+      "stickyCurrentTippedDespiteNativeUpright": 1
+    },
+    {
+      "sourceId": 372,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 376,
+      "action": "east_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 1
+    },
+    {
+      "sourceId": 380,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 380,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 380,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 384,
+      "action": "east_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 1
+    },
+    {
+      "sourceId": 384,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 1
+    },
+    {
+      "sourceId": 388,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 388,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 388,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 392,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 396,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 424,
+      "action": "east_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 452,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 456,
+      "action": "east_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 456,
+      "action": "north_low",
+      "falseTippedEvents": 0,
+      "stickyCurrentTippedDespiteNativeUpright": 1
+    },
+    {
+      "sourceId": 468,
+      "action": "east_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 468,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 480,
+      "action": "south_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 480,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 484,
+      "action": "north_low",
+      "falseTippedEvents": 0,
+      "stickyCurrentTippedDespiteNativeUpright": 1
+    },
+    {
+      "sourceId": 488,
+      "action": "east_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 488,
+      "action": "west_up",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    },
+    {
+      "sourceId": 488,
+      "action": "north_low",
+      "falseTippedEvents": 1,
+      "stickyCurrentTippedDespiteNativeUpright": 0
+    }
+  ]
+}

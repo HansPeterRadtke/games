@@ -1,0 +1,22 @@
+{
+  "metadata": {
+    "privateRawSHA256": "4f2a9f659d4b78605cd2748045b143444df2530a13914136d441cf284258c4df",
+    "benchmark": "Same frozen 64 external SceneEval physically active source rooms under four real GameCore impulses",
+    "warning": "Native rotation test is physically grounded but not arbitrary realistic articulated object behavior"
+  },
+  "summary": {
+    "frozenExternalSceneAndActualActionConditions": 256,
+    "successfullyMeasuredRealNativeActionCases": 256,
+    "executionErrors": 0,
+    "emittedHistoricalTippedEvents": 178,
+    "eventsWhereNativeBodyNotActuallyTiltedPastOriginalThreshold": 0,
+    "eventsWithNativeUpTiltLessThanTwelveHundredthsRad": 0,
+    "recordedStickyTippedCurrentEntityAtEnd": 162,
+    "actuallyTiltedNativeBodiesAtEnd": 161,
+    "currentSemanticTippedButNativeBodyUprightAtEnd": 0,
+    "maxEventTotalAngularVsActualTiltDifference": 1.6236991391232332,
+    "wallSeconds": 83.22,
+    "scope": "Native actual orientations, event-time labels and post-event current-state physical truth, not source-language semantics"
+  },
+  "errors": []
+}

@@ -1,5 +1,8 @@
 # PRSE: preserving uncertain literary-source meanings without destroying real 3D evidence
 
+> **Subsequent independent physical-event truth correction:** [native quaternion up-axis versus yaw, real physical tipping/righting and current observer semantic state](PRSE_NATIVE_ORIENTATION_EVENT_SEMANTIC_TRUTH_2026-10-25.md) retains the original incorrect tipped event/current-state measurements, corrects the owned research GameCore event classification, and independently confirms same native rigid-body trajectories and physical-to-text/full-save fidelity on the original source-derived scenes. This earlier source-hypothesis/source-meaning evidence remains independently measured and unchanged.
+
+
 25 October 2026 — continued owner PRSE research in the existing isolated Games worktree
 
 ## Direct answer to the original recording-derived questions

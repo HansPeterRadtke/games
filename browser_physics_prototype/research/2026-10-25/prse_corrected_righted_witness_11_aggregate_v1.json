@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "source": "Same eleven previously false tipped original source-derived actual Rapier worlds, one native physical action per case",
+    "sourceGoldNotLoaded": true,
+    "trackingSpectatorSyntheticButPhysicalVisibilityRay": true,
+    "noUserCameraOrRealHumanObserver": true,
+    "privateRawSHA256": "4206f4e57245f06b96eace4d80aa783ddefaff852d46ad114021a276bb41cb15"
+  },
+  "summary": {
+    "existingKnownBadSourceConditions": 11,
+    "actualGameCoreNativeSourceActionsVerified": 1,
+    "testFailures": 10,
+    "witnessedRealNativeRightedEventsViaPhysicalEventTimeRay": 0,
+    "actualEventTimeTippingWitnesses": 0,
+    "unseenEventLeaksToDistantObserver": 0,
+    "sourceCurrentTextFalseTipped": 0,
+    "sourcePrivateOriginalsRestored": 1,
+    "previouslyWitnessedEventsRepeatedAfterNativeSave": 0,
+    "caveat": "Auto-following real-occlusion-tested spectator is a synthetic observer harness, NOT a human visual/perceptual source label"
+  },
+  "sourceStatus": [
+    {
+      "sourceId": 29,
+      "action": "west_up",
+      "status": "failed",
+      "watchedRighting": 1,
+      "failedReason": "An observer received false physical state or unseen event"
+    },
+    {
+      "sourceId": 29,
+      "action": "north_low",
+      "status": "failed",
+      "watchedRighting": 1,
+      "failedReason": "An observer received false physical state or unseen event"
+    },
+    {
+      "sourceId": 92,
+      "action": "south_up",
+      "status": "failed",
+      "watchedRighting": 1,
+      "failedReason": "An observer received false physical state or unseen event"
+    },
+    {
+      "sourceId": 236,
+      "action": "west_up",
+      "status": "failed",
+      "watchedRighting": 1,
+      "failedReason": "An observer received false physical state or unseen event"
+    },
+    {
+      "sourceId": 296,
+      "action": "north_low",
+      "status": "failed",
+      "watchedRighting": 0,
+      "failedReason": "An observer received false physical state or unseen event"
+    },
+    {
+      "sourceId": 364,
+      "action": "north_low",
+      "status": "failed",
+      "watchedRighting": 2,
+      "failedReason": "An observer received false physical state or unseen event"
+    },
+    {
+      "sourceId": 376,
+      "action": "east_up",
+      "status": "failed",
+      "watchedRighting": 1,
+      "failedReason": "An observer received false physical state or unseen event"
+    },
+    {
+      "sourceId": 384,
+      "action": "east_up",
+      "status": "evaluated",
+      "watchedRighting": 0,
+      "failedReason": null
+    },
+    {
+      "sourceId": 384,
+      "action": "west_up",
+      "status": "failed",
+      "watchedRighting": 1,
+      "failedReason": "An observer received false physical state or unseen event"
+    },
+    {
+      "sourceId": 456,
+      "action": "north_low",
+      "status": "failed",
+      "watchedRighting": 2,
+      "failedReason": "An observer received false physical state or unseen event"
+    },
+    {
+      "sourceId": 484,
+      "action": "north_low",
+      "status": "failed",
+      "watchedRighting": 2,
+      "failedReason": "An observer received false physical state or unseen event"
+    }
+  ]
+}

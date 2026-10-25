@@ -123,7 +123,7 @@ export class PRSEPhysicalObserver {
   const other=this.loop.entities.get(bId)?.name||'another object';
   const phrase={
    displaced:'has moved from its earlier position',
-   tipped:'tipped over',rotated:'rotated',
+   tipped:'tipped over',righted:'became upright again',rotated:'rotated',
    impact:'collided with '+other,
    lost_support:'is no longer supported by '+other,
    rested_on:'has settled on '+other,

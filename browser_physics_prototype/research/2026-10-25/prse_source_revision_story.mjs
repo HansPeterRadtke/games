@@ -91,9 +91,17 @@ export class PRSESourceRevision {
    visibleEntityIDs:[...sight.visibleIds],
    witnessedEvents:events,relationRevisions:revisions,
    visibleCurrentStates:appearances,
+   // Separate HISTORY (witnessed then, possibly delivered later) from NOW
+   // (currently physically verified relation changes/object facts). The old
+   // name currentSentences was an intentionally mixed legacy UI list; it is
+   // preserved for compatibility but MUST NOT be interpreted as 'all now'.
+   witnessedEventSentences:events.map(e=>e.text),
+   currentWorldFactSentences:[...revisions,...appearances].map(e=>e.text),
+   narrationSentences:emitted.map(e=>e.text),
    currentSentences:emitted.map(e=>e.text),
-   // This is the text adapter output. It cannot claim fluent literary
-   // rewriting; the original remains separately accessible for provenance.
+   legacyCurrentSentencesMixesHistoryAndCurrentFacts:true,
+   // The text adapter is factual, not unrestricted literary rewriting.
+   // Real author source remains a separate immutable historical document.
    text:emitted.map(e=>e.text).join(' '),
    physicallyVerifiableRelations:claims.filter(c=>c.truth==='true').length,
    physicallyRefutedRelations:claims.filter(c=>c.truth==='false').length,

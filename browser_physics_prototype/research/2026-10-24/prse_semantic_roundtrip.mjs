@@ -170,12 +170,29 @@ export class PRSELoop{
     e.state.moved=true;e.revision++;
     this.emit('displaced',[id],{before:this.original.get(id),after:clone(p)});
    }
-   const tilted=2*Math.acos(Math.max(-1,Math.min(1,Math.abs(q.w))));
+   // Distinguish an object's PHYSICAL UP direction from its overall
+   // quaternion rotation. Turning/yawing a box around gravity is NOT
+   // tipping; the earlier total-angle calculation reported false tips.
+   const qnorm=Math.hypot(q.x,q.y,q.z,q.w);
+   if(!Number.isFinite(qnorm)||qnorm<.5)throw Error('Invalid authoritative native body orientation');
+   const tilted=2*Math.acos(Math.max(-1,Math.min(1,Math.abs(q.w/qnorm))));
+   const uprightY=1-2*(q.x*q.x+q.z*q.z)/(qnorm*qnorm);
+   const actualUpTilt=Math.acos(Math.max(-1,Math.min(1,uprightY)));
    if(!e.state.rotated&&e.shape==='sphere'&&tilted>.7){
     e.state.rotated=true;e.revision++;this.emit('rotated',[id],{angleRadians:Number(tilted.toFixed(3))});
    }
-   if(!e.state.tipped&&e.shape!=='sphere'&&tilted>.7){
-    e.state.tipped=true;e.revision++;this.emit('tipped',[id],{angleRadians:Number(tilted.toFixed(3))});
+   if(!e.state.tipped&&e.shape!=='sphere'&&actualUpTilt>.7){
+    e.state.tipped=true;e.revision++;
+    this.emit('tipped',[id],{angleRadians:Number(actualUpTilt.toFixed(3)),
+     physicalMeaning:'up_axis_tilt_not_total_yaw_rotation'});
+   }
+   // An object may right itself after a genuine tip. Keep 'tipped' in the
+   // HISTORICAL event log but do not keep falsely describing it as currently
+   // tipped when the real native rigid body is upright again.
+   if(e.state.tipped&&e.shape!=='sphere'&&actualUpTilt<.12){
+    e.state.tipped=false;e.revision++;
+    this.emit('righted',[id],{angleRadians:Number(actualUpTilt.toFixed(3)),
+     physicalMeaning:'native_up_axis_returned_near_vertical'});
    }
    if(e.supportId&&e.supportId!=='floor'){
     const parent=this.entities.get(e.supportId);
@@ -405,6 +422,7 @@ export class PRSELoop{
    if(ev.type==='reduced_to_ashes')announcedDestruction.add(ev.ids[0]);
    const e=this.entities.get(ev.ids[0]);if(!e)continue;
    const phrase={displaced:'has moved from its earlier position',tipped:'tipped over',rotated:'rotated',
+    righted:'is upright again',
     impact:'physically collided with '+(this.entities.get(ev.ids[1])?.name||'another object'),
     lost_support:'is no longer supported by '+(this.entities.get(ev.ids[1])?.name||'its former support'),
     rested_on:'has settled on '+(this.entities.get(ev.ids[1])?.name||'a supporting surface'),

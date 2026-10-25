@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "source": "Frozen first100 human+systematically sampled100 assisted SceneEval descriptions, preexisting PRSELoop/GameCore real native Rapier world",
+    "physicalInputs": [
+      {
+        "label": "east_up",
+        "x": 4,
+        "y": 1.1,
+        "z": 0.5
+      },
+      {
+        "label": "west_up",
+        "x": -4,
+        "y": 1.1,
+        "z": 0.5
+      },
+      {
+        "label": "south_up",
+        "x": 0.5,
+        "y": 1.1,
+        "z": 4
+      },
+      {
+        "label": "north_low",
+        "x": 1.2,
+        "y": 0.9,
+        "z": -3.5
+      }
+    ],
+    "noGoldAnnotationsOrModels": true,
+    "originalWorldAndNarrowSourceRelationStatusSeparatelyMeasured": true,
+    "privateRawSHA256": "9e707a58275054cc2eedf1a7c2c53f3d5ec4030ae669af88daa9999e69951608"
+  },
+  "summary": {
+    "inputExternalSourceScenes": 200,
+    "originalGeometryAccepted": 197,
+    "physicalWorldActionConditions": 788,
+    "physicallyActedConditions": 256,
+    "physicallyActedUniqueSources": 64,
+    "runtimeFailures": 0,
+    "sourceOnUniqueRelationsEvaluated": 152,
+    "physicalSupportRelationsEvaluated": 116,
+    "oldCurrentFactsTrue": 196,
+    "oldCurrentFactsTrueButNativeUprightUnknown": 0,
+    "oldCurrentFactsTrueButNativeGeometryFalse": 0,
+    "oldCurrentFactsUnknownButNativePhysicallyTrue": 0,
+    "oldCurrentFactsFalseButNativePhysicallyTrue": 0,
+    "oldCurrentFactsTrueOnTiltedBody": 0,
+    "oldCurrentFactsTrueContactOnlyOnLaterCollider": 0,
+    "maximumMetadataVsNativeTranslationDistance": 0,
+    "rotationGeometricUncertainty": 27,
+    "wallSeconds": 103.59,
+    "limitation": "Independent conservative native orientation safety audit of generated AABB proxies, not arbitrary 3D meshes; all source semantics already untrusted as possible annotations"
+  },
+  "discrepantCases": []
+}

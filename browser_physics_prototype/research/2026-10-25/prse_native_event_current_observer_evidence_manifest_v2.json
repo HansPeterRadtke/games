@@ -1,0 +1,163 @@
+{
+  "metadata": {
+    "originalExternalCorpusSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "frozenSourceProposalSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "sameOriginalPhysicalInputs": true,
+    "correction": "Real Rapier upright axis for tipped/righted + separate witnessed event history and current physical state",
+    "priorInvalidResearchCheckPreserved": "One version mixed witnessed historical event strings with current physical-state assertions; no claim those ten invalid tests indicate physics failures",
+    "newControl": "Forty different previously available source scenes, chosen by fixed source IDs and deterministic action direction, not by observed success",
+    "sourceMeaningWarning": "Official author object-count and spatial gold remain largely unmatched; source scene prose fluency/LLM intent not tested",
+    "noGoldModelTuningOrGPUUse": true
+  },
+  "firstMeasuredEventAccuracy": {
+    "frozenExternalSceneAndActualActionConditions": 256,
+    "successfullyMeasuredRealNativeActionCases": 256,
+    "executionErrors": 0,
+    "emittedHistoricalTippedEvents": 173,
+    "eventsWhereNativeBodyNotActuallyTiltedPastOriginalThreshold": 82,
+    "eventsWithNativeUpTiltLessThanTwelveHundredthsRad": 2,
+    "recordedStickyTippedCurrentEntityAtEnd": 173,
+    "actuallyTiltedNativeBodiesAtEnd": 161,
+    "currentSemanticTippedButNativeBodyUprightAtEnd": 11,
+    "maxEventTotalAngularVsActualTiltDifference": 0.953038183150879,
+    "wallSeconds": 78.58,
+    "scope": "Native actual orientations, event-time labels and post-event current-state physical truth, not source-language semantics"
+  },
+  "correctedPhysicalEventAccuracy": {
+    "frozenExternalSceneAndActualActionConditions": 256,
+    "successfullyMeasuredRealNativeActionCases": 256,
+    "executionErrors": 0,
+    "emittedHistoricalTippedEvents": 178,
+    "eventsWhereNativeBodyNotActuallyTiltedPastOriginalThreshold": 0,
+    "eventsWithNativeUpTiltLessThanTwelveHundredthsRad": 0,
+    "recordedStickyTippedCurrentEntityAtEnd": 162,
+    "actuallyTiltedNativeBodiesAtEnd": 161,
+    "currentSemanticTippedButNativeBodyUprightAtEnd": 0,
+    "maxEventTotalAngularVsActualTiltDifference": 1.6236991391232332,
+    "wallSeconds": 83.22,
+    "scope": "Native actual orientations, event-time labels and post-event current-state physical truth, not source-language semantics"
+  },
+  "priorElevenBadResearchAssertionOutcome": {
+    "existingKnownBadSourceConditions": 11,
+    "actualGameCoreNativeSourceActionsVerified": 1,
+    "testFailures": 10,
+    "witnessedRealNativeRightedEventsViaPhysicalEventTimeRay": 0,
+    "actualEventTimeTippingWitnesses": 0,
+    "unseenEventLeaksToDistantObserver": 0,
+    "sourceCurrentTextFalseTipped": 0,
+    "sourcePrivateOriginalsRestored": 1,
+    "previouslyWitnessedEventsRepeatedAfterNativeSave": 0,
+    "caveat": "Auto-following real-occlusion-tested spectator is a synthetic observer harness, NOT a human visual/perceptual source label"
+  },
+  "correctedElevenEventCurrentObserverControl": {
+    "existingKnownBadSourceConditions": 11,
+    "actualGameCoreNativeSourceActionsVerified": 11,
+    "testFailures": 0,
+    "witnessedRealNativeRightedEventsViaPhysicalEventTimeRay": 13,
+    "actualEventTimeTippingWitnesses": 13,
+    "unseenEventLeaksToDistantObserver": 0,
+    "sourceCurrentTextFalseTipped": 0,
+    "sourcePrivateOriginalsRestored": 11,
+    "nativeFinalPoseDivergencesWithAttachedObserver": 0,
+    "previouslyWitnessedEventsRepeatedAfterNativeSave": 0,
+    "caveat": "Auto-following real-occlusion-tested spectator is a synthetic observer harness, NOT a human visual/perceptual source label"
+  },
+  "additionalFortySceneObserverAndNarrativeControl": {
+    "frozenDistinctNonRegressionSourceScenes": 40,
+    "actualGameCoreSourceSceneActionsVerified": 40,
+    "scientificFailures": 0,
+    "nativeTypedTippedEvents": 29,
+    "nativeTypedRightedEvents": 0,
+    "actuallyRayWitnessedPhysicalEvents": 118,
+    "actuallyRayWitnessedTippedEvents": 26,
+    "actuallyRayWitnessedRightedEvents": 0,
+    "nativeEventTimeRotationContradictions": 0,
+    "currentlyVisibleObjectFactsIndependentlyChecked": 37,
+    "currentlyVisibleTippedFactsContradictNativeUpAxis": 0,
+    "unseenEventsLeakedToDistantObserver": 0,
+    "duplicateWitnessEventsAfterSave": 0,
+    "originalSourceAndGameCoreNativeWorldPreservedAfterSave": 40,
+    "firstRaySightAvailable": 40,
+    "sourceGoldNeverLoaded": true,
+    "selectionCaveat": "Previously exposed SceneEval external source corpus; 40 distinct source rooms fixed by ID, deliberately excluding earlier targeted 11, not a fresh literary evaluation"
+  },
+  "explicitElevenSceneHistoryCurrentWordPartition": {
+    "existingKnownBadSourceConditions": 11,
+    "actualGameCoreNativeSourceActionsVerified": 11,
+    "testFailures": 0,
+    "witnessedRealNativeRightedEventsViaPhysicalEventTimeRay": 13,
+    "actualEventTimeTippingWitnesses": 13,
+    "unseenEventLeaksToDistantObserver": 0,
+    "sourceCurrentTextFalseTipped": 0,
+    "sourcePrivateOriginalsRestored": 11,
+    "historyAndCurrentFactChannelsLosslessInOriginalWrongCases": 11,
+    "nativeFinalPoseDivergencesWithAttachedObserver": 0,
+    "previouslyWitnessedEventsRepeatedAfterNativeSave": 0,
+    "caveat": "Auto-following real-occlusion-tested spectator is a synthetic observer harness, NOT a human visual/perceptual source label"
+  },
+  "explicitFortySceneLosslessHistoryCurrentWordPartition": {
+    "frozenDistinctNonRegressionSourceScenes": 40,
+    "actualGameCoreSourceSceneActionsVerified": 40,
+    "scientificFailures": 0,
+    "nativeTypedTippedEvents": 29,
+    "nativeTypedRightedEvents": 0,
+    "actuallyRayWitnessedPhysicalEvents": 118,
+    "actuallyRayWitnessedTippedEvents": 26,
+    "actuallyRayWitnessedRightedEvents": 0,
+    "nativeEventTimeRotationContradictions": 0,
+    "currentlyVisibleObjectFactsIndependentlyChecked": 37,
+    "currentlyVisibleTippedFactsContradictNativeUpAxis": 0,
+    "unseenEventsLeakedToDistantObserver": 0,
+    "duplicateWitnessEventsAfterSave": 0,
+    "originalSourceAndGameCoreNativeWorldPreservedAfterSave": 40,
+    "nativeHistoricalEventsAndCurrentWorldFactChannelsExactlyPartitioned": 40,
+    "historicalEventSentencesOutput": 118,
+    "currentFactSentencesOutput": 37,
+    "firstRaySightAvailable": 40,
+    "sourceGoldNeverLoaded": true,
+    "selectionCaveat": "Previously exposed SceneEval external source corpus; 40 distinct source rooms fixed by ID, deliberately excluding earlier targeted 11, not a fresh literary evaluation"
+  },
+  "sourceMeaningNegativeGoldChecks": {
+    "authorObjectCountClauses": 1237,
+    "actual3DObjectCountClausesSatisfied": 565,
+    "authorOnRelationClauses": 354,
+    "actuallyContactSupportedAuthorOnRelations": 3
+  },
+  "ownerPrivateRawEvidenceManifest": {
+    "prse_native_tipped_event_vs_orientation_256_raw_v1.json": {
+      "sha256": "be1d4cf3568d73df5cea689fb73951f761ab26316cd5410cef2b60dbbc481e9d",
+      "bytes": 236831,
+      "ownerPrivate": true
+    },
+    "prse_native_tipped_event_vs_orientation_256_raw_v2.json": {
+      "sha256": "4f2a9f659d4b78605cd2748045b143444df2530a13914136d441cf284258c4df",
+      "bytes": 238255,
+      "ownerPrivate": true
+    },
+    "prse_corrected_righted_event_observer_delivery_11_raw_v1.json": {
+      "sha256": "4206f4e57245f06b96eace4d80aa783ddefaff852d46ad114021a276bb41cb15",
+      "bytes": 5255,
+      "ownerPrivate": true
+    },
+    "prse_corrected_righted_event_observer_delivery_11_raw_v2.json": {
+      "sha256": "7d9274b9137406814a696d299b92ced47003fed2f1a9631e1af43174c11342fb",
+      "bytes": 8520,
+      "ownerPrivate": true
+    },
+    "prse_corrected_righted_event_observer_delivery_11_raw_v3.json": {
+      "sha256": "c487c46e1c4a9e9bf4808a557a3339b4cec7c9d5a1f0f3825859aeca123d5035",
+      "bytes": 9106,
+      "ownerPrivate": true
+    },
+    "prse_event_and_current_channels_40_raw_v1.json": {
+      "sha256": "6a7d14171fda203dff9f5c2539e20d31df2a09dd9fd3f799bae9f9bac8624dea",
+      "bytes": 35414,
+      "ownerPrivate": true
+    },
+    "prse_event_and_current_channels_40_raw_v2.json": {
+      "sha256": "54fe05b35bd63ae826ce278d7d142b64d69c41dbf229c1b3194fc98fbbd9c1ae",
+      "bytes": 41574,
+      "ownerPrivate": true
+    }
+  }
+}

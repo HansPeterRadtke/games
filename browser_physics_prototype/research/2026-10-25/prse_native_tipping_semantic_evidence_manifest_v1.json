@@ -1,0 +1,121 @@
+{
+  "metadata": {
+    "externalSource": "Official SceneEval-500 first hundred human and systematic assisted one hundred, same previously frozen source and impulses",
+    "sourceZipSha256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "separatePublishedRapierDocumentation": "https://rapier.rs/docs/user_guides/javascript/advanced_collision_detection_js/",
+    "comparison": "No model/gold used for physical event input; before/after native source and impulse matched exactly",
+    "notPristineNewHoldout": true,
+    "observerReturnSampleSelection": "Eleven previously exposed false-current source scenes, selected from the bad prior output",
+    "noRenderingGPUorProductionWorkAffected": true
+  },
+  "orientationBaseline": {
+    "inputExternalSourceScenes": 200,
+    "originalGeometryAccepted": 197,
+    "physicalWorldActionConditions": 788,
+    "physicallyActedConditions": 256,
+    "physicallyActedUniqueSources": 64,
+    "runtimeFailures": 0,
+    "sourceOnUniqueRelationsEvaluated": 152,
+    "physicalSupportRelationsEvaluated": 116,
+    "oldCurrentFactsTrue": 196,
+    "oldCurrentFactsTrueButNativeUprightUnknown": 0,
+    "oldCurrentFactsTrueButNativeGeometryFalse": 0,
+    "oldCurrentFactsUnknownButNativePhysicallyTrue": 0,
+    "oldCurrentFactsFalseButNativePhysicallyTrue": 0,
+    "oldCurrentFactsTrueOnTiltedBody": 0,
+    "oldCurrentFactsTrueContactOnlyOnLaterCollider": 0,
+    "maximumMetadataVsNativeTranslationDistance": 0,
+    "rotationGeometricUncertainty": 27,
+    "wallSeconds": 103.59,
+    "limitation": "Independent conservative native orientation safety audit of generated AABB proxies, not arbitrary 3D meshes; all source semantics already untrusted as possible annotations"
+  },
+  "historicalTippingEventBeforeCorrection": {
+    "frozenExternalSceneAndActualActionConditions": 256,
+    "successfullyMeasuredRealNativeActionCases": 256,
+    "executionErrors": 0,
+    "emittedHistoricalTippedEvents": 173,
+    "eventsWhereNativeBodyNotActuallyTiltedPastOriginalThreshold": 82,
+    "eventsWithNativeUpTiltLessThanTwelveHundredthsRad": 2,
+    "recordedStickyTippedCurrentEntityAtEnd": 173,
+    "actuallyTiltedNativeBodiesAtEnd": 161,
+    "currentSemanticTippedButNativeBodyUprightAtEnd": 11,
+    "maxEventTotalAngularVsActualTiltDifference": 0.953038183150879,
+    "wallSeconds": 78.58,
+    "scope": "Native actual orientations, event-time labels and post-event current-state physical truth, not source-language semantics"
+  },
+  "historicalTippingEventAfterCorrection": {
+    "frozenExternalSceneAndActualActionConditions": 256,
+    "successfullyMeasuredRealNativeActionCases": 256,
+    "executionErrors": 0,
+    "emittedHistoricalTippedEvents": 178,
+    "eventsWhereNativeBodyNotActuallyTiltedPastOriginalThreshold": 0,
+    "eventsWithNativeUpTiltLessThanTwelveHundredthsRad": 0,
+    "recordedStickyTippedCurrentEntityAtEnd": 162,
+    "actuallyTiltedNativeBodiesAtEnd": 161,
+    "currentSemanticTippedButNativeBodyUprightAtEnd": 0,
+    "maxEventTotalAngularVsActualTiltDifference": 1.6236991391232332,
+    "wallSeconds": 83.22,
+    "scope": "Native actual orientations, event-time labels and post-event current-state physical truth, not source-language semantics"
+  },
+  "pairedNativeActualPositionAndOrientationExact": true,
+  "correctedPreviouslyFalsePresentTippedRecords": 11,
+  "sourceDerivedObserverNativeReentry": {
+    "previouslyDisprovedSourceDerivedCurrentTippedCases": 11,
+    "correctedWholeSceneNativeSources": 11,
+    "scientificRunFailures": 0,
+    "correctedPhysicallyUprightPersistedObjectIDs": 11,
+    "explicitlyActualNativeTippingEventsVerified": 13,
+    "actualNativeRightingEventsVerified": 13,
+    "wrongTippingEventsAfterCorrection": 0,
+    "wrongRightingEventsAfterCorrection": 0,
+    "wrongCurrentTippedSourceTextAfterCorrection": 0,
+    "rayVisibleReturnedSourceScenes": 5,
+    "factualHistoricalSourceAndNativePhysicsPersistenceVerified": 11,
+    "extrapolationLimit": "Known false historical cases selected on past results; no independent story corpus/human language evaluation"
+  },
+  "sourceToPhysicsCurrentWorldRegressionAcceptedDeterministic": 197,
+  "sourceToPhysicsCurrentWorldRegressionAcceptedCombined": 195,
+  "sourceMeaningAndShapeGenerationStillNotSolved": true,
+  "privateRawManifest": {
+    "prse_native_orientation_support_audit_197x4_raw_v1.json": {
+      "sha256": "9e707a58275054cc2eedf1a7c2c53f3d5ec4030ae669af88daa9999e69951608",
+      "bytes": 265314,
+      "ownerPrivate": true
+    },
+    "prse_native_tipped_event_vs_orientation_256_raw_v1.json": {
+      "sha256": "be1d4cf3568d73df5cea689fb73951f761ab26316cd5410cef2b60dbbc481e9d",
+      "bytes": 236831,
+      "ownerPrivate": true
+    },
+    "prse_native_tipped_event_vs_orientation_256_raw_v2.json": {
+      "sha256": "4f2a9f659d4b78605cd2748045b143444df2530a13914136d441cf284258c4df",
+      "bytes": 238255,
+      "ownerPrivate": true
+    },
+    "prse_corrected_tipped_current_observer_native_11_raw_v1.json": {
+      "sha256": "5f96fc4f8c544ea34992a6567c837f2c716ddb393a712e0c58a15a3fabb0273e",
+      "bytes": 16045,
+      "ownerPrivate": true
+    },
+    "prse_current_world_document_deterministic_200_raw_v2.json": {
+      "sha256": "8450ad52bad0e911e487a2ddd173b39a2e554a52e78d9722bc3cfec2a153465f",
+      "bytes": 178128,
+      "ownerPrivate": true
+    },
+    "prse_current_world_document_deterministic_200_raw_v3.json": {
+      "sha256": "33f0e7b08041c9fc7fdd0dc9f9bd852ca8edff847ea5cacddc6117ad299fb4e1",
+      "bytes": 178129,
+      "ownerPrivate": true
+    },
+    "prse_current_world_document_union_200_raw_v2.json": {
+      "sha256": "7307bf2b457a8d9de516174f98cae3cd31aca53232d9ccb75eeadaa92c944614",
+      "bytes": 176387,
+      "ownerPrivate": true
+    },
+    "prse_current_world_document_union_200_raw_v3.json": {
+      "sha256": "b4f09afedb2ff981ab49ac87e3e0da646eea4703575a8763acb6252ad5c8a37e",
+      "bytes": 176386,
+      "ownerPrivate": true
+    }
+  }
+}

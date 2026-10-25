@@ -1,0 +1,102 @@
+{
+  "metadata": {
+    "source": "Same eleven previously false tipped original source-derived actual Rapier worlds, one native physical action per case",
+    "sourceGoldNotLoaded": true,
+    "trackingSpectatorSyntheticButPhysicalVisibilityRay": true,
+    "historicalEventAndCurrentStateSeparated": true,
+    "noUserCameraOrRealHumanObserver": true,
+    "privateRawSHA256": "7d9274b9137406814a696d299b92ced47003fed2f1a9631e1af43174c11342fb"
+  },
+  "summary": {
+    "existingKnownBadSourceConditions": 11,
+    "actualGameCoreNativeSourceActionsVerified": 11,
+    "testFailures": 0,
+    "witnessedRealNativeRightedEventsViaPhysicalEventTimeRay": 13,
+    "actualEventTimeTippingWitnesses": 13,
+    "unseenEventLeaksToDistantObserver": 0,
+    "sourceCurrentTextFalseTipped": 0,
+    "sourcePrivateOriginalsRestored": 11,
+    "nativeFinalPoseDivergencesWithAttachedObserver": 0,
+    "previouslyWitnessedEventsRepeatedAfterNativeSave": 0,
+    "caveat": "Auto-following real-occlusion-tested spectator is a synthetic observer harness, NOT a human visual/perceptual source label"
+  },
+  "sourceStatus": [
+    {
+      "sourceId": 29,
+      "action": "west_up",
+      "status": "evaluated",
+      "watchedRighting": 1,
+      "failedReason": null
+    },
+    {
+      "sourceId": 29,
+      "action": "north_low",
+      "status": "evaluated",
+      "watchedRighting": 1,
+      "failedReason": null
+    },
+    {
+      "sourceId": 92,
+      "action": "south_up",
+      "status": "evaluated",
+      "watchedRighting": 1,
+      "failedReason": null
+    },
+    {
+      "sourceId": 236,
+      "action": "west_up",
+      "status": "evaluated",
+      "watchedRighting": 1,
+      "failedReason": null
+    },
+    {
+      "sourceId": 296,
+      "action": "north_low",
+      "status": "evaluated",
+      "watchedRighting": 2,
+      "failedReason": null
+    },
+    {
+      "sourceId": 364,
+      "action": "north_low",
+      "status": "evaluated",
+      "watchedRighting": 2,
+      "failedReason": null
+    },
+    {
+      "sourceId": 376,
+      "action": "east_up",
+      "status": "evaluated",
+      "watchedRighting": 1,
+      "failedReason": null
+    },
+    {
+      "sourceId": 384,
+      "action": "east_up",
+      "status": "evaluated",
+      "watchedRighting": 0,
+      "failedReason": null
+    },
+    {
+      "sourceId": 384,
+      "action": "west_up",
+      "status": "evaluated",
+      "watchedRighting": 1,
+      "failedReason": null
+    },
+    {
+      "sourceId": 456,
+      "action": "north_low",
+      "status": "evaluated",
+      "watchedRighting": 1,
+      "failedReason": null
+    },
+    {
+      "sourceId": 484,
+      "action": "north_low",
+      "status": "evaluated",
+      "watchedRighting": 2,
+      "failedReason": null
+    }
+  ]
+}
