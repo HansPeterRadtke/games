@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "source": "Official SceneEval-500 external descriptions, frozen deterministic and CPU syntax-union proposals",
+    "noRewritingPerformed": true,
+    "sourceGoldNotRead": true,
+    "limit": "Literal split into sentences and unique substring are necessary but not sufficient for correct literary editing",
+    "meaning": "Unsafe spans explain why a current physically correct fact cannot simply replace arbitrary fragments of historical source prose"
+  },
+  "variants": {
+    "deterministic": {
+      "sourceStringFound": 1070,
+      "uniqueSubstring": 1070,
+      "totalRelations": 1070,
+      "uniqueSourceAndTargetMentions": 156,
+      "exactFullSentence": 9,
+      "onlyOneRelInFullSentence": 9,
+      "potentialControlledSentenceCandidate": 2,
+      "conditionalNegatedOrQuotedSpan": 9,
+      "sceneCount": 500,
+      "sourceSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+      "bySourceGroup": {
+        "human100": {
+          "sourceStringFound": 188,
+          "uniqueSubstring": 188,
+          "totalRelations": 188,
+          "uniqueSourceAndTargetMentions": 33,
+          "exactFullSentence": 4,
+          "onlyOneRelInFullSentence": 4,
+          "potentialControlledSentenceCandidate": 1,
+          "conditionalNegatedOrQuotedSpan": 7
+        },
+        "assisted400": {
+          "sourceStringFound": 882,
+          "uniqueSubstring": 882,
+          "totalRelations": 882,
+          "exactFullSentence": 5,
+          "onlyOneRelInFullSentence": 5,
+          "uniqueSourceAndTargetMentions": 123,
+          "conditionalNegatedOrQuotedSpan": 2,
+          "potentialControlledSentenceCandidate": 1
+        }
+      },
+      "privateFileSHA256": "8ebe20d55b354c3833198c40d99c6ec5f84683e1fef983c378811824704d4c40",
+      "privateFile": "/data/var/games/prse_semantic_research/runs/2026-10-25-literary-revision/prse_source_span_editability_deterministic_500_raw_v1.json"
+    },
+    "union": {
+      "sourceStringFound": 1481,
+      "uniqueSubstring": 1468,
+      "totalRelations": 1557,
+      "uniqueSourceAndTargetMentions": 247,
+      "exactFullSentence": 69,
+      "onlyOneRelInFullSentence": 69,
+      "potentialControlledSentenceCandidate": 11,
+      "emptySnippet": 76,
+      "conditionalNegatedOrQuotedSpan": 11,
+      "sceneCount": 500,
+      "sourceSHA256": "1ab843149f19afaf5b16515dd6f57f3e38485dd27be9c3075d0bc67a44c5b776",
+      "bySourceGroup": {
+        "human100": {
+          "sourceStringFound": 260,
+          "uniqueSubstring": 255,
+          "totalRelations": 272,
+          "uniqueSourceAndTargetMentions": 50,
+          "exactFullSentence": 7,
+          "onlyOneRelInFullSentence": 7,
+          "potentialControlledSentenceCandidate": 2,
+          "emptySnippet": 12,
+          "conditionalNegatedOrQuotedSpan": 8
+        },
+        "assisted400": {
+          "sourceStringFound": 1221,
+          "uniqueSubstring": 1213,
+          "totalRelations": 1285,
+          "exactFullSentence": 62,
+          "onlyOneRelInFullSentence": 62,
+          "uniqueSourceAndTargetMentions": 197,
+          "potentialControlledSentenceCandidate": 9,
+          "emptySnippet": 64,
+          "conditionalNegatedOrQuotedSpan": 3
+        }
+      },
+      "privateFileSHA256": "e5e58d126222c5baf46dc40b569dd2dbfada0c5ed8014764560113c1ab2a7978",
+      "privateFile": "/data/var/games/prse_semantic_research/runs/2026-10-25-literary-revision/prse_source_span_editability_union_500_raw_v1.json"
+    }
+  }
+}

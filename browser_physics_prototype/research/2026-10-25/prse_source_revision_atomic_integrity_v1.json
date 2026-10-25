@@ -1,0 +1,61 @@
+{
+  "metadata": {
+    "source": "Original SceneEval human-authored row 22, no training labels read",
+    "actualWorld": "One PRSE GameCore/Rapier authoritative scene and events",
+    "integrity": "Trusted saved world: joint native physics, historical prose, observer facts and witnessed-event IDs",
+    "limitation": "Checksums are for accidental/mixed corruption and inconsistent references, not maliciously authored fully consistent signed saves"
+  },
+  "test": {
+    "nativeSaveAccepted": true,
+    "initialPhysicallyWitnessedEvent": 5,
+    "remoteWitnesses": 0,
+    "postSaveEventIDsStable": 5,
+    "noRepeatedVisibleImpulses": true,
+    "unsafeMutationsRejected": 10,
+    "rejected": [
+      {
+        "name": "original_literary_prose_modified",
+        "reason": "invalid_or_mixed_transaction_digest"
+      },
+      {
+        "name": "source_relation_invalidation",
+        "reason": "invalid_or_mixed_transaction_digest"
+      },
+      {
+        "name": "incoherent_world_timestamp",
+        "reason": "invalid_or_mixed_transaction_digest"
+      },
+      {
+        "name": "missing_physical_source_entity",
+        "reason": "invalid_or_mixed_transaction_digest"
+      },
+      {
+        "name": "broken_native_rapier_binary",
+        "reason": "invalid_or_mixed_transaction_digest"
+      },
+      {
+        "name": "wrong_native_build",
+        "reason": "invalid_or_mixed_transaction_digest"
+      },
+      {
+        "name": "historical_event_forgery",
+        "reason": "invalid_or_mixed_transaction_digest"
+      },
+      {
+        "name": "narrative_future_timestamp",
+        "reason": "invalid_or_mixed_transaction_digest"
+      },
+      {
+        "name": "unlinked_observer_identity",
+        "reason": "invalid_or_mixed_transaction_digest"
+      },
+      {
+        "name": "rehashed_authoritative_event_forgery",
+        "reason": "Revision refers to nonexistent physical event"
+      }
+    ],
+    "nextRealPhysicalActionReentryPositionDifferenceMeters": 0,
+    "currentClockEquivalent": true,
+    "sourceLiteraryArchiveUnchanged": true
+  }
+}

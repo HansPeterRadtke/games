@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "source": "Original recorded PRSE literary\u2194authoritative GameCore/Rapier physical\u2194literary research",
+    "ownerPrivateRawEvidence": true,
+    "noSharedGPUorGenerativeModel": true,
+    "noHumanPlaytest": true,
+    "independentSourceAnnotationLabelsNotUsedToGenerateOutput": true
+  },
+  "summary": {
+    "sourceReference": "SceneEval-500 official original ZIP and previously frozen first hundred human, systematic assisted scene sample",
+    "sourceZipSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "uniqueSourceScenes": 63,
+    "initialPhysicallySupportedSourceRelationStatements": 43,
+    "initialCurrentVisibleObjectStateStatementsAdded": 361,
+    "newSourceRevisionStatementsInitialTotal": 404,
+    "witnessedPhysicalEventsDeliveredWithoutRemoteLeak": 63,
+    "atomicNativeGameCoreAndObserverScenarioPasses": 63,
+    "repeatedUnchangedTextStatementsAfterSave": 0,
+    "preservedObservedPhysicalAshOmissionThenCorrected": true,
+    "trustedTransactionCorruptionsRejected": 10,
+    "sourceSpans": {
+      "deterministic": {
+        "frozenRelations": 1070,
+        "exactSubstring": 1070,
+        "wholeSentence": 9,
+        "strictCandidateForReviewNotAutomaticallyRewriteSafe": 2
+      },
+      "union": {
+        "frozenRelations": 1557,
+        "exactSubstring": 1481,
+        "wholeSentence": 69,
+        "strictCandidateForReviewNotAutomaticallyRewriteSafe": 11
+      }
+    },
+    "limitations": [
+      "The current text output is factual, not author-quality literary rewriting.",
+      "Most original text relations remain physically unknown or ungrounded.",
+      "A source-span matching a whole sentence is not guaranteed to preserve its semantics.",
+      "No generative LLM calls, formal NLI quality evaluation or human literary preference tests were performed.",
+      "Trusted hash checks are not cryptographic authentication against a fully rewritten malicious save.",
+      "Only selected externally described materialized scenes and one authored offscreen ash process tested."
+    ]
+  },
+  "privateRawManifest": {
+    "prse_source_revision_63_raw_v1.json": {
+      "sha256": "d617c49caeb56361d0ecf6e39c02e5ccd298c4903d72af187d38f1418615d3e9",
+      "bytes": 58012,
+      "private": true
+    },
+    "prse_source_revision_63_raw_v2.json": {
+      "sha256": "741af74841deebfac8ecb0023b2571b713cec29fee1f3af2221c5445e235b1be",
+      "bytes": 301043,
+      "private": true
+    },
+    "prse_source_span_editability_deterministic_500_raw_v1.json": {
+      "sha256": "8ebe20d55b354c3833198c40d99c6ec5f84683e1fef983c378811824704d4c40",
+      "bytes": 1099492,
+      "private": true
+    },
+    "prse_source_span_editability_union_500_raw_v1.json": {
+      "sha256": "e5e58d126222c5baf46dc40b569dd2dbfada0c5ed8014764560113c1ab2a7978",
+      "bytes": 1581769,
+      "private": true
+    }
+  }
+}

@@ -1,4 +1,7 @@
 # PRSE offscreen motion, scheduled causality and native full-world save
+
+> **Subsequent literary revision research:** The [source-preserving observer-specific textual continuity study](PRSE_LITERARY_SOURCE_REVISION_AND_TRUTH_RESEARCH_2026-10-25.md) reuses this report's trusted GameCore/Rapier save boundary but measures the missing physical-to-semantic text transition, preserves a real visible ash omission and demonstrates how rarely extracted source phrases are safe full-sentence replacements. This earlier native physics research remains separately grounded and unchanged.
+
 25 October 2026 — Games research continuation in the existing isolated Nitro branch
 
 ## Owner objective and scope

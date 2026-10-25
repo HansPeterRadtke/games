@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "source": "Original recorded PRSE story-world/offscreen-fire hypothesis (author-described, not SceneEval)",
+    "physicalAuthority": "Actual GameCore/Rapier original note, wooden desk, separate ash remnant collider",
+    "semanticCause": "An explicitly authored offscreen paper-burning process, NOT physical combustion chemistry",
+    "scope": "One constructed source-preserving scenario, not a general-world or literary-language benchmark"
+  },
+  "earlier": {
+    "originalLiteraryArchiveUnchanged": true,
+    "physicallyRepresentedPaperAndDesk": 2,
+    "initialSourceRelation": [
+      "old warning paper rests on desk."
+    ],
+    "observerGenuinelyMovedOutOfSensingRange": true
+  },
+  "unloaded": {
+    "worldClockSeconds": 13.166666666666668,
+    "physicalBodiesDuringOffscreen": 0,
+    "stableNoteSemanticTombstone": true,
+    "physicallyDistinctAshId": "ash-paper-original",
+    "ashLineageId": "paper-original",
+    "noPreviousIgnitionRevealed": true
+  },
+  "afterReturn": {
+    "rematerializedPhysicalBodies": 2,
+    "ashHasRealCollider": true,
+    "ashSeen": true,
+    "currentSourceLinkedText": "ash from old warning paper remains at this location.",
+    "unwitnessedIgnitionNotClaimed": true,
+    "duplicateContentAfterRead": 0,
+    "duplicateContentAfterSecondSave": 0,
+    "originalSourceDocumentUnchanged": true
+  }
+}

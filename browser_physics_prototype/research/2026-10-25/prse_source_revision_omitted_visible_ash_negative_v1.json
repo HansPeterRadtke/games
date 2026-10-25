@@ -1,0 +1,13 @@
+{
+  "metadata": {
+    "kind": "Measured research adapter failure before source revision fix",
+    "authorSource": "Original recorded PRSE offscreen-fire problem, not third-party scene or human gameplay"
+  },
+  "immutableSourceRetained": true,
+  "physicallyRematerializedAshID": "ash-paper-original",
+  "actualAshColliderCount": 1,
+  "physicallyRayVisible": true,
+  "actualCoreDescription": "ash from old warning paper remains at this location.",
+  "adapterTextOutput": "",
+  "omittedFactDespitePhysicalVisibility": true
+}
