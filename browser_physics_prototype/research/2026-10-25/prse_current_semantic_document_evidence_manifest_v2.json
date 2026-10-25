@@ -1,0 +1,123 @@
+{
+  "metadata": {
+    "source": "SceneEval-500 official author ZIP, fixed human IDs 0..99 and sampled assisted IDs 100,104,...496",
+    "sourceZipSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "noGoldLabelsDuringWorldInterpretation": true,
+    "independentAudit": "Existing separate Rapier materialized contact checks plus native current document/semantic journal roundtrips",
+    "sourceMeaningNotProven": "Original SceneEval source relation recall remains poor; this audit proves physics-based factual qualifiers, not textual entailment or human prose quality",
+    "noLLMorGPUandNoHumanParticipants": true
+  },
+  "measuredOriginalTimeBug": {
+    "failedDocuments": 7,
+    "restorationFailuresCorrectedInSameSourceSamples": 0,
+    "reason": "Meaningful semantic revisions need not occur at every native physics world tick"
+  },
+  "results": {
+    "deterministic_v2": {
+      "sourceScenes": 200,
+      "parser": "deterministic",
+      "sourceGroups": {
+        "human": 100,
+        "assisted": 100
+      },
+      "accepted": 197,
+      "physicalSceneRejected": 3,
+      "runtimeFailures": 0,
+      "currentPhysicalEntityClaims": 938,
+      "currentUnloadedIdentityClaims": 0,
+      "sourceRelationsPhysicallyVerified": 100,
+      "sourceRelationsPhysicallyContradicted": 34,
+      "sourceRelationsNotVerifiable": 273,
+      "physicallyVerifiedExtraSupportStatements": 12,
+      "unsupportedOriginalRelationsNarrated": 0,
+      "semanticsChangedAfterNativeImpulse": 57,
+      "noDuplicateUnchangedRevision": 197,
+      "validNativeWorldAndSemanticJournalSave": 197,
+      "nativeResumedPhysicalSourceTruthEqual": 197,
+      "originalHistoricalDescriptionBytes": 51707,
+      "previousPRSECurrentProseBytes": 20512,
+      "newCanonicalCurrentDocumentBytes": 22913,
+      "wallSeconds": 39.2
+    },
+    "union_v2": {
+      "sourceScenes": 200,
+      "parser": "union",
+      "sourceGroups": {
+        "human": 100,
+        "assisted": 100
+      },
+      "accepted": 195,
+      "physicalSceneRejected": 5,
+      "runtimeFailures": 0,
+      "currentPhysicalEntityClaims": 924,
+      "currentUnloadedIdentityClaims": 0,
+      "sourceRelationsPhysicallyVerified": 133,
+      "sourceRelationsPhysicallyContradicted": 41,
+      "sourceRelationsNotVerifiable": 407,
+      "physicallyVerifiedExtraSupportStatements": 12,
+      "unsupportedOriginalRelationsNarrated": 0,
+      "semanticsChangedAfterNativeImpulse": 57,
+      "noDuplicateUnchangedRevision": 195,
+      "validNativeWorldAndSemanticJournalSave": 195,
+      "nativeResumedPhysicalSourceTruthEqual": 195,
+      "originalHistoricalDescriptionBytes": 50612,
+      "previousPRSECurrentProseBytes": 20234,
+      "newCanonicalCurrentDocumentBytes": 23489,
+      "wallSeconds": 35.93
+    }
+  },
+  "independentContactAudit": {
+    "scenes": 200,
+    "accepted": 197,
+    "rejected": 3,
+    "savedNonFloorSupportClaims": 39,
+    "physicalTrue": 39,
+    "physicalFalse": 0,
+    "physicalUnknown": 0,
+    "staleTextWouldSaySupported": 39,
+    "staleTextAmongPhysicalFalse": 0,
+    "staleTextAmongPhysicalUnknown": 0,
+    "unsupportedByReason": {}
+  },
+  "independentSourceAnnotationConcordance": {
+    "deterministic": {
+      "physicalTrue": 100,
+      "independentlySourceAnnotatedTrue": 27,
+      "warning": "Direction-insensitive object-type pair matching, not a semantic sentence-entailment evaluation"
+    },
+    "union": {
+      "physicalTrue": 133,
+      "independentlySourceAnnotatedTrue": 31,
+      "warning": "Direction-insensitive object-type pair matching, not a semantic sentence-entailment evaluation"
+    }
+  },
+  "originalOffscreenFactAndCausalRevision": {
+    "archivedSourceUnchanged": true,
+    "semanticClockAdvancesWithoutClaimingActivePhysics": true,
+    "realAshColliderAfterReentry": true,
+    "noUnwitnessedIgnitionDisclosure": true,
+    "historyAndCurrentClaimsIntegrityTamperingRejected": true
+  },
+  "rawPrivateManifest": {
+    "prse_current_world_document_deterministic_200_raw_v1.json": {
+      "sha256": "8bf43fda52a7264c9db210a7a5d43751a778d1e40887a9ee924670b08e320030",
+      "bytes": 178198,
+      "private": true
+    },
+    "prse_current_world_document_deterministic_200_raw_v2.json": {
+      "sha256": "8450ad52bad0e911e487a2ddd173b39a2e554a52e78d9722bc3cfec2a153465f",
+      "bytes": 178128,
+      "private": true
+    },
+    "prse_current_world_document_union_200_raw_v2.json": {
+      "sha256": "7307bf2b457a8d9de516174f98cae3cd31aca53232d9ccb75eeadaa92c944614",
+      "bytes": 176387,
+      "private": true
+    },
+    "prse_legacy_describe_support_claims_200_raw_v1.json": {
+      "sha256": "abd267fa73844cff912bf0fd7bf367b666d1fcbbb7d80e74241a2592bb4aaf09",
+      "bytes": 34867,
+      "private": true
+    }
+  }
+}

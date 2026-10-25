@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "purpose": "Actual authoritative GameCore/Rapier → current textual world state → offscreen semantic causality → saved reentry",
+    "caveat": "Selected external row22 and separately authored offscreen note example; no human LLM literary-quality or random novel world test"
+  },
+  "externalSource": {
+    "source": "SceneEval original human-authored row22; specifically selected non-blind cause continuity example",
+    "sourceImmutable": true,
+    "initialVerifiedSupport": 1,
+    "unchangedWorldTimeDidNotRewriteNarrative": true,
+    "afterRealPhysicsSupportFalse": true,
+    "noPreviouslyFalseSourceRelationPrintedAsCurrentSupport": true,
+    "nativeContactSolverAndSemanticDocumentSaved": true,
+    "revisionHistoryRetained": true,
+    "exactCurrentDocumentRegeneratedAfterRestore": true,
+    "noInventedCauseInPresentWorldDocument": true
+  },
+  "authoredOffscreen": {
+    "originallyMaterialized": 2,
+    "qualifiedTextWhileUnloaded": true,
+    "absentPhysicalStateNotClaimedAsCurrentlySimulated": true,
+    "originalTextNeverOverwritten": true,
+    "semanticOffscreenDurationSeconds": 12,
+    "destroyedOriginalIDPreserved": true,
+    "distinctNativeAshColliderRematerialized": true,
+    "currentSemanticTextMentionsPresentAsh": true,
+    "witnessedIgnitionLeakCount": 0,
+    "repeatAfterSecondSave": 0,
+    "nativeAndSemanticTimeMatch": true,
+    "revisions": 4
+  },
+  "tampering": {
+    "inconsistentClaimsRejected": true,
+    "futureDatedRevisionRejected": true,
+    "caveat": "Owner-trusted SHA integrity only, not signed adversarial save authentication"
+  }
+}

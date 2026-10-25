@@ -1,0 +1,19 @@
+{
+  "summary": {
+    "scenes": 200,
+    "accepted": 197,
+    "rejected": 3,
+    "savedNonFloorSupportClaims": 39,
+    "physicalTrue": 39,
+    "physicalFalse": 0,
+    "physicalUnknown": 0,
+    "staleTextWouldSaySupported": 39,
+    "staleTextAmongPhysicalFalse": 0,
+    "staleTextAmongPhysicalUnknown": 0,
+    "unsupportedByReason": {}
+  },
+  "source": "Actual GameCore Rapier, source IDs 0:99 and 100:496 every fourth",
+  "nonGenerative": true,
+  "privateRawSHA256": "abd267fa73844cff912bf0fd7bf367b666d1fcbbb7d80e74241a2592bb4aaf09",
+  "privateRawPath": "/data/var/games/prse_semantic_research/runs/2026-10-25-current-document/prse_legacy_describe_support_claims_200_raw_v1.json"
+}

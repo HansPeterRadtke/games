@@ -1,4 +1,7 @@
 # PRSE — literary source preservation, observer truth and three-dimensional world revisions
+
+> **Subsequent research:** The [current semantic-world document study](PRSE_CURRENT_SEMANTIC_WORLD_DOCUMENT_2026-10-25.md) adds a regenerable current textual state with physically true/false/unknown relations, explicit unloaded identities and versioned native save/re-entry. It preserves an initial seven-case narrative-timestamp failure and keeps this earlier observer/source-revision work separately supported. This is a necessary intermediate representation, not completed source-faithful literary rewriting.
+
 25 October 2026 — continuing the same original Games research
 
 ## Owner’s actual objective

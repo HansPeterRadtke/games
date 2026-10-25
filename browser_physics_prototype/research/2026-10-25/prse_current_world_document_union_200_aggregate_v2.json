@@ -1,0 +1,1641 @@
+{
+  "metadata": {
+    "method": "Source-preserving structured current-world document evaluated on actual existing Rapier/GameCore materializations",
+    "source": "External SceneEval-500 descriptions, same first100 human and every-fourth assisted100 as earlier research",
+    "sourceLabelsNotRead": true,
+    "noHumanOrLanguageModel": true,
+    "mode": "union",
+    "limits": "Physically verified facts and qualified latent records are NOT fluent revised literature; source semantic parser remains extremely incomplete",
+    "privateRawSHA256": "7307bf2b457a8d9de516174f98cae3cd31aca53232d9ccb75eeadaa92c944614",
+    "privateRawFile": "/data/var/games/prse_semantic_research/runs/2026-10-25-current-document/prse_current_world_document_union_200_raw_v2.json"
+  },
+  "summary": {
+    "sourceScenes": 200,
+    "parser": "union",
+    "sourceGroups": {
+      "human": 100,
+      "assisted": 100
+    },
+    "accepted": 195,
+    "physicalSceneRejected": 5,
+    "runtimeFailures": 0,
+    "currentPhysicalEntityClaims": 924,
+    "currentUnloadedIdentityClaims": 0,
+    "sourceRelationsPhysicallyVerified": 133,
+    "sourceRelationsPhysicallyContradicted": 41,
+    "sourceRelationsNotVerifiable": 407,
+    "physicallyVerifiedExtraSupportStatements": 12,
+    "unsupportedOriginalRelationsNarrated": 0,
+    "semanticsChangedAfterNativeImpulse": 57,
+    "noDuplicateUnchangedRevision": 195,
+    "validNativeWorldAndSemanticJournalSave": 195,
+    "nativeResumedPhysicalSourceTruthEqual": 195,
+    "originalHistoricalDescriptionBytes": 50612,
+    "previousPRSECurrentProseBytes": 20234,
+    "newCanonicalCurrentDocumentBytes": 23489,
+    "wallSeconds": 35.93
+  },
+  "failures": [],
+  "statusByScene": [
+    {
+      "id": 0,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 90
+    },
+    {
+      "id": 1,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 40
+    },
+    {
+      "id": 2,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 88
+    },
+    {
+      "id": 3,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 159
+    },
+    {
+      "id": 4,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 4,
+      "changed": 0,
+      "bytes": 74
+    },
+    {
+      "id": 5,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 108
+    },
+    {
+      "id": 6,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 67
+    },
+    {
+      "id": 7,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 59
+    },
+    {
+      "id": 8,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 86
+    },
+    {
+      "id": 9,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 4,
+      "changed": 1,
+      "bytes": 96
+    },
+    {
+      "id": 10,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 4,
+      "changed": 0,
+      "bytes": 90
+    },
+    {
+      "id": 11,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 5,
+      "changed": 0,
+      "bytes": 76
+    },
+    {
+      "id": 12,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 156
+    },
+    {
+      "id": 13,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 5,
+      "changed": 0,
+      "bytes": 125
+    },
+    {
+      "id": 14,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 71
+    },
+    {
+      "id": 15,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 107
+    },
+    {
+      "id": 16,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 170
+    },
+    {
+      "id": 17,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 4,
+      "changed": 0,
+      "bytes": 99
+    },
+    {
+      "id": 18,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 39
+    },
+    {
+      "id": 19,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 155
+    },
+    {
+      "id": 20,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 191
+    },
+    {
+      "id": 21,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 120
+    },
+    {
+      "id": 22,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 1,
+      "changed": 1,
+      "bytes": 164
+    },
+    {
+      "id": 23,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 0,
+      "changed": 1,
+      "bytes": 201
+    },
+    {
+      "id": 24,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 185
+    },
+    {
+      "id": 25,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 221
+    },
+    {
+      "id": 26,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 99
+    },
+    {
+      "id": 27,
+      "status": "verified",
+      "verified": 3,
+      "ambiguous": 4,
+      "changed": 1,
+      "bytes": 209
+    },
+    {
+      "id": 28,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 151
+    },
+    {
+      "id": 29,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 7,
+      "changed": 1,
+      "bytes": 258
+    },
+    {
+      "id": 30,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 103
+    },
+    {
+      "id": 31,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 161
+    },
+    {
+      "id": 32,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 199
+    },
+    {
+      "id": 33,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 135
+    },
+    {
+      "id": 34,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 136
+    },
+    {
+      "id": 35,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 7,
+      "changed": 0,
+      "bytes": 102
+    },
+    {
+      "id": 36,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 181
+    },
+    {
+      "id": 37,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 112
+    },
+    {
+      "id": 38,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 219
+    },
+    {
+      "id": 39,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 106
+    },
+    {
+      "id": 40,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 289
+    },
+    {
+      "id": 41,
+      "status": "verified",
+      "verified": 4,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 370
+    },
+    {
+      "id": 42,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 148
+    },
+    {
+      "id": 43,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 1,
+      "changed": 1,
+      "bytes": 343
+    },
+    {
+      "id": 44,
+      "status": "verified",
+      "verified": 5,
+      "ambiguous": 9,
+      "changed": 1,
+      "bytes": 446
+    },
+    {
+      "id": 45,
+      "status": "source_layout_rejected",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 0
+    },
+    {
+      "id": 46,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 193
+    },
+    {
+      "id": 47,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 170
+    },
+    {
+      "id": 48,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 126
+    },
+    {
+      "id": 49,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 4,
+      "changed": 1,
+      "bytes": 366
+    },
+    {
+      "id": 50,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 60
+    },
+    {
+      "id": 51,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 1,
+      "bytes": 78
+    },
+    {
+      "id": 52,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 57
+    },
+    {
+      "id": 53,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 74
+    },
+    {
+      "id": 54,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 38
+    },
+    {
+      "id": 55,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 37
+    },
+    {
+      "id": 56,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 45
+    },
+    {
+      "id": 57,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 69
+    },
+    {
+      "id": 58,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 19
+    },
+    {
+      "id": 59,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 39
+    },
+    {
+      "id": 60,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 0
+    },
+    {
+      "id": 61,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 17
+    },
+    {
+      "id": 62,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 99
+    },
+    {
+      "id": 63,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 38
+    },
+    {
+      "id": 64,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 80
+    },
+    {
+      "id": 65,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 49
+    },
+    {
+      "id": 66,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 73
+    },
+    {
+      "id": 67,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 81
+    },
+    {
+      "id": 68,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 91
+    },
+    {
+      "id": 69,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 20
+    },
+    {
+      "id": 70,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 4,
+      "changed": 1,
+      "bytes": 125
+    },
+    {
+      "id": 71,
+      "status": "verified",
+      "verified": 3,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 233
+    },
+    {
+      "id": 72,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 154
+    },
+    {
+      "id": 73,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 107
+    },
+    {
+      "id": 74,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 45
+    },
+    {
+      "id": 75,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 39
+    },
+    {
+      "id": 76,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 64
+    },
+    {
+      "id": 77,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 67
+    },
+    {
+      "id": 78,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 39
+    },
+    {
+      "id": 79,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 99
+    },
+    {
+      "id": 80,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 79
+    },
+    {
+      "id": 81,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 119
+    },
+    {
+      "id": 82,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 60
+    },
+    {
+      "id": 83,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 62
+    },
+    {
+      "id": 84,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 159
+    },
+    {
+      "id": 85,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 127
+    },
+    {
+      "id": 86,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 20
+    },
+    {
+      "id": 87,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 94
+    },
+    {
+      "id": 88,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 56
+    },
+    {
+      "id": 89,
+      "status": "source_layout_rejected",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 0
+    },
+    {
+      "id": 90,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 131
+    },
+    {
+      "id": 91,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 5,
+      "changed": 1,
+      "bytes": 150
+    },
+    {
+      "id": 92,
+      "status": "verified",
+      "verified": 3,
+      "ambiguous": 4,
+      "changed": 1,
+      "bytes": 241
+    },
+    {
+      "id": 93,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 107
+    },
+    {
+      "id": 94,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 84
+    },
+    {
+      "id": 95,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 19
+    },
+    {
+      "id": 96,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 65
+    },
+    {
+      "id": 97,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 233
+    },
+    {
+      "id": 98,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 6,
+      "changed": 1,
+      "bytes": 276
+    },
+    {
+      "id": 99,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 7,
+      "changed": 1,
+      "bytes": 302
+    },
+    {
+      "id": 100,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 94
+    },
+    {
+      "id": 104,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 17
+    },
+    {
+      "id": 108,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 4,
+      "changed": 0,
+      "bytes": 62
+    },
+    {
+      "id": 112,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 68
+    },
+    {
+      "id": 116,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 45
+    },
+    {
+      "id": 120,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 4,
+      "changed": 0,
+      "bytes": 72
+    },
+    {
+      "id": 124,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 116
+    },
+    {
+      "id": 128,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 0,
+      "changed": 1,
+      "bytes": 144
+    },
+    {
+      "id": 132,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 128
+    },
+    {
+      "id": 136,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 44
+    },
+    {
+      "id": 140,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 1,
+      "bytes": 38
+    },
+    {
+      "id": 144,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 76
+    },
+    {
+      "id": 148,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 82
+    },
+    {
+      "id": 152,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 40
+    },
+    {
+      "id": 156,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 73
+    },
+    {
+      "id": 160,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 69
+    },
+    {
+      "id": 164,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 4,
+      "changed": 0,
+      "bytes": 91
+    },
+    {
+      "id": 168,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 62
+    },
+    {
+      "id": 172,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 20
+    },
+    {
+      "id": 176,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 42
+    },
+    {
+      "id": 180,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 16
+    },
+    {
+      "id": 184,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 41
+    },
+    {
+      "id": 188,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 93
+    },
+    {
+      "id": 192,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 108
+    },
+    {
+      "id": 196,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 101
+    },
+    {
+      "id": 200,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 62
+    },
+    {
+      "id": 204,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 112
+    },
+    {
+      "id": 208,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 96
+    },
+    {
+      "id": 212,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 1,
+      "bytes": 104
+    },
+    {
+      "id": 216,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 1,
+      "bytes": 118
+    },
+    {
+      "id": 220,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 205
+    },
+    {
+      "id": 224,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 1,
+      "changed": 1,
+      "bytes": 100
+    },
+    {
+      "id": 228,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 133
+    },
+    {
+      "id": 232,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 120
+    },
+    {
+      "id": 236,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 220
+    },
+    {
+      "id": 240,
+      "status": "source_layout_rejected",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 0
+    },
+    {
+      "id": 244,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 110
+    },
+    {
+      "id": 248,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 155
+    },
+    {
+      "id": 252,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 63
+    },
+    {
+      "id": 256,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 39
+    },
+    {
+      "id": 260,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 1,
+      "bytes": 65
+    },
+    {
+      "id": 264,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 1,
+      "bytes": 78
+    },
+    {
+      "id": 268,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 148
+    },
+    {
+      "id": 272,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 122
+    },
+    {
+      "id": 276,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 85
+    },
+    {
+      "id": 280,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 157
+    },
+    {
+      "id": 284,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 203
+    },
+    {
+      "id": 288,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 179
+    },
+    {
+      "id": 292,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 87
+    },
+    {
+      "id": 296,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 1,
+      "bytes": 77
+    },
+    {
+      "id": 300,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 106
+    },
+    {
+      "id": 304,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 68
+    },
+    {
+      "id": 308,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 81
+    },
+    {
+      "id": 312,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 40
+    },
+    {
+      "id": 316,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 60
+    },
+    {
+      "id": 320,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 82
+    },
+    {
+      "id": 324,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 40
+    },
+    {
+      "id": 328,
+      "status": "source_layout_rejected",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 0
+    },
+    {
+      "id": 332,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 86
+    },
+    {
+      "id": 336,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 4,
+      "changed": 0,
+      "bytes": 84
+    },
+    {
+      "id": 340,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 123
+    },
+    {
+      "id": 344,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 1,
+      "bytes": 80
+    },
+    {
+      "id": 348,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 170
+    },
+    {
+      "id": 352,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 90
+    },
+    {
+      "id": 356,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 166
+    },
+    {
+      "id": 360,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 105
+    },
+    {
+      "id": 364,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 122
+    },
+    {
+      "id": 368,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 68
+    },
+    {
+      "id": 372,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 195
+    },
+    {
+      "id": 376,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 1,
+      "changed": 1,
+      "bytes": 189
+    },
+    {
+      "id": 380,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 7,
+      "changed": 1,
+      "bytes": 258
+    },
+    {
+      "id": 384,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 209
+    },
+    {
+      "id": 388,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 220
+    },
+    {
+      "id": 392,
+      "status": "verified",
+      "verified": 3,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 300
+    },
+    {
+      "id": 396,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 210
+    },
+    {
+      "id": 400,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 110
+    },
+    {
+      "id": 404,
+      "status": "source_layout_rejected",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 0
+    },
+    {
+      "id": 408,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 39
+    },
+    {
+      "id": 412,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 5,
+      "changed": 1,
+      "bytes": 185
+    },
+    {
+      "id": 416,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 104
+    },
+    {
+      "id": 420,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 124
+    },
+    {
+      "id": 424,
+      "status": "verified",
+      "verified": 3,
+      "ambiguous": 10,
+      "changed": 1,
+      "bytes": 358
+    },
+    {
+      "id": 428,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 177
+    },
+    {
+      "id": 432,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 5,
+      "changed": 0,
+      "bytes": 101
+    },
+    {
+      "id": 436,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 136
+    },
+    {
+      "id": 440,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 1,
+      "changed": 0,
+      "bytes": 168
+    },
+    {
+      "id": 444,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 103
+    },
+    {
+      "id": 448,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 2,
+      "changed": 0,
+      "bytes": 134
+    },
+    {
+      "id": 452,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 102
+    },
+    {
+      "id": 456,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 127
+    },
+    {
+      "id": 460,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 0,
+      "changed": 0,
+      "bytes": 61
+    },
+    {
+      "id": 464,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 4,
+      "changed": 0,
+      "bytes": 194
+    },
+    {
+      "id": 468,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 3,
+      "changed": 1,
+      "bytes": 149
+    },
+    {
+      "id": 472,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 4,
+      "changed": 0,
+      "bytes": 151
+    },
+    {
+      "id": 476,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 5,
+      "changed": 0,
+      "bytes": 200
+    },
+    {
+      "id": 480,
+      "status": "verified",
+      "verified": 2,
+      "ambiguous": 2,
+      "changed": 1,
+      "bytes": 170
+    },
+    {
+      "id": 484,
+      "status": "verified",
+      "verified": 3,
+      "ambiguous": 4,
+      "changed": 1,
+      "bytes": 309
+    },
+    {
+      "id": 488,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 6,
+      "changed": 1,
+      "bytes": 144
+    },
+    {
+      "id": 492,
+      "status": "verified",
+      "verified": 0,
+      "ambiguous": 4,
+      "changed": 0,
+      "bytes": 171
+    },
+    {
+      "id": 496,
+      "status": "verified",
+      "verified": 1,
+      "ambiguous": 3,
+      "changed": 0,
+      "bytes": 161
+    }
+  ]
+}
