@@ -1,0 +1,1038 @@
+{
+  "metadata": {
+    "method": "pretrained CPU syntax-assisted union textual relations; same deterministic local geometry repair and native PRSE GameCore/Rapier stepping as frozen old experiment",
+    "pretrainedSyntaxModel": "spaCy en_core_web_sm 3.8.0, not generative LLM",
+    "noGoldUsed": true,
+    "source": "official SceneEval-500 v250610 external descriptions; human first100 or every4th assisted100",
+    "humanHoldout": "NOT preregistered; corpus partially inspected during earlier studies",
+    "limits": "one physical subscene per text, fixed approximate furniture dimensions, no occlusion/visual material truth, only typed relation checks",
+    "maxSweeps": 2,
+    "maxCandidateAttemptsPerScene": 150,
+    "runRevision": 1,
+    "privateRawResultFile": "/data/var/games/prse_semantic_research/runs/2026-10-25-syntax-model-physics/prse_syntax_union_human_100_raw_v1.json",
+    "rawSHA256": "06dc1debb1d09863ba3189670fa058560202906af1322b3edaf82634d9e15343"
+  },
+  "summary": {
+    "sample": "human",
+    "sourceDescriptions": 100,
+    "physicallyMaterialized": 97,
+    "rejectedInvalid": 2,
+    "noEntities": 1,
+    "runtimeFailure": 0,
+    "stableOriginalIdentitiesAndProse": 97,
+    "parsedConstraints": 272,
+    "beforeGreedySatisfied": 156,
+    "afterProposedSatisfied": 188,
+    "afterActualPhysicsSatisfied": 182,
+    "afterActualPhysicsViolated": 21,
+    "afterActualPhysicsUnsupported": 59,
+    "sceneCorrections": 30,
+    "correctedScenes": 23,
+    "totalCandidateChecks": 973,
+    "wallTimeMs": 8804.6
+  },
+  "statusCounts": {
+    "materialized_and_reloaded": 97,
+    "invalid_scene_rejected": 2,
+    "no_entities": 1
+  },
+  "beforeAfterById": [
+    {
+      "id": "0",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "1",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "2",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "3",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "4",
+      "status": "materialized_and_reloaded",
+      "greedy": 3,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "5",
+      "status": "materialized_and_reloaded",
+      "greedy": 3,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "6",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "7",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "8",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "9",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 4,
+      "physicallyGrounded": 4,
+      "violations": 0,
+      "edits": 2,
+      "saveReliable": true
+    },
+    {
+      "id": "10",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "11",
+      "status": "materialized_and_reloaded",
+      "greedy": 3,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "12",
+      "status": "materialized_and_reloaded",
+      "greedy": 3,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "13",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "14",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "15",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "16",
+      "status": "materialized_and_reloaded",
+      "greedy": 3,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "17",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "18",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "19",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "20",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "21",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "22",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "23",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "24",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "25",
+      "status": "materialized_and_reloaded",
+      "greedy": 4,
+      "optimized": 4,
+      "physicallyGrounded": 4,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "26",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "27",
+      "status": "materialized_and_reloaded",
+      "greedy": 3,
+      "optimized": 4,
+      "physicallyGrounded": 4,
+      "violations": 1,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "28",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "29",
+      "status": "materialized_and_reloaded",
+      "greedy": 5,
+      "optimized": 6,
+      "physicallyGrounded": 6,
+      "violations": 1,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "30",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "31",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "32",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 4,
+      "physicallyGrounded": 4,
+      "violations": 0,
+      "edits": 2,
+      "saveReliable": true
+    },
+    {
+      "id": "33",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "34",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "35",
+      "status": "materialized_and_reloaded",
+      "greedy": 3,
+      "optimized": 4,
+      "physicallyGrounded": 4,
+      "violations": 0,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "36",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "37",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "38",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "39",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "40",
+      "status": "materialized_and_reloaded",
+      "greedy": 4,
+      "optimized": 4,
+      "physicallyGrounded": 4,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "41",
+      "status": "materialized_and_reloaded",
+      "greedy": 4,
+      "optimized": 7,
+      "physicallyGrounded": 7,
+      "violations": 0,
+      "edits": 3,
+      "saveReliable": true
+    },
+    {
+      "id": "42",
+      "status": "materialized_and_reloaded",
+      "greedy": 3,
+      "optimized": 4,
+      "physicallyGrounded": 4,
+      "violations": 0,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "43",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "44",
+      "status": "materialized_and_reloaded",
+      "greedy": 7,
+      "optimized": 7,
+      "physicallyGrounded": 7,
+      "violations": 2,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "45",
+      "status": "invalid_scene_rejected",
+      "greedy": 4,
+      "optimized": 4,
+      "physicallyGrounded": null,
+      "violations": null,
+      "edits": 0
+    },
+    {
+      "id": "46",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "47",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "48",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "49",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 1,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "50",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "51",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "52",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "53",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "54",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "55",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "56",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "57",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "58",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "59",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "60",
+      "status": "no_entities",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": null,
+      "violations": null,
+      "edits": 0
+    },
+    {
+      "id": "61",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "62",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "63",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "64",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "65",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "66",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "67",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "68",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "69",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "70",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 2,
+      "saveReliable": true
+    },
+    {
+      "id": "71",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 1,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "72",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "73",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "74",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "75",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "76",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "77",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "78",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "79",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "80",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "81",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "82",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "83",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "84",
+      "status": "materialized_and_reloaded",
+      "greedy": 3,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "85",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "86",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "87",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "88",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "89",
+      "status": "invalid_scene_rejected",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": null,
+      "violations": null,
+      "edits": 0
+    },
+    {
+      "id": "90",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 1,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "91",
+      "status": "materialized_and_reloaded",
+      "greedy": 3,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "92",
+      "status": "materialized_and_reloaded",
+      "greedy": 5,
+      "optimized": 7,
+      "physicallyGrounded": 7,
+      "violations": 0,
+      "edits": 2,
+      "saveReliable": true
+    },
+    {
+      "id": "93",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "94",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 2,
+      "physicallyGrounded": 2,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "95",
+      "status": "materialized_and_reloaded",
+      "greedy": 0,
+      "optimized": 0,
+      "physicallyGrounded": 0,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "96",
+      "status": "materialized_and_reloaded",
+      "greedy": 1,
+      "optimized": 1,
+      "physicallyGrounded": 1,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "97",
+      "status": "materialized_and_reloaded",
+      "greedy": 3,
+      "optimized": 3,
+      "physicallyGrounded": 3,
+      "violations": 0,
+      "edits": 0,
+      "saveReliable": true
+    },
+    {
+      "id": "98",
+      "status": "materialized_and_reloaded",
+      "greedy": 3,
+      "optimized": 4,
+      "physicallyGrounded": 4,
+      "violations": 1,
+      "edits": 1,
+      "saveReliable": true
+    },
+    {
+      "id": "99",
+      "status": "materialized_and_reloaded",
+      "greedy": 2,
+      "optimized": 4,
+      "physicallyGrounded": 4,
+      "violations": 0,
+      "edits": 2,
+      "saveReliable": true
+    }
+  ]
+}

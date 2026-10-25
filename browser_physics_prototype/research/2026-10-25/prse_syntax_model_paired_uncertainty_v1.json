@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "method": "paired scene-level nonparametric bootstrap, 4000 resamples with deterministic seed 20261025",
+    "metric": "difference in physically grounded SceneEval unordered type-pair recall, matched gold count over gold annotations",
+    "limitation": "SceneEval is curated and not iid across all possible literary games. Intervals measure benchmark resampling variability, not prospective human-world accuracy.",
+    "input": "frozen independently annotated physical scene outputs; no parser or physics output is modified by this scorer"
+  },
+  "comparisons": {
+    "human": {
+      "dependency": {
+        "benchmarkGoldClaims": 478,
+        "baselineMatched": 30,
+        "modelMatched": 33,
+        "recallDifference": 0.006276150627615063,
+        "bootstrapPercentile95": [
+          -0.013729977116704805,
+          0.024774774774774775
+        ],
+        "bootstrapFractionImproved": 0.70325,
+        "perSceneGains": 8,
+        "perSceneLosses": 6,
+        "perSceneUnchanged": 86
+      },
+      "union": {
+        "benchmarkGoldClaims": 478,
+        "baselineMatched": 30,
+        "modelMatched": 35,
+        "recallDifference": 0.010460251046025104,
+        "bootstrapPercentile95": [
+          0.0,
+          0.02231237322515213
+        ],
+        "bootstrapFractionImproved": 0.94725,
+        "perSceneGains": 7,
+        "perSceneLosses": 2,
+        "perSceneUnchanged": 91
+      }
+    },
+    "assisted": {
+      "dependency": {
+        "benchmarkGoldClaims": 743,
+        "baselineMatched": 22,
+        "modelMatched": 21,
+        "recallDifference": -0.0013458950201884253,
+        "bootstrapPercentile95": [
+          -0.008557457212713936,
+          0.005555555555555556
+        ],
+        "bootstrapFractionImproved": 0.28475,
+        "perSceneGains": 3,
+        "perSceneLosses": 4,
+        "perSceneUnchanged": 93
+      },
+      "union": {
+        "benchmarkGoldClaims": 743,
+        "baselineMatched": 22,
+        "modelMatched": 23,
+        "recallDifference": 0.0013458950201884253,
+        "bootstrapPercentile95": [
+          -0.004477611940298508,
+          0.007556675062972292
+        ],
+        "bootstrapFractionImproved": 0.5825,
+        "perSceneGains": 3,
+        "perSceneLosses": 2,
+        "perSceneUnchanged": 95
+      }
+    }
+  }
+}

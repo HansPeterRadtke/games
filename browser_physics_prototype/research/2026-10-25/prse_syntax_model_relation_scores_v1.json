@@ -1,0 +1,460 @@
+{
+  "metadata": {
+    "source": "Official SceneEval-500_v250610 external annotations evaluated only after proposals frozen",
+    "sourceZIPsha256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "model": "CPU pretrained spaCy en_core_web_sm 3.8.0 syntax model + authored dependency relation mapping",
+    "goldDataNeverInModel": "Input source descriptions only. No fine tuning or model-selection based on these gold annotations.",
+    "strictDirectionLimit": "Strict uses source annotation type order; still not instance-specific physical truth",
+    "unorderedLimit": "Optimistic relation-type and unordered class pair, matches prior studies, not exact scene meaning",
+    "developmentContamination": "First 35 manually inspected; all500 previously evaluated on deterministic baseline; remaining subsets not untouched outer holdouts"
+  },
+  "variants": {
+    "deterministic": {
+      "provenanceSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+      "splits": {
+        "development35": {
+          "unordered": {
+            "scenes": 35,
+            "expectedAnnotations": 178,
+            "predictedClaims": 82,
+            "matched": 62,
+            "precision": 0.7560975609756098,
+            "recall": 0.34831460674157305,
+            "f1": 0.4769230769230769,
+            "falsePositiveClaims": 20,
+            "missingClaims": 116
+          },
+          "ordered": {
+            "scenes": 35,
+            "expectedAnnotations": 178,
+            "predictedClaims": 82,
+            "matched": 32,
+            "precision": 0.3902439024390244,
+            "recall": 0.1797752808988764,
+            "f1": 0.24615384615384617,
+            "falsePositiveClaims": 50,
+            "missingClaims": 146
+          }
+        },
+        "later65": {
+          "unordered": {
+            "scenes": 65,
+            "expectedAnnotations": 590,
+            "predictedClaims": 106,
+            "matched": 38,
+            "precision": 0.3584905660377358,
+            "recall": 0.06440677966101695,
+            "f1": 0.10919540229885058,
+            "falsePositiveClaims": 68,
+            "missingClaims": 552
+          },
+          "ordered": {
+            "scenes": 65,
+            "expectedAnnotations": 590,
+            "predictedClaims": 106,
+            "matched": 30,
+            "precision": 0.2830188679245283,
+            "recall": 0.05084745762711865,
+            "f1": 0.08620689655172413,
+            "falsePositiveClaims": 76,
+            "missingClaims": 560
+          }
+        },
+        "human100": {
+          "unordered": {
+            "scenes": 100,
+            "expectedAnnotations": 768,
+            "predictedClaims": 188,
+            "matched": 100,
+            "precision": 0.5319148936170213,
+            "recall": 0.13020833333333334,
+            "f1": 0.20920502092050208,
+            "falsePositiveClaims": 88,
+            "missingClaims": 668
+          },
+          "ordered": {
+            "scenes": 100,
+            "expectedAnnotations": 768,
+            "predictedClaims": 188,
+            "matched": 62,
+            "precision": 0.32978723404255317,
+            "recall": 0.08072916666666667,
+            "f1": 0.1297071129707113,
+            "falsePositiveClaims": 126,
+            "missingClaims": 706
+          }
+        },
+        "assisted400": {
+          "unordered": {
+            "scenes": 400,
+            "expectedAnnotations": 3803,
+            "predictedClaims": 880,
+            "matched": 224,
+            "precision": 0.2545454545454545,
+            "recall": 0.0589008677359979,
+            "f1": 0.09566517189835576,
+            "falsePositiveClaims": 656,
+            "missingClaims": 3579
+          },
+          "ordered": {
+            "scenes": 400,
+            "expectedAnnotations": 3803,
+            "predictedClaims": 882,
+            "matched": 138,
+            "precision": 0.1564625850340136,
+            "recall": 0.03628714173021299,
+            "f1": 0.058911419423692636,
+            "falsePositiveClaims": 744,
+            "missingClaims": 3665
+          }
+        },
+        "assistedSample100": {
+          "unordered": {
+            "scenes": 100,
+            "expectedAnnotations": 966,
+            "predictedClaims": 230,
+            "matched": 59,
+            "precision": 0.2565217391304348,
+            "recall": 0.061076604554865424,
+            "f1": 0.09866220735785954,
+            "falsePositiveClaims": 171,
+            "missingClaims": 907
+          },
+          "ordered": {
+            "scenes": 100,
+            "expectedAnnotations": 966,
+            "predictedClaims": 230,
+            "matched": 35,
+            "precision": 0.15217391304347827,
+            "recall": 0.036231884057971016,
+            "f1": 0.05852842809364549,
+            "falsePositiveClaims": 195,
+            "missingClaims": 931
+          }
+        },
+        "all500": {
+          "unordered": {
+            "scenes": 500,
+            "expectedAnnotations": 4571,
+            "predictedClaims": 1068,
+            "matched": 324,
+            "precision": 0.30337078651685395,
+            "recall": 0.0708816451542332,
+            "f1": 0.11491399184252528,
+            "falsePositiveClaims": 744,
+            "missingClaims": 4247
+          },
+          "ordered": {
+            "scenes": 500,
+            "expectedAnnotations": 4571,
+            "predictedClaims": 1070,
+            "matched": 200,
+            "precision": 0.18691588785046728,
+            "recall": 0.04375410194705753,
+            "f1": 0.07090941322460556,
+            "falsePositiveClaims": 870,
+            "missingClaims": 4371
+          }
+        }
+      }
+    },
+    "dependency": {
+      "provenanceSHA256": "f07f571c6aebfc71b1ae28dcfada207915e1e094730bf71f92d1f0ac01482b41",
+      "splits": {
+        "development35": {
+          "unordered": {
+            "scenes": 35,
+            "expectedAnnotations": 178,
+            "predictedClaims": 86,
+            "matched": 56,
+            "precision": 0.6511627906976745,
+            "recall": 0.3146067415730337,
+            "f1": 0.42424242424242425,
+            "falsePositiveClaims": 30,
+            "missingClaims": 122
+          },
+          "ordered": {
+            "scenes": 35,
+            "expectedAnnotations": 178,
+            "predictedClaims": 86,
+            "matched": 32,
+            "precision": 0.37209302325581395,
+            "recall": 0.1797752808988764,
+            "f1": 0.2424242424242424,
+            "falsePositiveClaims": 54,
+            "missingClaims": 146
+          }
+        },
+        "later65": {
+          "unordered": {
+            "scenes": 65,
+            "expectedAnnotations": 590,
+            "predictedClaims": 120,
+            "matched": 48,
+            "precision": 0.4,
+            "recall": 0.08135593220338982,
+            "f1": 0.1352112676056338,
+            "falsePositiveClaims": 72,
+            "missingClaims": 542
+          },
+          "ordered": {
+            "scenes": 65,
+            "expectedAnnotations": 590,
+            "predictedClaims": 120,
+            "matched": 39,
+            "precision": 0.325,
+            "recall": 0.06610169491525424,
+            "f1": 0.10985915492957747,
+            "falsePositiveClaims": 81,
+            "missingClaims": 551
+          }
+        },
+        "human100": {
+          "unordered": {
+            "scenes": 100,
+            "expectedAnnotations": 768,
+            "predictedClaims": 206,
+            "matched": 104,
+            "precision": 0.5048543689320388,
+            "recall": 0.13541666666666666,
+            "f1": 0.2135523613963039,
+            "falsePositiveClaims": 102,
+            "missingClaims": 664
+          },
+          "ordered": {
+            "scenes": 100,
+            "expectedAnnotations": 768,
+            "predictedClaims": 206,
+            "matched": 71,
+            "precision": 0.3446601941747573,
+            "recall": 0.09244791666666667,
+            "f1": 0.1457905544147844,
+            "falsePositiveClaims": 135,
+            "missingClaims": 697
+          }
+        },
+        "assisted400": {
+          "unordered": {
+            "scenes": 400,
+            "expectedAnnotations": 3803,
+            "predictedClaims": 898,
+            "matched": 271,
+            "precision": 0.30178173719376394,
+            "recall": 0.07125953194846174,
+            "f1": 0.11529461816634759,
+            "falsePositiveClaims": 627,
+            "missingClaims": 3532
+          },
+          "ordered": {
+            "scenes": 400,
+            "expectedAnnotations": 3803,
+            "predictedClaims": 898,
+            "matched": 143,
+            "precision": 0.15924276169265034,
+            "recall": 0.03760189324217723,
+            "f1": 0.06083811954903212,
+            "falsePositiveClaims": 755,
+            "missingClaims": 3660
+          }
+        },
+        "assistedSample100": {
+          "unordered": {
+            "scenes": 100,
+            "expectedAnnotations": 966,
+            "predictedClaims": 236,
+            "matched": 66,
+            "precision": 0.2796610169491525,
+            "recall": 0.06832298136645963,
+            "f1": 0.10981697171381032,
+            "falsePositiveClaims": 170,
+            "missingClaims": 900
+          },
+          "ordered": {
+            "scenes": 100,
+            "expectedAnnotations": 966,
+            "predictedClaims": 236,
+            "matched": 35,
+            "precision": 0.1483050847457627,
+            "recall": 0.036231884057971016,
+            "f1": 0.05823627287853578,
+            "falsePositiveClaims": 201,
+            "missingClaims": 931
+          }
+        },
+        "all500": {
+          "unordered": {
+            "scenes": 500,
+            "expectedAnnotations": 4571,
+            "predictedClaims": 1104,
+            "matched": 375,
+            "precision": 0.33967391304347827,
+            "recall": 0.08203894115073287,
+            "f1": 0.13215859030837004,
+            "falsePositiveClaims": 729,
+            "missingClaims": 4196
+          },
+          "ordered": {
+            "scenes": 500,
+            "expectedAnnotations": 4571,
+            "predictedClaims": 1104,
+            "matched": 214,
+            "precision": 0.19384057971014493,
+            "recall": 0.04681688908335156,
+            "f1": 0.07541850220264318,
+            "falsePositiveClaims": 890,
+            "missingClaims": 4357
+          }
+        }
+      }
+    },
+    "union": {
+      "provenanceSHA256": "1ab843149f19afaf5b16515dd6f57f3e38485dd27be9c3075d0bc67a44c5b776",
+      "splits": {
+        "development35": {
+          "unordered": {
+            "scenes": 35,
+            "expectedAnnotations": 178,
+            "predictedClaims": 106,
+            "matched": 68,
+            "precision": 0.6415094339622641,
+            "recall": 0.38202247191011235,
+            "f1": 0.47887323943661975,
+            "falsePositiveClaims": 38,
+            "missingClaims": 110
+          },
+          "ordered": {
+            "scenes": 35,
+            "expectedAnnotations": 178,
+            "predictedClaims": 106,
+            "matched": 36,
+            "precision": 0.33962264150943394,
+            "recall": 0.20224719101123595,
+            "f1": 0.2535211267605634,
+            "falsePositiveClaims": 70,
+            "missingClaims": 142
+          }
+        },
+        "later65": {
+          "unordered": {
+            "scenes": 65,
+            "expectedAnnotations": 590,
+            "predictedClaims": 166,
+            "matched": 53,
+            "precision": 0.3192771084337349,
+            "recall": 0.08983050847457627,
+            "f1": 0.1402116402116402,
+            "falsePositiveClaims": 113,
+            "missingClaims": 537
+          },
+          "ordered": {
+            "scenes": 65,
+            "expectedAnnotations": 590,
+            "predictedClaims": 166,
+            "matched": 41,
+            "precision": 0.2469879518072289,
+            "recall": 0.06949152542372881,
+            "f1": 0.10846560846560847,
+            "falsePositiveClaims": 125,
+            "missingClaims": 549
+          }
+        },
+        "human100": {
+          "unordered": {
+            "scenes": 100,
+            "expectedAnnotations": 768,
+            "predictedClaims": 272,
+            "matched": 121,
+            "precision": 0.44485294117647056,
+            "recall": 0.15755208333333334,
+            "f1": 0.23269230769230767,
+            "falsePositiveClaims": 151,
+            "missingClaims": 647
+          },
+          "ordered": {
+            "scenes": 100,
+            "expectedAnnotations": 768,
+            "predictedClaims": 272,
+            "matched": 77,
+            "precision": 0.28308823529411764,
+            "recall": 0.10026041666666667,
+            "f1": 0.14807692307692308,
+            "falsePositiveClaims": 195,
+            "missingClaims": 691
+          }
+        },
+        "assisted400": {
+          "unordered": {
+            "scenes": 400,
+            "expectedAnnotations": 3803,
+            "predictedClaims": 1283,
+            "matched": 294,
+            "precision": 0.22915042868277474,
+            "recall": 0.07730738890349724,
+            "f1": 0.11561148250098309,
+            "falsePositiveClaims": 989,
+            "missingClaims": 3509
+          },
+          "ordered": {
+            "scenes": 400,
+            "expectedAnnotations": 3803,
+            "predictedClaims": 1285,
+            "matched": 164,
+            "precision": 0.12762645914396886,
+            "recall": 0.04312384959242703,
+            "f1": 0.06446540880503145,
+            "falsePositiveClaims": 1121,
+            "missingClaims": 3639
+          }
+        },
+        "assistedSample100": {
+          "unordered": {
+            "scenes": 100,
+            "expectedAnnotations": 966,
+            "predictedClaims": 338,
+            "matched": 72,
+            "precision": 0.21301775147928995,
+            "recall": 0.07453416149068323,
+            "f1": 0.11042944785276074,
+            "falsePositiveClaims": 266,
+            "missingClaims": 894
+          },
+          "ordered": {
+            "scenes": 100,
+            "expectedAnnotations": 966,
+            "predictedClaims": 338,
+            "matched": 40,
+            "precision": 0.11834319526627218,
+            "recall": 0.041407867494824016,
+            "f1": 0.06134969325153375,
+            "falsePositiveClaims": 298,
+            "missingClaims": 926
+          }
+        },
+        "all500": {
+          "unordered": {
+            "scenes": 500,
+            "expectedAnnotations": 4571,
+            "predictedClaims": 1555,
+            "matched": 415,
+            "precision": 0.26688102893890675,
+            "recall": 0.09078976154014438,
+            "f1": 0.1354880835781913,
+            "falsePositiveClaims": 1140,
+            "missingClaims": 4156
+          },
+          "ordered": {
+            "scenes": 500,
+            "expectedAnnotations": 4571,
+            "predictedClaims": 1557,
+            "matched": 241,
+            "precision": 0.15478484264611433,
+            "recall": 0.05272369284620433,
+            "f1": 0.07865535248041775,
+            "falsePositiveClaims": 1316,
+            "missingClaims": 4330
+          }
+        }
+      }
+    }
+  }
+}

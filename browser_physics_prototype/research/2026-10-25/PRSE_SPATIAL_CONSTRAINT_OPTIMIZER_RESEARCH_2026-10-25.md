@@ -1,5 +1,8 @@
 # PRSE semantic/physical world research — overnight continuation 1
 
+> **Later independent pretrained syntax comparison:** The new [matched CPU model-versus-deterministic interpreter experiment](PRSE_PRETRAINED_SYNTAX_MODEL_COMPARISON_2026-10-25.md) uses frozen entities and quantities with real spaCy 3.8 dependency parsing; small relationship gains do not establish a general PRSE semantic translator. Earlier raw negative results remain preserved.
+
+
 > **Later observer/causality research:** The subsequent [physical perception and event-time delivery experiment](PRSE_PERCEPTION_EVENT_RESEARCH_2026-10-25.md) tested collider occlusion and persistent observer-specific knowledge on the same frozen source descriptions. The initial spatial extraction failures and this report's measured results remain unchanged.
 
 25 October 2026 — Existing Games research branch, owner priority: literary world ↔ authoritative 3D ↔ updated narrative

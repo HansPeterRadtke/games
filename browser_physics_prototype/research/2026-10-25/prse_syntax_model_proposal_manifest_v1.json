@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "frozenInputSHA256": "b8c59ab06dd3f091cae18fae4090cd2295f0807d00fc77a1597b0c5c48848be6",
+    "spaCyWheelSHA256": "1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85",
+    "spaCyVersion": "3.8.0",
+    "method": "same source object mentions/counts; dependency-only vs union with frozen lexical parser",
+    "sourceScenes": 500,
+    "noGoldLabelsRead": true,
+    "gpuUsed": false,
+    "modelSource": "https://spacy.io/models/en",
+    "modelLicense": "MIT",
+    "parseWallTimeSeconds": 8.696
+  },
+  "variants": {
+    "dependency": {
+      "sha256": "f07f571c6aebfc71b1ae28dcfada207915e1e094730bf71f92d1f0ac01482b41",
+      "privatePath": "/data/var/games/prse_semantic_research/runs/2026-10-25-syntax-model/prse_spacy_sceneeval_500_dependency_v1.json",
+      "bytes": 1790609,
+      "counts": {
+        "human_100": {
+          "descriptions": 100,
+          "objectsReported": 502,
+          "predictedObjectRelations": 98,
+          "predictedRoomRelations": 108
+        },
+        "assisted_400": {
+          "descriptions": 400,
+          "objectsReported": 1877,
+          "predictedObjectRelations": 544,
+          "predictedRoomRelations": 354
+        },
+        "all_500": {
+          "descriptions": 500,
+          "objectsReported": 2379,
+          "predictedObjectRelations": 642,
+          "predictedRoomRelations": 462
+        }
+      }
+    },
+    "union": {
+      "sha256": "1ab843149f19afaf5b16515dd6f57f3e38485dd27be9c3075d0bc67a44c5b776",
+      "privatePath": "/data/var/games/prse_semantic_research/runs/2026-10-25-syntax-model/prse_spacy_sceneeval_500_union_v1.json",
+      "bytes": 1955967,
+      "counts": {
+        "human_100": {
+          "descriptions": 100,
+          "objectsReported": 502,
+          "predictedObjectRelations": 138,
+          "predictedRoomRelations": 134
+        },
+        "assisted_400": {
+          "descriptions": 400,
+          "objectsReported": 1877,
+          "predictedObjectRelations": 771,
+          "predictedRoomRelations": 514
+        },
+        "all_500": {
+          "descriptions": 500,
+          "objectsReported": 2379,
+          "predictedObjectRelations": 909,
+          "predictedRoomRelations": 648
+        }
+      }
+    }
+  }
+}
