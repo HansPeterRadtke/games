@@ -1,0 +1,27 @@
+{
+  "provenance": {
+    "externalText": "SceneEval-500 human authored row7 (source held private)",
+    "remaining": "Two explicitly synthetic logical-contradiction regression examples; NOT empirical generalization",
+    "codePath": "text-only parsed proposals -> prior compiler/constraint repair -> actual GameCore Rapier + saved state"
+  },
+  "sourceNegation": {
+    "sourceId": "7",
+    "noCoffeeTableObserved": true,
+    "sceneContainsExpectedSofa": true,
+    "preservedPhysicalEntityIDs": true,
+    "sourceStillVerbatim": true
+  },
+  "contradiction": {
+    "source": "synthetic contradiction (not a human data point)",
+    "constraints": 2,
+    "satisfied": 1,
+    "rejectedAsFullySatisfied": true,
+    "geometryValid": true,
+    "unverifiableIsNotClaimed": true
+  },
+  "unknownSemantics": {
+    "ambiguousEntityNotMaterialized": true,
+    "typedRefusal": true,
+    "unverifiedSupportNotClaimed": true
+  }
+}

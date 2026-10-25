@@ -1,5 +1,8 @@
 # PRSE semantic-grounding continuation — 25 October 2026
 
+> **Subsequent continuation:** A later isolated CPU-only comparison held text proposals fixed and tested bounded local spatial repair against the earlier greedy layout on the same external prompt IDs. The improvements are small compared with the large language-grounding deficit. The original results here remain preserved. See [25 October optimizer research](../2026-10-25/PRSE_SPATIAL_CONSTRAINT_OPTIMIZER_RESEARCH_2026-10-25.md).
+
+
 ## Research focus and source priority
 
 This continuation advances the owner's principal PRSE question: can general literary or semantic descriptions become meaningful real three-dimensional physical scenes, change through actual authoritative physics, and become truthful persistent semantic/literary state across offscreen time and re-entry? Player-taught motor habits and scripted fence successes are separate, lower-priority research. No new Calendar events were created.
