@@ -1,0 +1,171 @@
+{
+  "provenance": {
+    "source": "Official author SceneEval-500 v250610 ZIP, unchanged source IDs, physics inputs are investigator-defined",
+    "sourceSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "allRawArtifactsOwnerPrivate": true,
+    "sourceAnnotationsNotUsedInAnyMotionPolicy": true,
+    "nativeSimulation": "Existing PRSE GameCore/Rapier; shared renderer and other agents preserved",
+    "limitations": "Offscreen tests cover known scheduled physical impulses only; no human play, unknown actors, or realistic multi-region physics."
+  },
+  "singleQuietOffload": {
+    "human": {
+      "subset": "human",
+      "sourceScenes": 28,
+      "perturbationsPerScene": 2,
+      "episodes": 56,
+      "evaluated": 56,
+      "failed": 0,
+      "offloadAccepted": 24,
+      "offloadRefused": 32,
+      "worldClockEquivalent": 56,
+      "sceneProseAndIdentityPreserved": 56,
+      "externalSourceTruthMismatchingCases": 0,
+      "eventStreamMismatchCases": 0,
+      "comparisonLargePoseDeviationCases": 0,
+      "medianUnloadedPhysicsTicks": 219,
+      "maximumPoseErrorMeters": 0.0021078138316807647,
+      "maximumOffloadPoseErrorMeters": 7.94700538865143e-05,
+      "worstUnloadedSemanticSavePoseErrorMeters": 0,
+      "maxCharacterHydrationDifference": 0.017000000004401272,
+      "wallTimeSeconds": 52.22
+    },
+    "assisted": {
+      "subset": "assisted",
+      "sourceScenes": 35,
+      "perturbationsPerScene": 2,
+      "episodes": 70,
+      "evaluated": 70,
+      "failed": 0,
+      "offloadAccepted": 28,
+      "offloadRefused": 42,
+      "worldClockEquivalent": 70,
+      "sceneProseAndIdentityPreserved": 70,
+      "externalSourceTruthMismatchingCases": 0,
+      "eventStreamMismatchCases": 0,
+      "comparisonLargePoseDeviationCases": 0,
+      "medianUnloadedPhysicsTicks": 220,
+      "maximumPoseErrorMeters": 0.014147169405291794,
+      "maximumOffloadPoseErrorMeters": 7.951461234138677e-05,
+      "worstUnloadedSemanticSavePoseErrorMeters": 0,
+      "maxCharacterHydrationDifference": 0.017133333337767453,
+      "wallTimeSeconds": 63.99
+    }
+  },
+  "scheduledConservative": {
+    "human": {
+      "subset": "human",
+      "sourceScenes": 28,
+      "scheduleEventsPerScene": 2,
+      "evaluatedEpisodes": 28,
+      "failedEpisodes": 0,
+      "episodesWithOneOrMoreOffloads": 10,
+      "actualUnloadIntervals": 10,
+      "totalPhysicsTicksSaved": 287,
+      "clockAndSourcePreserved": 28,
+      "physicalEventSequenceMismatches": 0,
+      "sourceRelationTruthMismatchingScenes": 0,
+      "actionChronologyErrors": 0,
+      "poseDiffMoreThan2cm": 0,
+      "worstPoseDifferenceMeters": 7.942551516406625e-05,
+      "worstOffloadedPoseDifferenceMeters": 7.942551516406625e-05,
+      "wallSeconds": 37.4
+    },
+    "assisted": {
+      "subset": "assisted",
+      "sourceScenes": 35,
+      "scheduleEventsPerScene": 2,
+      "evaluatedEpisodes": 35,
+      "failedEpisodes": 0,
+      "episodesWithOneOrMoreOffloads": 13,
+      "actualUnloadIntervals": 13,
+      "totalPhysicsTicksSaved": 441,
+      "clockAndSourcePreserved": 35,
+      "physicalEventSequenceMismatches": 0,
+      "sourceRelationTruthMismatchingScenes": 0,
+      "actionChronologyErrors": 0,
+      "poseDiffMoreThan2cm": 0,
+      "worstPoseDifferenceMeters": 0.002741880002651359,
+      "worstOffloadedPoseDifferenceMeters": 7.712893177747329e-05,
+      "wallSeconds": 43.8
+    }
+  },
+  "preservedOriginalFailure": {
+    "sourceId": "27",
+    "maximumSourceCupErrorMetres": 0.6200580987231137,
+    "equalInitialPoseAtTick150": true,
+    "saveReconstructionAlsoDivergedAfterFutureContact": true
+  },
+  "solverNativeBinaryComparison": {
+    "sourceScenes": 63,
+    "evaluated": 63,
+    "failed": 0,
+    "nativeBinaryMuchBetter": 5,
+    "JSONMuchBetter": 0,
+    "nativeBinaryAbove2cm": 0,
+    "structuredJSONAbove2cm": 1,
+    "binaryReplicaAbove2cm": 0,
+    "medianNativeBinaryBytes": 62492,
+    "medianStructuredJSONBytes": 21738,
+    "maxBinaryErrorMeters": 0.00018458633141427822,
+    "maxJSONErrorMeters": 0.5662402740837432,
+    "elapsedSeconds": 65.33
+  },
+  "nativeFullGameCoreTransactionComparison": {
+    "sourceScenes": 63,
+    "evaluated": 63,
+    "failed": 0,
+    "nativeFullPhysicalWorldSHAEqual": 0,
+    "nativeFullSemanticCoreSHAEqual": 8,
+    "nativePhysicalAbove2cm": 0,
+    "currentJSONPhysicalAbove2cm": 1,
+    "maxNativePoseError": 0,
+    "maxJSONPoseError": 0.5662402740837432,
+    "nativeSemanticTruthMismatchingCases": 0,
+    "nativeEventSequenceMismatches": 0,
+    "nativeWorldClockMismatches": 0,
+    "nativePlayerPoseMismatches": 0,
+    "nativeRagdollTorsoMismatches": 0,
+    "originalSourceTextsPreserved": 63,
+    "medianBinarySnapshotBytes": 62492,
+    "medianTotalTransactionBytes": 107462,
+    "medianCurrentJSONBytes": 21738,
+    "wallTimeSeconds": 84.01
+  },
+  "rawPrivateManifest": {
+    "prse_offscreen_motion_human_raw_v1.json": {
+      "sha256": "34817e159828db1c8030bd5b8c0b24fd72656ca1b0ad166365ed3bebb9f16839",
+      "bytes": 134905,
+      "ownerPrivate": true
+    },
+    "prse_offscreen_action_schedule_human_conservative_raw_v2.json": {
+      "sha256": "3800df8f7abcde83c00ed1c5e78f08eaccc98a0cc14b31072fc6cd859c6fbce0",
+      "bytes": 51897,
+      "ownerPrivate": true
+    },
+    "prse_offscreen_motion_assisted_raw_v1.json": {
+      "sha256": "6c6b7d1465f2d44c44bd20ec177d7b11a410ec4388fd4e58462ce70ea20b92bf",
+      "bytes": 170406,
+      "ownerPrivate": true
+    },
+    "prse_offscreen_action_schedule_assisted_conservative_raw_v2.json": {
+      "sha256": "e51ae2d54b63f6b9bc2875665b61d74a3a12e51b5e0d642fd1c5eeda4b850c5a",
+      "bytes": 64927,
+      "ownerPrivate": true
+    },
+    "prse_offscreen_action_schedule_human_raw_v1.json": {
+      "sha256": "b01b67f56b5aba96c25e079870addbb2511641d075cfa93e2f36d9138fdc116e",
+      "bytes": 60951,
+      "ownerPrivate": true
+    },
+    "prse_rapier_native_snapshot_63_raw_v1.json": {
+      "sha256": "184feb96fe1f8c5fab7fe0e0fbf423f43d9707ef5151c586b7e1996ee12ba31d",
+      "bytes": 113901,
+      "ownerPrivate": true
+    },
+    "prse_full_gamecore_native_transaction_63_raw_v1.json": {
+      "sha256": "8036e5615f00424dfcb9609a796eaf5d55ea51530ec9839eb7a0fe96e37fe1da",
+      "bytes": 76897,
+      "ownerPrivate": true
+    }
+  }
+}

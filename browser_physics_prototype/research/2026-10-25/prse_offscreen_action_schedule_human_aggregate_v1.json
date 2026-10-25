@@ -1,0 +1,344 @@
+{
+  "metadata": {
+    "spec": {
+      "totalTicks": 360,
+      "initialImpulse": {
+        "x": 1.1,
+        "y": 0.35,
+        "z": 0.55
+      },
+      "scheduled": [
+        {
+          "tick": 150,
+          "v": {
+            "x": 4,
+            "y": 1.1,
+            "z": 1.5
+          }
+        },
+        {
+          "tick": 260,
+          "v": {
+            "x": -1.6,
+            "y": 0.45,
+            "z": 1
+          }
+        }
+      ],
+      "maxPhysicalTicksPerInterval": 120,
+      "stableConsecutiveTicks": 20,
+      "forcedSaveAndReloadAtEveryEvent": true,
+      "sourceKind": "SceneEval official descriptions, fixed source IDs and unchanged parser/geometry proposals",
+      "provenance": "Synthetic game action queue, NOT player-taught physical skills",
+      "goldSourceAnnotationsNotUsed": true
+    },
+    "actualSolver": "Native existing PRSE GameCore/Rapier",
+    "sourceSceneAnnotationsUsed": false,
+    "noGPUorModel": true,
+    "noHumanParticipant": true,
+    "persistentInternalIDs": true,
+    "limitation": "Only explicit scheduled impulses; unknown external events, active NPCs and interactions between loaded and unloaded regions are unsupported",
+    "privateRawSHA256": "b01b67f56b5aba96c25e079870addbb2511641d075cfa93e2f36d9138fdc116e",
+    "privateRawPath": "/data/var/games/prse_semantic_research/runs/2026-10-25-offscreen-motion/prse_offscreen_action_schedule_human_raw_v1.json"
+  },
+  "summary": {
+    "subset": "human",
+    "sourceScenes": 28,
+    "scheduleEventsPerScene": 2,
+    "evaluatedEpisodes": 28,
+    "failedEpisodes": 0,
+    "episodesWithOneOrMoreOffloads": 17,
+    "actualUnloadIntervals": 29,
+    "totalPhysicsTicksSaved": 1286,
+    "clockAndSourcePreserved": 28,
+    "physicalEventSequenceMismatches": 0,
+    "sourceRelationTruthMismatchingScenes": 0,
+    "actionChronologyErrors": 0,
+    "poseDiffMoreThan2cm": 1,
+    "worstPoseDifferenceMeters": 0.6200580987231137,
+    "worstOffloadedPoseDifferenceMeters": 0.6200580987231137,
+    "wallSeconds": 37.2
+  },
+  "perSource": [
+    {
+      "id": "9",
+      "status": "evaluated",
+      "offloaded": 1,
+      "skippedPhysicsTicks": 83,
+      "poseDifferenceMeters": 0.000036439893212002607,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "20",
+      "status": "evaluated",
+      "offloaded": 0,
+      "skippedPhysicsTicks": 0,
+      "poseDifferenceMeters": 0.000011444130601916483,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "22",
+      "status": "evaluated",
+      "offloaded": 0,
+      "skippedPhysicsTicks": 0,
+      "poseDifferenceMeters": 0,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "23",
+      "status": "evaluated",
+      "offloaded": 0,
+      "skippedPhysicsTicks": 0,
+      "poseDifferenceMeters": 0.0000038147086342918315,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "25",
+      "status": "evaluated",
+      "offloaded": 0,
+      "skippedPhysicsTicks": 0,
+      "poseDifferenceMeters": 0.000012397775068302772,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "26",
+      "status": "evaluated",
+      "offloaded": 1,
+      "skippedPhysicsTicks": 44,
+      "poseDifferenceMeters": 0.0012037546050828903,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "27",
+      "status": "evaluated",
+      "offloaded": 1,
+      "skippedPhysicsTicks": 76,
+      "poseDifferenceMeters": 0.6200580987231137,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "29",
+      "status": "evaluated",
+      "offloaded": 1,
+      "skippedPhysicsTicks": 25,
+      "poseDifferenceMeters": 0.00007705001905435773,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "30",
+      "status": "evaluated",
+      "offloaded": 2,
+      "skippedPhysicsTicks": 88,
+      "poseDifferenceMeters": 0.000035060959874026305,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "31",
+      "status": "evaluated",
+      "offloaded": 2,
+      "skippedPhysicsTicks": 93,
+      "poseDifferenceMeters": 0.00003620509962602275,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "32",
+      "status": "evaluated",
+      "offloaded": 2,
+      "skippedPhysicsTicks": 31,
+      "poseDifferenceMeters": 0.00000888853952950569,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "34",
+      "status": "evaluated",
+      "offloaded": 2,
+      "skippedPhysicsTicks": 60,
+      "poseDifferenceMeters": 0.00006258272695254165,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "38",
+      "status": "evaluated",
+      "offloaded": 2,
+      "skippedPhysicsTicks": 114,
+      "poseDifferenceMeters": 0.00002615096052189957,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "40",
+      "status": "evaluated",
+      "offloaded": 0,
+      "skippedPhysicsTicks": 0,
+      "poseDifferenceMeters": 0.0000129714073255916,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "41",
+      "status": "evaluated",
+      "offloaded": 0,
+      "skippedPhysicsTicks": 0,
+      "poseDifferenceMeters": 9.536815923361088e-7,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "43",
+      "status": "evaluated",
+      "offloaded": 1,
+      "skippedPhysicsTicks": 102,
+      "poseDifferenceMeters": 0.000023842528452980597,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "44",
+      "status": "evaluated",
+      "offloaded": 1,
+      "skippedPhysicsTicks": 15,
+      "poseDifferenceMeters": 0.000015259836764427686,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "46",
+      "status": "evaluated",
+      "offloaded": 2,
+      "skippedPhysicsTicks": 60,
+      "poseDifferenceMeters": 0.00006258272695254165,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "49",
+      "status": "evaluated",
+      "offloaded": 0,
+      "skippedPhysicsTicks": 0,
+      "poseDifferenceMeters": 0.000005722056812363513,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "51",
+      "status": "evaluated",
+      "offloaded": 3,
+      "skippedPhysicsTicks": 139,
+      "poseDifferenceMeters": 0.00009107551200926291,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "70",
+      "status": "evaluated",
+      "offloaded": 3,
+      "skippedPhysicsTicks": 118,
+      "poseDifferenceMeters": 0.00002740138792092147,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "71",
+      "status": "evaluated",
+      "offloaded": 0,
+      "skippedPhysicsTicks": 0,
+      "poseDifferenceMeters": 0.000017584942337245233,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "72",
+      "status": "evaluated",
+      "offloaded": 3,
+      "skippedPhysicsTicks": 118,
+      "poseDifferenceMeters": 0.00002740138792092147,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "76",
+      "status": "evaluated",
+      "offloaded": 1,
+      "skippedPhysicsTicks": 26,
+      "poseDifferenceMeters": 0.000006675736845583296,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "91",
+      "status": "evaluated",
+      "offloaded": 1,
+      "skippedPhysicsTicks": 94,
+      "poseDifferenceMeters": 0.002107270889380156,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "93",
+      "status": "evaluated",
+      "offloaded": 0,
+      "skippedPhysicsTicks": 0,
+      "poseDifferenceMeters": 0.000010662481743662718,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "98",
+      "status": "evaluated",
+      "offloaded": 0,
+      "skippedPhysicsTicks": 0,
+      "poseDifferenceMeters": 0.000015377539113822312,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    },
+    {
+      "id": "99",
+      "status": "evaluated",
+      "offloaded": 0,
+      "skippedPhysicsTicks": 0,
+      "poseDifferenceMeters": 0.000015377539113822312,
+      "physicalEventSequenceEqual": true,
+      "semanticTruthDisagreements": 0,
+      "note": null
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "metadata": {
+    "source": "Prior preserved SceneEval source IDs 91 and 140, fixed strong impulses",
+    "purpose": "Control for full-physics intrinsic trajectory variability and extra contact queries; no reinterpretation of original data"
+  },
+  "results": [
+    {
+      "id": 91,
+      "trial": 0,
+      "offloaded": false,
+      "skippedTicks": 0,
+      "continuousVsOneTickReplayMeters": 0.002122048162859218,
+      "continuousVsContactProbeReplayMeters": 0,
+      "oneTickVsContactProbeReplayMeters": 0.002122048162859218,
+      "originalCorpusSavedDifferenceMeters": 0.0021078138316807647,
+      "allWorldTimes": [
+        5.2999999999999865,
+        5.2999999999999865,
+        5.2999999999999865
+      ]
+    },
+    {
+      "id": 91,
+      "trial": 1,
+      "offloaded": false,
+      "skippedTicks": 0,
+      "continuousVsOneTickReplayMeters": 0,
+      "continuousVsContactProbeReplayMeters": 0.002122048162859218,
+      "oneTickVsContactProbeReplayMeters": 0.002122048162859218,
+      "originalCorpusSavedDifferenceMeters": 0.0021078138316807647,
+      "allWorldTimes": [
+        5.2999999999999865,
+        5.2999999999999865,
+        5.2999999999999865
+      ]
+    },
+    {
+      "id": 91,
+      "trial": 2,
+      "offloaded": false,
+      "skippedTicks": 0,
+      "continuousVsOneTickReplayMeters": 0,
+      "continuousVsContactProbeReplayMeters": 0.002122048162859218,
+      "oneTickVsContactProbeReplayMeters": 0.002122048162859218,
+      "originalCorpusSavedDifferenceMeters": 0.0021078138316807647,
+      "allWorldTimes": [
+        5.2999999999999865,
+        5.2999999999999865,
+        5.2999999999999865
+      ]
+    },
+    {
+      "id": 140,
+      "trial": 0,
+      "offloaded": false,
+      "skippedTicks": 0,
+      "continuousVsOneTickReplayMeters": 0,
+      "continuousVsContactProbeReplayMeters": 0,
+      "oneTickVsContactProbeReplayMeters": 0,
+      "originalCorpusSavedDifferenceMeters": 0.014147169405291794,
+      "allWorldTimes": [
+        5.2999999999999865,
+        5.2999999999999865,
+        5.2999999999999865
+      ]
+    },
+    {
+      "id": 140,
+      "trial": 1,
+      "offloaded": false,
+      "skippedTicks": 0,
+      "continuousVsOneTickReplayMeters": 0,
+      "continuousVsContactProbeReplayMeters": 0,
+      "oneTickVsContactProbeReplayMeters": 0,
+      "originalCorpusSavedDifferenceMeters": 0.014147169405291794,
+      "allWorldTimes": [
+        5.2999999999999865,
+        5.2999999999999865,
+        5.2999999999999865
+      ]
+    },
+    {
+      "id": 140,
+      "trial": 2,
+      "offloaded": false,
+      "skippedTicks": 0,
+      "continuousVsOneTickReplayMeters": 0,
+      "continuousVsContactProbeReplayMeters": 0,
+      "oneTickVsContactProbeReplayMeters": 0,
+      "originalCorpusSavedDifferenceMeters": 0.014147169405291794,
+      "allWorldTimes": [
+        5.2999999999999865,
+        5.2999999999999865,
+        5.2999999999999865
+      ]
+    }
+  ]
+}

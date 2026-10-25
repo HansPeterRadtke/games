@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "source": "Previously frozen SceneEval source27, exact native Rapier/GameCore",
+    "limitation": "Owner-trusted snapshot integrity only, not cryptographic tamper-proof authenticated save"
+  },
+  "validNativeRestores": true,
+  "rejectedCorruptedCases": [
+    {
+      "type": "corrupt_binary_sha",
+      "rejected": true,
+      "reason": "Native physics data mismatched SHA and bounded size"
+    },
+    {
+      "type": "wrong_rapier_build",
+      "rejected": true,
+      "reason": "untrusted_or_different_build_or_corrupt_structure"
+    },
+    {
+      "type": "different_narrative_source",
+      "rejected": true,
+      "reason": "untrusted_or_different_build_or_corrupt_structure"
+    },
+    {
+      "type": "wrong_native_player_handle",
+      "rejected": true,
+      "reason": "untrusted_or_different_build_or_corrupt_structure"
+    },
+    {
+      "type": "wrong_native_data_length",
+      "rejected": true,
+      "reason": "Native physics data mismatched SHA and bounded size"
+    },
+    {
+      "type": "future_world_time",
+      "rejected": true,
+      "reason": "Semantic identity, event sequence or authoritative clock was changed"
+    },
+    {
+      "type": "absent_scene_object",
+      "rejected": true,
+      "reason": "Semantic identity, event sequence or authoritative clock was changed"
+    },
+    {
+      "type": "untrusted_type",
+      "rejected": true,
+      "reason": "untrusted_or_different_build_or_corrupt_structure"
+    },
+    {
+      "type": "missing_contact_history",
+      "rejected": true,
+      "reason": "untrusted_or_different_build_or_corrupt_structure"
+    }
+  ],
+  "invalidNativeBodyHandleRejectedEvenWhenFileHashRecomputed": true,
+  "noSourceDataOrBinaryCommitted": true
+}

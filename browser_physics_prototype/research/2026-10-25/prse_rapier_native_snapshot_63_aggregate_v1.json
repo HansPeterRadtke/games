@@ -1,0 +1,663 @@
+{
+  "metadata": {
+    "sample": "Exactly 63 frozen SceneEval source IDs previously eligible in physical observer study",
+    "sourceAnnotationsNotRead": true,
+    "noGPUorLLM": true,
+    "solver": "Actual GameCore Rapier binary snapshot vs current PRSE structured JSON reconstruction",
+    "caveat": "Solver-only replay. Semantic/character/offscreen core ticks not evaluated after serialization, no human participants.",
+    "actionTicks": [
+      150,
+      260
+    ],
+    "singleFixedModerateAndTwoScheduledRealRapierImpulses": true,
+    "privateRawSHA256": "184feb96fe1f8c5fab7fe0e0fbf423f43d9707ef5151c586b7e1996ee12ba31d",
+    "privateRawFile": "/data/var/games/prse_semantic_research/runs/2026-10-25-offscreen-motion/prse_rapier_native_snapshot_63_raw_v1.json"
+  },
+  "summary": {
+    "sourceScenes": 63,
+    "evaluated": 63,
+    "failed": 0,
+    "nativeBinaryMuchBetter": 5,
+    "JSONMuchBetter": 0,
+    "nativeBinaryAbove2cm": 0,
+    "structuredJSONAbove2cm": 1,
+    "binaryReplicaAbove2cm": 0,
+    "medianNativeBinaryBytes": 62492,
+    "medianStructuredJSONBytes": 21738,
+    "maxBinaryErrorMeters": 0.00018458633141427822,
+    "maxJSONErrorMeters": 0.5662402740837432,
+    "elapsedSeconds": 65.33
+  },
+  "cases": [
+    {
+      "id": "9",
+      "subset": "human",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000031701617208551134,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "20",
+      "subset": "human",
+      "kind": "doll",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.0030104366921543447,
+      "twoNativeCopiesDeviation": 0.0012300136269644967,
+      "error": null
+    },
+    {
+      "id": "22",
+      "subset": "human",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "23",
+      "subset": "human",
+      "kind": "book",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "25",
+      "subset": "human",
+      "kind": "book",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "26",
+      "subset": "human",
+      "kind": "doll",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.0015764302806260898,
+      "twoNativeCopiesDeviation": 0.0004718876503152239,
+      "error": null
+    },
+    {
+      "id": "27",
+      "subset": "human",
+      "kind": "cup",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.5662402740837432,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "29",
+      "subset": "human",
+      "kind": "book",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "30",
+      "subset": "human",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "31",
+      "subset": "human",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000011121747967049179,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "32",
+      "subset": "human",
+      "kind": "teapot",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.00001705985130685323,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "34",
+      "subset": "human",
+      "kind": "potted_plant",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "38",
+      "subset": "human",
+      "kind": "vase",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000012794989893139324,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "40",
+      "subset": "human",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "41",
+      "subset": "human",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "43",
+      "subset": "human",
+      "kind": "book",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.0000034402183568190027,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "44",
+      "subset": "human",
+      "kind": "book",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000008529927483748502,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "46",
+      "subset": "human",
+      "kind": "potted_plant",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "49",
+      "subset": "human",
+      "kind": "cup",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "51",
+      "subset": "human",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "70",
+      "subset": "human",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000004266626874965019,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "71",
+      "subset": "human",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.00002132481120505101,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "72",
+      "subset": "human",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000004266626874965019,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "76",
+      "subset": "human",
+      "kind": "vase",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "91",
+      "subset": "human",
+      "kind": "vase",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.0008416574407249977,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "93",
+      "subset": "human",
+      "kind": "cup",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000006942974751955385,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "98",
+      "subset": "human",
+      "kind": "vase",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.00001687235425357636,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "99",
+      "subset": "human",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000004266626874965019,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "120",
+      "subset": "assisted",
+      "kind": "potted_plant",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000004268708054970236,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "128",
+      "subset": "assisted",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "132",
+      "subset": "assisted",
+      "kind": "potted_plant",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000004268708054970236,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "140",
+      "subset": "assisted",
+      "kind": "ball",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.0000137660460403276,
+      "twoNativeCopiesDeviation": 0.001865211611807616,
+      "error": null
+    },
+    {
+      "id": "196",
+      "subset": "assisted",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "212",
+      "subset": "assisted",
+      "kind": "book",
+      "status": "evaluated",
+      "binaryDeviation": 0.00018458633141427822,
+      "JSONDeviation": 0.00025329884274621396,
+      "twoNativeCopiesDeviation": 0.00018458633141427822,
+      "error": null
+    },
+    {
+      "id": "216",
+      "subset": "assisted",
+      "kind": "book",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.00001618438982818331,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "220",
+      "subset": "assisted",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "224",
+      "subset": "assisted",
+      "kind": "vase",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "236",
+      "subset": "assisted",
+      "kind": "book",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000014805018408363121,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "240",
+      "subset": "assisted",
+      "kind": "potted_plant",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000009404698812158593,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "260",
+      "subset": "assisted",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "264",
+      "subset": "assisted",
+      "kind": "book",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "284",
+      "subset": "assisted",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "296",
+      "subset": "assisted",
+      "kind": "cup",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000010662405602525505,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "332",
+      "subset": "assisted",
+      "kind": "potted_plant",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "344",
+      "subset": "assisted",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "356",
+      "subset": "assisted",
+      "kind": "potted_plant",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "364",
+      "subset": "assisted",
+      "kind": "cup",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.002653911132149019,
+      "twoNativeCopiesDeviation": 0.002382283215138257,
+      "error": null
+    },
+    {
+      "id": "372",
+      "subset": "assisted",
+      "kind": "vase",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "376",
+      "subset": "assisted",
+      "kind": "book",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "380",
+      "subset": "assisted",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "384",
+      "subset": "assisted",
+      "kind": "book",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.0011935206450585639,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "388",
+      "subset": "assisted",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "392",
+      "subset": "assisted",
+      "kind": "vase",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "396",
+      "subset": "assisted",
+      "kind": "vase",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "412",
+      "subset": "assisted",
+      "kind": "ball",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "416",
+      "subset": "assisted",
+      "kind": "potted_plant",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "424",
+      "subset": "assisted",
+      "kind": "book",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "452",
+      "subset": "assisted",
+      "kind": "vase",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "456",
+      "subset": "assisted",
+      "kind": "cup",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "468",
+      "subset": "assisted",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "480",
+      "subset": "assisted",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "484",
+      "subset": "assisted",
+      "kind": "cup",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.00000539482876479216,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    },
+    {
+      "id": "488",
+      "subset": "assisted",
+      "kind": "lamp",
+      "status": "evaluated",
+      "binaryDeviation": 0,
+      "JSONDeviation": 0.000008792493265798876,
+      "twoNativeCopiesDeviation": 0,
+      "error": null
+    }
+  ]
+}

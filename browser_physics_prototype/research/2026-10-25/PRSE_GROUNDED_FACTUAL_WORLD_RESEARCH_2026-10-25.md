@@ -1,4 +1,7 @@
 # PRSE — evidence-grounded factual narration across real 3D physics and rematerialization
+
+> **Later causal offscreen-motion study:** See [physical settlement, future scheduled actions and native full-GameCore world snapshots](PRSE_OFFSCREEN_MOTION_AND_NATIVE_WORLD_RESEARCH_2026-10-25.md). That experiment preserves this report's source-typing/observer findings but shows that a JSON pose-only save can break subsequent physical contact dynamics even if semantic events match.
+
 25 October 2026 · Games research continuation, night 3 of 4
 
 ## The owner question and prior baseline

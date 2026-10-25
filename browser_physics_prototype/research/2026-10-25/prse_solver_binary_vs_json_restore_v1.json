@@ -1,0 +1,225 @@
+{
+  "metadata": {
+    "kind": "Same authoritative Rapier physics engine, World.takeSnapshot/restoreSnapshot versus current PRSE JSON body rebuild",
+    "source": "External SceneEval rows 27,91,140 selected from original discrepancies; original raw errors preserved",
+    "limitation": "Solver-only stepping after snapshot; not replay of full GameCore modules or proof binary format safely loads arbitrary files"
+  },
+  "results": [
+    {
+      "sourceId": 27,
+      "bodyType": "cup",
+      "binaryBytes": 62492,
+      "jsonUtf8Bytes": 22150,
+      "binarySHA256": "6716e58577a07a08257be1674c933fc3b7e2d2c9c560dc44b08ff2dc5f944572",
+      "stages": [
+        {
+          "atTick": 150,
+          "nativeBinaryToLive": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0005969113742519323,
+            "angularSpeedRadPerSec": 0
+          },
+          "structuredJSONToLive": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0005969113742519323,
+            "angularSpeedRadPerSec": 0
+          },
+          "binaryReplicas": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0005969113742519323,
+            "angularSpeedRadPerSec": 0
+          }
+        },
+        {
+          "afterTick": 260,
+          "nativeBinaryToLive": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0005164407932343037,
+            "angularSpeedRadPerSec": 0
+          },
+          "structuredJSONToLive": {
+            "locationMeters": 0.5847424416479282,
+            "velocityMetersPerSecond": 0.0000033845310820854096,
+            "rotationRadians": 2.0153607644333777,
+            "angularSpeedRadPerSec": 0.00006403319984427926
+          },
+          "binaryReplicas": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0005164407932343037,
+            "angularSpeedRadPerSec": 0
+          }
+        },
+        {
+          "afterTick": 360,
+          "nativeBinaryToLive": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0007060352292725874,
+            "angularSpeedRadPerSec": 0
+          },
+          "structuredJSONToLive": {
+            "locationMeters": 0.5662402740837432,
+            "velocityMetersPerSecond": 0.000017648345374284257,
+            "rotationRadians": 1.69421697912242,
+            "angularSpeedRadPerSec": 0.00040265615495550664
+          },
+          "binaryReplicas": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0007060352292725874,
+            "angularSpeedRadPerSec": 0
+          }
+        }
+      ]
+    },
+    {
+      "sourceId": 91,
+      "bodyType": "vase",
+      "binaryBytes": 63771,
+      "jsonUtf8Bytes": 21723,
+      "binarySHA256": "f3d0b6863cc6fae708fb6033093960399b2a252a33f0652ccff642146e57eb5d",
+      "stages": [
+        {
+          "atTick": 150,
+          "nativeBinaryToLive": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0009388690060478303,
+            "angularSpeedRadPerSec": 0
+          },
+          "structuredJSONToLive": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0006360704199368462,
+            "angularSpeedRadPerSec": 0
+          },
+          "binaryReplicas": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0009388690060478303,
+            "angularSpeedRadPerSec": 0
+          }
+        },
+        {
+          "afterTick": 260,
+          "nativeBinaryToLive": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0011928315785291852,
+            "angularSpeedRadPerSec": 0
+          },
+          "structuredJSONToLive": {
+            "locationMeters": 0.00009716510657346675,
+            "velocityMetersPerSecond": 0.0014650875290240237,
+            "rotationRadians": 0.0012386994701154158,
+            "angularSpeedRadPerSec": 0.0094917004801215
+          },
+          "binaryReplicas": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0011928315785291852,
+            "angularSpeedRadPerSec": 0
+          }
+        },
+        {
+          "afterTick": 360,
+          "nativeBinaryToLive": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0008181481132760374,
+            "angularSpeedRadPerSec": 0
+          },
+          "structuredJSONToLive": {
+            "locationMeters": 0.0008416574407249977,
+            "velocityMetersPerSecond": 0.000011711149556793904,
+            "rotationRadians": 0.0038300245122407633,
+            "angularSpeedRadPerSec": 0.00006040043619481685
+          },
+          "binaryReplicas": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0008181481132760374,
+            "angularSpeedRadPerSec": 0
+          }
+        }
+      ]
+    },
+    {
+      "sourceId": 140,
+      "bodyType": "ball",
+      "binaryBytes": 58290,
+      "jsonUtf8Bytes": 19175,
+      "binarySHA256": "c9a93d700e4ea2f4c3721e178e8ed8e59201f383c802d9c863b7916fc7c7303d",
+      "stages": [
+        {
+          "atTick": 150,
+          "nativeBinaryToLive": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0008953077957637128,
+            "angularSpeedRadPerSec": 0
+          },
+          "structuredJSONToLive": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0005071731104042926,
+            "angularSpeedRadPerSec": 0
+          },
+          "binaryReplicas": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0008953077957637128,
+            "angularSpeedRadPerSec": 0
+          }
+        },
+        {
+          "afterTick": 260,
+          "nativeBinaryToLive": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0007441779494754174,
+            "angularSpeedRadPerSec": 0
+          },
+          "structuredJSONToLive": {
+            "locationMeters": 0.000005727010798198849,
+            "velocityMetersPerSecond": 0.00004637731658591266,
+            "rotationRadians": 0.0006103189902641966,
+            "angularSpeedRadPerSec": 0.00003932361459392354
+          },
+          "binaryReplicas": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0007441779494754174,
+            "angularSpeedRadPerSec": 0
+          }
+        },
+        {
+          "afterTick": 360,
+          "nativeBinaryToLive": {
+            "locationMeters": 0,
+            "velocityMetersPerSecond": 0,
+            "rotationRadians": 0.0008587135046504067,
+            "angularSpeedRadPerSec": 0
+          },
+          "structuredJSONToLive": {
+            "locationMeters": 0.0000137660460403276,
+            "velocityMetersPerSecond": 0.00011778778177375779,
+            "rotationRadians": 0.0007505365460479184,
+            "angularSpeedRadPerSec": 0.0021849448284351793
+          },
+          "binaryReplicas": {
+            "locationMeters": 0.001865211611807616,
+            "velocityMetersPerSecond": 0.016397165807922602,
+            "rotationRadians": 0.010524667849856572,
+            "angularSpeedRadPerSec": 0.17816449363329545
+          }
+        }
+      ]
+    }
+  ]
+}
