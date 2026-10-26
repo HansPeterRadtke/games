@@ -1,0 +1,54 @@
+{
+  "metadata": {
+    "humanAuthorOriginalSourceSHA256": "c4cab948b923b522b9ba4991e167e1c5c7d503786f2b2e5c11a64dab89113c21",
+    "humanSourceParserOriginalBaselineSHA256": "5c34717a0f8450055f54b79a120c96d8e77dee498179d95b24e3bc8fa888ec0f",
+    "priorFrozenActualNativeLexicalWorldSHA256": "f6d20c4e15c708484ce9bb557f6fb63d1016f3cad885e0929f3237fa97192922",
+    "priorFrozenActualNativeExpandedWorldSHA256": "883d60cf2b458fc4a956b2823b117d0572d347d216643c8b55987e1be57bbc8c",
+    "independentAuthorHumanConstraintTypesUntouched": true,
+    "reference3DInstanceIDsCanContradictOriginalAuthorRoomAbsences": true,
+    "humanSourceRoomSpecificNegationOverrulesInconsistentExampleReferenceLinks": true,
+    "unresolvedReferenceParentIDNotProofOfRealPhysicalObject": true,
+    "unscopedRapierObjectKindNotProofOfItsRoomID": true,
+    "noAuthorAnnotatedExhaustiveContactNegativeRate": true,
+    "preselectedHighPrecisionRoomNegationSyntaxOnly": true,
+    "noNewPhysicsOrDeniedObserverCycleExperimentPerformed": true,
+    "noRandomFeasibleParentPlacebo": true,
+    "fullPrivateAuditSHA256": "b81bf91e23a896c6dd5c0e9bf517bb065427ea087f9f2b2c02a427470c84f967"
+  },
+  "referenceSourceIDLinkAudit": {
+    "allParentReferenceLinks": 2938,
+    "parentIdExistsInExactlySameRoom": 2849,
+    "strictParentIdUnresolved": 89,
+    "explicitIndependentHumanForbiddenRoomObjectCases": 4,
+    "humanAbsencesContradictedByReferenceIDComponent": 2,
+    "referenceIDComponentRowsContradictSourceAbsence": 7
+  },
+  "nativeFrozenWorldAndPositiveNegativeSourceAudit": {
+    "negativeClauses_old": 4,
+    "forbiddenKindAbsentGlobally_old": 4,
+    "forbiddenKindPresentRoomUnknown_old": 0,
+    "negativeClauses_baseline": 4,
+    "forbiddenKindAbsentGlobally_baseline": 4,
+    "forbiddenKindPresentRoomUnknown_baseline": 0,
+    "negativeClauses_candidate": 4,
+    "forbiddenKindAbsentGlobally_candidate": 4,
+    "forbiddenKindPresentRoomUnknown_candidate": 0,
+    "frozenHumanScenesCompared": 130,
+    "actualOldNativeBodyInstances": 575,
+    "actualExtendedNativeBodyInstances": 678,
+    "humanWorldWithRoomCountGreaterThanOne": 95,
+    "humanOtherRoomPositiveObligations_old": 2,
+    "physicallyMissingRequiredPositiveKindAnywhere_old": 2,
+    "humanOtherRoomPositiveObligations_baseline": 2,
+    "physicallyMissingRequiredPositiveKindAnywhere_baseline": 2,
+    "humanOtherRoomPositiveObligations_candidate": 2,
+    "physicallyMissingRequiredPositiveKindAnywhere_candidate": 2
+  },
+  "explicitHumanNegativeScenes": [
+    20,
+    26,
+    40
+  ],
+  "pairedRequiredOppositeRoomPositivesMissingGlobally": 2,
+  "wallSeconds": 1.0771
+}
