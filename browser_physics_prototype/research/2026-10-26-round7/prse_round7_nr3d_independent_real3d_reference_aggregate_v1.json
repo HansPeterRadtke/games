@@ -1,0 +1,64 @@
+{
+  "metadata": {
+    "officialNr3dAnnotationCSVSourceSHA256": "f6b437e2bfc15c69c2b497c755e9a5b42eec110dccc25deb29594e3734a31f5b",
+    "originalFrozenPreRegistrationSHA256": "688fc6d8199b30617a481460386de87a329f8ceeea1f255d2774b7416d06076f",
+    "sourceOnlyFrozenPredictionSHA256": "24794636878ad6307f21f2d072130c5e1e89c75e775af3d31ddde37c9ae44bdf",
+    "frozenHumanInputCohortSHA256": "b744825a7f8b33ae4ae09642da36d9e84237cf31e4a72a4babd1b47f021223d9",
+    "postFrozenIndependentAnnotationPerCaseSHA256": "d60f96b009b3f1d930d95d8926109d0829348ae4d57617c9f5a33cd801208d4a",
+    "noInstanceGeometryLoadedOrInvented": true,
+    "independentHumanLabel": true,
+    "unseenOutsideSceneEvalLEGO": true,
+    "criticalLimitation": "Referring-expression target kind class accuracy is NOT 3D object instance identity or physical support/contact fidelity",
+    "preRegisteredAcceptOrFailEnforcedWithoutLabelTuning": true
+  },
+  "metrics": {
+    "independent3DScanScenes": 480,
+    "originalHumanFreeformReferringExpressions": 480,
+    "humanCorrectGuessCases": 446,
+    "humanTargetPhrase3DObjectIdGoldAvailable": 478,
+    "baselineSourceLexiconProposed": 389,
+    "baselineAllSourceExactTargetKind": 231,
+    "baselineAllInputCorrectRate": 0.48125,
+    "baselineAllInputWilson95": [
+      0.436878,
+      0.52592
+    ],
+    "pretrainedSourceNounProposed": 479,
+    "pretrainedAllSourceExactTargetKind": 309,
+    "pretrainedAllInputCorrectRate": 0.64375,
+    "pretrainedAllInputWilson95": [
+      0.599922,
+      0.685295
+    ],
+    "pretrainedConditionalExactPrecision": 0.645094,
+    "pretrainedConditionalPrecisionWilson95": [
+      0.601245,
+      0.686634
+    ],
+    "pretrainedProposalCoverageWilson95": [
+      0.988295,
+      0.999632
+    ],
+    "pretrainedMinusLexiconAllInputExactTargetGain": 0.1625,
+    "pairedBySceneGain": 104,
+    "pairedBySceneLoss": 26,
+    "pairedExactMcNemarP": 0.0,
+    "pairedBootstrap95Gain": [
+      0.116667,
+      0.208333
+    ],
+    "naturalNontopCaseCount": 71,
+    "naturalNontopFalseTopPromotionCount": 0,
+    "naturalNontopFalseTopPromotionWilson95": [
+      0.0,
+      0.051328
+    ],
+    "unverifiedSourceOnlyOnProposalsCount": 15,
+    "actualUnique3DInstanceIDsPredictedByEitherSourceOnlyMethod": 0,
+    "actualScanNetMeshDimensionsAndPhysicalSupportGold": "not available",
+    "originalAuthorRoomScaleAndObserverProseFidelity": "not tested",
+    "preregisteredSourceTransferAccepted": false,
+    "preregisteredFullPRSELiteraryWorldGeneralizationAccepted": false,
+    "scoreWallSeconds": 23.679
+  }
+}

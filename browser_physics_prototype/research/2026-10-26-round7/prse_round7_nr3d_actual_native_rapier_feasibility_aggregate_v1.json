@@ -1,0 +1,343 @@
+{
+  "metadata": {
+    "originalSourceOnlyFrozenSHA256": "0c4f67eb2aaa251377e1bd10366f2089dff64dea203c09effe1961077d481490",
+    "privateActualNativeRapierSHA256": "0daaabde04e8d059ff4213e3a4efb6605131939905e65149d92db942666e0c9c",
+    "noPhysicalScanNetMetrics": true,
+    "noIndependentSupportGroundTruth": true,
+    "originalHumanGoldNotRead": true,
+    "noRandomParentPlacebo": true
+  },
+  "summary": {
+    "sources": 31,
+    "armsPerSource": 2,
+    "humanNegativeWithoutSourceOn": 16,
+    "sourceExplicitOnProposals": 15,
+    "actualSourceOnProposalsAccepted": 15,
+    "realNativeSourceSupportContactCount": 15,
+    "negativeControlNativeContactDifference": 0,
+    "preservedExactSameBodyKindAndDimensions": 31,
+    "actualWorldsWithExactNativeSave": 62,
+    "runFailures": 0,
+    "elapsedWallSeconds": 6.584,
+    "perPhrasePairedNativeMsMedian": 137.551,
+    "perPhrasePairedNativeMsP95": 616.658,
+    "medianSourceInstancesPerScene": 2,
+    "allBodiesProvisionalGeometry": true,
+    "matchedIndependentNativePhysicsContactTruthNotAuthorSourceTruth": true,
+    "human3DScanNetMeshGroundTruthUnavailable": true,
+    "noPreviouslyDeniedRandomParentPlacebo": true,
+    "noLLMOrGPU": true
+  },
+  "cases": [
+    {
+      "scanId": "scene0005_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0389_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0073_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0016_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0293_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0241_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0386_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0413_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0503_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0319_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0008_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0390_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0568_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0557_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0368_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0037_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0060_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0175_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0098_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0646_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0309_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0580_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0177_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0679_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0030_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0349_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0553_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0567_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    },
+    {
+      "scanId": "scene0499_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0006_00",
+      "category": "source_explicit_pretrained_on_proposal",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 1,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": true,
+      "error": null
+    },
+    {
+      "scanId": "scene0632_00",
+      "category": "original_nontop_source_negative_control",
+      "status": "paired_real_rapier_38ticks_each",
+      "actualControlContacts": 0,
+      "actualCandidateContacts": 0,
+      "actualGameCoreNativeSave": true,
+      "realDirectedOnContact": null,
+      "error": null
+    }
+  ]
+}

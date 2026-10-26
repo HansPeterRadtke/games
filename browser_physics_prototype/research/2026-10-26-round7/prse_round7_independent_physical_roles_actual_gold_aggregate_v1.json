@@ -1,0 +1,21 @@
+{
+  "metadata": {
+    "frozenOriginalNr3dHumanSourceAndLabelsSHA256": "f6b437e2bfc15c69c2b497c755e9a5b42eec110dccc25deb29594e3734a31f5b",
+    "preregisteredSourceOnlyProposalsSHA256": "0c4f67eb2aaa251377e1bd10366f2089dff64dea203c09effe1961077d481490",
+    "frozenActualRapierNativeWorldsSHA256": "0daaabde04e8d059ff4213e3a4efb6605131939905e65149d92db942666e0c9c",
+    "originalHuman3DReferenceRoleAuditSHA256": "23c193b3b4a08caaa793ad5d98de9e3c23ea050b44dc6c74b8e3c19e3605e5c0",
+    "humanClassAndAnchorLabelsNotHumanVerticalSupportGeometry": true,
+    "validNativeSupportContactsNotClaimedAsTrueSourceWorldMeshes": true,
+    "explicitPreviouslyDeniedRandomParentPlaceboNotAttempted": true
+  },
+  "summary": {
+    "sourceCases": 31,
+    "sourceOnCandidates": 15,
+    "sourceOnTargetKindCorrect": 11,
+    "sourceOnIndependentParentKindAnnotated": 4,
+    "sourceOnBothChildTargetAndAnchorKindCorrect": 4,
+    "sourceOnRealNativeContact": 15,
+    "nontopSourceNaturalNegative": 16,
+    "nontopSourcePhysicalContactIncorrectlyGenerated": 0
+  }
+}
