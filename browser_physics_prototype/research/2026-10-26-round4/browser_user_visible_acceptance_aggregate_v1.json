@@ -1,0 +1,64 @@
+{
+  "metadata": {
+    "mode": "real unmodified browser viewer and new isolated Nitro authoritative GameCore/Rapier on loopback",
+    "doesNotExerciseArbitraryHumanLiteraryMaterialization": true,
+    "backendCodeSHA256": "7dea9dfbbd85a2d738d01afa0b1e74404037dd1be22f4117bd1d002c9184dec6",
+    "viewerCodeSHA256": "931dc8b016eeb5efa9b7a8f2d8666e38bf6312b3c215121a8955573764fb7f24",
+    "rendererCodeSHA256": "e90099456e52e0b8f7969863cb22ceab2df98b331634ec37b526d9256c245972",
+    "productionPort18764Untouched": true,
+    "noJetsonGPURequests": true,
+    "privateRawSHA256": "1cdb516ba3f425ff63a4a184d71e5a617457a1dec04e205d893d360629d14741"
+  },
+  "summary": {
+    "privateBrowserContext": true,
+    "browserEngine": "Chrome/143.0.7499.169",
+    "unmodifiedProductionViewerLoaded": true,
+    "isolatedGameCoreBackend": true,
+    "initialPlayerX": -4.1,
+    "initialBrowserStatus": "Nitro simulation connected",
+    "initialVisibleCanvasPNGSize": 187638,
+    "actualDesktopScreenshot": {
+      "path": "private-real-game-desktop-v1.png",
+      "width": 780,
+      "height": 493,
+      "uniqueSmallImageColors": 1989,
+      "meanChannelStddev": 70.57,
+      "sha256": "bd77607653e4860f8df817be1a9f746863cf736bb379ebce19d0b560d709c95e",
+      "bytes": 198649
+    },
+    "playerMovedMeters": 2.855,
+    "browserSaveAcknowledged": true,
+    "reloadedPositionDeltaMeters": 0.0,
+    "reconnectionDisplacementMeters": 0.0,
+    "samePrivateSessionAfterReloadAndReconnect": true,
+    "mobileDOM": {
+      "viewport": 360,
+      "documentWidth": 360,
+      "shortButtons": [],
+      "status": "Nitro simulation reconnected"
+    },
+    "mobileHorizontalOverflowPx": 0,
+    "actualMobileScreenshot": {
+      "path": "private-real-game-mobile-v1.png",
+      "width": 720,
+      "height": 1480,
+      "uniqueSmallImageColors": 1949,
+      "meanChannelStddev": 75.29,
+      "sha256": "80d70b2005a51099bb61503a8329804001ecf560080a55eb1707bc63c99c2d1b",
+      "bytes": 220132
+    },
+    "mobileButtonsOver44Px": true,
+    "passesUIBasic": true,
+    "LLMNotCalledOrAltered": true,
+    "userFacingTextReadFromRenderedDOM": true,
+    "privateServerProcessesStopped": true,
+    "privateSavedSessionCount": 1,
+    "privateEventLogCount": 1,
+    "privateServerFilesOwnerOnly": true,
+    "productionPortNotUsed": true,
+    "isolatedSessionTokenRedacted": true,
+    "browserNoSharedTabsModified": true
+  },
+  "renderedUserMessageLength": 561,
+  "failure": null
+}

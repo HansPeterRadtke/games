@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "privateRawSHA256": "1706eea6e88cbf307d0d6a63b2e63414efae4ac8ce01d1946f620db8e7cd8cb6",
+    "isolatedCanonicalSourceBranchDirtyAndUncommitted": true,
+    "exactCanonicalSourceHashes": {
+      "prse_runtime/server.mjs": "3ce132878aaf46d1a730414cfe50e175eabfc38111f81f10ba5d3cdcd3f51cab",
+      "prse_runtime/studies/candle-causality.mjs": "95eab60e234e2a0dfd92157c286ac37c4247363294ce6a210bc5dfacc4c88e31",
+      "browser_physics_prototype/physics-core.js": "5308712df286cd7bae125b777fcd78716d8ca8c7e54675fbb7b96d921a104f78",
+      "browser_physics_prototype/viewer.js": "1dc8eee1fc7986fc957c1342e4665beabf074d877f8853e8ee06efc856287e9a",
+      "browser_physics_prototype/viewer.html": "daddad3b08f9ddd2c23e689ebe8e99632126e2de205c70126ce602babe416c29",
+      "browser_physics_prototype/style.css": "6533be3af6c888de7d8b1474ce7efa51dd87feacd6c18355c442d013ac42724d",
+      "browser_physics_prototype/side-view-renderer.js": "42b946553a1a5c93bc38348e16b7485775376b8a060dcfecba8c06f492c7ccd0",
+      "LLM_Game/web/index.html": "971e2feba89ef86e275dc09532913cae9a6b356b43d4ff20f7b8f2ae27d81056"
+    },
+    "notClaimedLiveServiceBinaryVersion": true,
+    "noExternalProductionEffects": true,
+    "noRealJetsonModelCalls": true
+  },
+  "summary": {
+    "canonicalLandingLoaded": true,
+    "actualCanonicalViewerJSLoaded": true,
+    "canonicalStudyButtonInBrowser": true,
+    "canonicalRuntimeInfoFromDOM": "Nitro simulation connected",
+    "browserPlayerMovementMeters": 1.485,
+    "studyResultReceivedAsRealWorkerPhysics": true,
+    "actualContactProofInStudy": {
+      "candlePosition": {
+        "x": 36.705543518066406,
+        "y": 0.4833235740661621,
+        "z": 0
+      },
+      "notePosition": {
+        "x": 36.70000076293945,
+        "y": 0.45100000500679016,
+        "z": 0.05000000074505806
+      },
+      "tiltRadians": 2.259
+    },
+    "studyPhysicsPassed": true,
+    "afterAbsenceNote": "ashes",
+    "afterReturnPhysicalNote": true,
+    "desktopCausalityStudyScreenshot": {
+      "path": "private-canonical-study-desktop-v4.png",
+      "sha256": "9797233c2304a28e559e493a59daa57f1b773cd7131d623e8b38555426e3a513",
+      "width": 765,
+      "height": 1965,
+      "meanChannelStddev": 68.28,
+      "bytes": 249602
+    },
+    "literalOriginalHumanSceneRequestSHA256": "3ed27e0ef3d2628435e34d7007991cbf56ce4187ec14789e5a65456137175de5",
+    "projectorSceneNotCreated": true,
+    "canonicalLiteraryNegativeScreenshot": {
+      "path": "private-canonical-literary-refusal-desktop-v4.png",
+      "sha256": "753b90ad158e5462764085e026977503c60e20fe22cc2c58dcd408568ae1710d",
+      "width": 780,
+      "height": 493,
+      "meanChannelStddev": 71.28,
+      "bytes": 92953
+    },
+    "canonicalDurableSaveAcknowledged": true,
+    "reloadPositionDeltaMeters": 0.0,
+    "sameAuthoritativeSessionAfterReload": true,
+    "mobileSizing": {
+      "width": 360,
+      "scroll": 360,
+      "tooShort": []
+    },
+    "mobileOverflowPx": 0,
+    "mobileStudyPanelScreenshot": {
+      "path": "private-canonical-mobile-study-panel-v4.png",
+      "sha256": "35fcecdc921c159b4aa2dcd995c77b125401bb358bb7132460e521eb20c35d92",
+      "width": 720,
+      "height": 1480,
+      "meanChannelStddev": 75.85,
+      "bytes": 170484
+    },
+    "canonicalBrowserPass": true,
+    "privateBackendAndUIProcessesStopped": true,
+    "canonicalSourceFilesUnchangedDuringTest": true,
+    "privateCanonicalSnapshotCount": 1,
+    "privateCanonicalLogCount": 1,
+    "productionPortUnused": true,
+    "privateContextNoProductionTabsModified": true,
+    "productionLLMDisabledByInvalidLocalEndpoint": true
+  },
+  "studyVisibleTextLength": 351,
+  "literaryUserVisibleTextLength": 117,
+  "failure": null
+}

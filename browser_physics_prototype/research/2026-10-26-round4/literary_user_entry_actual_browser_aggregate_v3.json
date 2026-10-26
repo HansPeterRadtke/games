@@ -1,0 +1,32 @@
+{
+  "metadata": {
+    "testType": "actual unmodified PRSE viewer browser DOM -> private WebSocket -> authoritative GameCore textCommand -> visible rejection",
+    "sourceSceneNotMaterialized": true,
+    "noResearchOnlyDOMSubstituted": true,
+    "noExternalProductionEffects": true,
+    "noLocalOrJetsonLLMRequests": true,
+    "viewerSourceCodeSHA256": "931dc8b016eeb5efa9b7a8f2d8666e38bf6312b3c215121a8955573764fb7f24",
+    "gameCoreSourceCodeSHA256": "d795491922c7d46d9d1e614a49c969b0dddf82c4a121bd36a7c5dec0d957331e",
+    "privateRawSHA256": "ed946d5b7088e16fdb1088382ffd85bb56ac246de9cc6eb59790872227e60510"
+  },
+  "summary": {
+    "sourceRequestHashSHA256": "3ed27e0ef3d2628435e34d7007991cbf56ce4187ec14789e5a65456137175de5",
+    "humanSourceInputLength": 51,
+    "sourceBelowInputAndTransportLimit": true,
+    "beforeVisibleEntityCount": 6,
+    "visibleResponseWasCommandHelpInsteadOfSceneCreation": true,
+    "noInventedSourceProjectorOrTable": true,
+    "physicalInventoryInVisibleRegionUnchanged": true,
+    "screenshot": {
+      "path": "private-literary-entry-rejected-v3.png",
+      "sha256": "ea7b67ee3e29121b7edf61524b10b662937dcaaa431b859f7903d3236329762e",
+      "bytes": 94069
+    },
+    "playerSawRejectionInRealBrowserDOM": true,
+    "isolatedProcessesTerminated": true,
+    "localGameSnapshotFilesSaved": 1,
+    "safeProductionIsolation": true
+  },
+  "visibleResponseLength": 117,
+  "failed": false
+}
