@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "privateRawSHA256": "54e2d62a2e750d5fa12df42a1d93ed35f718c2fc69cbadebfbe4daee3a9d39aa",
+    "noSourceGoldInput": true
+  },
+  "summary": {
+    "humanOriginalSourceCases": 7,
+    "realNativePhysicalWorldsAndSemanticPersistenceCompleted": 7,
+    "runtimeFailures": 0,
+    "trueNewImpulseCases": 6,
+    "physicallyMovedImpulseSubjects": 6,
+    "currentSemanticChangedAfterActualMotion": 6,
+    "actualPhysicsOffscreenUnloads": 7,
+    "originalSourceAndBodyIDsAllRestored": 7,
+    "elapsedSeconds": 12.92,
+    "originalIndependentAssetGeometryStillUnproven": true,
+    "sourceContactClaimsNotEstablishedByThisPhysicsOnlyTest": true
+  },
+  "cases": [
+    {
+      "id": 17,
+      "status": "real_rapier_causal_semantic_offscreen_saved",
+      "impulseMovementMeters": 3.0044575395637323,
+      "actualOffscreen": true,
+      "error": null
+    },
+    {
+      "id": 28,
+      "status": "real_rapier_causal_semantic_offscreen_saved",
+      "impulseMovementMeters": 2.1397800721248887,
+      "actualOffscreen": true,
+      "error": null
+    },
+    {
+      "id": 32,
+      "status": "real_rapier_causal_semantic_offscreen_saved",
+      "impulseMovementMeters": 2.0416097937248208,
+      "actualOffscreen": true,
+      "error": null
+    },
+    {
+      "id": 53,
+      "status": "real_rapier_causal_semantic_offscreen_saved",
+      "impulseMovementMeters": 3.21893125017716,
+      "actualOffscreen": true,
+      "error": null
+    },
+    {
+      "id": 54,
+      "status": "real_rapier_causal_semantic_offscreen_saved",
+      "impulseMovementMeters": 1.6471988727742486,
+      "actualOffscreen": true,
+      "error": null
+    },
+    {
+      "id": 120,
+      "status": "real_rapier_causal_semantic_offscreen_saved",
+      "impulseMovementMeters": 2.7914495098480576,
+      "actualOffscreen": true,
+      "error": null
+    },
+    {
+      "id": 121,
+      "status": "real_rapier_causal_semantic_offscreen_saved",
+      "impulseMovementMeters": null,
+      "actualOffscreen": true,
+      "error": null
+    }
+  ]
+}
