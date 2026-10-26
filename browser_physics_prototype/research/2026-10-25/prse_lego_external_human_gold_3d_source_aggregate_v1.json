@@ -1,0 +1,170 @@
+{
+  "metadata": {
+    "officialHumanCuratedConstraintGoldSHA256": "c4cab948b923b522b9ba4991e167e1c5c7d503786f2b2e5c11a64dab89113c21",
+    "frozenSourceOnlySHA256": "5c34717a0f8450055f54b79a120c96d8e77dee498179d95b24e3bc8fa888ec0f",
+    "frozenNativeGameCoreSHA256": "f6d20c4e15c708484ce9bb557f6fb63d1016f3cad885e0929f3237fa97192922",
+    "externalReferenceScenesIndependentFromSceneEval": 130,
+    "privateReferenceSceneSHA256Manifest": "1367c92bb564cc013943f63d188604524a5c9c96026e4989257616114f6655f6",
+    "privatePerCaseAuditSHA256": "5716d840c4ca5ba9c3a27ab1f0734e299644c2f22130c1a31c596182732bd38c",
+    "goldWasNotUsedBySourceOnlyModelOrNativePhysics": true,
+    "authorAnnotationIsPositiveConstraintTypeAndTextNotExhaustiveObjectPairNegatives": true,
+    "categoryInstanceOverlapIsUpperBoundNotVerifiedIdentityCorrespondence": true,
+    "referenceContainsUnlabelledObjectsAndSomeExtraPlausibleProps": true,
+    "singleRoomGameCoreSourceCompilerCannotReproduceHumanMultiRoomTopology": true,
+    "referenceScenesHaveCenterAndRotationButNoTrustedObjectDimensionsOrCollisionMeshAvailable": true,
+    "genericUnsupportedCategoriesAndPreciseScaleCannotBeCalledPhysicallyCorrect": true,
+    "observerProseNotIndependentlyAnnotatedInThisDataset": true
+  },
+  "total": {
+    "Floor Layout": 272,
+    "Material Selection": 193,
+    "Object Placement": 494,
+    "Object Selection": 291,
+    "referenceRooms": 295,
+    "sourceInstructions": 130,
+    "sourceConstraints": 1250,
+    "referenceMultiRoomScenes": 95,
+    "referenceSingleRoomScenes": 35,
+    "referenceNamedInstanceLabels": 3894,
+    "referenceUnnamedObjectsNotScorableAsTrueNegatives": 2950,
+    "nativeOriginalInstantiatedBodies": 575,
+    "sceneCategoryInstanceMatchingCeiling": 239,
+    "referenceNamedInstanceDeficitFloor": 3655,
+    "nativeInstancesNotFoundInNamedReference": 336,
+    "goldNamedCategories": 2050,
+    "goldNamedCategoriesWithOneOrMoreNative": 149,
+    "nativeCategoriesNotNamedInReference": 238,
+    "scenesWithoutNamedReferenceInstanceDeficit": 0,
+    "humanObjectPlacementContainsON": 86,
+    "posthocExtractablePositiveObjectOnClauses": 16,
+    "posthocTypePairAvailableBaseline": 0,
+    "posthocTypePairAvailableLexical": 4,
+    "posthocTypePairAvailableLearned": 4,
+    "newRealLexicalContactsNotVerifiablySourceEntailed": 0,
+    "newRealLexicalContactsWithMatchingPositiveSourceClause": 4
+  },
+  "categoryReferenceCountTop15": [
+    [
+      "wall_shelf",
+      239
+    ],
+    [
+      "bookshelf",
+      149
+    ],
+    [
+      "side_table",
+      133
+    ],
+    [
+      "painting",
+      128
+    ],
+    [
+      "floor_lamp",
+      92
+    ],
+    [
+      "wall_art",
+      92
+    ],
+    [
+      "chair",
+      86
+    ],
+    [
+      "storage_cabinet",
+      76
+    ],
+    [
+      "armchair",
+      74
+    ],
+    [
+      "dining_chair",
+      57
+    ],
+    [
+      "desk",
+      56
+    ],
+    [
+      "coffee_table",
+      51
+    ],
+    [
+      "nightstand",
+      50
+    ],
+    [
+      "bench",
+      43
+    ],
+    [
+      "artwork",
+      40
+    ]
+  ],
+  "modelNativeTypeCountTop15": [
+    [
+      "chair",
+      106
+    ],
+    [
+      "desk",
+      61
+    ],
+    [
+      "table",
+      54
+    ],
+    [
+      "window",
+      39
+    ],
+    [
+      "bed",
+      33
+    ],
+    [
+      "light",
+      26
+    ],
+    [
+      "sofa",
+      26
+    ],
+    [
+      "shelf",
+      19
+    ],
+    [
+      "bookshelf",
+      17
+    ],
+    [
+      "cabinet",
+      15
+    ],
+    [
+      "fridge",
+      15
+    ],
+    [
+      "armchair",
+      14
+    ],
+    [
+      "sink",
+      12
+    ],
+    [
+      "painting",
+      11
+    ],
+    [
+      "nightstand",
+      10
+    ]
+  ]
+}
