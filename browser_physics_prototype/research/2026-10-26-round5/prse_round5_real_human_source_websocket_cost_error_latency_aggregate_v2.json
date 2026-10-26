@@ -1,0 +1,148 @@
+{
+  "metadata": {
+    "evidence": "official independently human-authored LEGO full source instructions + 1250 annotated constraints through actual isolated GameCore WebSocket",
+    "sourceSHA256": "c4cab948b923b522b9ba4991e167e1c5c7d503786f2b2e5c11a64dab89113c21",
+    "noSameBodyPhysicsReplay": true,
+    "bothBackendVersionsIsolatedAndProductionUntouched": true,
+    "notTrueIndependentNegativeContactGold": true,
+    "allLLMAndGPUInferenceDisabled": true
+  },
+  "comparison": {
+    "committed_research_viewer_server": {
+      "backendCodeSHA256": {
+        "server": "7dea9dfbbd85a2d738d01afa0b1e74404037dd1be22f4117bd1d002c9184dec6",
+        "gameCore": "d795491922c7d46d9d1e614a49c969b0dddf82c4a121bd36a7c5dec0d957331e"
+      },
+      "originalSourceAcceptanceRate": 0,
+      "allMessages": 1380,
+      "endToEndGameSourceSpecificInstances": 0,
+      "latencyMilliseconds": {
+        "all": {
+          "n": 1380,
+          "p05": 1.914,
+          "median": 7.446,
+          "p95": 71.173,
+          "max": 520.531,
+          "mean": 19.034
+        },
+        "full": {
+          "n": 130,
+          "p05": 2.45,
+          "median": 6.701,
+          "p95": 59.856,
+          "max": 128.69,
+          "mean": 15.4
+        },
+        "length_rejected": {
+          "n": 147,
+          "p05": 2.352,
+          "median": 6.517,
+          "p95": 58.315,
+          "max": 128.69,
+          "mean": 14.695
+        },
+        "annotation": {
+          "n": 1250,
+          "p05": 1.825,
+          "median": 7.59,
+          "p95": 71.421,
+          "max": 520.531,
+          "mean": 19.412
+        },
+        "within_limit": {
+          "n": 1233,
+          "p05": 1.851,
+          "median": 7.699,
+          "p95": 71.536,
+          "max": 520.531,
+          "mean": 19.551
+        }
+      },
+      "allQuerySeconds": 28.7664,
+      "startupSeconds": 2.0857,
+      "observedPeakRSSMiB": 182.223,
+      "classification": {
+        "total_requests": 1380,
+        "complete_human_author_instruction_total": 130,
+        "long_source_human_input_rejected": 147,
+        "valid_length_requests": 1233,
+        "response_rejected": 147,
+        "spurious_bench_label": 133,
+        "source_author_relevant_answer": 2,
+        "human_annotated_clause_total": 1250,
+        "response_unsupported_generic_help": 1095,
+        "response_unsupported_foreign_world_object": 136,
+        "response_other_text_without_confirmed_source_world": 2
+      },
+      "privateCompleteRawSHA256": "d4f4a39138a730de61898263985ed5138714b50ab5132122218f5277181faee5"
+    },
+    "current_canonical_uncommitted_server": {
+      "backendCodeSHA256": {
+        "server": "3ce132878aaf46d1a730414cfe50e175eabfc38111f81f10ba5d3cdcd3f51cab",
+        "gameCore": "5308712df286cd7bae125b777fcd78716d8ca8c7e54675fbb7b96d921a104f78"
+      },
+      "originalSourceAcceptanceRate": 0,
+      "allMessages": 1380,
+      "endToEndGameSourceSpecificInstances": 0,
+      "latencyMilliseconds": {
+        "all": {
+          "n": 1380,
+          "p05": 1.812,
+          "median": 6.88,
+          "p95": 52.87,
+          "max": 204.968,
+          "mean": 13.218
+        },
+        "full": {
+          "n": 130,
+          "p05": 2.448,
+          "median": 6.142,
+          "p95": 54.936,
+          "max": 115.541,
+          "mean": 13.41
+        },
+        "length_rejected": {
+          "n": 147,
+          "p05": 2.242,
+          "median": 6.142,
+          "p95": 54.936,
+          "max": 115.541,
+          "mean": 13.223
+        },
+        "annotation": {
+          "n": 1250,
+          "p05": 1.772,
+          "median": 6.918,
+          "p95": 52.69,
+          "max": 204.968,
+          "mean": 13.198
+        },
+        "within_limit": {
+          "n": 1233,
+          "p05": 1.788,
+          "median": 6.928,
+          "p95": 52.69,
+          "max": 204.968,
+          "mean": 13.218
+        }
+      },
+      "allQuerySeconds": 21.9898,
+      "startupSeconds": 1.627,
+      "observedPeakRSSMiB": 149.188,
+      "classification": {
+        "total_requests": 1380,
+        "complete_human_author_instruction_total": 130,
+        "long_source_human_input_rejected": 147,
+        "valid_length_requests": 1233,
+        "response_rejected": 147,
+        "spurious_bench_label": 133,
+        "source_author_relevant_answer": 2,
+        "human_annotated_clause_total": 1250,
+        "response_unsupported_generic_help": 1095,
+        "response_unsupported_foreign_world_object": 136,
+        "response_other_text_without_confirmed_source_world": 2
+      },
+      "privateCompleteRawSHA256": "1c6f9daee681238da5365002f7f2259befb68f1ceef267a2a38b5895a5ba99f3"
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "metadata": {
+    "independentOriginalHumanSourceSHA256": "c4cab948b923b522b9ba4991e167e1c5c7d503786f2b2e5c11a64dab89113c21",
+    "referenceDataAuthoredByBenchmarkTeamButNotGuaranteedSemanticGroundTruth": true,
+    "sourceWorldClaimAuthority": "Original independently human-annotated literary constraints",
+    "referenceInstanceIDAuthority": "Use actual id field for reference physical instance type; object_name can be group/alias",
+    "physicalAuthority": "Actual GameCore/Rapier top-face collider contacts in frozen physical world only",
+    "observerAuthority": "Only physically observed facts and witnessed events; not shown here",
+    "sourceSelectionsPosthocAndNotOutOfSample": true,
+    "noExhaustiveHumanNegativeGold": true,
+    "unknownAndAmbiguousRemainUnknown": true,
+    "noIndependentMetricScaleOr3DMeshGroundTruth": true,
+    "percaseRawSHA256": "d0b21cbe51e9f4892b1252bf9cefc1e3462be6267dc5ffd6b474cea8c2867c8a",
+    "priorSourceStudyCommittedSHA256": "f6d20c4e15c708484ce9bb557f6fb63d1016f3cad885e0929f3237fa97192922",
+    "newExtendedNativeFrozenSHA256": "883d60cf2b458fc4a956b2823b117d0572d347d216643c8b55987e1be57bbc8c",
+    "originalHumanAnnotatedSourceConflictRule": "Reference example mismatches cannot override exact original human description"
+  },
+  "counts": {
+    "humanScenes": 130,
+    "singleRoomScenes": 35,
+    "multipleRoomScenes": 95,
+    "sourceNamedReferenceRoomInstances": 295,
+    "referenceIdCategorizedAssets": 6844,
+    "referenceNamedAssets": 3894,
+    "namedReferenceOldMatch": 231,
+    "namedReferenceExtendedMatch": 255,
+    "rawIdReferenceOldMatch": 251,
+    "rawIdReferenceExtendedMatch": 294,
+    "physicalBodiesPrevious": 575,
+    "physicalBodiesExtended": 678,
+    "extendedMatchedExtraByIdKinds": 43,
+    "extendedMatchedExtraByObjectName": 24,
+    "multiRoomNeverAssignedByGlobalSingleRoomCompiler": 95,
+    "multiRoomActualBodiesInStudy": 539,
+    "referenceAnonymousNameHasExplicitChildParentId": 2937,
+    "sameIdRepeatedInReferenceAssets": 6,
+    "referenceObjectNameDiffersFromUnderlyingIdKind": 50,
+    "physicalContactWronglyCalledHumanOnByLegacyMachineGold": 1,
+    "realNativeContactPairsExtended": 11,
+    "physicalContactEntailedBySelectedHumanClause": 6,
+    "physicalContactEntailedByPreviouslySelectedHumanClause": 3,
+    "physicalContactCompositeButNotActualTopSupport": 1,
+    "physicalContactNotUprightTopSupport": 1,
+    "sixAuthorSourceDirectOnHumanClauses": 6,
+    "sixAuthorExactLinkedReferencePairs": 1,
+    "sixAuthorBothReferenceObjectKindsPresent": 2
+  },
+  "sixPosthocNewSupportSourceReferenceCases": [
+    {
+      "scene": 28,
+      "roles": [
+        "blanket",
+        "bed"
+      ],
+      "referenceStatus": "reference_missing_exact_child_or_parent_category",
+      "exactReferenceDirectChildParentLinkCount": 0
+    },
+    {
+      "scene": 31,
+      "roles": [
+        "projector",
+        "table"
+      ],
+      "referenceStatus": "reference_missing_exact_child_or_parent_category",
+      "exactReferenceDirectChildParentLinkCount": 0
+    },
+    {
+      "scene": 34,
+      "roles": [
+        "computer",
+        "desk"
+      ],
+      "referenceStatus": "reference_missing_exact_child_or_parent_category",
+      "exactReferenceDirectChildParentLinkCount": 0
+    },
+    {
+      "scene": 38,
+      "roles": [
+        "computer",
+        "desk"
+      ],
+      "referenceStatus": "reference_missing_exact_child_or_parent_category",
+      "exactReferenceDirectChildParentLinkCount": 0
+    },
+    {
+      "scene": 44,
+      "roles": [
+        "telephone",
+        "desk"
+      ],
+      "referenceStatus": "exact_linked_reference_child_parent_ids",
+      "exactReferenceDirectChildParentLinkCount": 1
+    },
+    {
+      "scene": 48,
+      "roles": [
+        "computer",
+        "desk"
+      ],
+      "referenceStatus": "reference_contains_child_and_parent_but_no_exact_link",
+      "exactReferenceDirectChildParentLinkCount": 0
+    }
+  ]
+}

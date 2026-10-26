@@ -1,0 +1,137 @@
+{
+  "metadata": {
+    "LEGOOriginalHumanAnnotatedSourceSHA256": "c4cab948b923b522b9ba4991e167e1c5c7d503786f2b2e5c11a64dab89113c21",
+    "humanOriginalSourceAndIndependentConstraintLabelsOverrideReferenceInstanceNamingConflicts": true,
+    "current3DPhysicsClaimsNeedNativeContactManifoldButCannotProveAuthorMeaning": true,
+    "incorrectPriorV2Field": "source_author_relevant_answer counted two unrelated invalid game actions; corrected here; original raw is preserved",
+    "noIndependentExhaustiveSourceContactNegatives": true,
+    "posthocSourceTopSelectionBiasStillApplies": true,
+    "nonComparableFullRunWallTimesHaveDifferentWorldArmCountsAndBodyCounts": true,
+    "backendResponseLatencyMeasuresFastErrorRepliesNotSceneGeneration": true,
+    "noExternalProductionEffects": true,
+    "doNotPromoteRawSceneReferenceAssetsOverOriginalHumanConstraints": true
+  },
+  "serverVersions": {
+    "committed_research_viewer_server": {
+      "privateFrozenEvidenceSHA256": "d4f4a39138a730de61898263985ed5138714b50ab5132122218f5277181faee5",
+      "actualBackendSourceSHA256": {
+        "server": "7dea9dfbbd85a2d738d01afa0b1e74404037dd1be22f4117bd1d002c9184dec6",
+        "gameCore": "d795491922c7d46d9d1e614a49c969b0dddf82c4a121bd36a7c5dec0d957331e"
+      },
+      "classification": {
+        "all": 1380,
+        "full": 130,
+        "full_overlimit": 128,
+        "full_rejected": 128,
+        "unsupported_foreign_game_target": 136,
+        "unsupported_bench_not_in_user_input": 133,
+        "unexpected_native_game_action_dispatch": 2,
+        "clause": 1250,
+        "valid_within_limit": 1233,
+        "clause_help": 1229,
+        "clause_invalid_game_action": 2,
+        "clause_overlimit": 19,
+        "clause_rejected": 19,
+        "full_help": 2
+      },
+      "medianResponseMs": 7.446,
+      "p95ResponseMs": 71.173,
+      "allRequestWallSeconds": 28.7664,
+      "serverStartupSeconds": 2.0857,
+      "hostCPUSampledSeconds": 11.74,
+      "hostPeakObservedRSSMiB": 182.223,
+      "originalSceneSuccessfulMaterializations": 0,
+      "totalIndependentSceneSources": 130,
+      "originalIndependentlyHumanAnnotatedClauses": 1250,
+      "nativeInvalidActionErrors": {
+        "invalid_action": 1,
+        "invalid_target": 1
+      },
+      "originalAuthorSceneEntitiesNeverCreated": true,
+      "noGpuOrModelInference": true
+    },
+    "current_canonical_uncommitted_server": {
+      "privateFrozenEvidenceSHA256": "1c6f9daee681238da5365002f7f2259befb68f1ceef267a2a38b5895a5ba99f3",
+      "actualBackendSourceSHA256": {
+        "server": "3ce132878aaf46d1a730414cfe50e175eabfc38111f81f10ba5d3cdcd3f51cab",
+        "gameCore": "5308712df286cd7bae125b777fcd78716d8ca8c7e54675fbb7b96d921a104f78"
+      },
+      "classification": {
+        "all": 1380,
+        "full": 130,
+        "full_overlimit": 128,
+        "full_rejected": 128,
+        "unsupported_foreign_game_target": 136,
+        "unsupported_bench_not_in_user_input": 133,
+        "unexpected_native_game_action_dispatch": 2,
+        "clause": 1250,
+        "valid_within_limit": 1233,
+        "clause_help": 1229,
+        "clause_invalid_game_action": 2,
+        "clause_overlimit": 19,
+        "clause_rejected": 19,
+        "full_help": 2
+      },
+      "medianResponseMs": 6.88,
+      "p95ResponseMs": 52.87,
+      "allRequestWallSeconds": 21.9898,
+      "serverStartupSeconds": 1.627,
+      "hostCPUSampledSeconds": 10.85,
+      "hostPeakObservedRSSMiB": 149.188,
+      "originalSceneSuccessfulMaterializations": 0,
+      "totalIndependentSceneSources": 130,
+      "originalIndependentlyHumanAnnotatedClauses": 1250,
+      "nativeInvalidActionErrors": {
+        "invalid_action": 1,
+        "invalid_target": 1
+      },
+      "originalAuthorSceneEntitiesNeverCreated": true,
+      "noGpuOrModelInference": true
+    }
+  },
+  "frozenActualNativePhysicsAndSourceParsing": {
+    "sourceOnlyFullCorpusCount": 130,
+    "oldPhysicalWorldArms": 390,
+    "oldEngineWallSeconds": 40.88,
+    "oldNativeBodyInstancesInOneArm": 575,
+    "oldActualInterobjectNativeContacts": 4,
+    "extendedPhysicalWorldArms": 260,
+    "extendedEngineWallSeconds": 45.55,
+    "extendedSourceGrammarWallSeconds": 16.907,
+    "extendedNativeBodyInstancesPerArm": 678,
+    "extendedActualNativeContactPairs": 11,
+    "extendedActuallyNewInterobjectContacts": 6,
+    "extendedNativePreexistingContactsLost": 0,
+    "extendedNativeTrueTopSupports": 10,
+    "extendedPhysicalContactsBackedByPosthocSelectedHumanSourceClauses": 9,
+    "extendedPhysicalContactsNotEntailedByHumanWordMeaning": 1,
+    "extendedPhysicalContactButNotTopSurface": 1,
+    "independentlyNamedReferenceRoomInstances": 295,
+    "multiRoomReferenceScenesNotGroundedByCompiler": 95,
+    "referenceIdObjectCategoryOverlapCeilingPrevious": 251,
+    "referenceIdObjectCategoryOverlapCeilingExtended": 294,
+    "referenceIdObjectCategoryCoverageIsNotSourceRecall": true,
+    "extendedNewNativePairedArmTimingMs": {
+      "controlSeconds": {
+        "n": 130,
+        "p50ms": 109.27,
+        "p95ms": 417.144,
+        "meanMs": 170.907,
+        "maximumMs": 1631.091
+      },
+      "candidateSeconds": {
+        "n": 130,
+        "p50ms": 121.565,
+        "p95ms": 395.878,
+        "meanMs": 160.505,
+        "maximumMs": 759.471
+      }
+    },
+    "versionTimingDifferenceMs": {
+      "pairedSinglePassMedianCanonicalMinusCommitted": -0.73,
+      "fasterCanonicalResponses": 769,
+      "pairs": 1380,
+      "notCausalOrRepeatControlled": true
+    }
+  }
+}
