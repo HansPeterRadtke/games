@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "privateEvidenceSHA256": "c99f409ef8dfc2b8dc037ccc4fef3deff2fe19ff9efa1bab642aab32d55438cc",
+    "originalPredictionSHA256": "24794636878ad6307f21f2d072130c5e1e89c75e775af3d31ddde37c9ae44bdf",
+    "originalHumanAnnotationSHA256": "d60f96b009b3f1d930d95d8926109d0829348ae4d57617c9f5a33cd801208d4a",
+    "posthocDiagnosticOnly": true,
+    "preregisteredOutcomeStillFailed": true,
+    "newModelNotTestedOnUnseenData": true,
+    "noPhysicallyVerifiedSourceObjectIDs": true
+  },
+  "summary": {
+    "all": 480,
+    "priorCorrect": 309,
+    "newCorrect": 336,
+    "changes": 27,
+    "wins": 27,
+    "losses": 0,
+    "rule_trash_can": 15,
+    "rule_toilet_paper": 8,
+    "rule_computer_tower": 4
+  },
+  "oldAllInputAccuracy": 0.64375,
+  "posthocAllInputAccuracy": 0.7,
+  "posthocDifferencePercentagePoints": 5.625
+}
