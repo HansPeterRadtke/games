@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "goldSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "frozenPhysicsSHA256": "47ffe59003b837bb2e989d403625dd8f630cfc751175419fe52708ad0ed5e3bb",
+    "frozenSourceOnlyParserSHA256": "cc09a2f8eb261600e6e1583670516dbcdad295da8471d5902d1226bf2b4eb0e5",
+    "goldOpenedOnlyAfterNativeFrozen": true,
+    "newPhysicalSubsetOutsidePrior200": true,
+    "generalSourceCorpusPreviouslyExamined": true,
+    "limitedToPartlyAssistedDescriptions": true,
+    "goldONTypePairsMayBeIncomplete": true,
+    "pretrainedNewContactsWithoutGoldONLabelNotAutomaticFalsePositives": true,
+    "genericCollidersDoNotEstablishActualFurnitureScaleShapeOrAffordance": true,
+    "privateGoldPerCaseSHA256": "3ca5205e4244fa494bc83b6fc62c53f8ddea8d07ac792a862e11e5108c007753"
+  },
+  "total": {
+    "descriptions": 300,
+    "goldONAll300": 736,
+    "acceptedScenes": 293,
+    "bodiesEachArm": 3528,
+    "controlContacts": 21,
+    "sourceContactPairs": 54,
+    "oldQualifiedNativeContacts": 21,
+    "newQualifiedNativeContacts": 54,
+    "sourceModelCandidates": 169,
+    "admittedNativeSourceSupportPairs": 33,
+    "nativeSceneContactsGained": 33,
+    "zeroMovesNegativeScenes": 263,
+    "goldONPhysicallyEvaluable": 698,
+    "goldONSufficientObjectTypesAndCounts": 417,
+    "goldONPhysicallySupportedBaseline": 5,
+    "goldONPhysicallySupportedSourceOnly": 15,
+    "goldONTrueGained": 10,
+    "goldONTrueLost": 0,
+    "sourceMoves": 33,
+    "newRelationsUnannotatedAtTypePairLevel": 22,
+    "newRelationsAnnotatedAtTypePairLevel": 11,
+    "goldONInRejectedScenes": 38
+  },
+  "pairedSourceSceneBootstrap": {
+    "seed": 20261026,
+    "resamples": 4000,
+    "sourceScenesWithON": 204,
+    "differencePoint": 0.014326647564469915,
+    "conditional95": [
+      0.006042296072507553,
+      0.02309782608695652
+    ],
+    "warning": "Previously studied corpus; not independent future-domain estimate."
+  }
+}

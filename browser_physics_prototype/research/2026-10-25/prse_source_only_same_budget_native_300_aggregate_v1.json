@@ -1,0 +1,3035 @@
+{
+  "metadata": {
+    "rawSHA256": "47ffe59003b837bb2e989d403625dd8f630cfc751175419fe52708ad0ed5e3bb",
+    "newPhysicalSubsetOnly": true,
+    "generalCorpusNotPristine": true,
+    "noOfficialAnnotationsRead": true,
+    "genericBoxDimensionsUnverified": true
+  },
+  "summary": {
+    "sourceDescriptions": 300,
+    "originalScenesAccepted": 293,
+    "matchedNativeScenarios": 293,
+    "failures": 0,
+    "geometryRejected": 0,
+    "totalSamePhysicalBodiesPerArm": 3528,
+    "baselineNativeContactPairs": 21,
+    "sourceOnlyNativeContactPairs": 54,
+    "placed": 33,
+    "sourceOnlyProposedContactsReal": 33,
+    "sourceOnlyProposals": 169,
+    "preplannedAbstentions": {
+      "already_has_support": 15,
+      "no_nonoverlapping_source_supported_position": 21,
+      "ambiguous_or_missing_instance": 37,
+      "not_supported_dynamic_box": 26,
+      "nominally_valid_prephysics_source_on": 33,
+      "physically_incompatible_support_size": 37
+    },
+    "zeroPlacementNegativeControlScenes": 263,
+    "actualNativeSaveAndSameBodies": 293,
+    "elapsedSeconds": 60.39
+  },
+  "scenes": [
+    {
+      "id": 101,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 2,
+      "reason": null
+    },
+    {
+      "id": 102,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 103,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 105,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 106,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 107,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 109,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 110,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 111,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 113,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 114,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 115,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 117,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 118,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 119,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 121,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 122,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 123,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 125,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 126,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 127,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 129,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 130,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 2,
+      "reason": null
+    },
+    {
+      "id": 131,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 133,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 134,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 135,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 137,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 138,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 139,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 141,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 142,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 143,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 145,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 146,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 147,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 14,
+      "reason": null
+    },
+    {
+      "id": 149,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 150,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 151,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 153,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 154,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 155,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 157,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 158,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 159,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 161,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 162,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 163,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 165,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 166,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 167,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 169,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 170,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 171,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 173,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 174,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 175,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 177,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 178,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 179,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 181,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 182,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 183,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 185,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 186,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 187,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 189,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 190,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 191,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 193,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 194,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 3,
+      "reason": null
+    },
+    {
+      "id": 195,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 197,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 4,
+      "reason": null
+    },
+    {
+      "id": 198,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 199,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 201,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 202,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 203,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 5,
+      "reason": null
+    },
+    {
+      "id": 205,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 206,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 207,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 209,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 210,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 211,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 213,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 214,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 215,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 217,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 12,
+      "reason": null
+    },
+    {
+      "id": 218,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 219,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 221,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 222,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 15,
+      "reason": null
+    },
+    {
+      "id": 223,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 225,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 226,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 227,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 229,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 230,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 231,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 233,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 234,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 235,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 15,
+      "reason": null
+    },
+    {
+      "id": 237,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 2,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 238,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 12,
+      "reason": null
+    },
+    {
+      "id": 239,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 2,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 15,
+      "reason": null
+    },
+    {
+      "id": 241,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 15,
+      "reason": null
+    },
+    {
+      "id": 242,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 243,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 245,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 246,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 247,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 249,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 250,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 251,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 253,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 254,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 255,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 257,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 258,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 259,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 261,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 262,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 263,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 265,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 266,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 267,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 12,
+      "reason": null
+    },
+    {
+      "id": 269,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 270,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 271,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 273,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 274,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 275,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 277,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 278,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 279,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 281,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 282,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 283,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 12,
+      "reason": null
+    },
+    {
+      "id": 285,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 286,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 287,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 17,
+      "reason": null
+    },
+    {
+      "id": 289,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 12,
+      "reason": null
+    },
+    {
+      "id": 290,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 291,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 293,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 294,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 295,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 297,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 298,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 299,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 301,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 302,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 303,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 15,
+      "reason": null
+    },
+    {
+      "id": 305,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 306,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 307,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 309,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 310,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 311,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 6,
+      "reason": null
+    },
+    {
+      "id": 313,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 314,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 315,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 317,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 318,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 319,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 12,
+      "reason": null
+    },
+    {
+      "id": 321,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 322,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 323,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 325,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 326,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 327,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 329,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 330,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 331,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 333,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 334,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 335,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 8,
+      "reason": null
+    },
+    {
+      "id": 337,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 338,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 12,
+      "reason": null
+    },
+    {
+      "id": 339,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 341,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 342,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 2,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 343,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 14,
+      "reason": null
+    },
+    {
+      "id": 345,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 346,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 347,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 16,
+      "reason": null
+    },
+    {
+      "id": 349,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 350,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 14,
+      "reason": null
+    },
+    {
+      "id": 351,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 12,
+      "reason": null
+    },
+    {
+      "id": 353,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 354,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 355,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 7,
+      "reason": null
+    },
+    {
+      "id": 357,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 2,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 358,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 359,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 9,
+      "reason": null
+    },
+    {
+      "id": 361,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 362,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 363,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 12,
+      "reason": null
+    },
+    {
+      "id": 365,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 366,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 12,
+      "reason": null
+    },
+    {
+      "id": 367,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 11,
+      "reason": null
+    },
+    {
+      "id": 369,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 12,
+      "reason": null
+    },
+    {
+      "id": 370,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 32,
+      "reason": null
+    },
+    {
+      "id": 371,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 19,
+      "reason": null
+    },
+    {
+      "id": 373,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 17,
+      "reason": null
+    },
+    {
+      "id": 374,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 4,
+      "newPlacement": 3,
+      "realProposedContacts": 3,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 375,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 19,
+      "reason": null
+    },
+    {
+      "id": 377,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 378,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 19,
+      "reason": null
+    },
+    {
+      "id": 379,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 23,
+      "reason": null
+    },
+    {
+      "id": 381,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 23,
+      "reason": null
+    },
+    {
+      "id": 382,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 22,
+      "reason": null
+    },
+    {
+      "id": 383,
+      "status": "original_scene_not_physically_accepted",
+      "oldContacts": null,
+      "newContacts": null,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": null,
+      "reason": null
+    },
+    {
+      "id": 385,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 27,
+      "reason": null
+    },
+    {
+      "id": 386,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 26,
+      "reason": null
+    },
+    {
+      "id": 387,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 25,
+      "reason": null
+    },
+    {
+      "id": 389,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 24,
+      "reason": null
+    },
+    {
+      "id": 390,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 27,
+      "reason": null
+    },
+    {
+      "id": 391,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 24,
+      "reason": null
+    },
+    {
+      "id": 393,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 29,
+      "reason": null
+    },
+    {
+      "id": 394,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 27,
+      "reason": null
+    },
+    {
+      "id": 395,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 2,
+      "newContacts": 2,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 24,
+      "reason": null
+    },
+    {
+      "id": 397,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 28,
+      "reason": null
+    },
+    {
+      "id": 398,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 20,
+      "reason": null
+    },
+    {
+      "id": 399,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 22,
+      "reason": null
+    },
+    {
+      "id": 401,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 23,
+      "reason": null
+    },
+    {
+      "id": 402,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 23,
+      "reason": null
+    },
+    {
+      "id": 403,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 19,
+      "reason": null
+    },
+    {
+      "id": 405,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 406,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 407,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 23,
+      "reason": null
+    },
+    {
+      "id": 409,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 25,
+      "reason": null
+    },
+    {
+      "id": 410,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 27,
+      "reason": null
+    },
+    {
+      "id": 411,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 24,
+      "reason": null
+    },
+    {
+      "id": 413,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 22,
+      "reason": null
+    },
+    {
+      "id": 414,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 23,
+      "reason": null
+    },
+    {
+      "id": 415,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 24,
+      "reason": null
+    },
+    {
+      "id": 417,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 25,
+      "reason": null
+    },
+    {
+      "id": 418,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 24,
+      "reason": null
+    },
+    {
+      "id": 419,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 24,
+      "reason": null
+    },
+    {
+      "id": 421,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 18,
+      "reason": null
+    },
+    {
+      "id": 422,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 24,
+      "reason": null
+    },
+    {
+      "id": 423,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 20,
+      "reason": null
+    },
+    {
+      "id": 425,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 20,
+      "reason": null
+    },
+    {
+      "id": 426,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 427,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 22,
+      "reason": null
+    },
+    {
+      "id": 429,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 430,
+      "status": "original_scene_not_physically_accepted",
+      "oldContacts": null,
+      "newContacts": null,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": null,
+      "reason": null
+    },
+    {
+      "id": 431,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 20,
+      "reason": null
+    },
+    {
+      "id": 433,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 434,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 18,
+      "reason": null
+    },
+    {
+      "id": 435,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 20,
+      "reason": null
+    },
+    {
+      "id": 437,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 13,
+      "reason": null
+    },
+    {
+      "id": 438,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 19,
+      "reason": null
+    },
+    {
+      "id": 439,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 19,
+      "reason": null
+    },
+    {
+      "id": 441,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 23,
+      "reason": null
+    },
+    {
+      "id": 442,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 22,
+      "reason": null
+    },
+    {
+      "id": 443,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 18,
+      "reason": null
+    },
+    {
+      "id": 445,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 20,
+      "reason": null
+    },
+    {
+      "id": 446,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 17,
+      "reason": null
+    },
+    {
+      "id": 447,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 20,
+      "reason": null
+    },
+    {
+      "id": 449,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 20,
+      "reason": null
+    },
+    {
+      "id": 450,
+      "status": "original_scene_not_physically_accepted",
+      "oldContacts": null,
+      "newContacts": null,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": null,
+      "reason": null
+    },
+    {
+      "id": 451,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 17,
+      "reason": null
+    },
+    {
+      "id": 453,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 19,
+      "reason": null
+    },
+    {
+      "id": 454,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 19,
+      "reason": null
+    },
+    {
+      "id": 455,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 22,
+      "reason": null
+    },
+    {
+      "id": 457,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 22,
+      "reason": null
+    },
+    {
+      "id": 458,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 17,
+      "reason": null
+    },
+    {
+      "id": 459,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 15,
+      "reason": null
+    },
+    {
+      "id": 461,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 15,
+      "reason": null
+    },
+    {
+      "id": 462,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 15,
+      "reason": null
+    },
+    {
+      "id": 463,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 12,
+      "reason": null
+    },
+    {
+      "id": 465,
+      "status": "original_scene_not_physically_accepted",
+      "oldContacts": null,
+      "newContacts": null,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": null,
+      "reason": null
+    },
+    {
+      "id": 466,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 19,
+      "reason": null
+    },
+    {
+      "id": 467,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 10,
+      "reason": null
+    },
+    {
+      "id": 469,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 15,
+      "reason": null
+    },
+    {
+      "id": 470,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 471,
+      "status": "original_scene_not_physically_accepted",
+      "oldContacts": null,
+      "newContacts": null,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": null,
+      "reason": null
+    },
+    {
+      "id": 473,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 2,
+      "newPlacement": 2,
+      "realProposedContacts": 2,
+      "bodyCount": 16,
+      "reason": null
+    },
+    {
+      "id": 474,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 475,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 477,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 478,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 1,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 479,
+      "status": "original_scene_not_physically_accepted",
+      "oldContacts": null,
+      "newContacts": null,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": null,
+      "reason": null
+    },
+    {
+      "id": 481,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 15,
+      "reason": null
+    },
+    {
+      "id": 482,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 20,
+      "reason": null
+    },
+    {
+      "id": 483,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 22,
+      "reason": null
+    },
+    {
+      "id": 485,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 23,
+      "reason": null
+    },
+    {
+      "id": 486,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 22,
+      "reason": null
+    },
+    {
+      "id": 487,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 20,
+      "reason": null
+    },
+    {
+      "id": 489,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 490,
+      "status": "original_scene_not_physically_accepted",
+      "oldContacts": null,
+      "newContacts": null,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": null,
+      "reason": null
+    },
+    {
+      "id": 491,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 20,
+      "reason": null
+    },
+    {
+      "id": 493,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 21,
+      "reason": null
+    },
+    {
+      "id": 494,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 15,
+      "reason": null
+    },
+    {
+      "id": 495,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 1,
+      "newContacts": 2,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 18,
+      "reason": null
+    },
+    {
+      "id": 497,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 19,
+      "reason": null
+    },
+    {
+      "id": 498,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 0,
+      "newPlacement": 0,
+      "realProposedContacts": 0,
+      "bodyCount": 18,
+      "reason": null
+    },
+    {
+      "id": 499,
+      "status": "same_body_real_native_matched",
+      "oldContacts": 0,
+      "newContacts": 1,
+      "newPlacement": 1,
+      "realProposedContacts": 1,
+      "bodyCount": 23,
+      "reason": null
+    }
+  ]
+}

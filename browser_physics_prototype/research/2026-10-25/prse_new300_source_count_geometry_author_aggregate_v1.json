@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "sourceSHA256": "2948037f497c81cb2ce8241010c8d93250248217ca9961aa33e59092196b3676",
+    "newNativeRawSHA256": "47ffe59003b837bb2e989d403625dd8f630cfc751175419fe52708ad0ed5e3bb",
+    "authorLabelsScoredPostNativeOnly": true,
+    "sourceCorpusPreviouslyStudied": true,
+    "bodyCountsSameForBothPhysicalPlacements": true,
+    "noPhysicalMeshScalePoseGroundTruth": true,
+    "allProvisionalGenericCollidersLackApprovedPhysicalDimensions": true,
+    "privateGoldPerCaseSHA256": "5db3e20c86ee199aaa4c9d0af572165e6264d0639aeb96066d7c837ad3286e28"
+  },
+  "total": {
+    "descriptions": 300,
+    "acceptedScenes": 293,
+    "physicalBodyInstances": 3528,
+    "independentAuthorObjectCountClauses": 2148,
+    "authorObjectCountSatisfied": 1588,
+    "authorObjectCountFailed": 560,
+    "missingObjectType": 478,
+    "underCountWithTypePresent": 76,
+    "overCountWhenExact": 6,
+    "authorAttributeClausesOnlyTextOrAppearanceNotPhysicalGold": 2170,
+    "genericFallbackPhysicalBodies": 2165,
+    "genericFallbackSmallPlaceholderBoxes": 2165,
+    "objectCountClaimsNotPhysicallyVerified": 83,
+    "objectAttributeClaimsNotPhysicallyVerified": 86
+  }
+}
