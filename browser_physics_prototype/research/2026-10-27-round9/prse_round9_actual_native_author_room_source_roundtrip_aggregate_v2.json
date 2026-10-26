@@ -1,0 +1,71 @@
+{
+  "metadata": {
+    "privateRawSHA256": "c66a6e814dfd504d93c01fe0232c738421a3138efe082930f57a54790af0fa89",
+    "sourceOnlyManifestSHA256": "a43da425768f64329aa6618c1fdd457b3af675160e3a499f3e0169cf1c71838f",
+    "authorRoomPositiveNegativeOnly": true,
+    "fullOriginalSourceNarrativeNotVerified": true,
+    "noUserWorldDeployment": true,
+    "noRandomFeasibleParentPlacebo": true
+  },
+  "summary": {
+    "inputHumanAuthoredSourceScenes": 3,
+    "originalRooms": 8,
+    "sourcePositiveKindGroups": 15,
+    "sourcePositiveObjectInstances": 17,
+    "sourceNegativeRoomFacts": 4,
+    "casesNativeSuccessful": 3,
+    "nativeActualSourceInstances": 17,
+    "sourceFactsCorrectAfterNativeSnapshot": 3,
+    "casesWithUnresolvedSourceConstraints": 3,
+    "completeOriginalHumanSceneValidated": 0,
+    "independentHumanTargetNarrationValidated": 0,
+    "verifiedMutationNegativeControls": 1,
+    "casesWithAnyFailures": 0,
+    "originalBroadObserverCycleNeverRun": true,
+    "noDeniedRandomParentPlaceboAttempted": true,
+    "productionGameAndGPUUntouched": true,
+    "wallSeconds": 2.037,
+    "allAssetDimensionsProvisional": true,
+    "physicalRoomPlatformsAreNotVerifiedAuthorArchitecturalTopology": true,
+    "finalFactualTextIsNotObserverLimitedLiterature": true,
+    "validFullSourceScenes": 0
+  },
+  "perScene": [
+    {
+      "sceneIndex": 20,
+      "status": "native_room_positive_negative_subset_saved_and_restored",
+      "actualSourceBodiesAfterSave": 6,
+      "actualRoomCount": 18,
+      "originalSourceAndRoomQualifiedPhysicalIDsExactlyPreserved": true,
+      "positiveNegativeAuthorRoomChecksPassed": true,
+      "unresolvedSourceStatements": 3,
+      "wrongRoomNegativeGuardTriggered": true,
+      "originalFullLiterarySceneAccepted": false,
+      "error": null
+    },
+    {
+      "sceneIndex": 26,
+      "status": "native_room_positive_negative_subset_saved_and_restored",
+      "actualSourceBodiesAfterSave": 3,
+      "actualRoomCount": 12,
+      "originalSourceAndRoomQualifiedPhysicalIDsExactlyPreserved": true,
+      "positiveNegativeAuthorRoomChecksPassed": true,
+      "unresolvedSourceStatements": 3,
+      "wrongRoomNegativeGuardTriggered": false,
+      "originalFullLiterarySceneAccepted": false,
+      "error": null
+    },
+    {
+      "sceneIndex": 40,
+      "status": "native_room_positive_negative_subset_saved_and_restored",
+      "actualSourceBodiesAfterSave": 8,
+      "actualRoomCount": 18,
+      "originalSourceAndRoomQualifiedPhysicalIDsExactlyPreserved": true,
+      "positiveNegativeAuthorRoomChecksPassed": true,
+      "unresolvedSourceStatements": 4,
+      "wrongRoomNegativeGuardTriggered": false,
+      "originalFullLiterarySceneAccepted": false,
+      "error": null
+    }
+  ]
+}

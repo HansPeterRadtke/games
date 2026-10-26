@@ -1,0 +1,78 @@
+{
+  "metadata": {
+    "privateHumanGoldScorerSHA256": "d3eeba274572731d5febb56a14913a0fcfbe117741632b7ac27aacd00feedac3",
+    "frozenSourceOriginalTextManifestSHA256": "a43da425768f64329aa6618c1fdd457b3af675160e3a499f3e0169cf1c71838f",
+    "frozenActualGameCoreRapierNativeSaveSHA256": "c66a6e814dfd504d93c01fe0232c738421a3138efe082930f57a54790af0fa89",
+    "independentHumanSourceOriginalSHA256": "c4cab948b923b522b9ba4991e167e1c5c7d503786f2b2e5c11a64dab89113c21",
+    "onlyPreviouslyStudiedHumanScenes": true,
+    "sourceRoomSubsetNotCompleteAuthorScene": true,
+    "fullNarrativeObserverRoundTripNotAttempted": true
+  },
+  "summary": {
+    "humanLabelMatchedRoomKindGroups": 15,
+    "humanLabelMatchedPhysicalInstances": 17,
+    "humanLabelMatchedRoomSpecificAbsences": 4,
+    "completeHumanScenes": 3,
+    "authorPhysicalRoomSourceKindsRecognized": 15,
+    "independentHumanPositiveClausesPartiallyOrFullyRecognized": 8,
+    "officialHumanConstraintsInTheseScenes": 37,
+    "unverifiedRoomOrAttributeClauses": 10,
+    "originalAuthorRoomNamesRecognized": 8,
+    "restoredActualRoomTextDerivedWithoutHallucinatedSourceAttributes": 3,
+    "previouslyMissingIndependentAuthorRequiredKindsActuallyInstantiated": 2,
+    "sourceGoldRoomAdjacencyClausesViolated": 1,
+    "measuredActualPlatformGapCm": 800,
+    "authorExplicitComputerOnDeskSupportsUnfulfilled": 2,
+    "sourceGoldComputerSupportClausesUnfulfilled": 1,
+    "realGameCoreNativeSaveToBodyAndRoomTextSucceededInBoundedSubset": 3,
+    "completeLiteraryScenesAccepted": 0,
+    "knownSourceRelationClausesViolated": 2,
+    "observerLiteraryTruthVerified": 0,
+    "originalHumanSceneSourceType": "posthoc studied benchmark, no pristine heldout"
+  },
+  "perScene": [
+    {
+      "sceneIndex": 20,
+      "humanOfficialConstraintCount": 13,
+      "sourceRecognizedRoomGroups": 6,
+      "nativeSavedSourceObjectInstances": 6,
+      "nativeActualPlatformTileCount": 18,
+      "officialHumanNegativeConstraintsMatched": 2,
+      "unresolvedKnownSourceClauses": 3,
+      "fullSourceCorrect": false,
+      "originalSourceRestoredExactly": true,
+      "roomQualifiedBodyIDsRestoredExactly": true,
+      "factualWorldInventoryTextSourceFaithfulForAcceptedSubset": true,
+      "sourceAndTruthfulObserverLiteraryProseNotEvaluated": true
+    },
+    {
+      "sceneIndex": 26,
+      "humanOfficialConstraintCount": 11,
+      "sourceRecognizedRoomGroups": 3,
+      "nativeSavedSourceObjectInstances": 3,
+      "nativeActualPlatformTileCount": 12,
+      "officialHumanNegativeConstraintsMatched": 1,
+      "unresolvedKnownSourceClauses": 3,
+      "fullSourceCorrect": false,
+      "originalSourceRestoredExactly": true,
+      "roomQualifiedBodyIDsRestoredExactly": true,
+      "factualWorldInventoryTextSourceFaithfulForAcceptedSubset": true,
+      "sourceAndTruthfulObserverLiteraryProseNotEvaluated": true
+    },
+    {
+      "sceneIndex": 40,
+      "humanOfficialConstraintCount": 13,
+      "sourceRecognizedRoomGroups": 6,
+      "nativeSavedSourceObjectInstances": 8,
+      "nativeActualPlatformTileCount": 18,
+      "officialHumanNegativeConstraintsMatched": 1,
+      "unresolvedKnownSourceClauses": 4,
+      "fullSourceCorrect": false,
+      "originalSourceRestoredExactly": true,
+      "roomQualifiedBodyIDsRestoredExactly": true,
+      "factualWorldInventoryTextSourceFaithfulForAcceptedSubset": true,
+      "sourceAndTruthfulObserverLiteraryProseNotEvaluated": true
+    }
+  ],
+  "wallSeconds": 0.1027
+}
