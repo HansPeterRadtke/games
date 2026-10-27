@@ -1,0 +1,149 @@
+{
+  "metadata": {
+    "round9FrozenSourceOnlyManifestSHA256": "a43da425768f64329aa6618c1fdd457b3af675160e3a499f3e0169cf1c71838f",
+    "round9ActualAuthoritativeNativeWorldReceiptSHA256": "c66a6e814dfd504d93c01fe0232c738421a3138efe082930f57a54790af0fa89",
+    "humanIndependentOriginalSourceSHA256": "c4cab948b923b522b9ba4991e167e1c5c7d503786f2b2e5c11a64dab89113c21",
+    "round11InitialActualNativeContinuationSHA256": "6e7983120ee332408f9978370979714d786f4b2b649b5959dcb7bd1eb7a4e225",
+    "round11IndependentImpulseMagnitudePhysicalEvidenceSHA256": "753165b7cee9bd779647c131a94e587ec4e3593cd5fd840470398028bac99bd6",
+    "originalAuthorHumanGoldNotConsultedByNativePhysics": true,
+    "deniedFeasibleParentPlaceboNeverAttempted": true,
+    "blockedBroadObserverOffscreenCycleNeverAttempted": true,
+    "allActualGameCoreAndRapierSourceSystemsUnchanged": true,
+    "futureIdenticalPhysicsIsNotProvenByImmediateNativeSnapshot": true,
+    "noBenchmarkWideRateOrUnbiasedCIFrom3KnownHumanScenes": true
+  },
+  "summary": {
+    "previousRound9NativeFrozenSourceScenes": 3,
+    "previousRound9NativeRigidBodiesReproduced": 65,
+    "previousOriginalHumanSourceQualifiedObjects": 17,
+    "newNoActionNativeControlsExact": 3,
+    "newPositiveStrongImpulseScenarios": 3,
+    "newStrongImpulseNativeReplayNotExact": 2,
+    "newImpulseMagnitudeFollowupCases": 6,
+    "lowMediumHighNewImpulseReplayDiscrepancyAbove1cm": 4,
+    "newImpulseMagnitudeNativePerfectSubMillimeterCases": 1,
+    "nativeBinaryMaxAfterFutureActionDifferenceMetres": 0.2177102,
+    "jsonReconstructionMaxAfterFutureActionDifferenceMetres": 0.6587755,
+    "initialNativeRestoresExactIncludingOriginalContactIDs": 12,
+    "initialJSONRestoresWithMatchingContactIDs": 0,
+    "postContinuationNativeContactPairIDsMatched": 12,
+    "newPhysicalRoomFactsBecameStaleAcrossV1V2": 3,
+    "newHighEnergyRoomDescriptionStaleCases": 2,
+    "newSourcePhysicsMeanCPUOrGPUTimeUnmeasured": true,
+    "round11Initial6ScenarioMeasuredElapsedWallSeconds": 17.997,
+    "round11New6ScenarioMeasuredElapsedWallSeconds": 17.466,
+    "round11InitialMedianPerScenarioWallMilliseconds": 2136.9305,
+    "round11AmplitudeMedianPerScenarioWallMilliseconds": 2496.3235,
+    "realNativeSceneGeometrySourceCertified": false,
+    "independentHumanPostEventObserverTextGoldAvailable": false,
+    "fullLiteraryWorldsVerified": 0,
+    "sourceRoomProvenancePredicateCanFailClosedAfterRealNativeMotion": true,
+    "v1V2NotPristineHeldoutNorPopulationUncertaintyEstimate": true
+  },
+  "firstRoundCases": [
+    {
+      "scene": 20,
+      "scenario": "no_action_negative_control",
+      "status": "actual_rapier_source_continuation_compared",
+      "nativeFinalPositionDifferenceM": 0,
+      "legacyJSONFinalPositionDifferenceM": 7.9e-06,
+      "sourceRoomStateNoLongerMatchesTrueNativePosition": false
+    },
+    {
+      "scene": 20,
+      "scenario": "physical_impulse_positive_control",
+      "status": "actual_rapier_source_continuation_compared",
+      "nativeFinalPositionDifferenceM": 0,
+      "legacyJSONFinalPositionDifferenceM": 0.050802,
+      "sourceRoomStateNoLongerMatchesTrueNativePosition": true
+    },
+    {
+      "scene": 26,
+      "scenario": "no_action_negative_control",
+      "status": "actual_rapier_source_continuation_compared",
+      "nativeFinalPositionDifferenceM": 0,
+      "legacyJSONFinalPositionDifferenceM": 7.9e-06,
+      "sourceRoomStateNoLongerMatchesTrueNativePosition": false
+    },
+    {
+      "scene": 26,
+      "scenario": "physical_impulse_positive_control",
+      "status": "failed",
+      "nativeFinalPositionDifferenceM": 0.2177102,
+      "legacyJSONFinalPositionDifferenceM": 2.32e-05,
+      "sourceRoomStateNoLongerMatchesTrueNativePosition": true
+    },
+    {
+      "scene": 40,
+      "scenario": "no_action_negative_control",
+      "status": "actual_rapier_source_continuation_compared",
+      "nativeFinalPositionDifferenceM": 0,
+      "legacyJSONFinalPositionDifferenceM": 7.9e-06,
+      "sourceRoomStateNoLongerMatchesTrueNativePosition": false
+    },
+    {
+      "scene": 40,
+      "scenario": "physical_impulse_positive_control",
+      "status": "failed",
+      "nativeFinalPositionDifferenceM": 0.0593745,
+      "legacyJSONFinalPositionDifferenceM": 0.6587755,
+      "sourceRoomStateNoLongerMatchesTrueNativePosition": false
+    }
+  ],
+  "newImpulseStrengthCases": [
+    {
+      "scene": 26,
+      "impulseStrength": "low_impulse",
+      "nativeReplayDifferenceM": 0.0189629,
+      "legacyJSONReplayDifferenceM": 0.0029731,
+      "nativeContactIDsStillMatch": true,
+      "first30TickNativeDeviationM": 0.0189286,
+      "sourceRoomNoLongerPhysicallyVerified": false
+    },
+    {
+      "scene": 26,
+      "impulseStrength": "medium_impulse",
+      "nativeReplayDifferenceM": 0,
+      "legacyJSONReplayDifferenceM": 7.9e-06,
+      "nativeContactIDsStillMatch": true,
+      "first30TickNativeDeviationM": 0,
+      "sourceRoomNoLongerPhysicallyVerified": false
+    },
+    {
+      "scene": 26,
+      "impulseStrength": "high_impulse",
+      "nativeReplayDifferenceM": 0.2177102,
+      "legacyJSONReplayDifferenceM": 2.32e-05,
+      "nativeContactIDsStillMatch": true,
+      "first30TickNativeDeviationM": 0.0463635,
+      "sourceRoomNoLongerPhysicallyVerified": true
+    },
+    {
+      "scene": 40,
+      "impulseStrength": "low_impulse",
+      "nativeReplayDifferenceM": 0.001502,
+      "legacyJSONReplayDifferenceM": 0.0189578,
+      "nativeContactIDsStillMatch": true,
+      "first30TickNativeDeviationM": 0.0015152,
+      "sourceRoomNoLongerPhysicallyVerified": false
+    },
+    {
+      "scene": 40,
+      "impulseStrength": "medium_impulse",
+      "nativeReplayDifferenceM": 0.0330538,
+      "legacyJSONReplayDifferenceM": 0.0398229,
+      "nativeContactIDsStillMatch": true,
+      "first30TickNativeDeviationM": 0.0296286,
+      "sourceRoomNoLongerPhysicallyVerified": false
+    },
+    {
+      "scene": 40,
+      "impulseStrength": "high_impulse",
+      "nativeReplayDifferenceM": 0.0593745,
+      "legacyJSONReplayDifferenceM": 0.6587755,
+      "nativeContactIDsStillMatch": true,
+      "first30TickNativeDeviationM": 0,
+      "sourceRoomNoLongerPhysicallyVerified": false
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+{
+  "metadata": {
+    "privateRawSHA256": "753165b7cee9bd779647c131a94e587ec4e3593cd5fd840470398028bac99bd6",
+    "frozenStrictSourceOnlySHA256": "a43da425768f64329aa6618c1fdd457b3af675160e3a499f3e0169cf1c71838f",
+    "priorRealNativeSourceBaselineSHA256": "c66a6e814dfd504d93c01fe0232c738421a3138efe082930f57a54790af0fa89",
+    "worldGeometryAllProvisional": true,
+    "notIndependentHumanHeldout": true,
+    "noObserverOrOffscreenTest": true,
+    "noRandomParentPlacebo": true
+  },
+  "summary": {
+    "humanSourceScenesPreviouslyFrozen": 3,
+    "pairedNativeBinaryVsUninterruptedScenarios": 6,
+    "expectedNativeBodysAcrossScenes": 65,
+    "originallyProvisionalSourceObjects": 17,
+    "normalizedOriginalSourceFactsReadOnly": true,
+    "deniedFeasibleRandomParentPlaceboNeverAttempted": true,
+    "previouslyBlockedObserverOffscreenExperimentNeverAttempted": true,
+    "productionGPUAndUserSessionsUntouched": true,
+    "completed": 6,
+    "failed": 0,
+    "lowMediumHighPositiveControls": 6,
+    "physicsNegativeControlsFromPriorFrozenV1": 3,
+    "nativeBinaryReplayExactContacts": 6,
+    "nativeBinaryMaxPositionDifferenceMetres": 0.2177102,
+    "legacyJSONMaxPositionDifferenceMetres": 0.6587755,
+    "sourceRoomStaleAfterPhysicsCount": 1,
+    "nativeWithinHalfMillimetre": 1,
+    "nativeDivergedOverOneCentimetre": 4,
+    "elapsedSeconds": 17.466,
+    "completeSourceLiteraryNarrationVerified": 0,
+    "assetMetricGeometryIndependentCertified": 0,
+    "humanIndependentObserverPostEventGoldAvailable": false
+  },
+  "cases": [
+    {
+      "scene": 26,
+      "scenario": "low_impulse",
+      "status": "native_future_source_action_divergence_measured",
+      "positiveImpulseMovement": 1.31858,
+      "trustedNativeMaxPostsave3DDiscrepancy": 0.0189629,
+      "legacyJSONMaxPostsave3DDiscrepancy": 0.0029731,
+      "nativeSameContactIDs": true,
+      "earliestNativeDivergence": [
+        {
+          "tick": 30,
+          "discrepancyMetres": 0.0189286,
+          "responsibleKind": "fridge"
+        },
+        {
+          "tick": 120,
+          "discrepancyMetres": 0.0189629,
+          "responsibleKind": "fridge"
+        },
+        {
+          "tick": 180,
+          "discrepancyMetres": 0.0189629,
+          "responsibleKind": "fridge"
+        }
+      ],
+      "numberOfNowInvalidOriginalRoomDescriptions": 0,
+      "error": null
+    },
+    {
+      "scene": 26,
+      "scenario": "medium_impulse",
+      "status": "native_future_source_action_divergence_measured",
+      "positiveImpulseMovement": 6.65482,
+      "trustedNativeMaxPostsave3DDiscrepancy": 0,
+      "legacyJSONMaxPostsave3DDiscrepancy": 0.0000079,
+      "nativeSameContactIDs": true,
+      "earliestNativeDivergence": [
+        {
+          "tick": 30,
+          "discrepancyMetres": 0,
+          "responsibleKind": "room_floor"
+        },
+        {
+          "tick": 120,
+          "discrepancyMetres": 0,
+          "responsibleKind": "room_floor"
+        },
+        {
+          "tick": 180,
+          "discrepancyMetres": 0,
+          "responsibleKind": "room_floor"
+        }
+      ],
+      "numberOfNowInvalidOriginalRoomDescriptions": 0,
+      "error": null
+    },
+    {
+      "scene": 26,
+      "scenario": "high_impulse",
+      "status": "native_future_source_action_divergence_measured",
+      "positiveImpulseMovement": 24.25796,
+      "trustedNativeMaxPostsave3DDiscrepancy": 0.2177102,
+      "legacyJSONMaxPostsave3DDiscrepancy": 0.0000232,
+      "nativeSameContactIDs": true,
+      "earliestNativeDivergence": [
+        {
+          "tick": 30,
+          "discrepancyMetres": 0.0463635,
+          "responsibleKind": "fridge"
+        },
+        {
+          "tick": 120,
+          "discrepancyMetres": 0.2177064,
+          "responsibleKind": "fridge"
+        },
+        {
+          "tick": 180,
+          "discrepancyMetres": 0.2177102,
+          "responsibleKind": "fridge"
+        }
+      ],
+      "numberOfNowInvalidOriginalRoomDescriptions": 1,
+      "error": null
+    },
+    {
+      "scene": 40,
+      "scenario": "low_impulse",
+      "status": "native_future_source_action_divergence_measured",
+      "positiveImpulseMovement": 1.29961,
+      "trustedNativeMaxPostsave3DDiscrepancy": 0.001502,
+      "legacyJSONMaxPostsave3DDiscrepancy": 0.0189578,
+      "nativeSameContactIDs": true,
+      "earliestNativeDivergence": [
+        {
+          "tick": 30,
+          "discrepancyMetres": 0.0015152,
+          "responsibleKind": "computer"
+        },
+        {
+          "tick": 120,
+          "discrepancyMetres": 0.001502,
+          "responsibleKind": "computer"
+        },
+        {
+          "tick": 180,
+          "discrepancyMetres": 0.001502,
+          "responsibleKind": "computer"
+        }
+      ],
+      "numberOfNowInvalidOriginalRoomDescriptions": 0,
+      "error": null
+    },
+    {
+      "scene": 40,
+      "scenario": "medium_impulse",
+      "status": "native_future_source_action_divergence_measured",
+      "positiveImpulseMovement": 2.973,
+      "trustedNativeMaxPostsave3DDiscrepancy": 0.0330538,
+      "legacyJSONMaxPostsave3DDiscrepancy": 0.0398229,
+      "nativeSameContactIDs": true,
+      "earliestNativeDivergence": [
+        {
+          "tick": 30,
+          "discrepancyMetres": 0.0296286,
+          "responsibleKind": "computer"
+        },
+        {
+          "tick": 120,
+          "discrepancyMetres": 0.0330538,
+          "responsibleKind": "computer"
+        },
+        {
+          "tick": 180,
+          "discrepancyMetres": 0.0330538,
+          "responsibleKind": "computer"
+        }
+      ],
+      "numberOfNowInvalidOriginalRoomDescriptions": 0,
+      "error": null
+    },
+    {
+      "scene": 40,
+      "scenario": "high_impulse",
+      "status": "native_future_source_action_divergence_measured",
+      "positiveImpulseMovement": 8.04758,
+      "trustedNativeMaxPostsave3DDiscrepancy": 0.0593745,
+      "legacyJSONMaxPostsave3DDiscrepancy": 0.6587755,
+      "nativeSameContactIDs": true,
+      "earliestNativeDivergence": [
+        {
+          "tick": 30,
+          "discrepancyMetres": 0,
+          "responsibleKind": "room_floor"
+        },
+        {
+          "tick": 120,
+          "discrepancyMetres": 0.0593745,
+          "responsibleKind": "computer"
+        },
+        {
+          "tick": 180,
+          "discrepancyMetres": 0.0593745,
+          "responsibleKind": "computer"
+        }
+      ],
+      "numberOfNowInvalidOriginalRoomDescriptions": 0,
+      "error": null
+    }
+  ]
+}
