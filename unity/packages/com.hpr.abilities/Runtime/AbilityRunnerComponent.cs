@@ -5,6 +5,20 @@ using UnityEngine;
 
 namespace HPR
 {
+    [Serializable]
+    public sealed class AbilityCooldownSnapshot
+    {
+        public string AbilityId;
+        public float Remaining;
+    }
+
+    [Serializable]
+    public sealed class AbilityRuntimeSnapshot
+    {
+        public List<string> UnlockedIds = new();
+        public List<AbilityCooldownSnapshot> Cooldowns = new();
+    }
+
     public class AbilityRunnerComponent : MonoBehaviour, IAbilityLoadout
     {
         [SerializeField] private List<AbilityData> configuredAbilities = new();
@@ -90,6 +104,43 @@ namespace HPR
             }
 
             RefreshUnlockedAbilityIds();
+            PublishStateChanged();
+        }
+
+        /// <summary>Capture relative cooldowns so saved states work across sessions.</summary>
+        public AbilityRuntimeSnapshot CaptureSnapshot()
+        {
+            return new AbilityRuntimeSnapshot
+            {
+                UnlockedIds = unlockedAbilityIds.OrderBy(id => id, StringComparer.Ordinal).ToList(),
+                Cooldowns = nextReadyTimes
+                    .Where(pair => abilityLookup.ContainsKey(pair.Key) && pair.Value > Time.time)
+                    .OrderBy(pair => pair.Key, StringComparer.Ordinal)
+                    .Select(pair => new AbilityCooldownSnapshot
+                    {
+                        AbilityId = pair.Key,
+                        Remaining = Mathf.Max(0f, pair.Value - Time.time)
+                    }).ToList()
+            };
+        }
+
+        public void RestoreSnapshot(AbilityRuntimeSnapshot snapshot)
+        {
+            if (snapshot == null || snapshot.UnlockedIds == null || snapshot.Cooldowns == null)
+                throw new ArgumentException("Missing ability snapshot", nameof(snapshot));
+            foreach (AbilityCooldownSnapshot entry in snapshot.Cooldowns)
+            {
+                if (entry == null || string.IsNullOrWhiteSpace(entry.AbilityId) ||
+                    float.IsNaN(entry.Remaining) || float.IsInfinity(entry.Remaining) ||
+                    entry.Remaining < 0f || entry.Remaining > 86400f)
+                    throw new ArgumentException("Invalid ability cooldown", nameof(snapshot));
+            }
+            // Validate before changing live state, then rebind relative to current engine time.
+            SetUnlockedAbilityIds(snapshot.UnlockedIds);
+            nextReadyTimes.Clear();
+            foreach (AbilityCooldownSnapshot entry in snapshot.Cooldowns)
+                if (abilityLookup.ContainsKey(entry.AbilityId))
+                    nextReadyTimes[entry.AbilityId] = Time.time + entry.Remaining;
             PublishStateChanged();
         }
 

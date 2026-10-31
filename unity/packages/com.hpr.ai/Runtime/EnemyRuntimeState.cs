@@ -3,6 +3,13 @@ using UnityEngine;
 
 namespace HPR
 {
+    [Serializable]
+    public struct EnemyRuntimeSnapshot
+    {
+        public float Health;
+        public float AttackCooldownRemaining;
+    }
+
     public enum EnemyRuntimeDecision
     {
         Dead,
@@ -45,6 +52,23 @@ namespace HPR
         public float AttackCooldownRemaining { get; private set; }
         public bool IsDead => Health <= 0f;
         public bool CanAttack => !IsDead && AttackCooldownRemaining <= 0f;
+
+        public EnemyRuntimeSnapshot CaptureSnapshot() => new EnemyRuntimeSnapshot
+        {
+            Health = Health,
+            AttackCooldownRemaining = AttackCooldownRemaining
+        };
+
+        public void RestoreSnapshot(EnemyRuntimeSnapshot snapshot)
+        {
+            if (float.IsNaN(snapshot.Health) || float.IsInfinity(snapshot.Health) ||
+                snapshot.Health < 0f || snapshot.Health > Mathf.Max(0f, enemy.MaxHealth) ||
+                float.IsNaN(snapshot.AttackCooldownRemaining) || float.IsInfinity(snapshot.AttackCooldownRemaining) ||
+                snapshot.AttackCooldownRemaining < 0f || snapshot.AttackCooldownRemaining > 86400f)
+                throw new ArgumentOutOfRangeException(nameof(snapshot), "Invalid enemy snapshot");
+            Health = snapshot.Health;
+            AttackCooldownRemaining = snapshot.AttackCooldownRemaining;
+        }
 
         public void Tick(float deltaTime)
         {

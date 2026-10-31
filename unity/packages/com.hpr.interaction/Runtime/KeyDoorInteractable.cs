@@ -44,6 +44,12 @@ namespace HPR
             doorLeaf.localRotation = Quaternion.RotateTowards(doorLeaf.localRotation, target, openSpeed * Time.deltaTime);
         }
 
+        /// <summary>Restore the logical door state; visual interpolation remains in Update.</summary>
+        public void SetOpen(bool value)
+        {
+            isOpen = value;
+        }
+
         public string GetPrompt(IInteractionActor actor)
         {
             if (requiredKeyItem != null && (actor?.InventoryService == null || !actor.InventoryService.HasItem(requiredKeyItem.Id)))

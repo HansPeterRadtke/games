@@ -3,6 +3,15 @@ using UnityEngine;
 
 namespace HPR
 {
+    // Plain serializable state: configuration remains on WeaponData, not in the save.
+    [Serializable]
+    public struct WeaponRuntimeSnapshot
+    {
+        public int MagazineAmmo;
+        public int ReserveAmmo;
+        public float CooldownRemaining;
+    }
+
     public readonly struct WeaponFireResult
     {
         public WeaponFireResult(WeaponData weapon, float damage, float range, int pellets, float spread)
@@ -45,6 +54,27 @@ namespace HPR
         public float CooldownRemaining { get; private set; }
         public bool CanFire => CooldownRemaining <= 0f && (!weapon.UsesAmmo || MagazineAmmo > 0);
         public bool CanReload => weapon.UsesAmmo && MagazineSize > 0 && MagazineAmmo < MagazineSize && ReserveAmmo > 0;
+
+        public WeaponRuntimeSnapshot CaptureSnapshot() => new WeaponRuntimeSnapshot
+        {
+            MagazineAmmo = MagazineAmmo,
+            ReserveAmmo = ReserveAmmo,
+            CooldownRemaining = CooldownRemaining
+        };
+
+        public void RestoreSnapshot(WeaponRuntimeSnapshot snapshot)
+        {
+            int maxReserve = weapon.MaxAmmo > 0 ? weapon.MaxAmmo : int.MaxValue;
+            if (snapshot.MagazineAmmo < 0 || snapshot.MagazineAmmo > MagazineSize ||
+                snapshot.ReserveAmmo < 0 || snapshot.ReserveAmmo > maxReserve ||
+                float.IsNaN(snapshot.CooldownRemaining) || float.IsInfinity(snapshot.CooldownRemaining) ||
+                snapshot.CooldownRemaining < 0f || snapshot.CooldownRemaining > 86400f ||
+                (!weapon.UsesAmmo && (snapshot.MagazineAmmo != 0 || snapshot.ReserveAmmo != 0)))
+                throw new ArgumentOutOfRangeException(nameof(snapshot), "Invalid weapon snapshot");
+            MagazineAmmo = snapshot.MagazineAmmo;
+            ReserveAmmo = snapshot.ReserveAmmo;
+            CooldownRemaining = snapshot.CooldownRemaining;
+        }
 
         public void Tick(float deltaTime)
         {

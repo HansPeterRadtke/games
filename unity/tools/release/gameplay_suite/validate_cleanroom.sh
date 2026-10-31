@@ -4,8 +4,8 @@
 set -euo pipefail
 src_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 unity=${UNITY_BIN:-/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity}
-release=${HPR_SUITE_RELEASE_ROOT:-/data/var/marketplace-account-setup/unity-consolidated-20261031/release}
-project=${HPR_SUITE_CLEANROOM_PROJECT:-/data/tmp/hpr_gameplay_suite_cleanroom_20261031}
+release=${HPR_SUITE_RELEASE_ROOT:-/data/var/marketplace-account-setup/unity-consolidated-20261031-v2/release}
+project=${HPR_SUITE_CLEANROOM_PROJECT:-/data/tmp/hpr_gameplay_suite_cleanroom_20261031_v2}
 archive="$release/hpr-gameplay-systems-suite-candidate.unitypackage"
 [[ -f "$archive" ]] || { echo 'Missing verified buyer archive' >&2; exit 3; }
 [[ ! -e "$project" ]] || { echo 'Refusing to replace an existing test project' >&2; exit 4; }
@@ -29,6 +29,7 @@ cat "$HPR_SUITE_CLEANROOM_RECEIPT"
 echo 'VERIFY_ACTUAL_RUNTIME_INTEGRATION'
 cp -- "$src_dir/qa/HprGameplaySuiteRuntimeSmokeValidator.cs" "$project/Assets/Editor/"
 export HPR_SUITE_SMOKE_RECEIPT="$release/$(basename "$project")-runtime-receipt.txt"
+export HPR_SUITE_SMOKE_JSON="$release/qa-temporary-slot.json"
 [[ ! -e "$HPR_SUITE_SMOKE_RECEIPT" ]] || { echo "Existing runtime receipt" >&2; exit 6; }
 timeout 420 "$unity" -batchmode -nographics -quit -projectPath "$project" -executeMethod HprGameplaySuiteRuntimeSmokeValidator.Run -logFile "$release/cleanroom-runtime.unity.log" >/dev/null 2>&1
 test -s "$HPR_SUITE_SMOKE_RECEIPT"

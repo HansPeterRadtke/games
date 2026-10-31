@@ -13,6 +13,10 @@ REQUIRED = (
     ROOT + "Editor/HprGameplaySuiteSceneBuilder.cs",
     ROOT + "README.md",
     ROOT + "LICENSE.md",
+    ROOT + "QUICKSTART.md",
+    ROOT + "ARCHITECTURE.md",
+    ROOT + "Integration/HprSuiteIntegration.cs",
+    ROOT + "Integration/HprSuiteSnapshot.cs",
 )
 MODULES = (
     "eventbus", "composition", "save", "stats", "inventory", "interaction",
@@ -74,6 +78,9 @@ def inspect(archive: Path) -> dict:
     readme = asset_contents.get(ROOT + "README.md", b"")
     if b"AI-assisted coding tools" not in readme or b"Dependency-free cleanroom compilation" not in readme:
         raise ValueError("Buyer README lacks AI disclosure or self-contained dependency guidance")
+    for sample in ("TrainingKey", "RepairAbility", "PulseAbility", "TrainingWorldRegistry"):
+        if ROOT + "Samples/" + sample + ".asset" not in paths:
+            raise ValueError("Missing integrated data example: " + sample)
     if ROOT + "ThirdPartyNotices.md" not in paths:
         raise ValueError("Missing consolidated ThirdPartyNotices.md")
     editor_code = {path: body for path, body in asset_contents.items()

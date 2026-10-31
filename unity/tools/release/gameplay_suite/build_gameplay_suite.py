@@ -23,8 +23,8 @@ MODULES = (
 )
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[3]
-PROJECT = Path("/data/tmp/hpr_gameplay_suite_release_20261031/project")
-RELEASE = Path("/data/var/marketplace-account-setup/unity-consolidated-20261031/release")
+PROJECT = Path(os.environ.get("HPR_SUITE_PROJECT_ROOT", "/data/tmp/hpr_gameplay_suite_release_20261031_v2/project"))
+RELEASE = Path(os.environ.get("HPR_SUITE_RELEASE_ROOT", "/data/var/marketplace-account-setup/unity-consolidated-20261031-v2/release"))
 UNITY = Path("/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity")
 
 
@@ -118,12 +118,23 @@ def main() -> None:
     for dirname in ("Demo", "Integration", "Editor", "Samples"):
         (root / dirname).mkdir(parents=True, exist_ok=True)
     shutil.copy2(SCRIPT_DIR / "HprGameplaySuitePlayground.cs", root / "Integration" / "HprGameplaySuitePlayground.cs")
+    shutil.copy2(SCRIPT_DIR / "HprSuiteIntegration.cs", root / "Integration" / "HprSuiteIntegration.cs")
+    shutil.copy2(SCRIPT_DIR / "HprSuiteSnapshot.cs", root / "Integration" / "HprSuiteSnapshot.cs")
     shutil.copy2(SCRIPT_DIR / "HprGameplaySuiteSceneBuilder.cs", root / "Editor" / "HprGameplaySuiteSceneBuilder.cs")
     shutil.copy2(SCRIPT_DIR / "README.md", root / "README.md")
+    shutil.copy2(SCRIPT_DIR / "QUICKSTART.md", root / "QUICKSTART.md")
+    shutil.copy2(SCRIPT_DIR / "ARCHITECTURE.md", root / "ARCHITECTURE.md")
     shutil.copy2(SCRIPT_DIR / "INTEGRATED-SUITE-LICENSE.md", root / "LICENSE.md")
     shutil.copy2(SCRIPT_DIR / "ThirdPartyNotices.md", root / "ThirdPartyNotices.md")
     # The buyer has a single package root, unlike the nine former product drafts.
-    manifest = {"format": "hpr-unity-suite-manifest-v1", "assembly_root": "Assets/HPRGameplaySuite", "source_branch": "product/unity-integrated-suite-20261030", "modules": manifests, "external_art_included": False, "includes_original_integration_demo": True, "excludes_test_assemblies": True}
+    manifest = {"format": "hpr-unity-suite-manifest-v2", "assembly_root": "Assets/HPRGameplaySuite", "source_branch": "product/unity-integrated-suite-20261030", "modules": manifests, "external_art_included": False, "includes_original_integration_demo": True, "excludes_test_assemblies": True}
+    (RELEASE / "source-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    manifest["integration_sources"] = {
+        item: checksum(SCRIPT_DIR / item) for item in (
+            "HprGameplaySuitePlayground.cs", "HprGameplaySuiteSceneBuilder.cs",
+            "HprSuiteIntegration.cs", "HprSuiteSnapshot.cs", "README.md",
+            "QUICKSTART.md", "ARCHITECTURE.md")
+    }
     (RELEASE / "source-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     print("STAGED", len(MODULES), "RUNTIME_MODULES", sum(x["buyer_runtime_files"] for x in manifests), "C_SHARP_FILES", flush=True)
     archive = RELEASE / "hpr-gameplay-systems-suite-candidate.unitypackage"

@@ -48,6 +48,25 @@ namespace HPR
             }
         }
 
+        [Test]
+        public void SimpleActor_CanExplicitlyBindComposedInventory()
+        {
+            var go = new GameObject("Composed Interaction Actor");
+            try
+            {
+                var inventory = go.AddComponent<InventoryComponent>();
+                var actor = go.AddComponent<SimpleInteractionActor>();
+                actor.BindInventory(inventory);
+                Assert.That(actor.InventoryService, Is.SameAs(inventory));
+                var gate = go.AddComponent<KeyDoorInteractable>();
+                gate.SetOpen(true);
+                Assert.That(gate.IsOpen, Is.True);
+                gate.SetOpen(false);
+                Assert.That(gate.IsOpen, Is.False);
+            }
+            finally { Object.DestroyImmediate(go); }
+        }
+
         private sealed class TestInteractable : MonoBehaviour, IInteractable
         {
             public InteractionType InteractionType => InteractionType.Activate;

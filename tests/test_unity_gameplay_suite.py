@@ -77,6 +77,27 @@ class UnityGameplaySuiteSourceTest(unittest.TestCase):
         script = (SOURCE / "validate_cleanroom.sh").read_text()
         self.assertNotIn("com.unity.ugui", script)
 
+    def test_version_two_customer_features_and_validation(self):
+        integration = (SOURCE / "HprGameplaySuitePlayground.cs").read_text()
+        for contract in ("AbilityRunnerComponent", "CompositionRoot", "AssetRegistry",
+                         "KeyDoorInteractable", "InventoryPickupInteractable",
+                         "CaptureSnapshot()", "RestoreSnapshot(", "SaveToDisk(",
+                         "LoadFromDisk(", "UsePulseAbility", "UseHealAbility"):
+            self.assertIn(contract, integration)
+        storage = (SOURCE / "HprSuiteSnapshot.cs").read_text()
+        self.assertIn("SchemaVersion = 2", storage)
+        self.assertIn("File.Replace", storage)
+        self.assertIn("JsonUtility", storage)
+        builder = (SOURCE / "build_gameplay_suite.py").read_text()
+        for addition in ("HprSuiteSnapshot.cs", "HprSuiteIntegration.cs",
+                         "QUICKSTART.md", "ARCHITECTURE.md"):
+            self.assertIn(addition, builder)
+        validator = (SOURCE / "qa/HprGameplaySuiteRuntimeSmokeValidator.cs").read_text()
+        for step in ("ServicesAvailable", "WorldCatalogAvailable", "controller.Interact()",
+                     "UseHealAbility()", "UsePulseAbility()", "SaveToDisk(slot)",
+                     "LoadFromDisk(slot)", "corrupted disk slot rejected"):
+            self.assertIn(step, validator)
+
     def test_rejection_corrected(self):
         strategy = (ROOT / 'doc/package-launch-strategy.md').read_text()
         steps = (ROOT / 'doc/human-only-final-steps.md').read_text()

@@ -40,6 +40,33 @@ namespace HPR
             }
         }
 
+        [Test]
+        public void AbilitySnapshot_RestoresRelativeCooldownAndUnlocks()
+        {
+            var go = new GameObject("Ability Snapshot");
+            var ability = ScriptableObject.CreateInstance<AbilityData>();
+            try
+            {
+                ability.Id = "qa.snap";
+                ability.Cooldown = 7f;
+                ability.Cost = 0f;
+                var resources = go.AddComponent<TestAbilityResourcePool>();
+                var runner = go.AddComponent<AbilityRunnerComponent>();
+                runner.BindRuntimeServices(null, resources);
+                runner.ConfigureAbilities(new[] { ability });
+                runner.SetUnlockedAbilityIds(new[] { ability.Id });
+                Assert.That(runner.TryActivate(ability.Id), Is.True);
+                AbilityRuntimeSnapshot snapshot = runner.CaptureSnapshot();
+                Assert.That(snapshot.Cooldowns.Count, Is.EqualTo(1));
+                runner.SetUnlockedAbilityIds(System.Array.Empty<string>());
+                runner.RestoreSnapshot(snapshot);
+                Assert.That(runner.BuildEntries()[0].Unlocked, Is.True);
+                Assert.That(runner.BuildEntries()[0].CooldownRemaining, Is.GreaterThan(0f));
+                Assert.That(runner.TryActivate(ability.Id), Is.False);
+            }
+            finally { Object.DestroyImmediate(ability); Object.DestroyImmediate(go); }
+        }
+
         private sealed class TestAbilityResourcePool : MonoBehaviour, IAbilityResourcePool
         {
             public float Health { get; private set; } = 50f;
