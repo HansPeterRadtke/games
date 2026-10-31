@@ -28,7 +28,7 @@ namespace HPR
                 handlers.Add(entry);
             }
 
-            return new EventSubscription(this, entry.EventType, handler);
+            return new EventSubscription(this, entry);
         }
 
         public void Unsubscribe<TEvent>(Action<TEvent> handler) where TEvent : class
@@ -102,6 +102,18 @@ namespace HPR
             }
         }
 
+        private void RemoveEntry(SubscriptionEntry registration)
+        {
+            lock (gate)
+            {
+                if (!subscribers.TryGetValue(registration.EventType, out List<SubscriptionEntry>? entries))
+                    return;
+                entries.Remove(registration); // Identity, never the shared callback delegate.
+                if (entries.Count == 0)
+                    subscribers.Remove(registration.EventType);
+            }
+        }
+
         private sealed class SubscriptionEntry
         {
             public SubscriptionEntry(Type eventType, Delegate handler, Action<object> invoker)
@@ -116,28 +128,26 @@ namespace HPR
             public Action<object> Invoke { get; }
         }
 
+        /// <summary>
+        /// One lifetime token for one registration. Dispose is idempotent, even
+        /// when called by multiple threads or after the parent EventBus is cleared.
+        /// A Publish already in progress may still invoke its captured callbacks.
+        /// </summary>
         private sealed class EventSubscription : IDisposable
         {
-            private readonly EventBus bus;
-            private readonly Type eventType;
-            private Delegate? handler;
+            private EventBus? bus;
+            private readonly SubscriptionEntry registration;
 
-            public EventSubscription(EventBus bus, Type eventType, Delegate handler)
+            public EventSubscription(EventBus bus, SubscriptionEntry registration)
             {
                 this.bus = bus;
-                this.eventType = eventType;
-                this.handler = handler;
+                this.registration = registration;
             }
 
             public void Dispose()
             {
-                if (handler == null)
-                {
-                    return;
-                }
-
-                bus.Remove(eventType, handler);
-                handler = null;
+                EventBus? owner = System.Threading.Interlocked.Exchange(ref bus, null);
+                owner?.RemoveEntry(registration);
             }
         }
 

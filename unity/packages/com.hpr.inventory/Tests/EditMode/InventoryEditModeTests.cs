@@ -1,4 +1,6 @@
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace HPR
@@ -25,8 +27,67 @@ namespace HPR
             }
             finally
             {
-                Object.DestroyImmediate(item);
-                Object.DestroyImmediate(go);
+                UnityEngine.Object.DestroyImmediate(item);
+                UnityEngine.Object.DestroyImmediate(go);
+            }
+        }
+
+        [Test]
+        public void AmmoAddition_RefusesArithmeticOverflowWithoutMutation()
+        {
+            var go = new GameObject("InventoryOverflow");
+            var ammo = ScriptableObject.CreateInstance<ItemData>();
+            try
+            {
+                ammo.Id = "shells";
+                ammo.ItemType = ItemType.Ammo;
+                ammo.Value = int.MaxValue;
+                var inventory = go.AddComponent<InventoryComponent>();
+                inventory.ConfigureKnownItems(new[] { ammo });
+                Assert.That(inventory.AddItem(ammo, 2), Is.False);
+                Assert.That(inventory.GetQuantity(ammo.Id), Is.Zero);
+                Assert.That(inventory.AddItem(ammo, 1), Is.True);
+                Assert.That(inventory.AddItem(ammo, 1), Is.False);
+                Assert.That(inventory.GetQuantity(ammo.Id), Is.EqualTo(int.MaxValue));
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(ammo);
+                UnityEngine.Object.DestroyImmediate(go);
+            }
+        }
+
+        [Test]
+        public void SnapshotRestore_RejectsDuplicateUnknownAndInvalidItemsAtomically()
+        {
+            var go = new GameObject("InventoryRestore");
+            var item = ScriptableObject.CreateInstance<ItemData>();
+            try
+            {
+                item.Id = "known";
+                var inventory = go.AddComponent<InventoryComponent>();
+                inventory.ConfigureKnownItems(new[] { item });
+                Assert.That(inventory.AddItem(item, 7), Is.True);
+                var duplicate = new[] {
+                    new ItemQuantitySaveData { itemId = "known", quantity = 2 },
+                    new ItemQuantitySaveData { itemId = "known", quantity = 3 }
+                };
+                Assert.Throws<ArgumentException>(() => inventory.RestoreItemQuantities(duplicate));
+                Assert.That(inventory.GetQuantity("known"), Is.EqualTo(7));
+                Assert.Throws<ArgumentException>(() => inventory.RestoreItemQuantities(new[] {
+                    new ItemQuantitySaveData { itemId = "known", quantity = 1 },
+                    new ItemQuantitySaveData { itemId = "unrecognized", quantity = 5 }
+                }));
+                Assert.That(inventory.GetQuantity("known"), Is.EqualTo(7));
+                Assert.Throws<ArgumentException>(() => inventory.RestoreItemQuantities(new[] {
+                    new ItemQuantitySaveData { itemId = "known", quantity = -4 }
+                }));
+                Assert.That(inventory.GetQuantity("known"), Is.EqualTo(7));
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(item);
+                UnityEngine.Object.DestroyImmediate(go);
             }
         }
 
@@ -51,8 +112,8 @@ namespace HPR
             }
             finally
             {
-                Object.DestroyImmediate(item);
-                Object.DestroyImmediate(go);
+                UnityEngine.Object.DestroyImmediate(item);
+                UnityEngine.Object.DestroyImmediate(go);
             }
         }
     }
