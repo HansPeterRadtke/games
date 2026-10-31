@@ -26,7 +26,7 @@ namespace HPR.GameplaySuite
             return data;
         }
 
-        private static Material CreateMaterial(string name, Color color, float metallic = 0f)
+        private static Material CreateMaterial(string name, Color color, float metallic = 0f, float roughness = 0.6f)
         {
             string path = Samples + "/" + name + ".mat";
             Material material = AssetDatabase.LoadAssetAtPath<Material>(path);
@@ -39,8 +39,11 @@ namespace HPR.GameplaySuite
                 AssetDatabase.CreateAsset(material, path);
             }
             material.color = color;
-            if (material.HasProperty("_Metallic")) material.SetFloat("_Metallic", metallic);
-            if (material.HasProperty("_Glossiness")) material.SetFloat("_Glossiness", 0.4f);
+            // Metal/roughness workflow: Standard/URP smoothness is one minus roughness.
+            float smoothness = 1f - Mathf.Clamp01(roughness);
+            if (material.HasProperty("_Metallic")) material.SetFloat("_Metallic", Mathf.Clamp01(metallic));
+            if (material.HasProperty("_Smoothness")) material.SetFloat("_Smoothness", smoothness);
+            if (material.HasProperty("_Glossiness")) material.SetFloat("_Glossiness", smoothness);
             EditorUtility.SetDirty(material);
             return material;
         }
@@ -73,9 +76,9 @@ namespace HPR.GameplaySuite
             Directory.CreateDirectory(Samples);
             Directory.CreateDirectory(Root + "/Demo");
             AssetDatabase.Refresh();
-            Material floorMat = CreateMaterial("ArenaDarkSlate", new Color(.11f, .16f, .22f));
-            Material trimMat = CreateMaterial("ArenaSteel", new Color(.26f, .32f, .39f), .35f);
-            Material wallMat = CreateMaterial("ArenaWall", new Color(.17f, .24f, .32f));
+            Material floorMat = CreateMaterial("ArenaDarkSlate", new Color(.11f, .16f, .22f), 0f, 0.82f);
+            Material trimMat = CreateMaterial("ArenaSteel", new Color(.26f, .32f, .39f), .85f, .37f);
+            Material wallMat = CreateMaterial("ArenaWall", new Color(.17f, .24f, .32f), 0f, .72f);
             Material cyanMat = CreateMaterial("ArenaCyan", new Color(.1f, .74f, .82f));
             Material amberMat = CreateMaterial("ArenaAmber", new Color(.98f, .67f, .17f));
             Material redMat = CreateMaterial("ArenaEnemy", new Color(.98f, .32f, .18f));

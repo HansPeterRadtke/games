@@ -98,6 +98,12 @@ class UnityGameplaySuiteSourceTest(unittest.TestCase):
                      "LoadFromDisk(slot)", "corrupted disk slot rejected"):
             self.assertIn(step, validator)
 
+    def test_material_creation_uses_pbr_roughness_mapping(self):
+        source = (SOURCE / "HprGameplaySuiteSceneBuilder.cs").read_text()
+        self.assertIn("float smoothness = 1f - Mathf.Clamp01(roughness)", source)
+        self.assertIn('material.SetFloat("_Smoothness", smoothness)', source)
+        self.assertIn('material.SetFloat("_Glossiness", smoothness)', source)
+
     def test_rejection_corrected(self):
         strategy = (ROOT / 'doc/package-launch-strategy.md').read_text()
         steps = (ROOT / 'doc/human-only-final-steps.md').read_text()
