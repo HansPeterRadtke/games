@@ -14,7 +14,7 @@ class UnityGameplaySuiteSourceTest(unittest.TestCase):
         ast.parse(source)
         self.assertIn('INTERNAL_QA_CANDIDATE_NOT_SUBMITTED_NOT_PUBLISHED', source)
         self.assertIn('Assets" / "HPRGameplaySuite', source)
-        self.assertIn('ignore_patterns("Tests", "Tests.meta"', source)
+        self.assertIn('shutil.copytree(source / "Runtime", target / "Runtime")', source)
         self.assertNotIn('UploadPackage', source)
         self.assertNotIn('SubmitPackage', source)
 
@@ -50,6 +50,32 @@ class UnityGameplaySuiteSourceTest(unittest.TestCase):
         self.assertIn('ItemType.Consumable', s)
         self.assertIn('HprGameplaySuitePlayground', s)
         self.assertNotIn('AssetStoreApi', s)
+
+    def test_cleanroom_script_contains_import_and_runtime_qa(self):
+        script = (SOURCE / "validate_cleanroom.sh").read_text()
+        for required in ("-importPackage", "HprGameplaySuiteCleanroomValidator.Run",
+                         "HprGameplaySuiteRuntimeSmokeValidator.Run",
+                         "Refusing to replace an existing test project"):
+            self.assertIn(required, script)
+        runtime = (SOURCE / "qa/HprGameplaySuiteRuntimeSmokeValidator.cs").read_text()
+        for required in ("controller.Fire()", "controller.EnemyAttack()", "controller.Heal()",
+                         "controller.SaveCheckpoint()", "controller.RestoreCheckpoint()",
+                         "controller.ResetEncounter()"):
+            self.assertIn(required, runtime)
+
+    def test_curated_buyer_archive_has_no_legacy_demos_or_ui_dependency(self):
+        builder = (SOURCE / "build_gameplay_suite.py").read_text()
+        self.assertIn("standalone_module_demos_excluded", builder)
+        self.assertIn("shutil.copytree(source /", builder)
+        self.assertNotIn("com.unity.ugui", builder)
+        readme = (SOURCE / "README.md").read_text()
+        self.assertIn("Dependency-free cleanroom compilation", readme)
+        checker = (SOURCE / "validate_release.py").read_text()
+        self.assertIn("Old standalone demos/editors leaked", checker)
+        self.assertIn("Unexpected dependency on UnityEngine.UI", checker)
+        self.assertIn("ThirdPartyNotices.md", checker)
+        script = (SOURCE / "validate_cleanroom.sh").read_text()
+        self.assertNotIn("com.unity.ugui", script)
 
     def test_rejection_corrected(self):
         strategy = (ROOT / 'doc/package-launch-strategy.md').read_text()

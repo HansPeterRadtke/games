@@ -84,3 +84,51 @@ complete that step. Agents can and should still handle all source engineering,
 package validation, safe support communications, and post-verification QA.
 Human participation is not warranted for downloading manuals, inspecting
 source, running tests or ordinary nonsecret technical support correspondence.
+
+## October 31 — independently measurable integrated candidate
+
+A dedicated Git worktree created an original integrated scene and buyer package
+without modifying any rejected provider draft or unrelated agents' projects.
+Ten original HPR Runtime modules were simultaneously compiled and their
+independent EditMode regression suite passed **23 of 23** tests. The new
+playground itself passed eight actual Unity Editor state-transition checks:
+weapon firing/cooldowns, enemy attack/cooldown/death, event-bus damage to
+player stats, inventory loot/consumption, memory-only save/restore and reset.
+A separate cleanroom Unity project imported the initial prototype, loaded the
+actual new scene and verified all five required serialized bindings. The
+initial prototype also exposed an undesirable dependency on the Unity Registry
+UI package from obsolete individual Abilities demo scripts. That prototype
+**is retired** and must not be sold.
+
+The revised archive is one actual `.unitypackage` with **134 assets**, the
+**47 original C# runtime scripts** from ten HPR modules, the new integrated
+scene and controller, one dedicated Editor scene builder, and bundled
+licensing, AI-use and third-party notices. Original standalone demo/editor
+packages, NUnit assemblies and broken legacy UPM paths are excluded. This
+removes the UI-package dependency entirely. Static tar-path and content QA
+passes: single authorized Unity root, path lengths under 150 characters,
+no nested archives/executables, no old demos, no external source files,
+no test assemblies and truthful AI disclosure.
+
+**Independent cleanroom acceptance PASSED on October 31.** A completely new
+Unity 6000.4 project imported the revised 134-asset buyer `.unitypackage`
+without adding `com.unity.ugui` or any other Registry dependencies. Real
+Unity Editor compilation reported zero C# errors; the exact imported scene,
+all five required serialized asset bindings and all 47 original module runtime
+scripts were independently verified. A second Unity Editor run exercised
+all eight cross-module gameplay state-transition checks successfully. These
+are real imported-buyer-file tests, not only source mocks. The exact binary,
+source inventory, log files and receipts are retained privately on Nitro,
+outside Git. This proves technical integration, **not** Unity review approval,
+sales, polished imagery or satisfactory product-market differentiation.
+
+The official Unity Help Center ticket form linked from the October 23
+submission guidelines currently returns `Your organization has reached the
+ticket concurrent limit`. The former Asset Store email alias acknowledged
+receipt and explicitly said it is **no longer monitored**; no Unity support
+case is open from that email. Normal Unity Publisher login remained blocked
+(`Invalid email` on a valid account address) and the alternative Google
+OAuth flow ended on Google's `signin/rejected` screen in the automated browser.
+These are actual provider responses, not evidence the Unity ID or original
+publisher account has been removed. Avoid repeated rejected login, fictitious
+new accounts or duplicate support correspondence.

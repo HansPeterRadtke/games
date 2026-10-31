@@ -27,10 +27,11 @@ realistic animation, advanced AI, disk-save slots or commercial art quality.
 Inventory and enemy health are restored from a memory-only checkpoint; weapon
 ammunition/cooldown are not checkpointed. Data remains local to the Unity process.
 
-Each original module retains its own authored sources, documentation, original
-sample scenes and license. Source tests remain in the repository. Build-time
-exclusion of the ten `Tests/` assemblies prevents NUnit/test infrastructure
-from becoming an unwanted runtime buyer dependency. The single-root export
+Each original module retains its unmodified runtime sources and license.
+The rejected standalone modules' redundant Editor/Demo scenes and their NUnit
+`Tests` assemblies are deliberately **not** included in the buyer archive.
+The single new integrated showcase supersedes those separate demos. All
+original source tests remain in the repository and pass independently. The single-root export
 contains no externally purchased art, audio or generated marketplace media.
 
 ## Usage and validation
@@ -68,10 +69,10 @@ Inventory, Events, Enemy State and Saves**. Include requirements for Unity
 single-root installation procedure. Prepare genuine Unity Editor screenshots
 from the verified imported demo, not synthetic promotional screenshots.
 
-**Registry dependency:** Some retained module-specific example scenes use
-`UnityEngine.UI.Text`. To open all original module demo scenes, the Unity
-project must include `com.unity.ugui` version `2.0.0` or a compatible Unity
-Registry version. The build script declares this dependency in its isolated
-validation project; purchasers must enable the same standard Unity UI package
-if it is absent from their project. The new integrated showcase itself uses
-Unity's built-in `OnGUI`, without uGUI.
+**Dependency-free cleanroom compilation:** No external Unity Registry GUI
+package is required by the buyer archive. The former Abilities demo scripts
+that referenced `UnityEngine.UI.Text` are excluded, and the new integrated
+showcase uses the Unity Editor's built-in IMGUI. Customers can import into a
+new Unity 6000.4 project without manually installing a package first. The
+source-of-truth cleanroom test intentionally imports into a fresh project
+without adding a UI dependency.
