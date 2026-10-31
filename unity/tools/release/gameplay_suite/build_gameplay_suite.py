@@ -25,11 +25,76 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[3]
 PROJECT = Path(os.environ.get("HPR_SUITE_PROJECT_ROOT", "/data/tmp/hpr_gameplay_suite_release_20261031_v2/project"))
 RELEASE = Path(os.environ.get("HPR_SUITE_RELEASE_ROOT", "/data/var/marketplace-account-setup/unity-consolidated-20261031-v2/release"))
-UNITY = Path("/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity")
+UNITY = Path(os.environ.get("UNITY_BIN", "/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity"))
+
+
+def integrated_module_readme(name: str, original_text: str) -> str:
+    """Keep original module API guidance; exclude unavailable standalone workflows."""
+    removed_sections = {"Installation", "Demo", "Validation", "Samples", "Documentation"}
+    retained = []
+    skipping = False
+    for line in original_text.splitlines(keepends=True):
+        if line.startswith("## "):
+            skipping = line[3:].strip() in removed_sections
+        if not skipping:
+            retained.append(line)
+    prefix = (
+        "INTEGRATED SUITE INSTALLATION: This source module is already included "
+        "inside Assets/HPRGameplaySuite/Modules/" + name + ". "
+        "Do not separately install com.hpr.* packages because assembly names may "
+        "collide. The standalone module editor and demo are not included. "
+        "Use the suite Integration Guide, QUICKSTART.md, ARCHITECTURE.md and "
+        "the integrated GameplaySuiteShowcase scene instead.\n\n"
+    )
+    return prefix + "".join(retained)
 
 
 def checksum(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def stage_authored_buyer_assets(*, reuse_project: bool) -> dict[str, str]:
+    """Stage source-controlled Unity YAML/meta before Editor opens the project.
+
+    Import GUIDs must not be regenerated on every build: stable GUIDs are part
+    of the buyer's public serialized contract, just like API names.
+    Reusing an existing staging project is read-only for authored assets.
+    """
+    source_root = SCRIPT_DIR / "buyer_source_assets"
+    if not source_root.is_dir():
+        raise RuntimeError("Missing source-controlled Unity buyer asset baseline")
+    destination_root = PROJECT / "Assets"
+    asset_hashes = {}
+    for source_path in sorted(source_root.rglob("*")):
+        if not source_path.is_file():
+            continue
+        if source_path.is_symlink():
+            raise RuntimeError("Symlink not allowed in authored Unity asset baseline")
+        relative = source_path.relative_to(source_root)
+        staged = destination_root / relative
+        asset_hashes[relative.as_posix()] = checksum(source_path)
+        if reuse_project:
+            if not staged.is_file():
+                raise RuntimeError("Required staged Unity asset is missing: " + str(relative))
+            if source_path.suffix == ".meta":
+                # Unity can update importer metadata, but not a published GUID.
+                def read_guid(file: Path) -> str:
+                    for line in file.read_text(encoding="utf-8").splitlines():
+                        if line.startswith("guid: "):
+                            return line[6:].strip()
+                    raise ValueError("Invalid Unity meta file: " + str(file))
+                if read_guid(source_path) != read_guid(staged):
+                    raise RuntimeError("Staged Unity asset GUID differs from authored source: " + str(relative))
+            elif checksum(source_path) != checksum(staged):
+                raise RuntimeError("Staged Unity asset differs from source; create a fresh project: " + str(relative))
+        else:
+            if staged.exists():
+                raise RuntimeError("Refusing to replace an existing Unity asset: " + str(relative))
+            staged.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source_path, staged)
+    if len(asset_hashes) < 70:
+        raise RuntimeError("Incomplete source-controlled Unity scene / metadata baseline")
+    return asset_hashes
 
 
 def run_editor(args: list[str], label: str) -> None:
@@ -58,12 +123,15 @@ def main() -> None:
     elif not args.reuse_project:
         raise RuntimeError("Build project exists; use --reuse-project to explicitly reuse, never delete it")
 
+    authored_assets = stage_authored_buyer_assets(reuse_project=args.reuse_project)
     root = PROJECT / "Assets" / "HPRGameplaySuite"
     modules_dir = root / "Modules"
-    has_staged_modules = modules_dir.exists()
+    # The stable asset GUID baseline includes Modules/ and module-folder .meta
+    # files, but they do not mean runtime source modules were already staged.
+    has_staged_modules = any((modules_dir / name).is_dir() for name in MODULES)
     if has_staged_modules and not args.reuse_project:
         raise RuntimeError("Modules are already staged; explicit --reuse-project is required")
-    if not has_staged_modules:
+    if not modules_dir.is_dir():
         modules_dir.mkdir(parents=True)
     manifests = []
     for name in MODULES:
@@ -98,15 +166,13 @@ def main() -> None:
                 if meta.is_file():
                     shutil.copy2(meta, target / (relative + ".meta"))
         readme = target / "README.md"
-        if readme.is_file():
-            prefix = ("INTEGRATED SUITE INSTALLATION: This original HPR module is "
-                      "already included under Assets/HPRGameplaySuite/Modules/" + name +
-                      ". Do not install a second UPM copy. The former standalone "
-                      "module demo/editor scenes are not bundled; use the "
-                      "integrated GameplaySuiteShowcase scene in Assets/HPRGameplaySuite/Demo.\n\n")
-            current = readme.read_text(encoding="utf-8")
-            if not current.startswith("INTEGRATED SUITE INSTALLATION:"):
-                readme.write_text(prefix + current, encoding="utf-8")
+        original_module_readme = source / "README.md"
+        if original_module_readme.is_file():
+            desired_readme = integrated_module_readme(
+                name, original_module_readme.read_text(encoding="utf-8"))
+            # The project is an explicitly owned disposable staging directory.
+            # Always refresh authored source docs on intentional --reuse-project.
+            readme.write_text(desired_readme, encoding="utf-8")
         original_files = [(str(f.relative_to(source)), checksum(f))
                           for f in sorted(source.rglob("*"))
                           if f.is_file() and not f.name.endswith(".meta") and "Tests" not in f.parts]
@@ -119,8 +185,14 @@ def main() -> None:
         (root / dirname).mkdir(parents=True, exist_ok=True)
     shutil.copy2(SCRIPT_DIR / "HprGameplaySuitePlayground.cs", root / "Integration" / "HprGameplaySuitePlayground.cs")
     shutil.copy2(SCRIPT_DIR / "HprSuiteIntegration.cs", root / "Integration" / "HprSuiteIntegration.cs")
+    shutil.copy2(SCRIPT_DIR / "HprSuiteArenaMotor.cs", root / "Integration" / "HprSuiteArenaMotor.cs")
+    shutil.copy2(SCRIPT_DIR / "HprSuiteInput.cs", root / "Integration" / "HprSuiteInput.cs")
     shutil.copy2(SCRIPT_DIR / "HprSuiteSnapshot.cs", root / "Integration" / "HprSuiteSnapshot.cs")
     shutil.copy2(SCRIPT_DIR / "HprGameplaySuiteSceneBuilder.cs", root / "Editor" / "HprGameplaySuiteSceneBuilder.cs")
+    shutil.copy2(SCRIPT_DIR / "HprSuiteIntegrationGuide.cs", root / "Editor" / "HprSuiteIntegrationGuide.cs")
+    styles_dir = root / "Editor" / "Styles"
+    styles_dir.mkdir(exist_ok=True)
+    shutil.copy2(SCRIPT_DIR / "HprSuiteIntegrationGuide.uss", styles_dir / "HprSuiteIntegrationGuide.uss")
     shutil.copy2(SCRIPT_DIR / "README.md", root / "README.md")
     shutil.copy2(SCRIPT_DIR / "QUICKSTART.md", root / "QUICKSTART.md")
     shutil.copy2(SCRIPT_DIR / "ARCHITECTURE.md", root / "ARCHITECTURE.md")
@@ -129,10 +201,13 @@ def main() -> None:
     # The buyer has a single package root, unlike the nine former product drafts.
     manifest = {"format": "hpr-unity-suite-manifest-v2", "assembly_root": "Assets/HPRGameplaySuite", "source_branch": "product/unity-integrated-suite-20261030", "modules": manifests, "external_art_included": False, "includes_original_integration_demo": True, "excludes_test_assemblies": True}
     (RELEASE / "source-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    manifest["authored_buyer_assets"] = authored_assets
     manifest["integration_sources"] = {
         item: checksum(SCRIPT_DIR / item) for item in (
             "HprGameplaySuitePlayground.cs", "HprGameplaySuiteSceneBuilder.cs",
-            "HprSuiteIntegration.cs", "HprSuiteSnapshot.cs", "README.md",
+            "HprSuiteIntegration.cs", "HprSuiteSnapshot.cs",
+            "HprSuiteArenaMotor.cs", "HprSuiteInput.cs", "HprSuiteIntegrationGuide.cs",
+            "HprSuiteIntegrationGuide.uss", "README.md",
             "QUICKSTART.md", "ARCHITECTURE.md")
     }
     (RELEASE / "source-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
@@ -141,7 +216,8 @@ def main() -> None:
     env = os.environ.copy()
     env.update({"HOME": "/home/hans", "USER": "hans", "LOGNAME": "hans", "DISPLAY": ":1", "XAUTHORITY": "/home/hans/.Xauthority", "XDG_RUNTIME_DIR": "/run/user/1000", "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus", "HPR_GAMEPLAY_SUITE_OUTPUT": str(archive)})
     log = RELEASE / "build-export.unity.log"
-    proc = subprocess.run([str(UNITY), "-batchmode", "-nographics", "-quit", "-projectPath", str(PROJECT), "-executeMethod", "HPR.GameplaySuite.HprGameplaySuiteSceneBuilder.BuildAndExport", "-logFile", str(log)], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=600, check=False)
+    proc = subprocess.run([str(UNITY), "-batchmode", "-nographics", "-quit", "-projectPath", str(PROJECT), "-executeMethod", "HPR.GameplaySuite.HprGameplaySuiteSceneBuilder.ExportExisting",
+                           "-logFile", str(log)], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=600, check=False)
     if proc.returncode or not archive.is_file():
         print("EXPORT_FAILED", proc.returncode, "log", log, flush=True)
         raise RuntimeError("Unity scene build/export failed; do not publish this candidate")

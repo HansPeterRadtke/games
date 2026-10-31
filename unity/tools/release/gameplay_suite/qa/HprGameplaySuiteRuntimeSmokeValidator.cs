@@ -3,6 +3,8 @@
 using System;
 using System.IO;
 using System.Reflection;
+using UnityEditor.SceneManagement;
+using UnityEditor;
 using HPR;
 using HPR.GameplaySuite;
 using UnityEngine;
@@ -27,6 +29,9 @@ public static class HprGameplaySuiteRuntimeSmokeValidator
         if (File.Exists(slot)) throw new InvalidOperationException("QA refuses to overwrite an existing save");
         try
         {
+            // The preceding scene validation opens the imported showcase. Its
+            // colliders must not interfere with this independent physics rig.
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             player = new GameObject("QA-player");
             player.AddComponent<EventManager>();
             player.AddComponent<InventoryComponent>();
@@ -64,6 +69,7 @@ public static class HprGameplaySuiteRuntimeSmokeValidator
             rifle.Id = "qa_rifle";
             rifle.UsesAmmo = true;
             rifle.Damage = 20f;
+            rifle.Range = 50f; // Real raycasts need a nonzero authored effective range.
             rifle.FireDelay = .35f;
             rifle.MagazineSize = 3;
             rifle.StartingMagazineAmmo = 3;
@@ -190,9 +196,28 @@ public static class HprGameplaySuiteRuntimeSmokeValidator
             Require(!controller.RestoreSnapshot(invalid), "invalid ammunition refused");
             Require(controller.MagazineAmmo == 3 && controller.PlayerStamina == 55f,
                 "invalid snapshot does not partially mutate state");
+            HprSuiteSnapshot duplicateAbility = controller.CaptureSnapshot();
+            duplicateAbility.Abilities.UnlockedIds.Add(duplicateAbility.Abilities.UnlockedIds[0]);
+            Require(!controller.RestoreSnapshot(duplicateAbility), "duplicate nested ability IDs rejected");
+            Require(controller.MagazineAmmo == 3 && controller.PlayerStamina == 55f &&
+                controller.EnemyHealth == 36f && controller.KeyCount == 1 &&
+                controller.DoorIsOpen, "nested ability rejection is not a partial restore");
             File.WriteAllText(slot, "{not valid JSON");
             Require(!controller.LoadFromDisk(slot), "corrupted disk slot rejected");
             Require(controller.PlayerStamina == 55f, "invalid disk slot preserves live state");
+            // Physics-based firing must consume rounds on misses; no auto-target damage.
+            controller.ResetEncounter();
+            float intactEnemy = controller.EnemyHealth;
+            Require(controller.FireAt(new Vector3(-5, 0, 0)), "physics misses still fire");
+            Require(controller.EnemyHealth == intactEnemy && controller.MagazineAmmo == 2,
+                "miss cannot injure an unhit enemy");
+            controller.ResetEncounter();
+            controller.SetAutomaticEnemy(true);
+            float beforeAttack = controller.PlayerHealth;
+            controller.AdvanceEnemy(.2f);
+            Require(controller.PlayerHealth < beforeAttack && controller.EnemyAttackCooldown > 0f,
+                "automatic enemy near-range attack uses real cooldown and EventBus");
+            controller.SetAutomaticEnemy(false);
 
             string output = Environment.GetEnvironmentVariable("HPR_SUITE_SMOKE_RECEIPT");
             if (string.IsNullOrWhiteSpace(output))

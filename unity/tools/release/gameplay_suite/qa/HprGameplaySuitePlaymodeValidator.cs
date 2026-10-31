@@ -56,6 +56,25 @@ public static class HprGameplaySuitePlaymodeValidator
             if (suite.PlayerHealth != 100 || suite.EnemyHealth != 60 ||
                 suite.MagazineAmmo != 6 || suite.PlayerStamina != 100)
                 throw new InvalidOperationException("Real playmode Awake did not initialize correctly");
+            suite.SetAutomaticEnemy(false); // isolate deterministic controller acceptance
+            GameObject player = GameObject.Find("Player / Stats, Inventory, Abilities, EventBus");
+            GameObject target = GameObject.Find("Target / EnemyRuntime and damageable adapter");
+            if (player == null || target == null || player.GetComponent<CharacterController>() == null ||
+                target.GetComponent<CharacterController>() == null)
+                throw new InvalidOperationException("Sample scene missing physical player/enemy motors");
+            var motor = player.GetComponent<HprSuiteArenaMotor>();
+            if (motor == null || !motor.UsesCharacterController)
+                throw new InvalidOperationException("Real player motor did not bind to Unity physics");
+            Vector3 playerBeforeMove = player.transform.position;
+            motor.MovePlanar(new Vector2(1f, 0f), .15f);
+            if (player.transform.position.x <= playerBeforeMove.x + .15f)
+                throw new InvalidOperationException("Real CharacterController failed to move player");
+            suite.SetAutomaticEnemy(true);
+            Vector3 enemyBeforeMove = target.transform.position;
+            suite.AdvanceEnemy(.15f);
+            if (Vector3.Distance(enemyBeforeMove, target.transform.position) < .02f)
+                throw new InvalidOperationException("Real enemy did not autonomously chase");
+            suite.SetAutomaticEnemy(false);
             if (!suite.ServicesAvailable || !suite.WorldCatalogAvailable)
                 throw new InvalidOperationException("Real playmode service/world bindings missing");
             if (!suite.EnemyAttack() || suite.PlayerHealth != 92)
@@ -71,6 +90,8 @@ public static class HprGameplaySuitePlaymodeValidator
             File.WriteAllText(receipt,
                 "imported_scene_actual_playmode=PASS\n" +
                 "real_awake_and_scene_bindings=PASS\n" +
+                "collision_aware_character_motor=PASS\n" +
+                "automatic_enemy_chase=PASS\n" +
                 "composition_and_world_registry=PASS\n" +
                 "combat_and_typed_damage_event=PASS\n" +
                 "live_ability_and_stamina=PASS\n" +

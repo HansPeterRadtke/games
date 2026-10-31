@@ -60,7 +60,8 @@ bounds, position and cooldown values.
 `HprSuiteSnapshotStorage` demonstrates explicit, local JSON storage. Host
 applications should build migrations, tamper detection, platform-specific
 persistent storage and multiple save slots as needed. This sample's player
-movement is planar; it stores the transform but does not serialize arbitrary
+movement uses a collision-aware CharacterController; it stores both player and
+enemy transforms and encounter mode but does not serialize arbitrary
 Unity physics, scene objects or other external game systems.
 
 ## Shipping scope and constraints
@@ -75,3 +76,95 @@ sample data, not copyrighted third-party model assets.
 
 The development tests and cleanroom validator are intentionally excluded
 from the buyer archive. The package embeds a license and AI-use notice.
+
+
+## Physical encounter adapter (version 0.3)
+
+`HprSuiteArenaMotor` wraps Unity's built-in CharacterController for planar
+collision-aware player/enemy motion. `AdvanceEnemy` feeds the actual target
+distance into `EnemyRuntimeState.Decide`, then moves using the motor or
+dispatches the existing typed attack event. Automatic chase and manual
+close-range simulation are intentionally separate. This is a deterministic
+teaching example, not a full pathfinding SDK.
+
+`FireAt(worldPoint)` raycasts in the selected direction and applies enemy
+damage only when an actual collider is the nearest relevant hit; all firing
+consumes ammunition regardless of hit. `Fire()` remains a convenient
+scripted demonstration command aiming at the enemy collider; normal keyboard
+play uses a mouse-ray/ground-plane aim point. No target can be damaged through
+a physical obstacle with the new sample gun.
+
+Save schema version three adds the enemy's current physical position/rotation
+and the automatic-chase toggle to existing stats/ammo/inventory/door/ability
+snapshots. It intentionally rejects incompatible version-two previews.
+
+
+## Materials and pipeline selection
+
+The original Unity-primitive scene is intentionally separate from the
+commercial inventory/combat source code. The editor scene generator chooses
+the active pipeline's Lit shader when available; it falls back to Standard
+only for Built-in. Existing sample materials can be explicitly adapted
+through the Tools/HPR/Gameplay Suite menu when imported into an existing
+URP or HDRP project. Adaptation retains the authored base colors and
+metallic/smoothness controls and touches only HPR sample materials.
+This avoids hardcoding a Registry dependency, auto-import package installs
+or changes to the buyer's project-wide Graphics Settings.
+
+
+## Buyer editor diagnostics
+
+Tools/HPR/Gameplay Suite/Verify Installation checks all ten shipped runtime
+modules, source script presence, sample data assets, documentation and the
+integrated demo scene. It logs its findings and displays a concise on-screen
+report without launching network access, changing project settings or creating
+new files. Open Showcase asks permission to save modified scenes before
+switching the active editor scene. This menu tool uses public AssetDatabase
+and EditorSceneManager APIs, not internal Editor reflection.
+
+
+## Unity Editor integration design
+
+The optional `HprSuiteIntegrationGuide` uses Unity's public UI Toolkit
+`EditorWindow` APIs. It uses one prefixed USS style sheet in `Editor/Styles`
+for responsive, dockable layout and does not require UGUI. It is read-only
+except for explicit user-initiated choices (opening the sample scene after
+Unity's unsaved-scene confirmation, selecting/pinging assets, copying a
+plain diagnostic report, or confirmed conversion of the suite's own samples).
+The presence check is intentionally limited to installed files; it does not
+claim to detect every assembly conflict, binary compatibility or successful
+execution in an existing customer's game. Runtime modules do not depend on
+Editor windows or packages.
+
+
+## Input adapter contract
+
+The demo controller does not call `UnityEngine.Input` directly.
+`IHprSuiteInputSource` supplies pressed/just-pressed actions and a
+pointer position; callers can inject custom actions with `BindInputSource`
+without changing their project's input backend. The default provider is
+compiled for the enabled `ENABLE_INPUT_SYSTEM` or
+`ENABLE_LEGACY_INPUT_MANAGER` engine symbol, with no unconditional
+third-party Input System dependency. The controller Inspector lets users
+remap demo keys and tune interaction reach without editing source.
+
+
+## Source-authored scene and serialized GUID contract
+
+The release's Unity scene, editable data assets and materials live as
+human-inspectable Unity YAML with their original `.meta` GUIDs in the
+development repository's `buyer_source_assets` source baseline.
+The exporter stages them along with module source code, then exports without
+regenerating objects. All non-module metadata and the original module
+source metadata preserve stable GUIDs across builds. The archive static check
+compares the published GUID for each authored path to the baseline; a
+regenerated GUID fails release validation instead of silently breaking
+upgrade references.
+
+When changing an existing scene or sample asset, edit that authored Unity
+source asset with Unity's public Editor APIs or a controlled Editor workflow,
+preserve its meta file, review changes and validate a clean buyer import.
+Creating a new sample requires a reviewed, unique committed GUID. Do not copy
+and rename files while keeping the old GUID, or regenerate scene IDs for
+an existing shipped asset. The public `Build Showcase` menu is intentionally
+absent so customers do not accidentally replace their own edits.

@@ -12,7 +12,7 @@ namespace HPR.GameplaySuite
     [Serializable]
     public sealed class HprSuiteSnapshot
     {
-        public int SchemaVersion = 2;
+        public int SchemaVersion = 3;
         public string WeaponId;
         public string EnemyId;
         public SaveEntityData Player;
@@ -20,6 +20,9 @@ namespace HPR.GameplaySuite
         public List<ItemQuantitySaveData> Inventory = new();
         public WeaponRuntimeSnapshot Weapon;
         public EnemyRuntimeSnapshot Enemy;
+        public SerializableVector3 EnemyPosition;
+        public SerializableQuaternion EnemyRotation;
+        public bool AutomaticEnemy;
         public AbilityRuntimeSnapshot Abilities;
         public bool LootAwarded;
         public bool MedkitPickupActive;
@@ -32,7 +35,7 @@ namespace HPR.GameplaySuite
     {
         public static void Save(string path, HprSuiteSnapshot snapshot)
         {
-            if (snapshot == null || snapshot.SchemaVersion != 2)
+            if (snapshot == null || snapshot.SchemaVersion != 3)
                 throw new ArgumentException("Invalid snapshot schema", nameof(snapshot));
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentException("Missing file path", nameof(path));
@@ -65,7 +68,7 @@ namespace HPR.GameplaySuite
             if (info.Length == 0 || info.Length > 1024 * 1024)
                 throw new InvalidDataException("Save is empty or exceeds the one-megabyte limit");
             HprSuiteSnapshot result = JsonUtility.FromJson<HprSuiteSnapshot>(File.ReadAllText(path, Encoding.UTF8));
-            if (result == null || result.SchemaVersion != 2 || result.Player == null ||
+            if (result == null || result.SchemaVersion != 3 || result.Player == null ||
                 result.Inventory == null || result.Abilities == null)
                 throw new InvalidDataException("Invalid or incompatible HPR suite save");
             return result;

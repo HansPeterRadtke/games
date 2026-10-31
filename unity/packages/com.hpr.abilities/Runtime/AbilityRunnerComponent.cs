@@ -124,23 +124,67 @@ namespace HPR
             };
         }
 
-        public void RestoreSnapshot(AbilityRuntimeSnapshot snapshot)
+        /// <summary>
+        /// Validate all externally supplied save data without changing current
+        /// unlocks, timers, resources or events. Unknown or duplicate ability IDs
+        /// are errors, not silently ignored entries.
+        /// </summary>
+        public bool TryValidateSnapshot(AbilityRuntimeSnapshot snapshot, out string reason)
         {
             if (snapshot == null || snapshot.UnlockedIds == null || snapshot.Cooldowns == null)
-                throw new ArgumentException("Missing ability snapshot", nameof(snapshot));
+            {
+                reason = "Snapshot is missing ability unlocks or cooldowns.";
+                return false;
+            }
+            var knownUnlocks = new HashSet<string>(StringComparer.Ordinal);
+            foreach (string id in snapshot.UnlockedIds)
+            {
+                if (string.IsNullOrWhiteSpace(id) || !abilityLookup.ContainsKey(id) ||
+                    !knownUnlocks.Add(id))
+                {
+                    reason = "Snapshot contains an unknown, empty or duplicate unlocked ability ID.";
+                    return false;
+                }
+            }
+
+            var cooldownIds = new HashSet<string>(StringComparer.Ordinal);
             foreach (AbilityCooldownSnapshot entry in snapshot.Cooldowns)
             {
                 if (entry == null || string.IsNullOrWhiteSpace(entry.AbilityId) ||
+                    !abilityLookup.ContainsKey(entry.AbilityId) ||
+                    !cooldownIds.Add(entry.AbilityId) ||
                     float.IsNaN(entry.Remaining) || float.IsInfinity(entry.Remaining) ||
                     entry.Remaining < 0f || entry.Remaining > 86400f)
-                    throw new ArgumentException("Invalid ability cooldown", nameof(snapshot));
+                {
+                    reason = "Snapshot contains an invalid, unknown or duplicate cooldown.";
+                    return false;
+                }
             }
-            // Validate before changing live state, then rebind relative to current engine time.
-            SetUnlockedAbilityIds(snapshot.UnlockedIds);
-            nextReadyTimes.Clear();
+            reason = string.Empty;
+            return true;
+        }
+
+        /// <summary>
+        /// Restore a fully validated snapshot and emit one final change event.
+        /// Relative cooldowns are anchored to the current engine clock.
+        /// </summary>
+        public void RestoreSnapshot(AbilityRuntimeSnapshot snapshot)
+        {
+            if (!TryValidateSnapshot(snapshot, out string error))
+                throw new ArgumentException(error, nameof(snapshot));
+
+            var cooldowns = new Dictionary<string, float>(StringComparer.Ordinal);
+            float restoreTime = Time.time;
             foreach (AbilityCooldownSnapshot entry in snapshot.Cooldowns)
-                if (abilityLookup.ContainsKey(entry.AbilityId))
-                    nextReadyTimes[entry.AbilityId] = Time.time + entry.Remaining;
+                cooldowns.Add(entry.AbilityId, restoreTime + entry.Remaining);
+
+            requestedUnlockedAbilityIds.Clear();
+            foreach (string id in snapshot.UnlockedIds)
+                requestedUnlockedAbilityIds.Add(id);
+            RefreshUnlockedAbilityIds();
+            nextReadyTimes.Clear();
+            foreach (KeyValuePair<string, float> entry in cooldowns)
+                nextReadyTimes.Add(entry.Key, entry.Value);
             PublishStateChanged();
         }
 

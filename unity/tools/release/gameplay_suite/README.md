@@ -1,6 +1,6 @@
 # HPR Gameplay Systems Suite — integrated training arena
 
-Version 0.2.0 internal review candidate. This is original Unity C# source plus
+Version 0.3.0 internal review candidate. This is original Unity C# source plus
 one purpose-built training arena, not a complete FPS controller, character-art
 pack, cloud service, networking solution, navigation AI, or finished game.
 The ten original runtimes are delivered as one Unity Asset Store package with
@@ -20,9 +20,13 @@ modules without additional Registry dependencies:
 * **Interaction:** approach two pickup stations, then approach the locked
   gate with the collected key to toggle its open state.
 * **Stats:** health, stamina, healing and typed combat damage.
-* **Weapons:** magazine, reserve ammunition, reloading, cooldowns and hits.
-* **Enemy:** deterministic health, attacks and cooldowns. It does not
-  independently pathfind, navigate or use generative AI.
+* **Weapons:** magazine, reserve ammunition, reloading and cooldowns.
+  Cursor-directed raycasting checks collision geometry and line of sight;
+  missed shots still consume ammunition. A scripted button exercises the
+  target firing path in the code walkthrough.
+* **Enemy:** deterministic health, cooldowns and proximity-based automatic chase/attack
+  within the sample arena; the included finite-state decision module is not
+  NavMesh pathfinding, obstacle routing or generative AI.
 * **Abilities:** unlockable heal and area-damage abilities, stamina cost,
   physics-overlap selection and cooldowns. Area damage reaches the enemy via
   the same typed damage event used by other systems.
@@ -45,12 +49,44 @@ Play. All scene dependencies and sample ScriptableObject assets are included.
 See `QUICKSTART.md` for the complete player route and `ARCHITECTURE.md`
 for C# integration examples and extension points.
 
-The arena uses Unity built-in primitives and standard materials, simple
-top-down WASD/arrow movement, and runtime IMGUI. It deliberately does not
-provide physics collision-aware movement, full combat aiming, enemy navigation,
+### Read-only Editor integration guide
+
+Choose **Tools > HPR > Gameplay Suite > Integration Guide**. The new UI Toolkit
+window reports the actual Editor/render pipeline and basic package file status,
+opens the sample safely, and offers one-click navigation to source examples
+and editable sample definitions. It never installs registry dependencies or
+modifies project settings. Its file check is not a substitute for real PlayMode
+or buyer-project integration tests. The layout uses a namespaced style sheet
+and fits a docked/resizable Editor window.
+
+
+### Render pipeline and tool compatibility
+
+The scene's material examples use Unity Standard/Lit-style metallic and
+smoothness channels. In a Built-in Render Pipeline project they are ready as
+imported. In an existing **URP** or **HDRP** project, first ensure that the
+chosen Render Pipeline package and project asset are set up, then deliberately
+select **Tools > HPR > Gameplay Suite > Adapt Demo Materials to Current Render
+Pipeline**. This explicit action retargets only the suite's included sample
+materials; it does not install packages, change project Graphics Settings, or
+silently alter unrelated assets. Do not run it on an unknown/custom pipeline.
+URP/HDRP are optional host-project renderers, not required runtime dependencies.
+
+Unity 6.6 introduces an official Asset Store compatibility requirement for
+entering Play mode with domain reload disabled. This newer compatibility mode
+and URP/HDRP import must be tested independently before claiming those features
+as accepted; prior validation used Unity 6000.4 Built-in.
+
+
+The arena uses Unity built-in primitives and standard materials, collision-aware
+top-down WASD/arrow movement with a Unity CharacterController, cursor-aimed
+hitscan weapons, a deterministic chase/attack encounter, and runtime IMGUI. It deliberately does not
+provide a full third-person character controller, authored animation, NavMesh routing,
 character animations, complex inventory grids or multiplayer synchronization.
-The weapon button targets the training enemy directly, and the enemy-attack
-button simulates a deterministic close-range encounter. The ability area hit
+The training target fire button aims at the actual target collider,
+while the F keyboard action aims at the mouse cursor; both respect collision.
+The enemy-attack button intentionally forces a close-range test scenario;
+automatic chase and attack use actual separation and runtime cooldowns. The ability area hit
 does use a Unity physics overlap and type-safe event delivery.
 
 ## Saving and portability
@@ -58,7 +94,7 @@ does use a Unity physics overlap and type-safe event delivery.
 The example writes only if a user explicitly presses **Save disk slot**.
 It stores JSON at
 `Application.persistentDataPath/HPRGameplaySuite/demo-slot.json`.
-Load requires an existing, compatible version-two JSON slot. It writes using
+Load requires an existing, compatible version-three JSON slot. It writes using
 a temporary file and replacement on supported local filesystems; failure or
 corruption is reported on-screen without overwriting the live encounter.
 This is an illustrative local save slot; it is not encrypted, tamper-resistant,
@@ -98,3 +134,37 @@ The buyer archive is tested in a fresh Unity 6000.4 project without adding
 
 This package has **not** been resubmitted to Unity since the rejection of the
 former standalone products. It is a technical and product-quality candidate.
+
+
+### Input without forcing another package
+
+The demonstration exposes its keyboard bindings and interaction reach in the
+controller Inspector. `HprSuiteInput` uses the legacy Input Manager only when that
+backend is active, or Unity's optional Input System API when the corresponding
+compile-time symbol is active. The shared gameplay runtime modules do not
+require the Input System package. Professional games can inject their own
+`IHprSuiteInputSource` for existing input actions, gamepads or test
+fakes, instead of changing the project's Active Input Handling setting.
+Not every historical KeyCode name maps to the Input System key enumeration;
+use standard letter, arrow and action keys or a custom adapter when needed.
+
+
+### Stable assets and upgrading an existing installation
+
+The included scene and sample data are original Unity YAML source assets with
+source-controlled `.meta` files. The runtime scripts, editor tools, demo scene
+and sample ScriptableObjects retain stable Unity GUID identities across release
+builds. We do not generate new GUIDs every time the buyer archive is created.
+
+The repository's private release builder reads a checked-in authoring baseline
+and exports it without opening or rewriting the demo. An internal scene builder
+is only for a brand-new disposable authoring project; it refuses to overwrite
+existing scene or sample files. The cleanroom archive validator checks asset
+GUIDs against the version-controlled baseline.
+
+**Upgrade policy:** Back up or version-control your own project before
+importing any Asset Store update. Never modify `Assets/HPRGameplaySuite`
+shipped source/assets directly if you want straightforward upgrades; derive or
+copy samples into your own game namespace and change the copies. Unity GUID
+stability preserves object identity, but it does not migrate every custom
+serialized property or guarantee all future API compatibility.

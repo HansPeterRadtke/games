@@ -23,3 +23,21 @@ Additional located original references: the complete Blender 5.2 offline API/man
 ## Next validation priorities
 
 After the PBR-sample authoring change, rebuild actual buyer archive and rerun fresh import, runtime and playmode tests. Require real separate tests for Unity 6.6 disabled-domain-reload behavior, URP/HDRP before claiming compatibility, especially considering original package differences. Add richer buyer-facing visuals and workflow tests before commercial submission. Retain accurate AI disclosures. Preserve all original knowledge texts on Raspi outside Git, and keep generated Unity packages outside Git.
+
+
+## Current Unity 6.6 / pipeline research after source audit
+
+The official October 23, 2026 submission rules section 1.3.c also
+requires new packages **submitted using Unity 6.5 or later** to support
+URP or HDRP. Unity's official 2026 pipeline strategy starts deprecating
+Built-in in 6.5 and recommends URP for new projects.
+The earlier Built-in-only import is therefore insufficient for current
+reviewer compliance on 6.6. The buyer sample now has an explicit
+non-destructive material adaptation command. It selects the active
+Builtin/URP/HDRP Lit shader using GraphicsSettings.currentRenderPipeline;
+the operator must install and configure the pipeline itself. A real
+6.6 URP import and Fast Enter Playmode validation remain release gates,
+not automatically fulfilled by this code path. Sources:
+https://marketplace.unity.com/publishing/submission-guidelines
+https://unity.com/topics/render-pipelines-strategy-for-2026
+https://docs.unity.com/en-us/engine/6000.6/manual/packages-list/packages-all/pack-core/com-unity-render-pipelines-universal

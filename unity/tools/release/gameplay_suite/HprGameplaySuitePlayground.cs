@@ -17,6 +17,8 @@ namespace HPR.GameplaySuite
         [SerializeField] private GameObject medkitPickup;
         [SerializeField] private GameObject keyPickup;
         [SerializeField] private KeyDoorInteractable demoDoor;
+        [SerializeField] private Camera arenaCamera;
+        [SerializeField] private bool automaticEnemy = true;
 
         [Header("Reusable data assets")]
         [SerializeField] private ItemData lootItem;
@@ -28,11 +30,16 @@ namespace HPR.GameplaySuite
         [SerializeField] private AssetRegistry worldRegistry;
 
         private readonly Queue<string> eventHistory = new Queue<string>();
+        private Vector2 hudScrollPosition;
         private EventManager eventManager;
         private InventoryComponent inventory;
         private ActorStatsComponent playerStats;
         private SimpleInteractionActor actor;
         private AbilityRunnerComponent abilities;
+        private HprSuiteArenaMotor playerMotor;
+        private HprSuiteArenaMotor enemyMotor;
+        private Vector3 initialEnemyPosition;
+        private Quaternion initialEnemyRotation;
         private WeaponRuntimeState weapon;
         private EnemyRuntimeState enemy;
         private CompositionRoot services;
@@ -44,7 +51,21 @@ namespace HPR.GameplaySuite
         private string status = "Scene loaded";
         private Vector3 initialPlayerPosition;
         private Quaternion initialPlayerRotation;
-        private const float InteractRange = 2.7f;
+        [Header("Demo controls and interaction")]
+        [SerializeField, Min(.1f)] private float interactionRangeMeters = 2.7f;
+        [SerializeField] private KeyCode moveForwardKey = KeyCode.W;
+        [SerializeField] private KeyCode moveBackwardKey = KeyCode.S;
+        [SerializeField] private KeyCode moveLeftKey = KeyCode.A;
+        [SerializeField] private KeyCode moveRightKey = KeyCode.D;
+        [SerializeField] private KeyCode fireKey = KeyCode.F;
+        [SerializeField] private KeyCode reloadKey = KeyCode.R;
+        [SerializeField] private KeyCode interactKey = KeyCode.E;
+        [SerializeField] private KeyCode useMedkitKey = KeyCode.H;
+        [SerializeField] private KeyCode healAbilityKey = KeyCode.Q;
+        [SerializeField] private KeyCode pulseAbilityKey = KeyCode.Space;
+        [SerializeField] private KeyCode memorySaveKey = KeyCode.K;
+        [SerializeField] private KeyCode memoryLoadKey = KeyCode.L;
+        private IHprSuiteInputSource inputSource = HprSuiteUnityInputSource.Instance;
         private const float MoveSpeed = 4f;
 
         public float PlayerHealth => playerStats != null ? playerStats.Health : 0f;
@@ -65,7 +86,19 @@ namespace HPR.GameplaySuite
             lootItem != null && worldRegistry.TryGet(lootItem.Id, out AssetMetadata entry) &&
             entry != null && entry.DisplayName == lootItem.DisplayName;
         public bool HasCheckpoint => savedCheckpoint != null;
+        public bool AutomaticEnemy => automaticEnemy;
+        public string Objective => KeyCount == 0 && keyPickup != null && keyPickup.activeSelf
+            ? "01  COLLECT THE AMBER ACCESS KEY"
+            : !DoorIsOpen ? "02  UNLOCK THE ACCESS GATE"
+            : EnemyHealth > 0f ? "03  DEFEAT THE TRAINING TARGET"
+            : "04  HEAL, SAVE OR RESET THE ENCOUNTER";
+        public void SetAutomaticEnemy(bool enabled) { automaticEnemy = enabled; }
         public bool CanInteract => FindNearbyInteractable() != null;
+        /// <summary>Allow existing game input systems or test fakes to control the demo.</summary>
+        public void BindInputSource(IHprSuiteInputSource source)
+        {
+            inputSource = source ?? HprSuiteUnityInputSource.Instance;
+        }
         public string SavePath => System.IO.Path.Combine(Application.persistentDataPath, "HPRGameplaySuite", "demo-slot.json");
 
         private void Awake()
@@ -74,13 +107,18 @@ namespace HPR.GameplaySuite
                 weaponData == null || enemyData == null || healAbility == null || pulseAbility == null ||
                 worldRegistry == null || medkitPickup == null || keyPickup == null || demoDoor == null)
             {
-                Debug.LogError("Gameplay Suite demo references missing; choose Tools/HPR/Gameplay Suite/Build Showcase.", this);
+                Debug.LogError("Gameplay Suite demo references missing. Re-import the complete shipped demo scene and sample assets.", this);
                 enabled = false;
                 return;
             }
 
             initialPlayerPosition = playerRoot.transform.position;
             initialPlayerRotation = playerRoot.transform.rotation;
+            initialEnemyPosition = enemyVisual.transform.position;
+            initialEnemyRotation = enemyVisual.transform.rotation;
+            playerMotor = playerRoot.GetComponent<HprSuiteArenaMotor>();
+            enemyMotor = enemyVisual.GetComponent<HprSuiteArenaMotor>();
+            if (arenaCamera == null) arenaCamera = Camera.main;
             eventManager = playerRoot.GetComponent<EventManager>() ?? playerRoot.AddComponent<EventManager>();
             inventory = playerRoot.GetComponent<InventoryComponent>() ?? playerRoot.AddComponent<InventoryComponent>();
             inventory.ConfigureKnownItems(new[] { lootItem, keyItem });
@@ -97,6 +135,7 @@ namespace HPR.GameplaySuite
             abilities.SetUnlockedAbilityIds(new[] { healAbility.Id, pulseAbility.Id });
             weapon = new WeaponRuntimeState(weaponData);
             enemy = new EnemyRuntimeState(enemyData);
+            if (enemyMotor != null) enemyMotor.SetMoveSpeed(Mathf.Max(.5f, enemyData.MoveSpeed));
             var enemyTarget = enemyVisual.GetComponent<HprSuiteEnemyTarget>() ?? enemyVisual.AddComponent<HprSuiteEnemyTarget>();
             enemyTarget.Bind(this);
             medkitPickup.GetComponent<InventoryPickupInteractable>()?.BindRuntimeEventBusSource(eventManager);
@@ -136,36 +175,127 @@ namespace HPR.GameplaySuite
             services.Tick(dt);
             if (playerStats.IsAlive)
             {
-                float horizontal = (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) ? 1f : 0f) -
-                                   (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) ? 1f : 0f);
-                float vertical = (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) ? 1f : 0f) -
-                                 (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) ? 1f : 0f);
-                Vector3 movement = new Vector3(horizontal, 0, vertical);
-                if (movement.sqrMagnitude > 1f) movement.Normalize();
-                // Bounded training arena: deliberately simple, not a full character controller.
-                Vector3 pos = playerRoot.transform.position + movement * (MoveSpeed * dt);
-                playerRoot.transform.position = new Vector3(Mathf.Clamp(pos.x, -7f, 7f),
-                    initialPlayerPosition.y, Mathf.Clamp(pos.z, -5f, 5f));
+                float horizontal = (inputSource.IsPressed(moveRightKey) || inputSource.IsPressed(KeyCode.RightArrow) ? 1f : 0f) -
+                                   (inputSource.IsPressed(moveLeftKey) || inputSource.IsPressed(KeyCode.LeftArrow) ? 1f : 0f);
+                float vertical = (inputSource.IsPressed(moveForwardKey) || inputSource.IsPressed(KeyCode.UpArrow) ? 1f : 0f) -
+                                 (inputSource.IsPressed(moveBackwardKey) || inputSource.IsPressed(KeyCode.DownArrow) ? 1f : 0f);
+                Vector2 movement = Vector2.ClampMagnitude(new Vector2(horizontal, vertical), 1f);
+                if (playerMotor != null) playerMotor.MovePlanar(movement, dt);
+                else
+                {
+                    Vector3 pos = playerRoot.transform.position + new Vector3(movement.x, 0f, movement.y) * (MoveSpeed * dt);
+                    playerRoot.transform.position = new Vector3(Mathf.Clamp(pos.x, -7f, 7f),
+                        initialPlayerPosition.y, Mathf.Clamp(pos.z, -5f, 5f));
+                }
+                // Mouse cursor defines a real top-down aim point; no target auto-hit.
+                if (TryGetPointerAim(out Vector3 pointerAim))
+                {
+                    Vector3 forward = pointerAim - playerRoot.transform.position;
+                    forward.y = 0f;
+                    if (forward.sqrMagnitude > .1f)
+                        playerRoot.transform.rotation = Quaternion.LookRotation(forward.normalized);
+                }
             }
-            if (Input.GetKeyDown(KeyCode.F)) Fire();
-            if (Input.GetKeyDown(KeyCode.R)) Reload();
-            if (Input.GetKeyDown(KeyCode.E)) Interact();
-            if (Input.GetKeyDown(KeyCode.H)) Heal();
-            if (Input.GetKeyDown(KeyCode.Q)) UseHealAbility();
-            if (Input.GetKeyDown(KeyCode.Space)) UsePulseAbility();
-            if (Input.GetKeyDown(KeyCode.K)) SaveCheckpoint();
-            if (Input.GetKeyDown(KeyCode.L)) RestoreCheckpoint();
+            AdvanceEnemy(dt);
+            if (inputSource.WasPressed(fireKey))
+            {
+                if (TryGetPointerAim(out Vector3 aim)) FireAt(aim);
+                else Fire();
+            }
+            if (inputSource.WasPressed(reloadKey)) Reload();
+            if (inputSource.WasPressed(interactKey)) Interact();
+            if (inputSource.WasPressed(useMedkitKey)) Heal();
+            if (inputSource.WasPressed(healAbilityKey)) UseHealAbility();
+            if (inputSource.WasPressed(pulseAbilityKey)) UsePulseAbility();
+            if (inputSource.WasPressed(memorySaveKey)) SaveCheckpoint();
+            if (inputSource.WasPressed(memoryLoadKey)) RestoreCheckpoint();
             RefreshVisual();
         }
 
-        public bool Fire()
+        private bool TryGetPointerAim(out Vector3 aim)
         {
-            if (weapon == null || enemy == null || enemy.IsDead || !playerStats.IsAlive)
-                return Fail("No living attacker or target");
-            if (!weapon.TryFire(out WeaponFireResult shot))
-                return Fail("Reload or allow firing cooldown");
-            DamageEnemy(shot.Damage, "Rifle");
+            aim = Vector3.zero;
+            if (arenaCamera == null || !inputSource.TryGetPointer(out Vector2 pointer)) return false;
+            Plane plane = new Plane(Vector3.up, playerRoot.transform.position);
+            Ray ray = arenaCamera.ScreenPointToRay(pointer);
+            if (!plane.Raycast(ray, out float distance)) return false;
+            aim = ray.GetPoint(distance);
             return true;
+        }
+
+        /// <summary>
+        /// Explicit example target command; for normal gameplay use FireAt(cursorWorldPoint).
+        /// Unlike the old button-only prototype, this respects hit geometry and line of sight.
+        /// </summary>
+        public bool Fire() => FireAt(enemyVisual != null ? enemyVisual.transform.position : Vector3.zero);
+
+        /// <summary>Consumes ammunition even when the shot misses or strikes an obstacle.</summary>
+        public bool FireAt(Vector3 worldPoint)
+        {
+            if (weapon == null || enemy == null || !playerStats.IsAlive)
+                return Fail("Weapon or player unavailable");
+            Vector3 origin = playerRoot.transform.position + Vector3.up * .15f;
+            Vector3 direction = worldPoint - origin;
+            if (direction.sqrMagnitude < .01f || !IsFinite(direction))
+                return Fail("Aim at a valid world point");
+            if (!weapon.TryFire(out WeaponFireResult shot))
+                return Fail("Reload or allow the weapon firing cooldown");
+            direction.Normalize();
+            Physics.SyncTransforms();
+            RaycastHit[] hits = Physics.RaycastAll(origin, direction, shot.Range,
+                Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+            Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+            bool hitTarget = false;
+            Vector3 endpoint = origin + direction * Mathf.Min(shot.Range, 12f);
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.collider == null) continue;
+                if (hit.collider.transform == playerRoot.transform ||
+                    hit.collider.transform.IsChildOf(playerRoot.transform)) continue;
+                endpoint = hit.point;
+                if (hit.collider.gameObject == enemyVisual ||
+                    hit.collider.transform.IsChildOf(enemyVisual.transform))
+                {
+                    hitTarget = true;
+                    DamageEnemy(shot.Damage, "Hitscan rifle");
+                }
+                break;
+            }
+            Debug.DrawLine(origin, endpoint, hitTarget ? Color.cyan : Color.yellow, .25f);
+            if (!hitTarget) Emit("Rifle fired: miss or solid obstruction (ammunition consumed)");
+            return true;
+        }
+
+        private static bool IsFinite(Vector3 v) =>
+            !(float.IsNaN(v.x) || float.IsNaN(v.y) || float.IsNaN(v.z) ||
+              float.IsInfinity(v.x) || float.IsInfinity(v.y) || float.IsInfinity(v.z));
+
+        /// <summary>Uses real EnemyRuntime decisions, cooldowns, position and collisions.</summary>
+        public void AdvanceEnemy(float deltaTime)
+        {
+            if (!automaticEnemy || enemy == null || enemy.IsDead || !playerStats.IsAlive ||
+                deltaTime <= 0f || deltaTime > 1f) return;
+            Vector3 toPlayer = playerRoot.transform.position - enemyVisual.transform.position;
+            toPlayer.y = 0f;
+            float distance = toPlayer.magnitude;
+            EnemyRuntimeDecision decision = enemy.Decide(distance);
+            if (decision == EnemyRuntimeDecision.Chase && distance > enemyData.AttackRange + .25f)
+            {
+                Vector2 direction = new Vector2(toPlayer.x, toPlayer.z).normalized;
+                if (enemyMotor != null) enemyMotor.MovePlanar(direction, deltaTime);
+                else
+                {
+                    Vector3 next = enemyVisual.transform.position + new Vector3(direction.x, 0f, direction.y) *
+                        Mathf.Max(0f, enemyData.MoveSpeed) * deltaTime;
+                    enemyVisual.transform.position = next;
+                }
+                if (toPlayer.sqrMagnitude > .01f)
+                    enemyVisual.transform.rotation = Quaternion.LookRotation(toPlayer.normalized);
+            }
+            else if (decision == EnemyRuntimeDecision.Attack)
+            {
+                DeliverEnemyAttack(distance);
+            }
         }
 
         public void DamageEnemy(float amount, string source)
@@ -196,11 +326,15 @@ namespace HPR.GameplaySuite
         {
             if (enemy == null || playerStats == null || !playerStats.IsAlive)
                 return Fail("Player unable to take another attack");
-            // The training button simulates a close-range encounter; no pathfinding is claimed.
-            const float closeRange = 1.5f;
-            if (enemy.Decide(closeRange) != EnemyRuntimeDecision.Attack ||
-                !enemy.TryAttack(closeRange, out EnemyAttackResult attack))
-                return Fail("Enemy is dead or attack is cooling down");
+            // Test/demo button simulates a close target. Autonomous mode measures actual distance.
+            return DeliverEnemyAttack(1.5f);
+        }
+
+        private bool DeliverEnemyAttack(float range)
+        {
+            if (enemy.Decide(range) != EnemyRuntimeDecision.Attack ||
+                !enemy.TryAttack(range, out EnemyAttackResult attack))
+                return Fail("Enemy is dead, too far away, or attack is cooling down");
             eventManager.Publish(new DamageEvent
             {
                 TargetRoot = playerRoot, SourceRoot = enemyVisual, Amount = attack.Damage,
@@ -239,7 +373,7 @@ namespace HPR.GameplaySuite
         {
             if (playerRoot == null) return null;
             IInteractable nearest = null;
-            float bestDistance = InteractRange;
+            float bestDistance = Mathf.Max(.1f, interactionRangeMeters);
             foreach (GameObject obj in new[] { medkitPickup, keyPickup, demoDoor != null ? demoDoor.gameObject : null })
             {
                 if (obj == null || !obj.activeInHierarchy) continue;
@@ -334,6 +468,9 @@ namespace HPR.GameplaySuite
                     .Select(entry => new ItemQuantitySaveData { itemId = entry.Key, quantity = entry.Value }).ToList(),
                 Weapon = weapon.CaptureSnapshot(),
                 Enemy = enemy.CaptureSnapshot(),
+                EnemyPosition = new SerializableVector3(enemyVisual.transform.position),
+                EnemyRotation = new SerializableQuaternion(enemyVisual.transform.rotation),
+                AutomaticEnemy = automaticEnemy,
                 Abilities = abilities.CaptureSnapshot(),
                 LootAwarded = lootAwarded,
                 MedkitPickupActive = medkitPickup.activeSelf,
@@ -357,13 +494,20 @@ namespace HPR.GameplaySuite
             {
                 return Fail("Save contains invalid combat state");
             }
-            playerRoot.transform.SetPositionAndRotation(snapshot.Player.position.ToVector3(),
+            if (playerMotor != null) playerMotor.Warp(snapshot.Player.position.ToVector3(),
                 snapshot.Player.rotation.ToQuaternion());
+            else playerRoot.transform.SetPositionAndRotation(snapshot.Player.position.ToVector3(),
+                snapshot.Player.rotation.ToQuaternion());
+            if (enemyMotor != null) enemyMotor.Warp(snapshot.EnemyPosition.ToVector3(),
+                snapshot.EnemyRotation.ToQuaternion());
+            else enemyVisual.transform.SetPositionAndRotation(snapshot.EnemyPosition.ToVector3(),
+                snapshot.EnemyRotation.ToQuaternion());
             playerStats.SetHealth(snapshot.Player.health);
             playerStats.SetStamina(snapshot.PlayerStamina);
             inventory.RestoreItemQuantities(snapshot.Inventory);
             weapon = validatedWeapon;
             enemy = validatedEnemy;
+            automaticEnemy = snapshot.AutomaticEnemy;
             abilities.RestoreSnapshot(snapshot.Abilities);
             lootAwarded = snapshot.LootAwarded;
             medkitPickup.SetActive(snapshot.MedkitPickupActive);
@@ -376,7 +520,7 @@ namespace HPR.GameplaySuite
 
         private bool ValidateSnapshot(HprSuiteSnapshot s)
         {
-            if (s == null || s.SchemaVersion != 2 || s.WeaponId != weaponData.Id ||
+            if (s == null || s.SchemaVersion != 3 || s.WeaponId != weaponData.Id ||
                 s.EnemyId != enemyData.Id || s.Player == null || s.Player.id != "suite-player" ||
                 !s.Player.active || s.Inventory == null || s.Inventory.Count > 32 ||
                 s.Abilities == null || s.Abilities.Cooldowns == null || s.Abilities.UnlockedIds == null ||
@@ -385,6 +529,10 @@ namespace HPR.GameplaySuite
                 !IsWithin(s.PlayerStamina, 0f, playerStats.MaxStamina) ||
                 !IsWithin(s.Player.position.x, -7f, 7f) || !IsWithin(s.Player.position.z, -5f, 5f) ||
                 !IsWithin(s.Player.position.y, 0f, 2.5f) ||
+                !IsWithin(s.EnemyPosition.x, -8f, 8f) || !IsWithin(s.EnemyPosition.z, -6f, 6f) ||
+                !IsWithin(s.EnemyPosition.y, 0f, 2.5f) ||
+                !IsWithin(s.EnemyRotation.x, -1f, 1f) || !IsWithin(s.EnemyRotation.y, -1f, 1f) ||
+                !IsWithin(s.EnemyRotation.z, -1f, 1f) || !IsWithin(s.EnemyRotation.w, -1f, 1f) ||
                 !IsWithin(s.Player.rotation.x, -1f, 1f) || !IsWithin(s.Player.rotation.y, -1f, 1f) ||
                 !IsWithin(s.Player.rotation.z, -1f, 1f) || !IsWithin(s.Player.rotation.w, -1f, 1f))
                 return false;
@@ -398,6 +546,9 @@ namespace HPR.GameplaySuite
             foreach (AbilityCooldownSnapshot cooldown in s.Abilities.Cooldowns)
                 if (cooldown == null || (cooldown.AbilityId != healAbility.Id && cooldown.AbilityId != pulseAbility.Id) ||
                     !IsWithin(cooldown.Remaining, 0f, 86400f)) return false;
+            // The host must reject nested ability errors before it mutates
+            // player transforms, inventory, weapon or enemy state.
+            if (!abilities.TryValidateSnapshot(s.Abilities, out _)) return false;
             return true;
         }
 
@@ -409,7 +560,10 @@ namespace HPR.GameplaySuite
         public void ResetEncounter()
         {
             if (playerStats == null) return;
-            playerRoot.transform.SetPositionAndRotation(initialPlayerPosition, initialPlayerRotation);
+            if (playerMotor != null) playerMotor.Warp(initialPlayerPosition, initialPlayerRotation);
+            else playerRoot.transform.SetPositionAndRotation(initialPlayerPosition, initialPlayerRotation);
+            if (enemyMotor != null) enemyMotor.Warp(initialEnemyPosition, initialEnemyRotation);
+            else enemyVisual.transform.SetPositionAndRotation(initialEnemyPosition, initialEnemyRotation);
             playerStats.ResetStats();
             inventory.ClearInventory();
             weapon = new WeaponRuntimeState(weaponData);
@@ -460,33 +614,44 @@ namespace HPR.GameplaySuite
         private void OnGUI()
         {
             if (weapon == null || enemy == null || playerStats == null) return;
-            GUILayout.BeginArea(new Rect(12, 12, 550, 480), GUI.skin.box);
+            float panelWidth = Mathf.Max(140f, Mathf.Min(550f, Screen.width - 24f));
+            float panelHeight = Mathf.Max(120f, Mathf.Min(485f, Screen.height - 24f));
+            GUILayout.BeginArea(new Rect(12f, 12f, panelWidth, panelHeight), GUI.skin.box);
+            hudScrollPosition = GUILayout.BeginScrollView(hudScrollPosition);
             GUILayout.Label("HPR GAMEPLAY SYSTEMS SUITE   |   INTEGRATED TRAINING ARENA");
+            GUILayout.Label("OBJECTIVE  " + Objective);
             GUILayout.Label("PLAYER " + PlayerHealth.ToString("0") + "/" + playerStats.MaxHealth.ToString("0") +
                 " HP    STAMINA " + PlayerStamina.ToString("0") +
                 "    ENEMY " + EnemyHealth.ToString("0") + "/" + enemyData.MaxHealth.ToString("0") + " HP");
             GUILayout.Label("RIFLE " + MagazineAmmo + "/" + weapon.MagazineSize +
                 "    RESERVE " + ReserveAmmo + "    MEDKITS " + LootCount + "    KEYS " + KeyCount +
                 "    DOOR " + (DoorIsOpen ? "OPEN" : "LOCKED"));
-            GUILayout.Label("WASD / arrows move  |  E interact  |  F fire  |  R reload  |  H medkit");
-            GUILayout.Label("Q heal ability  |  Space pulse  |  K memory checkpoint  |  L restore");
+            GUILayout.Label("Movement " + moveForwardKey + "/" + moveLeftKey + "/" +
+                moveBackwardKey + "/" + moveRightKey + " or arrows | Aim with mouse, fire " + fireKey);
+            GUILayout.Label("Reload " + reloadKey + " | Interact " + interactKey +
+                " | Heal " + healAbilityKey + " | Pulse " + pulseAbilityKey +
+                " | Save " + memorySaveKey + " | Restore " + memoryLoadKey);
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Fire [F]")) Fire();
-            if (GUILayout.Button("Reload [R]")) Reload();
+            if (GUILayout.Button("Training target [button]")) Fire();
+            if (GUILayout.Button("Reload [" + reloadKey + "]")) Reload();
             if (GUILayout.Button("Enemy attacks")) EnemyAttack();
-            if (GUILayout.Button("Use medkit [H]")) Heal();
+            if (GUILayout.Button("Use medkit [" + useMedkitKey + "]")) Heal();
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Interact [E]")) Interact();
-            if (GUILayout.Button("Heal ability [Q]")) UseHealAbility();
-            if (GUILayout.Button("Damage pulse [Space]")) UsePulseAbility();
+            if (GUILayout.Button("Interact [" + interactKey + "]")) Interact();
+            if (GUILayout.Button("Heal ability [" + healAbilityKey + "]")) UseHealAbility();
+            if (GUILayout.Button("Damage pulse [" + pulseAbilityKey + "]")) UsePulseAbility();
             GUILayout.EndHorizontal();
-            GUILayout.Label("ABILITIES: " + abilities.BuildHudSummary("Q", "Space"));
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("ENEMY CHASE/ATTACK: " + (AutomaticEnemy ? "LIVE" : "PAUSED"));
+            if (GUILayout.Button(AutomaticEnemy ? "Pause" : "Resume")) SetAutomaticEnemy(!AutomaticEnemy);
+            GUILayout.EndHorizontal();
+            GUILayout.Label("ABILITIES: " + abilities.BuildHudSummary(healAbilityKey.ToString(), pulseAbilityKey.ToString()));
             IInteractable target = FindNearbyInteractable();
             GUILayout.Label("NEARBY: " + (target != null ? target.GetPrompt(actor) : "move to the cyan or yellow pickups / door"));
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Memory checkpoint [K]")) SaveCheckpoint();
-            if (GUILayout.Button("Restore memory [L]")) RestoreCheckpoint();
+            if (GUILayout.Button("Memory checkpoint [" + memorySaveKey + "]")) SaveCheckpoint();
+            if (GUILayout.Button("Restore memory [" + memoryLoadKey + "]")) RestoreCheckpoint();
             if (GUILayout.Button("Reset arena")) ResetEncounter();
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
@@ -498,6 +663,7 @@ namespace HPR.GameplaySuite
             GUILayout.Label("LATEST: " + status);
             foreach (string line in eventHistory) GUILayout.Label("  " + line);
             GUILayout.Label("No network access, telemetry, external 3D assets or runtime AI.");
+            GUILayout.EndScrollView();
             GUILayout.EndArea();
         }
 

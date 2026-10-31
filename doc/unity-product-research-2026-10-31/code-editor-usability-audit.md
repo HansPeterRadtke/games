@@ -65,3 +65,39 @@ First write contract tests for EventBus subscription identity, ServiceRegistry r
 Observed: source structures, hardcoded values, API patterns, module sizes, buyer archive Unity 6.6 obsolete API warning, old Unity imports/tests and screenshots. Hypothesized until tests: duplicate handler unsubscribed incorrectly, service replacement lifecycle, concrete player-input failure with new Input System-only, partial save rollback in pathological cases, consumer overwrites from Build Showcase. The audit deliberately does **not** claim these untested cases already failed in a running customer project.
 
 Research sources: owner Infra coding/configuration/testing/GUI guidelines, official Unity 2024–25 e-books under Raspi `unity-engine/`, official Unity Editor/Asset Store documentation and current competitor user reviews. See `knowledge-and-standards.md` for source identities/rights.
+
+## Implementation evidence: October 31, 2026 evening
+
+The critical EventBus duplicate-subscription, ServiceRegistry replacement/disposal,
+and Inventory quantity-overflow/partial-restore risks have been corrected.
+Thirty-three Unity EditMode tests passed on the isolated Unity 6000.4 test project;
+the fixes and new regression cases were committed and pushed. The package
+generator also now refuses destructive sample rebuilds and supports safe
+read-only export from its intentionally staged development project.
+
+The integrated buyer demonstration has a remappable Inspector keyboard input
+layer, injectable input interface, conditional legacy/new Unity input backends,
+viewport-bounded scrollable IMGUI example HUD, and a separate optional
+UI Toolkit Editor integration window with native action/status controls.
+It does not silently modify unrelated project settings or install packages.
+The currently implemented UI Toolkit window is an integration aid, not a
+validated replacement for mature visual gameplay authoring products.
+
+The Unity 6000.6.7f1 source build produced a real 160-asset release archive
+without a C# compile warning after switching to the modern public export API.
+The first fresh Unity 6000.4 buyer-archive import passed its thirteen scene
+references, twelve auxiliary asset checks, all forty-seven source scripts,
+non-destructive scene rebuild check, and ten independent runtime checks
+including disk roundtrip/corruption and event-bus combat. Unity 6000.6
+cleanroom scene checks passed, with its runtime suite underway at this
+time; this is dated evidence, not a presumed outcome.
+
+The new native file-database metadata gap for the seven original Unity PDF
+books was corrected in a separate authorized KMD maintenance pass on Raspi.
+The native original KMD metadata now covers all 12,372 downloaded originals
+without discarding prior 43,658 semantic vectors. This does not mean every
+source is indexed at full-text paragraph resolution.
+
+**Commercial status unchanged:** source hygiene and UI improvements are
+necessary, but no validated differentiated buyer problem or market demand
+has yet been demonstrated. Do not submit as generic gameplay framework.

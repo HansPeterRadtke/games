@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5336d2857dd642379c26746c83dfc55e, type: 3}
+  m_Name: TrainingKey
+  m_EditorClassIdentifier: HPR.Inventory.Runtime::HPR.ItemData
+  Id: hpr_suite_training_key
+  ItemType: 2
+  DisplayName: Training Key
+  IncludeInKnownItems: 1
+  Icon: {fileID: 0}
+  Value: 0
+  Description: Pick up the amber key to unlock the training gate.
+  PickupPrompt: 
+  PickupStatus: 
+  LinkedWeaponId: 
+  PlaceholderColor: {r: 1, g: 1, b: 1, a: 1}
+  StartingPlayerQuantity: 0
+  PickupPrefab: {fileID: 0}
+  PickupVisualLocalPosition: {x: 0, y: 0, z: 0}
+  PickupVisualLocalEuler: {x: 0, y: 0, z: 0}
+  PickupVisualLocalScale: {x: 1, y: 1, z: 1}

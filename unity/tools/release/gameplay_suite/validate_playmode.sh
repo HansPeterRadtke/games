@@ -3,9 +3,9 @@
 # No publishing, no networking, no mutations to original source.
 set -euo pipefail
 src=$(cd -- "$(dirname -- "$BASH_SOURCE")" && pwd)
-unity=/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity
-release=/data/var/marketplace-account-setup/unity-consolidated-20261031-v4/release
-project=/data/tmp/hpr_gameplay_suite_cleanroom_20261031_v4
+unity=${UNITY_BIN:-/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity}
+release=${HPR_SUITE_RELEASE_ROOT:-/data/var/marketplace-account-setup/unity-consolidated-20261031-v6/release}
+project=${HPR_SUITE_CLEANROOM_PROJECT:-/data/tmp/hpr_gameplay_suite_cleanroom_20261031_v6}
 test -f "$project/Assets/HPRGameplaySuite/Demo/GameplaySuiteShowcase.unity" || {
     echo 'Independent buyer archive must be imported first' >&2; exit 3;
 }

@@ -67,6 +67,42 @@ namespace HPR
             finally { Object.DestroyImmediate(ability); Object.DestroyImmediate(go); }
         }
 
+        [Test]
+        public void InvalidSnapshot_IsRejectedBeforeAbilityStateMutation()
+        {
+            var go = new GameObject("Ability Snapshot Validation");
+            var ability = ScriptableObject.CreateInstance<AbilityData>();
+            try
+            {
+                ability.Id = "qa.ability";
+                var runner = go.AddComponent<AbilityRunnerComponent>();
+                runner.ConfigureAbilities(new[] { ability });
+                runner.SetUnlockedAbilityIds(new[] { ability.Id });
+                var duplicateUnlocks = new AbilityRuntimeSnapshot
+                {
+                    UnlockedIds = new System.Collections.Generic.List<string> { ability.Id, ability.Id }
+                };
+                Assert.Throws<System.ArgumentException>(() => runner.RestoreSnapshot(duplicateUnlocks));
+                Assert.That(runner.BuildEntries()[0].Unlocked, Is.True);
+
+                var unknownCooldown = new AbilityRuntimeSnapshot
+                {
+                    UnlockedIds = new System.Collections.Generic.List<string> { ability.Id },
+                    Cooldowns = new System.Collections.Generic.List<AbilityCooldownSnapshot>
+                    {
+                        new AbilityCooldownSnapshot { AbilityId = "unknown.ability", Remaining = 4f }
+                    }
+                };
+                Assert.Throws<System.ArgumentException>(() => runner.RestoreSnapshot(unknownCooldown));
+                Assert.That(runner.BuildEntries()[0].Unlocked, Is.True);
+            }
+            finally
+            {
+                Object.DestroyImmediate(ability);
+                Object.DestroyImmediate(go);
+            }
+        }
+
         private sealed class TestAbilityResourcePool : MonoBehaviour, IAbilityResourcePool
         {
             public float Health { get; private set; } = 50f;

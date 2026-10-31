@@ -40,9 +40,9 @@ int quantity = inventory.GetQuantity(healthPotionItem.Id);
 ```
 
 ## API overview
-- `ConfigureKnownItems(...)` replaces the known item catalog and resets quantities
-- `AddItem`, `RemoveItem`, `HasItem`, and `GetQuantity` work purely by item id
-- `CaptureItemQuantities()` and `RestoreItemQuantities(...)` provide save-friendly data
+- `ConfigureKnownItems(...)` replaces the known item catalog and resets quantities; null, duplicate IDs and invalid definitions are rejected before mutation
+- `AddItem`, `RemoveItem`, `HasItem`, and `GetQuantity` work by stable item ID; quantity overflow or inconsistent ID-to-definition mapping is rejected without changes
+- `CaptureItemQuantities()` and `RestoreItemQuantities(...)` provide save-friendly data; invalid, duplicate or unknown saved IDs are rejected atomically with `ArgumentException`
 - `ItemAdded` and `ItemRemoved` events support UI, quest, or analytics listeners
 
 ## Demo
