@@ -243,3 +243,28 @@ All details, negative evidence, correct per-file baselines, pending
 human visual UX and market gates are in
 [the late continuation report](late-unity-qa-continuation-2026-11-01.md).
 **Commercial status remains NO-GO.**
+
+
+## November 1 final buyer-owned uninstall dependency audit
+
+The prior passing HPR uninstall scenario did not represent a real customer
+game that still uses HPR. A new independent READ-ONLY preflight now checks
+buyer-owned Unity scene/prefab/asset YAML references against the actual
+archived vendor asset GUIDs, plus HPR namespaces in customer C# source,
+assembly references and package manifests including their resolved locks.
+Fourteen deterministic tests first reproduced missing/incorrect
+implementation, then passed, including
+a genuine Unity package vendor-root GUID case. Its real archived source
+scan detected TEN HPR references in the previously tested buyer project:
+HPR runner scripts in serialized customer scenes, HPR ScriptableObject
+assets and customer/QA C# references. A controlled orphan-scene sample
+without the HPR vendor root STILL revealed the missing HPR GUID reference.
+An unrelated package-free customer scene produced no direct HPR references.
+The preflight explicitly never authorizes deletion in any case.
+
+This narrows an important product gap: ability **component** detach with
+Undo is verified in a customer scene, but dependency-aware HPR package
+uninstall/migration is NOT. A customer with HPR dependent scenes or code
+must be warned and offered a reviewed migration before removal. See
+[safe uninstall audit](safe-uninstall-dependency-audit-2026-11-01.md).
+The commercial conclusion remains NO-GO.

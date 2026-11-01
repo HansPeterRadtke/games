@@ -133,3 +133,48 @@ HPR and at least one installed competitor, measure actual developer time,
 original scene/controller/metadata changes, Undo/update friction,
 quality of documentation and willingness to purchase. Do not infer a
 profit opportunity from qualitative threads or feature-list overlap alone.
+
+
+## Updated direct ability and reversible Editor competition — 2026-11-01 evening
+
+Rechecked original Unity Asset Store listings, not scraped inferred sales:
+
+- **Ability & Combat Toolkit** publicly advertises installing its system
+  with two components, authoring abilities/weapons/effects in an Editor,
+  both old and new Unity input support, direct APIs and integrations with
+  Game Creator and Emerald AI. These are seller claims, not independently
+  benchmarked outcomes, but **directly overlap** HPR's current narrow
+  selected-object ability integration and demolish an unsupported
+  'first/easiest/no-code' differentiator claim. Original source:
+  https://assetstore.unity.com/packages/tools/game-toolkits/ability-combat-toolkit-155168
+- **Ability System Kit**, listed at **USD 34.99** in the observed
+  November snapshot, covers attributes/modifiers, timed/permanent effects,
+  buffs, cooldowns, cast-time/toggle/passive abilities, tags, save seams,
+  UI and an Editor setup window. The seller claims compatibility with
+  Built-in, URP and HDRP. Its numerical user ratings are insufficient.
+  This is meaningful **supply** and claimed technical breadth, not sales.
+  Source: https://assetstore.unity.com/packages/tools/game-toolkits/ability-system-kit-385772
+- **Game Creator 2**, observed at **USD 79.99**, lists Unity 6.6/6.5/6.3
+  compatibility, visual authoring, player controller, cameras, variables,
+  saving and extension APIs. Its summary shows hundreds of reviews and
+  thousands of favourites, but counts differ between the overall listing
+  and the review-detail page, and neither is a conversion/sales report.
+  Source: https://assetstore.unity.com/packages/tools/game-toolkits/game-creator-2-203069
+- **Component Designer (Game Creator 2)** claims authoring reusable
+  Inspector-configurable component compositions and syncing them across
+  many GameObjects. This is evidence that reusable Editor workflows are
+  already commercialized, not proof that such a standalone HPR feature
+  would sell. Source:
+  https://assetstore.unity.com/packages/tools/utilities/component-designer-game-creator-2-415076
+
+**Commercial differentiation gate:** the prototype has verified reversible
+single-scene add/remove/Undo on a representative controller and preserves
+buyer assets byte-for-byte. However none of these competitors have been
+purchased or run under the **same** target-game task, and no human time
+saving, willing buyer segment, support burden or profit advantage is
+established. There is still **no defensible Asset Store GO decision**.
+If a future owner-approved product test proceeds, benchmark the exact
+'select the existing player, add a heal ability, undo, update and remove'
+journey against at least one direct installed competitor using the same
+buyer project; count source rewrites, unexpected project mutations and
+human completion time. Do not claim a revenue edge from listing features.

@@ -47,3 +47,7 @@ Raspi's downloader now reports all **12,372** curated original files present, in
 The [exact selected-installer URP/new-input-only import failure](selected-urp-new-input-timeout-2026-11-01.md) is preserved separately: Unity timed out during existing-project ILPP compilation before the new archive imported, while sixty customer files remained byte-identical. Do not mark this compatibility gate complete based on earlier URP results.
 
 The [late November first Unity QA continuation](late-unity-qa-continuation-2026-11-01.md) records a repeated cache-free and package-free URP compilation timeout under severe CPU congestion, a read-only capacity preflight, actual Editor UI state validation, and a separately verified reversible HPR ability detach prototype. The detach patch is **not in the existing immutable internal package** and is not publication approval.
+
+The [read-only HPR uninstall reference audit](safe-uninstall-dependency-audit-2026-11-01.md) now identifies existing buyer-owned serialized GUIDs and source-level HPR dependencies, including after vendor files are removed. It never authorizes package deletion; a full dependency-aware migration remains open.
+
+The [Unity first-party ILPP and CPU contention investigation](unity-ilpp-environment-investigation-2026-11-01.md) separately records the cache-free URP compile failures before HPR was installed, observed CPU saturation, and a related but **not yet proven equivalent** official Unity Bee issue in the tested Editor version. No test failure is silently reclassified as a passed URP acceptance.

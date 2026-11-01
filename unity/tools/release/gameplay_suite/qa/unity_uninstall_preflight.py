@@ -1,0 +1,246 @@
+#!/usr/bin/env python3
+"""Read-only inventory of customer dependencies on a Unity HPR package.
+
+This tool NEVER uninstalls anything, edits a project, rewrites .meta files or
+grants permission to remove a plugin. It is a conservative preflight for the
+known SHA-pinned Unity .unitypackage, including after the HPR root was removed.
+
+The only available classifications are:
+- customer_dependencies_found: at least one specific use of HPR or its GUIDs.
+- unknown_project_content_requires_review: cannot inspect every source file.
+- no_direct_reference_detected: nothing observed in scanned files; it does
+  NOT mean the game is safe to uninstall (binary runtime/reflection/etc).
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import tarfile
+from pathlib import Path, PurePosixPath
+
+_GUID = re.compile(r"(?m)\bguid:\s*([0-9a-fA-F]{32})\b")
+_HPR_CSHARP = re.compile(r"\b(?:using\s+(?:static\s+)?(?:global::)?HPR\b|HPR\.[A-Za-z_]|HPR\w*Runtime\b)")
+_TEXT_SOURCE_EXTENSIONS = {
+    ".asset", ".asmdef", ".asmref", ".controller", ".cs", ".json",
+    ".mat", ".overridecontroller", ".prefab", ".shader", ".unity", ".uxml",
+    ".uss", ".yaml", ".yml", ".xml", ".playable", ".txt",
+}
+# Binary assets typically cannot refer to serialized Unity script GUIDs
+# directly; uncertainty is still reported for other unknown file types.
+_BINARY_MEDIA = {".png", ".jpg", ".jpeg", ".tga", ".wav", ".mp3", ".ogg", ".mp4", ".webm"}
+
+
+def _relative_package_path(value: str) -> str:
+    if "\\" in value:
+        raise ValueError("Unexpected backslash in package asset path")
+    path = PurePosixPath(value)
+    if not path.parts or path.is_absolute() or ".." in path.parts or "." in path.parts:
+        raise ValueError("Unsafe package pathname")
+    name = path.as_posix()
+    # The root directory itself carries a stable Unity folder .meta GUID.
+    # That pathname is valid alongside child assets in a genuine Unity export.
+    if name != "Assets/HPRGameplaySuite" and (
+        not name.startswith("Assets/HPRGameplaySuite/") or len(path.parts) < 3
+    ):
+        raise ValueError("Unexpected package root: " + name)
+    return name
+
+
+def _archive_guids(archive: Path) -> dict[str, str]:
+    if not archive.is_file() or archive.is_symlink():
+        raise FileNotFoundError(archive)
+    found: dict[str, str] = {}
+    with tarfile.open(archive, "r:gz") as package:
+        for member in package:
+            if not member.name.endswith("/pathname"):
+                continue
+            guid = member.name.split("/", 1)[0]
+            if not re.fullmatch(r"[0-9a-f]{32}", guid):
+                raise ValueError("Invalid incoming vendor GUID")
+            if member.size < 1 or member.size > 4096:
+                raise ValueError("Unreasonable vendor pathname entry size")
+            inp = package.extractfile(member)
+            if inp is None:
+                raise ValueError("No incoming vendor pathname data")
+            try:
+                path = _relative_package_path(inp.read(4097).decode("utf-8").strip())
+            except UnicodeDecodeError as exc:
+                raise ValueError("Invalid incoming package pathname encoding") from exc
+            if guid in found or path in found.values():
+                raise ValueError("Non-unique incoming vendor identity")
+            found[guid] = path
+    if not found:
+        raise ValueError("No vendor GUIDs were found in the archive")
+    return found
+
+
+def _ensure_non_symlink_path(project: Path, relative: Path) -> Path:
+    current = project
+    for piece in relative.parts:
+        current = current / piece
+        if current.is_symlink():
+            raise ValueError("Refusing to inspect symlinked Unity file/path: " + relative.as_posix())
+    return current
+
+
+def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608) -> dict:
+    """Inspect one existing local Unity project without changing any file.
+
+    project: existing Unity project root; archive: known local HPR .unitypackage
+    (requires exact source identity for reference matching even when uninstalled);
+    max_file_bytes: finite positive byte ceiling to avoid opening huge files.
+    Results are conservative; no finding is deletion approval.
+    """
+    project = Path(project)
+    if project.is_symlink() or not project.is_dir() or not (project / "Assets").is_dir():
+        raise ValueError("Existing non-symlink Unity project with Assets directory required")
+    if isinstance(max_file_bytes, bool) or not isinstance(max_file_bytes, int) or max_file_bytes <= 0:
+        raise ValueError("max_file_bytes must be a positive integer")
+    _ensure_non_symlink_path(project, Path("Assets"))
+    vendor = _archive_guids(Path(archive))
+    dependencies: list[dict[str, str]] = []
+    unknowns: list[dict[str, str]] = []
+    checked = 0
+    customer_root = project / "Assets"
+
+    for path in sorted(customer_root.rglob("*")):
+        relative = path.relative_to(project)
+        name = relative.as_posix()
+        # Check even vendor-root symlinks, rather than ignoring an unsafe path.
+        if path.is_symlink():
+            raise ValueError("Refusing symlinked Unity project asset: " + name)
+        if path.is_dir() or name == "Assets/HPRGameplaySuite.meta":
+            continue
+        if name.startswith("Assets/HPRGameplaySuite/"):
+            continue
+        if not path.is_file():
+            unknowns.append({"path": name, "reason": "unsupported asset type"})
+            continue
+        if path.suffix.lower() == ".meta":
+            continue
+        extension = path.suffix.lower()
+        if extension in _BINARY_MEDIA:
+            # Reference to a texture is serialized in the consumer's .unity/.asset YAML.
+            continue
+        if extension not in _TEXT_SOURCE_EXTENSIONS:
+            unknowns.append({"path": name, "reason": "unknown source or binary asset type"})
+            continue
+        if path.stat().st_size > max_file_bytes:
+            unknowns.append({"path": name, "reason": "asset exceeds configured read limit"})
+            continue
+        body = path.read_bytes()
+        if b"\0" in body:
+            unknowns.append({"path": name, "reason": "binary content despite text extension"})
+            continue
+        try:
+            source = body.decode("utf-8")
+        except UnicodeDecodeError:
+            unknowns.append({"path": name, "reason": "non-UTF8 text, cannot prove no references"})
+            continue
+        checked += 1
+        direct = sorted({match.group(1).lower() for match in _GUID.finditer(source)})
+        for guid in direct:
+            if guid in vendor:
+                dependencies.append({
+                    "kind": "serialized_vendor_guid",
+                    "path": name,
+                    "vendor_asset": vendor[guid],
+                    "guid": guid,
+                })
+        if extension == ".cs" and _HPR_CSHARP.search(source):
+            dependencies.append({"kind": "csharp_hpr_reference", "path": name,
+                                 "reason": "C# source contains HPR API/namespace token"})
+        if extension in (".asmdef", ".asmref"):
+            try:
+                parsed = json.loads(source)
+                entries = parsed.get("references", []) if isinstance(parsed, dict) else []
+                if not isinstance(entries, list):
+                    raise ValueError("Unexpected asmdef references")
+                if any(isinstance(x, str) and
+                       (x.startswith("HPR.") or x.startswith("GUID:") and x[5:].lower() in vendor)
+                       for x in entries):
+                    dependencies.append({"kind": "asmdef_reference", "path": name,
+                                         "reason": "assembly definition names HPR or its GUID"})
+            except (ValueError, TypeError):
+                unknowns.append({"path": name, "reason": "invalid asmdef JSON"})
+    manifest = project / "Packages/manifest.json"
+    _ensure_non_symlink_path(project, Path("Packages")) if (project / "Packages").exists() else None
+    if manifest.exists():
+        _ensure_non_symlink_path(project, Path("Packages/manifest.json"))
+        if manifest.stat().st_size > max_file_bytes:
+            unknowns.append({"path": "Packages/manifest.json", "reason": "manifest too large"})
+        else:
+            try:
+                doc = json.loads(manifest.read_text(encoding="utf-8"))
+                if not isinstance(doc, dict) or not isinstance(doc.get("dependencies", {}), dict):
+                    raise ValueError("Invalid Unity package manifest")
+                if any(str(key).startswith("com.hpr.") for key in doc.get("dependencies", {})):
+                    dependencies.append({"kind": "package_manifest_reference",
+                                         "path": "Packages/manifest.json",
+                                         "reason": "an HPR UPM module is still installed"})
+                checked += 1
+            except (ValueError, UnicodeDecodeError):
+                unknowns.append({"path": "Packages/manifest.json", "reason": "unreadable package manifest"})
+    # Unity's resolved lock can retain package identities after manifest edits.
+    # Never silently ignore that dependency evidence when planning uninstall.
+    lock = project / "Packages/packages-lock.json"
+    if lock.exists():
+        _ensure_non_symlink_path(project, Path("Packages/packages-lock.json"))
+        if lock.stat().st_size > max_file_bytes:
+            unknowns.append({"path": "Packages/packages-lock.json", "reason": "package lock too large"})
+        else:
+            try:
+                doc = json.loads(lock.read_text(encoding="utf-8"))
+                if not isinstance(doc, dict) or not isinstance(doc.get("dependencies", {}), dict):
+                    raise ValueError("Invalid Unity packages lock")
+                if any(str(key).startswith("com.hpr.") for key in doc.get("dependencies", {})):
+                    dependencies.append({"kind": "package_lock_reference",
+                                         "path": "Packages/packages-lock.json",
+                                         "reason": "resolved lock still references an HPR module"})
+                checked += 1
+            except (ValueError, UnicodeDecodeError):
+                unknowns.append({"path": "Packages/packages-lock.json", "reason": "unreadable package lock"})
+    # Root-specific direct reference findings take precedence over conservative unknown files.
+    classification = ("customer_dependencies_found" if dependencies
+                      else "unknown_project_content_requires_review" if unknowns
+                      else "no_direct_reference_detected")
+    return {
+        "classification": classification,
+        "read_only": True,
+        "deletion_permitted": False,
+        "warnings": ["Absence of direct references is never proof that uninstall is safe.",
+                     "Reflection, binary formats, external packages and dynamically generated scenes require review."],
+        "archived_vendor_guid_count": len(vendor),
+        "checked_text_files": checked,
+        "dependencies": dependencies,
+        "unknowns": unknowns,
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--project", type=Path, required=True)
+    parser.add_argument("--archive", type=Path, required=True)
+    parser.add_argument("--max-file-bytes", type=int, default=8_388_608)
+    parser.add_argument("--output", type=Path, help="new JSON report outside Unity project; will not overwrite")
+    options = parser.parse_args()
+    try:
+        result = inspect(options.project, options.archive, max_file_bytes=options.max_file_bytes)
+        raw = json.dumps(result, indent=2, sort_keys=True) + "\n"
+        if options.output is not None:
+            if options.output.resolve().is_relative_to(options.project.resolve()):
+                raise ValueError("Refusing to write a report inside the customer project")
+            with options.output.open("x", encoding="utf-8") as dst:
+                dst.write(raw)
+        print(raw, end="")
+        return 2 if result["classification"] != "no_direct_reference_detected" else 0
+    except (ValueError, OSError, tarfile.TarError) as exc:
+        print(json.dumps({"classification": "error", "deletion_permitted": False,
+                          "read_only": True, "reason": str(exc)}))
+        return 3
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
