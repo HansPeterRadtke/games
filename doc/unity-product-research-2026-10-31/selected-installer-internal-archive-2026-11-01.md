@@ -172,6 +172,23 @@ independent buyer/competitor task-time measurement and publisher approval.
 A URI/import request or earlier v14 result is not proof those later
 checks completed.
 
+## Final actual URP/new-input-only attempt — incomplete
+
+The attempted Unity 6000.6.7f1 upgrade into a cloned **URP 17.6 plus
+Input System 1.20.1 new-only** buyer project ended with process exit **124**
+after the bounded 600-second run. Unity was still compiling the previous
+project with bee_backend/ILPP; the new selected Editor script was **not
+imported**. No HPR C# compiler error was recorded. An independent full
+read-only hash comparison confirmed **all sixty original buyer files
+remained unchanged**, but the exact-archive combined pipeline gate is
+**FAILED / INCOMPLETE**, not passed. The negative process, log and
+read-only snapshot are preserved in private QA evidence. See
+[selected URP technical timeout](selected-urp-new-input-timeout-2026-11-01.md).
+The earlier v14 URP success and byte-identical current runtime/material
+assets are supporting provenance only, not this new archive's Play-mode test.
+Do not repeat import in the uncertain copied Library without checking
+state; a fresh project/scratch cache is required for an independent attempt.
+
 ## Commercial blockers
 
 The generic ten-module offer does **not** have verified differentiated
