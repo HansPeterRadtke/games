@@ -28,6 +28,8 @@ merged into the dirty commercial source or built as a new buyer archive**.
 The conclusion remains **NO-GO** until commercial buyer value, full archive
 QA and publisher approval are actually demonstrated.
 
+A [separate installer-enabled internal archive engineering ledger](selected-installer-internal-archive-2026-11-01.md) records the actual Unity 6.4 and 6.6 archive build/import, Undo/Redo/Inspector customer acceptance, immutable private snapshot, market limits and pending final render-pipeline checks. The [reproducible private-archive patch](patches/add-selected-installer-to-private-archive-20261101.patch) is deliberately not applied to the original concurrent product worktree. This is independent QA, **not a seller submission or product launch**.
+
 ## Decision gates before another implementation sprint
 
 First, verify that at least one narrowly defined experienced-developer problem is inadequately solved by competing products. Preferred HPR-adjacent experiment is **non-destructive integration of one or two systems into an existing game** without replacing controller, source assets, serialization, input stack or editor settings. This is a hypothesis, not a proven differentiation. A separate industrial-simulation integration niche may leverage the owner's domain experience, but existing $600–$1,440 enterprise tools, free forklift controllers and $10 conveyors already compete and require direct scope/user verification.
