@@ -527,14 +527,13 @@ namespace HPR.GameplaySuite
                 s.Abilities.Cooldowns.Count > 16 || s.Abilities.UnlockedIds.Count > 16 ||
                 !IsWithin(s.Player.health, 0f, playerStats.MaxHealth) ||
                 !IsWithin(s.PlayerStamina, 0f, playerStats.MaxStamina) ||
-                !IsWithin(s.Player.position.x, -7f, 7f) || !IsWithin(s.Player.position.z, -5f, 5f) ||
-                !IsWithin(s.Player.position.y, 0f, 2.5f) ||
-                !IsWithin(s.EnemyPosition.x, -8f, 8f) || !IsWithin(s.EnemyPosition.z, -6f, 6f) ||
-                !IsWithin(s.EnemyPosition.y, 0f, 2.5f) ||
+                !IsWithinArena(s.Player.position) ||
+                !IsWithinArena(s.EnemyPosition) ||
                 !IsWithin(s.EnemyRotation.x, -1f, 1f) || !IsWithin(s.EnemyRotation.y, -1f, 1f) ||
                 !IsWithin(s.EnemyRotation.z, -1f, 1f) || !IsWithin(s.EnemyRotation.w, -1f, 1f) ||
                 !IsWithin(s.Player.rotation.x, -1f, 1f) || !IsWithin(s.Player.rotation.y, -1f, 1f) ||
-                !IsWithin(s.Player.rotation.z, -1f, 1f) || !IsWithin(s.Player.rotation.w, -1f, 1f))
+                !IsWithin(s.Player.rotation.z, -1f, 1f) || !IsWithin(s.Player.rotation.w, -1f, 1f) ||
+                !IsUnitQuaternion(s.Player.rotation) || !IsUnitQuaternion(s.EnemyRotation))
                 return false;
             var seen = new HashSet<string>(StringComparer.Ordinal);
             foreach (ItemQuantitySaveData item in s.Inventory)
@@ -555,6 +554,30 @@ namespace HPR.GameplaySuite
         private static bool IsWithin(float value, float lower, float upper)
         {
             return !float.IsNaN(value) && !float.IsInfinity(value) && value >= lower && value <= upper;
+        }
+
+        private static bool IsWithinArena(SerializableVector3 position)
+        {
+            // Both characters share the same actual collision-bounded arena:
+            // side walls centered at x +/-8.5 and end walls at z +/-6.0.
+            // The previous player-only [-7,7] bound rejected legitimate
+            // positions alongside the walls after collision-aware movement.
+            return IsWithin(position.x, -8f, 8f) &&
+                   IsWithin(position.z, -6f, 6f) &&
+                   IsWithin(position.y, 0f, 2.5f);
+        }
+
+        private static bool IsUnitQuaternion(SerializableQuaternion value)
+        {
+            // Unity transform rotations are unit quaternions. Four values
+            // independently within [-1, 1] can nevertheless encode an
+            // invalid zero-length or nonunit orientation. Validate before
+            // making any changes to a loaded encounter.
+            double normSquared = (double)value.x * value.x +
+                                 (double)value.y * value.y +
+                                 (double)value.z * value.z +
+                                 (double)value.w * value.w;
+            return normSquared >= 0.99 && normSquared <= 1.01;
         }
 
         public void ResetEncounter()

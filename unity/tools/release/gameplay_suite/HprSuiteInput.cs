@@ -24,11 +24,35 @@ namespace HPR.GameplaySuite
         private static Key Map(KeyCode code)
         {
             if (Cached.TryGetValue(code, out Key key)) return key;
-            string name = code.ToString();
-            if (name.StartsWith("Alpha", StringComparison.Ordinal))
-                name = "Digit" + name.Substring(5);
-            else if (code == KeyCode.Return) name = "Enter";
-            if (!Enum.TryParse(name, true, out key)) key = Key.None;
+            // Legacy KeyCode names do not map one-to-one onto the new
+            // Input System enum. Handle its common mismatches explicitly.
+            // Unsupported joystick/mouse-only KeyCodes remain Key.None
+            // rather than accidentally activating another action.
+            switch (code)
+            {
+                case KeyCode.LeftControl: key = Key.LeftCtrl; break;
+                case KeyCode.RightControl: key = Key.RightCtrl; break;
+                case KeyCode.Return: key = Key.Enter; break;
+                case KeyCode.KeypadEnter: key = Key.NumpadEnter; break;
+                case KeyCode.Keypad0: key = Key.Numpad0; break;
+                case KeyCode.Keypad1: key = Key.Numpad1; break;
+                case KeyCode.Keypad2: key = Key.Numpad2; break;
+                case KeyCode.Keypad3: key = Key.Numpad3; break;
+                case KeyCode.Keypad4: key = Key.Numpad4; break;
+                case KeyCode.Keypad5: key = Key.Numpad5; break;
+                case KeyCode.Keypad6: key = Key.Numpad6; break;
+                case KeyCode.Keypad7: key = Key.Numpad7; break;
+                case KeyCode.Keypad8: key = Key.Numpad8; break;
+                case KeyCode.Keypad9: key = Key.Numpad9; break;
+                default:
+                    string name = code.ToString();
+                    if (name.StartsWith("Alpha", StringComparison.Ordinal))
+                        name = "Digit" + name.Substring(5);
+                    else if (name.StartsWith("Keypad", StringComparison.Ordinal))
+                        name = "Numpad" + name.Substring(6);
+                    if (!Enum.TryParse(name, true, out key)) key = Key.None;
+                    break;
+            }
             Cached.Add(code, key);
             return key;
         }

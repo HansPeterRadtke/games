@@ -168,3 +168,14 @@ Creating a new sample requires a reviewed, unique committed GUID. Do not copy
 and rename files while keeping the old GUID, or regenerate scene IDs for
 an existing shipped asset. The public `Build Showcase` menu is intentionally
 absent so customers do not accidentally replace their own edits.
+
+
+For Unity's optional Input System-only projects, the sample input bridge
+translates legacy `KeyCode` names to the corresponding `Key` values.
+Control modifier keys, number-row keys and numpad keys require explicit
+aliases; unavailable mouse/joystick KeyCode inputs are treated as unbound
+rather than triggering an unrelated action. Experienced developers with
+controller, XR or action-asset workflows should inject a custom
+`IHprSuiteInputSource`. The private validation suite sends actual virtual
+keyboard events into Unity Input System 1.20.1; compiling its conditional
+branch alone is not considered enough.

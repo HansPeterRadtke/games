@@ -3,7 +3,7 @@
 **Status:** Private candidate only. Do not submit until verified buyer package,
 screenshots, AI disclosure, verified publisher account, and curation eligibility.
 Publisher: original Multiverse3d account; do not create a second account.
-Category: Tools > Game Toolkits. Extension Asset. Proposed version 0.2.0.
+Category: Tools > Game Toolkits. Extension Asset. Proposed version 0.3.0 (internal candidate; not a publication claim).
 The price is not fixed; initial lower-priced positioning needs buyer validation.
 
 ## Title
@@ -50,9 +50,13 @@ The enemy decision runtime is deterministic and contains no generative AI.
 The optional JSON example is a local illustration, not secure or cloud
 persistence. All gameplay rules are intended for customization.
 
-**Compatibility:** Independently tested with Unity 6000.4.0f1 and Built-in
-Render Pipeline. Additional Unity versions and URP/HDRP configurations are
-not yet independently certified. Third-party required packages: none.
+**Compatibility:** Independently tested in Unity 6000.4.0f1 and
+6000.6.7f1 with the Built-in Render Pipeline. An isolated Unity 6000.6.7f1
+URP 17.6.0 project verified active URP rendering configuration and conversion
+of all eleven sample materials to supported URP Lit shaders. The latest buyer
+candidate still requires its own independent end-to-end URP import, graphics
+and input tests before advertising broader compatibility. HDRP and other
+platforms are not independently certified. Third-party required packages: none.
 
 **Third-party notices:** No third-party art or runtime plugins are bundled.
 A per-module license and consolidated notices are included. Unity itself is

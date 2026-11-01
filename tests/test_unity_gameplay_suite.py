@@ -173,6 +173,19 @@ class UnityGameplaySuiteSourceTest(unittest.TestCase):
         self.assertIn("HprSuiteInput.cs", builder)
         archive = (SOURCE / "validate_release.py").read_text()
         self.assertIn("Integration/HprSuiteInput.cs", archive)
+        for value in ("KeyCode.LeftControl", "Key.LeftCtrl", "KeyCode.Keypad1",
+                      "Key.Numpad1", "KeyCode.RightControl", "Key.RightCtrl"):
+            self.assertIn(value, engine)
+        input_qa = (SOURCE / "qa/HprSuiteInputPlayModeFixtureTests.cs").read_text()
+        for expected in ("InputTestFixture", "Press(keyboard.wKey)",
+                         "source.WasPressed(KeyCode.W)", "Set(mouse.position",
+                         "source.IsPressed(KeyCode.LeftControl)"):
+            self.assertIn(expected, input_qa)
+        live_qa = (SOURCE / "qa/HprSuiteInputGameplayProbe.cs").read_text()
+        self.assertIn("source.WasPressed", live_qa)
+        self.assertIn("InputSystem.QueueStateEvent", live_qa)
+        self.assertIn("Application.Quit(0)", live_qa)
+
 
     def test_integrated_module_docs_drop_unavailable_standalone_workflows(self):
         builder = runpy.run_path(str(SOURCE / "build_gameplay_suite.py"))
@@ -271,6 +284,23 @@ class UnityGameplaySuiteSourceTest(unittest.TestCase):
             self.assertFalse(compare(baseline, unchanged)["removed_reference_guids"])
             self.assertEqual(compare(baseline, changed)["changed_shared_guids"], [first])
             self.assertEqual(compare(baseline, removed)["removed_reference_guids"], [first])
+
+    def test_snapshot_rotation_normalization_and_real_qa(self):
+        source = (SOURCE / "HprGameplaySuitePlayground.cs").read_text()
+        self.assertIn("!IsUnitQuaternion(s.Player.rotation)", source)
+        self.assertIn("!IsUnitQuaternion(s.EnemyRotation)", source)
+        self.assertIn("normSquared >= 0.99 && normSquared <= 1.01", source)
+        qa = (SOURCE / "qa/HprGameplaySuiteRuntimeSmokeValidator.cs").read_text()
+        self.assertIn("zero-length save quaternion must not be accepted", qa)
+
+    def test_arena_boundaries_are_shared_by_player_and_enemy_restore(self):
+        source = (SOURCE / "HprGameplaySuitePlayground.cs").read_text()
+        self.assertIn("!IsWithinArena(s.Player.position)", source)
+        self.assertIn("!IsWithinArena(s.EnemyPosition)", source)
+        self.assertIn("IsWithin(position.x, -8f, 8f)", source)
+        self.assertIn("IsWithin(position.z, -6f, 6f)", source)
+        qa = (SOURCE / "qa/HprGameplaySuiteRuntimeSmokeValidator.cs").read_text()
+        self.assertIn("valid player checkpoint beside the arena boundary must restore", qa)
 
     def test_rejection_corrected(self):
         strategy = (ROOT / 'doc/package-launch-strategy.md').read_text()

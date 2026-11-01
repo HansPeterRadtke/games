@@ -35,3 +35,93 @@ Unity's publisher login and support/submission access remain unresolved. Previou
 Complete v12 cleanroom; investigate any actual failing assertion; verify opt-in URP and alternate input; execute upgrade-into-existing-game acceptance without editing original donor; use official Asset Store tools when an upstream-compatible version is available; capture buyer demo/Editor guide screenshots from the tested imported package; commit and push only source and documentation changes after tests, keeping generated artifacts outside Git. Any account login challenge, identity check or live publisher submission requires proper existing-account authorization and server-side verification. Do not create another publisher account.
 
 The owner-approved Infra repository guidelines remain authoritative. All Unity implementation changes belong in the dedicated `product/unity-integrated-suite-20261030` branch; the unrelated Games main checkout and other agents' uncommitted work are never reset or overwritten.
+
+## November 1, 2026 — v14 controlled release and real Linux input test
+
+The newer controlled candidate in
+`/data/var/marketplace-account-setup/unity-consolidated-20261101-v14/release/`
+was generated on Nitro with Unity 6000.6.7f1. SHA-256 of its exact internal
+buyer archive is
+`830a6ccfd264e1e46a4a9f7f97d6fc04b3b7d51dc44d48d0b706887460c82ee7`
+(100,003 bytes). It is **internal QA only, NOT submitted, approved or published**.
+The static archive verification counted 160 Unity assets, ten runtime modules,
+no non-suite paths, no shipped NUnit assemblies, all 52 authored GUIDs unchanged,
+and the original 22 Unity YAML source files bit-for-bit preserved. Actual
+archive-to-archive upgrade comparison against v13 found 160 shared assets with
+zero changed or removed GUIDs. The source-level Python suite passed 21 tests.
+No C# source warnings were detected in the Unity 6.6 build log.
+
+The independent Unity 6.6 **new blank project** importer verified 13 serialized
+demo-scene references, 12 required sample/docs elements, all 47 original
+runtime module scripts, and a read-only/no-overwrite scene-builder safeguard.
+The same actual imported archive passed ten runtime checks: service registry,
+world metadata, keyed doors and pickups, combat/event-bus health, healing and
+area pulse, weapon cooldown/loot, memory checkpoint, real JSON disk write/read,
+corrupted-save rejection, and valid near-wall player checkpoint.
+A separate *actual Play Mode* run on the imported package also passed scene
+initialization, collision-aware CharacterController movement, enemy chase,
+typed damage, ability/stamina execution, weapon mechanics and restoration.
+See `cleanroom-*.unity.log`, exact scene/runtime QA receipts and
+`actual-playmode-receipt.txt` in the v14 release directory.
+
+The standalone Unity 6.6 **Linux player**, independently built from the same
+`HprSuiteInput.cs` source SHA as the v14 manifest, passed actual dynamic
+input-update frames with the optional Unity Input System 1.20.1 and
+new-input-only handling. Verified keyboard press, the first-frame
+`WasPressed` transition, held/released keys, left control, arrow and numpad
+key translations. Receipt:
+`/data/var/marketplace-account-setup/unity-suite-quality-research-20261101/linux-new-input-player-result.txt`.
+This resolves the previous unreliable **headless Editor** simulation result;
+a failing Editor callback is not evidence of a runtime defect.
+
+**Still open at this writing:** v14 first-party Unity Asset Store Validator
+in a disposable Unity 6000.4 project with a documented *exporter-only*
+compatibility shim (the independent validator tests themselves are unmodified);
+Unity 6000.4 v14 cleanroom; disabled-domain-reload 6000.6 on exact v14;
+URP 17.6 material conversion and end-to-end input in the exact v14 archive,
+and optional official `InputTestFixture` Play Mode tests. The original
+publisher account remains unverified, no new product has been submitted,
+and direct competitive advantage over existing frameworks is not proven.
+
+Unity official documentation now recommends UPM for long-lived reusable
+**code** packages over one-time-import `.unitypackage` where dependency and
+version management matter. An explicitly researched, *unsubmitted* UPM
+migration option is documented separately in
+`package-format-decision-2026-11-01.md`. Do not change shipping format
+without real buyer-upgrade tests and original publisher eligibility.
+
+## Verification follow-up, November 1: both Unity versions and official Input System
+
+The exact v14 artifact is now independently verified in **Unity 6000.4.0f1
+and 6000.6.7f1**. Both fresh projects imported the archive and validated
+thirteen serialized scene references, twelve required auxiliary assets,
+all forty-seven original C# scripts and non-destructive sample rebuild
+protection. Both independently ran the ten integrated gameplay checks and
+produced a `CLEANROOM_VERIFIED` result. The 6.6 imported scene additionally
+passed real Play Mode movement, autonomous enemy pursuit, EventBus damage,
+ability activation, weapons and checkpoint restore. All receipts and Editor
+logs remain next to the versioned archives outside Git.
+
+The exact same v14 archive passed the Unity Asset Store Tools v12.0.0
+validator in a **disposable Unity 6000.4 project**: 34 tests, zero failures,
+zero warnings, no C# compilation errors. Only a separate, documented
+exporter compatibility adjustment to official tooling was present; validator
+test logic/severity code remained unchanged. This does not imply publication
+approval or any access to the original publisher account.
+
+Unity's supported `InputTestFixture` Play Mode tests were introduced in a
+separate private project with Input System 1.20.1 and Test Framework 1.8.0.
+The three tests passed with no failures: first-frame button transitions and
+held/released states; alpha/arrow/modifier/numpad mappings; and pointer
+position from a virtual mouse. The same production input adapter was already
+verified in an actual standalone Linux Unity 6.6 player under
+new-input-only settings; its source SHA matches the v14 source manifest.
+Earlier headless Editor experiments that gave incorrect frame-transition
+evidence were archived outside Git with hashes and logs; only the supported
+passing test harnesses remain in the developer QA source tree.
+
+Current separate work (not yet complete at this evidence point): v14 exact
+URP/new-input buyer package import and material compatibility; v14 exact
+two-entry domain-reload-disabled Play Mode check; refreshed v14 upgrade test
+into a populated game project. Commercial differentiation, publisher login
+and server-side submission are still unverified.

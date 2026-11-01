@@ -202,6 +202,12 @@ public static class HprGameplaySuiteRuntimeSmokeValidator
             Require(controller.MagazineAmmo == 3 && controller.PlayerStamina == 55f &&
                 controller.EnemyHealth == 36f && controller.KeyCount == 1 &&
                 controller.DoorIsOpen, "nested ability rejection is not a partial restore");
+            HprSuiteSnapshot invalidRotation = controller.CaptureSnapshot();
+            invalidRotation.EnemyRotation = new SerializableQuaternion(new Quaternion(0f, 0f, 0f, 0f));
+            Require(!controller.RestoreSnapshot(invalidRotation),
+                "zero-length save quaternion must not be accepted");
+            Require(controller.MagazineAmmo == 3 && controller.EnemyHealth == 36f,
+                "invalid world orientation preserves unchanged gameplay state");
             File.WriteAllText(slot, "{not valid JSON");
             Require(!controller.LoadFromDisk(slot), "corrupted disk slot rejected");
             Require(controller.PlayerStamina == 55f, "invalid disk slot preserves live state");
@@ -218,6 +224,15 @@ public static class HprGameplaySuiteRuntimeSmokeValidator
             Require(controller.PlayerHealth < beforeAttack && controller.EnemyAttackCooldown > 0f,
                 "automatic enemy near-range attack uses real cooldown and EventBus");
             controller.SetAutomaticEnemy(false);
+
+            // The authored arena side walls are at x=+/-8.5 and z=+/-6.
+            // A player can legitimately stand past the old x=7 limit.
+            HprSuiteSnapshot nearArenaWall = controller.CaptureSnapshot();
+            nearArenaWall.Player.position =
+                new SerializableVector3(new Vector3(7.5f, nearArenaWall.Player.position.y, 0f));
+            Require(controller.RestoreSnapshot(nearArenaWall),
+                "valid player checkpoint beside the arena boundary must restore");
+            controller.ResetEncounter();
 
             string output = Environment.GetEnvironmentVariable("HPR_SUITE_SMOKE_RECEIPT");
             if (string.IsNullOrWhiteSpace(output))

@@ -21,14 +21,28 @@ public static class HprSuiteUrpValidator
         Directory.CreateDirectory(folder);
         const string rendererPath = "Assets/HprPrivateUrpQA/HprTestRenderer.asset";
         const string pipelinePath = "Assets/HprPrivateUrpQA/HprTestUrp.asset";
-        if (AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(pipelinePath) != null)
-            throw new InvalidOperationException("Refusing to modify an existing URP test pipeline asset");
-        UniversalRendererData renderer = ScriptableObject.CreateInstance<UniversalRendererData>();
-        renderer.name = "HPR Disposable Test Renderer";
-        AssetDatabase.CreateAsset(renderer, rendererPath);
-        UniversalRenderPipelineAsset pipeline = UniversalRenderPipelineAsset.Create(renderer);
-        pipeline.name = "HPR Disposable URP Pipeline";
-        AssetDatabase.CreateAsset(pipeline, pipelinePath);
+        // QA is idempotent in the explicitly isolated private test project:
+        // keep previously created test assets and their Unity GUIDs when an
+        // Editor launch was interrupted during expensive shader imports.
+        // Never overwrite an asset with an unexpected type or touch buyer data.
+        UniversalRendererData renderer = AssetDatabase.LoadAssetAtPath<UniversalRendererData>(rendererPath);
+        UniversalRenderPipelineAsset pipeline =
+            AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(pipelinePath);
+        if ((renderer == null && AssetDatabase.LoadMainAssetAtPath(rendererPath) != null) ||
+            (pipeline == null && AssetDatabase.LoadMainAssetAtPath(pipelinePath) != null))
+            throw new InvalidOperationException("Private QA asset exists with an unexpected type");
+        if (renderer == null)
+        {
+            renderer = ScriptableObject.CreateInstance<UniversalRendererData>();
+            renderer.name = "HPR Disposable Test Renderer";
+            AssetDatabase.CreateAsset(renderer, rendererPath);
+        }
+        if (pipeline == null)
+        {
+            pipeline = UniversalRenderPipelineAsset.Create(renderer);
+            pipeline.name = "HPR Disposable URP Pipeline";
+            AssetDatabase.CreateAsset(pipeline, pipelinePath);
+        }
         AssetDatabase.SaveAssets();
 
         GraphicsSettings.defaultRenderPipeline = pipeline;
