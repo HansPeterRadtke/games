@@ -252,7 +252,7 @@ game that still uses HPR. A new independent READ-ONLY preflight now checks
 buyer-owned Unity scene/prefab/asset YAML references against the actual
 archived vendor asset GUIDs, plus HPR namespaces in customer C# source,
 assembly references and package manifests including their resolved locks.
-Fourteen deterministic tests first reproduced missing/incorrect
+Sixteen deterministic tests first reproduced missing/incorrect
 implementation, then passed, including
 a genuine Unity package vendor-root GUID case. Its real archived source
 scan detected TEN HPR references in the previously tested buyer project:

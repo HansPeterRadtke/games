@@ -41,8 +41,18 @@ twelve deterministic tests passed after initial implementation. An actual
 source-controlled Unity package then exposed a missed root-folder GUID
 identity at pathname `Assets/HPRGameplaySuite`. A targeted new
 regression first failed, its archive-root rule was corrected, and all
-**fourteen** deterministic module tests passed after a further failing-
-then-passing regression for an orphaned HPR package-lock dependency.
+**sixteen** deterministic module tests passed after further failing-
+then-passing regressions for an orphaned HPR package-lock dependency,
+concrete non-destructive per-category reviewer guidance and a vendor GUID
+reference embedded in a customer-owned Unity importer .meta file.
+The latter is a distinct potential failure source: importer metadata
+can reference an HPR shader or material even when no scene YAML directly
+does. The scanner now inspects non-vendor importer .meta text rather than
+assuming all metadata is only a self-GUID. The CLI now
+returns reviewed next actions for serialized scene references, HPR C# use,
+assembly definitions and package manager dependencies; these actions
+are text only, never automatic file edits. Its file reads are bounded even
+if an asset grows after initial size inspection.
 
 ## Real source evidence, not synthetic-only claims
 

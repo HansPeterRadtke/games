@@ -24,7 +24,7 @@ _GUID = re.compile(r"(?m)\bguid:\s*([0-9a-fA-F]{32})\b")
 _HPR_CSHARP = re.compile(r"\b(?:using\s+(?:static\s+)?(?:global::)?HPR\b|HPR\.[A-Za-z_]|HPR\w*Runtime\b)")
 _TEXT_SOURCE_EXTENSIONS = {
     ".asset", ".asmdef", ".asmref", ".controller", ".cs", ".json",
-    ".mat", ".overridecontroller", ".prefab", ".shader", ".unity", ".uxml",
+    ".mat", ".meta", ".overridecontroller", ".prefab", ".shader", ".unity", ".uxml",
     ".uss", ".yaml", ".yml", ".xml", ".playable", ".txt",
 }
 # Binary assets typically cannot refer to serialized Unity script GUIDs
@@ -118,8 +118,9 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608) ->
         if not path.is_file():
             unknowns.append({"path": name, "reason": "unsupported asset type"})
             continue
-        if path.suffix.lower() == ".meta":
-            continue
+        # Customer-owned importer .meta files can themselves contain GUID
+        # references to vendor shaders/materials/MonoScripts. Inspect them,
+        # while skipping only the HPR vendor package's own root .meta.
         extension = path.suffix.lower()
         if extension in _BINARY_MEDIA:
             # Reference to a texture is serialized in the consumer's .unity/.asset YAML.
@@ -130,7 +131,13 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608) ->
         if path.stat().st_size > max_file_bytes:
             unknowns.append({"path": name, "reason": "asset exceeds configured read limit"})
             continue
-        body = path.read_bytes()
+        # Read no more than the configured byte ceiling, even if a file is
+        # replaced or grows after its preflight stat check.
+        with path.open("rb") as source:
+            body = source.read(max_file_bytes + 1)
+        if len(body) > max_file_bytes:
+            unknowns.append({"path": name, "reason": "asset exceeded read limit during inspection"})
+            continue
         if b"\0" in body:
             unknowns.append({"path": name, "reason": "binary content despite text extension"})
             continue
@@ -144,7 +151,8 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608) ->
         for guid in direct:
             if guid in vendor:
                 dependencies.append({
-                    "kind": "serialized_vendor_guid",
+                    "kind": "importer_meta_vendor_guid" if extension == ".meta"
+                            else "serialized_vendor_guid",
                     "path": name,
                     "vendor_asset": vendor[guid],
                     "guid": guid,
@@ -202,6 +210,22 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608) ->
                 checked += 1
             except (ValueError, UnicodeDecodeError):
                 unknowns.append({"path": "Packages/packages-lock.json", "reason": "unreadable package lock"})
+    # Operator-facing next actions are advisory only. None performs a mutation
+    # or treats the result as permission to remove a dependency.
+    review_by_kind = {
+        "serialized_vendor_guid": "Review each customer-owned scene, prefab or asset in the Unity Editor. On a new copy, explicitly migrate components and references, then verify Play mode before considering package removal.",
+        "importer_meta_vendor_guid": "Review customer-owned Unity importer .meta references and their externalObjects in the Unity Editor. Preserve original GUID identities and test a separately copied project before any migration.",
+        "csharp_hpr_reference": "Review customer C# HPR API calls with the source owner. Migrate code explicitly and recompile; do not automatically rewrite or remove source.",
+        "asmdef_reference": "Review customer assembly definition dependencies and compile consumers after any user-approved migration; retain the original assembly and .meta identities until verified.",
+        "package_manifest_reference": "Review the project's declared HPR package dependencies with the owner before changing the Unity package manifest.",
+        "package_lock_reference": "Review the existing resolved Unity package lock entry and the manifest together; do not silently edit project package resolution.",
+    }
+    used = {item["kind"] for item in dependencies}
+    actions = [review_by_kind[kind] for kind in sorted(used) if kind in review_by_kind]
+    if unknowns:
+        actions.append("Review the unknown customer files in Unity or with the owning developer; absence of parsed references is not proof of safe removal.")
+    if not actions:
+        actions.append("No direct references found in checked files. Obtain explicit project-owner approval and separately test a clone before any uninstall; indirect references may remain.")
     # Root-specific direct reference findings take precedence over conservative unknown files.
     classification = ("customer_dependencies_found" if dependencies
                       else "unknown_project_content_requires_review" if unknowns
@@ -216,6 +240,7 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608) ->
         "checked_text_files": checked,
         "dependencies": dependencies,
         "unknowns": unknowns,
+        "review_actions": actions,
     }
 
 

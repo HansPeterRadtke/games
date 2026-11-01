@@ -47,6 +47,19 @@ class UninstallSafety(unittest.TestCase):
         self.assertEqual("no_direct_reference_detected",
                          MODULE.inspect(self.project, self.archive)["classification"])
 
+    def test_findings_include_readable_review_actions_not_delete_commands(self):
+        (self.project / "Assets/MyGame/Game.unity").write_text(
+            "m_Script: {fileID: 11500000, guid: " + VENDOR_GUID + ", type: 3}\n")
+        (self.project / "Assets/MyGame/Logic.cs").write_text("using HPR;\n")
+        result = MODULE.inspect(self.project, self.archive)
+        labels = result["review_actions"]
+        self.assertTrue(any("scene" in label.lower() for label in labels))
+        self.assertTrue(any("C#" in label for label in labels))
+        for label in labels:
+            self.assertNotIn("rm -", label)
+            self.assertNotIn("DeleteAsset", label)
+        self.assertFalse(result["deletion_permitted"])
+
     def test_unrelated_customer_game_no_references(self):
         result = MODULE.inspect(self.project, self.archive)
         self.assertEqual("no_direct_reference_detected", result["classification"])
@@ -54,6 +67,16 @@ class UninstallSafety(unittest.TestCase):
         self.assertEqual([], result["unknowns"])
         self.assertTrue(result["read_only"])
         self.assertFalse(result["deletion_permitted"])
+
+    def test_customer_importer_meta_vendor_reference_detected(self):
+        metadata = self.project / "Assets/MyGame/ImportedModel.fbx.meta"
+        metadata.write_text(
+            "fileFormatVersion: 2\nguid: 11111111111111111111111111111111\n"
+            "ModelImporter:\n  externalObjects:\n  - first: {type: Material}\n"
+            "    second: {fileID: 11400000, guid: " + OTHER_GUID + ", type: 2}\n")
+        result = MODULE.inspect(self.project, self.archive)
+        self.assertTrue(any(x["kind"] == "importer_meta_vendor_guid" for x in result["dependencies"]))
+        self.assertEqual("customer_dependencies_found", result["classification"])
 
     def test_scene_direct_mono_script_reference_detected(self):
         scene = self.project / "Assets/MyGame/Original.unity"
