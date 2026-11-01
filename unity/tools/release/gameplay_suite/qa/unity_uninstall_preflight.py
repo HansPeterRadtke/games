@@ -85,7 +85,8 @@ def _ensure_non_symlink_path(project: Path, relative: Path) -> Path:
     return current
 
 
-def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608) -> dict:
+def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
+            max_scanned_paths: int = 200_000) -> dict:
     """Inspect one existing local Unity project without changing any file.
 
     project: existing Unity project root; archive: known local HPR .unitypackage
@@ -98,6 +99,8 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608) ->
         raise ValueError("Existing non-symlink Unity project with Assets directory required")
     if isinstance(max_file_bytes, bool) or not isinstance(max_file_bytes, int) or max_file_bytes <= 0:
         raise ValueError("max_file_bytes must be a positive integer")
+    if isinstance(max_scanned_paths, bool) or not isinstance(max_scanned_paths, int) or max_scanned_paths <= 0:
+        raise ValueError("max_scanned_paths must be a positive integer")
     _ensure_non_symlink_path(project, Path("Assets"))
     vendor = _archive_guids(Path(archive))
     dependencies: list[dict[str, str]] = []
@@ -105,7 +108,14 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608) ->
     checked = 0
     customer_root = project / "Assets"
 
-    for path in sorted(customer_root.rglob("*")):
+    # Stream the filesystem instead of materializing every customer path;
+    # always fail closed when a large project exceeds our configured budget.
+    examined_paths = 0
+    for path in customer_root.rglob("*"):
+        examined_paths += 1
+        if examined_paths > max_scanned_paths:
+            unknowns.append({"path": "Assets", "reason": "file traversal limit reached; remaining customer assets were not inspected"})
+            break
         relative = path.relative_to(project)
         name = relative.as_posix()
         # Check even vendor-root symlinks, rather than ignoring an unsafe path.
@@ -226,6 +236,8 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608) ->
         actions.append("Review the unknown customer files in Unity or with the owning developer; absence of parsed references is not proof of safe removal.")
     if not actions:
         actions.append("No direct references found in checked files. Obtain explicit project-owner approval and separately test a clone before any uninstall; indirect references may remain.")
+    dependencies.sort(key=lambda entry: (entry["path"], entry["kind"]))
+    unknowns.sort(key=lambda entry: (entry["path"], entry["reason"]))
     # Root-specific direct reference findings take precedence over conservative unknown files.
     classification = ("customer_dependencies_found" if dependencies
                       else "unknown_project_content_requires_review" if unknowns
@@ -238,6 +250,8 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608) ->
                      "Reflection, binary formats, external packages and dynamically generated scenes require review."],
         "archived_vendor_guid_count": len(vendor),
         "checked_text_files": checked,
+        "examined_asset_paths": examined_paths,
+        "configured_max_scanned_paths": max_scanned_paths,
         "dependencies": dependencies,
         "unknowns": unknowns,
         "review_actions": actions,
@@ -249,10 +263,13 @@ def main() -> int:
     parser.add_argument("--project", type=Path, required=True)
     parser.add_argument("--archive", type=Path, required=True)
     parser.add_argument("--max-file-bytes", type=int, default=8_388_608)
+    parser.add_argument("--max-scanned-paths", type=int, default=200_000)
     parser.add_argument("--output", type=Path, help="new JSON report outside Unity project; will not overwrite")
     options = parser.parse_args()
     try:
-        result = inspect(options.project, options.archive, max_file_bytes=options.max_file_bytes)
+        result = inspect(options.project, options.archive,
+                         max_file_bytes=options.max_file_bytes,
+                         max_scanned_paths=options.max_scanned_paths)
         raw = json.dumps(result, indent=2, sort_keys=True) + "\n"
         if options.output is not None:
             if options.output.resolve().is_relative_to(options.project.resolve()):

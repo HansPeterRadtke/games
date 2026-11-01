@@ -152,6 +152,14 @@ class UninstallSafety(unittest.TestCase):
         with self.assertRaises(ValueError):
             MODULE.inspect(Path(self.tmp.name) / "missing", self.archive)
 
+    def test_bounded_project_path_inventory_fails_closed(self):
+        for i in range(5):
+            (self.project / "Assets/MyGame" / f"Extra{i}.cs").write_text("// unrelated")
+        result = MODULE.inspect(self.project, self.archive, max_scanned_paths=1)
+        self.assertEqual("unknown_project_content_requires_review", result["classification"])
+        self.assertTrue(any("traversal limit" in x["reason"] for x in result["unknowns"]))
+        self.assertFalse(result["deletion_permitted"])
+
     def test_unexpected_asset_file_too_large_fails_closed(self):
         # Check max bytes using a tiny artificial bound, no large allocation.
         (self.project / "Assets/MyGame/Large.dat").write_text("important vendor reference")
