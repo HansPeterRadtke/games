@@ -23,6 +23,7 @@ namespace HPR.GameplaySuite.Experimental
         private ObjectField abilityField;
         private ObjectField providerField;
         private Button attachButton;
+        private Button removeButton;
         private HelpBox readiness;
 
         [MenuItem("Tools/HPR/Gameplay Suite/Attach Ability to Selected Object")]
@@ -83,6 +84,11 @@ namespace HPR.GameplaySuite.Experimental
                 text = "Attach ability (Undo available; save scene manually)"
             };
             scroll.Add(attachButton);
+            removeButton = new Button(RemoveRequested)
+            {
+                text = "Remove HPR runner (Undo available; save scene manually)"
+            };
+            scroll.Add(removeButton);
 
             selectedObjectField.RegisterValueChangedCallback(change =>
             {
@@ -129,17 +135,25 @@ namespace HPR.GameplaySuite.Experimental
 
         private void Refresh()
         {
-            if (readiness == null || attachButton == null)
+            if (readiness == null || attachButton == null || removeButton == null)
                 return;
             string error = ValidateSelection(target, ability, provider);
+            string removalError = ValidateRemoval(target);
             bool ready = error == null;
-            readiness.messageType = ready ? HelpBoxMessageType.Info : HelpBoxMessageType.Warning;
+            bool removable = removalError == null;
+            readiness.messageType = ready || removable
+                ? HelpBoxMessageType.Info : HelpBoxMessageType.Warning;
             readiness.text = ready
                 ? "Ready. One HPR AbilityRunner will be attached to the selected scene " +
                   "object. Your controller, input settings and assets will not be rewritten. " +
                   "This changes only the selected scene when you confirm. Undo is available."
-                : "Nothing will be modified. " + error;
+                : removable
+                    ? "The selected scene object already contains one HPR runner. " +
+                      "Remove HPR runner explicitly if you want to detach it. Undo is available. " +
+                      "This does not uninstall the HPR package or remove other components."
+                    : "Nothing will be modified. " + error;
             attachButton.SetEnabled(ready);
+            removeButton.SetEnabled(removable);
         }
 
         private void AttachRequested()
@@ -155,6 +169,7 @@ namespace HPR.GameplaySuite.Experimental
                 readiness.text = "Attached in the currently open scene. Inspect the new AbilityRunner; " +
                                  "save your scene to keep the change, or choose Edit > Undo.";
                 attachButton.SetEnabled(false);
+                removeButton.SetEnabled(true);
             }
             catch (Exception error)
             {
@@ -163,6 +178,64 @@ namespace HPR.GameplaySuite.Experimental
                 readiness.text = "No ability was installed: " + error.Message;
                 Refresh();
             }
+        }
+
+        private void RemoveRequested()
+        {
+            string validationError = ValidateRemoval(target);
+            if (validationError != null)
+            {
+                Refresh();
+                return;
+            }
+            // Removing a component can invalidate references elsewhere in the
+            // buyer's game; require explicit consent and never delete assets.
+            if (!EditorUtility.DisplayDialog("Remove HPR runner?",
+                    "Remove the HPR AbilityRunner from only the selected scene object? " +
+                    "This does not remove your player, prefab, resources or independent " +
+                    "ability definitions. Review other references and save the scene yourself. " +
+                    "Unity Undo can restore the component before the Editor closes.",
+                    "Remove HPR runner", "Cancel"))
+            {
+                readiness.text = "Removal cancelled. No scene objects changed.";
+                return;
+            }
+            try
+            {
+                RemoveExplicitly(target);
+                Refresh();
+                readiness.messageType = HelpBoxMessageType.Info;
+                readiness.text = "HPR runner detached in this scene. " +
+                                 "Choose Edit > Undo to restore it, or save the scene to keep removal. " +
+                                 "Customer assets and project settings were not changed.";
+            }
+            catch (Exception error)
+            {
+                Debug.LogException(error);
+                Refresh();
+                readiness.messageType = HelpBoxMessageType.Error;
+                readiness.text = "Removal was not completed: " + error.Message;
+            }
+        }
+
+        /// <summary>Read-only validation for one deliberate scene-component removal.</summary>
+        public static string ValidateRemoval(GameObject target)
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+                return "Stop Play mode before removing a scene component.";
+            if (target == null)
+                return "Select an existing GameObject in the current scene.";
+            if (EditorUtility.IsPersistent(target) || PrefabUtility.IsPartOfPrefabAsset(target))
+                return "Select a scene instance, not a prefab asset.";
+            if (!target.scene.IsValid() || !target.scene.isLoaded ||
+                target.scene != EditorSceneManager.GetActiveScene())
+                return "Only the current, loaded scene can be edited.";
+            int count = target.GetComponents<AbilityRunnerComponent>().Length;
+            if (count == 0)
+                return "There is no HPR AbilityRunner to remove from this object.";
+            if (count != 1)
+                return "Multiple HPR runners found; refuse ambiguous removal and inspect manually.";
+            return null;
         }
 
         /// <summary>Pure, read-only gate, intended for both the UI and real Editor QA.</summary>
@@ -252,6 +325,32 @@ namespace HPR.GameplaySuite.Experimental
                 EditorSceneManager.MarkSceneDirty(target.scene);
                 Undo.CollapseUndoOperations(group);
                 return runner;
+            }
+            catch
+            {
+                Undo.RevertAllDownToGroup(group);
+                throw;
+            }
+        }
+
+        /// <summary>Explicit, scene-only detach; never deletes user assets or saves files.</summary>
+        public static bool RemoveExplicitly(GameObject target)
+        {
+            string error = ValidateRemoval(target);
+            if (error != null)
+                throw new ArgumentException(error);
+            AbilityRunnerComponent runner = target.GetComponent<AbilityRunnerComponent>();
+            if (runner == null)
+                throw new InvalidOperationException("Selected player has no HPR runner.");
+            Undo.IncrementCurrentGroup();
+            int group = Undo.GetCurrentGroup();
+            Undo.SetCurrentGroupName("HPR: remove one selected ability runner");
+            try
+            {
+                Undo.DestroyObjectImmediate(runner);
+                EditorSceneManager.MarkSceneDirty(target.scene);
+                Undo.CollapseUndoOperations(group);
+                return true;
             }
             catch
             {

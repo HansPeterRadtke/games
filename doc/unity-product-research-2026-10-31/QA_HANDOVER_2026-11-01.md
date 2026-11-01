@@ -209,3 +209,37 @@ fully verified render pipeline/input matrix, user visual QA, publisher
 verification or Asset Store approval is established. No outside uploads,
 paid services, trades, publisher submissions or new Calendar events
 occurred. The owner’s original product worktree was not modified.
+
+
+## November 1 evening follow-up — CPU-saturated URP test and reversible customer detach
+
+The second independent URP attempt used a new Unity six point six project
+with a CLEAN missing Library cache, official URP 17.6 / modern Input
+System 1.20.1 manifest and matching renderer settings, but NO HPR source.
+Unity reached Bee/ILPP postprocessing and timed out before extracting the
+frozen internal package. Thirty-five pre-existing renderer/ProjectSettings/
+Packages files stayed unchanged. Nitro had eight CPU cores available,
+very high runnable load and sustained ten-second CPU pressure around
+eighty percent or higher. CPU contention is a measured important factor,
+not a proven complete Unity root cause. A new private resource preflight
+would now advise deferral and cannot interrupt other workloads.
+
+A second real Unity six point six Editor test exercised the installed
+selected-ability window's DYNAMIC controls: valid/invalid ObjectField
+values, button enablement, actionable messages and read-only preview.
+Seven checks passed with sixty-four prior customer files preserved.
+
+A separate, intentionally NOT packaged customer-detach QA prototype
+now provides explicit, confirmed removal of ONE HPR AbilityRunner
+component with public Unity Undo/Redo while retaining customer
+controllers, resource providers, prefabs, ability definitions and project
+settings. Eight real Unity Editor checks passed, including Undo restoration,
+Redo removal and separately saved new scene. Sixty-four original customer
+files remained unchanged. This is a reviewed patch against the prior
+immutable installer-enabled archive, NOT a claim that it is shipped or
+safe for automatically uninstalling all HPR dependencies.
+
+All details, negative evidence, correct per-file baselines, pending
+human visual UX and market gates are in
+[the late continuation report](late-unity-qa-continuation-2026-11-01.md).
+**Commercial status remains NO-GO.**
