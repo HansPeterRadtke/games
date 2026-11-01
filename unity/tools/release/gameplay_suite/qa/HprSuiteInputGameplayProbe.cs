@@ -12,6 +12,8 @@ public sealed class HprSuiteInputGameplayProbe : MonoBehaviour
 {
     private Keyboard keyboard;
     private InputSettings.BackgroundBehavior previousBackgroundBehavior;
+    private InputSettings.EditorInputBehaviorInPlayMode previousEditorInputBehavior;
+    private InputSettings.UpdateMode previousUpdateMode;
     private int stage;
     private int ticks;
 
@@ -19,7 +21,16 @@ public sealed class HprSuiteInputGameplayProbe : MonoBehaviour
     {
         // Only the disposable QA project ignores the unfocused batch Editor.
         previousBackgroundBehavior = InputSystem.settings.backgroundBehavior;
+        previousEditorInputBehavior = InputSystem.settings.editorInputBehaviorInPlayMode;
+        previousUpdateMode = InputSystem.settings.updateMode;
+        Debug.Log("HPR_PRIVATE_NEW_INPUT_PREVIOUS update=" + previousUpdateMode +
+                  " editor=" + previousEditorInputBehavior + " focus=" + Application.isFocused);
+        // Headless Editor lacks a focused Game View. Route the disposable
+        // virtual keyboard to the game rather than to the Editor UI.
         InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
+        InputSystem.settings.editorInputBehaviorInPlayMode =
+            InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+        InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInDynamicUpdate;
         keyboard = InputSystem.AddDevice<Keyboard>();
         if (keyboard == null)
             ReportFailure("Cannot create a virtual test keyboard");
@@ -106,6 +117,8 @@ public sealed class HprSuiteInputGameplayProbe : MonoBehaviour
     private void OnDestroy()
     {
         InputSystem.settings.backgroundBehavior = previousBackgroundBehavior;
+        InputSystem.settings.editorInputBehaviorInPlayMode = previousEditorInputBehavior;
+        InputSystem.settings.updateMode = previousUpdateMode;
         if (keyboard != null)
         {
             InputSystem.RemoveDevice(keyboard);
