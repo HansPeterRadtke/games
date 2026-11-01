@@ -157,3 +157,55 @@ and distinguish actual Unity process receipts from source-only tests.
 The owner Infra and relevant guideline documents were consulted; a full
 semantic reading of **every** Infra file has not been independently
 verified in this session, and no claim to that effect is made.
+
+
+## November 1 evening internal selected-installer archive — latest independently verified state
+
+A newer experimental, nonpublished Unity Editor product archive has been
+frozen from the existing committed source plus the four observed buyer-source
+working-file overlays and the independently verified orphan-Unity-metadata
+safety patch. This **is not** a merge, overwrite or approval of the owner’s
+fourteen concurrent dirty files. An isolated selected-ability Editor
+installer was added as **one new optional Editor script**, with its own
+stable GUID, owner-oriented menu/UI and explicit Undo/Redo source/Inspector
+operations. An independently verified source-only patch and all relevant
+receipts live on this QA branch. The exact archive and its frozen source
+are also privately preserved under the Nitro internal selected-installer
+QA folder in marketplace-account-setup, with explicit NOT SUBMITTED status.
+
+**Actual finished acceptance:** the exact archive contains **161 assets**;
+all **160 previous GUIDs** survived unchanged, with no removals. Unity
+6.6 actual cleanroom import passed thirteen scene references and ten
+independent runtime/save integration checks. Unity 6.6 imported the new
+archive into a real populated customer fixture and preserved all
+**59 original files**. The **actual installed Editor script** (not an
+overlay) passed read-only preflight, selected-object attach, Undo and Redo,
+Inspector serialization after save/reopen, and UI Toolkit control checks.
+The user-controlled test created only a new scene and private QA files.
+Unity 6.4 independently imported the same archive and preserved **27**
+pre-existing files. Unity 6.6 double Play-mode entry with domain reload
+disabled passed without duplicate gameplay subscriptions. The combined
+Python source/integrity suite passed **37** checks. These positive
+results are grounded in real Unity process exit codes and logs, not
+synthetic claims of complete product readiness.
+
+**One distinct technical failure remains:** the selected-installer
+archive's Unity 6.6 URP 17.6 with new-input-only *import* timed out after
+600 seconds while Unity ILPP/Bee was compiling the older cloned test
+project **before** the new installer file was imported. The process exit
+was **124**, no HPR C# compiler error was observed, and all **60**
+original customer files remained byte-identical. This is explicitly
+recorded as FAILED/INCOMPLETE in
+[selected URP test](selected-urp-new-input-timeout-2026-11-01.md).
+The previous v14 URP test passed, and all **80** runtime/demo/material
+asset bytes are unchanged in the new archive, but **these are not
+substitutes for an exact new-archive URP test**. Do not blindly retry
+against the uncertain copied Unity Library; use a new project in any
+separately authorized follow-up.
+
+**Release decision: COMMERCIAL NO-GO.** No independent expert buyer trials,
+comparative measured development-time benefit, willingness to purchase,
+fully verified render pipeline/input matrix, user visual QA, publisher
+verification or Asset Store approval is established. No outside uploads,
+paid services, trades, publisher submissions or new Calendar events
+occurred. The owner’s original product worktree was not modified.
