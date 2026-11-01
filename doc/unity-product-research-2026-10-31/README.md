@@ -51,3 +51,5 @@ The [late November first Unity QA continuation](late-unity-qa-continuation-2026-
 The [read-only HPR uninstall reference audit](safe-uninstall-dependency-audit-2026-11-01.md) now identifies existing buyer-owned serialized GUIDs and source-level HPR dependencies, including after vendor files are removed. It never authorizes package deletion; a full dependency-aware migration remains open.
 
 The [Unity first-party ILPP and CPU contention investigation](unity-ilpp-environment-investigation-2026-11-01.md) separately records the cache-free URP compile failures before HPR was installed, observed CPU saturation, and a related but **not yet proven equivalent** official Unity Bee issue in the tested Editor version. No test failure is silently reclassified as a passed URP acceptance.
+
+The [original Asset Store listing claim audit](listing-claim-verification-2026-11-01.md) independently compares the uncommitted original seller draft against the actual 161-asset internal candidate, previous v14 URP media evidence, verified selected-installer workflow and missing dependent-game migration/buyer-market requirements. The owner listing itself remains untouched.

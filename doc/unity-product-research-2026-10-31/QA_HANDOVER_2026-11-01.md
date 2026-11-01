@@ -268,3 +268,15 @@ uninstall/migration is NOT. A customer with HPR dependent scenes or code
 must be warned and offered a reviewed migration before removal. See
 [safe uninstall audit](safe-uninstall-dependency-audit-2026-11-01.md).
 The commercial conclusion remains NO-GO.
+
+
+## Commercial seller-draft verification
+
+The owner/other-agent's latest private Unity Asset Store listing was
+inspected read-only against source/asset provenance and actual Unity
+Editor logs. A separate [listing-claim audit](listing-claim-verification-2026-11-01.md)
+identifies which source/demo claims are technically supported, and why
+URP compatibility of the NEW archive, no-code ability setup, in-package
+reversible detach, safe dependent-game uninstall, completed visual
+Editor QA and justified price **must not be claimed**. The proposed
+seller text was NOT changed or published. Commercial status NO-GO.
