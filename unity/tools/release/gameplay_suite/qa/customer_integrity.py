@@ -14,7 +14,7 @@ from pathlib import Path, PurePosixPath
 import re
 import tarfile
 
-DEFAULT_CUSTOMER_ROOTS = ("Assets/ExternalCustomerGame",)
+DEFAULT_CUSTOMER_ROOTS = ("Assets",)
 PROTECTED_PROJECT_FILES = (
     "ProjectSettings/EditorBuildSettings.asset",
     "ProjectSettings/EditorSettings.asset",
@@ -24,6 +24,7 @@ PROTECTED_PROJECT_FILES = (
     "ProjectSettings/QualitySettings.asset",
     "ProjectSettings/TagManager.asset",
     "Packages/manifest.json",
+    "Packages/packages-lock.json",
 )
 _GUID = re.compile(r"(?m)^guid:\s*([a-f0-9]{32})\s*$")
 
@@ -54,23 +55,39 @@ def _watched_files(project: Path, customer_roots: tuple[str, ...]) -> dict[str, 
     customer_found = False
     for raw in customer_roots:
         rel = _relative_path(raw)
-        if rel.parts[:1] != ("Assets",) or len(rel.parts) < 2:
-            raise ValueError("Customer roots must name a dedicated Assets subfolder")
+        if rel.parts[:1] != ("Assets",):
+            raise ValueError("Customer roots must be Unity Assets folders")
         _reject_symlink_components(project, rel)
         base = project / rel
         if not base.is_dir():
             continue
         for item in base.rglob("*"):
+            relative = item.relative_to(project).as_posix()
+            if rel.parts == ("Assets",) and (
+                relative == "Assets/HPRGameplaySuite.meta" or
+                relative.startswith("Assets/HPRGameplaySuite/")
+            ):
+                continue  # This vendor-owned root is checked separately for upgrade.
             if item.is_symlink():
-                raise ValueError("Refusing customer file symlink: " +
-                                 item.relative_to(project).as_posix())
+                raise ValueError("Refusing customer file symlink: " + relative)
             if not item.is_file():
                 continue
-            relative = item.relative_to(project).as_posix()
             result[relative] = item
             customer_found = True
     if not customer_found:
         raise ValueError("No customer-owned files were found to protect")
+    # Unity has many persistent project controls beyond the common input and
+    # graphics settings. Protect every existing setting, not an arbitrary shortlist.
+    settings_root = project / "ProjectSettings"
+    if settings_root.is_symlink():
+        raise ValueError("Refusing symlinked Unity ProjectSettings directory")
+    if settings_root.is_dir():
+        for item in settings_root.rglob("*"):
+            if item.is_symlink():
+                raise ValueError("Refusing symlinked Unity setting: " +
+                                 item.relative_to(project).as_posix())
+            if item.is_file():
+                result[item.relative_to(project).as_posix()] = item
     for raw in PROTECTED_PROJECT_FILES:
         rel = _relative_path(raw)
         _reject_symlink_components(project, rel)

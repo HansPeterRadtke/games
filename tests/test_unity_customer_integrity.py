@@ -124,5 +124,28 @@ class CustomerIntegrityTests(unittest.TestCase):
             self.project, archive))
 
 
+    def test_default_scan_protects_other_customer_folders(self):
+        other = self.project / "Assets/OtherGameplay/UntouchedLevel.prefab"
+        other.parent.mkdir()
+        other.write_text("original prefab in a second customer folder")
+        baseline = customer_integrity.snapshot_customer_project(self.project)
+        self.assertIn("Assets/OtherGameplay/UntouchedLevel.prefab", baseline)
+
+    def test_default_scan_protects_all_existing_project_settings(self):
+        file = self.settings / "TimeManager.asset"
+        file.write_text("customer physics timestep")
+        baseline = customer_integrity.snapshot_customer_project(self.project)
+        self.assertIn("ProjectSettings/TimeManager.asset", baseline)
+
+    def test_default_scan_excludes_existing_vendor_root_and_meta(self):
+        vendor = self.project / "Assets/HPRGameplaySuite/Runtime/OriginalVendor.cs"
+        vendor.parent.mkdir(parents=True)
+        vendor.write_text("original packaged code")
+        (self.project / "Assets/HPRGameplaySuite.meta").write_text("vendor root meta")
+        baseline = customer_integrity.snapshot_customer_project(self.project)
+        self.assertNotIn("Assets/HPRGameplaySuite/Runtime/OriginalVendor.cs", baseline)
+        self.assertNotIn("Assets/HPRGameplaySuite.meta", baseline)
+
+
 if __name__ == "__main__":
     unittest.main()

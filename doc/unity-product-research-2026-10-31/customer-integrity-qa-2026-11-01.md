@@ -21,8 +21,10 @@ ScriptableObject values, or existing input/graphics/editor settings.
 
 The Python checker at
 `unity/tools/release/gameplay_suite/qa/customer_integrity.py`
-hashes customer-owned assets (including .meta) and selected persistent Unity
-settings using SHA-256. It records only relative paths and digests and refuses
+hashes **all existing non-vendor Assets files** (including .meta), **all
+existing ProjectSettings files**, and the Packages manifest/lock files using
+SHA-256 by default. An explicit --customer-root narrows the watched Assets
+scope only; ProjectSettings/Packages remain protected. It records only relative paths and digests and refuses
 to overwrite an existing baseline. After an import it fails on *added,
 removed or byte-modified* protected assets. It independently checks candidate
 Unity archive GUIDs against unrelated customer-owned .meta GUIDs before
@@ -41,8 +43,14 @@ checker did not exist; six foundational cases passed after implementation.
 A new symlinked-Assets-parent test then failed and motivated an ancestor
 check. An actual pre-import v13-to-v14 project exposed a false-positive
 collision at `Assets/HPRGameplaySuite.meta`; a regression test
-reproduced it and the source was corrected. Nine deterministic checker cases
-now pass, including adverse mutations and GUID conflicts.
+reproduced it and the source was corrected. The initial nine checker cases
+passed. Three additional test-first cases identified two missing defaults:
+files in other customer Assets folders and less-common ProjectSettings. The
+broadened checker now passes **twelve focused cases**, including those
+previously failing cases, and **thirty-three total Python tests** when combined
+with the original suite. The scoped live v13-to-v14 upgrade described below
+was first captured with the initial narrower checker; do **not** retroactively
+claim the broadened file coverage for that original successful import.
 
 ## Real Unity acceptance scenario
 
@@ -64,9 +72,58 @@ The private pre-import digest baseline protects twenty-one files: one Unity
 scene, one prefab, eight metadata files, seven ProjectSettings files, one
 Packages manifest and other buyer-owned source/settings files. Initial
 unrelated-GUID preflight passed after correcting the vendor-root collision
-classification. The v14 upgrade is a separate Unity Editor operation; do not
-claim preservation until its actual import process exits and the digest and
-scene/Inspector-value checks both pass.
+classification. The v14 upgrade now **passed** in a real Unity 6.6 Editor,
+with a zero process exit and no C# compiler errors or warnings in its
+separate log. The after-import SHA-256 gate reported all twenty-one original
+customer files preserved, and the separate private Unity Editor
+`HprCustomerFixture.Verify` reported the same original scene, controller,
+prefab, serialized settings and Editor domain-reload-disabled setting.
+Evidence: scratch receipts `customer-baseline.json`,
+`customer-import-v14-unity.log` and
+`customer-post-upgrade-actual-unity.txt`. This is one fully specified customer
+fixture, **not** a general guarantee over arbitrary third-party projects.
+
+The broadened checker now inventories **forty-six** protected files in the
+already-upgraded private test project: twenty-one non-vendor Assets files,
+twenty-three ProjectSettings files, and two package-management files. The
+post-uninstall scratch project currently has forty-two protected files; the
+four-file difference is expected because its private HPR-dependent QA scripts
+and scratch fixture differ. These are **current read-only inventories**, not
+forty-six-file before/after import acceptance; a fresh full-scope pre-import
+baseline is still needed to upgrade the strength of that claim.
+
+A separately isolated actual Unity 6.6 invocation tested the **latest
+uncommitted integration guide** frozen into a disposable copy of the older
+v14 buyer archive. The private customer-sample-copy validator passed: copying
+a weapon and healing ability, rebinding the copied effect, generating
+independent IDs/GUIDs, safely rejecting an occupied destination and forbidden
+paths, and retaining vendor original asset bytes/GUIDs. See private
+`customer-sample-copy-new-guide-receipt-20261101.txt` and its Unity log.
+That test does **not** mean the newer guide code has already been included
+in the actual commercially distributable v14 archive.
+
+A **separate disposable copy** was used for an Editor-initiated uninstall.
+The real Unity 6.6 Editor reported it removed the entire original
+`Assets/HPRGameplaySuite` directory and the private HPR-dependent QA scripts.
+After removal, an independent full repeat of the original twenty-one-file
+SHA-256 gate passed. A **separate, fresh Unity 6.6 Editor process** then
+completed a clean C# compile and invoked
+`HprCustomerFixture.VerifyWithoutVendor` successfully. Its private receipt
+`customer-after-uninstall-actual-unity.txt` confirms the original customer
+controller, scene, prefab, serialized settings and Editor settings remain
+valid and the entire HPR vendor source is absent. The real Editor uninstall
+and re-open logs show no C# compiler errors or warnings. This validates
+uninstall **only for a game with no HPR-dependent customer code**; an actual
+consumer of vendor interfaces would require migration or intentional manual
+integration change and is not yet supported.
+
+The independent real Unity 6.6 Editor UI Toolkit fixture also passed: it
+constructed the HPR Integration Guide EditorWindow, found a responsive
+scroll container and eight native action buttons, and checked that the window
+reported Unity version, package-file status, and the fact that file-presence
+checks are not runtime acceptance. Evidence: private `editor-ui-actual-unity.txt`
+and `editor-ui-unity.log`. This proves Editor structure, **not** screen
+legibility, keyboard navigation, task completion or real buyer adoption.
 
 ## Reproduce and interpret
 
@@ -84,6 +141,21 @@ serialized customer controller, scene, prefab and settings after import.
 Keep source original and existing release evidence immutable. All external
 QA logs and buyer fixtures remain in the private scratch directory, outside
 Git.
+
+## Measured discrepancy: latest source versus tested release archive
+
+Do **not** treat successful v14 acceptance as evidence for the worktree's
+currently uncommitted guide changes. A read-only asset-byte comparison found
+that the tested v14 Unity archive's integration guide C# source is 9,604 bytes,
+whereas the currently edited worktree source is 21,860 bytes. The archive
+README, QUICKSTART and ARCHITECTURE are also different from today's edited
+files. The archived HprGameplaySuiteSceneBuilder.cs and HprSuiteInput.cs
+were byte-identical to the live worktree. Thus the latest customer-copy
+features in the dirty guide have **not** been validated as buyer-archive
+content by this pass. Wait for its owning agent's edits to settle, create a
+new versioned release candidate in a fresh private output directory, and
+repeat all cleanroom, existing-game and uninstall quality gates. Do not
+claim test or publication readiness on the basis of the old archive.
 
 ## Commercial context and remaining gates
 
@@ -105,10 +177,11 @@ https://marketplace.unity.com/packages/tools/game-toolkits/abilities-game-creato
 These are descriptions from actual listings, **not** verified purchases,
 download counts, comparative usability benchmarks or proof of market demand.
 
-Even a passing update gate does not establish non-destructive vendor-root
-modification preservation, safe uninstall, UI Toolkit onboarding, actual
-end-user Inspector completion time, new-input + URP combinations, or human
-willingness to pay. The separate dirty integration branch may contain later
+The passing update and removal byte-integrity gates do not establish
+preservation of buyer edits **inside the vendor-owned HPR root**, reliable
+uninstall for projects that actually depend on HPR services, real end-user
+Inspector completion time, keyboard-accessible/dark/light/high-DPI Editor
+usability, the entire old/new-input plus URP matrix, or willingness to pay. The separate dirty integration branch may contain later
 unsynced changes that are not included in the tested v14 archive. No submission
 or publication is authorized. **Commercial verdict remains NO-GO** pending
 differentiation, complete release matrix, and real user-value validation.
