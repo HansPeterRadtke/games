@@ -1,0 +1,12 @@
+--- a/unity/tools/release/gameplay_suite/HprSuiteIntegrationGuide.cs
++++ b/unity/tools/release/gameplay_suite/HprSuiteIntegrationGuide.cs
+@@ -261,7 +261,8 @@
+                 string physical = Path.Combine(Application.dataPath, relative);
+                 if (!uniqueDestinations.Add(target) ||
+                     AssetDatabase.LoadMainAssetAtPath(target) != null ||
+-                    File.Exists(physical) || Directory.Exists(physical))
++                    File.Exists(physical) || Directory.Exists(physical) ||
++                    File.Exists(physical + ".meta") || Directory.Exists(physical + ".meta"))
+                     throw new IOException(
+                         "An output asset already exists, or dependencies have conflicting names: " +
+                         target + ". Nothing has been copied.");
