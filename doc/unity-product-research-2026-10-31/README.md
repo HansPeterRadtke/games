@@ -13,6 +13,21 @@ The owner explicitly requested substantive research, original-book reading, firs
 - [Market and positioning](market-and-positioning.md) — direct overlapping framework, system, Editor, replay and industrial-simulation competitors; verified descriptions/prices/reviews where available, customer complaints, differentiated hypotheses, no-sale-data caution and commercial stop/go.
 - [Buyer workflow and evaluation](buyer-workflow-validation-plan.md) — concrete experienced-developer Unity Editor tasks, configurability, non-destructive authoring and compatibility tests, feedback, source APIs, UX acceptance and empirical study proposal.
 
+## November 1 independent Unity QA continuation (separate Git branch)
+
+The [verified QA handover](QA_HANDOVER_2026-11-01.md) describes actual
+Unity 6.4/6.6 cleanroom/customer import, a functional non-destructive
+healing-ability integration prototype, combined URP/new-input testing,
+independent preservation checks and remaining release gates. It references
+[customer integration](customer-healing-integration-experiment-2026-11-01.md),
+[URP and new input](combined-urp-new-input-2026-11-01.md), and a
+[reproduced customer GUID overwrite defect](orphan-meta-safety-2026-11-01.md)
+with its isolated, independently verified patch. This work lives on the
+separate `qa/unity-customer-integrity-20261101` branch and has **not been
+merged into the dirty commercial source or built as a new buyer archive**.
+The conclusion remains **NO-GO** until commercial buyer value, full archive
+QA and publisher approval are actually demonstrated.
+
 ## Decision gates before another implementation sprint
 
 First, verify that at least one narrowly defined experienced-developer problem is inadequately solved by competing products. Preferred HPR-adjacent experiment is **non-destructive integration of one or two systems into an existing game** without replacing controller, source assets, serialization, input stack or editor settings. This is a hypothesis, not a proven differentiation. A separate industrial-simulation integration niche may leverage the owner's domain experience, but existing $600–$1,440 enterprise tools, free forklift controllers and $10 conveyors already compete and require direct scope/user verification.
