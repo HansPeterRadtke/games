@@ -110,9 +110,14 @@ def build(original_archive: Path, original_source: Path,
         if guid is None:
             raise ValueError("Authorized replacement not found in prior Unity archive: " + archive_path)
         tar_key = guid + "/asset"
-        if tar_key not in data or data[tar_key] != oldfile.read_bytes():
+        old_payload = oldfile.read_bytes()
+        if tar_key not in data or data[tar_key] != old_payload:
             raise ValueError("Prior archive payload differs from archived frozen source: " + archive_path)
+        if sha(old_payload) != before[source_rel]:
+            raise ValueError("Frozen source changed after the initial file inventory: " + source_rel)
         payload = candidate.read_bytes()
+        if sha(payload) != after[source_rel]:
+            raise ValueError("Candidate source changed after the initial file inventory: " + source_rel)
         if payload == data[tar_key]:
             raise ValueError("An authorized change is unexpectedly byte-identical: " + archive_path)
         changed_entries[tar_key] = payload

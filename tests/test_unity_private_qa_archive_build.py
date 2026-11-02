@@ -13,6 +13,7 @@ import sys
 import tarfile
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT=Path(__file__).resolve().parents[1]
 QA=ROOT/"unity/tools/release/gameplay_suite/qa"
@@ -96,6 +97,21 @@ class PrivateRepack(unittest.TestCase):
         (self.frozen/RELPATH).write_text("wrong prior content")
         with self.assertRaises(ValueError):
             self.run_builder()
+        self.assertFalse(self.output.exists())
+
+    def test_proposed_asset_changing_after_hash_inventory_is_refused(self):
+        # Emulate a concurrent editor touching our OWN synthetic proposal
+        # between the source-inventory hash and the archive byte read.
+        # The build must stop before creating a misleading verified package.
+        real_files = builder._files
+        def source_changes_after_snapshot(root):
+            report = real_files(root)
+            if Path(root) == self.proposed:
+                (self.proposed/RELPATH).write_text("changed after the audit hash")
+            return report
+        with mock.patch.object(builder,"_files",side_effect=source_changes_after_snapshot):
+            with self.assertRaises(ValueError):
+                self.run_builder()
         self.assertFalse(self.output.exists())
 
     def test_unapproved_additional_source_edit_refused(self):
