@@ -475,3 +475,48 @@ commercial product files. Full record:
 [seven-source private archive](seven-source-private-archive-2026-11-02.md).
 
 Commercial conclusion remains NO-GO, with no publisher submission.
+
+
+## November 2 second-window exact Unity archive and Play-mode verification
+
+The existing independent source/QA branch now supports a NEW private
+seven-change archive using an explicit SHA-256 identity rather than
+defaulting to the older frozen selected-installer package. Read-only
+report mode was actually run on the NEW binary and accepted only
+the exact pinned hash; the old default remained valid and an
+unpinned replacement path was correctly refused. No Unity process
+or resource reservation was started by that report.
+
+An independently tested full importer identity scanner compares EVERY
+asset payload, GUID metadata, expected HPR file path and unexpected
+vendor file, after inspecting the exact input tar. Against an actual
+previous successful Unity 6000.6 customer project, the older frozen
+archive passed **all 161 source contents and 161 GUIDs**. The new
+seven-change candidate correctly FAILED against that same older
+project with exactly seven source/document payload differences, not
+zero; this prevents false claims based on reused customer project
+data or merely finding an installer script. Both actual read-only
+positive/negative receipts are privately preserved.
+
+Two separate test-first simulated Unity Play-mode cases reproduced
+a false success when a protected customer ProjectSettings file or
+the installed HPR script changed during Play mode after the initial
+import-file check. The broker worker now recomputes buyer file hashes
+AND all vendor asset/GUID identities AFTER Play mode before returning
+complete. A mismatch is explicitly failed and checkpointed; no user
+file is repaired, ignored or overwritten. Source and process tests
+passed with **167** total Python regressions. These simulated cases
+are NOT a real Unity 6.6 Editor execution.
+
+The existing long-running broker v3 process is older code already
+in memory. It remains the historical owner's background URP waiter,
+was not restarted, and tests the OLD archive; its eventual receipt
+requires independently verifying actual project/content before
+any completeness claim. No new autonomous job was created under
+the second reminder; source is ready for a future separately
+authorized clean acceptance run using the latest package.
+
+Commercial status remains NO-GO pending actual new-archive URP and
+new Input System compile/Play mode, custom customer scenes/saving,
+visual UI QA and comparative buyer demand. See
+[exact archive identity](exact-archive-editor-import-identity-2026-11-02.md).

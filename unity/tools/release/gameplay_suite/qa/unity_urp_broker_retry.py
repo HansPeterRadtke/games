@@ -305,12 +305,22 @@ def _record_wait(root: Path, data: dict) -> None:
     atomic_status(root / "status.json", data)
 
 
+def chosen_archive_sha(args) -> str:
+    """Default stays pinned to the previous real-Unity-tested candidate.
+
+    Any *new* private QA archive requires an explicit expected SHA-256:
+    an alternate --archive path alone is never implicitly trusted.
+    """
+    return getattr(args, "expected_archive_sha256", EXPECTED_ARCHIVE_SHA256)
+
+
 def run_attempt(args, attempt_number: int, lease_api, lease) -> dict:
     """At most one side-effectful attempt per unique disposable project.
 
     Do not retry a timed-out/partially imported project. A subsequent
     attempt, if approved, must get another unique project and review.
     """
+    verify_archive(args.archive, chosen_archive_sha(args))
     run_root = args.output_root / ("attempt-%03d" % attempt_number)
     if run_root.exists() or run_root.is_symlink():
         raise FileExistsError("Refusing to re-run an existing Unity QA attempt")
@@ -330,14 +340,28 @@ def run_attempt(args, attempt_number: int, lease_api, lease) -> dict:
              for folder in ("Assets", "Packages", "ProjectSettings")
              for p in (project / folder).rglob("*") if p.is_file()}
     atomic_status(run_root / "pre-import-baseline.json", {"original_files": files})
+    verify_archive(args.archive, chosen_archive_sha(args))
     phase = run_unity(args.editor, project, run_root / "import.unity.log",
                       import_package=args.archive, timeout=1800)
+    # Even an otherwise successful Editor process must not certify a
+    # candidate that was replaced while the import was in progress.
+    verify_archive(args.archive, chosen_archive_sha(args))
     changed = original_files_integrity(project, files)
     phase.update(original_customer_files=len(files),
                  changed_existing_files=changed,
                  installer_in_project=(project / "Assets/HPRGameplaySuite/Editor/HprSelectedAbilityInstaller.cs").is_file())
+    if phase["phase_success"]:
+        # A zero Unity exit and a present installer pathname do not prove
+        # the imported package is THIS SHA-pinned candidate. Verify ALL
+        # imported asset bytes and GUID identities, then persist the proof.
+        from unity_imported_archive_identity import verify_import
+        imported = verify_import(args.archive, project, chosen_archive_sha(args))
+        atomic_status(run_root / "import-identity.json", imported)
+        phase["import_identity_status"] = imported["status"]
+        phase["imported_exact_asset_paths_verified"] = imported["asset_paths_verified"]
+        phase["imported_exact_guids_verified"] = imported["guid_identities_verified"]
     atomic_status(run_root / "import-result.json", phase)
-    if not phase["phase_success"] or changed or not phase["installer_in_project"]:
+    if not phase["phase_success"] or changed or not phase["installer_in_project"] or             phase.get("import_identity_status") != "PASS":
         return {"status": "failed_import_requires_review", "attempt": attempt_number, "phase": phase}
 
     # Only QA-scoped files are added to this new scratch project.
@@ -359,8 +383,23 @@ def run_attempt(args, attempt_number: int, lease_api, lease) -> dict:
             "HPR_NEW_INPUT_GAME_UPDATE_RECEIPT": str(input_receipt),
             "HPR_COMBINED_URP_INPUT_RECEIPT": str(combined_receipt),
         })
-    if not phase["phase_success"] or not input_receipt.is_file() or not combined_receipt.is_file():
-        phase["qa_receipt_missing_or_editor_failed"] = True
+    # The previous original-file check was only made after *import*.
+    # Rehash the original buyer/project files and every imported GUID and
+    # asset body AFTER Play mode as well, before claiming any success.
+    from unity_imported_archive_identity import verify_import
+    post_changed = original_files_integrity(project, files)
+    post_identity = verify_import(args.archive, project, chosen_archive_sha(args))
+    atomic_status(run_root / "post-playmode-identity.json", post_identity)
+    phase.update(post_playmode_changed_existing_files=post_changed,
+                 post_playmode_import_identity_status=post_identity["status"],
+                 originals_remained_unmodified_after_install=not post_changed,
+                 real_editor_urp_new_input_gameplay_accepted=False)
+    if (not phase["phase_success"] or not input_receipt.is_file() or
+            not combined_receipt.is_file() or post_changed or
+            post_identity["status"] != "PASS"):
+        phase["qa_receipt_missing_or_editor_failed"] = (
+            not phase["phase_success"] or not input_receipt.is_file() or
+            not combined_receipt.is_file())
         atomic_status(run_root / "playmode-result.json", phase)
         return {"status": "failed_playmode_requires_review", "attempt": attempt_number, "phase": phase}
     gameplay_text = input_receipt.read_text(encoding="utf-8")
@@ -373,7 +412,6 @@ def run_attempt(args, attempt_number: int, lease_api, lease) -> dict:
         return {"status": "failed_playmode_requires_review", "attempt": attempt_number, "phase": phase}
 
     phase["real_editor_urp_new_input_gameplay_accepted"] = True
-    phase["originals_remained_unmodified_after_install"] = not changed
     atomic_status(run_root / "playmode-result.json", phase)
     return {"status": "complete_verified", "attempt": attempt_number, "phase": phase}
 
@@ -384,13 +422,13 @@ def run_worker(args) -> int:
         raise FileExistsError("The broker-owned worker root already exists; inspect first")
     if args.fixture == args.output_root:
         raise ValueError("The output must be separate from the source fixture")
-    verify_archive(args.archive)
+    verify_archive(args.archive, chosen_archive_sha(args))
     if not args.editor.is_file() or not os.access(args.editor, os.X_OK):
         raise FileNotFoundError("Pinned Unity Editor is unavailable")
     args.output_root.mkdir(parents=True, mode=0o700)
     atomic_status(args.output_root / "status.json",
                   {"phase": "initialized", "attempts_started": 0, "owner": args.owner,
-                   "archive_sha256": EXPECTED_ARCHIVE_SHA256,
+                   "archive_sha256": chosen_archive_sha(args),
                    "no_other_jobs_preempted": True, "broker_lease_held_while_waiting": False})
     broker = _read_broker_api()
     started = time.monotonic()
@@ -409,7 +447,7 @@ def run_worker(args) -> int:
         phase = {"phase": "waiting_for_cpu_and_broker",
                  "attempts_started": 0, "samples_checked": checks,
                  "owner": args.owner, "latest": decision,
-                 "archive_sha256": EXPECTED_ARCHIVE_SHA256,
+                 "archive_sha256": chosen_archive_sha(args),
                  "no_other_jobs_preempted": True,
                  "broker_lease_held_while_waiting": False}
         _record_wait(args.output_root, phase)
@@ -476,7 +514,7 @@ def run_worker(args) -> int:
                     "broker_grant_acquired": True,
                     "error_type": type(exc).__name__,
                     "owner": args.owner,
-                    "archive_sha256": EXPECTED_ARCHIVE_SHA256,
+                    "archive_sha256": chosen_archive_sha(args),
                     "no_automatic_retry_of_uncertain_effects": True,
                 })
                 result_code = 6
@@ -509,7 +547,7 @@ def run_worker(args) -> int:
                         "secure_credential_persisted": token_preserved,
                         "lease_may_remain_active_until_ttl": True,
                         "do_not_create_another_lease": True,
-                        "archive_sha256": EXPECTED_ARCHIVE_SHA256,
+                        "archive_sha256": chosen_archive_sha(args),
                     })
                     (args.output_root / "lease-release-pending.txt").write_text(
                         "Secure broker lease release not verified. Inspect the recorded "
@@ -522,7 +560,7 @@ def run_worker(args) -> int:
                   "samples_checked": checks, "attempts_started": 0,
                   "no_unity_process_started": True,
                   "no_broker_reservation_held": True,
-                  "archive_sha256": EXPECTED_ARCHIVE_SHA256})
+                  "archive_sha256": chosen_archive_sha(args)})
     return 2
 
 
@@ -531,6 +569,9 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--mode", choices=("report", "retry"), default="report")
     p.add_argument("--fixture", type=Path, default=DEFAULT_FIXTURE)
     p.add_argument("--archive", type=Path, default=DEFAULT_ARCHIVE)
+    p.add_argument("--expected-archive-sha256", type=str,
+                   default=EXPECTED_ARCHIVE_SHA256,
+                   help="explicit lowercase SHA-256 of the exact chosen private archive")
     p.add_argument("--editor", type=Path, default=DEFAULT_EDITOR)
     p.add_argument("--qa", type=Path, default=DEFAULT_QA)
     p.add_argument("--output-root", type=Path, default=DEFAULT_ROOT)
@@ -552,11 +593,12 @@ def main() -> int:
     args = parse_args()
     try:
         if args.mode == "report":
-            verify_archive(args.archive)
+            verify_archive(args.archive, chosen_archive_sha(args))
             sample = sample_live()
             answer = admission_snapshot(
                 sample["cpu_count"], sample["one_min_load"], sample["pressure_percent"])
             answer["archive_sha256_verified"] = True
+            answer["verified_archive_sha256"] = chosen_archive_sha(args)
             answer["any_other_unity_editor_active"] = not no_other_unity()
             answer["action"] = "read_only_report_no_reservation_or_process_launch"
             print(json.dumps(answer, sort_keys=True))
