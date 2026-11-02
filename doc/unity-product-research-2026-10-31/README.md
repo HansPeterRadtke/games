@@ -67,3 +67,5 @@ The [Serial customer Unity Editor follow-up source (not activated)](serial-custo
 The [First-party current competitor/pricing/feature supply comparison](market-competitive-proof-2026-11-02.md) records independently verified technical and commercial limitations. None of these new QA outputs authorizes publishing.
 
 The [Genuine Unity media log/pixel checks and missing key artwork acceptance](unity-media-key-art-qa-2026-11-02.md) records independently verified technical and commercial limitations. None of these new QA outputs authorizes publishing.
+
+The November second [new seven-source private archive and full GUID/assembly QA](seven-source-private-archive-2026-11-02.md) records a deterministic unpublished candidate with exactly seven source/doc payload updates, verified frozen GUID preservation, actual archive-policy checks, three offline C# API build results, and the remaining real Editor and commercial release blockers. A compiled commercial release is not implied.

@@ -70,9 +70,13 @@ https://docs.unity.cn/Manual/AssetStorePkgDetails.html
 The live publisher portal must be checked again at actual submission,
 as a historical manual page is not a guarantee about current UI.
 The icon, card, cover, and social image roles are distinct from ordinary
-screenshot galleries. Unity Content Transparency guidance additionally
-requires marketing to accurately depict real assets rather than
-using fully synthetic AI imagery as the sole primary image:
+screenshot galleries. Unity Content Transparency section **2.7.2** explicitly requires
+marketing artwork/screenshots/videos to contain actual Unity Editor
+rendered visuals; its section **2.7.6** prohibits marketing/showcase
+images that are entirely AI-generated other than supporting/background
+material. This is a hard provenance gate, not simply an image-size check.
+The current publisher submission guidelines were updated October 23,
+2026 according to the official page observed November 2.
 https://unity.com/legal/asset-store-content-transparency
 
 A separate read-only key-image gate,

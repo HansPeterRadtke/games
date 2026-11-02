@@ -430,3 +430,48 @@ through the research README and private Nitro QA receipts.
 
 **Commercial release decision remains NO-GO**, irrespective of these
 valid engineering QA advances.
+
+
+## November 2 private seven-source QA archive and demo-material save isolation
+
+An additional source audit identified two global SaveAssets invocations
+in the packaged opt-in HPR demo-material adapter and internal scene builder.
+These could flush unrelated buyer Inspector edits. A separate source-only
+patch now saves only HPR-owned authored sample assets and explicitly
+retargeted HPR sample materials through SaveAssetIfDirty. Its documented
+tradeoff is bypassing OnWillSaveAssets VCS callbacks. Three new source
+contracts passed, and a genuine disposable buyer project was staged with
+sixty-four protected original customer files to test the actual Unity
+Editor behaviour. This real Editor test HAS NOT yet been run.
+
+A deterministic create-only repacker built a NEW PRIVATE 161-asset
+Unity tar-format QA candidate from the previously frozen 161-asset
+selected-installer binary. It replaces exactly seven previously reviewed
+HPR script/document payloads while preserving all original GUID .meta,
+pathnames, 10 assembly definitions and every other asset byte. Ten
+first-test synthetic packaging regressions passed, and an independent
+existing archive GUID upgrade tool found all 161 GUIDs unchanged. A
+second archive-policy audit found no issues; the maximum asset path
+length remained ninety bytes. A second independent real-source rebuild
+produced a byte-identical candidate. This is NOT a native Unity Editor
+export, a passed Unity import, or a publication.
+
+The proposed C# source and all 47 original HPR runtime scripts also
+passed separate low-priority offline API compilations against installed
+Unity 6000.6.7f1 and 6000.4.0f1 managed assemblies, and a distinct
+Unity 6000.6 build with ENABLE_INPUT_SYSTEM defined and the actual
+Unity Input System reference. All returned zero compiler errors;
+serialized-field warnings remain a standalone-compiler caveat. None
+of these compilations proves real Unity Editor import/Play mode, URP,
+or the fully packaged customer workflows. Logs and private build receipts
+were preserved.
+
+The earlier genuine v14 Unity Store validator had thirty-four passes
+and zero failures, but DOES NOT verify the new candidate. The new
+full Unity cleanroom, URP/new-only input, custom controller save/reload,
+scoped-saver Editor tests, and publisher marketing key images remain
+open. The owner QA branch is independent from the fourteen dirty
+commercial product files. Full record:
+[seven-source private archive](seven-source-private-archive-2026-11-02.md).
+
+Commercial conclusion remains NO-GO, with no publisher submission.

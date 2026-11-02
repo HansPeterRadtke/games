@@ -89,3 +89,20 @@ Even after these pass, a commercial decision needs comparison with
 existing paid/free ability tools and actual expert developer task success,
 time to completion, surprise mutations and willingness to purchase.
 The generic ten-module suite remains **NO-GO** for Asset Store submission.
+
+
+### November 2 live official publishing-policy correction
+
+The earlier November 1 audit observed the old **May 20, 2026** revision.
+A new read of the CURRENT English first-party page on November 2 shows
+**Last updated October 23, 2026**, not May 20. The current first-party
+section 1.6 requires specific functional AI-assistance disclosure and
+significant value, and section 2.7.2 of Unity's Content Transparency
+requires marketing art and screenshots to contain genuine Unity Editor
+rendered visuals. Section 3.1.a still requires accurate disclosures of
+buyer dependencies and material limitations. The previous date is
+retained above as historical evidence, not an assertion that it is
+currently authoritative. The latest official source must be rechecked
+again at actual submission:
+https://marketplace.unity.com/publishing/submission-guidelines
+https://unity.com/legal/asset-store-content-transparency

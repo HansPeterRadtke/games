@@ -44,7 +44,7 @@ Actual individual reviews:
 https://assetstore.unity.com/packages/tools/game-toolkits/game-creator-2-203069/reviews
 
 The listing gives **USD 79.99**, 418 summary ratings and about
-2,400 favourites in a recent cached page. The separate reviews tab
+2,489 favourites in a recent cached page. The separate reviews tab
 reports **352 individual reviews**. These denominators are different
 and not reconciled, and neither is a sales number. The seller offers
 controller, camera, save, visual actions, conditions and extensions.
@@ -76,7 +76,7 @@ Original listing:
 https://assetstore.unity.com/packages/tools/utilities/packagelens-package-import-review-tool-375592
 
 The observed listing reports **FREE**, version 1.0.0 released
-June 4, 2026, six favourites and insufficient ratings. It is
+June 4, 2026, seven favourites and insufficient ratings. It is
 marketed specifically for Unity package identity and conflict
 reviews. Accordingly, packaging/asset-preservation checking
 alone is a weak justification for a paid HPR SKU. It may be a
@@ -84,7 +84,8 @@ complement rather than a runtime gameplay substitute.
 
 ## Real current submission policies
 
-Unity original publishing rules, last recorded update May 20, 2026:
+Unity original publishing rules, now updated **October 23, 2026**
+according to the live official publisher page checked November 2:
 https://marketplace.unity.com/publishing/submission-guidelines
 
 Relevant hard gates:
