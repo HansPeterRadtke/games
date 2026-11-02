@@ -520,3 +520,28 @@ Commercial status remains NO-GO pending actual new-archive URP and
 new Input System compile/Play mode, custom customer scenes/saving,
 visual UI QA and comparative buyer demand. See
 [exact archive identity](exact-archive-editor-import-identity-2026-11-02.md).
+
+
+## November 2 current competition and original Unity AI-bundle rejection
+
+A new primary listing/review check confirmed that Ability & Combat
+Toolkit advertises existing-controller support, two-component setup,
+old/new Input System support and polished visual ability editing.
+Game Creator 2 offers much broader controller/visual-authoring scope
+plus an installed public review base. A specific reviewer complained
+about incomplete documentation, suggesting an integration/onboarding
+problem, but no representative demand measurement. Review counts,
+favourite counts and listed prices are NOT seller revenue or sales.
+
+The nine original October 8 HPR product rejections specifically cited
+multiple similar AI-assisted modules diluting unique value. Current
+Unity guidelines similarly require genuine differentiation and accurate
+AI description; merely repackaging the same generic ten systems is not
+sufficient. The remaining viable hypothesis is a measurable
+non-destructive existing-game ability integration with preserved
+controller/input, scene/saved data and reversible update/removal.
+No competitor package or user trial has been run under the same
+project conditions, so time saved and willingness to pay are NOT
+MEASURED. See [commercial claim gate](commercial-claim-gate-2026-11-02.md).
+
+Commercial decision remains NO-GO; no marketplace action occurred.
