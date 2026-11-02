@@ -313,3 +313,26 @@ were stopped or preempted. Full findings:
 **Commercial decision remains NO-GO**: real developer demand, final
 accessibility/media QA, dependent-game migration and complete Unity
 URP/Input matrix are still unverified.
+
+
+## November 2 customer asset-copy side-effect research
+
+The exact frozen private seller archive's integration guide calls
+Unity AssetDatabase.SaveAssets after cloning customer ScriptableObjects.
+Unity's documented API writes **all unsaved assets** in the current
+project, potentially committing unrelated buyer Inspector edits. A new
+private **source-only** guide patch saves only specifically created
+clones with SaveAssetIfDirty, and explicitly discloses that this
+method bypasses OnWillSaveAssets VCS callbacks. All previous source
+GUID identities and the immutable archived buyer package remain
+unchanged. Three new Python contracts passed, and an offline Unity six
+API C# compile passed with zero errors and three serialized-field
+warnings. A real Unity Editor fixture with a deliberately unsaved
+unrelated buyer ability is staged with a sixty-four-file baseline but
+**has not yet been run**, because CPU pressure and the independently
+registered broker-managed URP job remain high. Full detail:
+[scoped sample saving](scoped-sample-save-2026-11-02.md).
+
+This does not change the **commercial NO-GO** verdict or authorize
+publisher submissions, purchases, account changes or overwriting the
+other agent's product worktree.

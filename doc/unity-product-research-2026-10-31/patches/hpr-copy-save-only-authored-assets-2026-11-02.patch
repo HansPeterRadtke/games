@@ -1,0 +1,22 @@
+--- a/unity/tools/release/gameplay_suite/HprSuiteIntegrationGuide.cs
++++ b/unity/tools/release/gameplay_suite/HprSuiteIntegrationGuide.cs
+@@ -330,7 +330,18 @@
+                     if (dirty)
+                         serialized.ApplyModifiedPropertiesWithoutUndo();
+                 }
+-                AssetDatabase.SaveAssets();
++                // Save only copies authored by this explicit user operation.
++                // Unity's global SaveAssets would flush OTHER dirty buyer assets.
++                // SaveAssetIfDirty bypasses OnWillSaveAssets callbacks for these
++                // named new assets, so VCS integrations need independent review.
++                // Nothing else was saved by this operation.
++                foreach (string target in destinations.Values)
++                {
++                    UnityEngine.Object copy = AssetDatabase.LoadMainAssetAtPath(target);
++                    if (copy == null)
++                        throw new InvalidOperationException("New customer-owned copy cannot be saved: " + target);
++                    AssetDatabase.SaveAssetIfDirty(copy);
++                }
+ 
+                 // Verify no newly copied object still depends on an original
+                 // vendor-owned *sample*. Script runtime references are intentional.
