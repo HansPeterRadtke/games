@@ -193,3 +193,32 @@ registered worker using its own capability token. Prior samples and
 projects must be preserved, and the replacement must use a unique new
 output folder. Do not stop a worker with an active Unity import or lease
 unless its effects are verified and coordinated.
+
+
+## Verified revised worker deployment on Nitro (November 2)
+
+After all six mock broker API contracts passed alongside the existing
+worker tests, the improved secure-lease error handling was committed and
+pushed to the QA branch. The real previously running worker was checked
+before any transition: no Unity attempt had started, its broker lease
+was empty, its cgroup contained only its own small waiting process, and
+its entire previous status history was preserved. That exact idle job
+was unloaded through **its own registered job ID and private control
+token**, and the broker confirmed `stopped`/`inactive`. No other job was
+stopped.
+
+A revised NEW resource-broker-owned job was then started with a unique
+`hpr-unity-urp-broker-retry-20261102-v3` output root, its own registered
+systemd cgroup, four-core CPU quota, twelve-GiB RAM limit and a
+twenty-four-hour bounded window. The private broker control token was
+written to an owner-only 0600 file outside Git, never logged. The active
+job's real PID, cgroup membership, CPU capacity decisions and no-lease
+waiting state were independently verified.
+
+A later observation still showed repeated `waiting_for_cpu_and_broker`
+status, six completed capacity checks, no active lease and **zero Unity
+Editor attempts**, while Nitro's CPU pressure was above sixty percent.
+This is verified live broker supervision, not evidence that URP passed
+or a promise of future model execution. The frozen internal seller
+archive and the owner's fourteen concurrent dirty files remained
+unchanged. The product retains its **NO-GO** status.
