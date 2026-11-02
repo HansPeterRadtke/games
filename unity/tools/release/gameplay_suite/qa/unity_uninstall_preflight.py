@@ -14,6 +14,7 @@ The only available classifications are:
 from __future__ import annotations
 
 import argparse
+import itertools
 import json
 import os
 import re
@@ -107,14 +108,23 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
     unknowns: list[dict[str, str]] = []
     checked = 0
     customer_root = project / "Assets"
+    package_root = project / "Packages"
+    if package_root.is_symlink() or (package_root.exists() and not package_root.is_dir()):
+        raise ValueError("Refusing symlinked or non-directory Unity Packages root")
+    # In addition to Assets, project-embedded UPM packages can contain
+    # customer-authored C#/asmdefs/asmrefs directly under Packages/com.foo.
+    # Exclude Unity's resolved Library/PackageCache and the HPR package's
+    # own source; do not confuse embedded package source with a manifest.
+    embedded = package_root.rglob("*") if package_root.is_dir() else ()
 
-    # Stream the filesystem instead of materializing every customer path;
-    # always fail closed when a large project exceeds our configured budget.
+    # Stream both roots under ONE bounded traversal budget, never following
+    # package paths outside this project or silently omitting embedded source.
     examined_paths = 0
-    for path in customer_root.rglob("*"):
+    for path in itertools.chain(customer_root.rglob("*"), embedded):
         examined_paths += 1
         if examined_paths > max_scanned_paths:
-            unknowns.append({"path": "Assets", "reason": "file traversal limit reached; remaining customer assets were not inspected"})
+            unknowns.append({"path": "Assets and Packages",
+                             "reason": "file traversal limit reached; remaining customer assets and embedded packages were not inspected"})
             break
         relative = path.relative_to(project)
         name = relative.as_posix()
@@ -125,6 +135,10 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
             continue
         if name.startswith("Assets/HPRGameplaySuite/"):
             continue
+        if name in ("Packages/manifest.json", "Packages/packages-lock.json"):
+            continue  # They are separately parsed below, with schema checks.
+        if name.startswith("Packages/") and name.split("/")[1].startswith("com.hpr."):
+            continue  # HPR's own embedded source is not a customer consumer.
         if not path.is_file():
             unknowns.append({"path": name, "reason": "unsupported asset type"})
             continue
@@ -157,6 +171,30 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
             unknowns.append({"path": name, "reason": "non-UTF8 text, cannot prove no references"})
             continue
         checked += 1
+        if (extension == ".json" and len(relative.parts) == 3 and
+            relative.parts[0] == "Packages" and relative.parts[-1] == "package.json"):
+            # Embedded packages need not appear in the project's top-level
+            # manifest, but their OWN package.json declares indirect HPR
+            # dependencies. Scan that dependency graph before uninstall.
+            try:
+                package_info = json.loads(source)
+                if not isinstance(package_info, dict):
+                    raise ValueError("embedded package manifest must be a JSON object")
+                dependencies_map = package_info.get("dependencies", {})
+                if (not isinstance(dependencies_map, dict) or
+                    any(not isinstance(key, str) or not key.strip() or
+                        not isinstance(version, str) or not version.strip()
+                        for key, version in dependencies_map.items())):
+                    raise ValueError("invalid embedded package dependency list")
+                if any(key.startswith("com.hpr.") for key in dependencies_map):
+                    dependencies.append({
+                        "kind": "embedded_package_manifest_reference", "path": name,
+                        "reason": "embedded customer package declares a transitive HPR package dependency",
+                    })
+            except (ValueError, TypeError):
+                unknowns.append({"path": name,
+                                 "reason": "invalid embedded package manifest JSON/dependency schema"})
+                continue
         direct = sorted({match.group(1).lower() for match in _GUID.finditer(source)})
         for guid in direct:
             if guid in vendor:
@@ -173,16 +211,39 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
         if extension in (".asmdef", ".asmref"):
             try:
                 parsed = json.loads(source)
-                entries = parsed.get("references", []) if isinstance(parsed, dict) else []
-                if not isinstance(entries, list):
-                    raise ValueError("Unexpected asmdef references")
-                if any(isinstance(x, str) and
-                       (x.startswith("HPR.") or x.startswith("GUID:") and x[5:].lower() in vendor)
-                       for x in entries):
-                    dependencies.append({"kind": "asmdef_reference", "path": name,
-                                         "reason": "assembly definition names HPR or its GUID"})
+                if not isinstance(parsed, dict):
+                    raise ValueError("Unity assembly definition/reference must be a JSON object")
+                if extension == ".asmref":
+                    # Unity .asmref files have ONE required `reference` string,
+                    # not the .asmdef `references` array. Both GUID:<32hex>
+                    # and assembly-name forms are permitted by Unity's
+                    # first-party Assembly Definition File Format reference.
+                    reference = parsed.get("reference")
+                    if not isinstance(reference, str) or not reference.strip():
+                        raise ValueError("invalid required asmref reference")
+                    if reference.startswith("GUID:") and not re.fullmatch(
+                            r"GUID:[a-fA-F0-9]{32}", reference):
+                        raise ValueError("invalid asmref assembly GUID")
+                    if (reference.startswith("HPR.") or
+                        (reference.startswith("GUID:") and reference[5:].lower() in vendor)):
+                        dependencies.append({"kind": "asmref_reference", "path": name,
+                                             "reason": "assembly reference pulls customer scripts into HPR's runtime assembly"})
+                else:
+                    entries = parsed.get("references", [])
+                    if not isinstance(entries, list) or any(
+                        not isinstance(ref, str) or not ref.strip() or
+                        (ref.startswith("GUID:") and not re.fullmatch(
+                            r"GUID:[a-fA-F0-9]{32}", ref)) for ref in entries
+                    ):
+                        raise ValueError("invalid asmdef reference list")
+                    if any(ref.startswith("HPR.") or
+                           ref.startswith("GUID:") and ref[5:].lower() in vendor
+                           for ref in entries):
+                        dependencies.append({"kind": "asmdef_reference", "path": name,
+                                             "reason": "assembly definition names HPR or its GUID"})
             except (ValueError, TypeError):
-                unknowns.append({"path": name, "reason": "invalid asmdef JSON"})
+                unknowns.append({"path": name,
+                                 "reason": "invalid " + extension[1:] + " JSON/reference schema"})
     manifest = project / "Packages/manifest.json"
     _ensure_non_symlink_path(project, Path("Packages")) if (project / "Packages").exists() else None
     if manifest.exists():
@@ -227,8 +288,10 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
         "importer_meta_vendor_guid": "Review customer-owned Unity importer .meta references and their externalObjects in the Unity Editor. Preserve original GUID identities and test a separately copied project before any migration.",
         "csharp_hpr_reference": "Review customer C# HPR API calls with the source owner. Migrate code explicitly and recompile; do not automatically rewrite or remove source.",
         "asmdef_reference": "Review customer assembly definition dependencies and compile consumers after any user-approved migration; retain the original assembly and .meta identities until verified.",
+        "asmref_reference": "Review customer Unity Assembly Definition Reference (.asmref) assets in the Inspector. Those scripts compile into the referenced HPR assembly, so migrate their assembly membership and recompile on a separate copy before uninstall.",
         "package_manifest_reference": "Review the project's declared HPR package dependencies with the owner before changing the Unity package manifest.",
         "package_lock_reference": "Review the existing resolved Unity package lock entry and the manifest together; do not silently edit project package resolution.",
+        "embedded_package_manifest_reference": "Review customer embedded Packages/com.* package.json dependencies with the package owner. Unity loads embedded packages even when they are absent from the project manifest; migrate HPR dependency and verify Package Manager resolution before uninstall.",
     }
     used = {item["kind"] for item in dependencies}
     actions = [review_by_kind[kind] for kind in sorted(used) if kind in review_by_kind]
@@ -247,7 +310,7 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
         "read_only": True,
         "deletion_permitted": False,
         "warnings": ["Absence of direct references is never proof that uninstall is safe.",
-                     "Reflection, binary formats, external packages and dynamically generated scenes require review."],
+                     "Reflection, binary formats, externally resolved packages, and dynamically generated scenes require review."],
         "archived_vendor_guid_count": len(vendor),
         "checked_text_files": checked,
         "examined_asset_paths": examined_paths,

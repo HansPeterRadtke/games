@@ -593,3 +593,35 @@ or used to certify this new candidate. Genuine Unity Editor import,
 customer scene-save and gameplay, new-only input/URP, native safe
 uninstall and meaningful expert-developer market comparison remain
 open. Commercial verdict: **NO-GO**.
+
+
+## November 3 midnight — embedded customer assembly and transitive uninstall evidence
+
+A new independent QA worktree preserved the original fourteen dirty
+commercial product files and the other branch's uncommitted sample
+scanner updates. It found and corrected three source-confirmed false
+negative classes in the read-only HPR uninstall scanner: Unity .asmref
+assets use a singular reference string, not the .asmdef references array;
+customer-owned embedded UPM packages under Packages were not scanned at
+all; and an embedded package.json could declare a transitive HPR module
+dependency absent from the project top-level manifest or lock.
+
+Official Unity 6 documentation confirms all three source schemas.
+Test-first red runs reproduced each miss, and the thirty-three focused
+Python regressions now pass. The revised scanner retains a single bounded
+traversal budget for Assets and embedded Packages, refuses symlinks and
+malformed binary/assembly/manifest inputs, and always reports
+deletion_permitted=false. HPR's own embedded package source is excluded
+to prevent self-blocking. No file or package is automatically deleted.
+
+Read-only verification against the latest reviewed 161-asset HPR archive
+and an actual preserved customer Unity project still finds ten original
+C-sharp and serialized source dependencies. Two separate new synthetic
+customer fixtures then used the ACTUAL archived HPR assembly GUID and
+a customer embedded package.json dependency. The old scanner falsely
+said no direct references in both cases; the revised scanner detected
+each concrete customer reference. All files were SHA-pinned and unchanged
+by both read-only scans. No real Unity Editor import/Play-mode or
+marketplace submission is implied. Commercial verdict remains NO-GO.
+
+Full record: [uninstall embedded dependency audit](uninstall-asmref-embedded-package-2026-11-03.md).
