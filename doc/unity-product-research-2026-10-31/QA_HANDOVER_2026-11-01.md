@@ -545,3 +545,51 @@ project conditions, so time saved and willingness to pay are NOT
 MEASURED. See [commercial claim gate](commercial-claim-gate-2026-11-02.md).
 
 Commercial decision remains NO-GO; no marketplace action occurred.
+
+
+## November 2 afternoon round two: failed CopyAsset path and exact archive QA
+
+The owner-controlled Unity commercial worktree and other agents' dirty
+QA branch were preserved. A separately owned QA branch was used for
+all new code. The reviewed sample copier now performs another asset
+and .meta existence check directly before each CopyAsset invocation,
+records the last attempted target even if CopyAsset returns false,
+and surfaces the underlying collision reason and possibly incomplete
+output path in the buyer-facing failure. It never auto-deletes or
+retries incomplete user-owned copies. Unity's official CopyAsset API
+documents false for a partially failed operation. These guards are
+non-atomic across multiple independent Unity importers.
+
+Four new source tests and five provenance/extractor tests passed.
+A standalone C# test compiled the EXACT extracted product method
+with a deliberately simulated Unity AssetDatabase. Its first run
+exposed an actual UI exception-message visibility error, corrected
+in the next source revision. Six synthetic scenarios then passed,
+including an output created by another importer after preflight and
+a false CopyAsset return that leaves a partial file. This is NOT a
+Unity Editor concurrency test. The negative log was preserved.
+
+A new private 161-asset tar-format QA package was built from the
+reviewed source while retaining every old package GUID and ten
+assembly definitions. SHA-256 of the candidate is
+1140e9bf5c7a9848003ce0ccd8168c298ced2bf957194364f9f08b3f52974f5e.
+The original frozen binary was unchanged. Exact-source staging extracted
+all 55 C-sharp files from that NEW archive; offline API checks passed
+against installed Unity 6000.4.0f1, 6000.6.7f1, and Unity 6.6 with
+ENABLE_INPUT_SYSTEM. All had zero compiler errors and fifteen normal
+standalone warnings from Unity serialized fields. These do not prove
+real Editor compilation or Play mode.
+
+The previous real populated customer project was copied without its
+Unity Library cache to a fresh private upgrade fixture. Its existing
+old HPR package still passes 161/161 content and GUID checks; all 63
+protected original customer files match the source. The new package
+correctly reports seven expected content differences BEFORE upgrade.
+This proves the fixture is prepared, not that the new upgrade passed.
+
+The broker-managed URP job remains a previously authorized worker
+with the OLDER package, waiting for CPU admission. It was not restarted
+or used to certify this new candidate. Genuine Unity Editor import,
+customer scene-save and gameplay, new-only input/URP, native safe
+uninstall and meaningful expert-developer market comparison remain
+open. Commercial verdict: **NO-GO**.
