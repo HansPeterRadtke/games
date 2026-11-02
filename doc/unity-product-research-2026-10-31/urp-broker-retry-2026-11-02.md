@@ -83,10 +83,29 @@ eight cores, nearly four runnable tasks per core and CPU pressure
 around seventy percent. The decision was explicitly
 `wait_for_cpu`, with **zero reservations made**. The
 central lease service was independently proven working by one
-tiny secure reserve/release transaction. An actual supervised retry
-job should be launched only after this source is tested and committed;
-its run-state and status must be independently checked, and only then
-may it be described as running.
+tiny secure reserve/release transaction.
+
+**Actual deployment on Nitro, November second:** The worker source passed
+seven new isolated unit tests and seventy total QA regressions, was
+committed and pushed on the independent QA branch, and was then launched
+through the existing, owner-managed `resource-broker-job` CLI in its own
+registered systemd cgroup, configured to use at most four CPU cores and
+twelve GiB RAM. Its process was independently confirmed alive, its broker
+status showed `running`, `systemd_active=active`, and its private
+status JSON reported `waiting_for_cpu_and_broker`. The first sample
+recorded load over two and a half runnable tasks per core and CPU
+pressure around sixty-eight percent. No Unity Editor was running, no
+project import had started, and **no resource lease was being held
+while waiting**. The worker checks roughly every two minutes for up to
+twelve hours, requests a real secure CPU/RAM lease only after repeated
+healthy measurements, and then attempts the exact frozen archive in a
+fresh, separately created project. The private broker control credential
+was stored with file mode 0600 outside Git and is not recorded here.
+
+This is a verified **active local host job**. It is not a promise that a
+future ChatGPT turn will run, nor proof that Unity's URP test has passed.
+Stop or resume it only through its own authorized broker job identity;
+never kill external workloads or silently reexecute an uncertain test.
 
 The broker job's initial waiting stage is intentionally low-CPU and
 does not claim to make Unity faster under saturation. Its sole
