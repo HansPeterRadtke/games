@@ -280,3 +280,36 @@ URP compatibility of the NEW archive, no-code ability setup, in-package
 reversible detach, safe dependent-game uninstall, completed visual
 Editor QA and justified price **must not be claimed**. The proposed
 seller text was NOT changed or published. Commercial status NO-GO.
+
+
+## November 2 reproducible source-only detach proposal
+
+The previously tested reversible selected-object installer source was
+applied to a separate copy of the exact frozen internal seller-package
+source, not to the published/candidate package binary or other agent's
+product worktree. The copy contains exactly four edited files: one Editor
+C# script and three explicit buyer documents. A new read-only verifier
+reported **1,093** identical source-tree paths, **516** unchanged Unity
+.meta GUID files, four permitted changes, and only two originally
+present unrelated absolute helper-project symlinks. None were followed.
+The actual game-suite release subtree is free of those external links;
+the wider old helper-project tree is not entirely hermetic.
+
+A standalone offline .NET eight C# compile referencing Unity six point
+six API assemblies, all 47 real HPR runtime C# files and the new selected
+Editor prototype passed with zero errors and three expected standalone
+serializer-field warnings. This is NOT a real Unity Editor compile
+or a new package-import acceptance. The exact previously frozen
+161-asset archive remains unmodified and no release is authorized.
+
+The existing broker-supervised Unity URP/new-only-input retry job is
+running independently and waiting for actual CPU capacity. Its updated
+process-group cleanup tests prevent timed-out Unity/Bee descendants from
+continuing as orphaned workloads; the previous idle broker job and its
+receipts were preserved. No other owner's resource-consuming processes
+were stopped or preempted. Full findings:
+[selected detach source-only provenance](selected-detach-source-provenance-2026-11-02.md).
+
+**Commercial decision remains NO-GO**: real developer demand, final
+accessibility/media QA, dependent-game migration and complete Unity
+URP/Input matrix are still unverified.
