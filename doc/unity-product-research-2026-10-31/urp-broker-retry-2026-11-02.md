@@ -120,3 +120,38 @@ developer comparison, source-level usability and visual design
 review, actual dependent-game migration and safe uninstall, verified
 AI provenance and publisher review remain open. No publication,
 account, price or purchase operation is authorized by the QA worker.
+
+
+## Additional broker-process isolation regression, November second
+
+An additional test-first experiment found a safety gap in the first
+retry worker. Python `subprocess.run` timing out only guaranteed that
+its immediate Editor child was stopped; a compiler or Bee process
+spawned beneath it might continue executing. This could leave an
+unmanaged, CPU-consuming compiler after a failed Unity test.
+
+A synthetic fixture using only a private Python parent and its own child
+reproduced the missing cleanup receipt. The worker has now been
+strengthened: each Unity Editor starts in a NEW private process session.
+On timeout, it sends termination only to that **new process group**,
+waits for owned compiler children to stop and escalates only for that
+private group if needed. A zero Editor exit with a still-running owned
+compiler is no longer reported as a clean import: that case is also
+cleaned up, marked as failure, and sent for inspection. The worker does
+not signal any unrelated PID, other agent, trading job or production
+Unity instance. Descendants that deliberately create a separate session
+remain an external limitation, mitigated independently by the owner
+broker's cgroup membership and job supervisor.
+
+Three real disposable process-behavior regression tests first exposed
+the missing functionality, then passed after correction: timed-out
+Editor and child cleanup, misleading zero-exit plus orphaned child,
+and a genuine clean zero-exit case. Ten retry-worker tests now pass,
+with **seventy-three total QA regression tests**. Source changes are
+private QA only, never a modification of the immutable seller archive.
+A previously running job might still hold the earlier in-memory code.
+A safe replacement requires verifying it has not started any Unity
+attempt or held a broker lease, then unloading only the registered
+private QA job with its own control token before starting a fresh job
+with a NEW unique output root. The old waiting history and owner
+project files must remain preserved.

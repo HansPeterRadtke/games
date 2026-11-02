@@ -22,6 +22,7 @@ import datetime
 import hashlib
 import json
 import os
+import signal
 from pathlib import Path
 import shutil
 import subprocess
@@ -188,6 +189,49 @@ def original_files_integrity(project: Path, baseline: dict) -> list[str]:
                   hashlib.sha256((project / name).read_bytes()).hexdigest() != digest)
 
 
+def _live_owned_process_group_members(group_id: int) -> list[int]:
+    """Inspect only the process group we explicitly created for this Editor.
+
+    Zombie members are not executing work and may await init reaping. We do
+    not signal any unrelated PID and make no claim to detect descendants
+    that intentionally create a new session outside this group's control.
+    """
+    sampled = subprocess.run(["ps", "-eo", "pid=,pgid=,stat="],
+                             capture_output=True, text=True, timeout=8, check=True)
+    members = []
+    for line in sampled.stdout.splitlines():
+        fields = line.split()
+        if len(fields) < 3:
+            continue
+        try:
+            pid, pgid = int(fields[0]), int(fields[1])
+        except ValueError:
+            continue
+        if pgid == group_id and not fields[2].startswith("Z"):
+            members.append(pid)
+    return members
+
+
+def _terminate_owned_unity_group(process: subprocess.Popen, *, grace_seconds: float = 3.0) -> bool:
+    """Terminate only our own new Unity process session and compiler children."""
+    if process.pid <= 0:
+        raise ValueError("Invalid private Unity process identifier")
+    for sig in (signal.SIGTERM, signal.SIGKILL):
+        try:
+            os.killpg(process.pid, sig)
+        except ProcessLookupError:
+            pass
+        try:
+            process.wait(timeout=grace_seconds)
+        except subprocess.TimeoutExpired:
+            pass
+        # Direct Editor exit does not imply its compiler grandchildren exited.
+        time.sleep(0.15)
+        if not _live_owned_process_group_members(process.pid):
+            return True
+    return not _live_owned_process_group_members(process.pid)
+
+
 def run_unity(editor: Path, project: Path, log: Path, *, import_package: Path | None = None,
               execute_method: str | None = None, timeout: int = 1800,
               extra_env: dict[str, str] | None = None) -> dict:
@@ -209,17 +253,36 @@ def run_unity(editor: Path, project: Path, log: Path, *, import_package: Path | 
                DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus")
     env.update(extra_env or {})
     started = time.monotonic()
+    # A fresh process session gives this worker a unique group identity.
+    # Timeout termination is restricted to this spawned Editor + children.
+    process = subprocess.Popen(args, env=env, stdin=subprocess.DEVNULL,
+                               stdout=subprocess.DEVNULL,
+                               stderr=subprocess.DEVNULL, start_new_session=True)
+    timed_out = False
     try:
-        completed = subprocess.run(args, env=env, stdin=subprocess.DEVNULL,
-                                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                                   timeout=timeout, check=False)
-        code = completed.returncode
+        code = process.wait(timeout=timeout)
     except subprocess.TimeoutExpired:
+        timed_out = True
         code = 124
-    result = {"exit_code": code, "seconds": round(time.monotonic() - started, 2),
-              "log_path": str(log), "log_bytes": log.stat().st_size if log.is_file() else 0,
-              "timeout_seconds": timeout, "phase_success": code == 0}
-    return result
+    orphaned = False
+    if timed_out:
+        group_terminated = _terminate_owned_unity_group(process)
+    else:
+        # A zero exit does not mean Bee/ILPP grandchildren have stopped.
+        # Reap only the process group this worker explicitly created; never
+        # signal an unmanaged PID or another agent's Editor or compiler.
+        orphaned = bool(_live_owned_process_group_members(process.pid))
+        if orphaned:
+            group_terminated = _terminate_owned_unity_group(process)
+            code = 125  # Editor exited but left an owned compiler alive.
+        else:
+            group_terminated = True
+    return {"exit_code": code, "seconds": round(time.monotonic() - started, 2),
+            "log_path": str(log), "log_bytes": log.stat().st_size if log.is_file() else 0,
+            "timeout_seconds": timeout, "process_group_terminated": group_terminated,
+            "orphaned_owned_compiler_detected": orphaned,
+            "timeout_killed_only_own_process_group": timed_out and group_terminated,
+            "phase_success": code == 0 and group_terminated}
 
 
 def no_other_unity() -> bool:

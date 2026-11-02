@@ -10,6 +10,9 @@ import sys
 import unittest
 import hashlib
 import json
+import os
+import signal
+import time
 
 QA = Path(__file__).resolve().parents[1] / "unity/tools/release/gameplay_suite/qa"
 sys.path.insert(0, str(QA))
@@ -92,6 +95,87 @@ class RetryAdmission(unittest.TestCase):
             (src/"Assets/HprPrivateUrpQA/HprTestUrp.asset").symlink_to(root/"external")
             with self.assertRaises(ValueError):
                 worker.prepare_project(src,root/"output")
+
+    def test_clean_fake_unity_exit_does_not_get_misreported(self):
+        with tempfile.TemporaryDirectory(prefix="hpr-unity-clean-exit-") as td:
+            root=Path(td)
+            editor=root/"fake_editor"
+            editor.write_text("#!/usr/bin/python3\n"
+                              "from pathlib import Path\nimport sys\n"
+                              "Path(sys.argv[-1]).write_text('Editor completed successfully')\n")
+            editor.chmod(0o700)
+            log=root/"editor.log"
+            result=worker.run_unity(editor,root/"project",log,timeout=4)
+            self.assertEqual(0,result["exit_code"])
+            self.assertTrue(result["phase_success"])
+            self.assertTrue(result["process_group_terminated"])
+            self.assertFalse(result["orphaned_owned_compiler_detected"])
+            self.assertIn("Editor completed successfully",log.read_text())
+
+    def test_timeout_terminates_only_own_unity_compiler_process_group(self):
+        with tempfile.TemporaryDirectory(prefix="hpr-owned-unity-child-group-") as td:
+            root=Path(td)
+            fake=root/"fake_editor"
+            fake.write_text("#!/usr/bin/python3\n"
+                            "import subprocess,os,time,sys\n"
+                            "child=subprocess.Popen(['/usr/bin/python3','-c','import time;time.sleep(40)'])\n"
+                            "open(sys.argv[-1]+'.pids','w').write(str(os.getpid())+' '+str(child.pid))\n"
+                            "time.sleep(40)\n")
+            fake.chmod(0o700)
+            result=None
+            try:
+                result=worker.run_unity(fake,root/"project",root/"editor.log",timeout=1)
+                self.assertEqual(124,result["exit_code"])
+                self.assertTrue(result["process_group_terminated"])
+                self.assertTrue((root/"editor.log.pids").exists())
+                direct,descendant=map(int,(root/"editor.log.pids").read_text().split())
+                for pid in (direct,descendant):
+                    state=Path("/proc")/str(pid)/"stat"
+                    if state.is_file():
+                        self.assertEqual("Z",state.read_text().split(") ",1)[1].split()[0],
+                                         "Test-owned Unity simulation left a running child")
+            finally:
+                # Test-only cleanup of the exact child created by this fixture;
+                # never target another user's or an unmanaged process.
+                pids=root/"editor.log.pids"
+                if pids.exists():
+                    for raw in pids.read_text().split():
+                        pid=int(raw)
+                        state=Path("/proc")/str(pid)/"stat"
+                        if state.is_file() and state.read_text().split(") ",1)[1].split()[0]!="Z":
+                            try: os.kill(pid,signal.SIGTERM)
+                            except ProcessLookupError: pass
+
+    def test_successful_editor_exit_with_live_compiler_is_not_a_clean_success(self):
+        with tempfile.TemporaryDirectory(prefix="hpr-owned-orphan-compiler-") as td:
+            root=Path(td)
+            fake=root/"fake_editor"
+            fake.write_text("#!/usr/bin/python3\n"
+                            "import subprocess,os,sys\n"
+                            "child=subprocess.Popen(['/usr/bin/python3','-c','import time;time.sleep(40)'])\n"
+                            "open(sys.argv[-1]+'.pids','w').write(str(child.pid))\n"
+                            "sys.exit(0)\n")
+            fake.chmod(0o700)
+            try:
+                result=worker.run_unity(fake,root/"project",root/"editor.log",timeout=5)
+                self.assertFalse(result["phase_success"])
+                self.assertTrue(result["orphaned_owned_compiler_detected"])
+                self.assertTrue(result["process_group_terminated"])
+                self.assertEqual(125,result["exit_code"])
+                orphan=int((root/"editor.log.pids").read_text())
+                info=Path("/proc")/str(orphan)/"stat"
+                if info.exists():
+                    self.assertEqual("Z",info.read_text().split(") ",1)[1].split()[0])
+            finally:
+                # Explicitly remove ONLY this test's recorded child if its
+                # own process did not perform proper group termination yet.
+                pids=root/"editor.log.pids"
+                if pids.exists():
+                    orphan=int(pids.read_text())
+                    info=Path("/proc")/str(orphan)/"stat"
+                    if info.exists() and info.read_text().split(") ",1)[1].split()[0]!="Z":
+                        try:os.kill(orphan,signal.SIGTERM)
+                        except ProcessLookupError:pass
 
     def test_status_write_is_atomic_and_does_not_touch_sources(self):
         with tempfile.TemporaryDirectory() as td:
