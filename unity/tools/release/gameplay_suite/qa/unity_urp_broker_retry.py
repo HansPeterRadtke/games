@@ -415,50 +415,107 @@ def run_worker(args) -> int:
         _record_wait(args.output_root, phase)
 
         if should_attempt(admissions, args.required_samples):
-            # Check current broker capacity independently, not stale inferred
-            # free cores. A broker denial is recorded and not circumvented.
+            # A stale or degraded hardware observation is not a resource
+            # grant. Keep waiting and inspect a new independent observation.
+            # Broker authorization/resource denials are NOT retried or evaded.
             try:
                 state = broker.analyze_current_machine(refresh=True)
                 monitor = state.get("monitor") or {}
-                if (monitor.get("capacity") or {}).get("status") != "ok":
-                    _record_wait(args.output_root, dict(phase, phase="broker_unavailable",
-                                  broker_state=str(monitor.get("capacity", {}).get("status"))))
-                    return 4
+                health = (monitor.get("capacity") or {}).get("status")
+            except Exception as exc:
+                _record_wait(args.output_root, dict(phase, phase="broker_health_unavailable",
+                              broker_error_type=type(exc).__name__))
+                admissions.clear()
+                time.sleep(args.poll_seconds)
+                continue
+            if health != "ok" or monitor.get("snapshot_status") not in (None, "ok"):
+                _record_wait(args.output_root, dict(phase, phase="broker_health_degraded",
+                              broker_health=str(health)))
+                admissions.clear()
+                time.sleep(args.poll_seconds)
+                continue
+            try:
                 grant = broker.reserve_resources(
                     "nitro", args.owner, 6.0, 0.0, 2.0, 7200, secure=True)
             except Exception as exc:
-                _record_wait(args.output_root, dict(phase, phase="broker_grant_unavailable",
-                                  broker_error_type=type(exc).__name__,
-                                  broker_error=str(exc)[:180]))
+                # No rewriting of a capacity/authorization denial into an
+                # alternate owner or endpoint, and no blind repeat of an
+                # uncertain secure reservation request.
+                _record_wait(args.output_root, dict(phase="broker_grant_unavailable",
+                              attempts_started=0, broker_error_type=type(exc).__name__,
+                              broker_error=str(exc)[:180]))
                 return 4
             if not (isinstance(grant, tuple) and len(grant) == 2):
                 _record_wait(args.output_root, dict(phase, phase="invalid_secure_lease"))
                 return 4
             request_id, secret = grant
-            atomic_status(args.output_root / "lease-private.json",
-                          {"request_id": request_id, "control_token": secret,
-                           "owner": args.owner, "ttl_seconds": 7200})
+            private = args.output_root / "lease-private.json"
+            result_code = 6
+            attempted = False
             try:
+                # Credential persistence is itself a fallible operation.
+                # Begin the release-protected block BEFORE writing any file
+                # so even a failed private write never leaks a real lease.
+                atomic_status(private,
+                              {"request_id": request_id, "control_token": secret,
+                               "owner": args.owner, "ttl_seconds": 7200})
                 _record_wait(args.output_root,
                              dict(phase, phase="running_unique_disposable_attempt",
                                   attempts_started=1, broker_lease_acquired=True))
+                attempted = True
                 result = run_attempt(args, 1, broker, grant)
                 _record_wait(args.output_root, dict(result, owner=args.owner,
                                                     archive_sha256=EXPECTED_ARCHIVE_SHA256))
-                return 0 if result["status"] == "complete_verified" else 5
+                result_code = 0 if result["status"] == "complete_verified" else 5
+            except Exception as exc:
+                # Unknown effects are NOT replayed. Preserve the original
+                # scratch project, logs and explicit terminal checkpoint.
+                _record_wait(args.output_root, {
+                    "phase": "failed_attempt_requires_review",
+                    "attempts_started": 1 if attempted else 0,
+                    "broker_grant_acquired": True,
+                    "error_type": type(exc).__name__,
+                    "owner": args.owner,
+                    "archive_sha256": EXPECTED_ARCHIVE_SHA256,
+                    "no_automatic_retry_of_uncertain_effects": True,
+                })
+                result_code = 6
             finally:
-                release_ok = broker.release_resources(
-                    args.owner, request_id, control_token=secret)
+                try:
+                    release_ok = broker.release_resources(
+                        args.owner, request_id, control_token=secret)
+                except Exception:
+                    release_ok = False
                 if release_ok:
-                    # Remove private credential only when ledger confirmed release.
-                    private = args.output_root / "lease-private.json"
                     if private.is_file():
                         private.unlink()
                 else:
-                    # Credential remains in 0600 file for explicit owner recovery.
+                    # Never claim complete if the real secure broker lease
+                    # release was denied/unknown. Keep the credential private
+                    # for explicit owner reconciliation or ledger TTL expiry.
+                    token_preserved = private.is_file()
+                    if not token_preserved:
+                        try:
+                            atomic_status(private, {
+                                "request_id": request_id, "control_token": secret,
+                                "owner": args.owner, "ttl_seconds": 7200})
+                            token_preserved = True
+                        except Exception:
+                            pass
+                    _record_wait(args.output_root, {
+                        "phase": "broker_lease_release_uncertain",
+                        "owner": args.owner,
+                        "attempts_started": 1 if attempted else 0,
+                        "secure_credential_persisted": token_preserved,
+                        "lease_may_remain_active_until_ttl": True,
+                        "do_not_create_another_lease": True,
+                        "archive_sha256": EXPECTED_ARCHIVE_SHA256,
+                    })
                     (args.output_root / "lease-release-pending.txt").write_text(
-                        "Broker secure lease release was not verified; check recorded request_id "
-                        "and owner credential, or allow lease expiry. Do not use another owner's token.\n")
+                        "Secure broker lease release not verified. Inspect the recorded "
+                        "private request ID and owner capability or allow TTL expiry. "
+                        "Do not substitute another owner's token.\n")
+            return result_code if release_ok else 4
         time.sleep(args.poll_seconds)
     _record_wait(args.output_root,
                  {"phase": "deferred_cpu_overload_wait_window_exhausted",

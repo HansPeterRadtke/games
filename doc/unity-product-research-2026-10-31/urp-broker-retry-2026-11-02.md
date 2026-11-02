@@ -155,3 +155,41 @@ attempt or held a broker lease, then unloading only the registered
 private QA job with its own control token before starting a fresh job
 with a NEW unique output root. The old waiting history and owner
 project files must remain preserved.
+
+
+## Broker lease state-machine regression after independent API inspection
+
+A source audit of the actual owner Infra broker API found two error paths
+in the first Unity worker that could misreport outcomes: a private file
+write failure **after** a secure broker grant but **before** the release-
+protected block could leave a lease pending until TTL, and a successful
+Unity return followed by **failed broker release** could still be reported
+as complete. A transient unhealthy broker hardware observation would
+also immediately terminate the wait without another independent check.
+
+Six new deterministic test-first cases were created against a mock of
+the owner's exact API contract. Four failed on the old worker and then
+passed after correction: failure during private capability storage,
+exception from a Unity attempt after grant, failed secure release, and
+temporary unhealthy broker monitoring that later recovers. The two
+remaining cases prove an actual authorized secure lease is correctly
+requested and released, while genuine reservation authorization denial
+is NOT replayed or disguised as a different owner. The suite verifies
+that all cleanup is limited to this single QA owner request.
+
+The revised worker now enters a release-protected block before writing
+the private capability, records an explicit failed-attempt state for
+unknown test effects, retains a private 0600 credential when secure lease
+release is uncertain, and returns a non-success result instead of
+claiming full Unity completion. It continues sampling after transient
+monitor-health problems without issuing a lease when the observation is
+invalid. A real broker reservation denial remains terminal for that
+attempt, requiring inspection rather than evasion.
+
+**Deployment caveat:** the existing systemd-managed worker process may
+still have the earlier Python definitions loaded in memory. New source
+should be committed and tested before safely unloading ONLY that idle
+registered worker using its own capability token. Prior samples and
+projects must be preserved, and the replacement must use a unique new
+output folder. Do not stop a worker with an active Unity import or lease
+unless its effects are verified and coordinated.
