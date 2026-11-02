@@ -1,0 +1,13 @@
+--- a/unity/tools/release/gameplay_suite/HprSelectedAbilityInstaller.cs
++++ b/unity/tools/release/gameplay_suite/HprSelectedAbilityInstaller.cs
+@@ -256,6 +256,10 @@
+             if (resourceProvider == null || resourceProvider.gameObject != target ||
+                 !(resourceProvider is IAbilityResourcePool))
+                 return "Choose an IAbilityResourcePool component on that same GameObject.";
++            if (resourceProvider is HprSuiteAbilityPool nativePool &&
++                !nativePool.HasValidStatsSource)
++                return "The HPR ability pool is missing an ActorStatsComponent on this scene object. " +
++                       "Attach it explicitly, or use your own resource provider.";
+             if (ability == null || string.IsNullOrWhiteSpace(ability.Id))
+                 return "Choose a valid customer-owned ability with a stable identifier.";
+             string path = AssetDatabase.GetAssetPath(ability);

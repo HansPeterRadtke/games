@@ -336,3 +336,37 @@ registered broker-managed URP job remain high. Full detail:
 This does not change the **commercial NO-GO** verdict or authorize
 publisher submissions, purchases, account changes or overwriting the
 other agent's product worktree.
+
+
+## November 2 native HPR Stats resource persistence gap
+
+A source audit identified another genuine buyer integration blocker:
+the HPR training arena calls HprSuiteAbilityPool.Bind(stats) at runtime,
+but that adapter stores the Stats source in a NON-SERIALIZED field.
+Manually configuring its component in an existing customer scene leaves
+Health and Stamina at zero unless the buyer authors a custom runtime Bind.
+The selected-object Editor preflight previously checked only that the
+provider implemented IAbilityResourcePool and therefore could accept
+an unconnected native pool.
+
+A separately staged source-only correction now serializes the native
+ActorStatsComponent reference and lazily resolves the same-object Stats
+when manually installed. Cross-object Stats binding is explicitly
+refused, and the installer warns when native HPR Stats are absent.
+Existing custom third-party health systems still require a separate
+user-authored adapter: **no generic no-code claim is made**. Four
+independent source contracts passed. A low-priority offline C# API
+compiler including all 47 HPR runtime sources, the corrected Editor
+code, an actual buyer controller source and private Editor QA fixture
+passed with zero errors and three serialized-field warnings.
+
+A representative populated customer game with sixty-four original
+nonvendor Assets/ProjectSettings/Packages files protected has been
+prepared for a real Unity six point six scene save/reopen and healing
+Play-mode test, but the Editor process has NOT run under current Nitro
+CPU congestion. The source-only revision preserves 1,093 source files
+and all 516 pre-existing GUID metadata identities. The original
+compiled buyer archive and owner dirty product source remain untouched.
+Details: [native Stats integration](native-stats-buyer-resource-2026-11-02.md).
+
+The buyer product remains **commercial NO-GO**.
