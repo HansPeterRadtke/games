@@ -73,6 +73,16 @@ test-only HprGameplaySuitePlayground type stub to avoid loading demo
 scene infrastructure. **This is not a Unity Editor compilation or
 a genuine Play-mode acceptance.**
 
+A **second independent low-priority .NET8 API compile** used the
+installed Unity 6000.4.0f1 managed Editor/Engine modules, with twenty-three
+6.6-only modules omitted because no such files exist in the older
+distribution. The same 47 HPR runtime source files, new native Stats
+provider/Editor tool, private buyer controller and real Editor QA fixture
+compiled with **zero C# errors and three Inspector-serialized-field
+warnings**. This is meaningful older-API coverage but NOT a real Unity
+6.4 Editor import or source-package compatibility test. Actual publisher
+compatibility must still be tested in Unity itself.
+
 The private real Unity fixture is
 unity/tools/release/gameplay_suite/qa/HprCustomerStatsAdapterValidator.cs.
 It exercises a NEW copy of a representative existing-customer scene,

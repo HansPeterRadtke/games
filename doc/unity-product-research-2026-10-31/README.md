@@ -61,3 +61,9 @@ The November second [selected-object detachment source-only provenance](selected
 The November second [scoped HPR sample-copy saving and dirty customer asset test](scoped-sample-save-2026-11-02.md) records a newly discovered global SaveAssets side-effect risk, the minimally staged clone-only save patch, preserved all 516 Unity metadata identities, the independent zero-error offline C# API compile, and the not-yet-executed genuine Unity Editor unsaved-asset adversarial test. The previous immutable buyer archive is unchanged.
 
 The November second [HPR-native Stats resource binding and customer installer safety](native-stats-buyer-resource-2026-11-02.md) covers an existing runtime-only Stats adapter that a customer cannot save and reload from the Inspector, a narrow serialized native-provider source fix, the checked independent source snapshot and staged real Unity customer scene/save/Play-mode regression. This is not a general third-party health adapter or a shipped package.
+
+The [Serial customer Unity Editor follow-up source (not activated)](serial-customer-editor-qa-2026-11-02.md) records independently verified technical and commercial limitations. None of these new QA outputs authorizes publishing.
+
+The [First-party current competitor/pricing/feature supply comparison](market-competitive-proof-2026-11-02.md) records independently verified technical and commercial limitations. None of these new QA outputs authorizes publishing.
+
+The [Genuine Unity media log/pixel checks and missing key artwork acceptance](unity-media-key-art-qa-2026-11-02.md) records independently verified technical and commercial limitations. None of these new QA outputs authorizes publishing.

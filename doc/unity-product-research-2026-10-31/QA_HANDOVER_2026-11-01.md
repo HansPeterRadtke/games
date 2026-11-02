@@ -358,7 +358,11 @@ user-authored adapter: **no generic no-code claim is made**. Four
 independent source contracts passed. A low-priority offline C# API
 compiler including all 47 HPR runtime sources, the corrected Editor
 code, an actual buyer controller source and private Editor QA fixture
-passed with zero errors and three serialized-field warnings.
+passed with zero errors and three serialized-field warnings. A separate
+low-priority offline compile of the same native/Editor/customer QA sources
+against installed Unity 6000.4.0f1 managed API assemblies also passed
+with zero errors and three serialized-field warnings. Neither offline
+compiler run proves real Unity Editor import/Play mode compatibility.
 
 A representative populated customer game with sixty-four original
 nonvendor Assets/ProjectSettings/Packages files protected has been
@@ -370,3 +374,59 @@ compiled buyer archive and owner dirty product source remain untouched.
 Details: [native Stats integration](native-stats-buyer-resource-2026-11-02.md).
 
 The buyer product remains **commercial NO-GO**.
+
+
+## November 2 late-morning seller-readiness QA and remaining blockers
+
+The owner-loaded independent commercial candidate remains a frozen
+161-asset internal Unity package, **not an approved saleable product**.
+A cumulative source verifier compared all **1,093** frozen source-tree
+entries and all **516 Unity .meta GUID identities** against a separate
+native-Stats/reversible-detach/scoped-save source-only proposal. Exactly
+SIX intended files differ: three Editor/runtime C# files and three
+explicitly revised buyer documents. The verifier disclosed two
+pre-existing unrelated external helper-project symlinks and verified
+no new source paths, metadata/GUID changes, or unexpected source edits.
+
+New official Asset Store competitor supply research found that Ability
+& Combat Toolkit already advertises numerous abilities and a
+configurable controller, while Game Creator 2 has extensive visual
+authoring and an installed paid audience. Current official product
+listings are NOT sales numbers. A directly comparative experienced
+buyer task is still missing: do not market HPR as unique/no-code.
+
+The genuine previous Unity 6.6 URP camera-capture log was inspected,
+with both HPR_MEDIA_SAVED events, actual output hashes, a completed
+camera-render PASS event and process exit zero. An objective image-QA
+gate independently rejected the original black v14 URP arena render
+and passed both corrected 1600x900 arena/encounter captures as distinct
+non-black images. This is not subjective composition approval and not
+proof of a new exact-archive capture.
+
+A second key-art QA gate found the historical 1600x900 file named
+store cover does NOT meet the official historical 1950x1300 cover key
+image format. Dedicated card, icon and social artwork was absent from
+that inspected gallery. Correct-size truthful marketing images, visual
+quality review and a live publisher portal requirements check remain
+required before sale. No new art was fabricated or uploaded.
+
+An independently staged serial customer Unity acceptance worker has
+now passed its read-only upstream/CPU/permission/secure-broker mock
+contracts and strict source/customer-file prechecks. It is intended
+to run native HPR Stats Editor save+Play mode and unrelated dirty
+asset-copy tests only AFTER the existing URP broker job has a genuine
+terminal outcome and CPU is available. A separate synthetic
+child-process integration test invocation was REJECTED by platform
+safety controls, preserved privately, NOT rerun or circumvented.
+Consequently the new follower was NOT activated and the actual Unity
+Editor checks remain **outstanding**. The previously activated
+URP broker worker is still separately monitored.
+
+A final independent batch of permitted regressions ran successfully:
+**120 Python tests passed**. No source was merged into the concurrently
+dirty owner product worktree, whose fourteen pre-existing uncommitted
+changes remain intact. All details and negative evidence are linked
+through the research README and private Nitro QA receipts.
+
+**Commercial release decision remains NO-GO**, irrespective of these
+valid engineering QA advances.
