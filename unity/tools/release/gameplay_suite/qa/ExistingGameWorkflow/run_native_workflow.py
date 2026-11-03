@@ -101,6 +101,8 @@ def main():
     settings.write_text(text)
     # Bootstrap the actual archive BEFORE adding a probe referencing its new APIs.
     # Unity compiles existing project scripts before processing -importPackage.
+    import_before = protected_files(project)
+    (args.output / "pre-import-protected-before.json").write_text(json.dumps(import_before, indent=2))
     started = time.time()
     import_command = [str(args.editor), "-batchmode", "-nographics", "-quit",
         "-projectPath", str(project), "-importPackage", str(args.archive),
@@ -131,6 +133,19 @@ def main():
             "archive_sha256": args.archive_sha256}, indent=2))
         if bootstrap.returncode != 0:
             raise RuntimeError("Native archive import failed before probe staging")
+    import_after = protected_files(project)
+    import_changed = [name for name, old in import_before.items() if import_after.get(name) != old]
+    if import_changed:
+        # Do not stage probes or continue gameplay after observed customer-data loss.
+        receipt = {"status": "FAIL", "failure_stage": "bootstrap_customer_preservation",
+            "actual_unity_editor_executed": True, "native_exit_code": None,
+            "import_protected_files": len(import_before),
+            "modified_original_files": import_changed,
+            "native_wired_workflow_passed": False, "expected_shadow_control_rejected": False,
+            "commercial_release_approved": False}
+        (args.output / "RESULT.json").write_text(json.dumps(receipt, indent=2))
+        print(json.dumps(receipt), flush=True)
+        return 1
     remaining_seconds = args.max_seconds - (time.time() - started)
     if remaining_seconds < 30:
         raise TimeoutError("No bounded time remains for native workflow probe")
@@ -182,6 +197,7 @@ def main():
     status = "PASS" if (valid_negative or valid_positive) and not changed and not vendor_changed and vendor_count == 55 else "FAIL"
     receipt = {"status": status, "native_exit_code": native_exit, "scenario": args.scenario,
         "domain_reload": args.domain_reload, "duration_seconds": round(time.time() - started, 1),
+        "import_protected_files": len(import_before), "modified_import_files": import_changed,
         "protected_files": len(before), "modified_original_files": changed,
         "exact_packaged_scripts": vendor_count, "vendor_script_mismatches": vendor_changed,
         "expected_shadow_control_rejected": valid_negative, "native_wired_workflow_passed": valid_positive,

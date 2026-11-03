@@ -50,7 +50,7 @@ The driver first copies only the project's Assets, Packages, ProjectSettings and
 Library into its own new project. It explicitly configures domain reload only
 in that copy. It launches a native archive import BEFORE copying new probe
 scripts, because Unity compiles existing scripts before processing a command-line
-import. It then launches the new test without `-quit`; the validator exits after
+import. Before bootstrap import, the driver now hashes every existing nonvendor asset, package and project-setting file after applying the explicitly requested reload flags in its private copy. A changed or missing original file fails the run before probe staging. It then launches the new test without `-quit`; the validator exits after
 its asynchronous Play-mode phases finish. The runtime output retains separate
 import and gameplay logs, before-file hashes and an independent result receipt.
 
@@ -83,4 +83,12 @@ separate evidence. Nothing here approves a marketplace submission.
 The public headless-input configuration additionally sets both IgnoreFocus and AllDeviceInputAlwaysGoesToGameView, plus ProcessEventsManually and the argument-free public InputSystem.Update. Installed Input System 1.20.1 source keeps the update-type overload internal. The fresh-script-cache option preserves the copied source/asset/assembly databases separately and rebuilds them; source template data and downloaded PackageCache remain intact. See the dated native experiment report for actual failures and scenario outcomes.
 
 
-Final November 3 afternoon observation: the fresh-database wired case passed all sixteen native checks with domain reload enabled, all sixty-seven protected files unchanged and all fifty-five packaged scripts exact. The reused-cache failing case used identical C# fixture bytes. The separate shadow control, domain reload disabled, physical input and rendered GUI remain unverified. See the dated report for the complete evidence boundaries.
+Final November 3 afternoon observation: the fresh-database wired case passed all sixteen native checks with domain reload enabled, all sixty-seven protected files unchanged and all fifty-five packaged scripts exact. The reused-cache failing case used identical C# fixture bytes. The second continuation completed all sixteen wired checks with domain reload disabled and correctly rejected the shadow-health control after input reached the runner; both new projects preserved seventy-six protected files and all fifty-five packaged scripts. Physical input and rendered GUI remain unverified. See the dated report for the complete evidence boundaries.
+
+
+The second continuation adds three driver-level controlled-boundary regressions:
+a vendor-only import succeeds, while customer-file overwrite and deletion during
+bootstrap fail before gameplay. The latter two tests first reproduced real false
+PASS receipts in the previous driver. The new pre-import baseline complements the
+post-staging fixture baseline; it does not retroactively certify earlier native
+receipts or treat controlled fake-Unity tests as actual Editor acceptance.

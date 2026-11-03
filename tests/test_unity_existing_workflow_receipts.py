@@ -2,6 +2,15 @@
 import importlib.util
 from pathlib import Path
 import unittest
+from unittest.mock import patch
+import contextlib
+import hashlib
+import io
+import json
+import shutil
+import tarfile
+import tempfile
+import types
 
 ROOT = Path(__file__).resolve().parents[1]
 FILE = ROOT / "unity/tools/release/gameplay_suite/qa/ExistingGameWorkflow/run_native_workflow.py"
@@ -59,5 +68,83 @@ class NativeWorkflowEvidence(unittest.TestCase):
 
     def test_unknown_scenario_is_never_a_pass(self):
         self.assertEqual((False, False), workflow.classify_native_result("other", 0, self.success(), ""))
+
+class ImportPreservation(unittest.TestCase):
+    """Exercise the actual create-only driver with a controlled native boundary."""
+    def run_import(self, mutation):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            template = root / "template"
+            for folder in ("Assets", "Packages", "ProjectSettings", "Library"):
+                (template / folder).mkdir(parents=True)
+            (template / "Assets/Customer.txt").write_text("customer original")
+            (template / "ProjectSettings/EditorSettings.asset").write_text(
+                "m_EnterPlayModeOptionsEnabled: 0\nm_EnterPlayModeOptions: 0\n")
+            editor = root / "Unity"
+            editor.touch()
+            archive = root / "candidate.unitypackage"
+            scripts = {"Assets/HPRGameplaySuite/Script%d.cs" % n: b"// packaged source\n"
+                       for n in range(55)}
+            with tarfile.open(archive, "w:gz") as package:
+                for n, (name, content) in enumerate(scripts.items()):
+                    for part, data in (("pathname", name.encode()), ("asset", content)):
+                        member = tarfile.TarInfo("%032x/%s" % (n, part))
+                        member.size = len(data)
+                        package.addfile(member, io.BytesIO(data))
+            output = root / "result"
+            argv = [str(FILE), "--template", str(template), "--archive", str(archive),
+                    "--archive-sha256", hashlib.sha256(archive.read_bytes()).hexdigest(),
+                    "--editor", str(editor), "--output", str(output),
+                    "--scenario", "wired", "--domain-reload", "on"]
+            real_resolve = Path.resolve
+            def resolve(path, *args, **kwargs):
+                # Keep this unit test in temporary storage without relaxing production policy.
+                if path == root:
+                    return Path("/data/var/marketplace-account-setup/unit-test")
+                return real_resolve(path, *args, **kwargs)
+            def native(command, **kwargs):
+                if command[0] == "cp":
+                    shutil.copytree(command[-2], Path(command[-1]) / Path(command[-2]).name)
+                elif "-importPackage" in command:
+                    project = Path(command[command.index("-projectPath") + 1])
+                    for name, content in scripts.items():
+                        target = project / name
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        target.write_bytes(content)
+                    customer = project / "Assets/Customer.txt"
+                    if mutation == "changed": customer.write_text("import overwrote customer")
+                    if mutation == "deleted": customer.unlink()
+                else:
+                    (output / "native-result.txt").write_text(
+                        "\n".join(name + "=PASS" for name in sorted(EXPECTED)))
+                return types.SimpleNamespace(returncode=0)
+            policy = types.SimpleNamespace(inspect_archive=lambda path: {"status": "PASS"})
+            with patch.object(workflow.sys, "argv", argv), patch.object(Path, "resolve", resolve), \
+                 patch.object(workflow.subprocess, "run", side_effect=native), \
+                 patch.dict(workflow.sys.modules, {"unity_archive_policy": policy}), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                exit_code = workflow.main()
+            return exit_code, json.loads((output / "RESULT.json").read_text())
+
+    def test_vendor_import_without_customer_mutation_passes(self):
+        code, receipt = self.run_import("none")
+        self.assertEqual(0, code)
+        self.assertEqual("PASS", receipt["status"])
+
+    def test_customer_overwrite_during_bootstrap_cannot_hide_behind_later_baseline(self):
+        code, receipt = self.run_import("changed")
+        self.assertEqual(1, code)
+        self.assertEqual("FAIL", receipt["status"])
+        self.assertIn("Assets/Customer.txt", receipt["modified_original_files"])
+        self.assertEqual("bootstrap_customer_preservation", receipt["failure_stage"])
+        self.assertIsNone(receipt["native_exit_code"])
+
+    def test_customer_deletion_during_bootstrap_cannot_hide_behind_later_baseline(self):
+        code, receipt = self.run_import("deleted")
+        self.assertEqual(1, code)
+        self.assertEqual("FAIL", receipt["status"])
+        self.assertIn("Assets/Customer.txt", receipt["modified_original_files"])
+        self.assertEqual("bootstrap_customer_preservation", receipt["failure_stage"])
+        self.assertIsNone(receipt["native_exit_code"])
 
 if __name__ == "__main__": unittest.main()

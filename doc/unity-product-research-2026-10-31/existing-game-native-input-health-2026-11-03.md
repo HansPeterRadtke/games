@@ -120,12 +120,87 @@ worktree baselines remain outside Git under the marketplace QA runtime folder
 again before completion. No binary, downloaded package, credential, vendor source
 copy, marketplace operation or account change is part of this source commit.
 
+## November 3 second continuation: native reload matrix and negative control
+
+The same byte-identical private fixture and exact reviewed archive completed two
+new native Unity 6000.6.7f1 / Input System 1.20.1 Built-in experiments. Each used
+its own newly cloned project and rebuilt copied asset/script databases. The
+successful native archive-import receipt from the first continuation was reused
+only after independently matching every one of the 55 packaged C# files.
+
+| Scenario | Domain reload | Native exit | Observed result | Protected files |
+| --- | --- | --- | --- | --- |
+| Existing-vitals adapter (first continuation) | Enabled | 0 | All 16 named checks PASS | 67 unchanged |
+| Existing-vitals adapter (second continuation) | Disabled | 0 | All 16 named checks PASS | 76 unchanged |
+| Independent shadow health (second continuation) | Enabled | 3 | Input and runner reached; authoritative customer-health assertion rejected | 76 unchanged |
+
+The second continuation's wired test took 289.7 seconds; the shadow control took
+345.1 seconds. Both independently retained the exact 55 packaged C# sources.
+The shadow result is a successful *test of rejection*, not a successful gameplay
+integration: its native failure log reaches the queued-keyboard and packaged-runner
+checks, then fails exactly at
+`authoritative_existing_health_and_stamina_changed`. Compile/import/staging errors
+would not satisfy this control. Both broker-owned jobs exited with no remaining
+cgroup processes.
+
+Private evidence is under
+`/data/var/marketplace-account-setup/hpr-existing-input-health-20261103-wave2/`:
+`wired-off/RESULT.json`, `wired-off/native-result.txt`, `shadow-on/RESULT.json`,
+`shadow-on/native-failure.txt`, corresponding Unity logs and protected-file hashes.
+The higher protected-file count reflects cloning the prior completed fixture
+project; it is not evidence of more buyer-owned features or test coverage.
+
+Preservation is bounded to each recorded protected-file baseline, taken after
+bootstrap import and probe staging. These receipts alone do not establish that
+bootstrap import preserved every nonvendor file before that baseline. The
+source template and owner worktree preservation are checked separately.
+
+## Test-first correction: preservation must include bootstrap import
+
+Review of the matrix exposed a QA-driver defect: its original protected-file
+baseline began only after native bootstrap import and fixture staging. Two new
+controlled-native-boundary tests reproduced false PASS results when import
+respectively overwrote or deleted an existing customer file, even though the
+later gameplay receipt contained all sixteen correct observations. A third
+vendor-only import control passed, isolating the defect from archive installation
+itself. These are driver-level simulations, not Unity AssetDatabase tests.
+
+The corrected driver hashes existing nonvendor Assets, Packages and ProjectSettings
+before bootstrap import (after its explicitly requested reload-option changes in
+the private clone), stores that baseline separately and immediately fails on any
+changed or missing original before staging gameplay probes. It retains the
+post-staging baseline to cover new fixtures too. All eleven focused tests passed
+after the fix; both original failing traces are retained in
+`import-preservation-before.log`, with the corrected run in
+`import-preservation-after.log`. Earlier native receipts are not retroactively
+upgraded to this stronger contract. A new native import case is recorded separately.
+
+## Official requirements rechecked November 3
+
+The current [Unity Asset Store Submission Guidelines](https://assetstore.unity.com/publishing/submission-guidelines)
+show an October 23, 2026 update. Section 2.5.h requires domain-reload-disabled
+Play-mode support starting with Unity 6.6; section 2.5.i separately covers obsolete
+API warnings. Sections 1.6.a and 1.6.d require useful, differentiated AI-assisted
+content and transparent disclosure. Passing this narrow fixture does not satisfy
+all of those requirements or approve the commercial product.
+
+Unity's [domain-reload manual](https://docs.unity.com/en-us/engine/6000.0/manual/programming-environment/code-reload-serialization/code-reloading-editor/domain-reloading)
+explains that static state and event handlers can persist across successive Play
+sessions. The current matrix tests one Play session per native process and
+component disable/enable within it. It does **not** prove repeated enter/exit cycles,
+all static event cleanup, scene-reload-disabled combinations or a Player build.
+Those limits remain explicit rather than treating one toggle test as full policy
+compliance. The attempted 6000.6 documentation URL was unavailable; the cited
+6000.0 manual is context, while actual behavior is measured in installed 6000.6.7f1.
+
 ## Next release gate
 
-The wired native domain-reload-enabled scenario passed. A correctly rejected
-shadow scenario is still required to complete the negative-control pair. Repeat the
-same exact candidate with domain reload disabled, preserve independent scene
-script GUIDs, then separately exercise physical input and rendered UI. Do not
-merge these private examples into the seller package without a product decision,
-real compatibility proof and the original owner-source reconciliation. The
-existing competitive differentiation and human buyer gates remain open.
+The Built-in wired reload-enabled/disabled cases and the specific shadow negative
+control are now complete for this private fixture. Physical input, rendered UI,
+cold application restart, third-party controller compatibility and independent
+buyer usability remain open. A separate URP-configured project experiment is
+being recorded independently; no rendered pipeline acceptance follows from a
+headless gameplay test. Do not merge these private examples into the seller
+package without a product decision, real compatibility proof and the original
+owner-source reconciliation. Competitive differentiation and human buyer gates
+remain open. Commercial release remains **NO-GO**.
