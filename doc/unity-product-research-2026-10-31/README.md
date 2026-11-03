@@ -145,3 +145,13 @@ event-only compatibility is retained. All original source edits and save/package
 identities were preserved. The normal graphical Editor stopped at software-terms
 consent; no installer pixels or physical UI interaction is claimed. The private
 candidate remains unapproved and commercial release remains NO-GO.
+
+
+The [November 4 night-two native NUnit milestone](night2-native-nunit-2026-11-04.md)
+runs the same 55 module EditMode cases against actual imported archives. The old
+archive fails exactly 18 new malformed-definition assertions; the corrected
+candidate passes all 55 in Unity 6.6 and 6.4 with their own bundled Test Frameworks.
+A test-first copied-lock preservation correction rejects unrelated dependency
+changes and deletion; all native results were independently rechecked. Existing
+source edits, immutable archives and the save remain preserved. No new product
+archive, graphical consent or commercial approval is implied.

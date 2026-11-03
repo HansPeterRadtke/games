@@ -110,3 +110,21 @@ This revision's real native candidate checks are recorded in the November 3 nigh
 research report. New six-point-four results are API-only unless a corresponding
 native Editor process/log is specifically recorded; rendered buyer usability and
 commercial approval remain separate gates.
+
+
+## Editor regression tests
+
+`Tests/EditMode/HPR.Abilities.Tests.EditMode.asmdef` contains 24 NUnit cases.
+They cover unlocks, snapshot validation/restore, malformed definition rejection
+before resource/effect callbacks, valid event-only optional slots, maximum saved
+cooldown and valid zero-cost/zero-cooldown activation. The tests use public runner
+APIs and callback counters; they do not depend on a particular Inspector layout.
+Enable the installed Unity Editor's bundled Test Framework and run this assembly
+in Edit mode. Tests in a UPM dependency may additionally need that package listed
+in the consuming project's `testables` manifest entry. The private suite QA driver
+stages the same tests into a disposable Assets test folder and records actual
+native NUnit XML separately from archive-import/gameplay evidence.
+
+The regression source is not added to the immutable private buyer archive. A native
+NUnit result against an existing imported candidate does not certify a rebuilt UPM
+package, visual usability, Player behavior or marketplace readiness.
