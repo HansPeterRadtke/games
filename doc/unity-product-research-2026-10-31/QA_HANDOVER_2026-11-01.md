@@ -690,3 +690,21 @@ identity and run genuine Unity Editor/customer tests. This does not
 authorize overwriting concurrent edits, publishing or resubmitting
 previously rejected modules. See
 [owner safe-copy integration review](owner-uncommitted-copy-safety-merge-review-2026-11-03.md).
+
+
+## November 3 early-morning cross-platform Unity archive path gate
+
+The existing static .unitypackage policy failed four cross-platform
+path safety examples: Windows case-only filename collisions, macOS
+NFC/NFD Unicode normalization collisions, Windows-reserved device
+names and trailing dots/spaces. The parser also stripped trailing
+spaces before validating, masking the last case. Four test-first
+regressions now pass after normalizing paths conservatively and
+rejecting filesystem-dependent asset names. Both actual private
+HPR packages, each with 161 unchanged asset GUIDs and ten assembly
+definitions, passed the new read-only structural gate. Positive and
+previously failing negative receipts are preserved. These tests do
+NOT establish a genuine Windows/macOS Unity Editor import.
+
+Commercial release remains NO-GO. See
+[cross-platform archive path QA](portable-unity-archive-paths-2026-11-03.md).

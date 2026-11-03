@@ -13,6 +13,7 @@ import json
 from pathlib import Path, PurePosixPath
 import re
 import tarfile
+import unicodedata
 
 ROOT = "Assets/HPRGameplaySuite"
 MAX_PACKAGE_BYTES = 160 * 1024 * 1024   # intentionally conservative for this product
@@ -26,6 +27,10 @@ SHIPPED_QA_FRAGMENTS = ("/tests/", "/test-runner", "/test_runner", "/qa/", "/nun
 SCRIPT_CONTENT_TYPES = {".cs", ".asmdef", ".asmref", ".unity", ".mat", ".asset",
                         ".prefab", ".md", ".txt", ".uss", ".uxml", ".json",
                         ".shader", ".compute", ".png", ".jpg", ".jpeg", ".unitypackage"}
+WINDOWS_DEVICE_NAMES = frozenset({"con", "prn", "aux", "nul"} |
+    {f"com{i}" for i in range(1, 10)} |
+    {f"lpt{i}" for i in range(1, 10)})
+WINDOWS_INVALID_PATH_CHARS = frozenset('<>:"|?*')
 
 
 def _safe_unity_path(value: str) -> bool:
@@ -36,6 +41,17 @@ def _safe_unity_path(value: str) -> bool:
         return False
     if value != ROOT and not value.startswith(ROOT + "/"):
         return False
+    # Unity distributes the same package to Windows, Linux and macOS.
+    # Names that look distinct on Linux can collide or be inaccessible on
+    # Windows (reserved DOS device basename, trailing dot/space, characters)
+    # or after Unicode NFC/NFD filename normalization on macOS.
+    for segment in value.split("/"):
+        if not segment or segment.endswith((" ", ".")) or segment.startswith(" "):
+            return False
+        if any(ord(char) < 32 or char in WINDOWS_INVALID_PATH_CHARS for char in segment):
+            return False
+        if segment.split(".", 1)[0].casefold() in WINDOWS_DEVICE_NAMES:
+            return False
     return len(value.encode("utf-8")) <= MAX_PATH_BYTES
 
 
@@ -141,12 +157,16 @@ def inspect_archive(path: Path) -> dict:
         identity, suffix = name.split("/")
         entries.setdefault(identity, {})[suffix] = blob
     paths: dict[str, tuple[str, bool, bytes]] = {}
+    unicode_paths: dict[str, str] = {}
+    case_insensitive_paths: dict[str, str] = {}
     for identity, group in entries.items():
         if "pathname" not in group or "asset.meta" not in group:
             issues.append("missing pathname or .meta for exported GUID " + identity)
             continue
         try:
-            name = group["pathname"].decode("utf-8").strip()
+            # Strip only Unity export's optional line ending. A raw filename
+            # ending with a SPACE must not be silently normalized and accepted.
+            name = group["pathname"].decode("utf-8").rstrip("\r\n")
         except UnicodeDecodeError:
             issues.append("invalid UTF-8 asset pathname for " + identity)
             continue
@@ -156,6 +176,19 @@ def inspect_archive(path: Path) -> dict:
             issues.append("private test/QA path shipped: " + name)
         if name in paths:
             issues.append("duplicate asset path: " + name)
+        unicode_key = unicodedata.normalize("NFC", name)
+        previous_unicode = unicode_paths.get(unicode_key)
+        if previous_unicode is not None and previous_unicode != name:
+            issues.append("unicode normalization collision across platforms: " +
+                          previous_unicode + " / " + name)
+        unicode_paths[unicode_key] = name
+        case_key = unicode_key.casefold()
+        previous_case = case_insensitive_paths.get(case_key)
+        if previous_case is not None and previous_case != name and \
+                unicodedata.normalize("NFC", previous_case) != unicode_key:
+            issues.append("case-insensitive asset path collision on Windows/macOS: " +
+                          previous_case + " / " + name)
+        case_insensitive_paths[case_key] = name
         meta = GUID_META.search(group["asset.meta"])
         if meta is None or meta.group(1).decode("ascii").lower() != identity:
             issues.append("asset GUID metadata mismatch: " + name)

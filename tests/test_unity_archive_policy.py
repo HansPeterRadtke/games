@@ -76,6 +76,37 @@ class ValidatedArchive(unittest.TestCase):
         dup_name=("d"*32,SCRIPT[1],"other")
         self.assertEqual("FAIL",self.check(ROOT_FOLDER,ASM_1,ASM_2,SCRIPT,dup_name)["status"])
 
+    def test_windows_case_insensitive_path_collision_rejected(self):
+        second=("d"*32,"Assets/HPRGameplaySuite/Editor/hprsampleinstaller.cs","different content")
+        result=self.check(ROOT_FOLDER,ASM_1,ASM_2,SCRIPT,second)
+        self.assertEqual("FAIL",result["status"])
+        self.assertTrue(any("case-insensitive" in issue for issue in result["issues"]))
+
+    def test_macos_unicode_normalization_equivalent_paths_rejected(self):
+        composed=("d"*32,"Assets/HPRGameplaySuite/Editor/Caf\u00e9.cs","one")
+        decomposed=("e"*32,"Assets/HPRGameplaySuite/Editor/Cafe\u0301.cs","two")
+        result=self.check(ROOT_FOLDER,ASM_1,ASM_2,SCRIPT,composed,decomposed)
+        self.assertEqual("FAIL",result["status"])
+        self.assertTrue(any("unicode" in issue.lower() or "normalization" in issue.lower()
+                            for issue in result["issues"]))
+
+    def test_windows_reserved_device_filenames_refused(self):
+        for filename in ("CON.cs", "NUL.asset", "aux.cs", "COM1.txt"):
+            with self.subTest(filename=filename):
+                item=("d"*32,"Assets/HPRGameplaySuite/Editor/"+filename,"data")
+                result=self.check(ROOT_FOLDER,ASM_1,ASM_2,SCRIPT,item)
+                self.assertEqual("FAIL",result["status"])
+                self.assertTrue(any("unsafe" in issue for issue in result["issues"]))
+
+    def test_windows_trailing_space_or_dot_segment_rejected(self):
+        for name in ("Assets/HPRGameplaySuite/Editor/Tool. ",
+                     "Assets/HPRGameplaySuite/Editor/Module. /Source.cs",
+                     "Assets/HPRGameplaySuite/Editor/TrailingDot."):
+            with self.subTest(name=name):
+                result=self.check(ROOT_FOLDER,ASM_1,ASM_2,SCRIPT,("d"*32,name,"data"))
+                self.assertEqual("FAIL",result["status"])
+                self.assertTrue(any("unsafe" in issue for issue in result["issues"]))
+
     def test_unapproved_test_runner_and_nonroot_asset_rejected(self):
         bad=("d"*32,"Assets/HPRGameplaySuite/Tests/HPR.TestRunner.cs","namespace HPR {}")
         self.assertEqual("FAIL",self.check(ROOT_FOLDER,ASM_1,ASM_2,SCRIPT,bad)["status"])
