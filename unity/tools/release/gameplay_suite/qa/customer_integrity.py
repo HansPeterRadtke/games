@@ -26,7 +26,7 @@ PROTECTED_PROJECT_FILES = (
     "Packages/manifest.json",
     "Packages/packages-lock.json",
 )
-_GUID = re.compile(r"(?m)^guid:\s*([a-f0-9]{32})\s*$")
+_GUID = re.compile(r"(?mi)^guid:\s*([a-f0-9]{32})\s*$")
 
 
 def _relative_path(raw: str) -> Path:
@@ -88,6 +88,25 @@ def _watched_files(project: Path, customer_roots: tuple[str, ...]) -> dict[str, 
                                  item.relative_to(project).as_posix())
             if item.is_file():
                 result[item.relative_to(project).as_posix()] = item
+    # Unity supports editable CUSTOMER embedded packages. Their scripts,
+    # assembly references, package.json files and .meta identities are just
+    # as important to protect as files under Assets and ProjectSettings.
+    # The project's two top-level manifest/lock files are separately retained
+    # below; their duplicate dictionary keys have identical byte identities.
+    package_root = project / "Packages"
+    if package_root.is_symlink() or (package_root.exists() and not package_root.is_dir()):
+        raise ValueError("Refusing symlinked/non-directory Unity Packages root")
+    if package_root.is_dir():
+        for item in package_root.rglob("*"):
+            relative = item.relative_to(project).as_posix()
+            if item.is_symlink():
+                raise ValueError("Refusing symlinked embedded customer package file: " + relative)
+            if item.is_dir() or not item.is_file():
+                continue
+            if (relative.startswith("Packages/") and
+                relative.split("/")[1].startswith("com.hpr.")):
+                continue  # HPR's own embedded runtime is checked as a vendor dependency.
+            result[relative] = item
     for raw in PROTECTED_PROJECT_FILES:
         rel = _relative_path(raw)
         _reject_symlink_components(project, rel)
@@ -151,16 +170,51 @@ def find_customer_guid_collisions(project: Path, archive: Path) -> list[str]:
             if not re.fullmatch(r"[0-9a-f]{32}", guid):
                 raise ValueError("Invalid Unity asset GUID in candidate")
             incoming.add(guid)
+    package_root = project / "Packages"
+    if package_root.is_symlink() or (package_root.exists() and not package_root.is_dir()):
+        raise ValueError("Refusing symlinked/non-directory Unity Packages root")
+    # Unity AssetDatabase GUIDs are project-wide, including editable UPM
+    # packages in Packages/com.customer.*. A collision there could redirect
+    # existing customer references even when Assets itself is conflict-free.
+    roots = (assets, package_root) if package_root.is_dir() else (assets,)
     conflicts: list[str] = []
-    for meta in assets.rglob("*.meta"):
-        if meta.is_symlink():
-            raise ValueError("Refusing symlinked asset metadata")
-        rel = meta.relative_to(project).as_posix()
-        if rel == "Assets/HPRGameplaySuite.meta" or rel.startswith("Assets/HPRGameplaySuite/"):
-            continue  # A separately tested and explicitly approved vendor update.
-        match = _GUID.search(meta.read_text(encoding="utf-8", errors="replace"))
-        if match and match.group(1) in incoming:
-            conflicts.append(rel)
+    seen_customer_guids: dict[str, str] = {}
+    max_meta_bytes = 4_194_304
+    for root in roots:
+        for item in root.rglob("*"):
+            rel = item.relative_to(project).as_posix()
+            if item.is_symlink():
+                raise ValueError("Refusing symlinked asset or embedded package path: " + rel)
+            if not item.is_file() or not rel.endswith(".meta"):
+                continue
+            if rel == "Assets/HPRGameplaySuite.meta" or rel.startswith("Assets/HPRGameplaySuite/"):
+                continue  # HPR's own vendor identities are checked separately.
+            if rel.startswith("Packages/") and rel.split("/")[1].startswith("com.hpr."):
+                continue  # Do not count HPR's own embedded package metadata as a buyer collision.
+            if item.stat().st_size > max_meta_bytes:
+                raise ValueError("Customer metadata exceeds bounded safety scan: " + rel)
+            # A hostile/broken .meta may change between stat and read.
+            # Do not allocate its entire potentially huge content.
+            with item.open("rb") as stream:
+                raw = stream.read(max_meta_bytes + 1)
+            if len(raw) > max_meta_bytes:
+                raise ValueError("Customer metadata grew beyond bounded safety scan: " + rel)
+            try:
+                text = raw.decode("utf-8")
+            except UnicodeDecodeError as error:
+                raise ValueError("Customer metadata is not valid UTF-8: " + rel) from error
+            matches = _GUID.findall(text)
+            if not matches:
+                raise ValueError("malformed customer Unity metadata: no valid root GUID in " + rel)
+            if len(matches) != 1:
+                raise ValueError("multiple root GUID entries in customer metadata: " + rel)
+            guid = matches[0].lower()
+            former = seen_customer_guids.get(guid)
+            if former is not None:
+                raise ValueError("duplicate customer asset GUID at " + former + " and " + rel)
+            seen_customer_guids[guid] = rel
+            if guid in incoming:
+                conflicts.append(rel)
     return sorted(conflicts)
 
 

@@ -625,3 +625,34 @@ by both read-only scans. No real Unity Editor import/Play-mode or
 marketplace submission is implied. Commercial verdict remains NO-GO.
 
 Full record: [uninstall embedded dependency audit](uninstall-asmref-embedded-package-2026-11-03.md).
+
+
+## November 3 shortly after midnight — safe customer upgrade source preflight
+
+A new independent read-only source-level update preview now combines the
+prior stable 161-asset HPR archive, the exact newer private archive,
+old-vendor imported-file hashes/GUIDs, customer scene and source usage,
+embedded package and asmref dependencies, and protected buyer files from
+Assets, Packages and ProjectSettings. It checks original buyer source
+BEFORE and AFTER reference inspection, and checks installed vendor source
+both before and after to catch concurrent changes. It refuses foreign
+GUID collisions even in embedded customer package metadata, malformed
+metadata with duplicate/missing GUIDs, vendor edits, unknown files and
+removed vendor asset paths. All outcomes require real Unity Editor
+acceptance and explicit owner review; none authorizes import or deletion.
+
+Positive and negative runs used both actual SHA-pinned HPR archive
+versions, the preserved 63-file customer game, a separate 67-file
+customer game containing editable embedded UPM source, an intentionally
+modified vendor script and an embedded customer metadata file colliding
+with a real old HPR GUID. The detected failures were never repaired
+without the owner. Private receipts and source-only test-first failures
+remain outside Git. Other agents' fourteen dirty commercial files and
+the concurrently dirty QA branch were protected.
+
+No new real Unity Editor process started: Nitro has far above the
+broker's safe CPU-pressure admission limit; the older broker worker
+continues checking without a CPU lease. See
+[buyer safe upgrade preflight](buyer-upgrade-preflight-2026-11-03.md).
+
+Commercial NO-GO remains unchanged.
