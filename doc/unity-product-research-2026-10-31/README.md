@@ -118,3 +118,19 @@ scripts. The shared UnityEditor.Search exception recurred, so this is bounded
 headless functional acceptance, not error-free Editor or rendered URP proof.
 The final audit verified all five owned jobs stopped and all twenty-one original
 dirty files across six worktrees unchanged. Commercial release remains NO-GO.
+
+The third-continuation [clean Editor startup and Play control](clean-editor-startup-control-2026-11-03.md)
+reproduces the same search-index exception in genuinely new no-HPR projects after
+immediate Play entry, with legacy input, new input and actual software OpenGL.
+Startup-only controls are clean; a measured Edit-mode startup interval before two
+Play sessions avoids the error in the paired control. This is a private QA sequencing
+finding, not an engine patch or commercial release approval. See the report for
+the separately verified real-package follow-up and final source-preservation audit.
+
+The real-package settled-startup follow-up then passed all sixteen native workflow
+checks and exited zero, with no matching Search exception in either native phase.
+It preserved twenty-seven original files across actual import, thirty-six across
+the probe and all fifty-five exact archived C# sources. The correction is an opt-in
+private QA sequencing change. The seven original worktrees and twenty-one dirty
+files were unchanged, and all seven owned jobs were confirmed stopped. Rendered
+usability and independent buyer/differentiation gates remain open; release is NO-GO.

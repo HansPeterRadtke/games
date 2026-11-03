@@ -45,6 +45,21 @@ public static class HprExistingGameInputHealthValidator
         if (!value) throw new InvalidOperationException("FAILED: " + name);
         checks.Add(name); SessionState.SetString(StateKey + "checks", string.Join("\n", checks));
     }
+    // Private batch QA option: let delayed Editor startup/indexing callbacks run
+    // before scene authoring and Play. This is not a product/runtime workaround.
+    private static double startupWaitBegan;
+    public static void RunAfterStartup()
+    {
+        startupWaitBegan = EditorApplication.timeSinceStartup;
+        EditorApplication.update += WaitForStartup;
+    }
+    private static void WaitForStartup()
+    {
+        if (EditorApplication.timeSinceStartup - startupWaitBegan < 20 ||
+            EditorApplication.isCompiling || EditorApplication.isUpdating) return;
+        EditorApplication.update -= WaitForStartup;
+        Run();
+    }
     public static void Run()
     {
         root = Environment.GetEnvironmentVariable("HPR_WORKFLOW_RECEIPT_ROOT");

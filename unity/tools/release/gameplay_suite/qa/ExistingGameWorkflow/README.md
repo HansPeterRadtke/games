@@ -112,3 +112,22 @@ and all fifty-five archive sources. It reused the verified native import; it did
 not repeat it. The common Search exception remained, so rendered output and an
 error-free clean-project control are still required. All five owned jobs were
 confirmed exited without remaining cgroup processes at final audit.
+
+
+## Opt-in settled-startup QA, November 3 third continuation
+
+`--settle-editor-startup` selects the private RunAfterStartup entry point. It allows
+at least twenty seconds of Edit-mode startup and waits for public compilation/update
+idle flags before calling the original workflow. It is never a customer gameplay
+or GUI delay. Fresh no-HPR immediate-Play controls reproduced the Search exception
+with legacy/new input and real software OpenGL; a paired settled-startup control
+completed two reload-disabled Play sessions without it.
+
+A separate native exact-archive import and all sixteen workflow checks passed on
+a fresh no-HPR-control-derived Input System project copy with this option and domain
+reload disabled. Both native phases exited zero without matching Search exceptions,
+C# errors, managed-exception markers or obsolete API warning markers in the scanned
+logs. Twenty-seven files survived import, thirty-six survived the staged probe and
+all fifty-five packaged sources remained exact. This is bounded Built-in / Input
+System 1.20.1 / Unity 6000.6.7f1 evidence, not a graphical buyer acceptance. See the
+third-continuation clean-startup report for the paired controls and preserved errors.

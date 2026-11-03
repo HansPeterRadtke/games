@@ -54,6 +54,7 @@ def main():
     parser.add_argument("--archive-sha256", required=True)
     parser.add_argument("--editor", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--settle-editor-startup", action="store_true", help="Private QA: drain startup callbacks before authoring/Play")
     parser.add_argument("--fresh-script-cache", action="store_true", help="Preserve and rebuild copied asset/script databases")
     parser.add_argument("--import-receipt", type=Path, help="Reuse a previously native-imported exact archive template")
     parser.add_argument("--scenario", choices=("shadow", "wired"), required=True)
@@ -161,10 +162,10 @@ def main():
     env = os.environ.copy()
     env.update(HPR_WORKFLOW_RECEIPT_ROOT=str(args.output), HPR_WORKFLOW_SCENARIO=args.scenario)
     command = [str(args.editor), "-batchmode", "-nographics", "-projectPath", str(project),
-               "-executeMethod", "HprExistingGameInputHealthValidator.Run",
+               "-executeMethod", "HprExistingGameInputHealthValidator.RunAfterStartup" if args.settle_editor_startup else "HprExistingGameInputHealthValidator.Run",
                "-logFile", str(args.output / "unity.log")]
     (args.output / "launch.json").write_text(json.dumps({"command": command, "started_epoch": started,
-        "scenario": args.scenario, "domain_reload": args.domain_reload,
+        "scenario": args.scenario, "domain_reload": args.domain_reload, "settled_editor_startup": args.settle_editor_startup,
         "archive_sha256": args.archive_sha256}, indent=2))
     print("NATIVE_START", args.scenario, args.domain_reload, flush=True)
     try:

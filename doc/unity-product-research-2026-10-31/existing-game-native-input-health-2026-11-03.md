@@ -299,3 +299,16 @@ original-source reconciliation, external buyer proof or commercial differentiati
 Commercial release remains **NO-GO**. A useful next gate is a no-HPR clean-project
 control for the common Search exception, followed by genuine rendered Inspector
 and buyer-task acceptance; do not conceal the log error behind functional PASS.
+
+
+## Third-continuation qualification update
+
+The [fresh no-HPR startup / Play controls](clean-editor-startup-control-2026-11-03.md)
+now reproduce the same Search exception without HPR, copied Library data, new input
+or a Null graphics device being necessary. Waiting for startup in Edit mode before
+Play removed it in the paired control. An opt-in private QA entry point applies
+that sequencing to the existing workflow; the unchanged exact archive then passed
+actual native import plus all sixteen checks with reload disabled on a fresh
+control-derived Input System project copy. Neither native phase logged the Search
+exception or scanned managed/compiler/obsolete-API markers. The earlier error logs
+are unchanged and remain evidence; commercial NO-GO and visual/human gates remain.
