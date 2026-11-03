@@ -52,7 +52,11 @@ class NativeWorkflowEvidence(unittest.TestCase):
                 self.assertEqual((False, False), workflow.classify_native_result("wired", 0, text, ""))
 
     def test_wrong_native_exit_cannot_be_overridden_by_success_file(self):
-        self.assertEqual((False, False), workflow.classify_native_result("wired", 3, self.success(), ""))
+        # The URP native run wrote all observations but timed out during exit.
+        for native_exit in (3, -999, -15):
+            with self.subTest(native_exit=native_exit):
+                self.assertEqual((False, False), workflow.classify_native_result(
+                    "wired", native_exit, self.success(), ""))
 
     def test_failure_marker_alongside_positive_receipt_blocks_completion(self):
         self.assertEqual((False, False), workflow.classify_native_result("wired", 0, self.success(), "unexpected error"))

@@ -20,6 +20,11 @@ script objects. This is bounded reproducible evidence for rebuilding copied asse
 and script databases in this QA setup, not a universal Unity bug claim. All 21
 pre-existing dirty files across five original worktrees remained unchanged.
 
+The second-continuation raw-log audit also found a UnityEditor.Search startup
+exception in the passing Built-in copies. Functional PASS means the required
+observations and native exit, **not** an error-free Editor session. The common
+search/cache issue and clean-project control remain open; see the URP section.
+
 ## Scope and status
 
 This continuation implements private QA of the input-to-authoritative-health gap
@@ -187,6 +192,44 @@ in `import-guard-built-in/{IMPORT_RESULT.json,RESULT.json,pre-import-protected-b
 below the second-continuation private evidence root. This is genuine native
 positive acceptance for preservation, not native fault injection of an importer;
 the overwrite/deletion negative cases remain controlled-boundary Python tests.
+
+## URP-configured native import and incomplete shutdown
+
+The separate `urp-wired-on` case used Unity 6000.6.7f1, Input System 1.20.1
+and URP 17.6.0. GraphicsSettings selects the existing HprTestUrp pipeline asset;
+all quality-level overrides are null. The native dependency build completed
+720 updates / 733 evaluated items in 595.75 seconds. Actual archive import then
+exited zero for the exact reviewed candidate, and the private workflow compiled.
+
+All sixteen named gameplay observations were written, but the combined import
+and probe budget expired before the Editor process exited cleanly. The strict
+result is **FAIL**, native exit sentinel -999, duration 1082.0 seconds. No result
+is promoted from assertion text alone: the exit-code regression now explicitly
+covers this observed timeout as well as other nonzero exits. All 69 post-staging
+protected files and all 55 exact archive C# files remained unchanged. A separate
+read-only comparison matched all 61 original nonvendor source-template files in
+the private clone, normalizing only the requested reload flags. It is a current
+template comparison, not a retroactively recorded pre-import baseline.
+
+The native log also contains an ArgumentOutOfRangeException in UnityEditor.Search
+SearchDatabase.EnumerateAll / GetDefaultSearchDatabase during startup indexing.
+That stack contains Unity Editor code; it does not establish why shutdown exceeded
+the budget, a general product defect, a proven Unity issue ID or a validated fix.
+The same startup search-index exception is present in all four second-continuation
+native logs, including the two passing Built-in wired cases and the rejected shadow
+control. It is therefore not specific evidence of URP failure. Those PASS labels
+mean the named functional contract and required native exit were satisfied; they
+do **not** mean an error-free Editor Console. A genuinely clean-project/cache
+control and explanation or remedy for this exception remain release blockers.
+Logs remain intact. No engine API was patched, reflected into or suppressed.
+After timeout the broker confirmed that the owned job exited with zero remaining
+cgroup processes. No other owner's process was stopped.
+
+A fresh private copied-project retry uses that successful native import receipt,
+rechecks every packaged source, rebuilds copied databases and devotes its bounded
+sixteen-minute budget to the probe alone. It does not repeat the old archive import
+or run in the timed-out project. The retry result is recorded separately.
+Neither configured URP nor headless gameplay observations certify rendered output.
 
 ## Official requirements rechecked November 3
 

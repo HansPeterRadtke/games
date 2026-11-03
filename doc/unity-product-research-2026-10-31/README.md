@@ -104,3 +104,10 @@ results before the fix, then all eleven focused tests passed. A new real Unity
 Built-in archive-import plus sixteen-check gameplay run preserved forty original
 files through import, forty-eight through the staged probe and all fifty-five
 packaged scripts. This strengthens private QA and does not change commercial NO-GO.
+
+The raw-log follow-up also found a UnityEditor.Search startup exception across the
+new native copies, including functional Built-in passes. The first URP-configured
+case imported the archive and wrote all gameplay checks, but the required native
+exit timed out; its strict result is FAIL. Error-free Editor, rendered URP and
+clean-project/cache acceptance remain open. See the dated report for the separate
+retry, evidence boundaries and current outcome.

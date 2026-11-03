@@ -98,3 +98,10 @@ import followed by all sixteen gameplay observations: forty original nonvendor
 files survived bootstrap unchanged, forty-eight protected files survived the
 probe, and all fifty-five packaged C# sources remained exact. This native positive
 case is separate from the two controlled overwrite/deletion negative tests.
+
+The second-continuation log audit found a UnityEditor.Search startup-index
+ArgumentOutOfRangeException in all four native runs, including the passing
+Built-in workflows. A functional PASS is not an error-free Editor acceptance.
+The first URP-configured run wrote all observations but timed out before a clean
+native exit; its strict result remains FAIL. Never promote it from pass-line counts.
+See the dated report for the independent retry and unresolved cache/search control.
