@@ -312,3 +312,15 @@ actual native import plus all sixteen checks with reload disabled on a fresh
 control-derived Input System project copy. Neither native phase logged the Search
 exception or scanned managed/compiler/obsolete-API markers. The earlier error logs
 are unchanged and remain evidence; commercial NO-GO and visual/human gates remain.
+
+
+## November 3 night follow-up
+
+The [night definition-safety/cold-process report](night1-ability-definition-and-cold-restart-2026-11-03.md)
+now supplies the previously missing fresh-process save observation and real native
+invalid-definition failures. A narrowly changed private candidate rejects malformed
+configuration before resource charging, retains event-only compatibility, and
+passes the actual existing-game workflow with reload enabled/disabled. Its 6.4
+legacy-input configuration matrix is a real native Editor result, not only the
+offline API compile. Normal rendered Editor usability still awaits the owner's
+software-terms consent; no GUI test was silently replaced with a headless claim.

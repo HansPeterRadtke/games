@@ -154,7 +154,7 @@ namespace HPR
                     !abilityLookup.ContainsKey(entry.AbilityId) ||
                     !cooldownIds.Add(entry.AbilityId) ||
                     float.IsNaN(entry.Remaining) || float.IsInfinity(entry.Remaining) ||
-                    entry.Remaining < 0f || entry.Remaining > 86400f)
+                    entry.Remaining < 0f || entry.Remaining > AbilityData.MaximumCooldownSeconds)
                 {
                     reason = "Snapshot contains an invalid, unknown or duplicate cooldown.";
                     return false;
@@ -235,6 +235,12 @@ namespace HPR
                 return false;
             }
 
+            if (!ability.TryValidateRuntimeSettings(out string configurationError))
+            {
+                PublishStatus(configurationError);
+                return false;
+            }
+
             float cooldownRemaining = GetCooldownRemaining(abilityId);
             if (cooldownRemaining > 0f)
             {
@@ -242,7 +248,7 @@ namespace HPR
                 return false;
             }
 
-            if (resourcePool == null || !resourcePool.SpendAbilityCost(Mathf.Max(0f, ability.Cost)))
+            if (resourcePool == null || !resourcePool.SpendAbilityCost(ability.Cost))
             {
                 PublishStatus($"{ability.DisplayName} requires {ability.Cost:0} stamina.");
                 return false;
@@ -253,7 +259,7 @@ namespace HPR
                 ApplyEffect(ability, effect);
             }
 
-            nextReadyTimes[ability.Id] = Time.time + Mathf.Max(0f, ability.Cooldown);
+            nextReadyTimes[ability.Id] = Time.time + ability.Cooldown;
             eventBus?.Publish(new AbilityUsedEvent
             {
                 SourceRoot = gameObject,

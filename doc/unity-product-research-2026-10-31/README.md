@@ -134,3 +134,14 @@ the probe and all fifty-five exact archived C# sources. The correction is an opt
 private QA sequencing change. The seven original worktrees and twenty-one dirty
 files were unchanged, and all seven owned jobs were confirmed stopped. Rendered
 usability and independent buyer/differentiation gates remain open; release is NO-GO.
+
+The [November 3 night definition-safety and cold-restart milestone](night1-ability-definition-and-cold-restart-2026-11-03.md)
+adds eleven real failing invalid-definition cases before a four-payload private
+fix. The final candidate passes seventeen native configuration cases in Unity 6.6
+and native 6.4/legacy input, the full sixteen-check existing-game workflow in 6.6
+with domain reload both on/off, and fifteen fresh-process restore checks against
+an older package's save. Runtime validation now precedes resource charging while
+event-only compatibility is retained. All original source edits and save/package
+identities were preserved. The normal graphical Editor stopped at software-terms
+consent; no installer pixels or physical UI interaction is claimed. The private
+candidate remains unapproved and commercial release remains NO-GO.

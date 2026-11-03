@@ -131,3 +131,24 @@ logs. Twenty-seven files survived import, thirty-six survived the staged probe a
 all fifty-five packaged sources remained exact. This is bounded Built-in / Input
 System 1.20.1 / Unity 6000.6.7f1 evidence, not a graphical buyer acceptance. See the
 third-continuation clean-startup report for the paired controls and preserved errors.
+
+
+## Night 1: fresh-process save and configuration matrix
+
+`--cold-save-source`, `--cold-source-receipt` and `--cold-scene` select a distinct
+fifteen-observation fresh-Editor-process test. It currently requires wired /
+domain-reload-off mode. It validates a successful prior native workflow, copies
+its disk save without modifying the source, opens the exact prior integrated scene,
+restores existing vitals and the optional ability snapshot, exercises the existing
+action during cooldown, rejects an invalid snapshot, waits for natural game-clock
+expiry and verifies the action/resource/HUD response. Save and scene bytes are
+checked again after Play. This is relative offline-paused cooldown, not wall time.
+
+`--configuration-matrix` selects seventeen native runtime/public-preview cases,
+including malformed numeric/effect data and an event-only snapshot compatibility
+control. The original candidate failed eleven of sixteen initial cases; the final
+candidate passed all seventeen in native 6.6/new input and native 6.4/legacy input.
+Each mode has a separate exact observation contract and failure/result filenames.
+A configuration or cold test is never labelled as the sixteen-check same-process
+input workflow. The night report records archive identities, original failures,
+full workflow and fresh-process repeats, plus the blocked graphical consent gate.

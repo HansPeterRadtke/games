@@ -73,6 +73,32 @@ class NativeWorkflowEvidence(unittest.TestCase):
     def test_unknown_scenario_is_never_a_pass(self):
         self.assertEqual((False, False), workflow.classify_native_result("other", 0, self.success(), ""))
 
+class ExtendedNativeContracts(unittest.TestCase):
+    def test_cold_contract_rejects_each_missing_observation_and_nonzero_exit(self):
+        names = workflow.COLD_OBSERVATIONS
+        complete = "\n".join(name + "=PASS" for name in sorted(names))
+        self.assertTrue(workflow.classify_cold_result(0, complete, ""))
+        self.assertFalse(workflow.classify_cold_result(-999, complete, ""))
+        self.assertFalse(workflow.classify_cold_result(0, complete, "restore failed"))
+        for missing in names:
+            with self.subTest(missing=missing):
+                text = "\n".join(name + "=PASS" for name in names - {missing})
+                self.assertFalse(workflow.classify_cold_result(0, text, ""))
+
+    def test_configuration_contract_requires_every_case_and_compatibility_control(self):
+        names = workflow.CONFIG_OBSERVATIONS
+        self.assertIn("valid_event_only_runtime_snapshot", names)
+        complete = "\n".join(name + "=PASS" for name in sorted(names))
+        self.assertTrue(workflow.classify_configuration_result(0, complete, ""))
+        self.assertFalse(workflow.classify_configuration_result(3, complete, ""))
+        self.assertFalse(workflow.classify_configuration_result(0, complete, "case failed"))
+        for missing in names:
+            with self.subTest(missing=missing):
+                text = "\n".join(name + "=PASS" for name in names - {missing})
+                self.assertFalse(workflow.classify_configuration_result(0, text, ""))
+        self.assertFalse(workflow.classify_configuration_result(0, "valid_default=PASS\n" * len(names), ""))
+
+
 class ImportPreservation(unittest.TestCase):
     """Exercise the actual create-only driver with a controlled native boundary."""
     def run_import(self, mutation):
