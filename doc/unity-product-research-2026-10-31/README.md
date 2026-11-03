@@ -97,3 +97,10 @@ The [existing-game source comparison and acceptance correction](buyer-input-heal
 The [afternoon native existing-game input/health experiment](existing-game-native-input-health-2026-11-03.md) adds explicit independent game-state/input/save fixtures, a specific shadow-state negative control and strict receipt validation. It preserves actual native import and failed gameplay/staging evidence without treating compiler, import or unrelated failure as workflow completion. See the dated report and private native receipts for current verification limits.
 
 The final fresh-database wired run in that report completed sixteen genuine Unity 6.6 Play-mode observations with domain reload enabled, preserving 67 protected files and all 55 exact packaged C# sources. The second continuation also completed the wired domain-reload-disabled case and the specifically rejected shadow-health control, with 76 protected files unchanged in each new project. Physical input, rendered usability, cold restart and commercial buyer proof remain open.
+
+A test-first preservation correction now takes the customer-file baseline before
+bootstrap import: two controlled overwrite/deletion cases reproduced false PASS
+results before the fix, then all eleven focused tests passed. A new real Unity
+Built-in archive-import plus sixteen-check gameplay run preserved forty original
+files through import, forty-eight through the staged probe and all fifty-five
+packaged scripts. This strengthens private QA and does not change commercial NO-GO.

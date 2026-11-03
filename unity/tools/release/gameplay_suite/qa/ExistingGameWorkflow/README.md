@@ -92,3 +92,9 @@ bootstrap fail before gameplay. The latter two tests first reproduced real false
 PASS receipts in the previous driver. The new pre-import baseline complements the
 post-staging fixture baseline; it does not retroactively certify earlier native
 receipts or treat controlled fake-Unity tests as actual Editor acceptance.
+
+The corrected driver's fresh Built-in native case also passed actual archive
+import followed by all sixteen gameplay observations: forty original nonvendor
+files survived bootstrap unchanged, forty-eight protected files survived the
+probe, and all fifty-five packaged C# sources remained exact. This native positive
+case is separate from the two controlled overwrite/deletion negative tests.

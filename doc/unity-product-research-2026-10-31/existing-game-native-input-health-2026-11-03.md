@@ -173,7 +173,20 @@ post-staging baseline to cover new fixtures too. All eleven focused tests passed
 after the fix; both original failing traces are retained in
 `import-preservation-before.log`, with the corrected run in
 `import-preservation-after.log`. Earlier native receipts are not retroactively
-upgraded to this stronger contract. A new native import case is recorded separately.
+upgraded to this stronger contract. A new native import case then completed the stronger contract successfully.
+
+`import-guard-built-in` used a new copy of the earlier Input System template and
+ran actual Unity archive import, followed by the full asynchronous Play-mode
+probe, rather than reusing the first continuation's import receipt. Both native
+processes exited zero. Its result records 40 original nonvendor files unchanged
+across bootstrap import, 48 protected files unchanged after fixture staging, all
+55 exact archived C# files and all 16 named gameplay checks. It took 430.3 seconds
+with domain reload enabled in Unity 6000.6.7f1 / Input System 1.20.1 / Built-in.
+The broker job exited with zero remaining cgroup processes. Evidence is retained
+in `import-guard-built-in/{IMPORT_RESULT.json,RESULT.json,pre-import-protected-before.json,protected-before.json,archive-import.log,unity.log,native-result.txt}`
+below the second-continuation private evidence root. This is genuine native
+positive acceptance for preservation, not native fault injection of an importer;
+the overwrite/deletion negative cases remain controlled-boundary Python tests.
 
 ## Official requirements rechecked November 3
 
