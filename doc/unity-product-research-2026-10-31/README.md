@@ -92,3 +92,8 @@ The November three [Cross-platform Unity archive asset-path collision policy](po
 ## November 3 owner-authorized resumption — input and health boundary review
 
 The [existing-game source comparison and acceptance correction](buyer-input-health-source-comparison-2026-11-03.md) distinguishes the genuine earlier Unity API/controller-retention passes from unproven integration with an existing customer health and input system. It checks the exact private archive, records the three-module/17-script ability dependency closure versus the delivered ten-module archive, adds a pinned MIT Flexi source comparator with its real dependency and UX limits, and defines the next fair input-to-health/save/removal task. Fourteen read-only source assertions passed; no new Editor/user benchmark or production C# change is claimed. Commercial NO-GO remains.
+
+
+The [afternoon native existing-game input/health experiment](existing-game-native-input-health-2026-11-03.md) adds explicit independent game-state/input/save fixtures, a specific shadow-state negative control and strict receipt validation. It preserves actual native import and failed gameplay/staging evidence without treating compiler, import or unrelated failure as workflow completion. See the dated report and private native receipts for current verification limits.
+
+The final fresh-database wired run in that report completed sixteen genuine Unity 6.6 Play-mode observations with domain reload enabled, preserving 67 protected files and all 55 exact packaged C# sources. Its separate shadow control, domain reload disabled, physical input, rendered usability and commercial buyer proof remain open.
