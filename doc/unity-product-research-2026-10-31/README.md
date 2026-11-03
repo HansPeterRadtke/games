@@ -111,3 +111,10 @@ case imported the archive and wrote all gameplay checks, but the required native
 exit timed out; its strict result is FAIL. Error-free Editor, rendered URP and
 clean-project/cache acceptance remain open. See the dated report for the separate
 retry, evidence boundaries and current outcome.
+
+The fresh URP-configured probe retry subsequently exited zero with all sixteen
+checks, eighty-nine protected files unchanged and all fifty-five exact packaged
+scripts. The shared UnityEditor.Search exception recurred, so this is bounded
+headless functional acceptance, not error-free Editor or rendered URP proof.
+The final audit verified all five owned jobs stopped and all twenty-one original
+dirty files across six worktrees unchanged. Commercial release remains NO-GO.

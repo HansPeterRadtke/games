@@ -105,3 +105,10 @@ Built-in workflows. A functional PASS is not an error-free Editor acceptance.
 The first URP-configured run wrote all observations but timed out before a clean
 native exit; its strict result remains FAIL. Never promote it from pass-line counts.
 See the dated report for the independent retry and unresolved cache/search control.
+
+The fresh URP-configured retry later passed the full named functional contract and
+native exit zero in 741.2 seconds, preserving eighty-nine original/staged files
+and all fifty-five archive sources. It reused the verified native import; it did
+not repeat it. The common Search exception remained, so rendered output and an
+error-free clean-project control are still required. All five owned jobs were
+confirmed exited without remaining cgroup processes at final audit.

@@ -203,7 +203,11 @@ exited zero for the exact reviewed candidate, and the private workflow compiled.
 
 All sixteen named gameplay observations were written, but the combined import
 and probe budget expired before the Editor process exited cleanly. The strict
-result is **FAIL**, native exit sentinel -999, duration 1082.0 seconds. No result
+result is **FAIL**, native exit sentinel -999, duration 1082.0 seconds. The native observation file was written 1078.674 seconds after the combined
+budget began, only 1.326 seconds before its configured eighteen-minute deadline;
+the final FAIL receipt was written at 1081.955 seconds. This supports budget
+exhaustion near normal completion, not a proven persistent shutdown hang. Timing
+metadata is retained in `urp-first-run-timing.json`. No result
 is promoted from assertion text alone: the exit-code regression now explicitly
 covers this observed timeout as well as other nonzero exits. All 69 post-staging
 protected files and all 55 exact archive C# files remained unchanged. A separate
@@ -228,7 +232,19 @@ cgroup processes. No other owner's process was stopped.
 A fresh private copied-project retry uses that successful native import receipt,
 rechecks every packaged source, rebuilds copied databases and devotes its bounded
 sixteen-minute budget to the probe alone. It does not repeat the old archive import
-or run in the timed-out project. The retry result is recorded separately.
+or run in the timed-out project. The retry then completed successfully: `urp-wired-on-retry/RESULT.json` records
+native exit zero, all sixteen distinct named gameplay checks, 741.2 seconds,
+89 protected files unchanged and all 55 exact packaged C# sources. Both recorded
+preservation baselines contain 89 files because the template already contains the
+first attempt's private fixtures and generated scene assets. This is not 89 new
+buyer features and not a second native archive import. The successful original
+native import was reused only after all 55 source identities were checked again.
+The full rebuilt dependency step took 504.95 seconds / 720 updates / 733 evaluated
+items. The startup UnityEditor.Search exception also recurred, so the result is a
+functional workflow PASS with a known unresolved Editor-log qualification, not
+error-free Editor or full release acceptance. The owned retry job exited with no
+remaining cgroup processes.
+
 Neither configured URP nor headless gameplay observations certify rendered output.
 
 ## Official requirements rechecked November 3
@@ -254,9 +270,32 @@ compliance. The attempted 6000.6 documentation URL was unavailable; the cited
 The Built-in wired reload-enabled/disabled cases and the specific shadow negative
 control are now complete for this private fixture. Physical input, rendered UI,
 cold application restart, third-party controller compatibility and independent
-buyer usability remain open. A separate URP-configured project experiment is
-being recorded independently; no rendered pipeline acceptance follows from a
-headless gameplay test. Do not merge these private examples into the seller
+buyer usability remain open. The separate URP-configured headless workflow also passed on retry; no rendered
+pipeline acceptance follows from that gameplay test. Do not merge these private examples into the seller
 package without a product decision, real compatibility proof and the original
 owner-source reconciliation. Competitive differentiation and human buyer gates
 remain open. Commercial release remains **NO-GO**.
+
+
+## Second-continuation final checkpoint — 14:50 UTC
+
+All five owned broker jobs are exited with zero cgroup processes. Independent
+final verification matched the heads, full Git status and all 21 pre-existing
+dirty-file hashes across six original worktrees, and the reviewed archive SHA-256
+still matches the pinned candidate. The final audit is retained as
+`FINAL_PRESERVATION_AND_PROCESSES.json` below the second-continuation evidence root.
+No original owner files, seller archive, account, marketplace listing or published
+product was changed. The isolated QA changes and evidence report are committed
+and pushed on `qa/unity-input-health-matrix-20261103-wave2`.
+
+This sprint closes the specific Built-in wired reload-off case, the shadow-state
+negative control, the QA driver's import-preservation false-pass hole, a real
+Built-in native import-preservation positive and a URP-configured headless wired
+workflow. Twenty-five focused deterministic tests passed (11 workflow/driver,
+14 archive policy). It does not close error-free Editor/cache acceptance,
+rendered/physical-input usability, repeated Play cycles and scene-reload
+combinations, legacy input runtime, cold restart, full dependent-game uninstall,
+original-source reconciliation, external buyer proof or commercial differentiation.
+Commercial release remains **NO-GO**. A useful next gate is a no-HPR clean-project
+control for the common Search exception, followed by genuine rendered Inspector
+and buyer-task acceptance; do not conceal the log error behind functional PASS.
