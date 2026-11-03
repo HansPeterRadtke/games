@@ -104,6 +104,14 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
         raise ValueError("max_scanned_paths must be a positive integer")
     _ensure_non_symlink_path(project, Path("Assets"))
     vendor = _archive_guids(Path(archive))
+    # Distinguish the product's ACTUAL vendor module package identities from
+    # customer-created packages sharing a com.hpr.* prefix. The old prefix
+    # test silently ignored such customer code and .asmrefs.
+    vendor_module_ids = {
+        bits[3] for name in vendor.values()
+        if len(bits := name.split("/")) > 4 and
+        bits[:3] == ["Assets", "HPRGameplaySuite", "Modules"]
+    }
     dependencies: list[dict[str, str]] = []
     unknowns: list[dict[str, str]] = []
     checked = 0
@@ -137,7 +145,7 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
             continue
         if name in ("Packages/manifest.json", "Packages/packages-lock.json"):
             continue  # They are separately parsed below, with schema checks.
-        if name.startswith("Packages/") and name.split("/")[1].startswith("com.hpr."):
+        if name.startswith("Packages/") and name.split("/")[1] in vendor_module_ids:
             continue  # HPR's own embedded source is not a customer consumer.
         if not path.is_file():
             unknowns.append({"path": name, "reason": "unsupported asset type"})

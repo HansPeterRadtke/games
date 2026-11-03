@@ -59,6 +59,14 @@ class PackageGuidCollisionPreflight(unittest.TestCase):
         (p/"HprSource.cs.meta").write_text("guid: "+VENDOR_GUID+"\n")
         self.assertEqual([],validator.find_customer_guid_collisions(self.project,self.archive))
 
+    def test_other_hpr_prefix_customer_package_vendor_guid_conflict_not_skipped(self):
+        path=self.project/"Packages/com.hpr.customerbridge/Runtime"
+        path.mkdir(parents=True)
+        (path/"OwnIntegration.cs.meta").write_text("guid: "+VENDOR_GUID+"\n")
+        self.assertEqual(
+            ["Packages/com.hpr.customerbridge/Runtime/OwnIntegration.cs.meta"],
+            validator.find_customer_guid_collisions(self.project,self.archive))
+
     def test_embedded_package_meta_symlink_escape_refused(self):
         outside=self.root/"private-source"
         outside.write_text("do-not-touch")

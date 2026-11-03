@@ -75,6 +75,38 @@ class CustomerEmbeddedPackageFiles(unittest.TestCase):
         self.assertNotIn("Packages/com.hpr.abilities/Runtime/Vendor.cs",snapshot)
         self.assertNotIn("Packages/com.hpr.abilities/Runtime/Vendor.cs.meta",snapshot)
 
+    def test_similarly_prefixed_customer_package_is_still_protected(self):
+        # "com.hpr.customerbridge" is NOT one of the ten HPR seller-owned
+        # embedded modules. Prefix matching alone can silently omit a buyer's
+        # code and .meta files from the entire upgrade snapshot.
+        path=self.project/"Packages/com.hpr.customerbridge/Runtime"
+        path.mkdir(parents=True)
+        script=path/"OwnIntegration.cs"
+        script.write_text("using HPR; class OwnIntegration {}")
+        meta=path/"OwnIntegration.cs.meta"
+        meta.write_text("guid: " + "c"*32)
+        current=monitor.snapshot_customer_project(self.project)
+        self.assertIn("Packages/com.hpr.customerbridge/Runtime/OwnIntegration.cs",current)
+        self.assertIn("Packages/com.hpr.customerbridge/Runtime/OwnIntegration.cs.meta",current)
+
+    def test_explicit_vendor_module_names_match_exact_frozen_archive(self):
+        import tarfile
+        package=Path("/data/var/marketplace-account-setup/hpr-unity-internal-selected-installer-20261101/internal-not-published.unitypackage")
+        if not package.is_file():
+            self.skipTest("Actual frozen HPR Unity export is not accessible")
+        module_names=set()
+        with tarfile.open(package,"r:gz") as archive:
+            for item in archive:
+                if not item.name.endswith("/pathname"):
+                    continue
+                stream=archive.extractfile(item)
+                self.assertIsNotNone(stream)
+                path=stream.read().decode("utf-8").strip().split("/")
+                if len(path)>4 and path[:3]==["Assets","HPRGameplaySuite","Modules"]:
+                    module_names.add(path[3])
+        self.assertEqual(monitor.HPR_OWNED_EMBEDDED_MODULES,module_names)
+        self.assertEqual(10,len(module_names))
+
     def test_symlink_inside_customer_embedded_package_is_refused(self):
         outside=Path(self.temp.name)/"private-extra"
         outside.write_text("DO_NOT_READ")

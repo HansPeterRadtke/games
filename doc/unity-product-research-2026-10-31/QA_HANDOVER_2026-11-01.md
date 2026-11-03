@@ -656,3 +656,37 @@ continues checking without a CPU lease. See
 [buyer safe upgrade preflight](buyer-upgrade-preflight-2026-11-03.md).
 
 Commercial NO-GO remains unchanged.
+
+A further test-first HPR-prefix regression showed that the old scanner
+excluded ANY Packages/com.hpr.* directory, even one independently owned
+by the customer. The scanner now distinguishes the ten exact archived
+HPR seller module names from differently named customer integrations.
+An actual reviewed archive with disposable com.hpr.customerbridge
+references reproduced three earlier false negatives and positive
+fixed results: missing buyer hash coverage, missed customer GUID
+collision and missed uninstall dependencies. No real Unity process
+or user asset was changed.
+
+
+## November 3 shortly after midnight — owner-source safe-copy integration review
+
+A read-only comparison found that the original commercial worktree
+still has the older global AssetDatabase.SaveAssets calls and a
+DeleteAsset-on-copy-failure loop in its existing integration guide
+and demo material builder. Those sources are among the fourteen
+pre-existing, actively uncommitted owner/other-agent changes and
+were NOT overwritten or merged. A review-only, context-specific
+two-file patch was created to transform exactly that owner version
+into the previously reviewed and offline-compiled private candidate.
+Read-only git apply against the original dirty owner tree succeeded.
+Six new focused tests applied the patch ONLY inside disposable copies,
+verified every resulting script byte against the actual 161-asset
+reviewed package source and three previous offline API compiler source
+manifests, and left the original dirty files intact.
+
+The patch and both original/target SHA-256 identities are pinned in
+private QA evidence. A later code-owner merge must re-check source
+identity and run genuine Unity Editor/customer tests. This does not
+authorize overwriting concurrent edits, publishing or resubmitting
+previously rejected modules. See
+[owner safe-copy integration review](owner-uncommitted-copy-safety-merge-review-2026-11-03.md).

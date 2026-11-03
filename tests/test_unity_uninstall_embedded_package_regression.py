@@ -104,6 +104,16 @@ class EmbeddedLocalCustomerPackages(unittest.TestCase):
                 self.assertEqual("unknown_project_content_requires_review",report["classification"])
                 self.assertTrue(any("package manifest" in x["reason"] for x in report["unknowns"]))
 
+    def test_customer_package_with_hpr_prefix_other_than_vendor_is_scanned(self):
+        folder=self.project/"Packages/com.hpr.customerbridge/Runtime"
+        folder.mkdir(parents=True)
+        (folder/"OwnIntegration.cs").write_text("using HPR; class CustomerBridge {}")
+        report=preflight.inspect(self.project,self.archive)
+        self.assertEqual("customer_dependencies_found",report["classification"])
+        self.assertTrue(any(x["kind"]=="csharp_hpr_reference" and
+                            x["path"].startswith("Packages/com.hpr.customerbridge/")
+                            for x in report["dependencies"]))
+
     def test_embedded_package_symlink_escape_rejected(self):
         external=Path(self.temp.name)/"outside-secret.txt"
         external.write_text("do not read")

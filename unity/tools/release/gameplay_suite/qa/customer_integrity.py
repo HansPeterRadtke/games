@@ -28,6 +28,17 @@ PROTECTED_PROJECT_FILES = (
 )
 _GUID = re.compile(r"(?mi)^guid:\s*([a-f0-9]{32})\s*$")
 
+# Exactly these ten module identifiers were observed inside the original
+# frozen 161-asset HPR package's Modules folder. Prefix matching on
+# "com.hpr." would also hide customer-owned packages such as
+# "com.hpr.customerbridge", causing GUID and source-preservation gaps.
+# Unknown future module names fail conservatively as customer content.
+HPR_OWNED_EMBEDDED_MODULES = frozenset({
+    "com.hpr.abilities", "com.hpr.ai", "com.hpr.composition",
+    "com.hpr.eventbus", "com.hpr.interaction", "com.hpr.inventory",
+    "com.hpr.save", "com.hpr.stats", "com.hpr.weapons", "com.hpr.world",
+})
+
 
 def _relative_path(raw: str) -> Path:
     """Reject watch paths that could escape the selected project root."""
@@ -104,7 +115,7 @@ def _watched_files(project: Path, customer_roots: tuple[str, ...]) -> dict[str, 
             if item.is_dir() or not item.is_file():
                 continue
             if (relative.startswith("Packages/") and
-                relative.split("/")[1].startswith("com.hpr.")):
+                relative.split("/")[1] in HPR_OWNED_EMBEDDED_MODULES):
                 continue  # HPR's own embedded runtime is checked as a vendor dependency.
             result[relative] = item
     for raw in PROTECTED_PROJECT_FILES:
@@ -189,7 +200,7 @@ def find_customer_guid_collisions(project: Path, archive: Path) -> list[str]:
                 continue
             if rel == "Assets/HPRGameplaySuite.meta" or rel.startswith("Assets/HPRGameplaySuite/"):
                 continue  # HPR's own vendor identities are checked separately.
-            if rel.startswith("Packages/") and rel.split("/")[1].startswith("com.hpr."):
+            if rel.startswith("Packages/") and rel.split("/")[1] in HPR_OWNED_EMBEDDED_MODULES:
                 continue  # Do not count HPR's own embedded package metadata as a buyer collision.
             if item.stat().st_size > max_meta_bytes:
                 raise ValueError("Customer metadata exceeds bounded safety scan: " + rel)

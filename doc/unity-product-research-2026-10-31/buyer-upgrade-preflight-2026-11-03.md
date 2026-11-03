@@ -21,6 +21,8 @@ The new independent module at unity/tools/release/gameplay_suite/qa/unity_safe_u
 
 The result is a review decision. Every result explicitly reports automatic_upgrade_authorized=false and deletion_permitted=false, including when all source-level preconditions pass. The module cannot invoke the Unity Editor, import a package, rewrite source or delete assets.
 
+The buyer-file inventory initially excluded every package whose name began with com.hpr. That was a separate false-negative: customer-built packages such as com.hpr.customerbridge could be silently excluded from file hashing, GUID collision checks and the uninstall dependency scan. The revised source restricts vendor exclusions to the ten exact package module names verified against the original frozen HPR archive. The uninstall scanner instead derives exact vendor modules from the archive's actual Modules folder. Unknown similarly prefixed modules are always treated as customer-owned inputs. No customer file is removed from the scanned set based on its prefix alone.
+
 The new unit contracts were developed with failing tests first for missing embedded customer protection, package GUID collisions, a foreign file changed mid-scan, moved vendor paths and silent source updates. Negative and positive test outputs are retained separately.
 
 ## Genuine archive and existing-customer checks
@@ -32,6 +34,8 @@ A second disposable, populated customer project included an editable embedded pa
 Other separately preserved disposable tests changed a vendor HPR script and introduced a customer embedded-package .meta with an exact existing HPR vendor GUID. The preflight refused both upgrades. A test simulating the creation of a customer C-sharp modification during the read-only dependency scan also required review. The strict metadata checks were subsequently rerun on both preserved projects without false collisions.
 
 All source-to-source comparisons and private JSON receipts remain under the owner's protected marketplace-account-setup QA folders. The original customer project, original private candidate, owner commercial worktree and concurrently dirty QA branches were not edited.
+
+A separate private positive/negative comparison used the actual reviewed HPR package and a newly created customer project containing com.hpr.customerbridge. The previous committed scanner incorrectly reported no customer references, no asset GUID collision and omitted the customer package files from its checksum snapshot. The revised scanner detected a customer assembly reference, C-sharp use, embedded package dependency, exact vendor GUID collision and eight protected customer source files. SHA-256 records confirmed all disposable customer files were unchanged by both scans. The previous committed source was read from Git without changing or resetting any working branch.
 
 ## Still unavailable and commercial decision
 
