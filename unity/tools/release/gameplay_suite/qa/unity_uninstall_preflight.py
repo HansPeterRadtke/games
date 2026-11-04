@@ -92,7 +92,9 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
 
     project: existing Unity project root; archive: known local HPR .unitypackage
     (requires exact source identity for reference matching even when uninstalled);
-    max_file_bytes: finite positive byte ceiling to avoid opening huge files.
+    Assets, embedded Packages and ProjectSettings are all included.
+    max_file_bytes: finite positive byte ceiling to avoid opening huge files;
+    max_scanned_paths: one shared positive traversal ceiling across those roots.
     Results are conservative; no finding is deletion approval.
     """
     project = Path(project)
@@ -117,6 +119,9 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
     checked = 0
     customer_root = project / "Assets"
     package_root = project / "Packages"
+    settings_root = project / "ProjectSettings"
+    if settings_root.is_symlink() or (settings_root.exists() and not settings_root.is_dir()):
+        raise ValueError("Refusing symlinked or non-directory Unity ProjectSettings root")
     if package_root.is_symlink() or (package_root.exists() and not package_root.is_dir()):
         raise ValueError("Refusing symlinked or non-directory Unity Packages root")
     # In addition to Assets, project-embedded UPM packages can contain
@@ -124,15 +129,16 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
     # Exclude Unity's resolved Library/PackageCache and the HPR package's
     # own source; do not confuse embedded package source with a manifest.
     embedded = package_root.rglob("*") if package_root.is_dir() else ()
+    settings = settings_root.rglob("*") if settings_root.is_dir() else ()
 
-    # Stream both roots under ONE bounded traversal budget, never following
+    # Stream all three roots under ONE bounded traversal budget, never following
     # package paths outside this project or silently omitting embedded source.
     examined_paths = 0
-    for path in itertools.chain(customer_root.rglob("*"), embedded):
+    for path in itertools.chain(customer_root.rglob("*"), embedded, settings):
         examined_paths += 1
         if examined_paths > max_scanned_paths:
-            unknowns.append({"path": "Assets and Packages",
-                             "reason": "file traversal limit reached; remaining customer assets and embedded packages were not inspected"})
+            unknowns.append({"path": "Assets, Packages and ProjectSettings",
+                             "reason": "file traversal limit reached; remaining customer assets, embedded packages and project settings were not inspected"})
             break
         relative = path.relative_to(project)
         name = relative.as_posix()
@@ -207,8 +213,9 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
         for guid in direct:
             if guid in vendor:
                 dependencies.append({
-                    "kind": "importer_meta_vendor_guid" if extension == ".meta"
-                            else "serialized_vendor_guid",
+                    "kind": ("project_settings_vendor_guid" if relative.parts[0] == "ProjectSettings"
+                             else "importer_meta_vendor_guid" if extension == ".meta"
+                             else "serialized_vendor_guid"),
                     "path": name,
                     "vendor_asset": vendor[guid],
                     "guid": guid,
@@ -292,6 +299,7 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
     # Operator-facing next actions are advisory only. None performs a mutation
     # or treats the result as permission to remove a dependency.
     review_by_kind = {
+        "project_settings_vendor_guid": "Review the cited Project Settings file in Unity, including build scenes, graphics and quality references. Preserve original settings/GUIDs and explicitly migrate and test a separate project copy before considering uninstall.",
         "serialized_vendor_guid": "Review each customer-owned scene, prefab or asset in the Unity Editor. On a new copy, explicitly migrate components and references, then verify Play mode before considering package removal.",
         "importer_meta_vendor_guid": "Review customer-owned Unity importer .meta references and their externalObjects in the Unity Editor. Preserve original GUID identities and test a separately copied project before any migration.",
         "csharp_hpr_reference": "Review customer C# HPR API calls with the source owner. Migrate code explicitly and recompile; do not automatically rewrite or remove source.",

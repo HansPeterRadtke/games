@@ -175,3 +175,12 @@ all 56 cases in Unity 6.6 and 6.4, plus the full Built-in existing-game workflow
 remain preserved. The new lifetime archive has its own checksum; older URP/cold
 results are not transferred to it. Its extra URP run was resource-denied and left
 unrun. Rendered usability, source reconciliation and buyer validation remain open.
+
+
+The [November 4 night-five ProjectSettings dependency correction](night5-project-settings-dependencies-2026-11-04.md)
+closes a read-only preflight blind spot: native Unity-saved build settings contain a
+real vendor-scene GUID that the old detector misses. The corrected bounded scanner
+finds it without changing project bytes, and the composed source-upgrade preview
+now requires dependency review. Forty uninstall tests, thirteen upgrade-preview
+tests and four private-fixture routing tests pass. The current product/archive is
+unchanged; no uninstall, new URP attempt, graphical consent or release is implied.
