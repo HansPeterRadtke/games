@@ -257,6 +257,45 @@ namespace HPR
             finally { Object.DestroyImmediate(effect); Object.DestroyImmediate(ability); Object.DestroyImmediate(go); }
         }
 
+        [Test]
+        public void DestroyedResourcePool_RejectsUntilLiveReplacementIsBound()
+        {
+            var go = new GameObject("Resource Lifetime");
+            var ability = ScriptableObject.CreateInstance<AbilityData>();
+            var effect = ScriptableObject.CreateInstance<AbilityEffectData>();
+            try
+            {
+                ability.Id = "qa.lifetime";
+                ability.Cost = 20f;
+                ability.Cooldown = 30f;
+                effect.EffectType = AbilityEffectType.Heal;
+                effect.Value = 10f;
+                ability.Effects.Add(effect);
+                var removed = go.AddComponent<TestAbilityResourcePool>();
+                var runner = go.AddComponent<AbilityRunnerComponent>();
+                runner.BindRuntimeServices(null, removed);
+                runner.ConfigureAbilities(new[] { ability });
+                runner.SetUnlockedAbilityIds(new[] { ability.Id });
+                Object.DestroyImmediate(removed);
+                Assert.That(removed == null, Is.True, "The native Unity component must actually be destroyed");
+                Assert.That(runner.TryActivate(ability.Id), Is.False, "Removed providers cannot perform phantom activations");
+                Assert.That(removed.SpendCalls, Is.Zero, "No callback on the destroyed provider");
+                Assert.That(removed.Health, Is.EqualTo(50f));
+                Assert.That(removed.Stamina, Is.EqualTo(100f));
+                Assert.That(runner.CaptureSnapshot().Cooldowns, Is.Empty);
+
+                var replacement = go.AddComponent<TestAbilityResourcePool>();
+                runner.BindRuntimeServices(null, replacement);
+                Assert.That(runner.TryActivate(ability.Id), Is.True);
+                Assert.That(replacement.SpendCalls, Is.EqualTo(1));
+                Assert.That(replacement.Health, Is.EqualTo(60f));
+                Assert.That(replacement.Stamina, Is.EqualTo(80f));
+                Assert.That(runner.TryActivate(ability.Id), Is.False);
+                Assert.That(replacement.SpendCalls, Is.EqualTo(1));
+            }
+            finally { Object.DestroyImmediate(effect); Object.DestroyImmediate(ability); Object.DestroyImmediate(go); }
+        }
+
         private sealed class TestAbilityResourcePool : MonoBehaviour, IAbilityResourcePool
         {
             public int SpendCalls { get; private set; }

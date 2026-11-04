@@ -248,7 +248,15 @@ namespace HPR
                 return false;
             }
 
-            if (resourcePool == null || !resourcePool.SpendAbilityCost(ability.Cost))
+            // An interface reference outlives Unity's destroyed native component.
+            // Check Unity object lifetime before invoking any customer callback.
+            if (resourcePool == null || (resourcePool is UnityEngine.Object provider && provider == null))
+            {
+                PublishStatus("Ability resource provider is missing or has been removed.");
+                return false;
+            }
+
+            if (!resourcePool.SpendAbilityCost(ability.Cost))
             {
                 PublishStatus($"{ability.DisplayName} requires {ability.Cost:0} stamina.");
                 return false;

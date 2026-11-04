@@ -31,7 +31,7 @@ class NativeReceiptTests(unittest.TestCase):
             with self.subTest(raw=raw): self.assertFalse(qa.classify_xml(0, raw)["passed"])
 
     def test_every_missing_case_rejected(self):
-        for index in range(55):
+        for index in range(sum(qa.EXPECTED_ASSEMBLIES.values())):
             root = receipt()
             cases = list(root.iter("test-case"))
             for parent in root.iter():

@@ -114,7 +114,7 @@ commercial approval remain separate gates.
 
 ## Editor regression tests
 
-`Tests/EditMode/HPR.Abilities.Tests.EditMode.asmdef` contains 24 NUnit cases.
+`Tests/EditMode/HPR.Abilities.Tests.EditMode.asmdef` contains 25 NUnit cases.
 They cover unlocks, snapshot validation/restore, malformed definition rejection
 before resource/effect callbacks, valid event-only optional slots, maximum saved
 cooldown and valid zero-cost/zero-cooldown activation. The tests use public runner
@@ -128,3 +128,14 @@ native NUnit XML separately from archive-import/gameplay evidence.
 The regression source is not added to the immutable private buyer archive. A native
 NUnit result against an existing imported candidate does not certify a rebuilt UPM
 package, visual usability, Player behavior or marketplace readiness.
+
+
+## Resource provider lifetime
+
+Activation rejects a missing or destroyed Unity resource-provider component before
+calling its resource/effect methods or creating cooldown. The status explains that
+the provider is missing or removed. Bind a live replacement through
+`BindRuntimeServices` to resume use of the existing loadout/unlocks. Interface-held
+managed references do not by themselves prove that a Unity component still exists.
+This entry check does not make arbitrary customer callbacks transactional or guard
+against a provider destroying itself partway through its own callback.

@@ -165,3 +165,13 @@ passes the full gameplay contract is correctly rejected when labelled URP. These
 are headless configuration/functional results, with no rendered-frame proof.
 An extra installed-but-inactive URP control was resource-denied and left unrun;
 all earlier source edits remain preserved and commercial release remains NO-GO.
+
+
+The [November 4 night-four resource-provider lifetime fix](night4-resource-provider-lifetime-2026-11-04.md)
+reproduces actual activation through a destroyed provider in the previous candidate:
+exactly one of 56 native NUnit cases fails. A one-payload runtime guard now passes
+all 56 cases in Unity 6.6 and 6.4, plus the full Built-in existing-game workflow in
+6.6 and configuration checks in 6.4. Original metadata, source edits and archives
+remain preserved. The new lifetime archive has its own checksum; older URP/cold
+results are not transferred to it. Its extra URP run was resource-denied and left
+unrun. Rendered usability, source reconciliation and buyer validation remain open.
