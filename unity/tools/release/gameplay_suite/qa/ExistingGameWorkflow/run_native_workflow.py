@@ -76,6 +76,47 @@ def classify_configuration_result(native_exit, positive, negative):
     return native_exit == 0 and not negative and len(lines) == len(CONFIG_OBSERVATIONS) and set(lines) == {name + "=PASS" for name in CONFIG_OBSERVATIONS}
 
 
+def classify_pipeline_observation(expected, data):
+    """Require native effective selection through authoring, Play and return to Edit.
+
+    This is configuration evidence, never a claim of rendered frames or materials.
+    """
+    if expected not in ("builtin", "urp") or not isinstance(data, dict):
+        return False
+    rows = data.get("observations")
+    if type(data.get("schema")) is not int or data["schema"] != 1 or not isinstance(data.get("engineVersion"), str) or not data["engineVersion"] or type(data.get("processId")) is not int or data["processId"] <= 0:
+        return False
+    if not isinstance(rows, list) or len(rows) != 3 or any(not isinstance(row, dict) for row in rows):
+        return False
+    if any(type(row.get("playing")) is not bool for row in rows):
+        return False
+    if [row.get("phase") for row in rows] != ["before_scene_authoring", "during_play", "after_play"] or [row.get("playing") for row in rows] != [False, True, False]:
+        return False
+    identity = None
+    for row in rows:
+        keys = ("assetType", "assetPath", "assetGuid", "defaultAssetPath", "qualityOverridePath", "pipelineInstanceType", "graphicsDevice")
+        if any(not isinstance(row.get(key), str) for key in keys) or type(row.get("qualityLevel")) is not int or row["qualityLevel"] < 0:
+            return False
+        selected = row["qualityOverridePath"] or row["defaultAssetPath"]
+        if selected != row["assetPath"] or row["graphicsDevice"] != "Null":
+            return False
+        if expected == "builtin":
+            if any(row[key] for key in ("assetType", "assetPath", "assetGuid", "pipelineInstanceType")):
+                return False
+        else:
+            import re
+            if row["assetType"] != "UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset" or not re.fullmatch(r"[0-9a-f]{32}", row["assetGuid"]) or not row["assetPath"].startswith(("Assets/", "Packages/")) or ".." in Path(row["assetPath"]).parts:
+                return False
+            # A headless project may not instantiate a pipeline without rendering.
+            if row["pipelineInstanceType"] not in ("", "UnityEngine.Rendering.Universal.UniversalRenderPipeline"):
+                return False
+        current = tuple(row[key] for key in ("assetType", "assetPath", "assetGuid", "defaultAssetPath", "qualityOverridePath", "qualityLevel"))
+        if identity is not None and current != identity:
+            return False
+        identity = current
+    return True
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--template", type=Path, required=True)
@@ -84,6 +125,7 @@ def main():
     parser.add_argument("--editor", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--configuration-matrix", action="store_true")
+    parser.add_argument("--expected-render-pipeline", choices=("builtin", "urp"), help="Require native effective selection; headless configuration only")
     parser.add_argument("--cold-save-source", type=Path)
     parser.add_argument("--cold-source-receipt", type=Path)
     parser.add_argument("--cold-scene")
@@ -95,6 +137,8 @@ def main():
     parser.add_argument("--max-seconds", type=int, default=600)
     args = parser.parse_args()
     cold = args.cold_save_source is not None
+    if args.expected_render_pipeline and (args.configuration_matrix or cold or args.scenario != "wired"):
+        raise ValueError("Pipeline observation requires the full wired same-process workflow")
     if args.configuration_matrix and (cold or args.scenario != "wired"):
         raise ValueError("Configuration matrix is a separate wired API test")
     if cold:
@@ -216,6 +260,9 @@ def main():
     (args.output / "protected-before.json").write_text(json.dumps(before, indent=2))
     env = os.environ.copy()
     env.update(HPR_WORKFLOW_RECEIPT_ROOT=str(args.output), HPR_WORKFLOW_SCENARIO=args.scenario)
+    env.pop("HPR_WORKFLOW_EXPECT_PIPELINE", None)
+    if args.expected_render_pipeline:
+        env["HPR_WORKFLOW_EXPECT_PIPELINE"] = args.expected_render_pipeline
     if cold:
         env.update(HPR_WORKFLOW_COLD_SAVE=str(args.output / "previous-process-save.json"), HPR_WORKFLOW_COLD_SCENE=args.cold_scene)
     command = [str(args.editor), "-batchmode", "-nographics", "-projectPath", str(project),
@@ -260,7 +307,13 @@ def main():
     if args.configuration_matrix:
         valid_negative = False
         valid_positive = classify_configuration_result(native_exit, positive.read_text() if positive.is_file() else "", negative.read_text() if negative.is_file() else "")
-    status = "PASS" if (valid_negative or valid_positive) and not changed and not vendor_changed and vendor_count == 55 else "FAIL"
+    pipeline_receipt = args.output / "native-pipeline-observation.json"
+    try:
+        pipeline_data = json.loads(pipeline_receipt.read_text()) if pipeline_receipt.is_file() else None
+    except (OSError, ValueError):
+        pipeline_data = None
+    pipeline_passed = classify_pipeline_observation(args.expected_render_pipeline, pipeline_data) if args.expected_render_pipeline else None
+    status = "PASS" if (valid_negative or valid_positive) and not changed and not vendor_changed and vendor_count == 55 and pipeline_passed is not False else "FAIL"
     receipt = {"status": status, "native_exit_code": native_exit, "scenario": args.scenario,
         "domain_reload": args.domain_reload, "workflow_kind": "configuration_matrix" if args.configuration_matrix else ("cold_restart" if cold else "same_process"),
         "configuration_matrix_passed": bool(args.configuration_matrix and valid_positive),
@@ -270,6 +323,7 @@ def main():
         "protected_files": len(before), "modified_original_files": changed,
         "exact_packaged_scripts": vendor_count, "vendor_script_mismatches": vendor_changed,
         "expected_shadow_control_rejected": valid_negative, "native_wired_workflow_passed": bool(not cold and not args.configuration_matrix and valid_positive),
+        "expected_render_pipeline": args.expected_render_pipeline, "native_pipeline_selection_passed": pipeline_passed, "rendered_frames_tested": False,
         "actual_unity_editor_executed": True, "physical_keyboard_tested": False,
         "external_buyer_tested": False, "commercial_release_approved": False}
     (args.output / "RESULT.json").write_text(json.dumps(receipt, indent=2))

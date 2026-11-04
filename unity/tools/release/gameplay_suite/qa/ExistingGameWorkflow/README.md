@@ -152,3 +152,30 @@ Each mode has a separate exact observation contract and failure/result filenames
 A configuration or cold test is never labelled as the sixteen-check same-process
 input workflow. The night report records archive identities, original failures,
 full workflow and fresh-process repeats, plus the blocked graphical consent gate.
+
+
+## Opt-in effective pipeline selection, night three
+
+`--expected-render-pipeline builtin|urp` requires the complete wired same-process
+workflow plus three native observations: before scene authoring, during Play and
+after returning to Edit mode. Configuration-only and cold-save modes are rejected
+with this flag. The observer reads public GraphicsSettings.currentRenderPipeline,
+defaultRenderPipeline and QualitySettings.renderPipeline without changing them.
+It records selected asset type/path/GUID, default/quality override, quality level,
+engine/process identity, graphics device and optional actual pipeline instance.
+Each observation is written to the private output, surviving domain reload.
+
+The receipt gate requires all three ordered phases, correct playing states, exact
+URP type and valid asset GUID (or empty Built-in identity), stable asset/default/
+quality selections and the headless Null device. A manifest dependency, generic
+successful gameplay receipt or a pipeline's name alone is insufficient. A quality
+override takes precedence over the default asset. The optional instance may remain
+null because no camera rendered; this is selected configuration and headless
+functional compatibility evidence, not pixel/material/shader acceptance. Actual
+new native results and any failures belong in the dated night-three report.
+
+Without the flag, the existing workflow/configuration/cold contracts stay unchanged
+and the pipeline-pass field is null. Inherited pipeline-observation environment
+flags are cleared, preventing accidental opt-in from an unrelated caller shell.
+The existing original/staged-file hashing and all 55 packaged-source checks remain
+mandatory; this observer is private QA and not added to the buyer archive.

@@ -155,3 +155,13 @@ A test-first copied-lock preservation correction rejects unrelated dependency
 changes and deletion; all native results were independently rechecked. Existing
 source edits, immutable archives and the save remain preserved. No new product
 archive, graphical consent or commercial approval is implied.
+
+
+The [November 4 night-three effective URP workflow milestone](night3-effective-urp-workflow-2026-11-04.md)
+verifies the corrected archive through actual native import plus all sixteen
+existing-game observations with domain reload on/off. Three native observations
+confirm the same effective URP asset before/during/after Play. A Built-in run that
+passes the full gameplay contract is correctly rejected when labelled URP. These
+are headless configuration/functional results, with no rendered-frame proof.
+An extra installed-but-inactive URP control was resource-denied and left unrun;
+all earlier source edits remain preserved and commercial release remains NO-GO.

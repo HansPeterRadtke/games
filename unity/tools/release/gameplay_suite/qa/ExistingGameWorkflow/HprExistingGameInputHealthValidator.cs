@@ -60,6 +60,55 @@ public static class HprExistingGameInputHealthValidator
         EditorApplication.update -= WaitForStartup;
         Run();
     }
+    [Serializable]
+    private sealed class PipelineObservation
+    {
+        public string phase;
+        public bool playing;
+        public string assetType;
+        public string assetPath;
+        public string assetGuid;
+        public string defaultAssetPath;
+        public string qualityOverridePath;
+        public int qualityLevel;
+        public string pipelineInstanceType;
+        public string graphicsDevice;
+    }
+    [Serializable]
+    private sealed class PipelineReceipt
+    {
+        public int schema = 1;
+        public string engineVersion;
+        public int processId;
+        public List<PipelineObservation> observations = new List<PipelineObservation>();
+    }
+    private static void ObservePipeline(string phase)
+    {
+        // Opt-in private QA observation only. Never changes Graphics/Quality settings.
+        if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("HPR_WORKFLOW_EXPECT_PIPELINE"))) return;
+        string path = Path.Combine(root, "native-pipeline-observation.json");
+        var receipt = File.Exists(path) ? JsonUtility.FromJson<PipelineReceipt>(File.ReadAllText(path)) : new PipelineReceipt
+        {
+            engineVersion = Application.unityVersion,
+            processId = System.Diagnostics.Process.GetCurrentProcess().Id
+        };
+        var asset = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline;
+        var pipeline = UnityEngine.Rendering.RenderPipelineManager.currentPipeline;
+        string assetPath = asset == null ? "" : AssetDatabase.GetAssetPath(asset);
+        receipt.observations.Add(new PipelineObservation
+        {
+            phase = phase, playing = EditorApplication.isPlaying,
+            assetType = asset == null ? "" : asset.GetType().FullName,
+            assetPath = assetPath, assetGuid = string.IsNullOrEmpty(assetPath) ? "" : AssetDatabase.AssetPathToGUID(assetPath),
+            defaultAssetPath = AssetDatabase.GetAssetPath(UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline),
+            qualityOverridePath = AssetDatabase.GetAssetPath(QualitySettings.renderPipeline),
+            qualityLevel = QualitySettings.GetQualityLevel(),
+            pipelineInstanceType = pipeline == null ? "" : pipeline.GetType().FullName,
+            graphicsDevice = SystemInfo.graphicsDeviceType.ToString()
+        });
+        File.WriteAllText(path, JsonUtility.ToJson(receipt, true));
+    }
+
     public static void Run()
     {
         root = Environment.GetEnvironmentVariable("HPR_WORKFLOW_RECEIPT_ROOT");
@@ -69,6 +118,7 @@ public static class HprExistingGameInputHealthValidator
         if (scenario != "shadow" && scenario != "wired") throw new InvalidOperationException("Unknown scenario");
         if (EditorApplication.isPlayingOrWillChangePlaymode || SessionState.GetInt(StateKey, 0) != 0)
             throw new InvalidOperationException("Prior Play mode state exists");
+        ObservePipeline("before_scene_authoring");
         checks.Clear(); SessionState.SetString(StateKey + "checks", "");
         string folder = "Assets/WorkflowProbe_" + scenario + "_" + DateTime.UtcNow.Ticks;
         if (AssetDatabase.IsValidFolder(folder)) throw new InvalidOperationException("Refusing to replay scene generation");
@@ -132,6 +182,7 @@ public static class HprExistingGameInputHealthValidator
             if (phase == 1)
             {
                 if (!EditorApplication.isPlaying || ++frames < 30) return;
+                ObservePipeline("during_play");
                 var player = GameObject.Find("OriginalCustomerPlayer");
                 var vitals = player.GetComponent<ExistingGameVitals>();
                 var input = player.GetComponent<ExistingHealInput>();
@@ -187,6 +238,7 @@ public static class HprExistingGameInputHealthValidator
             }
             else if (phase == 3 && !EditorApplication.isPlayingOrWillChangePlaymode)
             {
+                ObservePipeline("after_play");
                 Require(Hash(baselineScene) == baselineHash, "original_customer_scene_still_byte_identical_after_play");
                 File.WriteAllLines(Path.Combine(root, "native-result.txt"), checks.ConvertAll(name => name + "=PASS"));
                 Finish(0);
