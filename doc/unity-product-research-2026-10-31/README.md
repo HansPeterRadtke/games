@@ -237,3 +237,12 @@ receipt wording now names the observed adapter rather than implying new-only
 mode. Exact archive/template identities and the previous Player remain preserved.
 Legacy-only Player behavior, full gameplay/save, rendered pipelines and buyer
 validation remain open.
+
+
+The [November 7 legacy-only Linux Player smoke](input-key-legacy-player-2026-11-07.md)
+completes an actual Unity 6.4 build and Player startup without the Input System
+package. The actual Player compiler selects only the legacy backend; three smoke
+observations pass, including inactive unbound-key queries. New private fixtures
+are unshipped and source/template/archive identities remain protected. Physical
+legacy transitions, full gameplay/save, rendered pipelines and buyer validation
+remain open.
