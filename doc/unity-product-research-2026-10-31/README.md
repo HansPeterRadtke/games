@@ -210,3 +210,12 @@ Unity 6.6/new input. Both runs verify effective Built-in selection through
 Edit/Play/Edit, unchanged protected files and all 161 archive asset/GUID identities.
 These fresh results apply to the corrected input archive itself; rendered UI,
 URP/Player/cold-process coverage and independent buyer validation remain open.
+
+
+The [November 7 corrected-input fresh-process save regression](input-key-cold-restart-2026-11-07.md)
+passes all fifteen native observations in a new Unity 6.6 process, including
+restored vitals/HUD, rejected invalid snapshot, cooldown expiry on the new game
+clock and subsequent existing-input healing. Exact source save/scene/template
+bytes and all 161 archive identities survive. This closes the changed archive's
+bounded Editor cold-process gap; Player, URP, rendered usability and buyer gates
+remain open.
