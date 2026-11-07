@@ -194,3 +194,11 @@ Unity 6.4 legacy-input import/configuration run passes seventeen cases, and both
 positive imports retain all 161 package identities. Original source edits remain
 preserved. This is focused input/package QA, not broader pipeline or commercial
 acceptance of the changed archive.
+
+
+The [November 7 corrected-input archive module regressions](input-key-module-regression-2026-11-07.md)
+run all 56 canonical module NUnit cases against the changed archive itself in
+Unity 6.6/new-input and 6.4/legacy-input projects. Both actual native runs pass,
+with all 161 asset/GUID identities retained and original worktrees preserved.
+This closes that archive-specific module-regression gap; rendered usability,
+URP/Player/workflow coverage and independent buyer validation remain open.
