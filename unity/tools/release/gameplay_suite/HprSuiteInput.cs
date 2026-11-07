@@ -24,6 +24,9 @@ namespace HPR.GameplaySuite
         private static Key Map(KeyCode code)
         {
             if (Cached.TryGetValue(code, out Key key)) return key;
+            // Undefined serialized KeyCodes stringify as integers; Enum.TryParse
+            // would otherwise alias a different key or produce an invalid index.
+            if (!Enum.IsDefined(typeof(KeyCode), code)) return Key.None;
             // Legacy KeyCode names do not map one-to-one onto the new
             // Input System enum. Handle its common mismatches explicitly.
             // Unsupported joystick/mouse-only KeyCodes remain Key.None

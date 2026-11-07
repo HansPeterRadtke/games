@@ -184,3 +184,13 @@ finds it without changing project bytes, and the composed source-upgrade preview
 now requires dependency review. Forty uninstall tests, thirteen upgrade-preview
 tests and four private-fixture routing tests pass. The current product/archive is
 unchanged; no uninstall, new URP attempt, graphical consent or release is implied.
+
+
+The [November 7 interrupted input-key fix recovery](input-key-validation-2026-11-07.md)
+recovers actual completed red/green native Play-mode evidence without repeating
+uncertain work. Undefined saved key values previously activated D or threw range
+exceptions. The one-payload guard passes all twelve native input cases; a fresh
+Unity 6.4 legacy-input import/configuration run passes seventeen cases, and both
+positive imports retain all 161 package identities. Original source edits remain
+preserved. This is focused input/package QA, not broader pipeline or commercial
+acceptance of the changed archive.
