@@ -246,3 +246,11 @@ observations pass, including inactive unbound-key queries. New private fixtures
 are unshipped and source/template/archive identities remain protected. Physical
 legacy transitions, full gameplay/save, rendered pipelines and buyer validation
 remain open.
+
+
+The [November 7 actual existing-game input-fix upgrade](existing-game-input-upgrade-2026-11-07.md)
+imports the corrected archive into a fresh clone of a verified older integrated
+game. Exactly the input source changes; all 139 customer files and 161 package
+identities survive. A further fresh process passes all fifteen existing-scene/save
+checks after upgrade. This is one measured private transition; general migration,
+rendered usability, URP and independent buyer gates remain open.
