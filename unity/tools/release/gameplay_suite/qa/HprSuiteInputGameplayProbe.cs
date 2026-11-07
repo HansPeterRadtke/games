@@ -84,7 +84,7 @@ public sealed class HprSuiteInputGameplayProbe : MonoBehaviour
                 stage = 99;
                 File.WriteAllText(Receipt(),
                     "unity=" + Application.unityVersion + "\n" +
-                    "new_input_only_real_game_update=PASS\n" +
+                    "new_input_adapter_real_game_update=PASS\n" +
                     "key_press_and_frame_transition=PASS\n" +
                     "keyboard_modifiers_and_numpad=PASS\n" +
                     "key_release=PASS\n");

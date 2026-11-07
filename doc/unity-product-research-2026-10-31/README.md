@@ -228,3 +228,12 @@ numpad bindings, press transitions and release. Source/template bytes and full
 archive identities survive. This is bounded new-input Player evidence; full
 Player gameplay/save, other stacks/platforms, rendered pipelines and buyer gates
 remain open.
+
+
+The [November 7 Both-input Linux Player regression](input-key-both-input-player-2026-11-07.md)
+passes all four native game-update input checks after an actual Player build with
+both legacy/new compiler symbols and copied-project Both selection. The private
+receipt wording now names the observed adapter rather than implying new-only
+mode. Exact archive/template identities and the previous Player remain preserved.
+Legacy-only Player behavior, full gameplay/save, rendered pipelines and buyer
+validation remain open.
