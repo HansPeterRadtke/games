@@ -202,3 +202,11 @@ Unity 6.6/new-input and 6.4/legacy-input projects. Both actual native runs pass,
 with all 161 asset/GUID identities retained and original worktrees preserved.
 This closes that archive-specific module-regression gap; rendered usability,
 URP/Player/workflow coverage and independent buyer validation remain open.
+
+
+The [November 7 corrected-input existing-game regressions](input-key-existing-game-regression-2026-11-07.md)
+pass all sixteen native gameplay observations with domain reload on and off in
+Unity 6.6/new input. Both runs verify effective Built-in selection through
+Edit/Play/Edit, unchanged protected files and all 161 archive asset/GUID identities.
+These fresh results apply to the corrected input archive itself; rendered UI,
+URP/Player/cold-process coverage and independent buyer validation remain open.
