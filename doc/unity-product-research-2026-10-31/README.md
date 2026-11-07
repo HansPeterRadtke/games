@@ -219,3 +219,12 @@ clock and subsequent existing-input healing. Exact source save/scene/template
 bytes and all 161 archive identities survive. This closes the changed archive's
 bounded Editor cold-process gap; Player, URP, rendered usability and buyer gates
 remain open.
+
+
+The [November 7 corrected-input Linux Player probe](input-key-linux-player-2026-11-07.md)
+completes a native Unity 6.6 Linux x86-64 build and executes the actual Player.
+Four game-update input checks pass for ordinary keys, arrows, numeric/modifier/
+numpad bindings, press transitions and release. Source/template bytes and full
+archive identities survive. This is bounded new-input Player evidence; full
+Player gameplay/save, other stacks/platforms, rendered pipelines and buyer gates
+remain open.
