@@ -49,6 +49,7 @@ try {
  $('mode-text').click();
  check('global level visible in text', !$('level-controls').hidden && $('level-hint').textContent==='2 keys');
  check('text defaults to level-generated content', $('passage-select').value==='level-mixed');
+ check('early exercise coverage announced', $('text-coverage-note').textContent.includes('All 2 unlocked keys included'));
  const short=$('target-text').textContent;
  check('level one only unlocked keys',short.length>=50 && [...short].every(c=>'fj '.includes(c)),short.slice(0,20));
  check('honest small-level label', $('text-stage-label').textContent.includes('KEY GROUPS'));
@@ -73,6 +74,7 @@ try {
  check('real phrases at level six', $('text-stage-label').textContent.includes('SHORT PHRASES') && practice.includes(' '),practice.slice(0,50));
  check('level six letters only', [...practice].every(c=>'fjdksla '.includes(c)));
  check('level summary lists unlocked keys', $('unlocked-key-list').querySelectorAll('.key-sample').length===7);
+ check('later exercise coverage announced', $('text-coverage-note').textContent.includes('All 7 unlocked keys included'));
  $('passage-select').value='custom';event($('passage-select'),'change');
  $('custom-text').value='hello';event($('custom-text'),'input');
  check('invalid custom passage rejected', $('primary-button').disabled && $('custom-text-validation').classList.contains('invalid'));
@@ -88,6 +90,18 @@ try {
  const data=await import('./src/storage.js');
  const restored=data.parseExport(JSON.stringify(snapshot()));
  check('saved text persists at current level', restored.session.mode==='text' && restored.session.level===6 && restored.session.passageId==='level-en');
+ $('passage-select').value='level-mixed';event($('passage-select'),'change');
+ for(let level=6;level<28;level++) $('level-up').click();
+ const all='fjdkslaöghärueiwoqptzüvmcxybn';
+ const advanced=$('target-text').textContent;
+ const minCounts=[...all].map(k=>[...advanced].filter(c=>c===k).length);
+ check('all keys unlocked at top level', $('level-hint').textContent==='29 keys');
+ check('every rare key present at advanced level', minCounts.every(n=>n>=3),minCounts.join(','));
+ check('newest advanced key emphasized', minCounts.at(-1)>=5);
+ check('top-level key coverage announced', $('text-coverage-note').textContent.includes('All 29 unlocked keys included'));
+ check('high-level passage is not synthetic key groups', !$('text-stage-label').textContent.includes('KEY DRILLS') && !$('text-stage-label').textContent.includes('KEY GROUPS'));
+ check('advanced-page width fits mobile',document.documentElement.scrollWidth<=document.documentElement.clientWidth+1);
+
 } catch(e) {results.push({name:'exception',ok:false,detail:e.message});}
 const out=document.createElement('pre');out.id='level-text-probe';out.textContent=JSON.stringify(results);document.body.append(out);
 </script>'''

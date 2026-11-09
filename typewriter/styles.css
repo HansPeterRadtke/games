@@ -266,3 +266,7 @@ footer span:first-child { letter-spacing: 1.4px; font-weight: 700; }
   .unlocked-key-list { font-size: 12px; gap: 4px; }
   .unlocked-key-list .key-sample { padding: 2px 5px; min-width: 23px; }
 }
+/* Visible coverage contract for the complete unlocked-key alphabet. */
+.text-coverage { padding: 10px 12px; border-radius: 8px; border: 1px solid #3e7165;
+  background: #18342c; color: #a5f2db; font-size: 12px; font-weight: 670; line-height: 1.55; }
+.text-coverage.incomplete { background: #372e24; border-color: #8a724e; color: #f1d49c; }

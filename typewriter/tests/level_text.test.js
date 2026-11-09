@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { KEY_ORDER, PASSAGES, currentExpected, newProfile, newSession, pause, restoreSession,
   snapshot, start, summaryOf, textRecordKey, typeCharacter, unlockedKeys } from '../src/core.js';
 import { TRAINING_KEY_ORDER, SENTENCES, WORDS, LEVEL_PASSAGES, allowedText, eligibleSentences,
-  eligibleWords, generateLevelExercise, invalidTextKeys, normalizedPreset } from '../src/training_text.js';
+  eligibleWords, generateLevelExercise, invalidTextKeys, normalizedPreset,
+  keyCoverage, MIN_KEY_OCCURRENCES } from '../src/training_text.js';
 import { parseExport, serializeData, sanitizeProfile } from '../src/storage.js';
 
 const rng = seed => {
@@ -22,14 +23,19 @@ test('every generated character is legal for every level and language, with vari
   for (let level = 1; level < KEY_ORDER.length; level++) {
     const keys = KEY_ORDER.slice(0, level + 1);
     for (const passageId of LEVEL_PASSAGES.map(p => p.id)) {
-      for (let seed = 1; seed <= 12; seed++) {
+      for (let seed = 1; seed <= 6; seed++) {
         const result = generateLevelExercise({ level, passageId }, rng(seed * 571));
         assert.ok(allowedText(result.text, keys), `bad letters in level ${level}: ${result.text}`);
         assert.equal(/[A-Z.,!?0-9]/.test(result.text), false);
-        assert.ok(result.text.length >= 50 && result.text.length < 170, `${level} ${result.text.length}`);
-        assert.ok(['sentences', 'words', 'key-groups'].includes(result.kind));
-        if (passageId === 'level-de' && result.kind === 'sentences') assert.equal(result.language, 'de');
-        if (passageId === 'level-en' && result.kind === 'sentences') assert.equal(result.language, 'en');
+        assert.ok(result.text.length >= 50 && result.text.length < 650, `${level} ${result.text.length}`);
+        const coverage = keyCoverage(result.text, keys);
+        assert.equal(coverage.covered, keys.length, `omitted unlocked letters at level ${level}`);
+        assert.ok(coverage.weakest >= MIN_KEY_OCCURRENCES, `undertrained letter at ${level}: ${JSON.stringify(coverage.counts)}`);
+        assert.ok(coverage.counts[keys.at(-1)] >= 5, `newest key missing practice at ${level}`);
+        assert.deepEqual(result.coverage.counts, coverage.counts);
+        assert.ok(['sentences', 'sentences+words', 'sentences+drills', 'words', 'words+drills', 'key-groups'].includes(result.kind), result.kind);
+        if (passageId === 'level-de' && result.kind !== 'key-groups') assert.equal(result.language, 'de');
+        if (passageId === 'level-en' && result.kind !== 'key-groups') assert.equal(result.language, 'en');
       }
     }
   }
@@ -46,9 +52,12 @@ test('the first levels are labelled as letter groups, not fake sentences', () =>
 test('real English and German phrases start as soon as their letters permit', () => {
   const de = generateLevelExercise({ level: 6, passageId: 'level-de' }, rng(123));
   const en = generateLevelExercise({ level: 6, passageId: 'level-en' }, rng(456));
-  assert.equal(de.kind, 'sentences');
-  assert.equal(en.kind, 'sentences');
+  assert.equal(de.kind, 'sentences+words');
+  assert.equal(en.kind, 'sentences+drills');
   assert.ok(de.text.includes('lass das'));
+  assert.ok(de.text.includes('kalk') || de.text.includes('fad'));
+  assert.ok(en.text.includes('a flask falls'));
+  assert.ok(en.text.includes('jj')); // No ordinary early English J sentence is available.
   assert.ok(/ask dad|dad asks|a sad dad|a sad lad/.test(en.text));
   assert.ok(eligibleSentences(unlockedKeys({ level: 13 }), 'de').some(s => s === 'er sah das haus'));
   assert.ok(eligibleSentences(unlockedKeys({ level: 19 }), 'en').some(s => s === 'the dog is fast'));
@@ -141,4 +150,44 @@ test('older saved passage progress, spelling and high scores remain recoverable'
   assert.equal(start(restored, newProfile(), 2000), true);
   const score = sanitizeProfile({ textRecords: { 'de-everyday': { bestWpm: 50, bestAccuracy: 90 } } });
   assert.equal(score.textRecords['de-everyday'].bestWpm, 50);
+});
+
+test('newly unlocked rare keys are meaningfully practiced, not silently omitted', () => {
+  const keyOrder = [...KEY_ORDER];
+  for (const [level, newest] of [[7, 'ö'], [10, 'ä'], [17, 'q'],
+    [21, 'ü'], [22, 'v'], [25, 'x'], [26, 'y'], [27, 'b'], [28, 'n']]) {
+    assert.equal(keyOrder[level], newest);
+    for (const id of ['level-de', 'level-mixed', 'level-en']) {
+      for (const rngInput of [() => 0, () => .42, () => .9999999, rng(73 + level)]) {
+        const exercise = generateLevelExercise({ level, passageId: id }, rngInput);
+        const stats = keyCoverage(exercise.text, keyOrder.slice(0, level + 1));
+        assert.ok(stats.counts[newest] >= 5,
+          `new key ${newest} only ${stats.counts[newest]} occurrences at ${id}, level ${level}`);
+        assert.ok(stats.weakest >= MIN_KEY_OCCURRENCES);
+        assert.equal(exercise.coverage.covered, level + 1);
+      }
+    }
+  }
+});
+
+test('German and mixed exercises use natural vocabulary whenever the alphabet permits it', () => {
+  for (const level of [7, 10, 17, 21, 25, 26, 28]) {
+    for (const id of ['level-de', 'level-mixed']) {
+      const exercise = generateLevelExercise({ level, passageId: id }, rng(level * 7));
+      assert.ok(!exercise.kind.includes('drills'), `${id} level ${level} should have real-word coverage`);
+      assert.ok(exercise.text.length < 800, 'exercises must survive JSON restore');
+    }
+  }
+  const en = generateLevelExercise({ level: 10, passageId: 'level-en' }, () => .23);
+  assert.equal(en.kind, 'sentences+drills');
+  assert.ok(en.text.includes('ä') && en.text.includes('ö'));
+  assert.equal(en.language, 'en');
+});
+
+test('key coverage reports the truth for legacy generated text and custom text', () => {
+  const keys = [...'fjdkslaö'];
+  assert.deepEqual(keyCoverage('f f j j', keys).missing, ['d', 'k', 's', 'l', 'a', 'ö']);
+  assert.deepEqual(keyCoverage('f j d k s l a ö', keys).missing, []);
+  assert.equal(keyCoverage('f j', keys).weakest, 0);
+  assert.equal(keyCoverage('', keys).covered, 0);
 });

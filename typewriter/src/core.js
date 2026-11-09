@@ -524,9 +524,9 @@ export function restoreSession(data) {
     state.target = stored && matchesSource && stored.startsWith(typed) ? stored : passageFor(state);
     state.legacyResume = !levelTextValid(state, state.target)
       && state.target === stored && ['running', 'paused', 'complete'].includes(data.phase);
-    state.textKind = typeof data.textKind === 'string' && ['sentences', 'words', 'key-groups', 'preset', 'custom'].includes(data.textKind)
+    state.textKind = typeof data.textKind === 'string' && ['sentences', 'sentences+words', 'sentences+drills', 'words', 'words+drills', 'key-groups', 'preset', 'custom'].includes(data.textKind)
       ? data.textKind : state.textKind;
-    state.textLanguage = ['de', 'en'].includes(data.textLanguage) ? data.textLanguage : state.textLanguage;
+    state.textLanguage = ['de', 'en', 'mixed'].includes(data.textLanguage) ? data.textLanguage : state.textLanguage;
     state.typed = state.target.startsWith(typed) ? typed : '';
     state.correct = Array.from(state.typed).length;
     state.trials = state.trials.slice(0, state.correct);

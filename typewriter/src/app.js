@@ -5,7 +5,7 @@ import {
   deleteCharacter, levelTextValid, textRecordKey, LEVEL_PASSAGES, isLevelPassage,
 } from './core.js';
 import { loadData, saveData, serializeData, parseExport } from './storage.js';
-import { invalidTextKeys, normalizedPreset } from './training_text.js';
+import { invalidTextKeys, normalizedPreset, keyCoverage, MIN_KEY_OCCURRENCES } from './training_text.js';
 
 const $ = id => document.getElementById(id);
 const dom = {
@@ -16,7 +16,8 @@ const dom = {
   adaptiveBlock: $('adaptive-block'), textControls: $('text-controls'), levelDown: $('level-down'), levelUp: $('level-up'),
   levelLabel: $('level-label'), levelHint: $('level-hint'), levelKeys: $('unlocked-key-list'), goal: $('goal-select'),
   adaptive: $('adaptive-checkbox'), passage: $('passage-select'), customBlock: $('custom-block'),
-  textGenerationNote: $('text-generation-note'), customValidation: $('custom-text-validation'),
+  textGenerationNote: $('text-generation-note'), textCoverageNote: $('text-coverage-note'),
+  customValidation: $('custom-text-validation'),
   customText: $('custom-text'), phaseDot: $('phase-dot'), phaseText: $('phase-text'),
   prompt: $('prompt-surface'), keyStage: $('key-stage'), textStage: $('text-stage'),
   targetKey: $('target-key'), targetText: $('target-text'), keyOrder: $('key-order-display'),
@@ -380,6 +381,9 @@ function renderStage() {
   dom.textStageLabel.textContent = isSequence ? 'TYPE THIS SAME SEQUENCE EACH ROUND'
     : session.textKind === 'key-groups' ? 'PRACTICE THESE UNLOCKED KEY GROUPS'
     : session.textKind === 'words' ? 'PRACTICE REAL WORDS WITH YOUR UNLOCKED KEYS'
+    : session.textKind === 'sentences+words' ? 'TYPE PHRASES AND FOCUS WORDS'
+    : session.textKind === 'sentences+drills' ? 'TYPE PHRASES AND FOCUS KEY DRILLS'
+    : session.textKind === 'words+drills' ? 'PRACTICE WORDS AND FOCUS KEY DRILLS'
     : session.textKind === 'sentences' ? 'TYPE SHORT PHRASES USING YOUR UNLOCKED KEYS'
     : 'TYPE THE PASSAGE BELOW';
   dom.prompt.classList.toggle('wrong', lastFeedback === 'incorrect' && session.phase === 'running');
@@ -622,10 +626,28 @@ function render() {
   dom.passage.value = session.passageId;
   dom.customBlock.hidden = !text || session.passageId !== 'custom';
   const unlocked = unlockedKeys(session);
-  const illegal = invalidTextKeys(session.target || passageFor(session), unlocked);
+  const exerciseText = text ? (session.target || passageFor(session)) : '';
+  const illegal = invalidTextKeys(exerciseText, unlocked);
+  const coverage = keyCoverage(exerciseText, unlocked);
+  const isGenerated = isLevelPassage(session.passageId);
+  dom.textCoverageNote.hidden = !text;
+  if (text) {
+    const latest = unlocked.at(-1);
+    const minimum = isGenerated && !coverage.missing.length && coverage.weakest >= MIN_KEY_OCCURRENCES
+      && coverage.counts[latest] >= 5;
+    dom.textCoverageNote.classList.toggle('incomplete', !minimum);
+    dom.textCoverageNote.textContent = isGenerated && minimum
+      ? 'All ' + unlocked.length + ' unlocked keys included · at least ' + MIN_KEY_OCCURRENCES
+        + ' times each · newest key ' + latest.toUpperCase() + ' appears '
+        + coverage.counts[latest] + ' times'
+      : coverage.covered + ' of ' + coverage.total + ' unlocked keys used'
+        + (isGenerated ? ' · Start a new exercise to practise all keys.' : ' · Custom passages may omit some letters.');
+  }
   dom.textGenerationNote.textContent = session.textKind === 'key-groups'
     ? 'At this level there are not enough real words; letter groups use only unlocked keys.'
     : session.textKind === 'words' ? 'Real German or English words using only unlocked keys.'
+    : session.textKind.includes('drills') ? 'Real phrases where available, plus key drills for letters without usable words in this language.'
+    : session.textKind === 'sentences+words' ? 'Real phrases and extra focus words include every unlocked key.'
     : isLevelPassage(session.passageId)
       ? 'Generated ' + (session.textLanguage === 'de' ? 'German' : session.textLanguage === 'en' ? 'English' : 'level-based')
         + ' practice using only unlocked letters.'
