@@ -254,3 +254,11 @@ game. Exactly the input source changes; all 139 customer files and 161 package
 identities survive. A further fresh process passes all fifteen existing-scene/save
 checks after upgrade. This is one measured private transition; general migration,
 rendered usability, URP and independent buyer gates remain open.
+
+
+The [November 9 package-metadata migration preflight correction](package-metadata-preflight-2026-11-09.md)
+requires review for malformed package metadata, bounds actual metadata reads and
+finds transitive HPR lock references. Nineteen old failure observations are fixed;
+58 regression methods pass. A saved Unity project remains byte-identical with its
+47 dependency findings preserved. This changes read-only QA tooling, not the product
+archive or native/rendered acceptance status.

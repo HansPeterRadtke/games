@@ -6,6 +6,7 @@ import json
 import tarfile
 import tempfile
 import unittest
+from unittest import mock
 
 SRC = Path(__file__).resolve().parents[1] / "unity/tools/release/gameplay_suite/qa/unity_uninstall_preflight.py"
 SPEC = importlib.util.spec_from_file_location("hpr_uninstall_preflight", SRC)
@@ -176,6 +177,92 @@ class UninstallSafety(unittest.TestCase):
             tar.addfile(entry, io.BytesIO(raw))
         with self.assertRaises(ValueError):
             MODULE.inspect(self.project, bad)
+
+
+    def test_invalid_manifest_dependency_versions_require_review(self):
+        folder = self.project / "Packages"
+        folder.mkdir()
+        manifest = folder / "manifest.json"
+        for deps in ({"com.customer.game": None}, {"com.customer.game": 1},
+                     {"com.customer.game": {}}, {"com.customer.game": []},
+                     {"com.customer.game": ""}, {"com.customer.game": "   "},
+                     {"": "1.0.0"}, {"   ": "1.0.0"}):
+            with self.subTest(dependencies=deps):
+                manifest.write_text(json.dumps({"dependencies": deps}))
+                before = manifest.read_bytes()
+                result = MODULE.inspect(self.project, self.archive)
+                self.assertEqual("unknown_project_content_requires_review", result["classification"])
+                self.assertTrue(any(x["path"] == "Packages/manifest.json" for x in result["unknowns"]))
+                self.assertEqual(before, manifest.read_bytes())
+                self.assertFalse(result["deletion_permitted"])
+
+    def test_invalid_lock_dependency_entries_require_review(self):
+        folder = self.project / "Packages"
+        folder.mkdir()
+        lock = folder / "packages-lock.json"
+        for entry in (None, "1.0.0", [], {}, {"version": None}, {"version": " "},
+                      {"version": "1.0.0", "dependencies": []},
+                      {"version": "1.0.0", "dependencies": {"com.hpr.stats": None}}):
+            with self.subTest(entry=entry):
+                lock.write_text(json.dumps({"dependencies": {"com.customer.game": entry}}))
+                before = lock.read_bytes()
+                result = MODULE.inspect(self.project, self.archive)
+                self.assertEqual("unknown_project_content_requires_review", result["classification"])
+                self.assertTrue(any(x["path"] == "Packages/packages-lock.json" for x in result["unknowns"]))
+                self.assertEqual(before, lock.read_bytes())
+                self.assertFalse(result["deletion_permitted"])
+
+    def test_transitive_lock_reference_is_not_silently_ignored(self):
+        folder = self.project / "Packages"
+        folder.mkdir()
+        lock = folder / "packages-lock.json"
+        lock.write_text(json.dumps({"dependencies": {"com.customer.bridge": {
+            "version": "file:com.customer.bridge", "dependencies": {"com.hpr.stats": "1.0.0"}}}}))
+        result = MODULE.inspect(self.project, self.archive)
+        self.assertEqual("customer_dependencies_found", result["classification"])
+        self.assertTrue(any(x["kind"] == "package_lock_reference" for x in result["dependencies"]))
+        self.assertFalse(result["deletion_permitted"])
+
+    def test_valid_unrelated_package_versions_and_exact_read_limit(self):
+        folder = self.project / "Packages"
+        folder.mkdir()
+        manifest = folder / "manifest.json"
+        lock = folder / "packages-lock.json"
+        for version in ("1.0.0", "file:../customer", "https://example.invalid/game.git#pinned"):
+            manifest.write_text(json.dumps({"dependencies": {"com.customer.game": version}}))
+            lock.write_text(json.dumps({"dependencies": {"com.customer.game": {
+                "version": version, "dependencies": {"com.customer.base": "2.0.0"}}}}))
+            result = MODULE.inspect(self.project, self.archive)
+            self.assertEqual("no_direct_reference_detected", result["classification"])
+            self.assertEqual([], result["unknowns"])
+        lock.unlink()  # Disposable fixture only, not owner project data.
+        manifest.write_bytes(b'{"dependencies": {}}'.ljust(128, b' '))
+        self.assertEqual("no_direct_reference_detected",
+                         MODULE.inspect(self.project, self.archive, max_file_bytes=128)["classification"])
+
+    def test_package_metadata_growth_is_bounded_and_requires_review(self):
+        folder = self.project / "Packages"
+        folder.mkdir()
+        original_open = Path.open
+        for name in ("manifest.json", "packages-lock.json"):
+            metadata = folder / name
+            metadata.write_text('{"dependencies": {}}')
+            calls = []
+            class GrowingFile(io.BytesIO):
+                def read(self, size=-1):
+                    calls.append(size)
+                    return super().read(size)
+            def open_growing(path, mode='r', *args, **kwargs):
+                if path == metadata and mode == 'rb':
+                    return GrowingFile(b'{"dependencies": {}}' + b' ' * 256)
+                return original_open(path, mode, *args, **kwargs)
+            with self.subTest(name=name):
+                with mock.patch.object(Path, "open", open_growing):
+                    result = MODULE.inspect(self.project, self.archive, max_file_bytes=128)
+                self.assertEqual("unknown_project_content_requires_review", result["classification"])
+                self.assertEqual([129], calls)
+                self.assertTrue(any(x["path"] == "Packages/" + name for x in result["unknowns"]))
+            metadata.unlink()  # Only this test's TemporaryDirectory.
 
 
 if __name__ == "__main__":

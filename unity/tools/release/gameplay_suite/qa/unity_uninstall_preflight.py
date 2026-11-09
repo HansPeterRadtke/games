@@ -86,6 +86,26 @@ def _ensure_non_symlink_path(project: Path, relative: Path) -> Path:
     return current
 
 
+def _read_package_json(path: Path, max_file_bytes: int) -> dict:
+    """Bound the actual read too: metadata can grow after the size check."""
+    with path.open("rb") as source:
+        body = source.read(max_file_bytes + 1)
+    if len(body) > max_file_bytes:
+        raise ValueError("package metadata exceeded read limit during inspection")
+    document = json.loads(body.decode("utf-8"))
+    if not isinstance(document, dict):
+        raise ValueError("package metadata must be a JSON object")
+    return document
+
+
+def _dependency_versions_valid(dependencies: object) -> bool:
+    return isinstance(dependencies, dict) and all(
+        isinstance(name, str) and bool(name.strip()) and
+        isinstance(version, str) and bool(version.strip())
+        for name, version in dependencies.items()
+    )
+
+
 def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
             max_scanned_paths: int = 200_000) -> dict:
     """Inspect one existing local Unity project without changing any file.
@@ -267,16 +287,18 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
             unknowns.append({"path": "Packages/manifest.json", "reason": "manifest too large"})
         else:
             try:
-                doc = json.loads(manifest.read_text(encoding="utf-8"))
-                if not isinstance(doc, dict) or not isinstance(doc.get("dependencies", {}), dict):
-                    raise ValueError("Invalid Unity package manifest")
-                if any(str(key).startswith("com.hpr.") for key in doc.get("dependencies", {})):
+                doc = _read_package_json(manifest, max_file_bytes)
+                declared = doc.get("dependencies", {})
+                if not _dependency_versions_valid(declared):
+                    raise ValueError("dependency names and versions must be nonempty strings")
+                if any(key.startswith("com.hpr.") for key in declared):
                     dependencies.append({"kind": "package_manifest_reference",
                                          "path": "Packages/manifest.json",
                                          "reason": "an HPR UPM module is still installed"})
                 checked += 1
-            except (ValueError, UnicodeDecodeError):
-                unknowns.append({"path": "Packages/manifest.json", "reason": "unreadable package manifest"})
+            except (ValueError, UnicodeDecodeError) as exc:
+                unknowns.append({"path": "Packages/manifest.json",
+                                 "reason": "unreadable package manifest: " + str(exc)})
     # Unity's resolved lock can retain package identities after manifest edits.
     # Never silently ignore that dependency evidence when planning uninstall.
     lock = project / "Packages/packages-lock.json"
@@ -286,16 +308,28 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
             unknowns.append({"path": "Packages/packages-lock.json", "reason": "package lock too large"})
         else:
             try:
-                doc = json.loads(lock.read_text(encoding="utf-8"))
-                if not isinstance(doc, dict) or not isinstance(doc.get("dependencies", {}), dict):
-                    raise ValueError("Invalid Unity packages lock")
-                if any(str(key).startswith("com.hpr.") for key in doc.get("dependencies", {})):
+                doc = _read_package_json(lock, max_file_bytes)
+                resolved = doc.get("dependencies", {})
+                if not isinstance(resolved, dict):
+                    raise ValueError("resolved dependencies must be a JSON object")
+                for name, entry in resolved.items():
+                    if (not isinstance(name, str) or not name.strip() or
+                            not isinstance(entry, dict) or
+                            not isinstance(entry.get("version"), str) or
+                            not entry["version"].strip() or
+                            not _dependency_versions_valid(entry.get("dependencies", {}))):
+                        raise ValueError("invalid resolved package version/dependency schema")
+                if (any(name.startswith("com.hpr.") for name in resolved) or
+                        any(name.startswith("com.hpr.")
+                            for entry in resolved.values()
+                            for name in entry.get("dependencies", {}))):
                     dependencies.append({"kind": "package_lock_reference",
                                          "path": "Packages/packages-lock.json",
-                                         "reason": "resolved lock still references an HPR module"})
+                                         "reason": "resolved lock still references an HPR module directly or transitively"})
                 checked += 1
-            except (ValueError, UnicodeDecodeError):
-                unknowns.append({"path": "Packages/packages-lock.json", "reason": "unreadable package lock"})
+            except (ValueError, UnicodeDecodeError) as exc:
+                unknowns.append({"path": "Packages/packages-lock.json",
+                                 "reason": "unreadable package lock: " + str(exc)})
     # Operator-facing next actions are advisory only. None performs a mutation
     # or treats the result as permission to remove a dependency.
     review_by_kind = {
