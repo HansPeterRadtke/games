@@ -262,3 +262,11 @@ finds transitive HPR lock references. Nineteen old failure observations are fixe
 58 regression methods pass. A saved Unity project remains byte-identical with its
 47 dependency findings preserved. This changes read-only QA tooling, not the product
 archive or native/rendered acceptance status.
+
+
+The [November 9 full importer-metadata identity correction](importer-metadata-identity-2026-11-09.md)
+closes a GUID-only preservation gap. An actual Unity-generated execution-order
+edit kept every GUID but was incorrectly reported pristine; full metadata checking
+now detects it and blocks the upgrade precondition. Seventy-one regression methods
+pass, and untouched native projects retain all 161 metadata identities. This is
+read-only QA protection, not importer migration or release approval.

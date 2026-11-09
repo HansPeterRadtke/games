@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Exact read-only .unitypackage vs actual imported Unity project integrity.
 
-Checks EVERY archived asset payload and its GUID against real project files.
+Checks EVERY archived asset payload, full metadata and GUID against project files.
 A successful result is not proof the Unity Editor compiled or played:
 an independent genuine Editor run, log and exit code must be supplied.
 Never reads symlink targets or repairs customer project data.
@@ -86,6 +86,7 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
     issues: list[str] = []
     checked_guids = 0
     checked_bodies = 0
+    checked_metadata = 0
     fully_verified_paths = 0
     for name, guid in sorted(names.items()):
         asset = _safe_path(project, name)
@@ -96,6 +97,7 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
         is_folder = body_key not in members
         payload_matches = False
         guid_matches = False
+        metadata_matches = False
         if is_folder:
             if not asset.is_dir():
                 issues.append("missing imported Unity folder: " + name)
@@ -121,7 +123,15 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
             else:
                 checked_guids += 1
                 guid_matches = True
-        if payload_matches and guid_matches:
+            expected_metadata = members.get(guid + "/asset.meta")
+            if expected_metadata is None:
+                raise ValueError("Missing exact archive metadata: " + name)
+            if text != expected_metadata:
+                issues.append("imported Unity metadata payload differs from exact archive: " + name)
+            else:
+                checked_metadata += 1
+                metadata_matches = True
+        if payload_matches and guid_matches and metadata_matches:
             fully_verified_paths += 1
 
     # A fresh cleanroom may not contain stale vendor files or injected code.
@@ -143,6 +153,7 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
         "asset_paths_expected": len(names),
         "asset_paths_verified": fully_verified_paths,
         "asset_payloads_verified": checked_bodies,
+        "metadata_payloads_verified": checked_metadata,
         "guid_identities_verified": checked_guids,
         "issues": sorted(set(issues)),
         "remediation": "Do not report Unity package acceptance until an actual Editor process/log also passes.",

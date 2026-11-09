@@ -42,9 +42,9 @@ class UnityImportedPackage(unittest.TestCase):
         self.project=self.base/"project"
         self.file=self.project/CS
         self.file.parent.mkdir(parents=True)
-        (self.project/"Assets/HPRGameplaySuite.meta").write_text("guid: "+ROOT_GUID+"\n")
+        (self.project/"Assets/HPRGameplaySuite.meta").write_text("fileFormatVersion: 2\nguid: "+ROOT_GUID+"\n")
         self.file.write_bytes(b"namespace HPR {}")
-        (self.project/(CS+".meta")).write_text("guid: "+CS_GUID+"\n")
+        (self.project/(CS+".meta")).write_text("fileFormatVersion: 2\nguid: "+CS_GUID+"\n")
 
     def run_check(self,sha=None):
         return identity.verify_import(self.archive,self.project,sha or self.sha)
@@ -121,6 +121,38 @@ class UnityImportedPackage(unittest.TestCase):
         r=identity.verify_import(current,older,hashlib.sha256(current.read_bytes()).hexdigest())
         self.assertEqual("FAIL",r["status"])
         self.assertGreaterEqual(sum("payload" in issue for issue in r["issues"]),5)
+
+
+    def test_same_guid_importer_settings_are_not_pristine(self):
+        meta = self.project / (CS + ".meta")
+        meta.write_text(meta.read_text() + "MonoImporter:\n  executionOrder: 123\n")
+        before = meta.read_bytes()
+        result = self.run_check()
+        self.assertEqual("FAIL", result["status"])
+        self.assertEqual(2, result["guid_identities_verified"])
+        self.assertEqual(1, result["metadata_payloads_verified"])
+        self.assertEqual(1, result["asset_paths_verified"])
+        self.assertTrue(any("metadata payload" in issue for issue in result["issues"]))
+        self.assertEqual(before, meta.read_bytes())
+
+    def test_same_guid_folder_metadata_edit_is_not_ignored(self):
+        meta = self.project / (ROOT + ".meta")
+        meta.write_text(meta.read_text() + "DefaultImporter:\n  userData: customer-note\n")
+        before = meta.read_bytes()
+        result = self.run_check()
+        self.assertEqual("FAIL", result["status"])
+        self.assertEqual(2, result["guid_identities_verified"])
+        self.assertEqual(1, result["metadata_payloads_verified"])
+        self.assertEqual(1, result["asset_paths_verified"])
+        self.assertEqual(before, meta.read_bytes())
+
+    def test_missing_non_guid_metadata_is_not_exact_identity(self):
+        meta = self.project / (CS + ".meta")
+        meta.write_text("guid: " + CS_GUID + "\n")
+        result = self.run_check()
+        self.assertEqual("FAIL", result["status"])
+        self.assertEqual(2, result["guid_identities_verified"])
+        self.assertEqual(1, result["metadata_payloads_verified"])
 
 
 if __name__=="__main__":
