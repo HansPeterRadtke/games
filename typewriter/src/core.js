@@ -2,6 +2,8 @@
 export const KEY_ORDER = Array.from('fjdkslaöghärueiwoqptzüvmcxybn');
 export const WINDOW_SIZES = Object.freeze([10, 20, 50, 100, 200, 500, 1000]);
 export const GOALS = Object.freeze([10, 20, 50, 100, 200, 500, 1000]);
+export const SEQUENCE_ROUNDS = Object.freeze([3, 5, 10, 20, 30]);
+export const MAX_SEQUENCE_LENGTH = 150;
 export const PASSAGES = Object.freeze([
   { id: 'de-everyday', name: 'Everyday German', language: 'DE', text: 'Flinke Finger finden jede Taste. Wer ruhig und genau tippt, wird mit jeder Runde schneller.' },
   { id: 'de-bodensee', name: 'At the Bodensee', language: 'DE', text: 'Heute liegt ein leichter Wind über dem Bodensee. Die Wolken ziehen langsam weiter, und das Wasser glitzert.' },
@@ -17,13 +19,18 @@ const copy = obj => JSON.parse(JSON.stringify(obj));
 export function normalizeConfig(source = {}) {
   const level = Number.isInteger(source.level) ? source.level : 1;
   const goal = GOALS.includes(source.goal) ? source.goal : 50;
+  const sequenceLength = cap(Number.isInteger(source.sequenceLength) ? source.sequenceLength : level + 1,
+    cap(level + 1, 2, KEY_ORDER.length), MAX_SEQUENCE_LENGTH);
+  const sequenceRounds = SEQUENCE_ROUNDS.includes(source.sequenceRounds) ? source.sequenceRounds : 10;
   const customText = typeof source.customText === 'string'
     ? Array.from(source.customText.normalize('NFC').replace(/\r\n?/g, '\n')).slice(0, 800).join('')
     : '';
   return {
-    mode: source.mode === 'text' ? 'text' : 'keys',
+    mode: ['keys', 'text', 'sequence'].includes(source.mode) ? source.mode : 'keys',
     level: cap(level, 1, KEY_ORDER.length - 1),
     goal,
+    sequenceLength,
+    sequenceRounds,
     adaptive: source.adaptive !== false,
     passageId: PASSAGES.some(p => p.id === source.passageId) || source.passageId === 'custom'
       ? source.passageId : PASSAGES[0].id,
@@ -37,14 +44,64 @@ export function passageFor(config) {
 }
 
 export function newProfile() {
-  return { keyStats: {}, records: {}, textRecords: {}, history: [] };
+  return { keyStats: {}, records: {}, textRecords: {}, sequenceRecords: {}, history: [] };
+}
+
+export function validSequence(state, sequence) {
+  if (typeof sequence !== 'string' || Array.from(sequence).length !== state.sequenceLength) return false;
+  const keys = unlockedKeys(state);
+  return keys.every(key => sequence.includes(key)) && [...sequence].every(key => keys.includes(key));
+}
+
+// Fisher–Yates shuffle of complete unlocked-key sets, not independent key draws.
+// An extended sequence repeats shuffled complete sets, then a partial final set.
+export function generateSequence(state, rng = Math.random) {
+  const keys = unlockedKeys(state);
+  const result = [];
+  while (result.length < state.sequenceLength) {
+    const group = [...keys];
+    for (let i = group.length - 1; i > 0; i--) {
+      const sample = Number(rng());
+      const j = Math.floor(cap(Number.isFinite(sample) ? sample : 0, 0, 0.999999999) * (i + 1));
+      [group[i], group[j]] = [group[j], group[i]];
+    }
+    result.push(...group.slice(0, state.sequenceLength - result.length));
+  }
+  return result.join('');
+}
+
+export function reshuffleSequence(state, rng = Math.random) {
+  if (state.mode !== 'sequence' || state.phase === 'running') return false;
+  let sequence = generateSequence(state, rng);
+  // Even with a deterministic RNG, an explicit Shuffle must produce a new order.
+  if (sequence === state.sequence && sequence.length > 1) {
+    const chars = [...sequence];
+    const other = chars.findIndex((key, i) => i > 0 && key !== chars[0]);
+    if (other !== -1) [chars[0], chars[other]] = [chars[other], chars[0]];
+    sequence = chars.join('');
+  }
+  state.sequence = sequence;
+  state.target = sequence;
+  state.typed = '';
+  return true;
+}
+
+export function sequenceRecordKey(state) {
+  return String(state.level) + '|' + state.sequence;
 }
 
 export function newSession(config = {}) {
+  const normalized = normalizeConfig(config);
+  const preservedSequence = validSequence(normalized, config.sequence) ? config.sequence : '';
   return {
-    ...normalizeConfig(config),
+    ...normalized,
     phase: 'idle',
-    target: '',
+    target: normalized.mode === 'sequence' ? preservedSequence : '',
+    sequence: preservedSequence,
+    rounds: [],
+    roundErrors: 0,
+    roundStartMs: 0,
+    lastAchievement: null,
     typed: '',
     lastTwo: [],
     trials: [],
@@ -103,6 +160,7 @@ export function currentPromptMs(state, now) {
 
 export function progressOf(state) {
   if (state.mode === 'keys') return { done: state.correct, total: state.goal };
+  if (state.mode === 'sequence') return { done: state.correct, total: state.sequenceLength * state.sequenceRounds };
   return { done: Array.from(state.typed).length, total: Array.from(state.target || passageFor(state)).length };
 }
 
@@ -114,7 +172,9 @@ export function currentExpected(state) {
 export function start(state, profile, now, rng = Math.random) {
   if (state.phase === 'running' || state.phase === 'complete') return false;
   if (state.phase === 'idle') {
-    state.target = state.mode === 'keys' ? weightedKeyChoice(state, profile, rng) : passageFor(state);
+    if (state.mode === 'sequence' && !validSequence(state, state.sequence)) reshuffleSequence(state, rng);
+    state.target = state.mode === 'keys' ? weightedKeyChoice(state, profile, rng)
+      : state.mode === 'sequence' ? state.sequence : passageFor(state);
     if (!state.target || !state.target.trim()) return false;
     state.startedAt = new Date().toISOString();
   }
@@ -155,7 +215,14 @@ export function summaryOf(state, now) {
     mode: state.mode,
     level: state.level,
     passageId: state.passageId,
-    goal: state.mode === 'keys' ? state.goal : Array.from(state.target).length,
+    goal: state.mode === 'keys' ? state.goal
+      : state.mode === 'sequence' ? state.sequenceLength * state.sequenceRounds : Array.from(state.target).length,
+    sequence: state.mode === 'sequence' ? state.sequence : '',
+    sequenceLength: state.mode === 'sequence' ? state.sequenceLength : null,
+    sequenceRounds: state.mode === 'sequence' ? state.sequenceRounds : null,
+    roundsCompleted: state.mode === 'sequence' ? state.rounds.length : null,
+    bestRoundMs: state.mode === 'sequence' && state.rounds.length
+      ? Math.min(...state.rounds.map(round => round.ms)) : null,
     correct: state.correct,
     errors: state.errors,
     accuracy: accuracyOf(state.correct, state.errors),
@@ -199,6 +266,43 @@ export function updateRecords(state, profile) {
   return added;
 }
 
+function recordSequenceRound(state, profile, now) {
+  const ms = rounded(Math.max(0, elapsedMs(state, now) - state.roundStartMs));
+  const roundNumber = state.rounds.length + 1;
+  const key = sequenceRecordKey(state);
+  const existing = profile.sequenceRecords[key];
+  const previousBestMs = existing?.bestMs ?? null;
+  const newRecord = previousBestMs === null || ms < previousBestMs;
+  const kind = newRecord ? (previousBestMs === null ? 'first' : 'improved') : null;
+  const accuracy = rounded(accuracyOf(state.sequenceLength, state.roundErrors));
+  const round = { number: roundNumber, ms, errors: state.roundErrors, accuracy, newRecord };
+  state.rounds.push(round);
+  // Keep the most recently practiced sequence records; cap browser storage growth.
+  if (existing) delete profile.sequenceRecords[key];
+  profile.sequenceRecords[key] = {
+    bestMs: newRecord ? ms : existing.bestMs,
+    bestAccuracy: Math.max(accuracy, existing?.bestAccuracy ?? 0),
+    lastMs: ms,
+    count: (existing?.count ?? 0) + 1,
+    bestAt: newRecord ? new Date().toISOString() : existing.bestAt,
+  };
+  while (Object.keys(profile.sequenceRecords).length > 300) {
+    delete profile.sequenceRecords[Object.keys(profile.sequenceRecords)[0]];
+  }
+  if (newRecord) {
+    state.lastAchievement = {
+      kind, ms, previousBestMs, roundNumber,
+      improvementMs: previousBestMs === null ? null : rounded(previousBestMs - ms),
+    };
+  } else {
+    state.lastAchievement = null;
+  }
+  state.roundErrors = 0;
+  state.typed = '';
+  state.roundStartMs = elapsedMs(state, now);
+  return { ...round, achievement: state.lastAchievement };
+}
+
 function addKeyObservation(profile, key, ms, errors) {
   const old = profile.keyStats[key] || { count: 0, errors: 0, emaMs: 0, bestMs: null };
   const next = {
@@ -225,11 +329,12 @@ export function typeCharacter(state, profile, input, now, rng = Math.random) {
   if (state.phase !== 'running') return { kind: 'ignored' };
   if (typeof input !== 'string' || !input) return { kind: 'ignored' };
   const expected = currentExpected(state);
-  const char = (state.mode === 'keys' ? input.normalize('NFC').toLowerCase() : input.normalize('NFC'));
+  const char = (state.mode !== 'text' ? input.normalize('NFC').toLowerCase() : input.normalize('NFC'));
   if (Array.from(char).length !== 1 || !expected) return { kind: 'ignored' };
   if (char !== expected) {
     state.errors++;
     state.pendingErrors++;
+    if (state.mode === 'sequence') state.roundErrors++;
     state.feedback = 'incorrect';
     state.latestRecords = [];
     return { kind: 'incorrect', expected };
@@ -246,7 +351,12 @@ export function typeCharacter(state, profile, input, now, rng = Math.random) {
     state.typed += expected;
     state.latestRecords = [];
   }
-  const done = state.mode === 'keys' ? state.correct >= state.goal : state.typed === state.target;
+  let round = null;
+  if (state.mode === 'sequence' && state.typed === state.sequence) {
+    round = recordSequenceRound(state, profile, now);
+  }
+  const done = state.mode === 'keys' ? state.correct >= state.goal
+    : state.mode === 'sequence' ? state.rounds.length >= state.sequenceRounds : state.typed === state.target;
   if (done) {
     state.activeMs = elapsedMs(state, now);
     state.segmentStart = null;
@@ -264,7 +374,12 @@ export function typeCharacter(state, profile, input, now, rng = Math.random) {
       };
     }
     addHistory(profile, state, now, 'completed');
-    return { kind: 'complete', summary, records: state.latestRecords };
+    return { kind: 'complete', summary, records: state.latestRecords, round };
+  }
+  if (round) {
+    state.promptMs = 0;
+    state.promptStart = now;
+    return { kind: 'round-complete', round };
   }
   if (state.mode === 'keys') {
     state.lastTwo = [...state.lastTwo.slice(-1), expected];
@@ -299,7 +414,7 @@ export function snapshot(state, now) {
 export function restoreSession(data) {
   if (!data || typeof data !== 'object') return newSession();
   const state = newSession(data);
-  const trials = Array.isArray(data.trials) ? data.trials.slice(0, 1000).filter(t =>
+  const trials = Array.isArray(data.trials) ? data.trials.slice(0, state.mode === 'sequence' ? 4500 : 1000).filter(t =>
     t && typeof t.key === 'string' && Array.from(t.key).length === 1 && positive(t.ms)
       && Number.isInteger(t.errors) && t.errors >= 0 && t.errors <= 100000) : [];
   state.trials = trials.map(t => ({ key: t.key, ms: Math.min(t.ms, 3600000), errors: t.errors }));
@@ -314,6 +429,40 @@ export function restoreSession(data) {
   state.finishedAt = typeof data.finishedAt === 'string' ? data.finishedAt : null;
   if (state.mode === 'keys') {
     state.target = unlockedKeys(state).includes(data.target) ? data.target : '';
+  } else if (state.mode === 'sequence') {
+    state.sequence = validSequence(state, data.sequence) ? data.sequence : '';
+    state.target = state.sequence;
+    const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, state.sequenceRounds) : [];
+    const validRounds = rounds.every((r, i) => r && r.number === i + 1
+      && positive(r.ms) && r.ms <= 86400000 && Number.isInteger(r.errors)
+      && r.errors >= 0 && r.errors <= 100000 && positive(r.accuracy) && r.accuracy <= 100);
+    const typed = typeof data.typed === 'string' ? data.typed.normalize('NFC') : '';
+    const validTyped = state.sequence.startsWith(typed) && typed.length < state.sequenceLength;
+    const required = rounds.length * state.sequenceLength + typed.length;
+    if (state.sequence && validRounds && validTyped && state.trials.length === required) {
+      state.rounds = rounds.map(r => ({ number: r.number, ms: rounded(r.ms),
+        errors: r.errors, accuracy: rounded(r.accuracy), newRecord: r.newRecord === true }));
+      state.typed = typed;
+      state.correct = required;
+      state.roundErrors = state.trials.slice(rounds.length * state.sequenceLength)
+        .reduce((n, t) => n + t.errors, state.pendingErrors);
+      state.roundStartMs = positive(data.roundStartMs) && data.roundStartMs <= state.activeMs
+        ? data.roundStartMs : 0;
+      const achievement = data.lastAchievement;
+      if (achievement && ['first', 'improved'].includes(achievement.kind)
+          && positive(achievement.ms) && achievement.ms <= 86400000
+          && Number.isInteger(achievement.roundNumber)
+          && achievement.roundNumber >= 1 && achievement.roundNumber <= state.rounds.length) {
+        state.lastAchievement = {
+          kind: achievement.kind, ms: achievement.ms, roundNumber: achievement.roundNumber,
+          previousBestMs: positive(achievement.previousBestMs) ? achievement.previousBestMs : null,
+          improvementMs: positive(achievement.improvementMs) ? achievement.improvementMs : null,
+        };
+      }
+    } else {
+      // An inconsistent, corrupted round ledger must not resume with fabricated records.
+      return newSession(state);
+    }
   } else {
     state.target = passageFor(state);
     const typed = typeof data.typed === 'string' ? data.typed.normalize('NFC') : '';

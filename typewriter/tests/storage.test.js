@@ -78,3 +78,54 @@ test('import sanitizes arbitrary record keys and incorrect numbers', () => {
   assert.equal(p.history.length, 1);
   assert.equal(p.history[0].accuracy, 66.7);
 });
+
+test('old version-one backups load with empty sequence records without losing high scores', () => {
+  const original = JSON.stringify({ version: DATA_VERSION, profile: {
+    keyStats: { f: { count: 8, errors: 1, emaMs: 220, bestMs: 180 } },
+    records: { 1: { 10: { avgMs: { value: 250, at: '2026-11-08' } } } },
+    textRecords: {}, history: [],
+  }, session: { mode: 'keys', phase: 'idle', level: 1, goal: 50 } });
+  const data = parseExport(original);
+  assert.deepEqual(data.profile.sequenceRecords, {});
+  assert.equal(data.profile.records['1']['10'].avgMs.value, 250);
+  assert.equal(data.profile.keyStats.f.count, 8);
+  assert.equal(data.session.mode, 'keys');
+});
+
+test('sequence records and round log survive version-one export and import', async () => {
+  const { reshuffleSequence, sequenceRecordKey, currentExpected } = await import('../src/core.js');
+  const state = newSession({ mode: 'sequence', sequenceRounds: 3, level: 4 });
+  const p = newProfile();
+  reshuffleSequence(state, () => 0);
+  start(state, p, 0);
+  let t = 0;
+  for (let round = 0; round < 2; round++) {
+    for (let i = 0; i < state.sequenceLength; i++) {
+      t += 150;
+      typeCharacter(state, p, currentExpected(state), t);
+    }
+  }
+  const json = serializeData(state, p, t + 30);
+  const restored = parseExport(json);
+  assert.equal(restored.session.phase, 'paused');
+  assert.equal(restored.session.rounds.length, 2);
+  assert.equal(restored.session.sequence, state.sequence);
+  assert.equal(restored.profile.sequenceRecords[sequenceRecordKey(state)].count, 2);
+  assert.equal(restored.profile.sequenceRecords[sequenceRecordKey(state)].bestMs, 750);
+  assert.equal(restored.session.correct, 10);
+  assert.equal(restored.session.roundStartMs, 1500);
+});
+
+test('malformed imported sequence records are discarded safely', () => {
+  const profile = sanitizeProfile({ sequenceRecords: {
+    '1|fj': { bestMs: 330, bestAccuracy: 100, lastMs: 350, count: 2, bestAt: 'today' },
+    '__proto__': { bestMs: 1, count: 1 },
+    '1|xx': { bestMs: 1, count: 1 },
+    '1|ff': { bestMs: 1, count: 1 },
+    '1|fj': { bestMs: 330, bestAccuracy: 100, lastMs: 350, count: 2, bestAt: 'today' },
+    '18|fjd': { bestMs: 1, count: 1 },
+    '1|jf': { bestMs: -1, count: 1 },
+  } });
+  assert.deepEqual(Object.keys(profile.sequenceRecords), ['1|fj']);
+  assert.equal(profile.sequenceRecords['1|fj'].bestMs, 330);
+});

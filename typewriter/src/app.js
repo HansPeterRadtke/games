@@ -1,20 +1,28 @@
 import {
   KEY_ORDER, WINDOW_SIZES, PASSAGES, currentExpected, elapsedMs, finishEarly,
   newSession, pause, passageFingerprint, passageFor, progressOf, start, summaryOf,
-  typeCharacter, unlockedKeys, accuracyOf,
+  typeCharacter, unlockedKeys, accuracyOf, reshuffleSequence, sequenceRecordKey,
 } from './core.js';
 import { loadData, saveData, serializeData, parseExport } from './storage.js';
 
 const $ = id => document.getElementById(id);
 const dom = {
-  modeKeys: $('mode-keys'), modeText: $('mode-text'), keysControls: $('keys-controls'),
-  textControls: $('text-controls'), levelDown: $('level-down'), levelUp: $('level-up'),
+  modeKeys: $('mode-keys'), modeSequence: $('mode-sequence'), modeText: $('mode-text'), keysControls: $('keys-controls'),
+  sequenceOptions: $('sequence-options'), sequenceLength: $('sequence-length'),
+  sequenceMinimum: $('sequence-minimum'), sequenceRounds: $('sequence-rounds'),
+  shuffleSequence: $('shuffle-sequence'), keyGoalBlock: $('key-goal-block'),
+  adaptiveBlock: $('adaptive-block'), textControls: $('text-controls'), levelDown: $('level-down'), levelUp: $('level-up'),
   levelLabel: $('level-label'), levelHint: $('level-hint'), goal: $('goal-select'),
   adaptive: $('adaptive-checkbox'), passage: $('passage-select'), customBlock: $('custom-block'),
   customText: $('custom-text'), phaseDot: $('phase-dot'), phaseText: $('phase-text'),
   prompt: $('prompt-surface'), keyStage: $('key-stage'), textStage: $('text-stage'),
   targetKey: $('target-key'), targetText: $('target-text'), keyOrder: $('key-order-display'),
-  stageHint: $('stage-hint'), capture: $('type-capture'),
+  textStageLabel: $('text-stage-label'), stageHint: $('stage-hint'), capture: $('type-capture'),
+  sequenceScore: $('sequence-score'), sequenceRoundPosition: $('sequence-round-position'),
+  sequencePersonalBest: $('sequence-personal-best'), achievementBanner: $('achievement-banner'),
+  achievementTitle: $('achievement-title'), achievementDetail: $('achievement-detail'),
+  achievementTime: $('achievement-time'), sequenceRoundLog: $('sequence-round-log'),
+  roundLogItems: $('round-log-items'),
   progressCount: $('progress-count'), progressBar: $('progress-track'), progressFill: $('progress-fill'),
   primary: $('primary-button'), primaryLabel: $('primary-label'), primaryIcon: $('primary-icon'),
   newSession: $('new-session'), keyboardTip: $('keyboard-tip'), feedback: $('feedback'),
@@ -76,6 +84,7 @@ function updateConfiguration(patch) {
   if (!abandonPrompt()) { render(); return false; }
   finishEarly(session, profile, now());
   session = newSession({ ...session, ...patch });
+  if (session.mode === 'sequence' && !session.sequence) reshuffleSequence(session);
   lastFeedback = '';
   notice = '';
   persist();
@@ -114,8 +123,20 @@ function newPractice() {
   if (!abandonPrompt()) return;
   finishEarly(session, profile, now());
   session = newSession(session);
+  if (session.mode === 'sequence' && !session.sequence) reshuffleSequence(session);
   notice = '';
   lastFeedback = '';
+  persist();
+  render();
+}
+function shufflePractice() {
+  if (!abandonPrompt()) return;
+  finishEarly(session, profile, now());
+  session = newSession(session);
+  reshuffleSequence(session);
+  lastFeedback = '';
+  noticeKind = 'success';
+  notice = 'New sequence shuffled. Every unlocked key is included.';
   persist();
   render();
 }
@@ -126,7 +147,13 @@ function handleCharacter(char) {
   notice = '';
   if (result.kind === 'complete') {
     noticeKind = 'success';
-    notice = 'Session complete. Your results and personal records are saved.';
+    notice = session.mode === 'sequence'
+      ? 'All rounds complete. Start again to beat the same sequence record.'
+      : 'Session complete. Your results and personal records are saved.';
+  } else if (result.kind === 'round-complete') {
+    noticeKind = 'success';
+    notice = result.round.newRecord ? 'New personal best! Keep going.'
+      : 'Round ' + result.round.number + ' complete — ' + formatMs(result.round.ms) + '. Beat your best next round.';
   } else if (result.kind === 'incorrect') {
     noticeKind = 'error';
   } else if (result.records?.length) {
@@ -139,7 +166,7 @@ function handleCharacter(char) {
 }
 function isEditing(target) {
   if (!(target instanceof Element)) return false;
-  return Boolean(target.closest('textarea, select, [contenteditable="true"]'));
+  return Boolean(target.closest('textarea, select, input:not(#type-capture), [contenteditable="true"]'));
 }
 document.addEventListener('keydown', e => {
   if (e.ctrlKey || e.altKey || e.metaKey || e.isComposing || e.key === 'Dead') return;
@@ -151,9 +178,9 @@ document.addEventListener('keydown', e => {
     if (session.phase === 'running') { e.preventDefault(); pausePractice(); }
     return;
   }
-  if (session.mode === 'keys' && session.phase !== 'running' && (e.key === '+' || e.key === '-')) {
+  if (session.mode !== 'text' && session.phase !== 'running' && (e.key === '+' || e.key === '-')) {
     e.preventDefault();
-    updateConfiguration({ level: session.level + (e.key === '+' ? 1 : -1) });
+    changeLevel(session.level + (e.key === '+' ? 1 : -1));
     return;
   }
   if (e.key === ' ' && session.phase !== 'running') {
@@ -161,7 +188,7 @@ document.addEventListener('keydown', e => {
     beginPractice();
     return;
   }
-  if (e.key === ' ' && session.mode === 'keys') {
+  if (e.key === ' ' && session.mode !== 'text') {
     e.preventDefault();
     pausePractice();
     return;
@@ -200,10 +227,21 @@ dom.prompt.addEventListener('keydown', e => {
 dom.primary.addEventListener('click', beginPractice);
 dom.newSession.addEventListener('click', newPractice);
 dom.modeKeys.addEventListener('click', () => { if (session.mode !== 'keys') updateConfiguration({ mode: 'keys' }); });
+dom.modeSequence.addEventListener('click', () => { if (session.mode !== 'sequence') updateConfiguration({ mode: 'sequence' }); });
 dom.modeText.addEventListener('click', () => { if (session.mode !== 'text') updateConfiguration({ mode: 'text' }); });
-dom.levelDown.addEventListener('click', () => updateConfiguration({ level: session.level - 1 }));
-dom.levelUp.addEventListener('click', () => updateConfiguration({ level: session.level + 1 }));
+function changeLevel(requested) {
+  const level = Math.max(1, Math.min(KEY_ORDER.length - 1, requested));
+  if (level === session.level) return;
+  const sequenceLength = session.sequenceLength === session.level + 1
+    ? level + 1 : Math.max(level + 1, session.sequenceLength);
+  updateConfiguration({ level, sequenceLength });
+}
+dom.levelDown.addEventListener('click', () => changeLevel(session.level - 1));
+dom.levelUp.addEventListener('click', () => changeLevel(session.level + 1));
 dom.goal.addEventListener('change', () => updateConfiguration({ goal: Number(dom.goal.value) }));
+dom.sequenceLength.addEventListener('change', () => updateConfiguration({ sequenceLength: Number(dom.sequenceLength.value) }));
+dom.sequenceRounds.addEventListener('change', () => updateConfiguration({ sequenceRounds: Number(dom.sequenceRounds.value) }));
+dom.shuffleSequence.addEventListener('click', shufflePractice);
 dom.adaptive.addEventListener('change', () => {
   session.adaptive = dom.adaptive.checked;
   persist();
@@ -286,8 +324,10 @@ window.addEventListener('pagehide', () => {
 
 function renderStage() {
   const isKeys = session.mode === 'keys';
+  const isSequence = session.mode === 'sequence';
   dom.keyStage.hidden = !isKeys;
   dom.textStage.hidden = isKeys;
+  dom.textStageLabel.textContent = isSequence ? 'TYPE THIS SAME SEQUENCE EACH ROUND' : 'TYPE THE PASSAGE BELOW';
   dom.prompt.classList.toggle('wrong', lastFeedback === 'incorrect' && session.phase === 'running');
   if (isKeys) {
     const keys = unlockedKeys(session);
@@ -295,7 +335,7 @@ function renderStage() {
       : session.phase === 'complete' ? '✓' : keyName(session.target);
     dom.keyOrder.textContent = keys.map(keyName).join(' · ');
   } else {
-    const text = session.target || passageFor(session);
+    const text = isSequence ? session.sequence : (session.target || passageFor(session));
     const typedLen = Array.from(session.typed).length;
     const fragment = document.createDocumentFragment();
     Array.from(text).forEach((char, i) => {
@@ -307,17 +347,57 @@ function renderStage() {
   }
   if (session.phase === 'idle') {
     dom.stageHint.textContent = session.mode === 'keys' ? 'Press Space to begin, or select Start practice.'
+      : isSequence ? 'Press Start. Repeat this exact order each round; only Shuffle changes it.'
       : 'Press Start practice, then type the passage exactly as shown.';
   } else if (session.phase === 'paused') {
     dom.stageHint.textContent = 'Paused. Your timer is stopped. Select Resume to continue.';
   } else if (session.phase === 'complete') {
-    dom.stageHint.textContent = 'Round complete. Start another to keep improving.';
+    dom.stageHint.textContent = isSequence ? 'Challenge complete. Start again with the same sequence to improve your best.'
+      : 'Round complete. Start another to keep improving.';
   } else if (lastFeedback === 'incorrect') {
     dom.stageHint.textContent = 'Not quite. Try ' + keyName(currentExpected(session)) + ' again.';
   } else {
     dom.stageHint.textContent = session.mode === 'keys'
       ? 'Type the highlighted key. Space pauses the exercise.'
+      : isSequence ? 'Complete the sequence as fast as you can. It will repeat without reshuffling.'
       : 'Type every character, including spaces and punctuation. Esc pauses.';
+  }
+}
+function renderSequenceScore() {
+  const active = session.mode === 'sequence';
+  dom.sequenceScore.hidden = !active;
+  if (!active) return;
+  const completed = session.rounds.length;
+  const roundNumber = Math.min(completed + 1, session.sequenceRounds);
+  dom.sequenceRoundPosition.textContent = session.phase === 'complete'
+    ? completed + ' / ' + session.sequenceRounds + ' finished'
+    : roundNumber + ' / ' + session.sequenceRounds;
+  const record = profile.sequenceRecords[sequenceRecordKey(session)];
+  dom.sequencePersonalBest.textContent = record ? formatMs(record.bestMs) : 'No record yet';
+  const achievement = session.lastAchievement;
+  dom.achievementBanner.hidden = !achievement;
+  if (achievement) {
+    dom.achievementTitle.textContent = achievement.kind === 'first' ? 'FIRST PERSONAL RECORD!' : 'NEW PERSONAL BEST!';
+    dom.achievementDetail.textContent = achievement.kind === 'first'
+      ? 'Round ' + achievement.roundNumber + ' sets the time to beat. Keep going!'
+      : 'Round ' + achievement.roundNumber + ' — ' + formatMs(achievement.improvementMs) + ' faster than your previous best!';
+    dom.achievementTime.textContent = formatMs(achievement.ms);
+  }
+}
+function renderRoundLog() {
+  dom.sequenceRoundLog.hidden = session.mode !== 'sequence';
+  if (session.mode !== 'sequence') return;
+  dom.roundLogItems.replaceChildren();
+  if (!session.rounds.length) {
+    dom.roundLogItems.append(element('p', 'muted-note', 'Your first completed sequence will set a time to beat.'));
+    return;
+  }
+  for (const r of session.rounds.slice(-10).reverse()) {
+    const row = element('div', 'round-log-row' + (r.newRecord ? ' is-record' : ''));
+    row.append(element('span', 'round-label', 'Round ' + r.number), element('strong', 'round-time', formatMs(r.ms)));
+    if (r.newRecord) row.append(element('span', 'round-crown', '★ BEST'));
+    row.append(element('span', 'round-errors', r.errors ? r.errors + ' mistakes' : 'Perfect'));
+    dom.roundLogItems.append(row);
   }
 }
 function renderStats() {
@@ -371,6 +451,15 @@ function renderRecords() {
       addRecordCell(label, result ? (key === 'accuracy' ? percent(result.value) : formatMs(result.value)) : '—', sub, fresh);
     }
     dom.recordsNote.textContent = 'Personal bests for ' + selectedWindow + ' consecutive correct keys at this level. Timing includes time spent correcting mistakes.';
+  } else if (session.mode === 'sequence') {
+    dom.recordsTitle.textContent = 'Sequence challenge';
+    const record = profile.sequenceRecords[sequenceRecordKey(session)];
+    const last = session.rounds.at(-1);
+    addRecordCell('FASTEST ROUND', record ? formatMs(record.bestMs) : '—', 'Personal best for this exact sequence', !!session.lastAchievement);
+    addRecordCell('LAST ROUND', last ? formatMs(last.ms) : '—', last ? 'Round ' + last.number + ' · ' + percent(last.accuracy) + ' accurate' : 'Complete a round to get a time');
+    addRecordCell('ROUNDS COMPLETED', String(session.rounds.length), 'Of ' + session.sequenceRounds + ' planned rounds');
+    addRecordCell('BEST ACCURACY', record ? percent(record.bestAccuracy) : '—', 'For this exact sequence');
+    dom.recordsNote.textContent = 'Each round repeats the identical shuffled sequence. A faster full round sets a new record, even after starting a new session.';
   } else {
     dom.recordsTitle.textContent = 'Passage records';
     const id = session.passageId === 'custom' ? 'custom:' + passageFingerprint(passageFor(session)) : session.passageId;
@@ -395,7 +484,9 @@ function renderInsights() {
       : key.toUpperCase() + ': no measurements yet';
     dom.keyInsights.append(chip);
   });
-  dom.insightsNote.textContent = session.adaptive
+  dom.insightsNote.textContent = session.mode === 'sequence'
+    ? 'Every unlocked key appears in the shuffled sequence. Key timings here come from single-key training, not sequence rounds.'
+    : session.adaptive
     ? 'Amber keys have slower responses than your current average. Adaptive training gives these keys extra practice.'
     : 'Adaptive focus is off. Every unlocked key has equal probability.';
 }
@@ -409,9 +500,13 @@ function renderHistory() {
   for (const h of latest) {
     const date = Date.parse(h.at);
     const item = element('div', 'history-item');
-    item.append(element('strong', '', h.mode === 'keys' ? 'Key trainer · L' + h.level : 'Text practice'));
+    item.append(element('strong', '', h.mode === 'keys' ? 'Key trainer · L' + h.level
+      : h.mode === 'sequence' ? 'Sequence · L' + h.level : 'Text practice'));
     item.append(element('span', 'history-meta', h.status === 'completed' ? 'Completed' : 'Ended early'));
-    item.append(element('span', 'history-result', percent(h.accuracy) + ' · ' + (h.wpm === null ? '—' : Math.round(h.wpm) + ' WPM')));
+    item.append(element('span', 'history-result', h.mode === 'sequence'
+      ? (h.bestRoundMs === null ? 'No full round' : 'Best ' + formatMs(h.bestRoundMs))
+      + ' · ' + (h.roundsCompleted ?? 0) + ' rounds'
+      : percent(h.accuracy) + ' · ' + (h.wpm === null ? '—' : Math.round(h.wpm) + ' WPM')));
     item.append(element('span', 'history-meta', (Number.isNaN(date) ? 'Earlier' : new Date(date).toLocaleDateString()) + ' · ' + h.correct + ' keys'));
     dom.history.append(item);
   }
@@ -428,17 +523,30 @@ function renderFeedback() {
     dom.feedback.textContent = 'Your progress is saved automatically. You can export a backup above.';
     dom.feedback.classList.add('success');
   } else {
-    dom.feedback.textContent = session.mode === 'keys' ? 'Shortcuts: + / − changes level between rounds.' : 'Text must match exactly. Paste is disabled during practice.';
+    dom.feedback.textContent = session.mode === 'keys' ? 'Shortcuts: + / − changes level between rounds.'
+      : session.mode === 'sequence' ? 'Shortcuts: + / − changes level between sessions. Mistakes count; keep typing the highlighted key.'
+      : 'Text must match exactly. Paste is disabled during practice.';
   }
 }
 function render() {
   const keys = session.mode === 'keys';
+  const sequence = session.mode === 'sequence';
+  const text = session.mode === 'text';
   dom.modeKeys.classList.toggle('active', keys);
-  dom.modeText.classList.toggle('active', !keys);
+  dom.modeSequence.classList.toggle('active', sequence);
+  dom.modeText.classList.toggle('active', text);
   dom.modeKeys.setAttribute('aria-selected', String(keys));
-  dom.modeText.setAttribute('aria-selected', String(!keys));
-  dom.keysControls.hidden = !keys;
-  dom.textControls.hidden = keys;
+  dom.modeSequence.setAttribute('aria-selected', String(sequence));
+  dom.modeText.setAttribute('aria-selected', String(text));
+  dom.keysControls.hidden = text;
+  dom.keyGoalBlock.hidden = !keys;
+  dom.adaptiveBlock.hidden = !keys;
+  dom.sequenceOptions.hidden = !sequence;
+  dom.textControls.hidden = !text;
+  dom.sequenceLength.min = String(unlockedKeys(session).length);
+  dom.sequenceMinimum.textContent = 'Minimum ' + unlockedKeys(session).length + ' — includes every unlocked key';
+  dom.sequenceLength.value = String(session.sequenceLength);
+  dom.sequenceRounds.value = String(session.sequenceRounds);
   dom.levelLabel.textContent = String(session.level).padStart(2, '0');
   dom.levelHint.textContent = unlockedKeys(session).length + ' keys';
   dom.levelDown.disabled = session.level <= 1;
@@ -446,16 +554,16 @@ function render() {
   dom.goal.value = String(session.goal);
   dom.adaptive.checked = session.adaptive;
   dom.passage.value = session.passageId;
-  dom.customBlock.hidden = session.passageId !== 'custom';
+  dom.customBlock.hidden = !text || session.passageId !== 'custom';
   if (dom.customText.value !== session.customText) dom.customText.value = session.customText;
-  dom.capture.setAttribute('autocapitalize', keys ? 'off' : 'sentences');
+  dom.capture.setAttribute('autocapitalize', text ? 'sentences' : 'off');
   const phase = { idle: 'READY', running: 'ACTIVE', paused: 'PAUSED', complete: 'COMPLETED' }[session.phase];
   dom.phaseText.textContent = phase;
   dom.phaseDot.className = 'phase-dot' + (session.phase === 'running' ? ' running' : session.phase === 'complete' ? ' complete' : '');
   dom.primaryLabel.textContent = { idle: 'Start practice', running: 'Pause', paused: 'Resume practice', complete: 'Practice again' }[session.phase];
   dom.primaryIcon.textContent = session.phase === 'running' ? 'Ⅱ' : session.phase === 'complete' ? '↻' : '▶';
-  dom.primary.disabled = !keys && !passageFor(session).trim() && session.phase === 'idle';
-  dom.keyboardTip.textContent = keys ? 'Space = start / pause · Esc = pause' : 'Space = type a space · Esc = pause';
+  dom.primary.disabled = text && !passageFor(session).trim() && session.phase === 'idle';
+  dom.keyboardTip.textContent = text ? 'Space = type a space · Esc = pause' : 'Space = start / pause · Esc = pause';
   const progress = progressOf(session);
   const ratio = progress.total ? Math.min(100, progress.done / progress.total * 100) : 0;
   dom.progressCount.textContent = formatInt(progress.done) + ' / ' + formatInt(progress.total);
@@ -463,9 +571,11 @@ function render() {
   dom.progressBar.setAttribute('aria-valuenow', String(progress.done));
   dom.progressFill.style.width = ratio + '%';
   renderStage();
+  renderSequenceScore();
   renderStats();
   renderRhythm();
   renderRecords();
+  renderRoundLog();
   renderInsights();
   renderHistory();
   renderFeedback();

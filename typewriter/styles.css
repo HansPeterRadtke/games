@@ -201,3 +201,48 @@ footer span:first-child { letter-spacing: 1.4px; font-weight: 700; }
 @media (prefers-reduced-motion: reduce) {
  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
 }
+/* Sequence challenge: one fixed shuffled key order, repeated and timed. */
+.mode-tabs { flex-wrap: wrap; }
+.sequence-options { padding-top: 0; padding-bottom: 24px; border-bottom: 1px solid #2b3443; }
+.sequence-options .setting-block { min-width: 138px; }
+.sequence-options input[type="number"] { width: 155px; min-height: 43px; border: 1px solid #3a4759; border-radius: 10px; background: #19222e; color: var(--text); padding: 0 13px; }
+.sequence-options .setting-block select { min-width: 155px; }
+.sequence-options .setting-help { font-size: 11px; color: var(--subtle); }
+.sequence-shuffle { align-self: center; margin-top: 9px; }
+.sequence-score { padding: 20px 27px 0; }
+.sequence-score-top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 18px; padding: 15px 18px; border: 1px solid #3a4f52; border-radius: 10px; background: #142723; }
+.sequence-score-top > div { display: flex; flex-direction: column; gap: 8px; }
+.sequence-score-top strong { color: #c6f8ec; font-size: 20px; letter-spacing: -.4px; font-variant-numeric: tabular-nums; }
+.sequence-score-top .setting-label { color: #97c2b6; line-height: 1.45; }
+.achievement-banner { margin-top: 14px; display: flex; align-items: center; gap: 14px; padding: 18px 19px; border-radius: 12px; border: 2px solid #ffd47c; background: linear-gradient(110deg,#554329,#44391f); box-shadow: 0 0 25px #f5c87022; }
+.achievement-icon { flex: none; font-size: 29px; color: #ffe1a4; }
+.achievement-message { display: flex; flex: 1; flex-direction: column; gap: 6px; min-width: 0; }
+.achievement-message strong { font-size: 15px; font-weight: 850; letter-spacing: .6px; color: #ffe8ad; }
+.achievement-message span { color: #f6e5c8; font-size: 12px; line-height: 1.4; }
+.achievement-time { flex: none; color: #fff3d5; font-size: 27px; font-variant-numeric: tabular-nums; }
+.achievement-banner[hidden] { display: none; }
+.sequence-round-log { border-top: 1px solid #304050; margin-top: 20px; padding-top: 16px; }
+.round-log-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
+.round-log-items { display: flex; flex-direction: column; gap: 7px; }
+.round-log-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #162533; border: 1px solid #2f4353; border-radius: 8px; font-size: 12px; }
+.round-log-row .round-label { flex: 1; color: #c4d3df; }
+.round-log-row .round-time { font-weight: 750; font-variant-numeric: tabular-nums; color: var(--text); }
+.round-log-row .round-errors { color: var(--subtle); font-size: 11px; min-width: 60px; text-align: right; }
+.round-log-row.is-record { background: #263c33; border-color: #669c7b; }
+.round-log-row.is-record .round-time { color: #b7f5d1; }
+.round-log-row .round-crown { font-size: 10px; font-weight: 760; color: #ffe1a4; }
+@media (max-width: 600px) {
+ .sequence-options { gap: 16px; }
+ .sequence-options .setting-block { min-width: 125px; }
+ .sequence-options input[type="number"], .sequence-options .setting-block select { width: 100%; min-width: 125px; }
+ .sequence-shuffle { margin: 0; width: 100%; }
+ .sequence-score { padding: 16px 16px 0; }
+ .sequence-score-top { gap: 10px; padding: 12px; }
+ .sequence-score-top strong { font-size: 16px; }
+ .achievement-banner { gap: 8px; padding: 13px 10px; }
+ .achievement-icon { font-size: 21px; }
+ .achievement-message strong { font-size: 12px; }
+ .achievement-message span { font-size: 11px; }
+ .achievement-time { font-size: 19px; }
+ .mode-tab { padding: 10px 9px; font-size: 11px; }
+}
