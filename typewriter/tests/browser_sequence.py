@@ -29,7 +29,7 @@ try {
  await sleep(300);
  $('mode-sequence').click();
  check('sequence mode shown', $('mode-sequence').getAttribute('aria-selected')==='true' && !$('sequence-options').hidden);
- check('original modes hidden', $('text-controls').hidden && $('key-goal-block').hidden && !$('keys-controls').hidden);
+ check('original modes hidden', $('text-controls').hidden && $('key-goal-block').hidden && $('keys-controls').hidden && !$('level-controls').hidden);
  check('default length', Number($('sequence-length').value)===2 && Number($('sequence-length').min)===2);
  check('default rounds', Number($('sequence-rounds').value)===10);
  const defaultSequence=sequence();

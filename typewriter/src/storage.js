@@ -42,7 +42,8 @@ export function sanitizeProfile(raw) {
   }
   if (plain(raw.textRecords)) {
     for (const [key, v] of Object.entries(raw.textRecords).slice(0, 100)) {
-      if (!(PASSAGES.some(p => p.id === key) || /^custom:[a-z0-9]+:[0-9]{1,3}$/.test(key))) continue;
+      if (!(PASSAGES.some(p => p.id === key) || /^custom:[a-z0-9]+:[0-9]{1,3}$/.test(key)
+        || /^level-(mixed|de|en):(?:[1-9]|1[0-9]|2[0-8])$/.test(key))) continue;
       if (!plain(v)) continue;
       p.textRecords[key] = {
         bestWpm: finite(v.bestWpm, 2000) ? v.bestWpm : null,

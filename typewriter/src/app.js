@@ -2,8 +2,10 @@ import {
   KEY_ORDER, WINDOW_SIZES, PASSAGES, currentExpected, elapsedMs, finishEarly,
   newSession, pause, passageFingerprint, passageFor, progressOf, start, summaryOf,
   typeCharacter, unlockedKeys, accuracyOf, reshuffleSequence, sequenceRecordKey,
+  deleteCharacter, levelTextValid, textRecordKey, LEVEL_PASSAGES, isLevelPassage,
 } from './core.js';
 import { loadData, saveData, serializeData, parseExport } from './storage.js';
+import { invalidTextKeys, normalizedPreset } from './training_text.js';
 
 const $ = id => document.getElementById(id);
 const dom = {
@@ -12,8 +14,9 @@ const dom = {
   sequenceMinimum: $('sequence-minimum'), sequenceRounds: $('sequence-rounds'),
   shuffleSequence: $('shuffle-sequence'), keyGoalBlock: $('key-goal-block'),
   adaptiveBlock: $('adaptive-block'), textControls: $('text-controls'), levelDown: $('level-down'), levelUp: $('level-up'),
-  levelLabel: $('level-label'), levelHint: $('level-hint'), goal: $('goal-select'),
+  levelLabel: $('level-label'), levelHint: $('level-hint'), levelKeys: $('unlocked-key-list'), goal: $('goal-select'),
   adaptive: $('adaptive-checkbox'), passage: $('passage-select'), customBlock: $('custom-block'),
+  textGenerationNote: $('text-generation-note'), customValidation: $('custom-text-validation'),
   customText: $('custom-text'), phaseDot: $('phase-dot'), phaseText: $('phase-text'),
   prompt: $('prompt-surface'), keyStage: $('key-stage'), textStage: $('text-stage'),
   targetKey: $('target-key'), targetText: $('target-text'), keyOrder: $('key-order-display'),
@@ -83,6 +86,12 @@ function abandonPrompt() {
 function updateConfiguration(patch) {
   if (!abandonPrompt()) { render(); return false; }
   finishEarly(session, profile, now());
+  // Existing saved profiles defaulted to a full passage even at level one.
+  // When entering Text Practice, prefer the new level-aware trainer.
+  if (patch.mode === 'text' && session.mode !== 'text'
+      && PASSAGES.some(item => item.id === session.passageId)) {
+    patch = { ...patch, passageId: 'level-mixed' };
+  }
   session = newSession({ ...session, ...patch });
   if (session.mode === 'sequence' && !session.sequence) reshuffleSequence(session);
   lastFeedback = '';
@@ -97,11 +106,15 @@ function beginPractice() {
     pausePractice();
     return;
   }
-  if (session.mode === 'text' && !passageFor(session).trim()) {
-    notice = 'Enter some practice text before starting.';
+  if (session.mode === 'text' && !session.legacyResume
+      && !levelTextValid(session, session.target || passageFor(session))) {
+    const invalid = invalidTextKeys(session.target || passageFor(session), unlockedKeys(session));
+    notice = invalid.length
+      ? 'Unavailable at this level. Unlock these letters first: ' + invalid.join(', ') + '.'
+      : 'Enter a passage using the unlocked letters before starting.';
     noticeKind = 'error';
     render();
-    dom.customText.focus();
+    (session.passageId === 'custom' ? dom.customText : dom.passage).focus();
     return;
   }
   if (start(session, profile, now())) {
@@ -114,6 +127,7 @@ function beginPractice() {
 }
 function pausePractice(message = '') {
   if (!pause(session, now())) return;
+  lastFeedback = '';
   notice = message;
   noticeKind = '';
   persist();
@@ -164,6 +178,17 @@ function handleCharacter(char) {
   persist();
   render();
 }
+function handleDelete() {
+  const result = deleteCharacter(session, now());
+  if (result.kind === 'ignored') return;
+  lastFeedback = '';
+  noticeKind = '';
+  notice = result.kind === 'moved-back'
+    ? 'Moved back one character. Continue typing from the highlighted cursor.'
+    : result.kind === 'cleared' ? 'Mistake highlight cleared. Try the key again.' : '';
+  persist();
+  render();
+}
 function isEditing(target) {
   if (!(target instanceof Element)) return false;
   return Boolean(target.closest('textarea, select, input:not(#type-capture), [contenteditable="true"]'));
@@ -176,6 +201,13 @@ document.addEventListener('keydown', e => {
   }
   if (e.key === 'Escape') {
     if (session.phase === 'running') { e.preventDefault(); pausePractice(); }
+    return;
+  }
+  if (e.key === 'Backspace' || e.key === 'Delete') {
+    if (session.phase === 'running' || session.phase === 'paused') {
+      e.preventDefault();
+      handleDelete();
+    }
     return;
   }
   if (session.mode !== 'text' && session.phase !== 'running' && (e.key === '+' || e.key === '-')) {
@@ -201,7 +233,20 @@ document.addEventListener('keydown', e => {
   e.preventDefault();
   handleCharacter(key);
 });
+// Virtual keyboards may emit an input deletion with no physical keydown.
+// Preventing beforeinput avoids double-handling on keyboards that emit both.
+dom.capture.addEventListener('beforeinput', e => {
+  if (e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward') {
+    e.preventDefault();
+    handleDelete();
+  }
+});
 dom.capture.addEventListener('input', e => {
+  if (e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward') {
+    dom.capture.value = '';
+    handleDelete();
+    return;
+  }
   // Some mobile keyboards emit input events without physical keydown events.
   if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') {
     dom.capture.value = '';
@@ -253,8 +298,13 @@ dom.customText.addEventListener('input', () => {
   updateConfiguration({ customText: dom.customText.value });
 });
 
+for (const passage of LEVEL_PASSAGES) {
+  const option = element('option', '', passage.name);
+  option.value = passage.id;
+  dom.passage.append(option);
+}
 for (const passage of PASSAGES) {
-  const option = element('option', '', passage.name + ' · ' + passage.language);
+  const option = element('option', '', passage.name + ' · ' + passage.language + ' (full alphabet)');
   option.value = passage.id;
   dom.passage.append(option);
 }
@@ -327,7 +377,11 @@ function renderStage() {
   const isSequence = session.mode === 'sequence';
   dom.keyStage.hidden = !isKeys;
   dom.textStage.hidden = isKeys;
-  dom.textStageLabel.textContent = isSequence ? 'TYPE THIS SAME SEQUENCE EACH ROUND' : 'TYPE THE PASSAGE BELOW';
+  dom.textStageLabel.textContent = isSequence ? 'TYPE THIS SAME SEQUENCE EACH ROUND'
+    : session.textKind === 'key-groups' ? 'PRACTICE THESE UNLOCKED KEY GROUPS'
+    : session.textKind === 'words' ? 'PRACTICE REAL WORDS WITH YOUR UNLOCKED KEYS'
+    : session.textKind === 'sentences' ? 'TYPE SHORT PHRASES USING YOUR UNLOCKED KEYS'
+    : 'TYPE THE PASSAGE BELOW';
   dom.prompt.classList.toggle('wrong', lastFeedback === 'incorrect' && session.phase === 'running');
   if (isKeys) {
     const keys = unlockedKeys(session);
@@ -344,11 +398,20 @@ function renderStage() {
       fragment.append(element('span', cls, char));
     });
     dom.targetText.replaceChildren(fragment);
+    const cursor = dom.targetText.querySelector('.current');
+    if (cursor) {
+      const parent = dom.targetText.getBoundingClientRect();
+      const marker = cursor.getBoundingClientRect();
+      if (marker.bottom > parent.bottom - 7) dom.targetText.scrollTop += marker.bottom - parent.bottom + 18;
+      else if (marker.top < parent.top + 7) dom.targetText.scrollTop -= parent.top - marker.top + 18;
+    }
   }
   if (session.phase === 'idle') {
     dom.stageHint.textContent = session.mode === 'keys' ? 'Press Space to begin, or select Start practice.'
       : isSequence ? 'Press Start. Repeat this exact order each round; only Shuffle changes it.'
-      : 'Press Start practice, then type the passage exactly as shown.';
+      : session.textKind === 'key-groups'
+        ? 'Few real words are possible yet. Practice these letter groups, then unlock more letters.'
+        : 'Type only the unlocked letters. Backspace or Delete moves the cursor backward.';
   } else if (session.phase === 'paused') {
     dom.stageHint.textContent = 'Paused. Your timer is stopped. Select Resume to continue.';
   } else if (session.phase === 'complete') {
@@ -360,7 +423,7 @@ function renderStage() {
     dom.stageHint.textContent = session.mode === 'keys'
       ? 'Type the highlighted key. Space pauses the exercise.'
       : isSequence ? 'Complete the sequence as fast as you can. It will repeat without reshuffling.'
-      : 'Type every character, including spaces and punctuation. Esc pauses.';
+      : 'Type the text including spaces. Backspace or Delete moves backward; Escape pauses.';
   }
 }
 function renderSequenceScore() {
@@ -462,11 +525,13 @@ function renderRecords() {
     dom.recordsNote.textContent = 'Each round repeats the identical shuffled sequence. A faster full round sets a new record, even after starting a new session.';
   } else {
     dom.recordsTitle.textContent = 'Passage records';
-    const id = session.passageId === 'custom' ? 'custom:' + passageFingerprint(passageFor(session)) : session.passageId;
+    const id = textRecordKey(session);
     const best = profile.textRecords[id] || {};
     addRecordCell('BEST PACE', best.bestWpm === undefined || best.bestWpm === null ? '—' : formatInt(best.bestWpm) + ' WPM', 'For this passage');
     addRecordCell('BEST ACCURACY', best.bestAccuracy === undefined || best.bestAccuracy === null ? '—' : percent(best.bestAccuracy), 'For this passage');
-    dom.recordsNote.textContent = 'Passages are scored separately. Your custom passage is compared only against the same text.';
+    dom.recordsNote.textContent = isLevelPassage(session.passageId)
+      ? 'Your best results are saved for this level and language setting, across different generated exercises.'
+      : 'Preset passages are scored separately. Custom text records depend on the exact text.';
   }
 }
 function renderInsights() {
@@ -523,9 +588,9 @@ function renderFeedback() {
     dom.feedback.textContent = 'Your progress is saved automatically. You can export a backup above.';
     dom.feedback.classList.add('success');
   } else {
-    dom.feedback.textContent = session.mode === 'keys' ? 'Shortcuts: + / − changes level between rounds.'
-      : session.mode === 'sequence' ? 'Shortcuts: + / − changes level between sessions. Mistakes count; keep typing the highlighted key.'
-      : 'Text must match exactly. Paste is disabled during practice.';
+    dom.feedback.textContent = session.mode === 'keys' ? 'Shortcuts: + / − changes level between rounds; Delete clears an error.'
+      : session.mode === 'sequence' ? 'Shortcuts: + / − changes level between sessions. Delete moves backward; mistakes still count.'
+      : 'Backspace or Delete moves the text cursor backward. Incorrect attempts still count toward accuracy.';
   }
 }
 function render() {
@@ -538,7 +603,7 @@ function render() {
   dom.modeKeys.setAttribute('aria-selected', String(keys));
   dom.modeSequence.setAttribute('aria-selected', String(sequence));
   dom.modeText.setAttribute('aria-selected', String(text));
-  dom.keysControls.hidden = text;
+  dom.keysControls.hidden = !keys;
   dom.keyGoalBlock.hidden = !keys;
   dom.adaptiveBlock.hidden = !keys;
   dom.sequenceOptions.hidden = !sequence;
@@ -549,21 +614,38 @@ function render() {
   dom.sequenceRounds.value = String(session.sequenceRounds);
   dom.levelLabel.textContent = String(session.level).padStart(2, '0');
   dom.levelHint.textContent = unlockedKeys(session).length + ' keys';
+  dom.levelKeys.replaceChildren(...unlockedKeys(session).map(key => element('span', 'key-sample', key.toUpperCase())));
   dom.levelDown.disabled = session.level <= 1;
   dom.levelUp.disabled = session.level >= KEY_ORDER.length - 1;
   dom.goal.value = String(session.goal);
   dom.adaptive.checked = session.adaptive;
   dom.passage.value = session.passageId;
   dom.customBlock.hidden = !text || session.passageId !== 'custom';
+  const unlocked = unlockedKeys(session);
+  const illegal = invalidTextKeys(session.target || passageFor(session), unlocked);
+  dom.textGenerationNote.textContent = session.textKind === 'key-groups'
+    ? 'At this level there are not enough real words; letter groups use only unlocked keys.'
+    : session.textKind === 'words' ? 'Real German or English words using only unlocked keys.'
+    : isLevelPassage(session.passageId)
+      ? 'Generated ' + (session.textLanguage === 'de' ? 'German' : session.textLanguage === 'en' ? 'English' : 'level-based')
+        + ' practice using only unlocked letters.'
+      : 'Full passages and your custom text are available only when their letters are unlocked.';
+  dom.customValidation.textContent = illegal.length
+    ? 'Not unlocked yet: ' + illegal.join(', ') + '. Change the level or edit the text.'
+    : session.customText.trim() ? 'All entered letters are available at this level.'
+    : 'Enter text using only the unlocked letters and spaces.';
+  dom.customValidation.classList.toggle('invalid', illegal.length > 0);
   if (dom.customText.value !== session.customText) dom.customText.value = session.customText;
-  dom.capture.setAttribute('autocapitalize', text ? 'sentences' : 'off');
+  dom.capture.setAttribute('autocapitalize', 'off');
   const phase = { idle: 'READY', running: 'ACTIVE', paused: 'PAUSED', complete: 'COMPLETED' }[session.phase];
   dom.phaseText.textContent = phase;
   dom.phaseDot.className = 'phase-dot' + (session.phase === 'running' ? ' running' : session.phase === 'complete' ? ' complete' : '');
   dom.primaryLabel.textContent = { idle: 'Start practice', running: 'Pause', paused: 'Resume practice', complete: 'Practice again' }[session.phase];
   dom.primaryIcon.textContent = session.phase === 'running' ? 'Ⅱ' : session.phase === 'complete' ? '↻' : '▶';
-  dom.primary.disabled = text && !passageFor(session).trim() && session.phase === 'idle';
-  dom.keyboardTip.textContent = text ? 'Space = type a space · Esc = pause' : 'Space = start / pause · Esc = pause';
+  dom.primary.disabled = text && !session.legacyResume
+    && !levelTextValid(session, session.target || passageFor(session)) && session.phase === 'idle';
+  dom.keyboardTip.textContent = text ? 'Backspace / Delete = move back · Esc = pause'
+    : 'Space = start / pause · Backspace / Delete = clear or move back';
   const progress = progressOf(session);
   const ratio = progress.total ? Math.min(100, progress.done / progress.total * 100) : 0;
   dom.progressCount.textContent = formatInt(progress.done) + ' / ' + formatInt(progress.total);

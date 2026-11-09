@@ -119,7 +119,7 @@ test('high-score windows never treat mistakes as correct hits', () => {
 });
 
 test('text practice is case-sensitive, permits spaces, and finishes on the last character', () => {
-  const s = newSession({ mode: 'text', passageId: 'custom', customText: 'Ä a' });
+  const s = newSession({ mode: 'text', level: 10, passageId: 'custom', customText: 'Ä a' });
   const p = newProfile();
   assert.equal(start(s, p, 0), true);
   assert.equal(typeCharacter(s, p, 'ä', 100).kind, 'incorrect');

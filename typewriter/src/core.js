@@ -1,5 +1,11 @@
 // Pure practice engine. No DOM, storage, or system-clock dependencies.
-export const KEY_ORDER = Array.from('fjdkslaöghärueiwoqptzüvmcxybn');
+import {
+  LEVEL_PASSAGES, TRAINING_KEY_ORDER, generateLevelExercise, normalizedPreset, allowedText,
+} from './training_text.js';
+
+export { LEVEL_PASSAGES } from './training_text.js';
+export const isLevelPassage = id => LEVEL_PASSAGES.some(item => item.id === id);
+export const KEY_ORDER = TRAINING_KEY_ORDER;
 export const WINDOW_SIZES = Object.freeze([10, 20, 50, 100, 200, 500, 1000]);
 export const GOALS = Object.freeze([10, 20, 50, 100, 200, 500, 1000]);
 export const SEQUENCE_ROUNDS = Object.freeze([3, 5, 10, 20, 30]);
@@ -32,15 +38,26 @@ export function normalizeConfig(source = {}) {
     sequenceLength,
     sequenceRounds,
     adaptive: source.adaptive !== false,
-    passageId: PASSAGES.some(p => p.id === source.passageId) || source.passageId === 'custom'
-      ? source.passageId : PASSAGES[0].id,
+    passageId: PASSAGES.some(p => p.id === source.passageId) || isLevelPassage(source.passageId) || source.passageId === 'custom'
+      ? source.passageId : 'level-mixed',
     customText,
   };
 }
 
 export function passageFor(config) {
   if (config.passageId === 'custom') return config.customText;
-  return PASSAGES.find(p => p.id === config.passageId)?.text ?? PASSAGES[0].text;
+  if (isLevelPassage(config.passageId)) return config.target || generateLevelExercise(config).text;
+  return normalizedPreset(PASSAGES.find(p => p.id === config.passageId)?.text || PASSAGES[0].text);
+}
+
+export function levelTextValid(config, text) {
+  return Boolean(text && text.trim()) && allowedText(text, unlockedKeys(config));
+}
+
+export function textRecordKey(state) {
+  if (state.passageId === 'custom') return 'custom:' + passageFingerprint(state.target);
+  if (isLevelPassage(state.passageId)) return state.passageId + ':' + state.level;
+  return state.passageId;
 }
 
 export function newProfile() {
@@ -93,10 +110,16 @@ export function sequenceRecordKey(state) {
 export function newSession(config = {}) {
   const normalized = normalizeConfig(config);
   const preservedSequence = validSequence(normalized, config.sequence) ? config.sequence : '';
+  const exercise = normalized.mode === 'text' && isLevelPassage(normalized.passageId)
+    ? generateLevelExercise(normalized) : null;
+  const textTarget = normalized.mode === 'text' ? (exercise?.text || passageFor(normalized)) : '';
   return {
     ...normalized,
     phase: 'idle',
-    target: normalized.mode === 'sequence' ? preservedSequence : '',
+    target: normalized.mode === 'sequence' ? preservedSequence : textTarget,
+    textKind: exercise?.kind || (normalized.passageId === 'custom' ? 'custom' : 'preset'),
+    textLanguage: exercise?.language || null,
+    legacyResume: false,
     sequence: preservedSequence,
     rounds: [],
     roundErrors: 0,
@@ -174,8 +197,9 @@ export function start(state, profile, now, rng = Math.random) {
   if (state.phase === 'idle') {
     if (state.mode === 'sequence' && !validSequence(state, state.sequence)) reshuffleSequence(state, rng);
     state.target = state.mode === 'keys' ? weightedKeyChoice(state, profile, rng)
-      : state.mode === 'sequence' ? state.sequence : passageFor(state);
-    if (!state.target || !state.target.trim()) return false;
+      : state.mode === 'sequence' ? state.sequence : (state.target || passageFor(state));
+    if (!state.target || !state.target.trim()
+        || (state.mode === 'text' && !state.legacyResume && !levelTextValid(state, state.target))) return false;
     state.startedAt = new Date().toISOString();
   }
   state.phase = 'running';
@@ -325,6 +349,30 @@ export function finishEarly(state, profile, now) {
   if (state.phase !== 'complete') addHistory(profile, state, now, 'interrupted');
 }
 
+// Both physical Delete and Backspace mean "go back" in the practice interface.
+// Errors remain counted in accuracy; clearing red must not silently erase them.
+export function deleteCharacter(state, now) {
+  if (state.phase !== 'running' && state.phase !== 'paused') return { kind: 'ignored' };
+  const wasWrong = state.feedback === 'incorrect';
+  state.feedback = '';
+  state.latestRecords = [];
+  if (state.mode !== 'keys' && state.typed) {
+    const letters = Array.from(state.typed);
+    const deleted = letters.pop();
+    state.typed = letters.join('');
+    const undoneTrial = state.trials.pop();
+    if (undoneTrial) {
+      state.correct = Math.max(0, state.correct - 1);
+      // Preserve every mistake and its attribution when the key is typed again.
+      state.pendingErrors += undoneTrial.errors;
+    }
+    state.promptMs = 0;
+    state.promptStart = state.phase === 'running' ? now : null;
+    return { kind: 'moved-back', deleted, clearedWrong: wasWrong };
+  }
+  return { kind: wasWrong ? 'cleared' : 'nothing' };
+}
+
 export function typeCharacter(state, profile, input, now, rng = Math.random) {
   if (state.phase !== 'running') return { kind: 'ignored' };
   if (typeof input !== 'string' || !input) return { kind: 'ignored' };
@@ -366,7 +414,7 @@ export function typeCharacter(state, profile, input, now, rng = Math.random) {
     state.finishedAt = new Date().toISOString();
     const summary = summaryOf(state, now);
     if (state.mode === 'text') {
-      const id = state.passageId === 'custom' ? 'custom:' + passageFingerprint(state.target) : state.passageId;
+      const id = textRecordKey(state);
       const old = profile.textRecords[id] || {};
       profile.textRecords[id] = {
         bestWpm: summary.wpm !== null && (old.bestWpm === undefined || summary.wpm > old.bestWpm) ? summary.wpm : old.bestWpm ?? null,
@@ -464,11 +512,25 @@ export function restoreSession(data) {
       return newSession(state);
     }
   } else {
-    state.target = passageFor(state);
+    const stored = typeof data.target === 'string' && data.target.length <= 800
+      ? data.target.normalize('NFC') : '';
     const typed = typeof data.typed === 'string' ? data.typed.normalize('NFC') : '';
+    const preset = PASSAGES.find(p => p.id === state.passageId);
+    const originalPreset = preset?.text || '';
+    const matchesSource = isLevelPassage(state.passageId) ? levelTextValid(state, stored)
+      : stored === passageFor(state) || (stored === originalPreset && Boolean(originalPreset));
+    // Resuming pre-upgrade text (uppercase/punctuation) must not lose progress.
+    // New sessions and fresh passages remain strictly limited to unlocked keys.
+    state.target = stored && matchesSource && stored.startsWith(typed) ? stored : passageFor(state);
+    state.legacyResume = !levelTextValid(state, state.target)
+      && state.target === stored && ['running', 'paused', 'complete'].includes(data.phase);
+    state.textKind = typeof data.textKind === 'string' && ['sentences', 'words', 'key-groups', 'preset', 'custom'].includes(data.textKind)
+      ? data.textKind : state.textKind;
+    state.textLanguage = ['de', 'en'].includes(data.textLanguage) ? data.textLanguage : state.textLanguage;
     state.typed = state.target.startsWith(typed) ? typed : '';
     state.correct = Array.from(state.typed).length;
     state.trials = state.trials.slice(0, state.correct);
+    state.errors = state.trials.reduce((n, t) => n + t.errors, state.pendingErrors);
   }
   if (data.phase === 'complete' && progressOf(state).done >= progressOf(state).total) {
     state.phase = 'complete';

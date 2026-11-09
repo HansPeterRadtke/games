@@ -22,7 +22,7 @@ const press=key=>document.dispatchEvent(new KeyboardEvent('keydown',{key,bubbles
 try {
  await new Promise(r=>setTimeout(r,300));
  check('ready', $('phase-text').textContent==='READY');
- check('passages', $('passage-select').options.length===5);
+ check('passages', $('passage-select').options.length===8);
  $('primary-button').click();
  check('start', $('phase-text').textContent==='ACTIVE');
  const k=$('target-key').textContent.toLowerCase();
@@ -40,10 +40,10 @@ try {
  $('mode-text').click();
  check('mode switch', $('mode-text').getAttribute('aria-selected')==='true');
  $('passage-select').value='custom'; $('passage-select').dispatchEvent(new Event('change',{bubbles:true}));
- $('custom-text').value='a b'; $('custom-text').dispatchEvent(new Event('input',{bubbles:true}));
- check('custom passage', $('custom-text').value==='a b');
+ $('custom-text').value='f j'; $('custom-text').dispatchEvent(new Event('input',{bubbles:true}));
+ check('custom passage', $('custom-text').value==='f j');
  $('primary-button').click();
- for(const c of 'a b') press(c);
+ for(const c of 'f j') press(c);
  check('complete', $('phase-text').textContent==='COMPLETED');
  check('progress', $('progress-count').textContent==='3 / 3');
  check('accuracy', $('stat-accuracy').textContent==='100%');

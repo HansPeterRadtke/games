@@ -41,7 +41,7 @@
             <div class="phase"><span class="phase-dot" id="phase-dot"></span><span id="phase-text">READY</span></div>
           </div>
 
-          <div class="setting-row" id="keys-controls">
+          <div class="setting-row global-level" id="level-controls">
             <div class="setting-block level-block">
               <span class="setting-label">LEVEL</span>
               <div class="stepper">
@@ -50,6 +50,11 @@
                 <button type="button" id="level-up" aria-label="Next level">+</button>
               </div>
             </div>
+            <div class="level-key-summary"><span class="setting-label">UNLOCKED LETTERS · USED IN EVERY MODE</span>
+              <div id="unlocked-key-list" class="unlocked-key-list" aria-live="polite">F · J</div>
+            </div>
+          </div>
+          <div class="setting-row" id="keys-controls">
             <label class="setting-block goal-block" id="key-goal-block" for="goal-select">
               <span class="setting-label">SESSION LENGTH</span>
               <select id="goal-select" aria-label="Keystrokes per session">
@@ -89,12 +94,14 @@
           </div>
           <div class="setting-row text-setting-row" id="text-controls" hidden>
             <label class="setting-block passage-block" for="passage-select">
-              <span class="setting-label">PRACTICE PASSAGE</span>
+              <span class="setting-label">PRACTICE TEXT</span>
               <select id="passage-select"></select>
+              <small id="text-generation-note" class="setting-help">Only unlocked keys are used.</small>
             </label>
             <label class="setting-block custom-block" id="custom-block" for="custom-text" hidden>
               <span class="setting-label">YOUR TEXT <small>(MAX. 800 CHARACTERS)</small></span>
-              <textarea id="custom-text" rows="3" maxlength="800" spellcheck="false" placeholder="Write or paste a passage to practice..."></textarea>
+              <textarea id="custom-text" rows="3" maxlength="800" spellcheck="false" placeholder="Enter text using the unlocked letters and spaces..."></textarea>
+              <small class="setting-help" id="custom-text-validation" role="status">Custom text must use unlocked keys only.</small>
             </label>
           </div>
 
@@ -135,7 +142,7 @@
           <div class="action-row">
             <button type="button" class="primary-button" id="primary-button"><span class="button-icon" id="primary-icon" aria-hidden="true">▶</span><span id="primary-label">Start practice</span></button>
             <button type="button" class="secondary-button" id="new-session">New session</button>
-            <span class="keyboard-tip" id="keyboard-tip"><kbd>Space</kbd> start / pause · <kbd>Esc</kbd> pause</span>
+            <span class="keyboard-tip" id="keyboard-tip"><kbd>Space</kbd> start / pause · <kbd>Esc</kbd> pause · <kbd>Backspace</kbd> clear</span>
           </div>
           <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
         </section>

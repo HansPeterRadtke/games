@@ -37,3 +37,15 @@ A session defaults to ten rounds; three, five, ten, twenty and thirty are availa
 **New personal best** highlights appear directly beneath the practice sequence when a complete round beats the saved best for that exact ordered sequence and level. The first completed round establishes the baseline, while subsequent record announcements show the improvement. The record survives new sessions, pauses, reloads and version-one JSON export/import. Other shuffled arrangements have separate records because their difficulty can differ. Up to three hundred recently practiced sequence records are retained to bound local storage.
 
 Run `python3 tests/browser_sequence.py` for the sequence mode Chromium interaction checks, covering the visible first-record and improved-record announcements, repeat rounds, history, reshuffle, and preservation of the existing modes.
+
+## Shared typing level and level-aware text exercises
+
+Level and the currently unlocked letters are shown above all three modes. Changing the level affects key training, sequence training and text training; any partially completed session is protected by the existing confirmation before replacement.
+
+Text practice defaults to a generated exercise containing only lowercase unlocked letters and spaces, with German, English and mixed-language choices. The offline corpus contains curated short phrases and words. Each generated candidate is checked against the level's alphabet. The generator uses real German or English phrases as soon as possible and labels its fallback as key groups where no real words are available, especially at the first five levels. No punctuation or extra letters are introduced, because they are not in the original levels. A new session offers a new exercise; the current exercise is stored exactly for restart, paused resume and backup. Custom passages are still available but cannot start unless all their characters are unlocked. The former full-length German and English samples remain selectable at a sufficiently high level, without punctuation. Incomplete older saved passages can still be resumed.
+
+Generated text records are stored separately by selected level and language, while personal high scores from the two original modes and earlier text versions are preserved.
+
+Backspace and Delete clear the red incorrect-key highlight in all modes. In the sequence and text modes they also remove the most recently accepted character within the current active exercise, visibly moving the cursor backward. Incorrect attempts and elapsed time remain counted; deleting a character does not erase history or improve accuracy artificially. A sequence cannot backspace into a previously finished round. Physical and touch-keyboard deletion events are supported.
+
+Verification commands are `npm test`, `python3 tests/browser_headless.py`, `python3 tests/browser_sequence.py`, and `python3 tests/browser_level_text.py`. The tests cover unlocked alphabets at every level, old progress compatibility, red highlight clearing, cursor retreat, touch-keyboard deletion, sentence generation, and both original modes.

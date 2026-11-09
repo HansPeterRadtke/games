@@ -246,3 +246,23 @@ footer span:first-child { letter-spacing: 1.4px; font-weight: 700; }
  .achievement-time { font-size: 19px; }
  .mode-tab { padding: 10px 9px; font-size: 11px; }
 }
+/* Global typing level, shared across all three practice modes. */
+.global-level { align-items: end; padding-top: 20px; padding-bottom: 19px; gap: 20px; }
+.level-key-summary { display: flex; flex: 1; flex-direction: column; gap: 12px; min-width: 135px; padding-bottom: 4px; }
+.unlocked-key-list { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; color: #b9ede2; font-size: 13px; font-weight: 680; letter-spacing: .6px; line-height: 1.6; word-break: break-word; }
+.unlocked-key-list .key-sample { display: inline-block; background: #213a36; border: 1px solid #37574e; border-radius: 5px; padding: 3px 6px; min-width: 24px; text-align: center; }
+#keys-controls { padding-top: 14px; border-top: 1px solid var(--line); }
+#sequence-options { padding-top: 14px; border-top: 1px solid var(--line); }
+#text-controls { padding-top: 14px; border-top: 1px solid var(--line); }
+.text-setting-row .setting-help { color: var(--subtle); font-size: 11px; line-height: 1.6; }
+.text-setting-row .setting-help.invalid { color: var(--red); }
+.custom-block textarea:focus-visible { border-color: var(--mint); }
+.prompt-surface.wrong .target-text .current { background: var(--red); color: #2d1717; box-shadow: 0 0 0 2px var(--red); }
+/* In long prompts, the current character stays in view when moving backward. */
+.target-text { overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .global-level { gap: 12px; padding: 15px 16px; }
+  .level-key-summary { min-width: 100%; }
+  .unlocked-key-list { font-size: 12px; gap: 4px; }
+  .unlocked-key-list .key-sample { padding: 2px 5px; min-width: 23px; }
+}
