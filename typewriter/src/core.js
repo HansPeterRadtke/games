@@ -1,0 +1,330 @@
+// Pure practice engine. No DOM, storage, or system-clock dependencies.
+export const KEY_ORDER = Array.from('fjdkslaöghärueiwoqptzüvmcxybn');
+export const WINDOW_SIZES = Object.freeze([10, 20, 50, 100, 200, 500, 1000]);
+export const GOALS = Object.freeze([10, 20, 50, 100, 200, 500, 1000]);
+export const PASSAGES = Object.freeze([
+  { id: 'de-everyday', name: 'Everyday German', language: 'DE', text: 'Flinke Finger finden jede Taste. Wer ruhig und genau tippt, wird mit jeder Runde schneller.' },
+  { id: 'de-bodensee', name: 'At the Bodensee', language: 'DE', text: 'Heute liegt ein leichter Wind über dem Bodensee. Die Wolken ziehen langsam weiter, und das Wasser glitzert.' },
+  { id: 'en-rhythm', name: 'Steady rhythm', language: 'EN', text: 'A clear mind and a steady rhythm turn practice into progress. Accuracy comes first, then speed.' },
+  { id: 'en-fox', name: 'The quick brown fox', language: 'EN', text: 'The quick brown fox jumps over the lazy dog. Five quiet minutes of practice can make a difference.' },
+]);
+
+const cap = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+const positive = n => Number.isFinite(n) && n >= 0;
+const rounded = n => Math.round(n * 10) / 10;
+const copy = obj => JSON.parse(JSON.stringify(obj));
+
+export function normalizeConfig(source = {}) {
+  const level = Number.isInteger(source.level) ? source.level : 1;
+  const goal = GOALS.includes(source.goal) ? source.goal : 50;
+  const customText = typeof source.customText === 'string'
+    ? Array.from(source.customText.normalize('NFC').replace(/\r\n?/g, '\n')).slice(0, 800).join('')
+    : '';
+  return {
+    mode: source.mode === 'text' ? 'text' : 'keys',
+    level: cap(level, 1, KEY_ORDER.length - 1),
+    goal,
+    adaptive: source.adaptive !== false,
+    passageId: PASSAGES.some(p => p.id === source.passageId) || source.passageId === 'custom'
+      ? source.passageId : PASSAGES[0].id,
+    customText,
+  };
+}
+
+export function passageFor(config) {
+  if (config.passageId === 'custom') return config.customText;
+  return PASSAGES.find(p => p.id === config.passageId)?.text ?? PASSAGES[0].text;
+}
+
+export function newProfile() {
+  return { keyStats: {}, records: {}, textRecords: {}, history: [] };
+}
+
+export function newSession(config = {}) {
+  return {
+    ...normalizeConfig(config),
+    phase: 'idle',
+    target: '',
+    typed: '',
+    lastTwo: [],
+    trials: [],
+    correct: 0,
+    errors: 0,
+    pendingErrors: 0,
+    activeMs: 0,
+    segmentStart: null,
+    promptMs: 0,
+    promptStart: null,
+    feedback: '',
+    startedAt: null,
+    finishedAt: null,
+    latestRecords: [],
+  };
+}
+
+export function unlockedKeys(state) {
+  return KEY_ORDER.slice(0, state.level + 1);
+}
+
+export function weightedKeyChoice(state, profile, rng = Math.random) {
+  const keys = unlockedKeys(state);
+  const previous = state.lastTwo;
+  const eligible = previous.length === 2 && previous[0] === previous[1] && keys.length > 1
+    ? keys.filter(k => k !== previous[1]) : keys;
+  const speeds = keys.map(k => profile.keyStats?.[k]?.emaMs)
+    .filter(n => Number.isFinite(n) && n > 0);
+  const baseline = speeds.length ? speeds.reduce((a, b) => a + b, 0) / speeds.length : 750;
+  const weights = eligible.map(k => {
+    if (!state.adaptive) return 1;
+    const s = profile.keyStats?.[k];
+    if (!s || !positive(s.emaMs) || s.count === 0) return 1.35;
+    const speedWeight = cap(s.emaMs / baseline, 0.45, 2.5);
+    const mistakesWeight = cap((s.errors || 0) / Math.max(1, s.count + (s.errors || 0)), 0, 1) * 1.75;
+    return speedWeight + mistakesWeight;
+  });
+  const total = weights.reduce((a, b) => a + b, 0);
+  let pick = cap(Number(rng()) || 0, 0, 0.999999999) * total;
+  for (let i = 0; i < eligible.length; i++) {
+    pick -= weights[i];
+    if (pick < 0) return eligible[i];
+  }
+  return eligible[eligible.length - 1];
+}
+
+export function elapsedMs(state, now) {
+  return state.activeMs + (state.phase === 'running' && state.segmentStart !== null
+    ? Math.max(0, now - state.segmentStart) : 0);
+}
+
+export function currentPromptMs(state, now) {
+  return state.promptMs + (state.phase === 'running' && state.promptStart !== null
+    ? Math.max(0, now - state.promptStart) : 0);
+}
+
+export function progressOf(state) {
+  if (state.mode === 'keys') return { done: state.correct, total: state.goal };
+  return { done: Array.from(state.typed).length, total: Array.from(state.target || passageFor(state)).length };
+}
+
+export function currentExpected(state) {
+  if (state.mode === 'keys') return state.target;
+  return Array.from(state.target)[Array.from(state.typed).length] || '';
+}
+
+export function start(state, profile, now, rng = Math.random) {
+  if (state.phase === 'running' || state.phase === 'complete') return false;
+  if (state.phase === 'idle') {
+    state.target = state.mode === 'keys' ? weightedKeyChoice(state, profile, rng) : passageFor(state);
+    if (!state.target || !state.target.trim()) return false;
+    state.startedAt = new Date().toISOString();
+  }
+  state.phase = 'running';
+  state.segmentStart = now;
+  state.promptStart = now;
+  state.feedback = '';
+  return true;
+}
+
+export function pause(state, now) {
+  if (state.phase !== 'running') return false;
+  state.activeMs = elapsedMs(state, now);
+  state.promptMs = currentPromptMs(state, now);
+  state.segmentStart = null;
+  state.promptStart = null;
+  state.phase = 'paused';
+  state.feedback = '';
+  return true;
+}
+
+export function accuracyOf(correct, errors) {
+  const attempts = correct + errors;
+  return attempts ? 100 * correct / attempts : null;
+}
+
+export function median(numbers) {
+  if (!numbers.length) return null;
+  const sorted = [...numbers].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+
+export function summaryOf(state, now) {
+  const durationMs = elapsedMs(state, now);
+  const times = state.trials.map(t => t.ms);
+  return {
+    mode: state.mode,
+    level: state.level,
+    passageId: state.passageId,
+    goal: state.mode === 'keys' ? state.goal : Array.from(state.target).length,
+    correct: state.correct,
+    errors: state.errors,
+    accuracy: accuracyOf(state.correct, state.errors),
+    durationMs: rounded(durationMs),
+    avgMs: times.length ? rounded(times.reduce((a, b) => a + b, 0) / times.length) : null,
+    bestMs: times.length ? Math.min(...times) : null,
+    wpm: durationMs >= 100 ? rounded((state.correct / 5) / (durationMs / 60000)) : null,
+  };
+}
+
+export function updateRecords(state, profile) {
+  const added = [];
+  if (state.mode !== 'keys') return added;
+  const level = String(state.level);
+  if (!profile.records[level]) profile.records[level] = {};
+  for (const windowSize of WINDOW_SIZES) {
+    if (state.trials.length < windowSize) continue;
+    const trials = state.trials.slice(-windowSize);
+    const times = trials.map(t => t.ms);
+    const mistakes = trials.reduce((a, t) => a + t.errors, 0);
+    const avg = times.reduce((a, b) => a + b, 0) / times.length;
+    const values = {
+      fastestMs: Math.min(...times),
+      slowestMs: Math.max(...times),
+      avgMs: rounded(avg),
+      medianMs: rounded(median(times)),
+      accuracy: rounded(accuracyOf(windowSize, mistakes)),
+    };
+    const record = profile.records[level][String(windowSize)] ?? {};
+    for (const [metric, value] of Object.entries(values)) {
+      const best = record[metric];
+      const maximize = metric === 'accuracy';
+      if (!best || (maximize ? value > best.value : value < best.value)) {
+        record[metric] = { value, at: new Date().toISOString() };
+        added.push({ windowSize, metric, value });
+      }
+    }
+    profile.records[level][String(windowSize)] = record;
+  }
+  state.latestRecords = added;
+  return added;
+}
+
+function addKeyObservation(profile, key, ms, errors) {
+  const old = profile.keyStats[key] || { count: 0, errors: 0, emaMs: 0, bestMs: null };
+  const next = {
+    count: old.count + 1,
+    errors: old.errors + errors,
+    emaMs: rounded(old.count ? old.emaMs * 0.8 + ms * 0.2 : ms),
+    bestMs: old.bestMs === null ? ms : Math.min(old.bestMs, ms),
+  };
+  profile.keyStats[key] = next;
+}
+
+function addHistory(profile, state, now, status) {
+  if (!state.correct && !state.errors) return;
+  profile.history.unshift({ ...summaryOf(state, now), status, at: new Date().toISOString() });
+  profile.history = profile.history.slice(0, 50);
+}
+
+export function finishEarly(state, profile, now) {
+  if (state.phase === 'running') pause(state, now);
+  if (state.phase !== 'complete') addHistory(profile, state, now, 'interrupted');
+}
+
+export function typeCharacter(state, profile, input, now, rng = Math.random) {
+  if (state.phase !== 'running') return { kind: 'ignored' };
+  if (typeof input !== 'string' || !input) return { kind: 'ignored' };
+  const expected = currentExpected(state);
+  const char = (state.mode === 'keys' ? input.normalize('NFC').toLowerCase() : input.normalize('NFC'));
+  if (Array.from(char).length !== 1 || !expected) return { kind: 'ignored' };
+  if (char !== expected) {
+    state.errors++;
+    state.pendingErrors++;
+    state.feedback = 'incorrect';
+    state.latestRecords = [];
+    return { kind: 'incorrect', expected };
+  }
+  const responseMs = rounded(currentPromptMs(state, now));
+  state.trials.push({ key: expected, ms: responseMs, errors: state.pendingErrors });
+  state.correct++;
+  state.pendingErrors = 0;
+  state.feedback = 'correct';
+  if (state.mode === 'keys') {
+    addKeyObservation(profile, expected, responseMs, state.trials[state.trials.length - 1].errors);
+    updateRecords(state, profile);
+  } else {
+    state.typed += expected;
+    state.latestRecords = [];
+  }
+  const done = state.mode === 'keys' ? state.correct >= state.goal : state.typed === state.target;
+  if (done) {
+    state.activeMs = elapsedMs(state, now);
+    state.segmentStart = null;
+    state.promptStart = null;
+    state.promptMs = 0;
+    state.phase = 'complete';
+    state.finishedAt = new Date().toISOString();
+    const summary = summaryOf(state, now);
+    if (state.mode === 'text') {
+      const id = state.passageId === 'custom' ? 'custom:' + passageFingerprint(state.target) : state.passageId;
+      const old = profile.textRecords[id] || {};
+      profile.textRecords[id] = {
+        bestWpm: summary.wpm !== null && (old.bestWpm === undefined || summary.wpm > old.bestWpm) ? summary.wpm : old.bestWpm ?? null,
+        bestAccuracy: summary.accuracy !== null && (old.bestAccuracy === undefined || summary.accuracy > old.bestAccuracy) ? rounded(summary.accuracy) : old.bestAccuracy ?? null,
+      };
+    }
+    addHistory(profile, state, now, 'completed');
+    return { kind: 'complete', summary, records: state.latestRecords };
+  }
+  if (state.mode === 'keys') {
+    state.lastTwo = [...state.lastTwo.slice(-1), expected];
+    state.target = weightedKeyChoice(state, profile, rng);
+  }
+  state.promptMs = 0;
+  state.promptStart = now;
+  return { kind: 'correct', records: state.latestRecords };
+}
+
+// Non-cryptographic ID used only to compare a custom passage against itself.
+export function passageFingerprint(text) {
+  let h = 2166136261;
+  for (const char of text) {
+    h = Math.imul(h ^ char.codePointAt(0), 16777619);
+  }
+  return (h >>> 0).toString(36) + ':' + Array.from(text).length;
+}
+
+export function snapshot(state, now) {
+  const saved = copy(state);
+  if (state.phase === 'running') {
+    saved.activeMs = elapsedMs(state, now);
+    saved.promptMs = currentPromptMs(state, now);
+    saved.phase = 'paused';
+    saved.segmentStart = null;
+    saved.promptStart = null;
+  }
+  return saved;
+}
+
+export function restoreSession(data) {
+  if (!data || typeof data !== 'object') return newSession();
+  const state = newSession(data);
+  const trials = Array.isArray(data.trials) ? data.trials.slice(0, 1000).filter(t =>
+    t && typeof t.key === 'string' && Array.from(t.key).length === 1 && positive(t.ms)
+      && Number.isInteger(t.errors) && t.errors >= 0 && t.errors <= 100000) : [];
+  state.trials = trials.map(t => ({ key: t.key, ms: Math.min(t.ms, 3600000), errors: t.errors }));
+  state.correct = state.trials.length;
+  state.errors = state.trials.reduce((n, t) => n + t.errors, 0);
+  state.activeMs = positive(data.activeMs) ? Math.min(data.activeMs, 86400000) : 0;
+  state.promptMs = positive(data.promptMs) ? Math.min(data.promptMs, 3600000) : 0;
+  state.pendingErrors = Number.isInteger(data.pendingErrors) ? cap(data.pendingErrors, 0, 100000) : 0;
+  state.errors += state.pendingErrors;
+  state.lastTwo = Array.isArray(data.lastTwo) ? data.lastTwo.filter(k => KEY_ORDER.includes(k)).slice(-2) : [];
+  state.startedAt = typeof data.startedAt === 'string' ? data.startedAt : null;
+  state.finishedAt = typeof data.finishedAt === 'string' ? data.finishedAt : null;
+  if (state.mode === 'keys') {
+    state.target = unlockedKeys(state).includes(data.target) ? data.target : '';
+  } else {
+    state.target = passageFor(state);
+    const typed = typeof data.typed === 'string' ? data.typed.normalize('NFC') : '';
+    state.typed = state.target.startsWith(typed) ? typed : '';
+    state.correct = Array.from(state.typed).length;
+    state.trials = state.trials.slice(0, state.correct);
+  }
+  if (data.phase === 'complete' && progressOf(state).done >= progressOf(state).total) {
+    state.phase = 'complete';
+  } else if (data.phase === 'paused' || data.phase === 'running') {
+    state.phase = state.target ? 'paused' : 'idle';
+  }
+  return state;
+}

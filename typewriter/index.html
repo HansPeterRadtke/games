@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Typewriter: focused keyboard practice with meaningful feedback, personal records, and offline progress.">
+  <title>Typewriter — typing practice</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><span>t</span><span>w</span></div>
+        <div><strong>typewriter</strong><small>PRECISION TYPING TRAINER</small></div>
+      </div>
+      <div class="header-actions">
+        <span class="save-indicator" id="save-indicator" role="status"><span class="save-dot"></span><span id="save-label">Saved on this device</span></span>
+        <button class="quiet-button" type="button" id="export-btn">Export</button>
+        <button class="quiet-button" type="button" id="import-btn">Import</button>
+        <input id="import-file" type="file" accept=".json,application/json" hidden>
+      </div>
+    </header>
+
+    <main>
+      <div class="intro">
+        <div class="eyebrow"><span class="eyebrow-line"></span> PRACTICE WITH PURPOSE</div>
+        <h1>Accuracy first.<br><span>Speed follows.</span></h1>
+        <p>A focused place to build keyboard confidence, one key or one passage at a time.</p>
+      </div>
+
+      <div class="workspace">
+        <section class="practice card" aria-label="Typing practice">
+          <div class="practice-top">
+            <div class="mode-tabs" role="tablist" aria-label="Practice mode">
+              <button type="button" class="mode-tab active" id="mode-keys" role="tab" aria-selected="true" aria-controls="keys-controls">Key training</button>
+              <button type="button" class="mode-tab" id="mode-text" role="tab" aria-selected="false" aria-controls="text-controls">Text practice</button>
+            </div>
+            <div class="phase"><span class="phase-dot" id="phase-dot"></span><span id="phase-text">READY</span></div>
+          </div>
+
+          <div class="setting-row" id="keys-controls">
+            <div class="setting-block level-block">
+              <span class="setting-label">LEVEL</span>
+              <div class="stepper">
+                <button type="button" id="level-down" aria-label="Previous level">−</button>
+                <div class="level-value"><strong id="level-label">01</strong><small id="level-hint">2 keys</small></div>
+                <button type="button" id="level-up" aria-label="Next level">+</button>
+              </div>
+            </div>
+            <label class="setting-block goal-block" for="goal-select">
+              <span class="setting-label">SESSION LENGTH</span>
+              <select id="goal-select" aria-label="Keystrokes per session">
+                <option value="10">10 keys</option>
+                <option value="20">20 keys</option>
+                <option value="50" selected>50 keys</option>
+                <option value="100">100 keys</option>
+                <option value="200">200 keys</option>
+                <option value="500">500 keys</option>
+                <option value="1000">1,000 keys</option>
+              </select>
+            </label>
+            <label class="setting-block adaptive-block" for="adaptive-checkbox">
+              <span class="setting-label">TRAINING FOCUS</span>
+              <span class="toggle-row"><input id="adaptive-checkbox" type="checkbox" checked><span class="toggle-track" aria-hidden="true"></span><span>Focus weaker keys</span></span>
+            </label>
+          </div>
+
+          <div class="setting-row text-setting-row" id="text-controls" hidden>
+            <label class="setting-block passage-block" for="passage-select">
+              <span class="setting-label">PRACTICE PASSAGE</span>
+              <select id="passage-select"></select>
+            </label>
+            <label class="setting-block custom-block" id="custom-block" for="custom-text" hidden>
+              <span class="setting-label">YOUR TEXT <small>(MAX. 800 CHARACTERS)</small></span>
+              <textarea id="custom-text" rows="3" maxlength="800" spellcheck="false" placeholder="Write or paste a passage to practice..."></textarea>
+            </label>
+          </div>
+
+          <div class="prompt-surface" id="prompt-surface" tabindex="0" role="group" aria-label="Typing target. Select to focus typing.">
+            <div class="surface-grid" aria-hidden="true"></div>
+            <div class="key-stage" id="key-stage">
+              <span class="stage-label">YOUR NEXT KEY</span>
+              <div id="target-key" class="target-key">F <span class="slash">/</span> J</div>
+              <div id="key-order-display" class="key-order-display">F · J</div>
+            </div>
+            <div class="text-stage" id="text-stage" hidden>
+              <span class="stage-label">TYPE THE PASSAGE BELOW</span>
+              <div id="target-text" class="target-text" aria-label="Passage to type"></div>
+            </div>
+            <p id="stage-hint" class="stage-hint">Press Space to begin, or select Start practice.</p>
+            <input id="type-capture" class="typing-capture" type="text" aria-label="Type your answers here" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done">
+          </div>
+
+          <div class="progress-area">
+            <div class="progress-labels">
+              <span id="progress-title">PROGRESS</span>
+              <strong id="progress-count">0 / 50</strong>
+            </div>
+            <div class="progress-track" role="progressbar" id="progress-track" aria-label="Session progress" aria-valuemin="0" aria-valuemax="50" aria-valuenow="0"><div id="progress-fill"></div></div>
+          </div>
+
+          <div class="action-row">
+            <button type="button" class="primary-button" id="primary-button"><span class="button-icon" id="primary-icon" aria-hidden="true">▶</span><span id="primary-label">Start practice</span></button>
+            <button type="button" class="secondary-button" id="new-session">New session</button>
+            <span class="keyboard-tip" id="keyboard-tip"><kbd>Space</kbd> start / pause · <kbd>Esc</kbd> pause</span>
+          </div>
+          <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+        </section>
+
+        <aside class="sidebar" aria-label="Live results">
+          <section class="card stats-card">
+            <div class="section-heading"><span class="overline">YOUR SESSION</span><span id="elapsed" class="elapsed">00:00</span></div>
+            <div class="stats-grid">
+              <div class="stat"><span>ACCURACY</span><strong id="stat-accuracy">—</strong><small>Correct attempts</small></div>
+              <div class="stat"><span>PACE</span><strong id="stat-wpm">—</strong><small>Words per minute</small></div>
+              <div class="stat"><span>AVG. RESPONSE</span><strong id="stat-response">—</strong><small>Per correct key</small></div>
+              <div class="stat"><span>MISTAKES</span><strong id="stat-errors">0</strong><small>Incorrect attempts</small></div>
+            </div>
+          </section>
+          <section class="card pace-card">
+            <div class="section-heading"><span class="overline">RESPONSE RHYTHM</span><span class="mini-label">LAST 24 KEYS</span></div>
+            <div id="rhythm-bars" class="rhythm-bars" aria-label="Response times for the last 24 correct keystrokes"></div>
+            <p id="rhythm-caption" class="chart-caption">Your timing appears as you type.</p>
+          </section>
+        </aside>
+      </div>
+
+      <div class="insights-grid">
+        <section class="card records-card">
+          <div class="section-heading">
+            <div><span class="overline">PERSONAL BESTS</span><h2 id="records-title">Your records</h2></div>
+            <label class="window-select" id="window-control">Last <select id="record-window" aria-label="Personal best measurement window"></select> keys</label>
+          </div>
+          <div class="records-grid" id="records-grid"></div>
+          <p class="muted-note" id="records-note">Records begin when you complete a measurement window.</p>
+        </section>
+        <section class="card insights-card">
+          <div class="section-heading"><div><span class="overline">YOUR KEYBOARD</span><h2>Key insights</h2></div><span class="mini-label" id="keys-count-label">2 UNLOCKED</span></div>
+          <div class="key-list" id="key-insights"></div>
+          <p class="muted-note" id="insights-note">As you practice, slower keys receive a little more attention when adaptive focus is on.</p>
+        </section>
+      </div>
+
+      <section class="card history-card">
+        <div class="section-heading"><div><span class="overline">LONG-TERM PROGRESS</span><h2>Recent sessions</h2></div><span class="mini-label">LATEST 5</span></div>
+        <div id="history-list" class="history-list"></div>
+      </section>
+      <footer><span>TYPEWRITER / VERSION ONE</span><span>No account. No tracking. Practice and records stay in this browser until exported.</span></footer>
+    </main>
+  </div>
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
