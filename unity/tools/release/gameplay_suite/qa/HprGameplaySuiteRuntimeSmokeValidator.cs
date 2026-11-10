@@ -183,6 +183,7 @@ public static class HprGameplaySuiteRuntimeSmokeValidator
             var abilityRunner = player.GetComponent<AbilityRunnerComponent>();
             Require(abilityRunner.CaptureSnapshot().Cooldowns.Count == 2, "ability cooldowns restored");
 
+            CheckSaveSlotIntegrity(controller, slot);
             Require(controller.SaveToDisk(slot), "opt-in local JSON slot written");
             Require(File.Exists(slot) && new FileInfo(slot).Length > 100, "JSON save actually exists");
             controller.ResetEncounter();
@@ -242,8 +243,8 @@ public static class HprGameplaySuiteRuntimeSmokeValidator
                 "inventory_keyed_door_and_pickups=PASS\nenemy_attack_eventbus_stats=PASS\n" +
                 "heal_ability_stamina_cooldown=PASS\npulse_area_damage_eventbus=PASS\n" +
                 "weapon_fire_cooldown_and_loot=PASS\nfull_memory_restore_all_modules=PASS\n" +
-                "real_json_disk_roundtrip=PASS\ninvalid_state_and_corruption_rejected=PASS\n");
-            Debug.Log("HPR SUITE V2 QA PASS: ten independent integration checks in actual imported archive");
+                "save_slot_integrity=PASS\nreal_json_disk_roundtrip=PASS\ninvalid_state_and_corruption_rejected=PASS\n");
+            Debug.Log("HPR SUITE V2 QA PASS: runtime integration and save-slot checks");
         }
         finally
         {
@@ -257,6 +258,87 @@ public static class HprGameplaySuiteRuntimeSmokeValidator
             foreach (UnityEngine.Object obj in new UnityEngine.Object[] { medkit, key, rifle,
                 enemyData, healing, pulse, healingEffect, pulseEffect, metadata, catalog })
                 if (obj != null) UnityEngine.Object.DestroyImmediate(obj);
+        }
+    }
+
+    private static void CheckSaveSlotIntegrity(HprGameplaySuitePlayground controller, string slot)
+    {
+        // Isolate negative controls from the normal roundtrip and any existing user file.
+        var directory = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Path.GetFullPath(slot)),
+            "save-integrity-" + Guid.NewGuid().ToString("N")));
+        string target = Path.Combine(directory.FullName, "slot.json");
+        string neighbor = target + ".writing";
+        try
+        {
+            const string original = "existing neighboring file";
+            File.WriteAllText(neighbor, original);
+            Require(controller.SaveToDisk(target), "first save succeeds beside an existing .writing file");
+            bool neighborPreserved = File.Exists(neighbor) && File.ReadAllText(neighbor) == original;
+            string previous = File.ReadAllText(target);
+
+            HprSuiteSnapshot snapshot = controller.CaptureSnapshot();
+            snapshot.WeaponId = new string('界', 400000);
+            bool rejected = false;
+            try
+            {
+                HprSuiteSnapshotStorage.Save(target, snapshot);
+            }
+            catch (InvalidDataException)
+            {
+                rejected = true;
+            }
+            bool slotPreserved = File.ReadAllText(target) == previous;
+            Require(neighborPreserved && rejected && slotPreserved,
+                $"save integrity: neighboring file preserved={neighborPreserved}, " +
+                $"oversized UTF-8 rejected={rejected}, previous slot preserved={slotPreserved}");
+
+            snapshot.WeaponId = "épée";
+            HprSuiteSnapshotStorage.Save(target, snapshot);
+            Require(HprSuiteSnapshotStorage.Load(target).WeaponId == snapshot.WeaponId,
+                "valid Unicode save roundtrips");
+
+            const int maxBytes = 1024 * 1024;
+            long remaining = maxBytes - new FileInfo(target).Length;
+            snapshot.WeaponId += new string('x', checked((int)remaining));
+            HprSuiteSnapshotStorage.Save(target, snapshot);
+            Require(new FileInfo(target).Length == maxBytes &&
+                HprSuiteSnapshotStorage.Load(target).WeaponId == snapshot.WeaponId,
+                "one-megabyte UTF-8 snapshot roundtrips at the exact limit");
+            snapshot.WeaponId += "x";
+            try
+            {
+                HprSuiteSnapshotStorage.Save(target, snapshot);
+                throw new InvalidOperationException("Expected refusal one byte over the save limit");
+            }
+            catch (InvalidDataException)
+            {
+                Require(new FileInfo(target).Length == maxBytes, "one-byte overflow retains previous slot");
+            }
+
+            // Race two complete snapshots at a brand-new slot, using no Unity
+            // objects on worker threads. A winning file must be one whole save.
+            string raced = Path.Combine(directory.FullName, "concurrent.json");
+            var first = controller.CaptureSnapshot();
+            var second = controller.CaptureSnapshot();
+            first.WeaponId = new string('A', 32768);
+            second.WeaponId = new string('B', 32768);
+            System.Threading.Tasks.Parallel.Invoke(
+                () => HprSuiteSnapshotStorage.Save(raced, first),
+                () => HprSuiteSnapshotStorage.Save(raced, second));
+            string winner = HprSuiteSnapshotStorage.Load(raced).WeaponId;
+            Require(winner == first.WeaponId || winner == second.WeaponId,
+                "concurrent writers publish a whole save");
+
+            float health = controller.PlayerHealth;
+            File.WriteAllText(target, string.Empty);
+            Require(!controller.LoadFromDisk(target) && controller.PlayerHealth == health,
+                "empty disk slot reports failure and preserves live state");
+            Require(File.ReadAllText(neighbor) == original &&
+                directory.GetFileSystemInfos().Length == 3, "writers leave only the two slots and their original neighbor");
+        }
+        finally
+        {
+            directory.Delete(true);
         }
     }
 

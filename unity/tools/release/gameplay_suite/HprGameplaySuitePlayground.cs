@@ -425,7 +425,8 @@ namespace HPR.GameplaySuite
                 Emit("Saved versioned JSON encounter to local persistent-data slot");
                 return true;
             }
-            catch (Exception exception) when (exception is System.IO.IOException ||
+            catch (Exception exception) when (exception is System.IO.InvalidDataException ||
+                exception is System.IO.IOException ||
                 exception is UnauthorizedAccessException || exception is ArgumentException)
             {
                 return Fail("Local save unavailable: " + exception.Message);
@@ -442,7 +443,8 @@ namespace HPR.GameplaySuite
                 Emit("Restored complete encounter from local JSON slot");
                 return true;
             }
-            catch (Exception exception) when (exception is System.IO.IOException ||
+            catch (Exception exception) when (exception is System.IO.InvalidDataException ||
+                exception is System.IO.IOException ||
                 exception is UnauthorizedAccessException || exception is ArgumentException)
             {
                 return Fail("Local load unavailable: " + exception.Message);

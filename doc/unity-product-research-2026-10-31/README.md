@@ -270,3 +270,5 @@ edit kept every GUID but was incorrectly reported pristine; full metadata checki
 now detects it and blocks the upgrade precondition. Seventy-one regression methods
 pass, and untouched native projects retain all 161 metadata identities. This is
 read-only QA protection, not importer migration or release approval.
+
+[Save-slot integrity and native regression results](save-slot-integrity-2026-11-10.md) cover the private package tested in Unity 6.4 and 6.6.

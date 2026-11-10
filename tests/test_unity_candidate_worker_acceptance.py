@@ -53,6 +53,7 @@ class CandidateWorkerGating(unittest.TestCase):
             qa=self.root,
         )
         self.phase_names=[]
+        self.customize_import_metadata=False
         self.mutate_original_on_play=False
         self.mutate_imported_script_on_play=False
 
@@ -71,8 +72,12 @@ class CandidateWorkerGating(unittest.TestCase):
             path=project/SOURCE_NAME
             path.parent.mkdir(parents=True,exist_ok=True)
             path.write_bytes(self.new_bytes)
-            (project/"Assets/HPRGameplaySuite.meta").write_text("guid: "+GUID_ROOT)
-            (project/(SOURCE_NAME+".meta")).write_text("guid: "+GUID_SOURCE)
+            with tarfile.open(import_package, "r:gz") as archive:
+                for guid, name in ((GUID_ROOT, "Assets/HPRGameplaySuite"), (GUID_SOURCE, SOURCE_NAME)):
+                    metadata = archive.extractfile(guid + "/asset.meta").read()
+                    if guid == GUID_SOURCE and self.customize_import_metadata:
+                        metadata += b"userData: buyer customization\n"
+                    (project / (name + ".meta")).write_bytes(metadata)
         if execute_method is not None:
             Path(extra_env["HPR_NEW_INPUT_GAME_UPDATE_RECEIPT"]).write_text(
                 "new_input_only_real_game_update=PASS\nkey_release=PASS\n")
@@ -98,6 +103,7 @@ class CandidateWorkerGating(unittest.TestCase):
         integrity=json.loads((self.args.output_root/"attempt-001/import-identity.json").read_text())
         self.assertEqual("PASS",integrity["status"])
         self.assertEqual(2,integrity["guid_identities_verified"])
+        self.assertEqual(2,integrity["metadata_payloads_verified"])
         self.assertIn("combined-playmode.unity.log",self.phase_names)
 
     def test_playmode_modifying_protected_customer_setting_invalidates_result(self):
@@ -118,6 +124,16 @@ class CandidateWorkerGating(unittest.TestCase):
         phase=result["phase"]
         self.assertEqual("FAIL",phase["post_playmode_import_identity_status"])
         self.assertFalse(phase["real_editor_urp_new_input_gameplay_accepted"])
+
+    def test_customized_metadata_stops_before_mock_play_even_with_matching_guids(self):
+        self.new_bytes = NEW_BYTES
+        self.customize_import_metadata = True
+        result = self.attempt()
+        self.assertEqual("failed_import_requires_review", result["status"])
+        identity = json.loads((self.args.output_root / "attempt-001/import-identity.json").read_text())
+        self.assertEqual(2, identity["guid_identities_verified"])
+        self.assertEqual(1, identity["metadata_payloads_verified"])
+        self.assertNotIn("combined-playmode.unity.log", self.phase_names)
 
     def test_old_installer_in_new_archive_import_is_not_accepted(self):
         self.new_bytes=b"// older installer already existed"
