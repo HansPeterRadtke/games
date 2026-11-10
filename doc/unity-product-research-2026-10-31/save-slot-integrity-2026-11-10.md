@@ -49,7 +49,43 @@ the worker refuses to start the mock PlayMode run. All 335 tests passed with
 Nitro retains the private package, baseline and final native logs, receipts,
 project hash inventories, imported package audits and regression logs under
 `/data/var/marketplace-account-setup/hpr-save-slot-integrity-20261110/`.
-The supported scope here is local filesystem behavior in Linux batch Editors.
-The private package still needs broader Player and URP verification, graphical
-buyer-workflow evaluation, independent buyer validation and reconciliation
-with the dirty commercial worktree before release.
+Those runs cover local filesystem behavior in Linux batch Editors.
+
+## Standalone Linux Player
+
+The private fixture in `unity/tools/release/gameplay_suite/qa/SaveSlotPlayer/`
+builds the shipped showcase scene using the installed Linux Editor. It places
+its Editor builder and runtime probe in a disposable clone after checking the
+installed archive against its SHA-256. The probe calls the same save and load
+methods as the demo buttons. Fresh Player processes use an isolated Unity
+profile and the normal default slot path. The harness compares the JSON on
+disk with the state observed by the writer and the reader.
+
+To reproduce on Nitro, run `run_player.py` through the resource broker with
+`--template` pointing at a verified imported project, `--archive` and
+`--sha256` identifying its exact package, `--editor` naming the installed
+Unity executable, and `--output` naming a fresh directory. The run retains
+the Player build, Unity logs, two private profiles and a JSON result.
+
+On November 10 the native Unity 6000.6.7f1 Linux build succeeded with the
+new Input System. The first Player started at 100 health with six rounds,
+took one hit, fired one round and saved. A second Player started at 100 and
+six, loaded the default slot, and restored 92 health and five rounds. The
+saved JSON independently contained 92 and five. Loading preserved its bytes
+and the neighboring `.writing` file. A third Player loaded deliberately
+truncated JSON in a separate profile. The game refused the load, kept 100
+health and six rounds, and left the damaged slot intact. All three processes
+exited zero.
+
+All 435 template files and all 437 staged input files matched their pre-build
+hashes. Unity added only three fixture metadata files. The complete vendor
+package verification still passed for 161 asset paths after the build. All
+335 repository Unity tests passed. The logs, result and built file hashes are
+in `/data/var/marketplace-account-setup/hpr-save-player-20261110-night/attempt-final/`.
+
+All three headless Player runs logged a camera frustum diagnostic with
+non-finite screen coordinates. Its cause and its behavior with a graphics
+device remain open. The build also emitted known analyzer warnings from the
+private Editor control. This result covers the Linux showcase save workflow.
+URP, rendered buyer usability, independent buyer validation and reconciliation
+with the commercial worktree remain open.
