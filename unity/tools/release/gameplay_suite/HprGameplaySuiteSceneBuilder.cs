@@ -133,6 +133,21 @@ namespace HPR.GameplaySuite
             Debug.Log("HPR Suite buyer demo scene opened.");
         }
 
+        // A partial import must still compile and explain where to find the missing tool.
+        // Referencing the installer type directly would make both diagnostics unavailable.
+        internal static string AbilityInstallerIssue()
+        {
+            const string path = Root + "/Editor/HprSelectedAbilityInstaller.cs";
+            var script = AssetDatabase.LoadAssetAtPath<MonoScript>(path);
+            if (script == null)
+                return path;
+            Type type = script.GetClass();
+            if (type == null || type.FullName != "HPR.GameplaySuite.Experimental.HprSelectedAbilityInstaller" ||
+                !typeof(EditorWindow).IsAssignableFrom(type))
+                return path + " (check the script and Console for compilation errors)";
+            return null;
+        }
+
         [MenuItem("Tools/HPR/Gameplay Suite/Verify Installation")]
         public static void VerifyInstallation()
         {
@@ -157,6 +172,8 @@ namespace HPR.GameplaySuite
                 if (AssetDatabase.LoadMainAssetAtPath(required) == null)
                     missing.Add(required);
             }
+            string installerIssue = AbilityInstallerIssue();
+            if (installerIssue != null) missing.Add(installerIssue);
             string report = "HPR Gameplay Systems Suite\nUnity: " + Application.unityVersion +
                 "\nFound original runtime scripts: " + checkedFiles +
                 "\nMissing requirements: " + missing.Count +

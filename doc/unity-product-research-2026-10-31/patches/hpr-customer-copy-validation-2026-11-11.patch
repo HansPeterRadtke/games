@@ -1,0 +1,25 @@
+--- a/tests/test_unity_gameplay_suite.py
++++ b/tests/test_unity_gameplay_suite.py
+@@ -338,4 +338,5 @@
+                          "ApplyModifiedPropertiesWithoutUndo", "newlyCreated",
+-                         "AssetDatabase.DeleteAsset", "GetFileNameWithoutExtension"):
++                         "AssetDatabase.SaveAssetIfDirty(copy)", "GetFileNameWithoutExtension"):
+             self.assertIn(required, guide)
++        self.assertNotIn("AssetDatabase.DeleteAsset(", guide)
+         acceptance = (SOURCE / "qa/HprSuiteCustomerSampleCopyValidator.cs").read_text()
+--- a/unity/tools/release/gameplay_suite/ARCHITECTURE.md
++++ b/unity/tools/release/gameplay_suite/ARCHITECTURE.md
+@@ -149,9 +149,8 @@
+ verifies that no copied object still points at an original vendor sample.
+-A failure rolls back newly created destinations without deleting an
+-existing buyer file or changing the original. The action deliberately
+-does not attach these definitions to existing project controllers.
+- Runtime modules do not depend on
+-Editor windows or packages.
++If copying stops partway, the guide lists the files it created and the last
++path it attempted. Inspect those paths before retrying in an unused destination.
++The separate ability installer can attach a copied ability to a scene object.
++Runtime modules load independently of the Editor tools.
+ 
+ 
+ ## Input adapter contract

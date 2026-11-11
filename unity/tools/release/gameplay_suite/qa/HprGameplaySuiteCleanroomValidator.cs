@@ -50,6 +50,9 @@ public static class HprGameplaySuiteCleanroomValidator
             if (AssetDatabase.LoadMainAssetAtPath(path) == null)
                 throw new InvalidOperationException("New sample/dependency missing in buyer archive: " + path);
         }
+        string installerIssue = HprGameplaySuiteSceneBuilder.AbilityInstallerIssue();
+        if (installerIssue != null)
+            throw new InvalidOperationException("Imported ability installer unavailable: " + installerIssue);
         // Buyer safety regression: the scene-builder menu must never overwrite
         // existing customized sample assets nor replace an imported demo scene.
         string sceneFile = Path.Combine(Application.dataPath, "HPRGameplaySuite/Demo/GameplaySuiteShowcase.unity");
@@ -78,7 +81,7 @@ public static class HprGameplaySuiteCleanroomValidator
             throw new InvalidOperationException("Private cleanroom QA receipt path absent");
         File.WriteAllText(receipt,
             "imported_scene=PASS\nserialized_references=13/13\n" +
-            "additional_samples_and_docs=12/12\nexisting_user_assets_not_overwritten=PASS\nmodule_script_guids=" + scripts.Length + "\n" +
+            "additional_samples_and_docs=12/12\ncompiled_ability_installer=PASS\nexisting_user_assets_not_overwritten=PASS\nmodule_script_guids=" + scripts.Length + "\n" +
             "engine=Unity " + Application.unityVersion + "\nno_provider_write=true\n");
         Debug.Log("HPR SUITE CLEANROOM SUCCESS: actual imported scene, thirteen bindings and module scripts verified");
     }

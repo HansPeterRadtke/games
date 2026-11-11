@@ -451,6 +451,9 @@ namespace HPR.GameplaySuite
                     missing.Add(path);
             }
 
+            string installerIssue = HprGameplaySuiteSceneBuilder.AbilityInstallerIssue();
+            if (installerIssue != null) missing.Add(installerIssue);
+
             RenderPipelineAsset pipeline = GraphicsSettings.currentRenderPipeline;
             string pipelineName = pipeline == null ? "Built-in" : pipeline.GetType().Name;
             lastReport = "HPR Gameplay Suite package layout" +

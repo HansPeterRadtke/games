@@ -49,16 +49,17 @@ Play. All scene dependencies and sample ScriptableObject assets are included.
 See `QUICKSTART.md` for the complete player route and `ARCHITECTURE.md`
 for C# integration examples and extension points.
 
-### Read-only Editor integration guide
+### Add an ability to an existing player
 
-Choose **Tools > HPR > Gameplay Suite > Integration Guide**. The new UI Toolkit
-window reports the actual Editor/render pipeline and basic package file status,
-opens the sample safely, and offers one-click navigation to source examples
-and editable sample definitions. It never installs registry dependencies or
-modifies project settings. Its file check is not a substitute for real PlayMode
-or buyer-project integration tests. The layout uses a namespaced style sheet
-and fits a docked/resizable Editor window.
+Open **Tools > HPR > Gameplay Suite > Integration Guide** and choose **Create my
+own editable healing ability**. The guide copies the ability and its linked
+effect into your project folder. It gives each copy an independent identifier.
 
+Select your player in the scene, then use **Tools > HPR > Gameplay Suite >
+Attach Ability to Selected Object**. The installer previews the configuration
+and lets you attach or remove the runner with Undo. See `QUICKSTART.md` for
+the resource component and scene-saving steps. The guide also reports missing
+package files and opens the showcase.
 
 ### Render pipeline and tool compatibility
 
