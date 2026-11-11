@@ -1,4 +1,4 @@
-import { DEFAULT_ROUND_WINDOW, scoreRound } from './rounds.js';
+import { CHARACTERS_PER_WORD, DEFAULT_ROUND_WINDOW, scoreRound } from './rounds.js';
 // Pure practice engine. No DOM, storage, or system-clock dependencies.
 import {
   LEVEL_PASSAGES, TRAINING_KEY_ORDER, generateLevelExercise, normalizedPreset, allowedText,
@@ -264,7 +264,7 @@ export function summaryOf(state, now) {
     durationMs: rounded(durationMs),
     avgMs: times.length ? rounded(times.reduce((a, b) => a + b, 0) / times.length) : null,
     bestMs: times.length ? Math.min(...times) : null,
-    wpm: durationMs >= 100 ? rounded((state.correct / 5) / (durationMs / 60000)) : null,
+    wpm: durationMs >= 100 ? rounded((state.correct / CHARACTERS_PER_WORD) / (durationMs / 60000)) : null,
   };
 }
 

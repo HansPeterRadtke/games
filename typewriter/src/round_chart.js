@@ -1,3 +1,5 @@
+import { CHARACTERS_PER_WORD, charactersPerMinute } from './rounds.js';
+
 // A round occupies the same horizontal position for speed and accuracy, including missing values.
 const svgNS = 'http://www.w3.org/2000/svg';
 const byId = id => document.getElementById(id);
@@ -20,13 +22,17 @@ function scaleFor(values, accuracy) {
   return [low, high];
 }
 
-export function renderRoundChart(record, rounds, timed, formatScore) {
+export function renderRoundChart(record, rounds, timed, formatScore, sequenceLength) {
   const metric = byId('chart-metric').value, accuracy = metric === 'accuracy';
-  const seconds = timed && !accuracy;
-  const unit = accuracy ? '%' : seconds ? 's' : 'WPM';
-  const values = rounds.map(r => {
-    const raw = accuracy ? r.accuracy : r.score;
-    return seconds && raw !== null ? raw / 1000 : raw;
+  const seconds = timed && metric === 'score';
+  const cpm = metric === 'cpm';
+  const unit = accuracy ? '%' : cpm ? 'chars/min' : seconds ? 's' : 'WPM';
+  const rates = rounds.map(r => timed ? charactersPerMinute(sequenceLength, r.score)
+    : Number.isFinite(r.score) ? r.score * CHARACTERS_PER_WORD : null);
+  const values = rounds.map((r, i) => {
+    if (accuracy) return r.accuracy;
+    if (cpm) return rates[i];
+    return seconds && Number.isFinite(r.score) ? r.score / 1000 : r.score;
   });
   const valid = values.filter(Number.isFinite);
   const plot = byId('round-plot');
@@ -34,14 +40,15 @@ export function renderRoundChart(record, rounds, timed, formatScore) {
   byId('round-chart').hidden = !n;
   if (!n) return;
   byId('chart-unit').textContent = accuracy ? 'Accuracy (%) · higher is better'
-    : seconds ? 'Round time (s) · faster at top' : 'Pace (WPM) · faster at top';
+    : cpm ? 'Characters/min · faster at top' : seconds ? 'Round time (s) · faster at top' : 'Pace (WPM) · faster at top';
   byId('round-axis-start').textContent = n === 1 ? '' : 'Round ' + start;
   byId('round-axis-start').parentElement.classList.toggle('single-round', n === 1);
   byId('round-axis-end').textContent = 'Round ' + end;
   byId('round-score-heading').textContent = timed ? 'Round time' : 'Pace';
   const rows = rounds.map((r, i) => {
     const tr = document.createElement('tr');
-    for (const text of [String(start + i), formatScore(r.score, timed ? 'time' : 'pace'), formatScore(r.accuracy, 'accuracy')]) {
+    for (const text of [String(start + i), formatScore(r.score, timed ? 'time' : 'wpm'),
+      Number.isFinite(rates[i]) ? String(Math.round(rates[i])) : '—', formatScore(r.accuracy, 'accuracy')]) {
       const td = document.createElement('td');
       td.textContent = text;
       tr.append(td);

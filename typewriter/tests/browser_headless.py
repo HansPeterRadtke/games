@@ -47,6 +47,9 @@ try {
  check('complete', $('phase-text').textContent==='COMPLETED');
  check('progress', $('progress-count').textContent==='3 / 3');
  check('accuracy', $('stat-accuracy').textContent==='100%');
+ check('text result shows time, accuracy and mistakes',$('round-readout-title').textContent==='Round result'
+   && !$('round-readout').hidden && $('round-accuracy').textContent==='100%' && $('round-mistakes').textContent==='0');
+ check('shuffle belongs to Sequence mode',$('shuffle-sequence').hidden);
  check('persisted', Boolean(localStorage.getItem('typewriter.practice.v1')));
  check('responsive',document.documentElement.scrollWidth<=document.documentElement.clientWidth+1);
 } catch(e) {results.push({name:'exception',ok:false,detail:e.message});}

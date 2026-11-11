@@ -1,6 +1,6 @@
 import { renderRoundChart } from './round_chart.js';
 import { LEVEL_PASSAGES, isLevelPassage, roundRecordFor } from './core.js';
-import { recentStats } from './rounds.js';
+import { CHARACTERS_PER_WORD, recentStats } from './rounds.js';
 
 const byId = id => document.getElementById(id);
 const popup = byId('achievement-banner');
@@ -12,7 +12,8 @@ let goldUntil = 0;
 function valueOf(value, metric) {
   if (!Number.isFinite(value)) return '—';
   if (metric === 'accuracy') return decimal.format(value) + '%';
-  if (metric === 'pace') return decimal.format(value) + ' WPM';
+  if (metric === 'pace') return decimal.format(value * CHARACTERS_PER_WORD) + ' chars/min';
+  if (metric === 'wpm') return decimal.format(value) + ' WPM';
   return value < 1000 ? decimal.format(value) + ' ms' : Number((value / 1000).toFixed(4)) + ' s';
 }
 
@@ -111,7 +112,8 @@ export function renderRoundBoard(session, profile) {
   const speed = timed ? 'time' : 'pace';
   const metric = byId('chart-metric').value;
   if (lastChartRecord !== record || lastChartWindow !== profile.roundWindow || lastChartMode !== session.mode || lastChartMetric !== metric) {
-    renderRoundChart(record, stats.rounds, timed, valueOf);
+    byId('chart-score-option').textContent = timed ? 'Round time' : 'Words/min';
+    renderRoundChart(record, stats.rounds, timed, valueOf, session.sequenceLength);
     lastChartRecord = record;
     lastChartWindow = profile.roundWindow;
     lastChartMode = session.mode;
@@ -137,6 +139,7 @@ export function renderRoundBoard(session, profile) {
   if (timed) {
     const finished = session.phase === 'complete';
     const number = finished ? session.rounds.length : Math.min(session.rounds.length + 1, session.sequenceRounds);
+    byId('round-position-label').textContent = session.phase === 'between-rounds' ? 'Next round' : 'Round';
     byId('sequence-round-position').textContent = number + ' / ' + session.sequenceRounds + (finished ? ' finished' : '');
   }
   const last = stats.rounds.at(-1);

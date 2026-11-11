@@ -1,7 +1,12 @@
 // Round times are measured in milliseconds. In the other modes the speed metric is WPM.
+export const CHARACTERS_PER_WORD = 5;
 export const ROUND_WINDOWS = [1, 3, 5, 10, 20];
 export const DEFAULT_ROUND_WINDOW = 3;
 export const MAX_RECENT_ROUNDS = Math.max(...ROUND_WINDOWS);
+
+export function charactersPerMinute(correct, ms) {
+  return Number.isFinite(correct) && Number.isFinite(ms) && ms > 0 ? correct * 60000 / ms : null;
+}
 
 function best(values, lowerWins = false) {
   const known = values.filter(Number.isFinite);

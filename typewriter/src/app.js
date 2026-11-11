@@ -1,4 +1,4 @@
-import { ROUND_WINDOWS } from './rounds.js';
+import { CHARACTERS_PER_WORD, charactersPerMinute, ROUND_WINDOWS } from './rounds.js';
 import { renderRoundBoard, showRoundReward, showKeyWindowReward, clearReward } from './reward_view.js';
 import {
   KEY_ORDER, WINDOW_SIZES, PASSAGES, currentExpected, elapsedMs, finishEarly,
@@ -150,15 +150,19 @@ function newPractice() {
   render();
 }
 function shufflePractice() {
-  if (!abandonPrompt()) return;
+  if (!abandonPrompt()) {
+    if (session.phase === 'running') focusTyping();
+    return;
+  }
   clearReward();
   finishEarly(session, profile, now());
   session = newSession(session);
   reshuffleSequence(session);
   noticeKind = 'success';
-  notice = 'New sequence shuffled. Every unlocked key is included.';
+  notice = 'New sequence shuffled. Press Space to start.';
   persist();
   render();
+  dom.primary.focus({ preventScroll: true });
 }
 function handleCharacter(char) {
   const result = typeCharacter(session, profile, char, now());
@@ -465,7 +469,7 @@ function renderStage() {
         ? 'Few real words are possible yet. Practice these letter groups, then unlock more letters.'
         : 'Type only the unlocked letters. Use Backspace or Delete to correct a typo.';
   } else if (waiting) {
-    dom.stageHint.textContent = 'Round ' + session.rounds.length + ' complete. Press Space to start round ' + (session.rounds.length + 1) + '.';
+    dom.stageHint.textContent = 'Press Space to start round ' + (session.rounds.length + 1) + '.';
   } else if (session.phase === 'paused') {
     dom.stageHint.textContent = 'Paused. Press Space to resume.';
   } else if (session.phase === 'complete') {
@@ -497,13 +501,50 @@ function renderRoundLog() {
     dom.roundLogItems.append(row);
   }
 }
+function formatCpm(correct, ms) {
+  const rate = charactersPerMinute(correct, ms);
+  return rate === null ? '—' : formatInt(rate);
+}
+
+function renderCurrentRound(activeMs) {
+  const panel = $('round-readout');
+  panel.hidden = session.phase === 'idle';
+  if (panel.hidden) return;
+
+  const sequence = session.mode === 'sequence';
+  const finished = session.phase === 'between-rounds' || session.phase === 'complete';
+  const last = sequence ? session.rounds.at(-1) : null;
+  const result = finished && last ? last : null;
+  const number = result ? result.number : session.rounds.length + 1;
+  const title = sequence ? 'Round ' + number : 'Round';
+  const status = finished ? ' result' : session.phase === 'paused' ? ' · paused' : ' · live';
+  const ms = result ? result.ms : sequence ? Math.max(0, activeMs - session.roundStartMs) : activeMs;
+  const correct = result ? session.sequenceLength : sequence ? session.typed.length : session.correct;
+  const errors = result ? result.errors : sequence ? session.roundErrors : session.errors;
+  setStatus($('round-readout-title'), title + status);
+  setStatus($('round-time'), formatMs(ms));
+  setStatus($('round-cpm'), formatCpm(correct, ms));
+  setStatus($('round-accuracy'), percent(result ? result.accuracy : accuracyOf(correct, errors)));
+  setStatus($('round-mistakes'), formatInt(errors));
+  const previous = $('previous-round');
+  previous.hidden = !last || finished;
+  if (!previous.hidden) {
+    setStatus(previous, 'Round ' + last.number + ' result · ' + formatMs(last.ms) + ' · '
+      + formatCpm(session.sequenceLength, last.ms) + ' chars/min · ' + percent(last.accuracy) + ' accuracy');
+  }
+}
+
 function renderStats() {
-  const sum = summaryOf(session, now());
-  dom.statAccuracy.textContent = percent(accuracyOf(session.correct, session.errors));
+  const time = now();
+  const activeMs = elapsedMs(session, time);
+  const sum = summaryOf(session, time);
+  renderCurrentRound(activeMs);
+  dom.statAccuracy.textContent = percent(sum.accuracy);
+  $('stat-cpm').textContent = formatCpm(session.correct, activeMs);
   dom.statWpm.textContent = sum.wpm === null ? '—' : formatInt(sum.wpm);
   dom.statResponse.textContent = formatMs(sum.avgMs);
   dom.statErrors.textContent = formatInt(session.errors);
-  dom.elapsed.textContent = timeLabel(elapsedMs(session, now()));
+  dom.elapsed.textContent = timeLabel(activeMs);
 }
 function renderRhythm() {
   dom.rhythm.replaceChildren();
@@ -563,7 +604,7 @@ function renderRecords() {
     dom.recordsTitle.textContent = 'Passage records';
     const id = textRecordKey(session);
     const best = profile.textRecords[id] || {};
-    addRecordCell('BEST PACE', best.bestWpm === undefined || best.bestWpm === null ? '—' : formatInt(best.bestWpm) + ' WPM', 'For this passage');
+    addRecordCell('BEST PACE', Number.isFinite(best.bestWpm) ? formatInt(best.bestWpm * CHARACTERS_PER_WORD) + ' chars/min' : '—', 'For this passage');
     addRecordCell('BEST ACCURACY', best.bestAccuracy === undefined || best.bestAccuracy === null ? '—' : percent(best.bestAccuracy), 'For this passage');
     dom.recordsNote.textContent = isLevelPassage(session.passageId)
       ? 'Your best results are saved for this level and language setting, across different generated exercises.'
@@ -655,6 +696,7 @@ function render() {
   dom.keyGoalBlock.hidden = !keys;
   dom.adaptiveBlock.hidden = !keys;
   dom.sequenceOptions.hidden = !sequence;
+  dom.shuffleSequence.hidden = !sequence;
   dom.textControls.hidden = !text;
   dom.sequenceLength.min = String(unlockedKeys(session).length);
   dom.sequenceMinimum.textContent = 'Minimum ' + unlockedKeys(session).length + ' — includes every unlocked key';

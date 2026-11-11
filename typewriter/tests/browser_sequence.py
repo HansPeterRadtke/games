@@ -37,6 +37,8 @@ try {
  check('original modes hidden', $('text-controls').hidden && $('key-goal-block').hidden && $('keys-controls').hidden && !$('level-controls').hidden);
  check('default length', Number($('sequence-length').value)===2 && Number($('sequence-length').min)===2);
  check('default rounds', Number($('sequence-rounds').value)===10);
+ check('Shuffle is visible with settings closed',!$('practice-settings').open
+   && !$('shuffle-sequence').closest('details') && $('shuffle-sequence').getBoundingClientRect().height>0);
  const defaultSequence=sequence();
  check('initial complete shuffled set',defaultSequence.length===2 && [...defaultSequence].sort().join('')==='fj');
  $('level-up').click();
@@ -72,6 +74,8 @@ try {
  check('round 2 complete', $('sequence-round-position').textContent==='3 / 3');
  check('best improves', $('achievement-title').textContent.includes('All-time best round time') && !$('achievement-banner').hidden,
     $('achievement-title').textContent);
+ check('the measured round stays visible during a gold celebration',$('round-readout-title').textContent==='Round 2 result'
+   && !$('round-readout').hidden && $('round-time').textContent.endsWith('ms') && Number($('round-cpm').textContent.replaceAll(',',''))>0);
  const newBest=parseFloat($('sequence-personal-best').textContent);
  check('new record faster',newBest<firstTime,firstTime+' -> '+newBest);
  check('round log two', $('round-log-items').querySelectorAll('.round-log-row').length===2);
@@ -131,10 +135,24 @@ try {
  for (const c of race) { clock+=30; press(c); }
  check('celebrations can be silenced without losing the result',$('achievement-banner').hidden
    && $('round-result').textContent.includes('All-time best') && $('reward-announcement').textContent.includes('All-time best'));
+ check('round seven has its own measurements',$('round-readout-title').textContent==='Round 7 result'
+   && $('round-cpm').textContent==='2,000' && $('round-time').textContent==='210 ms'
+   && $('round-accuracy').textContent==='100%' && $('round-mistakes').textContent==='0');
+ set('chart-metric','cpm');
+ check('shorter sequence time plots higher in characters per minute',$('chart-unit').textContent.includes('Characters/min')
+   && $('round-plot').lastElementChild.querySelector('title').textContent.includes('2,000 chars/min'));
+ press(' ');
+ clock+=500; press(race[0]);
+ check('live pace uses this round and preserves the previous result',$('round-readout-title').textContent==='Round 8 · live'
+   && $('round-cpm').textContent==='120' && $('round-time').textContent==='500 ms'
+   && $('previous-round').textContent.includes('Round 7 result'));
+ press('x');
+ check('round accuracy and mistakes track this round',$('round-accuracy').textContent==='50.0%' && $('round-mistakes').textContent==='1');
  const restored=JSON.parse(localStorage.getItem('typewriter.practice.v1')).profile;
  check('comparison settings and actual rounds stored',restored.celebrations===false && restored.roundWindow===10 && Object.values(restored.sequenceRecords).some(r=>r.recentRounds.length===7));
  check('no horizontal overflow',document.documentElement.scrollWidth<=document.documentElement.clientWidth+1,
    document.documentElement.scrollWidth+'/'+document.documentElement.clientWidth);
+ set('chart-metric','accuracy');
  const {renderRoundChart}=await import('./src/round_chart.js');
  const migrated=[{score:1200,accuracy:93},{score:1300,accuracy:null},{score:1000,accuracy:98}];
  renderRoundChart({count:12},migrated,true,String);
