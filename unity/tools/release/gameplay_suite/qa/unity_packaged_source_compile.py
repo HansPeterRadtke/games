@@ -17,7 +17,7 @@ import tarfile
 from pathlib import Path, PurePosixPath
 from xml.etree import ElementTree as ET
 
-from unity_archive_policy import inspect_archive
+from unity_archive_policy import read_package_members
 
 PACKAGE_ROOT = "Assets/HPRGameplaySuite"
 EDITOR_VERSION = re.compile(r"6000\.(\d+)\.(\d+)f(\d+)")
@@ -34,12 +34,7 @@ def stage(archive: Path, expected_sha: str, editor: Path, output: Path, *,
             or not isinstance(expected_sha, str)
             or not re.fullmatch(r"[0-9a-f]{64}", expected_sha)):
         raise ValueError("Explicit pinned non-symlink Unity .unitypackage required")
-    original_bytes = archive.read_bytes()
-    observed_sha = hashlib.sha256(original_bytes).hexdigest()
-    if observed_sha != expected_sha:
-        raise ValueError("The exact Unity package archive SHA-256 has changed")
-    if inspect_archive(archive)["status"] != "PASS":
-        raise ValueError("The original package failed structural Unity QA")
+    payloads = read_package_members(archive, expected_sha=expected_sha)
     if not editor.is_dir() or editor.is_symlink():
         raise ValueError("Exact installed Unity Editor directory required")
     version = editor.parent.name
@@ -66,18 +61,6 @@ def stage(archive: Path, expected_sha: str, editor: Path, output: Path, *,
         raise ValueError("InputSystem.dll must not be supplied for the Built-in-only source branch")
 
     # Load only tested HPR source entries. No source execution or tar extraction.
-    with tarfile.open(archive, "r:gz") as tf:
-        payloads = {}
-        for member in tf:
-            if not member.isfile():
-                raise ValueError("Unexpected tar member type")
-            stream = tf.extractfile(member)
-            if stream is None or member.size > 33_554_432:
-                raise ValueError("Unexpected Unity archive payload")
-            payload = stream.read(member.size + 1)
-            if len(payload) != member.size:
-                raise ValueError("Short/oversized Unity archive payload")
-            payloads[member.name] = payload
     sources = {}
     for entry, data in payloads.items():
         if not entry.endswith("/pathname"):
@@ -141,7 +124,7 @@ def stage(archive: Path, expected_sha: str, editor: Path, output: Path, *,
         "status": "PASS",
         "verification_level": "private_offline_api_only_not_unity_editor",
         "actual_unity_editor_executed": False,
-        "archive_sha256": observed_sha,
+        "archive_sha256": expected_sha,
         "source_file_count": len(sources),
         "source_file_sha256": checksums,
         "managed_api_editor": version,

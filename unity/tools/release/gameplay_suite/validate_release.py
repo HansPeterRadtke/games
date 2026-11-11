@@ -5,7 +5,6 @@ import argparse
 import json
 import re
 from pathlib import Path
-import tarfile
 
 ROOT = "Assets/HPRGameplaySuite/"
 SOURCE_DIR = Path(__file__).resolve().parent
@@ -45,56 +44,82 @@ def validate_editor_sources(editor_code: dict[str, bytes]) -> None:
             raise ValueError("Exported Editor script differs from release source: " + path)
 
 
+def validate_runtime_sources(contents: dict[str, bytes]) -> int:
+    suffixes = (".cs", ".asmdef", ".asmref")
+    packages = SOURCE_DIR.parents[2] / "packages"
+    expected = {}
+    for name in MODULES:
+        package = packages / ("com.hpr." + name)
+        for source in (package / "Runtime").rglob("*"):
+            if source.is_file() and source.suffix in suffixes:
+                key = ROOT + "Modules/" + package.name + "/" + source.relative_to(package).as_posix()
+                expected[key] = source
+    for path in REQUIRED:
+        if path.startswith(ROOT + "Integration/") and path.endswith(suffixes):
+            expected[path] = SOURCE_DIR / Path(path).name
+    actual = {path for path in contents if path.endswith(suffixes) and path not in EDITOR_SOURCES}
+    different = actual ^ expected.keys()
+    if different:
+        raise ValueError("Unexpected or missing runtime source: " + repr(sorted(different)))
+    for path, source in expected.items():
+        if contents[path] != source.read_bytes():
+            raise ValueError("Exported runtime source differs from release source: " + path)
+    return len(expected)
+
+
+def authored_guid(metadata: Path) -> str:
+    match = re.search(r"(?m)^guid:\s*([0-9a-f]{32})\s*$", metadata.read_text(encoding="utf-8"))
+    if match is None:
+        raise ValueError("Authoring metadata has invalid GUID: " + str(metadata))
+    return match.group(1)
+
+
 def inspect(archive: Path) -> dict:
     if not archive.is_file() or archive.stat().st_size < 4096:
         raise ValueError("Missing or trivial archive")
-    with tarfile.open(archive, "r:gz") as t:
-        members = t.getmembers()
-        if not members:
-            raise ValueError("Empty archive")
-        for m in members:
-            # Real Unitypackage archives contain one ordinary tar directory per
-            # Unity GUID, followed by `pathname`, `asset`, and `asset.meta` files.
-            if not (m.isfile() or m.isdir()) or m.size > 70 * 1024 * 1024:
-                raise ValueError("Unexpected tar member type or size")
-            if m.name.startswith("/") or ".." in Path(m.name).parts:
-                raise ValueError("Unsafe tar member path")
-        paths = []
-        archive_guids = {}
-        asset_contents = {}
-        for m in members:
-            if not m.name.endswith("/pathname"):
-                continue
-            content = t.extractfile(m)
-            if content is None:
-                raise ValueError("Missing asset pathname")
-            path = content.read(4096).decode("utf-8").strip().replace("\\", "/")
-            if not path.startswith(ROOT) and path != ROOT.rstrip("/"):
-                raise ValueError("Unity package contains files outside one approved root: " + path)
-            paths.append(path)
-            archive_guids[path] = m.name.split("/", 1)[0]
-            if path.endswith((".cs", ".md", ".unity", ".asset", ".mat")):
-                blob = t.extractfile(m.name.rsplit("/", 1)[0] + "/asset")
-                if blob is not None:
-                    asset_contents[path] = blob.read(2_000_000)
+    from qa.unity_archive_policy import read_package_members
+
+    members = read_package_members(archive)
+    paths = []
+    archive_guids = {}
+    asset_contents = {}
+    for key, raw in members.items():
+        guid, field = key.split("/", 1)
+        if field != "pathname":
+            continue
+        path = raw.decode("utf-8").rstrip("\r\n")
+        paths.append(path)
+        archive_guids[path] = guid
+        if guid + "/asset" in members:
+            asset_contents[path] = members[guid + "/asset"]
     if len(paths) != len(set(paths)):
         raise ValueError("Duplicate Unity asset path")
     if len(archive_guids) != len(set(archive_guids.values())):
         raise ValueError("Duplicate serialized Unity GUIDs detected in archive")
     authored_root = Path(__file__).resolve().parent / "buyer_source_assets"
-    authored_metadata = sorted(authored_root.rglob("*.meta"))
-    if len(authored_metadata) < 50:
+    metadata = {
+        "Assets/" + meta.relative_to(authored_root).with_suffix("").as_posix(): meta
+        for meta in authored_root.rglob("*.meta")
+    }
+    if len(metadata) < 50:
         raise ValueError("Source-controlled Unity GUID baseline missing")
-    for metadata in authored_metadata:
-        relative = metadata.relative_to(authored_root)
-        asset_path = "Assets/" + str(relative.with_suffix("")).replace("\\", "/")
-        match = re.search(r"(?m)^guid:\s*([0-9a-f]{32})\s*$",
-                          metadata.read_text(encoding="utf-8"))
-        if match is None:
-            raise ValueError("Authoring metadata has invalid GUID: " + str(relative))
-        actual = archive_guids.get(asset_path)
-        if actual != match.group(1):
-            raise ValueError("Unstable buyer asset GUID: " + asset_path)
+    for module in MODULES:
+        name = "com.hpr." + module
+        package = SOURCE_DIR.parents[2] / "packages" / name
+        files = list((package / "Runtime").rglob("*.meta"))
+        for item in ("Runtime", "README.md", "LICENSE.md", "ThirdPartyNotices.md", "CHANGELOG.md"):
+            meta = package / (item + ".meta")
+            if meta.is_file():
+                files.append(meta)
+        for meta in files:
+            relative = meta.relative_to(package).with_suffix("").as_posix()
+            metadata[ROOT + "Modules/" + name + "/" + relative] = meta
+    different = archive_guids.keys() ^ metadata.keys()
+    if different:
+        raise ValueError("Unexpected or missing buyer asset paths: " + repr(sorted(different)))
+    for path, meta in metadata.items():
+        if archive_guids[path] != authored_guid(meta):
+            raise ValueError("Unstable buyer asset GUID: " + path)
 
     # The archived Unity source scene, ScriptableObjects and materials must
     # contain the exact source-controlled YAML, not a regenerated imitation.
@@ -146,15 +171,16 @@ def inspect(archive: Path) -> dict:
     if bad_paths:
         raise ValueError("Buyer Editor code still expects obsolete UPM layout: " + repr(bad_paths))
     validate_editor_sources(editor_code)
+    runtime_sources = validate_runtime_sources(asset_contents)
     # UI Toolkit (UnityEngine.UIElements) is built into Unity; UGUI is optional.
     if any(b"using UnityEngine.UI;" in body or b"UnityEngine.UI." in body
            for path, body in asset_contents.items() if path.endswith(".cs")):
         raise ValueError("Unexpected dependency on UnityEngine.UI UGUI in standalone buyer source")
     return {"asset_count": len(paths), "modules": len(MODULES), "root": ROOT,
             "scene": REQUIRED[0], "external_paths": 0, "tests_in_release": 0,
-            "editor_scripts_checked": len(editor_code), "outdated_upm_path_references": 0,
+            "editor_scripts_checked": len(editor_code), "runtime_sources_checked": runtime_sources, "outdated_upm_path_references": 0,
             "ai_disclosure": True, "unity_gui_dependency_required": False,
-            "source_controlled_guids_verified": len(authored_metadata),
+            "source_controlled_guids_verified": len(metadata),
             "source_controlled_yaml_verified": len(authored_yaml)}
 
 

@@ -60,6 +60,49 @@ class ValidatedArchive(unittest.TestCase):
         self.assertEqual([],r["issues"])
         self.assertTrue(r["read_only"])
 
+    def test_legacy_directory_preview_and_modern_members_identify_the_same_assets(self):
+        self.check()
+        legacy = self.out.with_name("legacy.unitypackage")
+        with tarfile.open(self.out, "r:gz") as source, tarfile.open(legacy, "w:gz") as output:
+            for name in (".", "./" + SCRIPT[0]):
+                directory = tarfile.TarInfo(name)
+                directory.type = tarfile.DIRTYPE
+                output.addfile(directory)
+            for member in source:
+                data = source.extractfile(member).read()
+                member.name = "./" + member.name
+                output.addfile(member, io.BytesIO(data))
+            png = b"\x89PNG\r\n\x1a\nsynthetic thumbnail record"
+            thumb = tarfile.TarInfo("./" + SCRIPT[0] + "/preview.png")
+            thumb.size = len(png)
+            output.addfile(thumb, io.BytesIO(png))
+        report = checker.inspect_archive(legacy)
+        self.assertEqual(report["status"], "PASS", report)
+        records = checker.read_package_members(legacy)
+        self.assertEqual(records.pop(SCRIPT[0] + "/preview.png"), png)
+        self.assertEqual(records, checker.read_package_members(self.out))
+
+    def test_legacy_syntax_preserves_collision_and_path_checks(self):
+        self.check()
+        for kind, name, data in (
+            (tarfile.REGTYPE, "./" + SCRIPT[0] + "/pathname", b"duplicate"),
+            (tarfile.REGTYPE, "./../" + SCRIPT[0] + "/asset", b"escape"),
+            (tarfile.DIRTYPE, "./" + "1" * 32, b""),
+            (tarfile.SYMTYPE, "./" + SCRIPT[0] + "/preview.png", b""),
+            (tarfile.REGTYPE, "./" + SCRIPT[0] + "/preview.png", b"unexpected"),
+        ):
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as temporary:
+                invalid = Path(temporary) / "invalid.unitypackage"
+                with tarfile.open(self.out, "r:gz") as source, tarfile.open(invalid, "w:gz") as output:
+                    for member in source:
+                        output.addfile(member, source.extractfile(member))
+                    extra = tarfile.TarInfo(name)
+                    extra.type = kind
+                    extra.size = len(data)
+                    output.addfile(extra, io.BytesIO(data))
+                with self.assertRaisesRegex(ValueError, "Invalid Unity archive"):
+                    checker.read_package_members(invalid)
+
     def test_broken_asmdef_reference_rejected(self):
         bad=("a"*32,ASM_1[1],definition("HPR.Abilities.Runtime",["HPR.Unshipped.Runtime"]))
         r=self.check(ROOT_FOLDER,bad,ASM_2,SCRIPT)

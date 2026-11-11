@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import io
 import json
 from pathlib import Path, PurePosixPath
 import re
@@ -22,7 +23,7 @@ MAX_MEMBERS = 30000
 MAX_PATH_BYTES = 150
 GUID = re.compile(r"^[0-9a-f]{32}$")
 GUID_META = re.compile(rb"(?m)^guid:\s*([0-9a-fA-F]{32})\s*$")
-ALLOWED_SUFFIXES = {"pathname", "asset", "asset.meta"}
+ALLOWED_SUFFIXES = {"pathname", "asset", "asset.meta", "preview.png"}
 SHIPPED_QA_FRAGMENTS = ("/tests/", "/test-runner", "/test_runner", "/qa/", "/nunit/")
 SCRIPT_CONTENT_TYPES = {".cs", ".asmdef", ".asmref", ".unity", ".mat", ".asset",
                         ".prefab", ".md", ".txt", ".uss", ".uxml", ".json",
@@ -55,15 +56,28 @@ def _safe_unity_path(value: str) -> bool:
     return len(value.encode("utf-8")) <= MAX_PATH_BYTES
 
 
-def _load_members(path: Path) -> tuple[dict[str, bytes], list[str]]:
+def _load_members(compressed: bytes) -> tuple[dict[str, bytes], list[str]]:
     issues: list[str] = []
     parts: dict[str, bytes] = {}
-    with tarfile.open(path, "r:gz") as tf:
+    seen = set()
+    directories = set()
+    total_size = 0
+    with tarfile.open(fileobj=io.BytesIO(compressed), mode="r:gz") as tf:
         for index, member in enumerate(tf):
             if index >= MAX_MEMBERS:
                 issues.append("archive member count exceeds permitted QA limit")
                 break
-            name = member.name
+            # Legacy Unity exports "./<guid>/..." plus directory entries and
+            # optional thumbnails. Modern exports use "<guid>/..." directly.
+            name = member.name.removeprefix("./")
+            if name in seen:
+                issues.append("duplicate archive entry: " + name[:100])
+                continue
+            seen.add(name)
+            if member.isdir() and member.size == 0 and (name == "." or GUID.fullmatch(name)):
+                if name != ".":
+                    directories.add(name)
+                continue
             if not member.isfile() or name.startswith("/") or "\\" in name:
                 issues.append("invalid archive member or unsafe path: " + name[:100])
                 continue
@@ -72,12 +86,13 @@ def _load_members(path: Path) -> tuple[dict[str, bytes], list[str]]:
                     segments[1] not in ALLOWED_SUFFIXES:
                 issues.append("nonstandard or unsafe tar entry: " + name[:100])
                 continue
-            if name in parts:
-                issues.append("duplicate archive entry: " + name[:100])
-                continue
             if member.size > MAX_ENTRY_BYTES or member.size < 0:
                 issues.append("unreasonably large archive entry: " + name[:100])
                 continue
+            total_size += member.size
+            if total_size > MAX_PACKAGE_BYTES:
+                issues.append("archive payloads exceed bounded read limit")
+                break
             stream = tf.extractfile(member)
             if stream is None:
                 issues.append("tar payload unavailable: " + name[:100])
@@ -86,7 +101,13 @@ def _load_members(path: Path) -> tuple[dict[str, bytes], list[str]]:
             if len(data) != member.size:
                 issues.append("truncated or oversized archive entry: " + name[:100])
                 continue
+            if segments[1] == "preview.png" and not data.startswith(b"\x89PNG\r\n\x1a\n"):
+                issues.append("invalid Unity thumbnail: " + name)
+                continue
             parts[name] = data
+    for directory in sorted(directories):
+        if directory + "/pathname" not in parts:
+            issues.append("orphan Unity GUID directory: " + directory)
     return parts, issues
 
 
@@ -138,7 +159,7 @@ def _asmdef_issues(paths: dict[str, tuple[str, bool, bytes]]) -> tuple[list[str]
     return issues, len(asmdefs)
 
 
-def inspect_archive(path: Path) -> dict:
+def _scan_archive(path: Path) -> tuple[dict, dict[str, bytes]]:
     path = Path(path)
     if not path.is_file() or path.is_symlink():
         raise FileNotFoundError("A concrete local immutable .unitypackage is required")
@@ -146,12 +167,16 @@ def inspect_archive(path: Path) -> dict:
         raise ValueError("Require an authentic .unitypackage suffix")
     if path.stat().st_size > MAX_PACKAGE_BYTES:
         raise ValueError("Internal QA package exceeds the bounded read limit")
-    archive_sha = hashlib.sha256(path.read_bytes()).hexdigest()
+    with path.open("rb") as stream:
+        compressed = stream.read(MAX_PACKAGE_BYTES + 1)
+    if len(compressed) > MAX_PACKAGE_BYTES:
+        raise ValueError("Internal QA package exceeds the bounded read limit")
+    archive_sha = hashlib.sha256(compressed).hexdigest()
     try:
-        parts, issues = _load_members(path)
+        parts, issues = _load_members(compressed)
     except (tarfile.TarError, OSError, EOFError) as exc:
         return {"status": "FAIL", "issues": ["invalid Unity tar container: " + type(exc).__name__],
-                "read_only": True, "archive_sha256": archive_sha}
+                "read_only": True, "archive_sha256": archive_sha}, {}
     entries: dict[str, dict[str, bytes]] = {}
     for name, blob in parts.items():
         identity, suffix = name.split("/")
@@ -218,7 +243,22 @@ def inspect_archive(path: Path) -> dict:
         "archive_sha256": archive_sha,
         "max_asset_path_bytes": max((len(name.encode("utf-8")) for name in paths), default=0),
         "issues": sorted(set(issues)),
-    }
+    }, parts
+
+
+def inspect_archive(path: Path) -> dict:
+    report, _ = _scan_archive(path)
+    return report
+
+
+def read_package_members(path: Path, *, expected_sha: str | None = None) -> dict[str, bytes]:
+    """Return validated records keyed by GUID/member for either Unity export format."""
+    report, parts = _scan_archive(path)
+    if expected_sha is not None and report["archive_sha256"] != expected_sha:
+        raise ValueError("Unity archive checksum differs from the selected version")
+    if report["status"] != "PASS":
+        raise ValueError("Invalid Unity archive: " + ", ".join(report["issues"][:3]))
+    return parts
 
 
 def main() -> int:

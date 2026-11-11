@@ -19,7 +19,7 @@ import re
 import tarfile
 from xml.etree import ElementTree as ET
 
-from unity_archive_policy import inspect_archive
+from unity_archive_policy import read_package_members
 
 ROOT = "Assets/HPRGameplaySuite"
 MODULES = ROOT + "/Modules/"
@@ -61,11 +61,9 @@ def plan(archive: Path, expected_sha: str, staged: Path) -> dict:
     staged = Path(staged)
     if not archive.is_file() or archive.is_symlink():
         raise ValueError("The exact non-symlink .unitypackage is required")
-    if not re.fullmatch("[0-9a-f]{64}", expected_sha) or digest(archive) != expected_sha:
+    if not re.fullmatch("[0-9a-f]{64}", expected_sha):
         raise ValueError("Wrong exact Unity private package checksum")
-    audit = inspect_archive(archive)
-    if audit["status"] != "PASS":
-        raise ValueError("Archive structural/GUID policy failed")
+    data = read_package_members(archive, expected_sha=expected_sha)
     source_root = staged / "sources"
     manifest = staged / "SOURCE_MANIFEST.json"
     if (staged.is_symlink() or source_root.is_symlink() or
@@ -84,19 +82,6 @@ def plan(archive: Path, expected_sha: str, staged: Path) -> dict:
             raise ValueError("Staged source file is missing or symlinked: " + path)
         if digest(file) != claimed_sha:
             raise ValueError("Staged source changed after original package import: " + path)
-
-    data = {}
-    with tarfile.open(archive, "r:gz") as package:
-        for member in package:
-            if not member.isfile():
-                raise ValueError("Unexpected package member type")
-            stream = package.extractfile(member)
-            if stream is None or member.size > 33_554_432:
-                raise ValueError("Unexpected oversized or missing Unity member")
-            body = stream.read(member.size + 1)
-            if len(body) != member.size:
-                raise ValueError("Unity package member truncated")
-            data[member.name] = body
 
     entries: dict[str, str] = {}
     for member_name, body in data.items():

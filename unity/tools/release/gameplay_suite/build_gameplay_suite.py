@@ -7,14 +7,14 @@ module unit-test assemblies from the buyer archive; original tests remain at sou
 """
 from __future__ import annotations
 import argparse
+import fcntl
 import hashlib
 import json
 import os
 from pathlib import Path
 import shutil
 import subprocess
-import sys
-import time
+import tempfile
 
 MODULES = (
     "com.hpr.eventbus", "com.hpr.composition", "com.hpr.save", "com.hpr.stats",
@@ -111,15 +111,77 @@ def stage_authored_buyer_assets(*, reuse_project: bool) -> dict[str, str]:
     return asset_hashes
 
 
-def run_editor(args: list[str], label: str) -> None:
+def run_editor(args: list[str], label: str, env: dict[str, str] | None = None) -> None:
     log = RELEASE / (label + ".unity.log")
     cmd = [str(UNITY), "-batchmode", "-nographics", "-quit", *args, "-logFile", str(log)]
-    proc = subprocess.run(cmd, env=os.environ.copy(), stdout=subprocess.DEVNULL,
+    proc = subprocess.run(cmd, env=env, stdout=subprocess.DEVNULL,
                           stderr=subprocess.DEVNULL, timeout=600, check=False)
     if proc.returncode:
         print("UNITY_FAILED", label, "exit", proc.returncode, "log", log, flush=True)
         raise RuntimeError("Unity " + label + " failed")
     print("UNITY_PASSED", label, flush=True)
+
+
+def source_revision() -> dict:
+    """An exported source tree may legitimately have no Git metadata."""
+    def git(*args: str) -> str:
+        result = subprocess.run(["git", "-C", str(REPO_ROOT), *args], capture_output=True,
+                                text=True, check=False)
+        return result.stdout.strip() if result.returncode == 0 else ""
+
+    if not shutil.which("git") or git("rev-parse", "--show-toplevel") != str(REPO_ROOT):
+        return {"source_commit": None, "source_branch": None, "source_tree_dirty": None}
+    return {
+        "source_commit": git("rev-parse", "HEAD"),
+        "source_branch": git("branch", "--show-current") or None,
+        "source_tree_dirty": bool(git("status", "--porcelain", "--", "unity/packages",
+                                      "unity/tools/release/gameplay_suite")),
+    }
+
+
+def export_candidate(manifest: dict) -> None:
+    from validate_release import inspect
+
+    filename = "hpr-gameplay-systems-suite-candidate.unitypackage"
+    # Unity must create a fresh file even when this directory already contains
+    # a successful release. Leave that release intact if export or validation fails.
+    with tempfile.TemporaryDirectory(dir=RELEASE, prefix=".hpr-export-") as directory:
+        work = Path(directory)
+        candidate = work / filename
+        env = os.environ.copy()
+        # Inherit the invoking account and any explicitly configured display.
+        # Nitro's import workers use these defaults for its desktop session.
+        for key, value in {
+            "DISPLAY": ":1", "XAUTHORITY": "/home/hans/.Xauthority",
+            "XDG_RUNTIME_DIR": "/run/user/1000",
+            "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+        }.items():
+            env.setdefault(key, value)
+        env["HPR_GAMEPLAY_SUITE_OUTPUT"] = str(candidate)
+        run_editor(["-projectPath", str(PROJECT), "-executeMethod",
+                    "HPR.GameplaySuite.HprGameplaySuiteSceneBuilder.ExportExisting"], "build-export", env)
+        validation = inspect(candidate)
+        digest = checksum(candidate)
+        manifest_path = work / "source-manifest.json"
+        manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+        receipt = {
+            "artifact": filename, "bytes": candidate.stat().st_size, "sha256": digest,
+            "source_manifest_sha256": checksum(manifest_path), "module_count": len(MODULES),
+            "unity_editor_success": True, "validation": validation,
+            "release_status": "INTERNAL_QA_CANDIDATE_NOT_SUBMITTED_NOT_PUBLISHED",
+        }
+        receipt_path = work / "release-receipt.json"
+        receipt_path.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+        # Serialize replacement of related files. The receipt is the last write
+        # and records both hashes, including after an interrupted replacement.
+        directory_fd = os.open(RELEASE, os.O_RDONLY)
+        try:
+            fcntl.flock(directory_fd, fcntl.LOCK_EX)
+            for output in (candidate, manifest_path, receipt_path):
+                output.replace(RELEASE / output.name)
+        finally:
+            os.close(directory_fd)
+        print("EXPORTED_BYTES", receipt["bytes"], "SHA256", digest, flush=True)
 
 
 def main() -> None:
@@ -214,8 +276,15 @@ def main() -> None:
     shutil.copy2(SCRIPT_DIR / "INTEGRATED-SUITE-LICENSE.md", root / "LICENSE.md")
     shutil.copy2(SCRIPT_DIR / "ThirdPartyNotices.md", root / "ThirdPartyNotices.md")
     # The buyer has a single package root, unlike the nine former product drafts.
-    manifest = {"format": "hpr-unity-suite-manifest-v2", "assembly_root": "Assets/HPRGameplaySuite", "source_branch": "product/unity-integrated-suite-20261030", "modules": manifests, "external_art_included": False, "includes_original_integration_demo": True, "excludes_test_assemblies": True}
-    (RELEASE / "source-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    manifest = {
+        "format": "hpr-unity-suite-manifest-v2",
+        "assembly_root": "Assets/HPRGameplaySuite",
+        **source_revision(),
+        "modules": manifests,
+        "external_art_included": False,
+        "includes_original_integration_demo": True,
+        "excludes_test_assemblies": True,
+    }
     manifest["authored_buyer_assets"] = authored_assets
     manifest["integration_sources"] = {
         item: checksum(SCRIPT_DIR / item) for item in (
@@ -225,20 +294,8 @@ def main() -> None:
             "HprSuiteIntegrationGuide.uss", "README.md",
             "QUICKSTART.md", "ARCHITECTURE.md")
     }
-    (RELEASE / "source-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     print("STAGED", len(MODULES), "RUNTIME_MODULES", sum(x["buyer_runtime_files"] for x in manifests), "C_SHARP_FILES", flush=True)
-    archive = RELEASE / "hpr-gameplay-systems-suite-candidate.unitypackage"
-    env = os.environ.copy()
-    env.update({"HOME": "/home/hans", "USER": "hans", "LOGNAME": "hans", "DISPLAY": ":1", "XAUTHORITY": "/home/hans/.Xauthority", "XDG_RUNTIME_DIR": "/run/user/1000", "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus", "HPR_GAMEPLAY_SUITE_OUTPUT": str(archive)})
-    log = RELEASE / "build-export.unity.log"
-    proc = subprocess.run([str(UNITY), "-batchmode", "-nographics", "-quit", "-projectPath", str(PROJECT), "-executeMethod", "HPR.GameplaySuite.HprGameplaySuiteSceneBuilder.ExportExisting",
-                           "-logFile", str(log)], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=600, check=False)
-    if proc.returncode or not archive.is_file():
-        print("EXPORT_FAILED", proc.returncode, "log", log, flush=True)
-        raise RuntimeError("Unity scene build/export failed; do not publish this candidate")
-    print("EXPORTED_BYTES", archive.stat().st_size, "SHA256", checksum(archive), flush=True)
-    receipt = {"artifact": archive.name, "bytes": archive.stat().st_size, "sha256": checksum(archive), "module_count": len(MODULES), "unity_editor_success": True, "release_status": "INTERNAL_QA_CANDIDATE_NOT_SUBMITTED_NOT_PUBLISHED"}
-    (RELEASE / "release-receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
+    export_candidate(manifest)
     print("DONE_WITHOUT_PROVIDER_WRITE", flush=True)
 
 

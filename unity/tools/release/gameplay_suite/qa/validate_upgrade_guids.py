@@ -24,7 +24,7 @@ def asset_guids(archive: Path) -> dict[str, str]:
             if body is None:
                 raise ValueError("Missing Unity pathname record")
             name = body.read(4096).decode("utf-8").strip().replace("\\", "/")
-            guid = entry.name.split("/", 1)[0]
+            guid = entry.name.removeprefix("./").split("/", 1)[0]
             if len(guid) != 32 or any(letter not in "0123456789abcdef" for letter in guid):
                 raise ValueError("Invalid Unity GUID in archive")
             if name in result or guid in reverse:

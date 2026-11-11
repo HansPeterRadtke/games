@@ -240,7 +240,8 @@ public static class HprCustomerStatsAdapterValidator
                     throw new InvalidOperationException("Native HPR healing ability ignored cooldown");
 
                 File.WriteAllText(Environment.GetEnvironmentVariable("HPR_STATS_ADAPTER_PLAY_RECEIPT"),
-                    "actual_unity_6000_6_customer_playmode=PASS\n" +
+                    "actual_customer_playmode=PASS\n" +
+                    "unity_editor_version=" + Application.unityVersion + "\n" +
                     "existing_customer_controller_retained=PASS\n" +
                     "saved_native_stats_reference_functional_after_reload=PASS\n" +
                     "healing_restored_twenty_health=PASS\n" +

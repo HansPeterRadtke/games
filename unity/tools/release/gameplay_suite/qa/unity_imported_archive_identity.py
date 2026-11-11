@@ -63,6 +63,8 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
     members: dict[str, bytes] = {}
     with tarfile.open(archive, "r:gz") as package:
         for member in package:
+            if member.isdir():
+                continue  # The source policy already verified legacy GUID directories.
             if not member.isfile():
                 raise ValueError("Unexpected archive entry type")
             stream = package.extractfile(member)
@@ -71,7 +73,7 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
             body = stream.read(member.size + 1)
             if len(body) != member.size:
                 raise ValueError("Archive payload size mismatch")
-            members[member.name] = body
+            members[member.name.removeprefix("./")] = body
 
     names: dict[str, str] = {}
     for member, body in members.items():
