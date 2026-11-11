@@ -44,6 +44,9 @@ try {
  check('sequence cursor advances', $('target-text').querySelectorAll('.typed').length===1);
  press('x');
  check('sequence wrong highlights red',$('prompt-surface').classList.contains('wrong'));
+ press(sequence[1]);press('y');
+ check('sequence requires deleting the actual wrong key', $('target-text').querySelector('.wrong-current')?.textContent==='x'
+   && $('target-text').querySelectorAll('.typed').length===1 && $('stat-errors').textContent==='1');
  press('Delete');
  check('sequence Delete clears only the typo',!$('prompt-surface').classList.contains('wrong') && $('target-text').querySelectorAll('.typed').length===1 && $('target-text').querySelector('.current').textContent===sequence[1]);
  press('Delete');
@@ -60,6 +63,9 @@ try {
  check('text cursor advances', $('target-text').querySelectorAll('.typed').length===1);
  press('x');
  check('text typo red', $('prompt-surface').classList.contains('wrong') && $('target-text').querySelector('.wrong-current')!==null);
+ press(short[1]);press('y');
+ check('text retry is blocked until deletion', $('target-text').querySelector('.wrong-current')?.textContent==='x'
+   && $('stage-hint').textContent.includes('Delete') && $('target-text').querySelectorAll('.typed').length===1);
  press('Backspace');
  check('text Backspace clears only the typo',!$('prompt-surface').classList.contains('wrong') && $('target-text').querySelectorAll('.typed').length===1 && $('target-text').querySelector('.wrong-current')===null);
  check('text cursor stays on the letter to retry', [...$('target-text').querySelectorAll('span')].findIndex(x=>x.classList.contains('current'))===1);

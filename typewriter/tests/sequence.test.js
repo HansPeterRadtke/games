@@ -1,13 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  KEY_ORDER, MAX_SEQUENCE_LENGTH, SEQUENCE_ROUNDS, currentExpected, finishEarly,
+  KEY_ORDER, MAX_SEQUENCE_LENGTH, SEQUENCE_ROUNDS, currentExpected, deleteCharacter, elapsedMs, finishEarly,
   generateSequence, newProfile, newSession, normalizeConfig, pause, progressOf,
   reshuffleSequence, restoreSession, sequenceRecordKey, snapshot, start,
   summaryOf, typeCharacter, unlockedKeys, validSequence,
 } from '../src/core.js';
 
 function enterRound(state, profile, beginning, pace = 100) {
+  if (state.phase === 'between-rounds') assert.ok(start(state, profile, beginning));
   const sequence = state.sequence;
   let time = beginning;
   let result;
@@ -123,6 +124,8 @@ test('mistakes count against the specific round and do not advance', () => {
   assert.equal(typeCharacter(s, p, 'x', 100).kind, 'incorrect');
   assert.equal(s.typed, '');
   assert.equal(s.roundErrors, 1);
+  assert.equal(typeCharacter(s, p, target[0], 130).kind, 'ignored');
+  assert.equal(deleteCharacter(s, 150).kind, 'cleared');
   assert.equal(typeCharacter(s, p, target[0].toUpperCase(), 200).kind, 'correct');
   const result = typeCharacter(s, p, target[1], 400);
   assert.equal(result.kind, 'round-complete');
@@ -159,6 +162,7 @@ test('snapshot and restore keep the sequence, partial round, timer and record', 
   reshuffleSequence(s, () => 0);
   start(s, p, 0);
   const first = enterRound(s, p, 0, 100);
+  start(s, p, first.time);
   typeCharacter(s, p, s.sequence[0], first.time + 150);
   typeCharacter(s, p, 'x', first.time + 200);
   const data = snapshot(s, first.time + 250);
@@ -172,6 +176,7 @@ test('snapshot and restore keep the sequence, partial round, timer and record', 
   assert.equal(restored.correct, 5);
   assert.equal(restored.activeMs, first.time + 250);
   start(restored, p, 90000);
+  deleteCharacter(restored, 90010);
   for (let i = 1; i < restored.sequence.length; i++) {
     typeCharacter(restored, p, restored.sequence[i], 90100 + i * 100);
   }
@@ -200,6 +205,7 @@ test('repeat fixed sequence after abandoning a partially completed session', () 
   reshuffleSequence(s, () => 0);
   start(s, p, 0);
   const first = enterRound(s, p, 0, 100);
+  start(s, p, first.time);
   typeCharacter(s, p, s.sequence[0], first.time + 50);
   finishEarly(s, p, first.time + 75);
   assert.equal(p.history[0].status, 'interrupted');
@@ -256,4 +262,22 @@ test('longest allowed sequence session survives saved-state restoration', () => 
   assert.equal(recovered.rounds.length, 30);
   assert.equal(recovered.sequence, s.sequence);
   assert.equal(profileRecord(p, recovered).bestMs, 1800);
+});
+
+test('round breaks ignore letters, survive reload and exclude all waiting time', () => {
+  const s = newSession({ mode: 'sequence', sequence: 'fj', sequenceRounds: 3 }), p = newProfile();
+  start(s, p, 0);
+  enterRound(s, p, 0, 125);
+  assert.equal(s.phase, 'between-rounds');
+  assert.equal(elapsedMs(s, 50000), 250);
+  assert.equal(typeCharacter(s, p, 'f', 50000).kind, 'ignored');
+  assert.equal(s.correct, 2);
+  const restored = restoreSession(snapshot(s, 60000));
+  assert.equal(restored.phase, 'between-rounds');
+  assert.equal(typeCharacter(restored, p, 'j', 65000).kind, 'ignored');
+  start(restored, p, 70000);
+  const next = enterRound(restored, p, 70000, 80);
+  assert.equal(next.result.round.ms, 160);
+  assert.equal(restored.trials[2].ms, 80);
+  assert.equal(elapsedMs(restored, 90000), 410);
 });

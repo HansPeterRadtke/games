@@ -47,7 +47,6 @@ let saveError = initial.error;
 let notice = '';
 let noticeKind = '';
 let selectedWindow = 10;
-let lastFeedback = '';
 const now = () => performance.now();
 
 function element(tag, className = '', text = '') {
@@ -84,7 +83,7 @@ function renderSaveState() {
 }
 function hasPartial() { return session.correct > 0 || session.errors > 0; }
 function abandonPrompt() {
-  if (!['running', 'paused'].includes(session.phase) || !hasPartial()) return true;
+  if (session.phase === 'complete' || !hasPartial()) return true;
   return window.confirm('Start a new session? Your completed keystrokes will remain in Recent sessions, but this round will end.');
 }
 function updateConfiguration(patch) {
@@ -99,7 +98,6 @@ function updateConfiguration(patch) {
   }
   session = newSession({ ...session, ...patch });
   if (session.mode === 'sequence' && !session.sequence) reshuffleSequence(session);
-  lastFeedback = '';
   notice = '';
   persist();
   render();
@@ -129,7 +127,6 @@ function beginPractice() {
   if (start(session, profile, now())) {
     $('practice-settings').open = false;
     notice = '';
-    lastFeedback = session.feedback;
     focusTyping();
     persist();
     render();
@@ -137,7 +134,6 @@ function beginPractice() {
 }
 function pausePractice(message = '') {
   if (!pause(session, now())) return;
-  lastFeedback = '';
   notice = message;
   noticeKind = '';
   persist();
@@ -150,7 +146,6 @@ function newPractice() {
   session = newSession(session);
   if (session.mode === 'sequence' && !session.sequence) reshuffleSequence(session);
   notice = '';
-  lastFeedback = '';
   persist();
   render();
 }
@@ -160,7 +155,6 @@ function shufflePractice() {
   finishEarly(session, profile, now());
   session = newSession(session);
   reshuffleSequence(session);
-  lastFeedback = '';
   noticeKind = 'success';
   notice = 'New sequence shuffled. Every unlocked key is included.';
   persist();
@@ -169,7 +163,6 @@ function shufflePractice() {
 function handleCharacter(char) {
   const result = typeCharacter(session, profile, char, now());
   if (result.kind === 'ignored') return;
-  lastFeedback = result.kind;
   notice = '';
   if (result.kind === 'complete') {
     noticeKind = 'success';
@@ -178,7 +171,7 @@ function handleCharacter(char) {
       : 'Session complete. Your round results are ready.';
   } else if (result.kind === 'round-complete') {
     noticeKind = 'success';
-    notice = 'Round ' + result.round.number + ' complete · ' + percent(result.round.accuracy) + ' accuracy.';
+    notice = 'Round ' + result.round.number + ' complete · ' + percent(result.round.accuracy) + ' accuracy. Press Space for the next round.';
   } else if (result.kind === 'incorrect') {
     noticeKind = 'error';
   } else if (result.records?.length) {
@@ -197,11 +190,10 @@ function handleCharacter(char) {
 function handleDelete() {
   const result = deleteCharacter(session, now());
   if (result.kind === 'ignored') return;
-  lastFeedback = '';
   noticeKind = '';
   notice = result.kind === 'moved-back'
     ? 'Moved back one character. Continue typing from the highlighted cursor.'
-    : result.kind === 'cleared' ? 'Mistake highlight cleared. Try the key again.' : '';
+    : result.kind === 'cleared' ? 'Typo cleared. Type ' + keyName(currentExpected(session)) + '.' : '';
   persist();
   render();
 }
@@ -209,11 +201,23 @@ function isEditing(target) {
   if (!(target instanceof Element)) return false;
   return Boolean(target.closest('textarea, select, input:not(#type-capture), [contenteditable="true"]'));
 }
+function handleSpaceShortcut() {
+  if (session.phase !== 'running') beginPractice();
+  else if (session.mode === 'text') return false;
+  else if (session.mode === 'keys' || session.feedback !== 'incorrect') pausePractice();
+  return true;
+}
 document.addEventListener('keydown', e => {
-  if (e.ctrlKey || e.altKey || e.metaKey || e.isComposing || e.key === 'Dead') return;
-  if (e.target instanceof Element && e.target.closest('button, summary') && (e.key === ' ' || e.key === 'Enter')) return;
+  if (e.defaultPrevented || e.ctrlKey || e.altKey || e.metaKey || e.isComposing || e.key === 'Dead') return;
+  const control = e.target instanceof Element && e.target.closest('button, summary');
+  const modeSpace = e.key === ' ' && control && control.matches('.mode-tab[aria-selected="true"]');
+  if (control && !modeSpace && (e.key === ' ' || e.key === 'Enter')) return;
   if (isEditing(e.target)) {
     if (e.key === 'Escape' && session.phase === 'running') pausePractice();
+    return;
+  }
+  if (e.key === ' ' && e.repeat) {
+    e.preventDefault();
     return;
   }
   if (e.key === 'Escape') {
@@ -232,14 +236,8 @@ document.addEventListener('keydown', e => {
     changeLevel(session.level + (e.key === '+' ? 1 : -1));
     return;
   }
-  if (e.key === ' ' && session.phase !== 'running') {
+  if (e.key === ' ' && handleSpaceShortcut()) {
     e.preventDefault();
-    beginPractice();
-    return;
-  }
-  if (e.key === ' ' && session.mode !== 'text') {
-    e.preventDefault();
-    pausePractice();
     return;
   }
   if (session.phase !== 'running') return;
@@ -267,11 +265,12 @@ dom.capture.addEventListener('input', e => {
   }
   // Some mobile keyboards emit input events without physical keydown events.
   if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') {
-    dom.capture.value = '';
+    dom.capture.value = session.wrongKey;
     return;
   }
   const value = dom.capture.value;
-  dom.capture.value = '';
+  dom.capture.value = session.wrongKey;
+  if (value === ' ' && handleSpaceShortcut()) return;
   if (session.phase !== 'running') return;
   for (const c of value) {
     if (session.phase !== 'running') break;
@@ -397,7 +396,6 @@ dom.importFile.addEventListener('change', async () => {
     profile = imported.profile;
     session = imported.session;
     clearReward();
-    lastFeedback = '';
     notice = 'Backup imported. Practice remains paused until you resume.';
     noticeKind = 'success';
     persist();
@@ -431,7 +429,10 @@ function renderStage() {
     : session.textKind === 'words+drills' ? 'PRACTICE WORDS AND FOCUS KEY DRILLS'
     : session.textKind === 'sentences' ? 'TYPE SHORT PHRASES USING YOUR UNLOCKED KEYS'
     : 'TYPE THE PASSAGE BELOW';
-  dom.prompt.classList.toggle('wrong', lastFeedback === 'incorrect' && session.phase === 'running');
+  const waiting = session.phase === 'between-rounds';
+  dom.prompt.classList.toggle('round-break', waiting);
+  if (dom.capture.value !== session.wrongKey) dom.capture.value = session.wrongKey;
+  dom.prompt.classList.toggle('wrong', session.feedback === 'incorrect' && session.phase === 'running');
   if (isKeys) {
     const keys = unlockedKeys(session);
     dom.targetKey.textContent = session.phase === 'idle' ? keys.slice(0, 2).map(keyName).join(' / ')
@@ -443,8 +444,10 @@ function renderStage() {
     const fragment = document.createDocumentFragment();
     Array.from(text).forEach((char, i) => {
       const cls = i < typedLen ? 'typed' : i === typedLen
-        ? (lastFeedback === 'incorrect' ? 'current wrong-current' : 'current') : 'pending';
-      fragment.append(element('span', cls, char));
+        ? (session.feedback === 'incorrect' ? 'current wrong-current' : 'current') : 'pending';
+      const wrong = i === typedLen && session.wrongKey;
+      const glyph = wrong === ' ' ? '␣' : wrong === '\n' ? '↵' : wrong;
+      fragment.append(element('span', cls, glyph || char));
     });
     dom.targetText.replaceChildren(fragment);
     const cursor = dom.targetText.querySelector('.current');
@@ -457,21 +460,24 @@ function renderStage() {
   }
   if (session.phase === 'idle') {
     dom.stageHint.textContent = session.mode === 'keys' ? 'Press Space to begin, or select Start practice.'
-      : isSequence ? 'Press Start. Repeat this exact order each round; only Shuffle changes it.'
+      : isSequence ? 'Press Space to start round 1.'
       : session.textKind === 'key-groups'
         ? 'Few real words are possible yet. Practice these letter groups, then unlock more letters.'
         : 'Type only the unlocked letters. Use Backspace or Delete to correct a typo.';
+  } else if (waiting) {
+    dom.stageHint.textContent = 'Round ' + session.rounds.length + ' complete. Press Space to start round ' + (session.rounds.length + 1) + '.';
   } else if (session.phase === 'paused') {
-    dom.stageHint.textContent = 'Paused. Your timer is stopped. Select Resume to continue.';
+    dom.stageHint.textContent = 'Paused. Press Space to resume.';
   } else if (session.phase === 'complete') {
-    dom.stageHint.textContent = isSequence ? 'Challenge complete. Start again with the same sequence to improve your best.'
+    dom.stageHint.textContent = isSequence ? 'Challenge complete. Press Space to start a new challenge.'
       : 'Round complete. Start another to keep improving.';
-  } else if (lastFeedback === 'incorrect') {
-    dom.stageHint.textContent = 'Not quite. Try ' + keyName(currentExpected(session)) + ' again.';
+  } else if (session.feedback === 'incorrect') {
+    const key = keyName(currentExpected(session));
+    dom.stageHint.textContent = isKeys ? 'Try ' + key + ' again.' : 'Press Delete or Backspace to erase the typo. Then type ' + key + '.';
   } else {
     dom.stageHint.textContent = session.mode === 'keys'
       ? 'Type the highlighted key. Space pauses the exercise.'
-      : isSequence ? 'Complete the sequence as fast as you can. It will repeat without reshuffling.'
+      : isSequence ? 'Type the sequence. The timer stops when you finish each round.'
       : 'Type the text including spaces. Escape pauses the exercise.';
   }
 }
@@ -614,8 +620,9 @@ function renderFeedback() {
   } else if (notice) {
     message = notice;
     kind = noticeKind;
-  } else if (lastFeedback === 'incorrect' && session.phase === 'running') {
-    message = 'Mistake recorded. The target remains until you type it correctly.';
+  } else if (session.feedback === 'incorrect' && session.phase === 'running') {
+    message = session.mode === 'keys' ? 'Mistake recorded. Try the highlighted key again.'
+      : 'Delete or Backspace must clear the typo before typing can continue.';
     kind = 'error';
   } else if (session.phase === 'complete') {
     message = 'Your progress is saved on this device.';
@@ -696,10 +703,10 @@ function render() {
   dom.customValidation.classList.toggle('invalid', illegal.length > 0);
   if (dom.customText.value !== session.customText) dom.customText.value = session.customText;
   dom.capture.setAttribute('autocapitalize', 'off');
-  const phase = { idle: 'READY', running: 'ACTIVE', paused: 'PAUSED', complete: 'COMPLETED' }[session.phase];
+  const phase = { idle: 'READY', running: 'ACTIVE', paused: 'PAUSED', 'between-rounds': 'ROUND COMPLETE', complete: 'COMPLETED' }[session.phase];
   dom.phaseText.textContent = phase;
   dom.phaseDot.className = 'phase-dot' + (session.phase === 'running' ? ' running' : session.phase === 'complete' ? ' complete' : '');
-  dom.primaryLabel.textContent = { idle: 'Start practice', running: 'Pause', paused: 'Resume practice', complete: 'Practice again' }[session.phase];
+  dom.primaryLabel.textContent = { idle: 'Start practice', running: 'Pause', paused: 'Resume practice', 'between-rounds': 'Start round ' + (session.rounds.length + 1), complete: 'Practice again' }[session.phase];
   dom.primaryIcon.textContent = session.phase === 'running' ? 'Ⅱ' : session.phase === 'complete' ? '↻' : '▶';
   dom.primary.disabled = text && !session.legacyResume
     && !levelTextValid(session, session.target || passageFor(session)) && session.phase === 'idle';
@@ -707,8 +714,8 @@ function render() {
   $('blocked-reason').textContent = !dom.primary.disabled ? '' : illegal.length
     ? 'This passage needs more letters. Open Practice settings to change the level or the text.'
     : 'Open Practice settings and enter a passage to start.';
-  dom.keyboardTip.textContent = text ? 'Esc = pause'
-    : 'Space = start / pause · Esc = pause';
+  dom.keyboardTip.textContent = text && session.phase === 'running'
+    ? 'Space = type a space · Esc = pause' : 'Space = start or resume · Esc = pause';
   const progress = progressOf(session);
   const ratio = progress.total ? Math.min(100, progress.done / progress.total * 100) : 0;
   dom.progressCount.textContent = formatInt(progress.done) + ' / ' + formatInt(progress.total);

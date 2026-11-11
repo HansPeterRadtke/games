@@ -365,3 +365,6 @@ summary:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
  .round-board { margin: 0; padding: 16px 12px; }
  .round-board-heading select, .round-chart select, #round-values summary { min-height: 44px; }
 }
+
+.prompt-surface.round-break .stage-hint { color: var(--mint); font-size: 1rem; font-weight: 650; }
+.prompt-surface.wrong .stage-hint { color: var(--red); }

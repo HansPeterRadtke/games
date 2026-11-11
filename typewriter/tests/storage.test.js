@@ -100,6 +100,7 @@ test('sequence records and round log survive version-one export and import', asy
   start(state, p, 0);
   let t = 0;
   for (let round = 0; round < 2; round++) {
+    if (round) start(state, p, t);
     for (let i = 0; i < state.sequenceLength; i++) {
       t += 150;
       typeCharacter(state, p, currentExpected(state), t);
@@ -107,7 +108,7 @@ test('sequence records and round log survive version-one export and import', asy
   }
   const json = serializeData(state, p, t + 30);
   const restored = parseExport(json);
-  assert.equal(restored.session.phase, 'paused');
+  assert.equal(restored.session.phase, 'between-rounds');
   assert.equal(restored.session.rounds.length, 2);
   assert.equal(restored.session.sequence, state.sequence);
   assert.equal(restored.profile.sequenceRecords[sequenceRecordKey(state)].count, 2);

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  KEY_ORDER, PASSAGES, WINDOW_SIZES, accuracyOf, currentExpected, elapsedMs, finishEarly,
+  KEY_ORDER, PASSAGES, WINDOW_SIZES, accuracyOf, currentExpected, deleteCharacter, elapsedMs, finishEarly,
   newProfile, newSession, normalizeConfig, passageFingerprint, pause, progressOf, restoreSession,
   snapshot, start, summaryOf, typeCharacter, weightedKeyChoice,
 } from '../src/core.js';
@@ -123,6 +123,8 @@ test('text practice is case-sensitive, permits spaces, and finishes on the last 
   const p = newProfile();
   assert.equal(start(s, p, 0), true);
   assert.equal(typeCharacter(s, p, 'ä', 100).kind, 'incorrect');
+  assert.equal(typeCharacter(s, p, 'Ä', 150).kind, 'ignored');
+  deleteCharacter(s, 175);
   assert.equal(typeCharacter(s, p, 'Ä', 200).kind, 'correct');
   assert.equal(typeCharacter(s, p, ' ', 400).kind, 'correct');
   assert.equal(typeCharacter(s, p, 'a', 600).kind, 'complete');

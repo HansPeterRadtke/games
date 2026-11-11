@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { currentExpected, finishEarly, keyRoundKey, newProfile, newSession, pause,
+import { currentExpected, deleteCharacter, finishEarly, keyRoundKey, newProfile, newSession, pause,
   roundRecordFor, start, typeCharacter } from '../src/core.js';
 import { recentStats, scoreRound } from '../src/rounds.js';
 import { parseExport, serializeData } from '../src/storage.js';
@@ -58,6 +58,7 @@ test('completed rounds are the only writes across all three modes and survive ex
     const state = newSession({mode, goal:10, sequenceRounds:3, passageId:'custom', customText:'fj'});
     start(state, p, 0);
     typeCharacter(state, p, 'x', 25);
+    if (mode !== 'keys') deleteCharacter(state, 60);
     typeCharacter(state, p, currentExpected(state), 100);
     pause(state, 150);
     assert.equal(roundRecordFor(state, p), undefined);
@@ -65,18 +66,20 @@ test('completed rounds are the only writes across all three modes and survive ex
     const s = data.session, profile = data.profile;
     start(s, profile, 1000);
     let now = 1000, last;
-    do {
+    for (let i = 0; i < 10 && !last?.reward; i++) {
       now += 100;
       last = typeCharacter(s, profile, currentExpected(s), now);
-    } while (!last.reward);
+    }
     assert.equal(last.reward.tier, 'baseline');
     assert.ok(last.reward.accuracy < 100);
     assert.equal(roundRecordFor(s, profile).count, 1);
     if (mode === 'sequence') {
-      while (s.phase !== 'complete') {
+      for (let i = 0; i < s.sequenceLength * (s.sequenceRounds - 1); i++) {
+        if (s.phase === 'between-rounds') start(s, profile, now);
         now += 100;
         typeCharacter(s, profile, currentExpected(s), now);
       }
+      assert.equal(s.phase, 'complete');
       assert.equal(roundRecordFor(s, profile).count, 3);
     }
     assert.equal(typeCharacter(s, profile, 'x', now+50).kind, 'ignored');

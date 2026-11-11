@@ -147,6 +147,7 @@ export function newSession(config = {}) {
     promptMs: 0,
     promptStart: null,
     feedback: '',
+    wrongKey: '',
     startedAt: null,
     finishedAt: null,
     latestRecords: [],
@@ -364,6 +365,7 @@ export function deleteCharacter(state, now) {
   if (state.phase !== 'running' && state.phase !== 'paused') return { kind: 'ignored' };
   const wasWrong = state.feedback === 'incorrect';
   state.feedback = '';
+  state.wrongKey = '';
   state.latestRecords = [];
   // A rejected letter marks the current prompt without advancing the typed prefix.
   if (wasWrong) return { kind: 'cleared' };
@@ -387,6 +389,8 @@ export function deleteCharacter(state, now) {
 export function typeCharacter(state, profile, input, now, rng = Math.random) {
   if (state.phase !== 'running') return { kind: 'ignored' };
   if (typeof input !== 'string' || !input) return { kind: 'ignored' };
+  // Passage and sequence practice leave one editable typo at the cursor.
+  if (state.mode !== 'keys' && state.feedback === 'incorrect') return { kind: 'ignored' };
   const expected = currentExpected(state);
   const char = (state.mode !== 'text' ? input.normalize('NFC').toLowerCase() : input.normalize('NFC'));
   if (Array.from(char).length !== 1 || !expected) return { kind: 'ignored' };
@@ -395,6 +399,7 @@ export function typeCharacter(state, profile, input, now, rng = Math.random) {
     state.pendingErrors++;
     if (state.mode === 'sequence') state.roundErrors++;
     state.feedback = 'incorrect';
+    if (state.mode !== 'keys') state.wrongKey = input.normalize('NFC');
     state.latestRecords = [];
     return { kind: 'incorrect', expected };
   }
@@ -437,8 +442,9 @@ export function typeCharacter(state, profile, input, now, rng = Math.random) {
     return { kind: 'complete', summary, records: state.latestRecords, round, reward };
   }
   if (round) {
+    pause(state, now);
     state.promptMs = 0;
-    state.promptStart = now;
+    state.phase = 'between-rounds';
     return { kind: 'round-complete', round, reward: round.reward };
   }
   if (state.mode === 'keys') {
@@ -546,10 +552,19 @@ export function restoreSession(data) {
   }
   if (data.phase === 'complete' && progressOf(state).done >= progressOf(state).total) {
     state.phase = 'complete';
+  } else if (data.phase === 'between-rounds' && state.mode === 'sequence' && !state.typed
+      && state.rounds.length > 0 && state.rounds.length < state.sequenceRounds && !state.roundErrors) {
+    state.phase = 'between-rounds';
+    state.promptMs = 0;
+    state.roundStartMs = state.activeMs;
   } else if (data.phase === 'paused' || data.phase === 'running') {
     state.phase = state.target ? 'paused' : 'idle';
     if (state.phase === 'paused' && state.mode !== 'keys' && state.pendingErrors > 0 && data.feedback === 'incorrect') {
       state.feedback = 'incorrect';
+      // Previous saves identify an outstanding typo but did not store its character.
+      if (typeof data.wrongKey === 'string' && Array.from(data.wrongKey).length === 1) {
+        state.wrongKey = data.wrongKey;
+      }
     }
   }
   return state;

@@ -72,6 +72,7 @@ test('corrected key with preceding errors cannot erase those errors by deleting 
   const p = newProfile();
   start(s, p, 0);
   typeCharacter(s, p, 'x', 50);
+  deleteCharacter(s, 75);
   typeCharacter(s, p, 'f', 100);
   assert.equal(s.trials[0].errors, 1);
   assert.equal(deleteCharacter(s, 150).kind, 'moved-back');
@@ -100,7 +101,7 @@ test('sequence cursor moves back within the current round, not into completed ro
   assert.equal(result.kind, 'round-complete');
   assert.equal(result.round.errors, 1);
   assert.equal(result.round.ms, 300);
-  assert.equal(deleteCharacter(s, 325).kind, 'nothing');
+  assert.equal(deleteCharacter(s, 325).kind, 'ignored');
   assert.equal(s.correct, 2);
   assert.equal(s.rounds.length, 1);
 });
@@ -113,14 +114,22 @@ for (const mode of ['sequence', 'text']) {
     const [first, second] = s.target;
     typeCharacter(s, p, first, 100);
     typeCharacter(s, p, 'x', 200);
+    assert.equal(s.wrongKey, 'x');
+    assert.equal(typeCharacter(s, p, second, 210).kind, 'ignored');
+    assert.equal(typeCharacter(s, p, 'y', 220).kind, 'ignored');
+    assert.equal(s.wrongKey, 'x');
     pause(s, 250);
     const restored = restoreSession(snapshot(s, 300));
+    assert.equal(restored.wrongKey, 'x');
     start(restored, p, 350);
+    assert.equal(typeCharacter(restored, p, second, 360).kind, 'ignored');
     assert.equal(deleteCharacter(restored, 400).kind, 'cleared');
     assert.equal(restored.typed, first);
     assert.equal(currentExpected(restored), second);
     assert.equal(restored.errors, 1);
     assert.equal(restored.trials.length, 1);
+    assert.equal(restored.wrongKey, '');
+    assert.notEqual(typeCharacter(restored, p, second, 500).kind, 'ignored');
   });
 }
 
@@ -152,4 +161,21 @@ test('completed exercises do not allow Delete to roll back their record', () => 
   assert.equal(deleteCharacter(s, 600).kind, 'ignored');
   assert.equal(s.typed, 'f');
   assert.equal(JSON.stringify(p.textRecords), record);
+});
+
+test('older saves require deletion only when their error marker is still present', () => {
+  const s = newSession({ mode: 'text', passageId: 'custom', customText: 'fj' }), p = newProfile();
+  start(s, p, 0);
+  typeCharacter(s, p, 'x', 10);
+  const old = snapshot(s, 20);
+  delete old.wrongKey;
+  const blocked = restoreSession(old);
+  start(blocked, p, 30);
+  assert.equal(typeCharacter(blocked, p, 'f', 40).kind, 'ignored');
+  assert.equal(deleteCharacter(blocked, 50).kind, 'cleared');
+  assert.equal(typeCharacter(blocked, p, 'f', 60).kind, 'correct');
+  const cleared = restoreSession({ ...old, feedback: '' });
+  start(cleared, p, 30);
+  assert.equal(typeCharacter(cleared, p, 'f', 40).kind, 'correct');
+  assert.equal(cleared.trials[0].errors, 1);
 });

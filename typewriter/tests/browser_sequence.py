@@ -51,15 +51,23 @@ try {
  $('shuffle-sequence').click();
  const fixed=sequence();
  check('explicit shuffle changes order',fixed!==beforeShuffle, fixed);
- $('primary-button').click();
+ $('mode-sequence').click();
+ $('mode-sequence').focus();
+ $('mode-sequence').dispatchEvent(new KeyboardEvent('keydown',{key:' ',code:'Space',bubbles:true,cancelable:true}));
+ check('Space on the selected mode starts and focuses typing',document.activeElement===$('type-capture'));
+ document.activeElement.dispatchEvent(new KeyboardEvent('keydown',{key:' ',code:'Space',repeat:true,bubbles:true,cancelable:true}));
  check('challenge starts', $('phase-text').textContent==='ACTIVE');
  await typeSequence(fixed,70);
- check('round 1 complete', $('phase-text').textContent==='ACTIVE' && $('sequence-round-position').textContent==='2 / 3');
+ check('round 1 complete', $('phase-text').textContent==='ROUND COMPLETE' && $('sequence-round-position').textContent==='2 / 3');
  check('first record visible', !$('achievement-banner').hidden && $('achievement-title').textContent.includes('First round recorded'));
  check('round log one', $('round-log-items').querySelectorAll('.round-log-row').length===1);
  check('baseline chart contains a single centered round', $('round-plot').querySelectorAll('circle').length===1
    && $('round-axis-end').textContent==='Round 1' && $('round-axis-end').parentElement.classList.contains('single-round'));
  const firstTime=parseFloat($('sequence-personal-best').textContent);
+ press(fixed[0]); press(fixed[1]);
+ check('round break ignores type-ahead and tells the player to press Space',$('progress-count').textContent==='6 / 18'
+   && $('stage-hint').textContent.includes('Press Space to start round 2'));
+ press(' ');
  await typeSequence(fixed,12);
  check('round 2 complete', $('sequence-round-position').textContent==='3 / 3');
  check('best improves', $('achievement-title').textContent.includes('All-time best round time') && !$('achievement-banner').hidden,
@@ -67,6 +75,10 @@ try {
  const newBest=parseFloat($('sequence-personal-best').textContent);
  check('new record faster',newBest<firstTime,firstTime+' -> '+newBest);
  check('round log two', $('round-log-items').querySelectorAll('.round-log-row').length===2);
+ const capture=$('type-capture');
+ capture.value=' ';
+ capture.dispatchEvent(new InputEvent('input',{inputType:'insertText',data:' ',bubbles:true}));
+ check('virtual keyboard Space starts the next round',$('phase-text').textContent==='ACTIVE');
  await typeSequence(fixed,80);
  check('three rounds complete', $('phase-text').textContent==='COMPLETED' && $('progress-count').textContent==='18 / 18');
  check('slower final round acknowledged accurately', $('round-result').textContent.startsWith('Clean round') && !$('round-result').textContent.includes('All-time best'));
@@ -92,8 +104,8 @@ try {
  const race=sequence();
  let clock=10000;
  Object.defineProperty(performance,'now',{configurable:true,value:()=>clock});
- $('primary-button').click();
  for (const pace of [200,100,300,300,300,220]) {
+   press(' ');
    for (const c of race) { clock+=pace; press(c); }
    if ($('sequence-round-position').textContent==='6 / 10')
      check('plateau earns a completion milestone',$('round-result').textContent.includes('5 rounds completed'));
@@ -115,6 +127,7 @@ try {
  check('exact readings accompany the chart',$('round-values').querySelectorAll('tbody tr').length===6
    && $('round-values').querySelector('tbody tr:last-child').textContent.includes('100%'));
  $('celebrations').click();
+ press(' ');
  for (const c of race) { clock+=30; press(c); }
  check('celebrations can be silenced without losing the result',$('achievement-banner').hidden
    && $('round-result').textContent.includes('All-time best') && $('reward-announcement').textContent.includes('All-time best'));
