@@ -6,6 +6,7 @@ these tests do not start a Unity Editor, C# compiler or actual import.
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import sys
 import tarfile
@@ -57,6 +58,14 @@ class ExactUnitySourceCompilerStaging(unittest.TestCase):
         self.assertEqual(1,len(project.findall("./ItemGroup/Compile")))
         self.assertEqual(self.sha,json.loads((self.out/"SOURCE_MANIFEST.json").read_text())["archive_sha256"])
         self.assertFalse(result["actual_unity_editor_executed"])
+
+    def test_relative_arguments_generate_buildable_source_and_library_paths(self):
+        tool.stage(self.archive, self.sha, Path(os.path.relpath(self.editor)), Path(os.path.relpath(self.out)))
+        project = ET.parse(self.out / "hpr-package-compile.csproj")
+        for item in project.findall("./ItemGroup/Compile"):
+            self.assertTrue((self.out / item.get("Include")).is_file())
+        for hint in project.findall("./ItemGroup/Reference/HintPath"):
+            self.assertTrue((self.out / hint.text).is_file())
 
     def test_wrong_digest_refused_without_output(self):
         with self.assertRaises(ValueError):

@@ -26,8 +26,8 @@ EDITOR_VERSION = re.compile(r"6000\.(\d+)\.(\d+)f(\d+)")
 def stage(archive: Path, expected_sha: str, editor: Path, output: Path, *,
           new_input: bool = False, inputsystem_dll: Path | None = None) -> dict:
     archive = Path(archive)
-    editor = Path(editor)
-    output = Path(output)
+    editor = Path(editor).absolute()
+    output = Path(output).absolute()
     if (output.exists() or output.is_symlink()):
         raise FileExistsError("A unique offline source QA folder is required")
     if (not archive.is_file() or archive.is_symlink()
@@ -56,7 +56,7 @@ def stage(archive: Path, expected_sha: str, editor: Path, output: Path, *,
         if (inputsystem_dll is None or not Path(inputsystem_dll).is_file()
                 or Path(inputsystem_dll).is_symlink()):
             raise ValueError("New Input System branch requires an explicit available Unity.InputSystem.dll")
-        references.append(Path(inputsystem_dll))
+        references.append(Path(inputsystem_dll).absolute())
     elif inputsystem_dll is not None:
         raise ValueError("InputSystem.dll must not be supplied for the Built-in-only source branch")
 

@@ -179,8 +179,8 @@ def stage(archive: Path, expected_sha: str, staged: Path, unity_editor: Path,
           output: Path, *, new_input: bool = False,
           input_dll: Path | None = None, player: bool = False,
           legacy_input: bool = False) -> dict:
-    output = Path(output)
-    editor = Path(unity_editor)
+    output = Path(output).absolute()
+    editor = Path(unity_editor).absolute()
     if output.exists() or output.is_symlink():
         raise FileExistsError("Require a fresh unique offline C# project folder")
     if editor.is_symlink() or not editor.is_dir():
@@ -220,7 +220,7 @@ def stage(archive: Path, expected_sha: str, staged: Path, unity_editor: Path,
     output.mkdir(mode=0o700, parents=True)
     projects = output / "projects"
     projects.mkdir(mode=0o700)
-    source_root = Path(staged) / "sources"
+    source_root = Path(staged).absolute() / "sources"
     runtime_names = set(record["runtime"])
     for name, info in record["runtime"].items():
         _csproj(name, info["sources"],
@@ -230,7 +230,7 @@ def stage(archive: Path, expected_sha: str, staged: Path, unity_editor: Path,
     integration = "Assembly-CSharp"
     _csproj(integration, record["integration_sources"],
             [projects / (name + ".csproj") for name in runtime_names],
-            engine_refs + ([Path(input_dll)] if new_input else []),
+            engine_refs + ([Path(input_dll).absolute()] if new_input else []),
             symbols + (["ENABLE_INPUT_SYSTEM"] if new_input else []),
             projects / (integration + ".csproj"), source_root)
     if not player:
