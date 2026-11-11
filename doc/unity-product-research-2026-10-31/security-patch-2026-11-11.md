@@ -69,4 +69,13 @@ dependency transport from the advisory.
   /data/var/marketplace-account-setup/unity-consolidated-securitypatched-20261111/release/.
   The release receipt remains marked INTERNAL_QA_CANDIDATE_NOT_SUBMITTED_NOT_PUBLISHED.
   No live publisher operation was performed.
+
+- The same exact security-patched release also passed *actual Unity Play Mode*
+  in its independently imported cleanroom, not only static methods:
+  scene Awake/bindings, collision-aware CharacterController motor,
+  automatic enemy pursuit, composition/world registration, typed
+  combat damage, live abilities/stamina, weapons and checkpoint restore
+  all passed. The private actual-playmode receipt is alongside the
+  patched release. No customer game or original source asset was modified.
+
 - No previously approved buyer submission was modified or published.
