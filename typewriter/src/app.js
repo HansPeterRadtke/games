@@ -192,12 +192,9 @@ function handleCharacter(char) {
   render();
 }
 function handleDelete() {
-  const result = deleteCharacter(session, now());
-  if (result.kind === 'ignored') return;
+  if (deleteCharacter(session).kind !== 'cleared') return;
   noticeKind = '';
-  notice = result.kind === 'moved-back'
-    ? 'Moved back one character. Continue typing from the highlighted cursor.'
-    : result.kind === 'cleared' ? 'Typo cleared. Type ' + keyName(currentExpected(session)) + '.' : '';
+  notice = 'Typo cleared. Type ' + keyName(currentExpected(session)) + '.';
   persist();
   render();
 }
@@ -252,28 +249,35 @@ document.addEventListener('keydown', e => {
   e.preventDefault();
   handleCharacter(key);
 });
-// Virtual keyboards may emit an input deletion with no physical keydown.
-// Preventing beforeinput avoids double-handling on keyboards that emit both.
+// Select the one editable character so native forward and backward deletion both reach it.
+// A saved legacy error may lack its glyph, and a text input cannot hold a newline.
+function syncTypingInput() {
+  const blocked = session.mode !== 'keys' && session.feedback === 'incorrect';
+  const glyph = session.wrongKey === '\n' ? '↵' : session.wrongKey;
+  const value = blocked ? (glyph || '×') : '';
+  if (dom.capture.value !== value) dom.capture.value = value;
+  if (value) dom.capture.setSelectionRange(0, value.length);
+}
+
+function isContentDeletion(type) {
+  return type === 'deleteContentBackward' || type === 'deleteContentForward' || type === 'deleteContent';
+}
+
 dom.capture.addEventListener('beforeinput', e => {
-  if (!e.cancelable) return; // The ensuing input event handles this deletion.
-  if (e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward') {
+  if (e.cancelable && isContentDeletion(e.inputType)) {
     e.preventDefault();
     handleDelete();
   }
 });
 dom.capture.addEventListener('input', e => {
-  if (e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward') {
-    dom.capture.value = '';
+  if (isContentDeletion(e.inputType)) {
     handleDelete();
     return;
   }
-  // Some mobile keyboards emit input events without physical keydown events.
-  if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') {
-    dom.capture.value = session.wrongKey;
-    return;
-  }
+  // Some mobile keyboards deliver text only through input events.
   const value = dom.capture.value;
-  dom.capture.value = session.wrongKey;
+  syncTypingInput();
+  if (e.inputType === 'insertFromPaste' || e.inputType === 'insertFromDrop') return;
   if (value === ' ' && handleSpaceShortcut()) return;
   if (session.phase !== 'running') return;
   for (const c of value) {
@@ -435,7 +439,7 @@ function renderStage() {
     : 'TYPE THE PASSAGE BELOW';
   const waiting = session.phase === 'between-rounds';
   dom.prompt.classList.toggle('round-break', waiting);
-  if (dom.capture.value !== session.wrongKey) dom.capture.value = session.wrongKey;
+  syncTypingInput();
   dom.prompt.classList.toggle('wrong', session.feedback === 'incorrect' && session.phase === 'running');
   if (isKeys) {
     const keys = unlockedKeys(session);
@@ -670,8 +674,7 @@ function renderFeedback() {
     kind = 'success';
   } else {
     message = session.mode === 'keys' ? 'Use + or − to change level between rounds. Delete clears an error.'
-      : session.mode === 'sequence' ? 'Use + or − to change level between sessions. Delete clears a typo or removes the last correct letter.'
-      : 'Backspace or Delete clears a typo. With no typo highlighted, it removes the last correct letter.';
+      : 'Delete or Backspace removes the red typo. Then type the highlighted letter.';
   }
   setStatus(dom.feedback, message);
   dom.feedback.className = kind ? 'feedback ' + kind : 'feedback';

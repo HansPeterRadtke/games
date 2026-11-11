@@ -50,7 +50,9 @@ try {
  press('Delete');
  check('sequence Delete clears only the typo',!$('prompt-surface').classList.contains('wrong') && $('target-text').querySelectorAll('.typed').length===1 && $('target-text').querySelector('.current').textContent===sequence[1]);
  press('Delete');
- check('next sequence Delete removes the preceding letter',$('target-text').querySelectorAll('.typed').length===0);
+ document.activeElement.dispatchEvent(new KeyboardEvent('keydown',{key:'Delete',repeat:true,bubbles:true,cancelable:true}));
+ check('held and repeated sequence Delete preserve the preceding letter',$('target-text').querySelectorAll('.typed').length===1
+    && $('target-text').querySelector('.current').textContent===sequence[1]);
  $('mode-text').click();
  check('global level visible in text', !$('level-controls').hidden && $('level-hint').textContent==='2 keys');
  check('text defaults to level-generated content', $('passage-select').value==='level-mixed');
@@ -73,14 +75,17 @@ try {
  check('cursor moves forward again', $('target-text').querySelectorAll('.typed').length===2);
  const capture=$('type-capture');
  press('x');
+ check('the wrong glyph is selected for native forward or backward deletion',capture.value==='x'
+   && capture.selectionStart===0 && capture.selectionEnd===1);
  capture.dispatchEvent(new InputEvent('beforeinput',{inputType:'deleteContentForward',bubbles:true,cancelable:true}));
  check('touch Delete clears only the typo',$('target-text').querySelectorAll('.typed').length===2 && !$('target-text').querySelector('.wrong-current'));
  const handled=capture.dispatchEvent(new InputEvent('beforeinput',{inputType:'deleteContentBackward',bubbles:true,cancelable:true}));
- check('mobile delete event handled',handled===false && $('target-text').querySelectorAll('.typed').length===1);
+ capture.dispatchEvent(new InputEvent('input',{inputType:'deleteContentBackward',bubbles:true}));
+ check('extra mobile deletion events preserve both accepted letters',handled===false && $('target-text').querySelectorAll('.typed').length===2);
  press('x');
  capture.dispatchEvent(new InputEvent('beforeinput',{inputType:'deleteContentBackward',bubbles:true,cancelable:false}));
  capture.dispatchEvent(new InputEvent('input',{inputType:'deleteContentBackward',bubbles:true}));
- check('one noncancelable touch edit clears only the typo',$('target-text').querySelectorAll('.typed').length===1 && !$('target-text').querySelector('.wrong-current'));
+ check('one noncancelable touch edit clears only the typo',$('target-text').querySelectorAll('.typed').length===2 && !$('target-text').querySelector('.wrong-current'));
  check('mistake count remains honest',Number($('stat-errors').textContent)===3);
  $('new-session').click();
  for(let i=0;i<5;i++) $('level-up').click();

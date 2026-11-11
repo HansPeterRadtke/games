@@ -359,31 +359,13 @@ export function finishEarly(state, profile, now) {
   if (state.phase !== 'complete') addHistory(profile, state, now, 'interrupted');
 }
 
-// Both physical Delete and Backspace mean "go back" in the practice interface.
-// Errors remain counted in accuracy; clearing red must not silently erase them.
-export function deleteCharacter(state, now) {
+// The editable input is the single outstanding typo. Accepted characters are scored.
+export function deleteCharacter(state) {
   if (state.phase !== 'running' && state.phase !== 'paused') return { kind: 'ignored' };
-  const wasWrong = state.feedback === 'incorrect';
+  if (state.feedback !== 'incorrect') return { kind: 'nothing' };
   state.feedback = '';
   state.wrongKey = '';
-  state.latestRecords = [];
-  // A rejected letter marks the current prompt without advancing the typed prefix.
-  if (wasWrong) return { kind: 'cleared' };
-  if (state.mode !== 'keys' && state.typed) {
-    const letters = Array.from(state.typed);
-    const deleted = letters.pop();
-    state.typed = letters.join('');
-    const undoneTrial = state.trials.pop();
-    if (undoneTrial) {
-      state.correct = Math.max(0, state.correct - 1);
-      // Preserve every mistake and its attribution when the key is typed again.
-      state.pendingErrors += undoneTrial.errors;
-    }
-    state.promptMs = 0;
-    state.promptStart = state.phase === 'running' ? now : null;
-    return { kind: 'moved-back', deleted, clearedWrong: false };
-  }
-  return { kind: 'nothing' };
+  return { kind: 'cleared' };
 }
 
 export function typeCharacter(state, profile, input, now, rng = Math.random) {

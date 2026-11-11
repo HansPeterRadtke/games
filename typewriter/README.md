@@ -46,9 +46,9 @@ Text practice defaults to a generated exercise containing only lowercase unlocke
 
 Generated text records are stored separately by selected level and language, while personal high scores from the two original modes and earlier text versions are preserved.
 
-In Sequence challenge and Text practice, the actual wrong character appears in red and stays at the cursor. Further typing is ignored until Backspace or Delete removes that character. The correct prefix stays in place and the expected letter is ready to type again. In Sequence challenge and Text practice, pressing either key when there is no highlighted typo removes the most recently accepted character from the current exercise. Incorrect attempts and elapsed time remain counted; deleting a character does not erase history or improve accuracy artificially. A sequence cannot backspace into a previously finished round. Physical and touch-keyboard deletion events are supported.
+In Sequence challenge and Text practice, the wrong character stays red and blocks further typing. Delete or Backspace removes that one typo. Accepted characters stay in place, including when the key is held, tapped twice, or reported twice by a keyboard. Correction time and the original mistake count toward the round result.
 
-Verification commands are `npm test`, `python3 tests/browser_headless.py`, `python3 tests/browser_sequence.py`, and `python3 tests/browser_level_text.py`. The tests cover unlocked alphabets at every level, old progress compatibility, red highlight clearing, cursor retreat, touch-keyboard deletion, sentence generation, and both original modes.
+Verification commands are `npm test`, `python3 tests/browser_headless.py`, `python3 tests/browser_sequence.py`, and `python3 tests/browser_level_text.py`. The tests cover unlocked alphabets at every level, old progress compatibility, typo-only correction, held and repeated Delete, touch-keyboard deletion, sentence generation, and both original modes.
 
 ## Complete unlocked-key coverage (November 9, 2026)
 
