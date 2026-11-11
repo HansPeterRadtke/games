@@ -12,6 +12,8 @@ The owner explicitly requested substantive research, original-book reading, firs
 - [Code, configuration and Editor audit](code-editor-usability-audit.md) — specific source locations, confirmed compatibility defect, suspected API/lifecycle bugs clearly labeled as untested, configurable parameter contract and code-quality release gates.
 - [Market and positioning](market-and-positioning.md) — direct overlapping framework, system, Editor, replay and industrial-simulation competitors; verified descriptions/prices/reviews where available, customer complaints, differentiated hypotheses, no-sale-data caution and commercial stop/go.
 - [Buyer workflow and evaluation](buyer-workflow-validation-plan.md) — concrete experienced-developer Unity Editor tasks, configurability, non-destructive authoring and compatibility tests, feedback, source APIs, UX acceptance and empirical study proposal.
+- [Epic/Fab account handover](epic-fab-account-handover-2026-11-11.md) — independent publisher registration status, official account lookup, required identity step and private credential-storage rules.
+- [Unity publisher support](publisher-help-center-2026-11-11.md) — submitted official Help Center inquiry for the existing Unity publisher account.
 
 ## Decision gates before another implementation sprint
 
