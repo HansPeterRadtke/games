@@ -1,10 +1,12 @@
+import { ROUND_WINDOWS } from './rounds.js';
+import { renderRoundBoard, showRoundReward, showKeyWindowReward, clearReward } from './reward_view.js';
 import {
   KEY_ORDER, WINDOW_SIZES, PASSAGES, currentExpected, elapsedMs, finishEarly,
   newSession, pause, passageFingerprint, passageFor, progressOf, start, summaryOf,
   typeCharacter, unlockedKeys, accuracyOf, reshuffleSequence, sequenceRecordKey,
   deleteCharacter, levelTextValid, textRecordKey, LEVEL_PASSAGES, isLevelPassage,
 } from './core.js';
-import { loadData, saveData, serializeData, parseExport } from './storage.js';
+import { loadData, saveData, serializeData, parseExport, MAX_BACKUP_LENGTH } from './storage.js';
 import { invalidTextKeys, normalizedPreset, keyCoverage, MIN_KEY_OCCURRENCES } from './training_text.js';
 
 const $ = id => document.getElementById(id);
@@ -22,10 +24,7 @@ const dom = {
   prompt: $('prompt-surface'), keyStage: $('key-stage'), textStage: $('text-stage'),
   targetKey: $('target-key'), targetText: $('target-text'), keyOrder: $('key-order-display'),
   textStageLabel: $('text-stage-label'), stageHint: $('stage-hint'), capture: $('type-capture'),
-  sequenceScore: $('sequence-score'), sequenceRoundPosition: $('sequence-round-position'),
-  sequencePersonalBest: $('sequence-personal-best'), achievementBanner: $('achievement-banner'),
-  achievementTitle: $('achievement-title'), achievementDetail: $('achievement-detail'),
-  achievementTime: $('achievement-time'), sequenceRoundLog: $('sequence-round-log'),
+  sequenceRoundLog: $('sequence-round-log'),
   roundLogItems: $('round-log-items'),
   progressCount: $('progress-count'), progressBar: $('progress-track'), progressFill: $('progress-fill'),
   primary: $('primary-button'), primaryLabel: $('primary-label'), primaryIcon: $('primary-icon'),
@@ -86,6 +85,7 @@ function abandonPrompt() {
 }
 function updateConfiguration(patch) {
   if (!abandonPrompt()) { render(); return false; }
+  clearReward();
   finishEarly(session, profile, now());
   // Existing saved profiles defaulted to a full passage even at level one.
   // When entering Text Practice, prefer the new level-aware trainer.
@@ -102,7 +102,10 @@ function updateConfiguration(patch) {
   return true;
 }
 function beginPractice() {
-  if (session.phase === 'complete') session = newSession(session);
+  if (session.phase === 'complete') {
+    clearReward();
+    session = newSession(session);
+  }
   if (session.phase === 'running') {
     pausePractice();
     return;
@@ -136,6 +139,7 @@ function pausePractice(message = '') {
 }
 function newPractice() {
   if (!abandonPrompt()) return;
+  clearReward();
   finishEarly(session, profile, now());
   session = newSession(session);
   if (session.mode === 'sequence' && !session.sequence) reshuffleSequence(session);
@@ -146,6 +150,7 @@ function newPractice() {
 }
 function shufflePractice() {
   if (!abandonPrompt()) return;
+  clearReward();
   finishEarly(session, profile, now());
   session = newSession(session);
   reshuffleSequence(session);
@@ -167,14 +172,18 @@ function handleCharacter(char) {
       : 'Session complete. Your results and personal records are saved.';
   } else if (result.kind === 'round-complete') {
     noticeKind = 'success';
-    notice = result.round.newRecord ? 'New personal best! Keep going.'
-      : 'Round ' + result.round.number + ' complete — ' + formatMs(result.round.ms) + '. Beat your best next round.';
+    notice = 'Round ' + result.round.number + ' complete · ' + percent(result.round.accuracy) + ' accuracy.';
   } else if (result.kind === 'incorrect') {
     noticeKind = 'error';
   } else if (result.records?.length) {
     noticeKind = 'success';
     const size = result.records[result.records.length - 1].windowSize;
-    notice = 'New personal best over ' + size + ' keys.';
+    notice = result.records.some(r => r.windowSize === size && r.previous !== null)
+      ? 'New personal best over ' + size + ' keys.' : 'First ' + size + '-key measurement saved.';
+  }
+  if (result.reward) showRoundReward(result.reward);
+  if (session.mode === 'keys' && result.reward?.tier !== 'all-time' && result.records?.length) {
+    showKeyWindowReward(result.records, selectedWindow);
   }
   persist();
   render();
@@ -271,6 +280,17 @@ dom.prompt.addEventListener('keydown', e => {
   }
 });
 
+const roundWindow = $('round-window');
+for (const n of ROUND_WINDOWS) roundWindow.add(new Option(n, n));
+roundWindow.addEventListener('change', () => {
+  const n = Number(roundWindow.value);
+  if (!ROUND_WINDOWS.includes(n)) return;
+  profile.roundWindow = n;
+  renderRoundBoard(session, profile);
+  persist();
+  if (session.phase === 'running') focusTyping();
+});
+
 dom.primary.addEventListener('click', beginPractice);
 dom.newSession.addEventListener('click', newPractice);
 dom.modeKeys.addEventListener('click', () => { if (session.mode !== 'keys') updateConfiguration({ mode: 'keys' }); });
@@ -348,11 +368,12 @@ dom.importFile.addEventListener('change', async () => {
   const file = dom.importFile.files?.[0];
   if (!file) return;
   try {
-    if (file.size > 1000000) throw new Error('The file is too large.');
+    if (file.size > MAX_BACKUP_LENGTH) throw new Error('The file is too large.');
     const imported = parseExport(await file.text());
     if (!window.confirm('Replace all current Typewriter progress with this backup? Export your current data first if you need it.')) return;
     profile = imported.profile;
     session = imported.session;
+    clearReward();
     lastFeedback = '';
     notice = 'Backup imported. Practice remains paused until you resume.';
     noticeKind = 'success';
@@ -429,27 +450,6 @@ function renderStage() {
       ? 'Type the highlighted key. Space pauses the exercise.'
       : isSequence ? 'Complete the sequence as fast as you can. It will repeat without reshuffling.'
       : 'Type the text including spaces. Escape pauses the exercise.';
-  }
-}
-function renderSequenceScore() {
-  const active = session.mode === 'sequence';
-  dom.sequenceScore.hidden = !active;
-  if (!active) return;
-  const completed = session.rounds.length;
-  const roundNumber = Math.min(completed + 1, session.sequenceRounds);
-  dom.sequenceRoundPosition.textContent = session.phase === 'complete'
-    ? completed + ' / ' + session.sequenceRounds + ' finished'
-    : roundNumber + ' / ' + session.sequenceRounds;
-  const record = profile.sequenceRecords[sequenceRecordKey(session)];
-  dom.sequencePersonalBest.textContent = record ? formatMs(record.bestMs) : 'No record yet';
-  const achievement = session.lastAchievement;
-  dom.achievementBanner.hidden = !achievement;
-  if (achievement) {
-    dom.achievementTitle.textContent = achievement.kind === 'first' ? 'FIRST PERSONAL RECORD!' : 'NEW PERSONAL BEST!';
-    dom.achievementDetail.textContent = achievement.kind === 'first'
-      ? 'Round ' + achievement.roundNumber + ' sets the time to beat. Keep going!'
-      : 'Round ' + achievement.roundNumber + ' — ' + formatMs(achievement.improvementMs) + ' faster than your previous best!';
-    dom.achievementTime.textContent = formatMs(achievement.ms);
   }
 }
 function renderRoundLog() {
@@ -676,7 +676,7 @@ function render() {
   dom.progressBar.setAttribute('aria-valuenow', String(progress.done));
   dom.progressFill.style.width = ratio + '%';
   renderStage();
-  renderSequenceScore();
+  renderRoundBoard(session, profile);
   renderStats();
   renderRhythm();
   renderRecords();

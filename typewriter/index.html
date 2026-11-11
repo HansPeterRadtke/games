@@ -106,6 +106,19 @@
             </label>
           </div>
 
+          <section class="round-board" aria-labelledby="round-board-title">
+            <div class="round-board-heading">
+              <div><h2 id="round-board-title">Round records</h2><small id="round-scope"></small></div>
+              <label for="round-window">Compare last <select id="round-window" aria-label="Recent rounds to compare"></select> rounds</label>
+            </div>
+            <div class="round-metrics">
+              <div class="lifetime-metric"><span>All-time best</span><strong id="sequence-personal-best">—</strong><small id="lifetime-accuracy"></small></div>
+              <div><span>Recent best</span><strong id="recent-best">—</strong><small id="recent-accuracy"></small></div>
+              <div><span>Recent average</span><strong id="recent-average">—</strong><small id="average-accuracy"></small></div>
+            </div>
+            <div class="round-foot"><span id="sequence-score" hidden>Round <b id="sequence-round-position"></b></span><span id="round-result"></span></div>
+          </section>
+
           <div class="prompt-surface" id="prompt-surface" tabindex="0" role="group" aria-label="Typing target. Select to focus typing.">
             <div class="surface-grid" aria-hidden="true"></div>
             <div class="key-stage" id="key-stage">
@@ -121,17 +134,6 @@
             <input id="type-capture" class="typing-capture" type="text" aria-label="Type your answers here" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done">
           </div>
 
-          <div class="sequence-score" id="sequence-score" hidden>
-            <div class="sequence-score-top">
-              <div><span class="setting-label">CURRENT ROUND</span><strong id="sequence-round-position">1 / 10</strong></div>
-              <div><span class="setting-label">FASTEST ROUND FOR THIS SEQUENCE</span><strong id="sequence-personal-best">No record yet</strong></div>
-            </div>
-            <div class="achievement-banner" id="achievement-banner" role="status" aria-live="polite" hidden>
-              <span class="achievement-icon" aria-hidden="true">★</span>
-              <div class="achievement-message"><strong id="achievement-title">NEW PERSONAL BEST</strong><span id="achievement-detail">You beat your record.</span></div>
-              <strong id="achievement-time" class="achievement-time">—</strong>
-            </div>
-          </div>
           <div class="progress-area">
             <div class="progress-labels">
               <span id="progress-title">PROGRESS</span>
@@ -192,6 +194,10 @@
       </section>
       <footer><span>TYPEWRITER / VERSION ONE</span><span>No account. No tracking. Practice and records stay in this browser until exported.</span></footer>
     </main>
+  </div>
+  <div id="achievement-banner" class="reward-popup" role="status" aria-live="polite" aria-atomic="true" hidden>
+    <span class="reward-medal" aria-hidden="true">★</span>
+    <div class="reward-copy"><span id="achievement-title"></span><strong id="achievement-time"></strong><small id="achievement-detail"></small></div>
   </div>
   <script type="module" src="./src/app.js"></script>
 </body>

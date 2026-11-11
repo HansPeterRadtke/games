@@ -50,19 +50,19 @@ try {
  check('challenge starts', $('phase-text').textContent==='ACTIVE');
  await typeSequence(fixed,70);
  check('round 1 complete', $('phase-text').textContent==='ACTIVE' && $('sequence-round-position').textContent==='2 / 3');
- check('first record visible', !$('achievement-banner').hidden && $('achievement-title').textContent.includes('FIRST PERSONAL RECORD'));
+ check('first record visible', !$('achievement-banner').hidden && $('achievement-title').textContent.includes('First round recorded'));
  check('round log one', $('round-log-items').querySelectorAll('.round-log-row').length===1);
  const firstTime=parseFloat($('sequence-personal-best').textContent);
  await typeSequence(fixed,12);
  check('round 2 complete', $('sequence-round-position').textContent==='3 / 3');
- check('best improves', $('achievement-title').textContent.includes('NEW PERSONAL BEST') && !$('achievement-banner').hidden,
+ check('best improves', $('achievement-title').textContent.includes('All-time best round time') && !$('achievement-banner').hidden,
     $('achievement-title').textContent);
  const newBest=parseFloat($('sequence-personal-best').textContent);
  check('new record faster',newBest<firstTime,firstTime+' -> '+newBest);
  check('round log two', $('round-log-items').querySelectorAll('.round-log-row').length===2);
  await typeSequence(fixed,80);
  check('three rounds complete', $('phase-text').textContent==='COMPLETED' && $('progress-count').textContent==='18 / 18');
- check('non-record does not claim improvement', $('achievement-banner').hidden);
+ check('slower final round acknowledged accurately', $('round-result').textContent.startsWith('Clean round') && !$('round-result').textContent.includes('All-time best'));
  check('record still correct',parseFloat($('sequence-personal-best').textContent)===newBest);
  check('round log three', $('round-log-items').querySelectorAll('.round-log-row').length===3);
  check('session history', $('history-list').textContent.includes('Sequence'));
@@ -79,6 +79,27 @@ try {
  check('old text trainer still works', $('mode-text').getAttribute('aria-selected')==='true' && !$('text-controls').hidden);
  $('mode-sequence').click();
  check('temporarily changing modes preserves sequence',sequence()===afterShuffle && $('mode-sequence').getAttribute('aria-selected')==='true');
+ // Repeat controlled times on a fresh sequence length. Use the normal input handlers.
+ set('sequence-length',7);
+ set('sequence-rounds',10);
+ const race=sequence();
+ let clock=10000;
+ Object.defineProperty(performance,'now',{configurable:true,value:()=>clock});
+ $('primary-button').click();
+ for (const pace of [200,100,300,300,300,220]) {
+   for (const c of race) { clock+=pace; press(c); }
+   if ($('sequence-round-position').textContent==='6 / 10')
+     check('plateau earns a completion milestone',$('round-result').textContent.includes('5 rounds completed'));
+ }
+ check('rolling win survives faster lifetime record',$('achievement-banner').dataset.tier==='recent'
+   && $('round-result').textContent.includes('previous 3 rounds') && $('sequence-personal-best').textContent==='700 ms'
+   && $('recent-best').textContent==='1.54 s');
+ check('popup never takes typing focus',document.activeElement===$('type-capture')
+   && getComputedStyle($('achievement-banner')).pointerEvents==='none');
+ set('round-window',10);
+ check('larger comparison includes earlier fastest round',$('recent-best').textContent==='700 ms' && $('round-scope').textContent.includes('6 recent rounds'));
+ const restored=JSON.parse(localStorage.getItem('typewriter.practice.v1')).profile;
+ check('comparison settings and actual rounds stored',restored.roundWindow===10 && Object.values(restored.sequenceRecords).some(r=>r.recentRounds.length===6));
  check('no horizontal overflow',document.documentElement.scrollWidth<=document.documentElement.clientWidth+1,
    document.documentElement.scrollWidth+'/'+document.documentElement.clientWidth);
 } catch(e) {results.push({name:'exception',ok:false,detail:e.message});}

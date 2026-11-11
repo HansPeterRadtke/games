@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { newSession, newProfile, start, typeCharacter } from '../src/core.js';
-import { DATA_VERSION, STORAGE_KEY, loadData, parseExport, sanitizeProfile, saveData, serializeData } from '../src/storage.js';
+import { DATA_VERSION, MAX_BACKUP_LENGTH, STORAGE_KEY, loadData, parseExport, sanitizeProfile, saveData, serializeData } from '../src/storage.js';
 
 function memoryStorage() {
   const data = new Map();
@@ -43,7 +43,7 @@ test('export/import round trip retains historical records and key observations',
 test('malformed file and incompatible backup format are rejected', () => {
   assert.throws(() => parseExport('oops'), /JSON/);
   assert.throws(() => parseExport(JSON.stringify({ version: DATA_VERSION + 1, profile: {}, session: {} })), /supported/);
-  assert.throws(() => parseExport('a'.repeat(1000001)), /too large/);
+  assert.throws(() => parseExport('a'.repeat(MAX_BACKUP_LENGTH + 1)), /too large/);
 });
 
 test('storage unavailability is visible but does not crash', () => {

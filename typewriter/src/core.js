@@ -1,3 +1,4 @@
+import { DEFAULT_ROUND_WINDOW, scoreRound } from './rounds.js';
 // Pure practice engine. No DOM, storage, or system-clock dependencies.
 import {
   LEVEL_PASSAGES, TRAINING_KEY_ORDER, generateLevelExercise, normalizedPreset, allowedText,
@@ -61,7 +62,17 @@ export function textRecordKey(state) {
 }
 
 export function newProfile() {
-  return { keyStats: {}, records: {}, textRecords: {}, sequenceRecords: {}, history: [] };
+  return { keyStats: {}, records: {}, textRecords: {}, sequenceRecords: {}, keyRoundRecords: {}, roundWindow: DEFAULT_ROUND_WINDOW, history: [] };
+}
+
+export function keyRoundKey(state) {
+  return state.level + ':' + state.goal;
+}
+
+export function roundRecordFor(state, profile) {
+  if (state.mode === 'sequence') return profile.sequenceRecords[sequenceRecordKey(state)];
+  if (state.mode === 'text') return profile.textRecords[textRecordKey(state)];
+  return profile.keyRoundRecords[keyRoundKey(state)];
 }
 
 export function validSequence(state, sequence) {
@@ -280,7 +291,7 @@ export function updateRecords(state, profile) {
       const maximize = metric === 'accuracy';
       if (!best || (maximize ? value > best.value : value < best.value)) {
         record[metric] = { value, at: new Date().toISOString() };
-        added.push({ windowSize, metric, value });
+        added.push({ windowSize, metric, value, previous: best?.value ?? null });
       }
     }
     profile.records[level][String(windowSize)] = record;
@@ -298,15 +309,14 @@ function recordSequenceRound(state, profile, now) {
   const newRecord = previousBestMs === null || ms < previousBestMs;
   const kind = newRecord ? (previousBestMs === null ? 'first' : 'improved') : null;
   const accuracy = rounded(accuracyOf(state.sequenceLength, state.roundErrors));
+  const scored = scoreRound(existing, ms, accuracy, true, profile.roundWindow);
   const round = { number: roundNumber, ms, errors: state.roundErrors, accuracy, newRecord };
   state.rounds.push(round);
   // Keep the most recently practiced sequence records; cap browser storage growth.
   if (existing) delete profile.sequenceRecords[key];
   profile.sequenceRecords[key] = {
-    bestMs: newRecord ? ms : existing.bestMs,
-    bestAccuracy: Math.max(accuracy, existing?.bestAccuracy ?? 0),
+    ...scored.record,
     lastMs: ms,
-    count: (existing?.count ?? 0) + 1,
     bestAt: newRecord ? new Date().toISOString() : existing.bestAt,
   };
   while (Object.keys(profile.sequenceRecords).length > 300) {
@@ -323,7 +333,7 @@ function recordSequenceRound(state, profile, now) {
   state.roundErrors = 0;
   state.typed = '';
   state.roundStartMs = elapsedMs(state, now);
-  return { ...round, achievement: state.lastAchievement };
+  return { ...round, achievement: state.lastAchievement, reward: scored.reward };
 }
 
 function addKeyObservation(profile, key, ms, errors) {
@@ -414,21 +424,22 @@ export function typeCharacter(state, profile, input, now, rng = Math.random) {
     state.phase = 'complete';
     state.finishedAt = new Date().toISOString();
     const summary = summaryOf(state, now);
-    if (state.mode === 'text') {
-      const id = textRecordKey(state);
-      const old = profile.textRecords[id] || {};
-      profile.textRecords[id] = {
-        bestWpm: summary.wpm !== null && (old.bestWpm === undefined || summary.wpm > old.bestWpm) ? summary.wpm : old.bestWpm ?? null,
-        bestAccuracy: summary.accuracy !== null && (old.bestAccuracy === undefined || summary.accuracy > old.bestAccuracy) ? rounded(summary.accuracy) : old.bestAccuracy ?? null,
-      };
+    let reward = round?.reward;
+    if (state.mode !== 'sequence') {
+      const text = state.mode === 'text';
+      const records = text ? profile.textRecords : profile.keyRoundRecords;
+      const key = text ? textRecordKey(state) : keyRoundKey(state);
+      const scored = scoreRound(records[key], summary.wpm, rounded(summary.accuracy), false, profile.roundWindow);
+      records[key] = scored.record;
+      reward = scored.reward;
     }
     addHistory(profile, state, now, 'completed');
-    return { kind: 'complete', summary, records: state.latestRecords, round };
+    return { kind: 'complete', summary, records: state.latestRecords, round, reward };
   }
   if (round) {
     state.promptMs = 0;
     state.promptStart = now;
-    return { kind: 'round-complete', round };
+    return { kind: 'round-complete', round, reward: round.reward };
   }
   if (state.mode === 'keys') {
     state.lastTwo = [...state.lastTwo.slice(-1), expected];

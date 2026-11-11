@@ -1,14 +1,43 @@
-import { KEY_ORDER, PASSAGES, WINDOW_SIZES, MAX_SEQUENCE_LENGTH, newProfile, newSession, restoreSession, snapshot } from './core.js';
+import { ROUND_WINDOWS, MAX_RECENT_ROUNDS } from './rounds.js';
+import { GOALS, isLevelPassage, keyRoundKey, sequenceRecordKey, KEY_ORDER, PASSAGES, WINDOW_SIZES, MAX_SEQUENCE_LENGTH, newProfile, newSession, restoreSession, snapshot } from './core.js';
 
 export const STORAGE_KEY = 'typewriter.practice.v1';
 export const DATA_VERSION = 1;
+export const MAX_BACKUP_LENGTH = 3000000; // Includes histories for each exercise and an active 4,500-key sequence.
 const metrics = ['fastestMs', 'slowestMs', 'avgMs', 'medianMs', 'accuracy'];
 const finite = (v, max = 1e9) => Number.isFinite(v) && v >= 0 && v <= max;
 const plain = v => v !== null && typeof v === 'object' && !Array.isArray(v);
 
+const maxPace = 120000; // 1,000 correct keys in the shortest measurable session (100 ms).
+
+function readRecent(record, maxScore) {
+  if (!Array.isArray(record.recentRounds)) return {};
+  const recentRounds = record.recentRounds.slice(-MAX_RECENT_ROUNDS).filter(r =>
+    plain(r) && (r.score === null || finite(r.score, maxScore)) && (r.accuracy === null || finite(r.accuracy, 100)))
+    .map(({score, accuracy}) => ({score, accuracy}));
+  return { recentRounds, count: Number.isSafeInteger(record.count) && record.count >= recentRounds.length
+    ? record.count : recentRounds.length };
+}
+
+function paceRecord(record) {
+  return {
+    bestWpm: finite(record.bestWpm, maxPace) ? record.bestWpm : null,
+    bestAccuracy: finite(record.bestAccuracy, 100) ? record.bestAccuracy : null,
+    ...readRecent(record, maxPace),
+  };
+}
+
 export function sanitizeProfile(raw) {
   const p = newProfile();
   if (!plain(raw)) return p;
+  if (ROUND_WINDOWS.includes(raw.roundWindow)) p.roundWindow = raw.roundWindow;
+  if (plain(raw.keyRoundRecords)) {
+    for (const [key, record] of Object.entries(raw.keyRoundRecords)) {
+      const [level, goal] = key.split(':').map(Number);
+      if (key === level + ':' + goal && Number.isInteger(level) && level >= 1 && level < KEY_ORDER.length
+          && GOALS.includes(goal) && plain(record)) p.keyRoundRecords[key] = paceRecord(record);
+    }
+  }
   if (plain(raw.keyStats)) {
     for (const k of KEY_ORDER) {
       const s = raw.keyStats[k];
@@ -45,10 +74,7 @@ export function sanitizeProfile(raw) {
       if (!(PASSAGES.some(p => p.id === key) || /^custom:[a-z0-9]+:[0-9]{1,3}$/.test(key)
         || /^level-(mixed|de|en):(?:[1-9]|1[0-9]|2[0-8])$/.test(key))) continue;
       if (!plain(v)) continue;
-      p.textRecords[key] = {
-        bestWpm: finite(v.bestWpm, 2000) ? v.bestWpm : null,
-        bestAccuracy: finite(v.bestAccuracy, 100) ? v.bestAccuracy : null,
-      };
+      p.textRecords[key] = paceRecord(v);
     }
   }
   if (plain(raw.sequenceRecords)) {
@@ -65,6 +91,7 @@ export function sanitizeProfile(raw) {
       if (!plain(record) || !finite(record.bestMs, 86400000)
           || !Number.isInteger(record.count) || record.count < 1 || record.count > 1000000) continue;
       p.sequenceRecords[key] = {
+        ...readRecent(record, 86400000),
         bestMs: record.bestMs,
         bestAccuracy: finite(record.bestAccuracy, 100) ? record.bestAccuracy : 0,
         lastMs: finite(record.lastMs, 86400000) ? record.lastMs : record.bestMs,
@@ -91,7 +118,7 @@ export function sanitizeProfile(raw) {
       durationMs: finite(h.durationMs, 86400000) ? h.durationMs : 0,
       avgMs: finite(h.avgMs, 3600000) ? h.avgMs : null,
       bestMs: finite(h.bestMs, 3600000) ? h.bestMs : null,
-      wpm: finite(h.wpm, 2000) ? h.wpm : null,
+      wpm: finite(h.wpm, maxPace) ? h.wpm : null,
       status: h.status === 'completed' ? 'completed' : 'interrupted',
       at: typeof h.at === 'string' ? h.at.slice(0, 40) : '',
     }));
@@ -99,14 +126,52 @@ export function sanitizeProfile(raw) {
   return p;
 }
 
+// Older backups retained completed sessions, the active sequence log, and separate lifetime records.
+function recoverRoundHistory(profile, session) {
+  const groups = new Map();
+  for (const h of [...profile.history].reverse()) {
+    if (h.status !== 'completed' || h.mode === 'sequence' || h.accuracy === null) continue;
+    let entry;
+    if (h.mode === 'keys') {
+      if (!GOALS.includes(h.goal) || h.correct !== h.goal) continue;
+      entry = profile.keyRoundRecords[keyRoundKey(h)] ??= {};
+    } else {
+      // Older custom history has no passage fingerprint.
+      const key = isLevelPassage(h.passageId) ? h.passageId + ':' + h.level : h.passageId;
+      if (!Object.hasOwn(profile.textRecords, key)) continue;
+      entry = profile.textRecords[key];
+    }
+    if (!entry || entry.recentRounds) continue;
+    if (!groups.has(entry)) groups.set(entry, []);
+    groups.get(entry).push({ score: h.wpm, accuracy: Math.round(h.accuracy * 10) / 10 });
+  }
+  for (const [entry, rounds] of groups) {
+    const speeds = rounds.map(r => r.score).filter(Number.isFinite);
+    if (speeds.length) entry.bestWpm = Math.max(entry.bestWpm ?? 0, ...speeds);
+    entry.bestAccuracy = Math.max(entry.bestAccuracy ?? 0, ...rounds.map(r => r.accuracy));
+    entry.count = rounds.length;
+    entry.recentRounds = rounds.slice(-MAX_RECENT_ROUNDS);
+  }
+  for (const [key, record] of Object.entries(profile.sequenceRecords)) {
+    if (record.recentRounds) continue;
+    const log = session.mode === 'sequence' && key === sequenceRecordKey(session) ? session.rounds : [];
+    record.recentRounds = log.length && log.at(-1).ms === record.lastMs
+      ? log.slice(-MAX_RECENT_ROUNDS).map(r => ({ score: r.ms, accuracy: r.accuracy }))
+      : [{ score: record.lastMs, accuracy: null }];
+  }
+}
+
 export function parseExport(text) {
-  if (typeof text !== 'string' || text.length > 1000000) throw new Error('The backup is too large or invalid.');
+  if (typeof text !== 'string' || text.length > MAX_BACKUP_LENGTH) throw new Error('The backup is too large or invalid.');
   let data;
   try { data = JSON.parse(text); } catch { throw new Error('The file is not valid JSON.'); }
   if (!plain(data) || data.version !== DATA_VERSION || !plain(data.profile) || !plain(data.session)) {
     throw new Error('This is not a supported Typewriter backup.');
   }
-  return { profile: sanitizeProfile(data.profile), session: restoreSession(data.session) };
+  const profile = sanitizeProfile(data.profile);
+  const session = restoreSession(data.session);
+  recoverRoundHistory(profile, session);
+  return { profile, session };
 }
 
 export function serializeData(session, profile, now) {
