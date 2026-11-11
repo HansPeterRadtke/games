@@ -205,7 +205,6 @@ export function start(state, profile, now, rng = Math.random) {
   state.phase = 'running';
   state.segmentStart = now;
   state.promptStart = now;
-  state.feedback = '';
   return true;
 }
 
@@ -216,7 +215,7 @@ export function pause(state, now) {
   state.segmentStart = null;
   state.promptStart = null;
   state.phase = 'paused';
-  state.feedback = '';
+  if (state.mode === 'keys' || state.feedback !== 'incorrect') state.feedback = '';
   return true;
 }
 
@@ -356,6 +355,8 @@ export function deleteCharacter(state, now) {
   const wasWrong = state.feedback === 'incorrect';
   state.feedback = '';
   state.latestRecords = [];
+  // A rejected letter marks the current prompt without advancing the typed prefix.
+  if (wasWrong) return { kind: 'cleared' };
   if (state.mode !== 'keys' && state.typed) {
     const letters = Array.from(state.typed);
     const deleted = letters.pop();
@@ -368,9 +369,9 @@ export function deleteCharacter(state, now) {
     }
     state.promptMs = 0;
     state.promptStart = state.phase === 'running' ? now : null;
-    return { kind: 'moved-back', deleted, clearedWrong: wasWrong };
+    return { kind: 'moved-back', deleted, clearedWrong: false };
   }
-  return { kind: wasWrong ? 'cleared' : 'nothing' };
+  return { kind: 'nothing' };
 }
 
 export function typeCharacter(state, profile, input, now, rng = Math.random) {
@@ -536,6 +537,9 @@ export function restoreSession(data) {
     state.phase = 'complete';
   } else if (data.phase === 'paused' || data.phase === 'running') {
     state.phase = state.target ? 'paused' : 'idle';
+    if (state.phase === 'paused' && state.mode !== 'keys' && state.pendingErrors > 0 && data.feedback === 'incorrect') {
+      state.feedback = 'incorrect';
+    }
   }
   return state;
 }

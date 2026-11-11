@@ -120,7 +120,7 @@ function beginPractice() {
   }
   if (start(session, profile, now())) {
     notice = '';
-    lastFeedback = '';
+    lastFeedback = session.feedback;
     focusTyping();
     persist();
     render();
@@ -237,6 +237,7 @@ document.addEventListener('keydown', e => {
 // Virtual keyboards may emit an input deletion with no physical keydown.
 // Preventing beforeinput avoids double-handling on keyboards that emit both.
 dom.capture.addEventListener('beforeinput', e => {
+  if (!e.cancelable) return; // The ensuing input event handles this deletion.
   if (e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward') {
     e.preventDefault();
     handleDelete();
@@ -415,7 +416,7 @@ function renderStage() {
       : isSequence ? 'Press Start. Repeat this exact order each round; only Shuffle changes it.'
       : session.textKind === 'key-groups'
         ? 'Few real words are possible yet. Practice these letter groups, then unlock more letters.'
-        : 'Type only the unlocked letters. Backspace or Delete moves the cursor backward.';
+        : 'Type only the unlocked letters. Use Backspace or Delete to correct a typo.';
   } else if (session.phase === 'paused') {
     dom.stageHint.textContent = 'Paused. Your timer is stopped. Select Resume to continue.';
   } else if (session.phase === 'complete') {
@@ -427,7 +428,7 @@ function renderStage() {
     dom.stageHint.textContent = session.mode === 'keys'
       ? 'Type the highlighted key. Space pauses the exercise.'
       : isSequence ? 'Complete the sequence as fast as you can. It will repeat without reshuffling.'
-      : 'Type the text including spaces. Backspace or Delete moves backward; Escape pauses.';
+      : 'Type the text including spaces. Escape pauses the exercise.';
   }
 }
 function renderSequenceScore() {
@@ -593,8 +594,8 @@ function renderFeedback() {
     dom.feedback.classList.add('success');
   } else {
     dom.feedback.textContent = session.mode === 'keys' ? 'Shortcuts: + / − changes level between rounds; Delete clears an error.'
-      : session.mode === 'sequence' ? 'Shortcuts: + / − changes level between sessions. Delete moves backward; mistakes still count.'
-      : 'Backspace or Delete moves the text cursor backward. Incorrect attempts still count toward accuracy.';
+      : session.mode === 'sequence' ? 'Use + or − to change level between sessions. Delete clears a typo or removes the last correct letter.'
+      : 'Backspace or Delete clears a typo. With no typo highlighted, it removes the last correct letter.';
   }
 }
 function render() {
@@ -666,7 +667,7 @@ function render() {
   dom.primaryIcon.textContent = session.phase === 'running' ? 'Ⅱ' : session.phase === 'complete' ? '↻' : '▶';
   dom.primary.disabled = text && !session.legacyResume
     && !levelTextValid(session, session.target || passageFor(session)) && session.phase === 'idle';
-  dom.keyboardTip.textContent = text ? 'Backspace / Delete = move back · Esc = pause'
+  dom.keyboardTip.textContent = text ? 'Backspace / Delete = correct typing · Esc = pause'
     : 'Space = start / pause · Backspace / Delete = clear or move back';
   const progress = progressOf(session);
   const ratio = progress.total ? Math.min(100, progress.done / progress.total * 100) : 0;

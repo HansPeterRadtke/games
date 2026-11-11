@@ -46,7 +46,7 @@ Text practice defaults to a generated exercise containing only lowercase unlocke
 
 Generated text records are stored separately by selected level and language, while personal high scores from the two original modes and earlier text versions are preserved.
 
-Backspace and Delete clear the red incorrect-key highlight in all modes. In the sequence and text modes they also remove the most recently accepted character within the current active exercise, visibly moving the cursor backward. Incorrect attempts and elapsed time remain counted; deleting a character does not erase history or improve accuracy artificially. A sequence cannot backspace into a previously finished round. Physical and touch-keyboard deletion events are supported.
+Backspace and Delete clear a highlighted typo and keep the cursor on the letter to retry. In Sequence challenge and Text practice, pressing either key when there is no highlighted typo removes the most recently accepted character from the current exercise. Incorrect attempts and elapsed time remain counted; deleting a character does not erase history or improve accuracy artificially. A sequence cannot backspace into a previously finished round. Physical and touch-keyboard deletion events are supported.
 
 Verification commands are `npm test`, `python3 tests/browser_headless.py`, `python3 tests/browser_sequence.py`, and `python3 tests/browser_level_text.py`. The tests cover unlocked alphabets at every level, old progress compatibility, red highlight clearing, cursor retreat, touch-keyboard deletion, sentence generation, and both original modes.
 

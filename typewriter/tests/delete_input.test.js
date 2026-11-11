@@ -34,7 +34,7 @@ test('repeated Delete with no typed prefix does not invent progress or alter rec
   assert.equal(progressOf(s).done, 0);
 });
 
-test('text Delete moves the cursor backward and clears red, preserving honest error counts', () => {
+test('text Delete clears the typo first, then removes one accepted character per press', () => {
   const s = newSession({ mode: 'text', passageId: 'custom', customText: 'f j' });
   const p = newProfile();
   start(s, p, 0);
@@ -43,9 +43,18 @@ test('text Delete moves the cursor backward and clears red, preserving honest er
   assert.equal(s.typed, 'f ');
   typeCharacter(s, p, 'x', 250);
   assert.equal(s.feedback, 'incorrect');
-  const removed = deleteCharacter(s, 300);
-  assert.deepEqual(removed, { kind: 'moved-back', deleted: ' ', clearedWrong: true });
+  assert.equal(deleteCharacter(s, 300).kind, 'cleared');
   assert.equal(s.feedback, '');
+  assert.equal(s.typed, 'f ');
+  assert.equal(currentExpected(s), 'j');
+  assert.equal(progressOf(s).done, 2);
+  assert.equal(s.correct, 2);
+  assert.equal(s.trials.length, 2);
+  assert.equal(s.pendingErrors, 1);
+  assert.equal(s.promptStart, 200);
+  const removed = deleteCharacter(s, 350);
+  assert.equal(removed.kind, 'moved-back');
+  assert.equal(removed.deleted, ' ');
   assert.equal(s.typed, 'f');
   assert.equal(currentExpected(s), ' ');
   assert.equal(progressOf(s).done, 1);
@@ -83,10 +92,10 @@ test('sequence cursor moves back within the current round, not into completed ro
   const first = s.sequence[0], second = s.sequence[1];
   typeCharacter(s, p, first, 100);
   typeCharacter(s, p, 'x', 150);
-  deleteCharacter(s, 175);
-  assert.equal(s.typed, '');
+  assert.equal(deleteCharacter(s, 175).kind, 'cleared');
+  assert.equal(s.typed, first);
+  assert.equal(currentExpected(s), second);
   assert.equal(s.roundErrors, 1);
-  typeCharacter(s, p, first, 200);
   const result = typeCharacter(s, p, second, 300);
   assert.equal(result.kind, 'round-complete');
   assert.equal(result.round.errors, 1);
@@ -95,6 +104,25 @@ test('sequence cursor moves back within the current round, not into completed ro
   assert.equal(s.correct, 2);
   assert.equal(s.rounds.length, 1);
 });
+
+for (const mode of ['sequence', 'text']) {
+  test(mode + ' keeps an outstanding typo through pause, save, and resume', () => {
+    const s = newSession({ mode, passageId: 'custom', customText: 'fj' });
+    const p = newProfile();
+    start(s, p, 0);
+    const [first, second] = s.target;
+    typeCharacter(s, p, first, 100);
+    typeCharacter(s, p, 'x', 200);
+    pause(s, 250);
+    const restored = restoreSession(snapshot(s, 300));
+    start(restored, p, 350);
+    assert.equal(deleteCharacter(restored, 400).kind, 'cleared');
+    assert.equal(restored.typed, first);
+    assert.equal(currentExpected(restored), second);
+    assert.equal(restored.errors, 1);
+    assert.equal(restored.trials.length, 1);
+  });
+}
 
 test('deleting within paused text changes the saved cursor but not elapsed time', () => {
   const s = newSession({ mode: 'text', passageId: 'custom', customText: 'f j' }), p = newProfile();
