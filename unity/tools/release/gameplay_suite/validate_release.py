@@ -8,10 +8,17 @@ from pathlib import Path
 import tarfile
 
 ROOT = "Assets/HPRGameplaySuite/"
+SOURCE_DIR = Path(__file__).resolve().parent
+EDITOR_SOURCES = {
+    ROOT + "Editor/HprGameplaySuiteSceneBuilder.cs": SOURCE_DIR / "HprGameplaySuiteSceneBuilder.cs",
+    ROOT + "Editor/HprSuiteIntegrationGuide.cs": SOURCE_DIR / "HprSuiteIntegrationGuide.cs",
+    ROOT + "Editor/HprSelectedAbilityInstaller.cs": (
+        SOURCE_DIR / "buyer_source_assets/HPRGameplaySuite/Editor/HprSelectedAbilityInstaller.cs"
+    ),
+}
 REQUIRED = (
     ROOT + "Demo/GameplaySuiteShowcase.unity",
     ROOT + "Integration/HprGameplaySuitePlayground.cs",
-    ROOT + "Editor/HprGameplaySuiteSceneBuilder.cs",
     ROOT + "README.md",
     ROOT + "LICENSE.md",
     ROOT + "QUICKSTART.md",
@@ -20,13 +27,22 @@ REQUIRED = (
     ROOT + "Integration/HprSuiteSnapshot.cs",
     ROOT + "Integration/HprSuiteArenaMotor.cs",
     ROOT + "Integration/HprSuiteInput.cs",
-    ROOT + "Editor/HprSuiteIntegrationGuide.cs",
+    *EDITOR_SOURCES,
     ROOT + "Editor/Styles/HprSuiteIntegrationGuide.uss",
 )
 MODULES = (
     "eventbus", "composition", "save", "stats", "inventory", "interaction",
     "abilities", "weapons", "ai", "world",
 )
+
+
+def validate_editor_sources(editor_code: dict[str, bytes]) -> None:
+    different = editor_code.keys() ^ EDITOR_SOURCES.keys()
+    if different:
+        raise ValueError("Unexpected or missing buyer Editor scripts: " + repr(sorted(different)))
+    for path, source in EDITOR_SOURCES.items():
+        if editor_code[path] != source.read_bytes():
+            raise ValueError("Exported Editor script differs from release source: " + path)
 
 
 def inspect(archive: Path) -> dict:
@@ -129,12 +145,7 @@ def inspect(archive: Path) -> dict:
     bad_paths = [path for path, body in editor_code.items() if b"Packages/com.hpr." in body]
     if bad_paths:
         raise ValueError("Buyer Editor code still expects obsolete UPM layout: " + repr(bad_paths))
-    expected_editors = {
-        ROOT + "Editor/HprGameplaySuiteSceneBuilder.cs",
-        ROOT + "Editor/HprSuiteIntegrationGuide.cs",
-    }
-    if set(editor_code) != expected_editors:
-        raise ValueError("Unexpected or missing buyer Editor scripts: " + repr(set(editor_code) ^ expected_editors))
+    validate_editor_sources(editor_code)
     # UI Toolkit (UnityEngine.UIElements) is built into Unity; UGUI is optional.
     if any(b"using UnityEngine.UI;" in body or b"UnityEngine.UI." in body
            for path, body in asset_contents.items() if path.endswith(".cs")):

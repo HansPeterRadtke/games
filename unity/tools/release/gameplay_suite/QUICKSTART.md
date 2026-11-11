@@ -42,6 +42,19 @@ The training arena does not claim to include navmesh pathfinding, full
 third-person locomotion and animation, artist-created 3D models, robust save
 migration, or production-ready UI. Those are integration points for buyers.
 
+## Attach a healing ability to your player
+
+Open **Tools > HPR > Gameplay Suite > Integration Guide** and choose **Create my
+own editable healing ability**. Save the copy in your own folder under
+`Assets`. The guide copies its healing effect and links the new ability to it.
+
+Select your player in an open scene and open **Tools > HPR > Gameplay Suite >
+Attach Ability to Selected Object**. Choose the copied ability and a component
+on that player that implements `IAbilityResourcePool`. For the native HPR pool,
+use an `ActorStatsComponent` on the same player. Preview the selection, then
+choose **Attach ability**. Save the scene to keep the runner, or use **Edit >
+Undo**. To detach it later, select the player and choose **Remove HPR runner**.
+
 ## Troubleshooting
 
 * Scripts or classes duplicate: remove older standalone `com.hpr.*` UPM

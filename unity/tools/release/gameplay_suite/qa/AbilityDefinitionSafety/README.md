@@ -1,6 +1,8 @@
 # Archive-matched installer definition-validation overlay
 
-This complete Editor source starts from the exact reviewed private archive's
+The installer now lives in
+`../../buyer_source_assets/HPRGameplaySuite/Editor/HprSelectedAbilityInstaller.cs`.
+That Editor source starts from the exact reviewed private archive's
 HprSelectedAbilityInstaller.cs and changes only its definition-validation call.
 It preserves the already tested native HprSuiteAbilityPool.HasValidStatsSource
 guard. The older sibling qa/HprSelectedAbilityInstaller.cs prototype lacks that

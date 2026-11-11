@@ -16,6 +16,26 @@ namespace HPR.GameplaySuite
         private const string Samples = Root + "/Samples";
         private const string Scene = Root + "/Demo/GameplaySuiteShowcase.unity";
 
+        // Only save new HPR sample assets authored by this explicitly requested
+        // private scene creation. Never flush unrelated customer Inspector edits.
+        // SaveAssetIfDirty does not call OnWillSaveAssets; this tradeoff is
+        // disclosed for projects using custom VCS/asset checkout hooks.
+        private static void SaveOwnedSamplesOnly()
+        {
+            foreach (string guid in AssetDatabase.FindAssets("", new[] { Samples }))
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                if (!path.StartsWith(Samples + "/", StringComparison.Ordinal) ||
+                    !(path.EndsWith(".asset", StringComparison.OrdinalIgnoreCase) ||
+                      path.EndsWith(".mat", StringComparison.OrdinalIgnoreCase)))
+                    continue;
+                UnityEngine.Object asset = AssetDatabase.LoadMainAssetAtPath(path);
+                if (asset == null)
+                    throw new InvalidOperationException("Missing HPR newly authored sample: " + path);
+                AssetDatabase.SaveAssetIfDirty(asset);
+            }
+        }
+
         private static T CreateAsset<T>(string filename) where T : ScriptableObject
         {
             string path = Samples + "/" + filename + ".asset";
@@ -408,7 +428,7 @@ namespace HPR.GameplaySuite
             SetRef(controller, "keyPickup", keyStation);
             SetRef(controller, "demoDoor", door);
 
-            AssetDatabase.SaveAssets();
+            SaveOwnedSamplesOnly();
             if (!EditorSceneManager.SaveScene(scene, Scene))
                 throw new InvalidOperationException("Unity failed to save original training arena");
             AssetDatabase.Refresh();
@@ -455,8 +475,9 @@ namespace HPR.GameplaySuite
                 if (material.HasProperty("_Smoothness")) material.SetFloat("_Smoothness", Mathf.Clamp01(smoothness));
                 if (material.HasProperty("_Glossiness")) material.SetFloat("_Glossiness", Mathf.Clamp01(smoothness));
                 EditorUtility.SetDirty(material);
+                // Save only this explicitly adapted HPR-owned sample material.
+                AssetDatabase.SaveAssetIfDirty(material);
             }
-            AssetDatabase.SaveAssets();
             Debug.Log("HPR Gameplay Suite adapted its demo materials to " +
                 (current == null ? "Built-in" : current.GetType().Name) +
                 ". No other project materials, packages or render settings changed.");

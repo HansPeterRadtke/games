@@ -30,7 +30,7 @@ UNITY = Path(os.environ.get("UNITY_BIN", "/data/apps/Unity/Hub/Editor/6000.4.0f1
 
 def integrated_module_readme(name: str, original_text: str) -> str:
     """Keep original module API guidance; exclude unavailable standalone workflows."""
-    removed_sections = {"Installation", "Demo", "Validation", "Samples", "Documentation"}
+    removed_sections = {"Installation", "Demo", "Validation", "Samples", "Documentation", "Editor regression tests"}
     retained = []
     skipping = False
     for line in original_text.splitlines(keepends=True):
@@ -53,18 +53,26 @@ def checksum(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+INSTALLER = Path("HPRGameplaySuite/Editor/HprSelectedAbilityInstaller.cs")
+
+
 def stage_authored_buyer_assets(*, reuse_project: bool) -> dict[str, str]:
     """Stage source-controlled Unity YAML/meta before Editor opens the project.
 
     Import GUIDs must not be regenerated on every build: stable GUIDs are part
     of the buyer's public serialized contract, just like API names.
-    Reusing an existing staging project is read-only for authored assets.
+    Reuse preserves authored assets. Pre-installer projects can add the new pair.
     """
     source_root = SCRIPT_DIR / "buyer_source_assets"
     if not source_root.is_dir():
         raise RuntimeError("Missing source-controlled Unity buyer asset baseline")
     destination_root = PROJECT / "Assets"
+    installer_pair = (INSTALLER, INSTALLER.with_suffix(".cs.meta"))
+    add_installer = reuse_project and all(
+        not os.path.lexists(destination_root / path) for path in installer_pair
+    )
     asset_hashes = {}
+    to_create = []
     for source_path in sorted(source_root.rglob("*")):
         if not source_path.is_file():
             continue
@@ -72,8 +80,10 @@ def stage_authored_buyer_assets(*, reuse_project: bool) -> dict[str, str]:
             raise RuntimeError("Symlink not allowed in authored Unity asset baseline")
         relative = source_path.relative_to(source_root)
         staged = destination_root / relative
+        if any((destination_root / parent).is_symlink() for parent in (relative, *relative.parents)):
+            raise RuntimeError("Symlink in staged Unity asset path: " + str(relative))
         asset_hashes[relative.as_posix()] = checksum(source_path)
-        if reuse_project:
+        if reuse_project and not (add_installer and relative in installer_pair):
             if not staged.is_file():
                 raise RuntimeError("Required staged Unity asset is missing: " + str(relative))
             if source_path.suffix == ".meta":
@@ -90,10 +100,14 @@ def stage_authored_buyer_assets(*, reuse_project: bool) -> dict[str, str]:
         else:
             if staged.exists():
                 raise RuntimeError("Refusing to replace an existing Unity asset: " + str(relative))
-            staged.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(source_path, staged)
+            to_create.append((source_path, staged))
     if len(asset_hashes) < 70:
         raise RuntimeError("Incomplete source-controlled Unity scene / metadata baseline")
+    # Validate the entire existing baseline before adding anything to it.
+    for source_path, staged in to_create:
+        staged.parent.mkdir(parents=True, exist_ok=True)
+        with source_path.open("rb") as source, staged.open("xb") as output:
+            shutil.copyfileobj(source, output)
     return asset_hashes
 
 
@@ -120,6 +134,7 @@ def main() -> None:
     if not PROJECT.exists():
         PROJECT.parent.mkdir(parents=True, exist_ok=True)
         run_editor(["-createProject", str(PROJECT)], "create")
+        args.reuse_project = False
     elif not args.reuse_project:
         raise RuntimeError("Build project exists; use --reuse-project to explicitly reuse, never delete it")
 

@@ -2,6 +2,7 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -10,7 +11,8 @@ using UnityEngine.UIElements;
 namespace HPR.GameplaySuite
 {
     /// <summary>
-    /// Read-only entry point for experienced programmers integrating HPR code.
+    /// Non-invasive entry point for experienced programmers integrating HPR code.
+    /// Reads project structure and offers explicit customer-owned sample copies.
     /// It never installs dependencies, rewrites settings or edits foreign assets.
     /// </summary>
     public sealed class HprSuiteIntegrationGuide : EditorWindow
@@ -77,10 +79,10 @@ namespace HPR.GameplaySuite
                 "Inspect the included training arena without changing your existing player or scenes.");
             AddButton(scroll, "Open included demo (asks before discarding scene edits)",
                 HprGameplaySuiteSceneBuilder.OpenShowcase);
-            AddButton(scroll, "Select editable weapon definition",
-                () => SelectAsset(Root + "/Samples/DemoRifle.asset"));
-            AddButton(scroll, "Select editable healing ability",
-                () => SelectAsset(Root + "/Samples/RepairAbility.asset"));
+            AddButton(scroll, "Create my own editable weapon definition",
+                () => PromptCopySample(Root + "/Samples/DemoRifle.asset"));
+            AddButton(scroll, "Create my own editable healing ability",
+                () => PromptCopySample(Root + "/Samples/RepairAbility.asset"));
 
             AddSection(scroll, "Integrate into an existing game",
                 "You own your project's controllers and gameplay rules. These modules do not install a controller, Input System package, render pipeline or project settings. Read the architecture document before replacing any existing service.");
@@ -147,6 +149,268 @@ namespace HPR.GameplaySuite
             Button button = new Button(action) { text = label };
             button.AddToClassList("hpr-suite-button");
             parent.Add(button);
+        }
+
+        private void PromptCopySample(string sourcePath)
+        {
+            string baseName = Path.GetFileNameWithoutExtension(sourcePath);
+            string destination = EditorUtility.SaveFilePanelInProject(
+                "Create your own HPR sample asset", baseName + "-MyGame", "asset",
+                "Choose a folder belonging to your game, outside Assets/HPRGameplaySuite. " +
+                "Vendor-owned sample assets may be replaced by future package updates.",
+                "Assets");
+            if (string.IsNullOrWhiteSpace(destination))
+            {
+                if (advice != null) advice.text = "Copy cancelled. No assets changed.";
+                return;
+            }
+
+            try
+            {
+                UnityEngine.Object copy = CopySampleToCustomerPath(sourcePath, destination);
+                Selection.activeObject = copy;
+                EditorGUIUtility.PingObject(copy);
+                if (advice != null)
+                    advice.text = "Created your own independent copy, including its sample " +
+                                  "dependencies and unique IDs. The vendor examples are unchanged.";
+            }
+            catch (Exception error) when (error is ArgumentException ||
+                                          error is IOException ||
+                                          error is InvalidOperationException ||
+                                          error is UnityException)
+            {
+                Debug.LogException(error);
+                EditorUtility.DisplayDialog("HPR sample copy incomplete", error.Message, "OK");
+                if (advice != null)
+                    advice.text = "No vendor sample was edited. New customer-owned files may remain; " +
+                                  "review the listed paths before trying again. " +
+                                  "No automatic cleanup was performed. See the Console.";
+            }
+        }
+
+        /// <summary>
+        /// Copy a ScriptableObject and its packaged ScriptableObject dependencies
+        /// into a customer-owned Assets folder. Rebind copied object references and
+        /// issue unique runtime Id values. Validate every path before writing any
+        /// file. If a later step fails after creating files, preserve the new
+        /// files for explicit buyer inspection rather than deleting a path whose
+        /// ownership may have changed in the meantime.
+        /// Called only from an explicit user action, never upon package import.
+        /// </summary>
+        internal static UnityEngine.Object CopySampleToCustomerPath(
+            string sourcePath, string destinationPath)
+        {
+            const string vendorSamples = Root + "/Samples/";
+            if (string.IsNullOrWhiteSpace(sourcePath) ||
+                !sourcePath.StartsWith(vendorSamples, StringComparison.Ordinal) ||
+                !sourcePath.EndsWith(".asset", StringComparison.OrdinalIgnoreCase))
+                throw new ArgumentException(
+                    "Expected an included HPR ScriptableObject sample.", nameof(sourcePath));
+            if (string.IsNullOrWhiteSpace(destinationPath))
+                throw new ArgumentException(
+                    "Choose a destination in your own Assets folder.", nameof(destinationPath));
+
+            string normalizedDestination = destinationPath.Replace('\\', '/');
+            if (!normalizedDestination.StartsWith("Assets/", StringComparison.Ordinal) ||
+                normalizedDestination.StartsWith(Root + "/", StringComparison.Ordinal) ||
+                !normalizedDestination.EndsWith(".asset", StringComparison.OrdinalIgnoreCase))
+                throw new ArgumentException(
+                    "Destination must be an .asset file in your own Assets folder, not the HPR vendor root.",
+                    nameof(destinationPath));
+            foreach (string part in normalizedDestination.Split('/'))
+                if (part == "." || part == ".." || string.IsNullOrWhiteSpace(part))
+                    throw new ArgumentException("Destination path contains a disallowed segment.", nameof(destinationPath));
+
+            string directory = Path.GetDirectoryName(normalizedDestination)?.Replace('\\', '/');
+            if (string.IsNullOrWhiteSpace(directory) || !AssetDatabase.IsValidFolder(directory))
+                throw new ArgumentException(
+                    "Destination folder is missing; choose an existing folder.", nameof(destinationPath));
+
+            // AssetDatabase.GetDependencies includes runtime MonoScript references,
+            // which intentionally remain in the vendor package; only clone authored
+            // ScriptableObject sample definitions that an upgrade could replace.
+            var sourcePaths = new List<string> { sourcePath };
+            foreach (string referencedPath in AssetDatabase.GetDependencies(sourcePath, true))
+            {
+                if (!referencedPath.StartsWith(vendorSamples, StringComparison.Ordinal) ||
+                    string.Equals(referencedPath, sourcePath, StringComparison.Ordinal))
+                    continue;
+                if (!referencedPath.EndsWith(".asset", StringComparison.OrdinalIgnoreCase))
+                    throw new InvalidOperationException(
+                        "Sample depends on an unsupported vendor asset: " + referencedPath +
+                        ". Nothing has been copied.");
+                if (!sourcePaths.Contains(referencedPath))
+                    sourcePaths.Add(referencedPath);
+            }
+            if (sourcePaths.Count > 32)
+                throw new InvalidOperationException(
+                    "Sample dependency graph exceeds the supported 32 asset limit.");
+            sourcePaths.Sort(StringComparer.Ordinal);
+
+            string requestedStem = Path.GetFileNameWithoutExtension(normalizedDestination);
+            var destinations = new Dictionary<string, string>(StringComparer.Ordinal);
+            var sourceGuids = new Dictionary<string, string>(StringComparer.Ordinal);
+            var uniqueDestinations = new HashSet<string>(StringComparer.Ordinal);
+            foreach (string source in sourcePaths)
+            {
+                UnityEngine.Object original = AssetDatabase.LoadMainAssetAtPath(source);
+                string sourceGuid = AssetDatabase.AssetPathToGUID(source);
+                if (original == null || string.IsNullOrEmpty(sourceGuid))
+                    throw new FileNotFoundException("Sample dependency was not found.", source);
+
+                string target = string.Equals(source, sourcePath, StringComparison.Ordinal)
+                    ? normalizedDestination
+                    : directory + "/" + requestedStem + "__HPR_" +
+                      Path.GetFileNameWithoutExtension(source) + ".asset";
+                string relative = target.Substring("Assets/".Length);
+                string physical = Path.Combine(Application.dataPath, relative);
+                if (!uniqueDestinations.Add(target) ||
+                    AssetDatabase.LoadMainAssetAtPath(target) != null ||
+                    File.Exists(physical) || Directory.Exists(physical) ||
+                    File.Exists(physical + ".meta") || Directory.Exists(physical + ".meta"))
+                    throw new IOException(
+                        "An output asset already exists, or dependencies have conflicting names: " +
+                        target + ". Nothing has been copied.");
+                destinations.Add(source, target);
+                sourceGuids.Add(source, sourceGuid);
+            }
+
+            var newlyCreated = new List<string>();
+            string lastAttemptedTarget = null;
+            try
+            {
+                // Copy all files first, so every referenced destination exists
+                // before any new copy is rewired. Never edit original assets.
+                foreach (string source in sourcePaths)
+                {
+                    string target = destinations[source];
+                    // The original preflight can be stale if another importer
+                    // created this path while the dependencies were analyzed.
+                    // Recheck both the Unity registry and physical asset/meta
+                    // immediately before attempting this individual CopyAsset.
+                    string physical = Path.Combine(Application.dataPath,
+                        target.Substring("Assets/".Length));
+                    if (AssetDatabase.LoadMainAssetAtPath(target) != null ||
+                        File.Exists(physical) || Directory.Exists(physical) ||
+                        File.Exists(physical + ".meta") ||
+                        Directory.Exists(physical + ".meta"))
+                        throw new IOException("The output became occupied before copying: " + target +
+                            ". Inspect the owning GUID; nothing at this path was overwritten by HPR.");
+                    lastAttemptedTarget = target;
+                    if (!AssetDatabase.CopyAsset(source, target))
+                        throw new IOException("Unity could not copy sample asset: " + source +
+                            ". The last attempted target may require manual inspection: " + target);
+                    newlyCreated.Add(target);
+                    lastAttemptedTarget = null;
+                }
+
+                foreach (string source in sourcePaths)
+                {
+                    string target = destinations[source];
+                    UnityEngine.Object copy = AssetDatabase.LoadMainAssetAtPath(target);
+                    string newGuid = AssetDatabase.AssetPathToGUID(target);
+                    if (copy == null || newGuid.Length != 32 ||
+                        string.Equals(newGuid, sourceGuids[source], StringComparison.Ordinal))
+                        throw new InvalidOperationException(
+                            "Unity failed to create a distinct GUID for " + target);
+
+                    var serialized = new SerializedObject(copy);
+                    bool dirty = false;
+                    SerializedProperty iterator = serialized.GetIterator();
+                    if (iterator.NextVisible(true))
+                    {
+                        do
+                        {
+                            if (iterator.propertyType != SerializedPropertyType.ObjectReference)
+                                continue;
+                            UnityEngine.Object dependency = iterator.objectReferenceValue;
+                            if (dependency == null)
+                                continue;
+                            string originalPath = AssetDatabase.GetAssetPath(dependency);
+                            if (destinations.TryGetValue(originalPath, out string clonePath))
+                            {
+                                UnityEngine.Object clonedDependency =
+                                    AssetDatabase.LoadMainAssetAtPath(clonePath);
+                                if (clonedDependency == null)
+                                    throw new InvalidOperationException(
+                                        "Copied dependency cannot be resolved: " + clonePath);
+                                iterator.objectReferenceValue = clonedDependency;
+                                dirty = true;
+                            }
+                        }
+                        while (iterator.NextVisible(true));
+                    }
+
+                    SerializedProperty runtimeId = serialized.FindProperty("Id");
+                    if (runtimeId != null &&
+                        runtimeId.propertyType == SerializedPropertyType.String)
+                    {
+                        runtimeId.stringValue = "hpr_user_" + newGuid.Substring(0, 16);
+                        dirty = true;
+                    }
+                    if (dirty)
+                        serialized.ApplyModifiedPropertiesWithoutUndo();
+                }
+                // Save only copies authored by this explicit user operation.
+                // Unity's global SaveAssets would flush OTHER dirty buyer assets.
+                // SaveAssetIfDirty bypasses OnWillSaveAssets callbacks for these
+                // named new assets, so VCS integrations need independent review.
+                // Nothing else was saved by this operation.
+                foreach (string target in destinations.Values)
+                {
+                    UnityEngine.Object copy = AssetDatabase.LoadMainAssetAtPath(target);
+                    if (copy == null)
+                        throw new InvalidOperationException("New customer-owned copy cannot be saved: " + target);
+                    AssetDatabase.SaveAssetIfDirty(copy);
+                }
+
+                // Verify no newly copied object still depends on an original
+                // vendor-owned *sample*. Script runtime references are intentional.
+                foreach (string target in destinations.Values)
+                {
+                    UnityEngine.Object copy = AssetDatabase.LoadMainAssetAtPath(target);
+                    if (copy == null)
+                        throw new InvalidOperationException("Copied asset vanished: " + target);
+                    var serialized = new SerializedObject(copy);
+                    SerializedProperty iterator = serialized.GetIterator();
+                    if (iterator.NextVisible(true))
+                    {
+                        do
+                        {
+                            if (iterator.propertyType != SerializedPropertyType.ObjectReference ||
+                                iterator.objectReferenceValue == null)
+                                continue;
+                            string dependency = AssetDatabase.GetAssetPath(iterator.objectReferenceValue);
+                            if (dependency.StartsWith(vendorSamples, StringComparison.Ordinal))
+                                throw new InvalidOperationException(
+                                    "Copied asset retains a vendor-owned sample dependency: " +
+                                    dependency);
+                        }
+                        while (iterator.NextVisible(true));
+                    }
+                }
+                return AssetDatabase.LoadMainAssetAtPath(normalizedDestination);
+            }
+            catch (Exception copyFailure)
+            {
+                if (newlyCreated.Count == 0 && lastAttemptedTarget == null)
+                    throw;
+                // CopyAsset can return false after part of a file operation;
+                // that last target might exist despite a false return. Keep
+                // confirmed and uncertain outputs for explicit customer review.
+                // Automatic deletion by pathname could destroy another
+                // importer's replacement if ownership changed concurrently.
+                string createdPaths = newlyCreated.Count == 0
+                    ? "(none confirmed)" : string.Join(", ", newlyCreated);
+                string uncertainPath = lastAttemptedTarget == null ? string.Empty :
+                    " The last attempted output may also exist: " + lastAttemptedTarget + ".";
+                throw new InvalidOperationException(
+                    "A partial HPR asset copy was interrupted. Unity created some assets: " +
+                    createdPaths + "." + uncertainPath +
+                    " Cause: " + copyFailure.Message + ". No automatic cleanup was performed. " +
+                    "Inspect the listed paths and their GUIDs before deletion or retry.",
+                    copyFailure);
+            }
         }
 
         private static void SelectAsset(string path)
