@@ -1,3 +1,4 @@
+import { renderRoundChart } from './round_chart.js';
 import { LEVEL_PASSAGES, isLevelPassage, roundRecordFor } from './core.js';
 import { recentStats } from './rounds.js';
 
@@ -51,25 +52,16 @@ function describe(reward) {
   return { title, score, detail };
 }
 
-function placePopup() {
-  if (popup.hidden) return;
-  const target = document.querySelector('#target-text .current');
-  const marker = byId('key-stage').hidden ? target ?? byId('target-text') : byId('target-key');
-  const box = marker.getBoundingClientRect();
-  const overlapsTop = box.bottom > 0 && box.top < popup.offsetHeight + 24;
-  popup.classList.toggle('dock-bottom', overlapsTop);
-}
-window.addEventListener('scroll', placePopup, { passive: true });
-window.addEventListener('resize', placePopup);
-
 export function clearReward() {
   clearTimeout(hideTimer);
   popup.hidden = true;
   goldUntil = 0;
   lastResult = '';
+  byId('reward-announcement').textContent = '';
 }
 
 function announce(tier, title, score, detail) {
+  if (!byId('celebrations').checked) return;
   if (tier !== 'all-time' && performance.now() < goldUntil) return;
   clearTimeout(hideTimer);
   if (tier === 'all-time') goldUntil = performance.now() + 2400;
@@ -78,7 +70,6 @@ function announce(tier, title, score, detail) {
   byId('achievement-time').textContent = score;
   byId('achievement-detail').textContent = detail;
   popup.hidden = false;
-  placePopup();
   popup.classList.remove('arrive');
   void popup.offsetWidth;
   popup.classList.add('arrive');
@@ -88,6 +79,7 @@ function announce(tier, title, score, detail) {
 export function showRoundReward(reward) {
   const { title, score, detail } = describe(reward);
   lastResult = title + ' · ' + score + '. ' + detail;
+  byId('reward-announcement').textContent = lastResult;
   if (['all-time', 'recent', 'improved', 'baseline'].includes(reward.tier)) {
     announce(reward.tier, title, score, detail);
   } else if (reward.milestone) {
@@ -102,17 +94,33 @@ export function showKeyWindowReward(records, window) {
     const improvement = records.find(r => r.windowSize === window && r.metric === metric && Number.isFinite(r.previous));
     if (!improvement) continue;
     const unit = metric === 'accuracy' ? 'accuracy' : 'time';
-    announce('all-time', 'All-time ' + window + '-key best', valueOf(improvement.value, unit),
-      'Best ' + label + ' over ' + window + ' keys. Previous best ' + valueOf(improvement.previous, unit) + '.');
+    const title = 'All-time ' + window + '-key best';
+    const score = valueOf(improvement.value, unit);
+    const detail = 'Best ' + label + ' over ' + window + ' keys. Previous best ' + valueOf(improvement.previous, unit) + '.';
+    byId('reward-announcement').textContent = title + ' · ' + score + '. ' + detail;
+    announce('all-time', title, score, detail);
     break;
   }
 }
 
+let lastChartRecord, lastChartWindow, lastChartMode, lastChartMetric;
 export function renderRoundBoard(session, profile) {
   const timed = session.mode === 'sequence';
   const record = roundRecordFor(session, profile);
   const stats = recentStats(record, profile.roundWindow, timed);
   const speed = timed ? 'time' : 'pace';
+  const metric = byId('chart-metric').value;
+  if (lastChartRecord !== record || lastChartWindow !== profile.roundWindow || lastChartMode !== session.mode || lastChartMetric !== metric) {
+    renderRoundChart(record, stats.rounds, timed, valueOf);
+    lastChartRecord = record;
+    lastChartWindow = profile.roundWindow;
+    lastChartMode = session.mode;
+    lastChartMetric = metric;
+  }
+  byId('round-empty').hidden = Boolean(stats.count);
+  document.querySelector('.round-metrics').hidden = !record;
+  byId('practice-target').textContent = stats.bestScore == null ? ''
+    : 'Target · ' + valueOf(stats.bestScore, speed);
   byId('round-window').value = String(profile.roundWindow);
   const scope = timed ? 'This exact sequence'
     : session.mode === 'keys' ? 'Level ' + session.level + ' · ' + session.goal + ' keys'

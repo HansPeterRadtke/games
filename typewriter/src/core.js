@@ -62,7 +62,7 @@ export function textRecordKey(state) {
 }
 
 export function newProfile() {
-  return { keyStats: {}, records: {}, textRecords: {}, sequenceRecords: {}, keyRoundRecords: {}, roundWindow: DEFAULT_ROUND_WINDOW, history: [] };
+  return { keyStats: {}, records: {}, textRecords: {}, sequenceRecords: {}, keyRoundRecords: {}, roundWindow: DEFAULT_ROUND_WINDOW, celebrations: true, history: [] };
 }
 
 export function keyRoundKey(state) {

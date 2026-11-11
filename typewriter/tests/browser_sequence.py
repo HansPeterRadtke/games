@@ -27,7 +27,12 @@ async function typeSequence(text,delay) {
 }
 try {
  await sleep(300);
- $('mode-sequence').click();
+ for (const mode of ['keys','text','sequence']) {
+   $('mode-'+mode).click();
+   const target=$('prompt-surface').getBoundingClientRect(), start=$('primary-button').getBoundingClientRect();
+   check(mode+' target and Start fit the initial view',target.top>=0 && start.bottom<=innerHeight);
+ }
+ check('empty round history has an explanation',$('round-chart').hidden && !$('round-empty').hidden);
  check('sequence mode shown', $('mode-sequence').getAttribute('aria-selected')==='true' && !$('sequence-options').hidden);
  check('original modes hidden', $('text-controls').hidden && $('key-goal-block').hidden && $('keys-controls').hidden && !$('level-controls').hidden);
  check('default length', Number($('sequence-length').value)===2 && Number($('sequence-length').min)===2);
@@ -52,6 +57,8 @@ try {
  check('round 1 complete', $('phase-text').textContent==='ACTIVE' && $('sequence-round-position').textContent==='2 / 3');
  check('first record visible', !$('achievement-banner').hidden && $('achievement-title').textContent.includes('First round recorded'));
  check('round log one', $('round-log-items').querySelectorAll('.round-log-row').length===1);
+ check('baseline chart contains a single centered round', $('round-plot').querySelectorAll('circle').length===1
+   && $('round-axis-end').textContent==='Round 1' && $('round-axis-end').parentElement.classList.contains('single-round'));
  const firstTime=parseFloat($('sequence-personal-best').textContent);
  await typeSequence(fixed,12);
  check('round 2 complete', $('sequence-round-position').textContent==='3 / 3');
@@ -98,10 +105,32 @@ try {
    && getComputedStyle($('achievement-banner')).pointerEvents==='none');
  set('round-window',10);
  check('larger comparison includes earlier fastest round',$('recent-best').textContent==='700 ms' && $('round-scope').textContent.includes('6 recent rounds'));
+ check('chronological graph includes every comparable round',$('round-plot').querySelectorAll('circle').length===6
+   && $('round-axis-start').textContent==='Round 1' && $('round-axis-end').textContent==='Round 6'
+   && Number($('scale-top').textContent)<Number($('scale-bottom').textContent));
+ set('chart-metric','accuracy');
+ const dots=[...$('round-plot').querySelectorAll('circle')];
+ check('tied accuracy scores share one height',dots.length===6 && dots.every(dot=>dot.getAttribute('cy')===dots[0].getAttribute('cy'))
+   && Number($('scale-top').textContent)>Number($('scale-bottom').textContent));
+ check('exact readings accompany the chart',$('round-values').querySelectorAll('tbody tr').length===6
+   && $('round-values').querySelector('tbody tr:last-child').textContent.includes('100%'));
+ $('celebrations').click();
+ for (const c of race) { clock+=30; press(c); }
+ check('celebrations can be silenced without losing the result',$('achievement-banner').hidden
+   && $('round-result').textContent.includes('All-time best') && $('reward-announcement').textContent.includes('All-time best'));
  const restored=JSON.parse(localStorage.getItem('typewriter.practice.v1')).profile;
- check('comparison settings and actual rounds stored',restored.roundWindow===10 && Object.values(restored.sequenceRecords).some(r=>r.recentRounds.length===6));
+ check('comparison settings and actual rounds stored',restored.celebrations===false && restored.roundWindow===10 && Object.values(restored.sequenceRecords).some(r=>r.recentRounds.length===7));
  check('no horizontal overflow',document.documentElement.scrollWidth<=document.documentElement.clientWidth+1,
    document.documentElement.scrollWidth+'/'+document.documentElement.clientWidth);
+ const {renderRoundChart}=await import('./src/round_chart.js');
+ const migrated=[{score:1200,accuracy:93},{score:1300,accuracy:null},{score:1000,accuracy:98}];
+ renderRoundChart({count:12},migrated,true,String);
+ check('missing accuracy leaves a gap and retains the round index',$('round-plot').querySelectorAll('circle').length===2
+   && $('round-plot').querySelector('path').getAttribute('d').trim().split('M').length===3
+   && $('round-axis-start').textContent==='Round 10' && $('round-axis-end').textContent==='Round 12');
+ renderRoundChart({count:1},[migrated[1]],true,String);
+ check('unknown metric shows its explanation and round table',!$('chart-missing').hidden
+   && $('round-plot').parentElement.hidden && $('round-values').querySelectorAll('tbody tr').length===1);
 } catch(e) {results.push({name:'exception',ok:false,detail:e.message});}
 const out=document.createElement('pre');out.id='typewriter-sequence-probe';out.textContent=JSON.stringify(results);document.body.append(out);
 </script>'''

@@ -74,9 +74,13 @@ function persist() {
   saveError = saveData(session, profile, now());
   renderSaveState();
 }
+// Keep unchanged status text quiet for screen readers during typing.
+function setStatus(node, message) {
+  if (node.textContent !== message) node.textContent = message;
+}
 function renderSaveState() {
   dom.saveIndicator.classList.toggle('failed', Boolean(saveError));
-  dom.saveLabel.textContent = saveError || 'Saved on this device';
+  setStatus(dom.saveLabel, saveError || 'Saved on this device');
 }
 function hasPartial() { return session.correct > 0 || session.errors > 0; }
 function abandonPrompt() {
@@ -118,10 +122,12 @@ function beginPractice() {
       : 'Enter a passage using the unlocked letters before starting.';
     noticeKind = 'error';
     render();
+    $('practice-settings').open = true;
     (session.passageId === 'custom' ? dom.customText : dom.passage).focus();
     return;
   }
   if (start(session, profile, now())) {
+    $('practice-settings').open = false;
     notice = '';
     lastFeedback = session.feedback;
     focusTyping();
@@ -169,7 +175,7 @@ function handleCharacter(char) {
     noticeKind = 'success';
     notice = session.mode === 'sequence'
       ? 'All rounds complete. Start again to beat the same sequence record.'
-      : 'Session complete. Your results and personal records are saved.';
+      : 'Session complete. Your round results are ready.';
   } else if (result.kind === 'round-complete') {
     noticeKind = 'success';
     notice = 'Round ' + result.round.number + ' complete · ' + percent(result.round.accuracy) + ' accuracy.';
@@ -179,7 +185,7 @@ function handleCharacter(char) {
     noticeKind = 'success';
     const size = result.records[result.records.length - 1].windowSize;
     notice = result.records.some(r => r.windowSize === size && r.previous !== null)
-      ? 'New personal best over ' + size + ' keys.' : 'First ' + size + '-key measurement saved.';
+      ? 'New personal best over ' + size + ' keys.' : 'First ' + size + '-key measurement.';
   }
   if (result.reward) showRoundReward(result.reward);
   if (session.mode === 'keys' && result.reward?.tier !== 'all-time' && result.records?.length) {
@@ -205,6 +211,7 @@ function isEditing(target) {
 }
 document.addEventListener('keydown', e => {
   if (e.ctrlKey || e.altKey || e.metaKey || e.isComposing || e.key === 'Dead') return;
+  if (e.target instanceof Element && e.target.closest('button, summary') && (e.key === ' ' || e.key === 'Enter')) return;
   if (isEditing(e.target)) {
     if (e.key === 'Escape' && session.phase === 'running') pausePractice();
     return;
@@ -288,7 +295,23 @@ roundWindow.addEventListener('change', () => {
   profile.roundWindow = n;
   renderRoundBoard(session, profile);
   persist();
-  if (session.phase === 'running') focusTyping();
+});
+
+$('chart-metric').addEventListener('change', () => renderRoundBoard(session, profile));
+$('celebrations').addEventListener('change', e => {
+  profile.celebrations = e.target.checked;
+  if (!profile.celebrations) $('achievement-banner').hidden = true;
+  persist();
+});
+const modeTabs = [dom.modeKeys, dom.modeSequence, dom.modeText];
+document.querySelector('.mode-tabs').addEventListener('keydown', e => {
+  const index = modeTabs.indexOf(e.target);
+  if (index < 0) return;
+  const next = { ArrowLeft: (index + 2) % 3, ArrowRight: (index + 1) % 3, Home: 0, End: 2 }[e.key];
+  if (next === undefined) return;
+  e.preventDefault();
+  modeTabs[next].click();
+  document.querySelector('.mode-tab[aria-selected="true"]').focus();
 });
 
 dom.primary.addEventListener('click', beginPractice);
@@ -479,12 +502,14 @@ function renderStats() {
 function renderRhythm() {
   dom.rhythm.replaceChildren();
   const recent = session.trials.slice(-24);
+  $('rhythm-scale').textContent = '';
   if (!recent.length) {
     dom.rhythm.append(element('div', 'rhythm-empty', 'Timing will appear here'));
     dom.rhythmCaption.textContent = 'Your timing appears as you type.';
     return;
   }
   const max = Math.max(350, ...recent.map(t => t.ms));
+  $('rhythm-scale').textContent = 'Response time · 0 to ' + formatMs(max) + ' · oldest to newest';
   for (const t of recent) {
     const bar = element('div', 'rhythm-bar');
     bar.style.height = Math.max(5, (t.ms / max) * 100) + '%';
@@ -582,26 +607,37 @@ function renderHistory() {
   }
 }
 function renderFeedback() {
-  dom.feedback.className = 'feedback';
-  if (notice) {
-    dom.feedback.textContent = notice;
-    if (noticeKind) dom.feedback.classList.add(noticeKind);
+  let message, kind = '';
+  if (session.phase === 'complete' && saveError) {
+    message = 'Round complete. ' + saveError;
+    kind = 'error';
+  } else if (notice) {
+    message = notice;
+    kind = noticeKind;
   } else if (lastFeedback === 'incorrect' && session.phase === 'running') {
-    dom.feedback.textContent = 'Mistake recorded. The target remains until you type it correctly.';
-    dom.feedback.classList.add('error');
+    message = 'Mistake recorded. The target remains until you type it correctly.';
+    kind = 'error';
   } else if (session.phase === 'complete') {
-    dom.feedback.textContent = 'Your progress is saved automatically. You can export a backup above.';
-    dom.feedback.classList.add('success');
+    message = 'Your progress is saved on this device.';
+    kind = 'success';
   } else {
-    dom.feedback.textContent = session.mode === 'keys' ? 'Shortcuts: + / − changes level between rounds; Delete clears an error.'
+    message = session.mode === 'keys' ? 'Use + or − to change level between rounds. Delete clears an error.'
       : session.mode === 'sequence' ? 'Use + or − to change level between sessions. Delete clears a typo or removes the last correct letter.'
       : 'Backspace or Delete clears a typo. With no typo highlighted, it removes the last correct letter.';
   }
+  setStatus(dom.feedback, message);
+  dom.feedback.className = kind ? 'feedback ' + kind : 'feedback';
 }
 function render() {
   const keys = session.mode === 'keys';
   const sequence = session.mode === 'sequence';
   const text = session.mode === 'text';
+  $('practice-panel').setAttribute('aria-labelledby', 'mode-' + session.mode);
+  for (const tab of modeTabs) tab.tabIndex = tab.id === 'mode-' + session.mode ? 0 : -1;
+  $('settings-state').textContent = 'Level ' + session.level + ' · ' + (keys ? session.goal + ' keys'
+    : sequence ? session.sequenceLength + ' letters × ' + session.sequenceRounds + ' rounds' : dom.passage.querySelector('option[value="' + session.passageId + '"]')?.textContent ?? 'Text practice');
+  $('celebrations').checked = profile.celebrations;
+  dom.prompt.classList.toggle('sequence-prompt', sequence);
   dom.modeKeys.classList.toggle('active', keys);
   dom.modeSequence.classList.toggle('active', sequence);
   dom.modeText.classList.toggle('active', text);
@@ -637,12 +673,12 @@ function render() {
     const minimum = isGenerated && !coverage.missing.length && coverage.weakest >= MIN_KEY_OCCURRENCES
       && coverage.counts[latest] >= 5;
     dom.textCoverageNote.classList.toggle('incomplete', !minimum);
-    dom.textCoverageNote.textContent = isGenerated && minimum
+    setStatus(dom.textCoverageNote, isGenerated && minimum
       ? 'All ' + unlocked.length + ' unlocked keys included · at least ' + MIN_KEY_OCCURRENCES
         + ' times each · newest key ' + latest.toUpperCase() + ' appears '
         + coverage.counts[latest] + ' times'
       : coverage.covered + ' of ' + coverage.total + ' unlocked keys used'
-        + (isGenerated ? ' · Start a new exercise to practise all keys.' : ' · Custom passages may omit some letters.');
+        + (isGenerated ? ' · Start a new exercise to practise all keys.' : ' · Custom passages may omit some letters.'));
   }
   dom.textGenerationNote.textContent = session.textKind === 'key-groups'
     ? 'At this level there are not enough real words; letter groups use only unlocked keys.'
@@ -653,10 +689,10 @@ function render() {
       ? 'Generated ' + (session.textLanguage === 'de' ? 'German' : session.textLanguage === 'en' ? 'English' : 'level-based')
         + ' practice using only unlocked letters.'
       : 'Full passages and your custom text are available only when their letters are unlocked.';
-  dom.customValidation.textContent = illegal.length
+  setStatus(dom.customValidation, illegal.length
     ? 'Not unlocked yet: ' + illegal.join(', ') + '. Change the level or edit the text.'
     : session.customText.trim() ? 'All entered letters are available at this level.'
-    : 'Enter text using only the unlocked letters and spaces.';
+    : 'Enter text using only the unlocked letters and spaces.');
   dom.customValidation.classList.toggle('invalid', illegal.length > 0);
   if (dom.customText.value !== session.customText) dom.customText.value = session.customText;
   dom.capture.setAttribute('autocapitalize', 'off');
@@ -667,8 +703,12 @@ function render() {
   dom.primaryIcon.textContent = session.phase === 'running' ? 'Ⅱ' : session.phase === 'complete' ? '↻' : '▶';
   dom.primary.disabled = text && !session.legacyResume
     && !levelTextValid(session, session.target || passageFor(session)) && session.phase === 'idle';
-  dom.keyboardTip.textContent = text ? 'Backspace / Delete = correct typing · Esc = pause'
-    : 'Space = start / pause · Backspace / Delete = clear or move back';
+  $('blocked-reason').hidden = !dom.primary.disabled;
+  $('blocked-reason').textContent = !dom.primary.disabled ? '' : illegal.length
+    ? 'This passage needs more letters. Open Practice settings to change the level or the text.'
+    : 'Open Practice settings and enter a passage to start.';
+  dom.keyboardTip.textContent = text ? 'Esc = pause'
+    : 'Space = start / pause · Esc = pause';
   const progress = progressOf(session);
   const ratio = progress.total ? Math.min(100, progress.done / progress.total * 100) : 0;
   dom.progressCount.textContent = formatInt(progress.done) + ' / ' + formatInt(progress.total);

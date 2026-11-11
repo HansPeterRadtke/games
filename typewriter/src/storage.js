@@ -30,6 +30,7 @@ function paceRecord(record) {
 export function sanitizeProfile(raw) {
   const p = newProfile();
   if (!plain(raw)) return p;
+  p.celebrations = raw.celebrations !== false;
   if (ROUND_WINDOWS.includes(raw.roundWindow)) p.roundWindow = raw.roundWindow;
   if (plain(raw.keyRoundRecords)) {
     for (const [key, record] of Object.entries(raw.keyRoundRecords)) {
@@ -183,9 +184,9 @@ export function serializeData(session, profile, now) {
   });
 }
 
-export function loadData(storage = globalThis.localStorage) {
+export function loadData(storage) {
   try {
-    const text = storage.getItem(STORAGE_KEY);
+    const text = (storage ?? globalThis.localStorage).getItem(STORAGE_KEY);
     if (!text) return { profile: newProfile(), session: newSession(), error: null };
     return { ...parseExport(text), error: null };
   } catch {
@@ -193,9 +194,9 @@ export function loadData(storage = globalThis.localStorage) {
   }
 }
 
-export function saveData(session, profile, now, storage = globalThis.localStorage) {
+export function saveData(session, profile, now, storage) {
   try {
-    storage.setItem(STORAGE_KEY, serializeData(session, profile, now));
+    (storage ?? globalThis.localStorage).setItem(STORAGE_KEY, serializeData(session, profile, now));
     return null;
   } catch {
     return 'Progress cannot be stored on this device. Export your data to keep it.';
