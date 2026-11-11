@@ -41,7 +41,15 @@ modules without additional Registry dependencies:
 
 ## Installation
 
-Import the single `.unitypackage` into a Unity 6000.4 project. The content is
+**Security baseline (November 2026):** For new release builds and active
+development, use the Unity 6000.6.8f1 editor (or a separately verified patched
+Unity LTS stream). Older Unity 6000.4 and 6000.6.7 projects were used for
+compatibility testing before the October 2026 eMudhra/Brotli security
+updates; do not use them as a security-patched buyer-release baseline.
+The builder verifies the editor version before creating output. See the
+security patch audit in the repository research documents.
+
+Import the single `.unitypackage` into a security-patched Unity 6000.6.8f1 project. The content is
 inside `Assets/HPRGameplaySuite`; do not additionally install any of the ten
 individual `com.hpr.*` packages, because this duplicates assemblies.
 Open `Assets/HPRGameplaySuite/Demo/GameplaySuiteShowcase.unity` and press

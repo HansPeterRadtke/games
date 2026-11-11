@@ -1,6 +1,6 @@
 # Five-minute buyer walkthrough
 
-This is a **code toolkit**, not a premade game. Start Unity 6000.4 or later,
+This is a **code toolkit**, not a premade game. Start security-patched Unity 6000.6.8f1 or a verified patched LTS release,
 import the supplied `.unitypackage`, then open:
 `Assets/HPRGameplaySuite/Demo/GameplaySuiteShowcase.unity`.
 
