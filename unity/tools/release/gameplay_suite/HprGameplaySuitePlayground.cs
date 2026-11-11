@@ -215,7 +215,8 @@ namespace HPR.GameplaySuite
         private bool TryGetPointerAim(out Vector3 aim)
         {
             aim = Vector3.zero;
-            if (arenaCamera == null || !inputSource.TryGetPointer(out Vector2 pointer)) return false;
+            if (arenaCamera == null || !inputSource.TryGetPointer(out Vector2 pointer) || !IsFinite(pointer))
+                return false;
             Plane plane = new Plane(Vector3.up, playerRoot.transform.position);
             Ray ray = arenaCamera.ScreenPointToRay(pointer);
             if (!plane.Raycast(ray, out float distance)) return false;

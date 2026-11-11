@@ -89,3 +89,5 @@ device remain open. The build also emitted known analyzer warnings from the
 private Editor control. This result covers the Linux showcase save workflow.
 URP, rendered buyer usability, independent buyer validation and reconciliation
 with the commercial worktree remain open.
+
+The [November 11 pointer-aim regression](showcase-pointer-aim-2026-11-11.md) traced the camera diagnostic to a non-finite pointer and verified the correction in both Linux input backends.
