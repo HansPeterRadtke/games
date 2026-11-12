@@ -726,16 +726,17 @@ function render() {
       && coverage.counts[latest] >= 5;
     dom.textCoverageNote.classList.toggle('incomplete', !minimum);
     setStatus(dom.textCoverageNote, isGenerated && minimum
-      ? 'All ' + unlocked.length + ' unlocked keys included · at least ' + MIN_KEY_OCCURRENCES
-        + ' times each · newest key ' + latest.toUpperCase() + ' appears '
-        + coverage.counts[latest] + ' times'
+      ? 'All ' + unlocked.length + ' unlocked keys included · '
+        + (coverage.quarterMinimum ? 'at least ' + coverage.quarterMinimum + ' of each per quarter'
+          : 'at least ' + coverage.weakest + ' of each in this passage')
       : coverage.covered + ' of ' + coverage.total + ' unlocked keys used'
         + (isGenerated ? ' · Start a new exercise to practise all keys.' : ' · Custom passages may omit some letters.'));
   }
   dom.textGenerationNote.textContent = session.textKind === 'key-groups'
     ? 'At this level there are not enough real words; letter groups use only unlocked keys.'
-    : session.textKind === 'words' ? 'Real German or English words using only unlocked keys.'
-    : session.textKind.includes('drills') ? 'Real phrases where available, plus key drills for letters without usable words in this language.'
+    : session.textKind === 'words' ? 'Each new passage draws words from the dictionary for your level.'
+    : session.textKind === 'words+drills' ? 'Short key drills cover letters with no word at this level in your chosen language.'
+    : session.textKind === 'sentences+drills' ? 'Real phrases where available, plus key drills for letters without usable words in this language.'
     : session.textKind === 'sentences+words' ? 'Real phrases and extra focus words include every unlocked key.'
     : isLevelPassage(session.passageId)
       ? 'Generated ' + (session.textLanguage === 'de' ? 'German' : session.textLanguage === 'en' ? 'English' : 'level-based')

@@ -91,7 +91,7 @@ try {
  for(let i=0;i<5;i++) $('level-up').click();
  check('text level six unlocked', $('level-label').textContent==='06' && $('level-hint').textContent==='7 keys');
  const practice=$('target-text').textContent;
- check('real phrases at level six', $('text-stage-label').textContent.includes('SHORT PHRASES') && practice.includes(' '),practice.slice(0,50));
+ check('dictionary words at level six', $('text-stage-label').textContent.includes('REAL WORDS') && practice.includes(' '),practice.slice(0,50));
  check('level six letters only', [...practice].every(c=>'fjdksla '.includes(c)));
  check('level summary lists unlocked keys', $('unlocked-key-list').querySelectorAll('.key-sample').length===7);
  check('later exercise coverage announced', $('text-coverage-note').textContent.includes('All 7 unlocked keys included'));
@@ -118,6 +118,13 @@ try {
  check('all keys unlocked at top level', $('level-hint').textContent==='29 keys');
  check('every rare key present at advanced level', minCounts.every(n=>n>=3),minCounts.join(','));
  check('newest advanced key emphasized', minCounts.at(-1)>=5);
+ const letters=advanced.replaceAll(' ','');
+ check('all unlocked keys recur in each quarter',Array.from({length:4},(_,q)=>{
+   const quarter=letters.slice(q*letters.length/4,(q+1)*letters.length/4);
+   return [...all].every(k=>quarter.split(k).length>=3);
+ }).every(Boolean) && $('text-coverage-note').textContent.includes('per quarter'));
+ $('new-session').click();
+ check('new session changes the actual passage',$('target-text').textContent!==advanced);
  check('top-level key coverage announced', $('text-coverage-note').textContent.includes('All 29 unlocked keys included'));
  check('high-level passage is not synthetic key groups', !$('text-stage-label').textContent.includes('KEY DRILLS') && !$('text-stage-label').textContent.includes('KEY GROUPS'));
  check('advanced-page width fits mobile',document.documentElement.scrollWidth<=document.documentElement.clientWidth+1);

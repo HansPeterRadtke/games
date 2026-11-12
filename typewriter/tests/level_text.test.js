@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { KEY_ORDER, PASSAGES, currentExpected, newProfile, newSession, pause, restoreSession,
   snapshot, start, summaryOf, textRecordKey, typeCharacter, unlockedKeys } from '../src/core.js';
-import { TRAINING_KEY_ORDER, SENTENCES, WORDS, LEVEL_PASSAGES, allowedText, eligibleSentences,
+import { TRAINING_KEY_ORDER, LEVEL_PASSAGES, allowedText,
   eligibleWords, generateLevelExercise, invalidTextKeys, normalizedPreset,
   keyCoverage, MIN_KEY_OCCURRENCES } from '../src/training_text.js';
 import { parseExport, serializeData, sanitizeProfile } from '../src/storage.js';
@@ -27,13 +27,18 @@ test('every generated character is legal for every level and language, with vari
         const result = generateLevelExercise({ level, passageId }, rng(seed * 571));
         assert.ok(allowedText(result.text, keys), `bad letters in level ${level}: ${result.text}`);
         assert.equal(/[A-Z.,!?0-9]/.test(result.text), false);
-        assert.ok(result.text.length >= 50 && result.text.length < 650, `${level} ${result.text.length}`);
+        assert.ok(result.text.length >= 50 && result.text.length <= 800, `${level} ${result.text.length}`);
         const coverage = keyCoverage(result.text, keys);
         assert.equal(coverage.covered, keys.length, `omitted unlocked letters at level ${level}`);
         assert.ok(coverage.weakest >= MIN_KEY_OCCURRENCES, `undertrained letter at ${level}: ${JSON.stringify(coverage.counts)}`);
         assert.ok(coverage.counts[keys.at(-1)] >= 5, `newest key missing practice at ${level}`);
+        const letters = result.text.replaceAll(' ', '');
+        for (let q = 0; q < 4; q++) {
+          const quarter = letters.slice(Math.floor(q * letters.length / 4), Math.floor((q + 1) * letters.length / 4));
+          for (const key of keys) assert.ok(quarter.split(key).length - 1 >= 2, `${passageId} level ${level}, quarter ${q}, key ${key}`);
+        }
         assert.deepEqual(result.coverage.counts, coverage.counts);
-        assert.ok(['sentences', 'sentences+words', 'sentences+drills', 'words', 'words+drills', 'key-groups'].includes(result.kind), result.kind);
+        assert.ok(['words', 'words+drills', 'key-groups'].includes(result.kind), result.kind);
         if (passageId === 'level-de' && result.kind !== 'key-groups') assert.equal(result.language, 'de');
         if (passageId === 'level-en' && result.kind !== 'key-groups') assert.equal(result.language, 'en');
       }
@@ -49,33 +54,38 @@ test('the first levels are labelled as letter groups, not fake sentences', () =>
   }
 });
 
-test('real English and German phrases start as soon as their letters permit', () => {
-  const de = generateLevelExercise({ level: 6, passageId: 'level-de' }, rng(123));
-  const en = generateLevelExercise({ level: 6, passageId: 'level-en' }, rng(456));
-  assert.equal(de.kind, 'sentences+words');
-  assert.equal(en.kind, 'sentences+drills');
-  assert.ok(de.text.includes('lass das'));
-  assert.ok(de.text.includes('kalk') || de.text.includes('fad'));
-  assert.ok(en.text.includes('a flask falls'));
-  assert.ok(en.text.includes('jj')); // No ordinary early English J sentence is available.
-  assert.ok(/ask dad|dad asks|a sad dad|a sad lad/.test(en.text));
-  assert.ok(eligibleSentences(unlockedKeys({ level: 13 }), 'de').some(s => s === 'er sah das haus'));
-  assert.ok(eligibleSentences(unlockedKeys({ level: 19 }), 'en').some(s => s === 'the dog is fast'));
-  assert.ok(eligibleSentences(unlockedKeys({ level: 24 }), 'de').some(s => s === 'ich esse eis'));
-  assert.ok(eligibleSentences(unlockedKeys({ level: 28 }), 'en').length > 100);
+test('real words start at level six and key drills only use unsupported letters', () => {
+  for (const language of ['de', 'en']) {
+    const all = new Set(eligibleWords(KEY_ORDER, language));
+    assert.ok(all.size > (language === 'de' ? 300_000 : 100_000));
+    const low = eligibleWords(unlockedKeys({ level: 6 }), language);
+    assert.ok(low.length >= 35 && low.every(w => [...w].every(k => 'fjdksla'.includes(k))));
+    for (let level = 6; level <= 28; level++) {
+      const s = generateLevelExercise({ level, passageId: 'level-' + language }, rng(41 * level));
+      const keys = unlockedKeys({ level });
+      const eligible = eligibleWords(keys, language);
+      const unsupported = keys.filter(k => !eligible.some(w => w.includes(k)));
+      assert.deepEqual(s.focusKeys, unsupported);
+      for (const word of s.text.split(' ')) assert.ok(all.has(word) || [...word].every(k => unsupported.includes(k)), word);
+      assert.equal(s.kind, unsupported.length ? 'words+drills' : 'words');
+    }
+  }
 });
 
-test('curated sentences and words are within the complete keyboard alphabet', () => {
-  const set = new Set(KEY_ORDER);
-  for (const language of ['de', 'en']) {
-    for (const text of SENTENCES[language]) {
-      assert.ok(text.includes(' '), `not a phrase: ${text}`);
-      assert.ok(allowedText(text, set), `invalid phrase: ${text}`);
+test('fresh passages draw varied vocabulary and balance the full alphabet', () => {
+  for (const passageId of LEVEL_PASSAGES.map(p => p.id)) {
+    const unique = new Set();
+    let relativeDeviation = 0;
+    for (let seed = 0; seed < 16; seed++) {
+      const s = generateLevelExercise({ level: 28, passageId }, rng(13 + seed * 173));
+      if (passageId === 'level-mixed') assert.equal(s.language, 'mixed');
+      for (const w of s.text.split(' ')) unique.add(w);
+      const counts = Object.values(s.coverage.counts);
+      const mean = counts.reduce((a, b) => a + b) / counts.length;
+      relativeDeviation += Math.sqrt(counts.reduce((sum, c) => sum + (c - mean) ** 2, 0) / counts.length) / mean;
     }
-    for (const word of WORDS[language]) {
-      assert.ok(allowedText(word, set), `invalid word: ${word}`);
-    }
-    assert.ok(eligibleWords(unlockedKeys({ level: 28 }), language).length > 100);
+    assert.ok(unique.size > 400, passageId + ' distinct words: ' + unique.size);
+    assert.ok(relativeDeviation / 16 < .55, passageId + ' relative deviation: ' + relativeDeviation / 16);
   }
 });
 
@@ -179,7 +189,7 @@ test('German and mixed exercises use natural vocabulary whenever the alphabet pe
     }
   }
   const en = generateLevelExercise({ level: 10, passageId: 'level-en' }, () => .23);
-  assert.equal(en.kind, 'sentences+drills');
+  assert.equal(en.kind, 'words+drills');
   assert.ok(en.text.includes('ä') && en.text.includes('ö'));
   assert.equal(en.language, 'en');
 });
