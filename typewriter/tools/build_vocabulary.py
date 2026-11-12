@@ -24,8 +24,8 @@ if not english:
 DICTIONARIES = {"de": [Path("/usr/share/dict/ngerman")], "en": english}
 ALPHABET = set(ORDER)
 # Avoid supplying slurs as a typing prompt, including their regular plurals.
-EXCLUDE = {"en": set("fag fags faggot faggots nigger niggers kike kikes spic spics".split()),
-           "de": set("neger negers negerin negerinnen".split())}
+EXCLUDE = {"en": set("fag fags faggot faggots nigger niggers kike kikes spic spics spick spicks gook gooks wog wogs kraut krauts yid yids wetback wetbacks".split()),
+           "de": set("neger negers negerin negerinnen nigger niggers zigeuner zigeuners zigeunerin zigeunerinnen".split())}
 # Some English loanwords retain their umlauts in English text. These forms also
 # allow English learners to practise each of the three keyboard umlauts.
 EXTRA = {"de": "öl öde jäh fad kalk kajak jazz quark quiz mix taxi typ yoga",
@@ -42,6 +42,8 @@ def word_bank(language, files):
         if not (original.islower() or language == "de" and original.istitle() or original == "I"):
             continue
         if not set(word) <= ALPHABET or word in EXCLUDE[language] or (len(word) < 2 and word not in extras):
+            continue
+        if any(root in word for root in ("nigger", "faggot", "wetback")):
             continue
         if not re.search("[aeiouyäöü]", word) and word not in VOWELLESS:
             continue
