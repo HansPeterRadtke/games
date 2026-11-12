@@ -1,7 +1,6 @@
 // Level-aware offline word practice. Saved passages keep their original text.
 import germanTiers from '../vocabulary/de.js';
 import englishTiers from '../vocabulary/en.js';
-import familiar from '../vocabulary/familiar.js';
 
 export const TRAINING_KEY_ORDER = Object.freeze(Array.from('fjdkslaöghärueiwoqptzüvmcxybn'));
 
@@ -37,6 +36,7 @@ function shuffled(items, rng) {
   return list;
 }
 
+export const VOCABULARY_VERSION = 2;
 export const MIN_KEY_OCCURRENCES = 3;
 
 export function keyCoverage(text, keys) {
@@ -59,9 +59,7 @@ export function keyCoverage(text, keys) {
 // Append each newly unlocked dictionary tier once. Earlier levels sample only
 // the prefix recorded for them, even after visiting the full alphabet.
 class Vocabulary {
-  constructor(tiers, familiarWords) {
-    this.familiarWords = familiarWords;
-    this.familiar = null;
+  constructor(tiers) {
     this.tiers = tiers;
     this.words = [];
     this.groups = new Map();
@@ -69,7 +67,6 @@ class Vocabulary {
   }
 
   unlock(level) {
-    if (level >= 6 && !this.familiar) this.familiar = new Set(this.familiarWords.split(/\s+/));
     while (this.limits.length <= level) {
       let previous = '';
       for (const entry of this.tiers[this.limits.length].matchAll(/(\d+)([a-zäöü]+)/g)) {
@@ -77,7 +74,6 @@ class Vocabulary {
         previous = word;
         this.words.push(word);
         const groups = [...new Set(word), word.length];
-        if (this.familiar?.has(word)) groups.push(...groups.map(key => "common-" + key));
         for (const group of groups) {
           if (!this.groups.has(group)) this.groups.set(group, []);
           this.groups.get(group).push(word);
@@ -90,7 +86,7 @@ class Vocabulary {
   }
 }
 
-const banks = { de: new Vocabulary(germanTiers, familiar.de), en: new Vocabulary(englishTiers, familiar.en) };
+const banks = { de: new Vocabulary(germanTiers), en: new Vocabulary(englishTiers) };
 
 export function eligibleWords(keys, language = 'de') {
   const unlocked = new Set(keys);
@@ -132,6 +128,35 @@ function bestWord(bank, sizes, group, rng, score) {
   return best;
 }
 
+// Keep a quarter's chosen words and letter counts. Spread standalone keys
+// through the words and give repeated spellings room whenever possible.
+function orderQuarters(quarters) {
+  const result = [];
+  const lastUsed = new Map();
+  for (const tokens of quarters) {
+    const words = tokens.filter(t => t.length > 1);
+    const keys = tokens.filter(t => t.length === 1);
+    const slots = tokens.length;
+    let keyIndex = 0;
+    for (let i = 0; i < slots; i++) {
+      if (keyIndex < Math.round((i + 1) * keys.length / slots)) {
+        result.push(keys[keyIndex++]);
+        continue;
+      }
+      let pick = 0;
+      for (let j = 0; j < words.length; j++) {
+        const seen = lastUsed.get(words[j]) ?? -Infinity;
+        if (seen < result.length - 3) { pick = j; break; }
+        if (seen < (lastUsed.get(words[pick]) ?? -Infinity)) pick = j;
+      }
+      const [word] = words.splice(pick, 1);
+      lastUsed.set(word, result.length);
+      result.push(word);
+    }
+  }
+  return result.join(' ');
+}
+
 // Rare draws of long compound words can exceed the saved-passage limit.
 // Keep real words and quarter coverage even for that case. The shortest
 // eligible spellings give a bounded cover for every supported alphabet.
@@ -161,7 +186,7 @@ function compactPassage(keys, sources, rng) {
       for (const char of word) count[char]++;
     }
   }
-  return { text: Array.from({ length: 4 }, () => shuffled(words, rng)).flat().join(' '), languages };
+  return { text: orderQuarters(Array.from({ length: 4 }, () => shuffled(words, rng))), languages };
 }
 
 export function generateLevelExercise(config, rng = Math.random) {
@@ -213,12 +238,10 @@ export function generateLevelExercise(config, rng = Math.random) {
         seen.add(k);
       }
       const gain = [...seen].filter(k => !section.counts[k]).length;
-      return .95 * gain - 1.4 * cost / word.length - .65 * word.length
+      return .95 * gain - 1.4 * cost / word.length - .45 * Math.abs(word.length - 5)
         - 30 * (used.get(word) || 0) + 3 * rng();
     };
-    const common = 'common-' + group;
-    const bucket = (source.sizes.get(common) || 0) >= 8 && rng() < .7 ? common : group;
-    const word = bestWord(source.bank, source.sizes, bucket, rng, score);
+    const word = bestWord(source.bank, source.sizes, group, rng, score);
     if (word) { languageTurn++; add(section, word, source.language); }
     return word;
   }
@@ -238,7 +261,7 @@ export function generateLevelExercise(config, rng = Math.random) {
       }
       due.sort((a, b) => section.counts[a] - section.counts[b] || counts[a] - counts[b] || last[a] - last[b]);
       if (!choose(section, due[0])) {
-        add(section, due.filter(k => drills.includes(k)).slice(0, 3).join(''), null);
+        add(section, due[0], null);
       }
     }
   }
@@ -267,7 +290,7 @@ export function generateLevelExercise(config, rng = Math.random) {
       }
     }
   }
-  let text = sections.flatMap(s => s.words).join(' ');
+  let text = orderQuarters(sections.map(s => s.words));
   let actualLanguages = usedLanguages;
   if (text.length > 800) {
     const compact = compactPassage(keys, sources, rng);

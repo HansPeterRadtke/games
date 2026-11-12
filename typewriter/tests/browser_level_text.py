@@ -103,6 +103,9 @@ try {
  $('passage-select').value='de-everyday';event($('passage-select'),'change');
  check('full alphabet preset gated at low level', $('primary-button').disabled);
  $('passage-select').value='level-en';event($('passage-select'),'change');
+ const drillNodes=[...$('target-text').querySelectorAll('.drill-key')];
+ check('unsupported English J is shown as an individual boxed key',
+   drillNodes.length>=8 && drillNodes.every(n=>n.textContent==='j' && n.title.includes('Single-key practice')));
  check('English-only exercises valid', [...$('target-text').textContent].every(c=>'fjdksla '.includes(c)));
  check('no horizontal overflow',document.documentElement.scrollWidth<=document.documentElement.clientWidth+1,
    document.documentElement.scrollWidth+'/'+document.documentElement.clientWidth);

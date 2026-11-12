@@ -42,7 +42,7 @@ Run `python3 tests/browser_sequence.py` for the sequence mode Chromium interacti
 
 Practice settings show the level and currently unlocked letters for all three modes. Changing the level affects key training, sequence training and text training; any partially completed session is protected by the existing confirmation before replacement.
 
-Text practice builds a passage of individual dictionary words from the unlocked letters. Choose German, English or a mix of both. New session draws another passage. The current passage is saved exactly for pause, resume and backup. Custom passages and the original German and English samples remain available when their characters are unlocked.
+Text practice builds a passage of individual dictionary words from the unlocked letters. Choose German, English or a mix of both. New session draws another passage. Started passages are saved exactly for pause, resume and backup. An unstarted preview from the old vocabulary refreshes on upgrade. Custom passages and the original German and English samples remain available when their characters are unlocked.
 
 Generated text records are stored separately by selected level and language, while personal high scores from the two original modes and earlier text versions are preserved.
 
@@ -52,9 +52,9 @@ Verification commands are `npm test`, `python3 tests/browser_headless.py`, `pyth
 
 ## Vocabulary and letter distribution
 
-The offline dictionaries contain approximately 349,000 German and 115,000 English word forms, including inflections and compounds. Entries become eligible as soon as all of their letters unlock. The sampler mixes familiar words with draws from the full eligible vocabulary, alternates the source languages in mixed practice where possible, and favours words the player has not seen in the current passage. The [vocabulary sources and build instructions](vocabulary/README.md) document the dictionaries and frequency data.
+The offline word banks contain about ten thousand German and thirteen thousand English words. All early-level prompts and all words shorter than five letters come from the reviewed practice lists. Other entries must be frequent in their language, have a thesaurus entry and appear in its spelling dictionary. Mixed practice draws from both languages. The [vocabulary sources and build instructions](vocabulary/README.md) document the selection.
 
-Each quarter, measured in letters, contains every unlocked key at least twice. Word selection favours letters with fewer appearances and letters that have gone longer without practice. The four sections are filled to equal letter counts at word boundaries. The first five levels use shuffled groups because their keys cannot spell a word from the bank. If a later language-specific level still lacks a word for a particular letter, a short key drill supplies it in each quarter. The coverage line reports the measured distribution of the current passage, including older saved exercises.
+Each quarter, measured in letters, contains every unlocked key at least twice. Selection favours letters that are underrepresented and spaces out repeated spellings. The first five levels use labelled key groups. When a later level has no practice word containing a particular letter in the selected language, that letter appears individually in a keycap between the words. The coverage line measures the current passage, including older saved rounds.
 
 ## Round records and celebrations
 

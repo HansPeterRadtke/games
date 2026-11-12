@@ -1,11 +1,10 @@
 """Build the offline word banks from the installed Debian dictionaries.
 
-Requires Debian wngerman and scowl, plus wordfreq 3.1.1 for the frequency lists.
+Requires wngerman, scowl, mythes-de, mythes-en-us and Python wordfreq 3.1.1.
 Data notices and the source package versions are in ../vocabulary/.
 """
 
 import argparse
-from itertools import chain
 from os.path import commonprefix
 from pathlib import Path
 import re
@@ -26,29 +25,30 @@ ALPHABET = set(ORDER)
 # Avoid supplying slurs as a typing prompt, including their regular plurals.
 EXCLUDE = {"en": set("fag fags faggot faggots nigger niggers kike kikes spic spics spick spicks gook gooks wog wogs kraut krauts yid yids wetback wetbacks".split()),
            "de": set("neger negers negerin negerinnen nigger niggers zigeuner zigeuners zigeunerin zigeunerinnen".split())}
-# Some English loanwords retain their umlauts in English text. These forms also
-# allow English learners to practise each of the three keyboard umlauts.
-EXTRA = {"de": "öl öde jäh fad kalk kajak jazz quark quiz mix taxi typ yoga",
-         "en": "a i rösti röstis föhn föhns über übermensch doppelgänger doppelgängers fräulein fräuleins kajal jass"}
-VOWELLESS = set("brr grr hmm hm pst pfft psst shh sh ssh tsk tsks nth shush".split())
+# The restricted alphabets through level twelve and all short prompts are
+# reviewed explicitly. Spelling lists contain abbreviations and clipped forms.
+STARTER_ALPHABET = set(ORDER[:13])
+THESAURI = {"de": "th_de_DE_v2.idx", "en": "th_en_US_v2.idx"}
 
 
 def word_bank(language, files):
-    sources = [path.read_text().splitlines() for path in files]
-    extras = set(EXTRA[language].split())
-    words = set()
-    for original in chain(*sources, EXTRA[language].split()):
-        word = original.lower()
-        if not (original.islower() or language == "de" and original.istitle() or original == "I"):
-            continue
-        if not set(word) <= ALPHABET or word in EXCLUDE[language] or (len(word) < 2 and word not in extras):
-            continue
-        if any(root in word for root in ("nigger", "faggot", "wetback")):
-            continue
-        if not re.search("[aeiouyäöü]", word) and word not in VOWELLESS:
-            continue
-        words.add(word)
-    return sorted(words)
+    reviewed = set((OUTPUT / f"practice-{language}.txt").read_text().split())
+    if any(not set(w) <= ALPHABET or len(w) < 2 for w in reviewed):
+        raise ValueError(f"Invalid reviewed {language} prompt")
+    frequent = set(top_n_list(language, 25000))
+    index = Path("/usr/share/mythes", THESAURI[language]).read_text().splitlines()
+    headwords = {line.rsplit("|", 1)[0] for line in index[2:]}
+    general = frequent & headwords
+    words = set(reviewed)
+    for path in files:
+        for original in path.read_text().splitlines():
+            if not (original.islower() or language == "de" and original.istitle()):
+                continue
+            word = original.lower()
+            if len(word) >= 5 and word in general and set(word) <= ALPHABET and not set(word) <= STARTER_ALPHABET:
+                words.add(word)
+    return sorted(w for w in words if w not in EXCLUDE[language]
+                  and not any(root in w for root in ("nigger", "faggot", "wetback")))
 
 
 def pack(words):
@@ -75,12 +75,3 @@ for language, dictionaries in DICTIONARIES.items():
     (OUTPUT / f"{language}.js").write_text(header + "export default [\n" + "".join(
         "`" + pack(tier) + "`,\n" for tier in tiers) + "];\n")
     print(language, sum(map(len, tiers)), "word forms")
-
-# An independent familiarity list, derived solely from wordfreq and distributed
-# separately from each dictionary. Runtime membership favours familiar words.
-with (OUTPUT / "familiar.js").open("w") as out:
-    out.write("// Derived from wordfreq 3.1.1. CC BY-SA 4.0. See frequency-NOTICE.txt.\nexport default {\n")
-    for language in DICTIONARIES:
-        words = [w for w in top_n_list(language, 20000) if set(w) <= ALPHABET]
-        out.write(f"  {language}: `" + "\n".join(" ".join(words[i:i + 16]) for i in range(0, len(words), 16)) + "`,\n")
-    out.write("};\n")

@@ -1,7 +1,7 @@
 import { CHARACTERS_PER_WORD, DEFAULT_ROUND_WINDOW, scoreRound } from './rounds.js';
 // Pure practice engine. No DOM, storage, or system-clock dependencies.
 import {
-  LEVEL_PASSAGES, TRAINING_KEY_ORDER, generateLevelExercise, normalizedPreset, allowedText,
+  LEVEL_PASSAGES, TRAINING_KEY_ORDER, VOCABULARY_VERSION, generateLevelExercise, normalizedPreset, allowedText,
 } from './training_text.js';
 
 export { LEVEL_PASSAGES } from './training_text.js';
@@ -128,6 +128,7 @@ export function newSession(config = {}) {
     ...normalized,
     phase: 'idle',
     target: normalized.mode === 'sequence' ? preservedSequence : textTarget,
+    ...(exercise && { vocabularyVersion: VOCABULARY_VERSION }),
     textKind: exercise?.kind || (normalized.passageId === 'custom' ? 'custom' : 'preset'),
     textLanguage: exercise?.language || null,
     legacyResume: false,
@@ -462,6 +463,10 @@ export function snapshot(state, now) {
 export function restoreSession(data) {
   if (!data || typeof data !== 'object') return newSession();
   const state = newSession(data);
+  // Refresh pre-upgrade previews only. A started round owns its exact passage.
+  if (state.mode === 'text' && isLevelPassage(state.passageId)
+      && data.vocabularyVersion !== VOCABULARY_VERSION && data.phase === 'idle'
+      && !data.typed && !data.trials?.length && !data.errors && !data.pendingErrors) return state;
   const trials = Array.isArray(data.trials) ? data.trials.slice(0, state.mode === 'sequence' ? 4500 : 1000).filter(t =>
     t && typeof t.key === 'string' && Array.from(t.key).length === 1 && positive(t.ms)
       && Number.isInteger(t.errors) && t.errors >= 0 && t.errors <= 100000) : [];
@@ -522,6 +527,9 @@ export function restoreSession(data) {
     // Resuming pre-upgrade text (uppercase/punctuation) must not lose progress.
     // New sessions and fresh passages remain strictly limited to unlocked keys.
     state.target = stored && matchesSource && stored.startsWith(typed) ? stored : passageFor(state);
+    if (isLevelPassage(state.passageId) && stored && state.target === stored) {
+      state.vocabularyVersion = data.vocabularyVersion === VOCABULARY_VERSION ? VOCABULARY_VERSION : 1;
+    }
     state.legacyResume = !levelTextValid(state, state.target)
       && state.target === stored && ['running', 'paused', 'complete'].includes(data.phase);
     state.textKind = typeof data.textKind === 'string' && ['sentences', 'sentences+words', 'sentences+drills', 'words', 'words+drills', 'key-groups', 'preset', 'custom'].includes(data.textKind)

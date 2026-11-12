@@ -7,7 +7,7 @@ import {
   deleteCharacter, levelTextValid, textRecordKey, LEVEL_PASSAGES, isLevelPassage,
 } from './core.js';
 import { loadData, saveData, serializeData, parseExport, MAX_BACKUP_LENGTH } from './storage.js';
-import { invalidTextKeys, normalizedPreset, keyCoverage, MIN_KEY_OCCURRENCES } from './training_text.js';
+import { invalidTextKeys, normalizedPreset, keyCoverage, MIN_KEY_OCCURRENCES, VOCABULARY_VERSION } from './training_text.js';
 
 const $ = id => document.getElementById(id);
 const dom = {
@@ -427,6 +427,7 @@ window.addEventListener('pagehide', () => {
 function renderStage() {
   const isKeys = session.mode === 'keys';
   const isSequence = session.mode === 'sequence';
+  const boxedDrills = session.textKind === 'words+drills' && session.vocabularyVersion === VOCABULARY_VERSION;
   dom.keyStage.hidden = !isKeys;
   dom.textStage.hidden = isKeys;
   dom.textStageLabel.textContent = isSequence ? 'TYPE THIS SAME SEQUENCE EACH ROUND'
@@ -434,7 +435,8 @@ function renderStage() {
     : session.textKind === 'words' ? 'PRACTICE REAL WORDS WITH YOUR UNLOCKED KEYS'
     : session.textKind === 'sentences+words' ? 'TYPE PHRASES AND FOCUS WORDS'
     : session.textKind === 'sentences+drills' ? 'TYPE PHRASES AND FOCUS KEY DRILLS'
-    : session.textKind === 'words+drills' ? 'PRACTICE WORDS AND FOCUS KEY DRILLS'
+    : boxedDrills ? 'TYPE THE WORDS AND BOXED KEYS'
+    : session.textKind === 'words+drills' ? 'TYPE THE WORDS AND KEY DRILLS'
     : session.textKind === 'sentences' ? 'TYPE SHORT PHRASES USING YOUR UNLOCKED KEYS'
     : 'TYPE THE PASSAGE BELOW';
   const waiting = session.phase === 'between-rounds';
@@ -455,7 +457,15 @@ function renderStage() {
         ? (session.feedback === 'incorrect' ? 'current wrong-current' : 'current') : 'pending';
       const wrong = i === typedLen && session.wrongKey;
       const glyph = wrong === ' ' ? '␣' : wrong === '\n' ? '↵' : wrong;
-      fragment.append(element('span', cls, glyph || char));
+      const span = element('span', cls, glyph || char);
+      // Word prompts have at least two letters. Standalone keys explicitly
+      // cover letters without an ordinary word in the selected language.
+      if (!isSequence && boxedDrills && char !== ' '
+          && (!i || text[i - 1] === ' ') && (i + 1 === text.length || text[i + 1] === ' ')) {
+        span.classList.add('drill-key');
+        span.title = 'Single-key practice: ' + keyName(char);
+      }
+      fragment.append(span);
     });
     dom.targetText.replaceChildren(fragment);
     const cursor = dom.targetText.querySelector('.current');
@@ -471,6 +481,7 @@ function renderStage() {
       : isSequence ? 'Press Space to start round 1.'
       : session.textKind === 'key-groups'
         ? 'Few real words are possible yet. Practice these letter groups, then unlock more letters.'
+        : boxedDrills ? 'Type each word. A boxed letter is a separate single-key exercise.'
         : 'Type only the unlocked letters. Use Backspace or Delete to correct a typo.';
   } else if (waiting) {
     dom.stageHint.textContent = 'Press Space to start round ' + (session.rounds.length + 1) + '.';
@@ -734,8 +745,8 @@ function render() {
   }
   dom.textGenerationNote.textContent = session.textKind === 'key-groups'
     ? 'At this level there are not enough real words; letter groups use only unlocked keys.'
-    : session.textKind === 'words' ? 'Each new passage draws words from the dictionary for your level.'
-    : session.textKind === 'words+drills' ? 'Short key drills cover letters with no word at this level in your chosen language.'
+    : session.textKind === 'words' ? 'Practice everyday words you can spell with your unlocked keys.'
+    : session.textKind === 'words+drills' && session.vocabularyVersion === VOCABULARY_VERSION ? 'A boxed letter is a single-key exercise. It has no practice word yet in this language at this level.'
     : session.textKind === 'sentences+drills' ? 'Real phrases where available, plus key drills for letters without usable words in this language.'
     : session.textKind === 'sentences+words' ? 'Real phrases and extra focus words include every unlocked key.'
     : isLevelPassage(session.passageId)

@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { KEY_ORDER, PASSAGES, currentExpected, newProfile, newSession, pause, restoreSession,
   snapshot, start, summaryOf, textRecordKey, typeCharacter, unlockedKeys } from '../src/core.js';
@@ -57,16 +58,22 @@ test('the first levels are labelled as letter groups, not fake sentences', () =>
 test('real words start at level six and key drills only use unsupported letters', () => {
   for (const language of ['de', 'en']) {
     const all = new Set(eligibleWords(KEY_ORDER, language));
-    assert.ok(all.size > (language === 'de' ? 300_000 : 100_000));
+    assert.ok(all.size > 8_000);
+    for (const token of 'hajj haj dak öd ad kläff jäh öls höhl gasöl sh ka fa'.split(' ')) {
+      assert.ok(!all.has(token), language + ' admitted ' + token);
+    }
+    const approved = new Set(readFileSync(new URL('../vocabulary/practice-' + language + '.txt', import.meta.url), 'utf8').trim().split(/\s+/));
+    for (const w of eligibleWords(unlockedKeys({ level: 12 }), language)) assert.ok(approved.has(w), w);
+    for (const w of all) if (w.length < 5) assert.ok(approved.has(w), w);
     const low = eligibleWords(unlockedKeys({ level: 6 }), language);
-    assert.ok(low.length >= 35 && low.every(w => [...w].every(k => 'fjdksla'.includes(k))));
+    assert.ok(low.length >= 15 && low.every(w => [...w].every(k => 'fjdksla'.includes(k))));
     for (let level = 6; level <= 28; level++) {
       const s = generateLevelExercise({ level, passageId: 'level-' + language }, rng(41 * level));
       const keys = unlockedKeys({ level });
       const eligible = eligibleWords(keys, language);
       const unsupported = keys.filter(k => !eligible.some(w => w.includes(k)));
       assert.deepEqual(s.focusKeys, unsupported);
-      for (const word of s.text.split(' ')) assert.ok(all.has(word) || [...word].every(k => unsupported.includes(k)), word);
+      for (const word of s.text.split(' ')) assert.ok(all.has(word) || (word.length === 1 && unsupported.includes(word)), word);
       assert.equal(s.kind, unsupported.length ? 'words+drills' : 'words');
     }
   }
@@ -105,6 +112,18 @@ test('generated text is created once and never regenerates while typing or reloa
   assert.equal(reloaded.phase, 'paused');
   assert.equal(start(reloaded, p, 90000), true);
   assert.equal(reloaded.target, preview);
+});
+
+test('a stale idle preview refreshes on upgrade and a started round keeps its passage', () => {
+  const old = newSession({ mode: 'text', level: 10, passageId: 'level-mixed' });
+  delete old.vocabularyVersion;
+  old.target = 'flash ad gag hajj öl ask kläff dads öd jäh dak';
+  const fresh = restoreSession(old);
+  assert.notEqual(fresh.target, old.target);
+  assert.equal(restoreSession(snapshot(fresh, 0)).target, fresh.target);
+  const started = restoreSession({ ...old, phase: 'paused', typed: 'f', trials: [{ key: 'f', ms: 120, errors: 0 }] });
+  assert.equal(started.target, old.target);
+  assert.equal(started.typed, 'f');
 });
 
 test('the level determines whether a requested existing or custom passage is legal', () => {
@@ -181,7 +200,7 @@ test('newly unlocked rare keys are meaningfully practiced, not silently omitted'
 });
 
 test('German and mixed exercises use natural vocabulary whenever the alphabet permits it', () => {
-  for (const level of [7, 10, 17, 21, 25, 26, 28]) {
+  for (const level of [7, 11, 17, 21, 25, 26, 28]) {
     for (const id of ['level-de', 'level-mixed']) {
       const exercise = generateLevelExercise({ level, passageId: id }, rng(level * 7));
       assert.ok(!exercise.kind.includes('drills'), `${id} level ${level} should have real-word coverage`);

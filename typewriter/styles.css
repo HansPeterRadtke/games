@@ -93,6 +93,7 @@ button:disabled, select:disabled { cursor: not-allowed; opacity: .4; }
 .text-stage { width: 100%; text-align: left; }
 .text-stage .stage-label { margin-bottom: 18px; }
 .target-text { font-size: 23px; line-height: 1.9; letter-spacing: .1px; overflow-wrap: anywhere; max-height: 244px; overflow: auto; scrollbar-color: #405468 transparent; }
+.target-text .drill-key { display: inline-block; border: 1px solid currentColor; border-radius: .25em; padding: 0 .22em; line-height: 1.2; }
 .target-text .pending { color: #95a5b7; }
 .target-text .typed { color: var(--mint); }
 .target-text .current { background: var(--mint); color: var(--mint-ink); border-radius: 3px; box-shadow: 0 0 0 2px var(--mint); }

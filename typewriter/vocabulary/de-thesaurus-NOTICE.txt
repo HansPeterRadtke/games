@@ -1,0 +1,17 @@
+This package was debianized by Rene Engelhard <rene@rene-engelhard.de> on
+Wed, 21 Apr 2004 23:01:41 +0200.
+
+It was downloaded from www.openthesaurus.de
+
+Upstream Authors:
+    OpenThesaurus Team <openthesaurus-discuss@lists.berlios.de> (subscription
+    at http://lists.berlios.de/mailman/listinfo/openthesaurus-discuss#sub
+    needed)
+    Daniel Naber <daniel.naber@t-online.de>
+
+Copyright: (C) 2006 Daniel Naber <aniel.naber@t-online.de>>
+           data from www.openthesaurus.de users
+License:
+
+LGPL, on Debian systems you can find the full text of the LGPL under
+/usr/share/common-licenses/LGPL
