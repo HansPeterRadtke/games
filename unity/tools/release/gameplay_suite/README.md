@@ -161,9 +161,11 @@ use standard letter, arrow and action keys or a custom adapter when needed.
 ### Stable assets and upgrading an existing installation
 
 The included scene and sample data are original Unity YAML source assets with
-source-controlled `.meta` files. The runtime scripts, editor tools, demo scene
-and sample ScriptableObjects retain stable Unity GUID identities across release
-builds. We do not generate new GUIDs every time the buyer archive is created.
+source-controlled `.meta` files. Builds from the current baseline retain the
+GUIDs recorded for runtime scripts, editor tools, the demo scene and sample
+ScriptableObjects. Some preview builds used different GUIDs for the same
+paths. For a project that used a preview, follow **Safe upgrades** in
+`QUICKSTART.md` before importing the update into your working project.
 
 The repository's private release builder reads a checked-in authoring baseline
 and exports it without opening or rewriting the demo. An internal scene builder

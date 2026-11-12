@@ -11,6 +11,9 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
+from test_unity_archive_policy import ROOT_FOLDER, SCRIPT, unitypackage
+from test_unity_release_export import emit_package
+
 QA=Path(__file__).resolve().parents[1]/"unity/tools/release/gameplay_suite/qa"
 sys.path.insert(0,str(QA))
 import unity_safe_upgrade_preview as preview
@@ -24,7 +27,7 @@ class UpgradePreconditions(unittest.TestCase):
         self.old=self.root/"old.unitypackage"
         self.new=self.root/"new.unitypackage"
         self.old.write_bytes(b"previous exact private vendor Unity package")
-        self.new.write_bytes(b"next new protected HPR private archive")
+        unitypackage(self.new, (ROOT_FOLDER, SCRIPT))
         self.old_sha=hashlib.sha256(self.old.read_bytes()).hexdigest()
         self.new_sha=hashlib.sha256(self.new.read_bytes()).hexdigest()
         self.project=self.root/"real-buyer-game"
@@ -176,6 +179,57 @@ class UpgradePreconditions(unittest.TestCase):
         self.assertEqual(["Packages/com.customer.game/Runtime/CustomerAbilityBridge.cs"],
                          r["customer_files_changed_during_preflight"])
         self.assertFalse(r["automatic_upgrade_authorized"])
+
+    def test_pinned_malformed_candidate_fails_before_reading_the_buyer_project(self):
+        cases = (
+            ((SCRIPT[0], SCRIPT[1], None), "missing non-directory asset payload"),
+            ((SCRIPT[0], "Assets/ExistingCustomerGame/MyController.cs", SCRIPT[2]),
+             "unsafe, non-suite"),
+        )
+        for entry, diagnostic in cases:
+            with self.subTest(entry=entry[1]):
+                unitypackage(self.new, (ROOT_FOLDER, entry))
+                self.new_sha = preview.digest_file(self.new)
+                with mock.patch.object(preview, "snapshot_customer_project") as snapshot:
+                    with self.assertRaisesRegex(ValueError, diagnostic):
+                        self.run_preview()
+                    snapshot.assert_not_called()
+
+    def test_legacy_archives_preserve_dependency_and_guid_collision_checks(self):
+        # Exercise the whole preview with real tar records, metadata and files.
+        # The shared GUID comparison expects at least one hundred suite assets.
+        self.project = self.root / "legacy-game"
+        installed = self.project / "Assets/HPRGameplaySuite"
+        installed.mkdir(parents=True)
+
+        def write_meta(path, guid):
+            Path(str(path) + ".meta").write_text(f"fileFormatVersion: 2\nguid: {guid}\n")
+
+        write_meta(installed, ROOT_FOLDER[0])
+        for index in range(1, 101):
+            asset = installed / f"Sample{index}.txt"
+            asset.write_text("HPR sample")
+            write_meta(asset, f"{index:032x}")
+
+        emit_package(installed.parent, self.old, legacy=True)
+        emit_package(installed.parent, self.new, legacy=True)
+        self.old_sha, self.new_sha = map(preview.digest_file, (self.old, self.new))
+        first_guid = f"{1:032x}"
+        customer = self.project / "Assets/ExistingCustomerGame"
+        customer.mkdir()
+        scene = customer / "Player.prefab"
+        scene.write_text(f"%YAML 1.1\nref: {{fileID: 1, guid: {first_guid}, type: 3}}\n")
+        report = self.run_preview()
+        self.assertEqual(report["decision"], "review_required_customer_dependencies")
+        self.assertEqual(report["current_installed_vendor_guid_identities"], 101)
+        self.assertTrue(any(dep.get("guid") == first_guid
+                            for dep in report["customer_dependency_findings"]))
+
+        write_meta(scene, first_guid)
+        report = self.run_preview()
+        self.assertEqual(report["decision"], "blocked_unrelated_customer_guid_collision")
+        self.assertEqual(report["customer_guid_collisions"],
+                         ["Assets/ExistingCustomerGame/Player.prefab.meta"])
 
     def test_report_destination_cannot_overlap_any_input(self):
         safe=self.root/"out"/"check.json"

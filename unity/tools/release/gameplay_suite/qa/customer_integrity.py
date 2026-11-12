@@ -177,7 +177,7 @@ def find_customer_guid_collisions(project: Path, archive: Path) -> list[str]:
         for entry in package:
             if not entry.name.endswith("/pathname"):
                 continue
-            guid = entry.name.split("/", 1)[0]
+            guid = entry.name.removeprefix("./").removesuffix("/pathname")
             if not re.fullmatch(r"[0-9a-f]{32}", guid):
                 raise ValueError("Invalid Unity asset GUID in candidate")
             incoming.add(guid)

@@ -17,6 +17,7 @@ from pathlib import Path
 import re
 
 from customer_integrity import snapshot_customer_project, find_customer_guid_collisions
+from unity_archive_policy import read_package_members
 from unity_imported_archive_identity import verify_import
 from validate_upgrade_guids import compare
 from unity_uninstall_preflight import inspect as inspect_uninstall
@@ -30,13 +31,17 @@ def digest_file(source: Path) -> str:
     return result.hexdigest()
 
 
-def validate_archive(source: Path, expected: str) -> None:
+def validate_archive(source: Path, expected: str, *, inspect_contents: bool = False) -> None:
     if (not isinstance(expected, str) or
             re.fullmatch(r"[0-9a-f]{64}", expected) is None):
         raise ValueError("An explicit lowercase SHA-256 archive pin is required")
     if source.is_symlink() or not source.is_file() or source.suffix != ".unitypackage":
         raise ValueError("A concrete, non-symlink Unity package archive is required")
-    if digest_file(source) != expected:
+    if inspect_contents:
+        # A checksum identifies the supplied bytes. Check what Unity would import
+        # before examining customer files or accepting the candidate's GUIDs.
+        read_package_members(source, expected_sha=expected)
+    elif digest_file(source) != expected:
         raise ValueError("The supplied archived package differs from its expected identity")
 
 
@@ -60,7 +65,7 @@ def inspect(project: Path, old_archive: Path, old_sha256: str,
     if project.is_symlink() or not project.is_dir() or not (project/"Assets").is_dir():
         raise ValueError("An existing non-symlink Unity customer project is required")
     validate_archive(previous, old_sha256)
-    validate_archive(candidate, new_sha256)
+    validate_archive(candidate, new_sha256, inspect_contents=True)
 
     customer_original = snapshot_customer_project(project)
     if not customer_original:
@@ -183,7 +188,7 @@ def main() -> int:
     except (ValueError, OSError) as error:
         print(json.dumps({"decision": "invalid_or_unavailable_source_preflight",
                           "error": str(error)[:220], "read_only": True,
-                          "automatic_upgrade_authorized": False}))
+                          "automatic_upgrade_authorized": False, "deletion_permitted": False}))
         return 3
 
 

@@ -155,11 +155,10 @@ The release's Unity scene, editable data assets and materials live as
 human-inspectable Unity YAML with their original `.meta` GUIDs in the
 development repository's `buyer_source_assets` source baseline.
 The exporter stages them along with module source code, then exports without
-regenerating objects. All non-module metadata and the original module
-source metadata preserve stable GUIDs across builds. The archive static check
-compares the published GUID for each authored path to the baseline; a
-regenerated GUID fails release validation instead of silently breaking
-upgrade references.
+regenerating objects. The release check compares each authored path's GUID
+with its checked-in metadata. For an upgrade from a preview, compare the old
+archive's GUIDs with the incoming archive as well. An asset can keep its path
+and still have a different GUID from the one in a customer's scene.
 
 When changing an existing scene or sample asset, edit that authored Unity
 source asset with Unity's public Editor APIs or a controlled Editor workflow,

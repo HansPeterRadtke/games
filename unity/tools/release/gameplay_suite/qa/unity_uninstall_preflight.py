@@ -57,7 +57,7 @@ def _archive_guids(archive: Path) -> dict[str, str]:
         for member in package:
             if not member.name.endswith("/pathname"):
                 continue
-            guid = member.name.split("/", 1)[0]
+            guid = member.name.removeprefix("./").removesuffix("/pathname")
             if not re.fullmatch(r"[0-9a-f]{32}", guid):
                 raise ValueError("Invalid incoming vendor GUID")
             if member.size < 1 or member.size > 4096:

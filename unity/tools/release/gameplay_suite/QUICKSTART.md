@@ -103,9 +103,13 @@ input actions implement `IHprSuiteInputSource` and inject it through
 
 ## Safe upgrades
 
-The sample scene, scripts and data assets have stable Unity IDs between
-package builds. Importing an update still replaces the vendor-owned sample
-path, so keep customized game content in your own project folders and make
-your own ScriptableObject copies or derived prefabs. Keep normal project
-version-control history before upgrading; no automatic user-data migration
-or destructive scene rebuild runs on import.
+Back up your project or commit it to version control before importing an update.
+Keep customized scenes, prefabs and ScriptableObjects in your own folders.
+An import can replace files under `Assets/HPRGameplaySuite`.
+
+If your project used a preview build, try the update in a copy first. Some
+previews used different Unity asset IDs at the same paths. Even a scene in
+your own folder can still refer to those old IDs. Open the scenes and prefabs
+that use HPR and check their Inspector fields for missing scripts, materials
+and ability definitions. Reassign missing references in the copy and test it
+in Play Mode before upgrading your working project.
