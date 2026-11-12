@@ -17,6 +17,11 @@ import tarfile
 import time
 import xml.etree.ElementTree as ET
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from unity_imported_archive_identity import verify_import
+
+
+PRIVATE_QA_ROOT = Path("/data/var/marketplace-account-setup")
 EXPECTED_ASSEMBLIES = {
     "HPR.Abilities.Tests.EditMode": 25, "HPR.Ai.Tests.EditMode": 6,
     "HPR.Composition.Tests.EditMode": 4, "HPR.Eventbus.Tests.EditMode": 4,
@@ -115,6 +120,15 @@ def verify_vendor(project, archive):
     return count, mismatches
 
 
+def require_exact_package(project, archive, expected_sha):
+    identity = verify_import(archive, project, expected_sha)
+    if identity["status"] != "PASS":
+        raise ValueError("Project differs from selected archive: " + "; ".join(identity["issues"]))
+    if identity["script_payloads_verified"] != 55:
+        raise ValueError("The native module suite expects 55 packaged scripts")
+    return identity
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--template", type=Path, required=True)
@@ -129,15 +143,11 @@ def main():
         raise ValueError("Bounded native test time required")
     if args.output.exists() or args.output.is_symlink():
         raise FileExistsError("Inspect existing results; do not replay")
-    runtime = Path("/data/var/marketplace-account-setup")
-    if not args.output.parent.resolve().is_relative_to(runtime) or args.output.parent.resolve() == runtime:
+    parent = args.output.parent.resolve()
+    if parent == PRIVATE_QA_ROOT or not parent.is_relative_to(PRIVATE_QA_ROOT):
         raise ValueError("Use a private task runtime subdirectory")
-    if args.archive.is_symlink() or digest(args.archive) != args.archive_sha256:
-        raise ValueError("Archive checksum mismatch")
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    from unity_archive_policy import inspect_archive
-    if inspect_archive(args.archive)["status"] != "PASS":
-        raise ValueError("Archive path/content policy failed")
+    if args.output.resolve().is_relative_to(args.template.resolve()):
+        raise ValueError("The test output must be outside the source project")
     prior = json.loads(args.import_receipt.read_text())
     if prior.get("actual_unity_editor_executed") is not True or prior.get("exit_code") != 0 or prior.get("archive_sha256") != args.archive_sha256:
         raise ValueError("Matching successful actual native import receipt required")
@@ -145,11 +155,9 @@ def main():
         raise ValueError("Installed Editor and original private project required")
     for folder in ("Assets", "Packages", "ProjectSettings", "Library"):
         source = args.template / folder
-        if not source.is_dir() or any(p.is_symlink() for p in source.rglob("*")):
+        if source.is_symlink() or not source.is_dir() or any(p.is_symlink() for p in source.rglob("*")):
             raise ValueError("Unsafe template folder: " + folder)
-    count, mismatch = verify_vendor(args.template, args.archive)
-    if count != 55 or mismatch:
-        raise ValueError("Template product source differs from exact archive")
+    require_exact_package(args.template, args.archive, args.archive_sha256)
     framework_manifest = args.editor.parent / "Data/Resources/PackageManager/BuiltInPackages/com.unity.test-framework/package.json"
     framework = json.loads(framework_manifest.read_text())
     if framework.get("name") != "com.unity.test-framework":
@@ -200,6 +208,7 @@ def main():
         "archive_sha256": args.archive_sha256, "test_framework_version": framework["version"], "native_import_reused": str(args.import_receipt),
         "expected_assemblies": EXPECTED_ASSEMBLIES, "staged_source_sha256": {
             str(p.relative_to(tests)): digest(p) for p in tests.rglob("*") if p.is_file()}}, indent=2))
+    require_exact_package(project, args.archive, args.archive_sha256)
     print("NATIVE_NUNIT_START", flush=True)
     try:
         result = subprocess.run(command, timeout=args.max_seconds - (time.monotonic() - started))
@@ -216,14 +225,19 @@ def main():
     except (OSError, ValueError):
         resolved_lock = None
     changed = preserved_file_changes(before, after, resolved_lock, expected_lock)
-    count, mismatch = verify_vendor(project, args.archive)
-    passed = verdict["passed"] and not changed and resolved_lock == expected_lock and not mismatch and count == 55
+    try:
+        package_identity = verify_import(args.archive, project, args.archive_sha256)
+    except (OSError, ValueError, tarfile.TarError) as error:
+        package_identity = {"status": "FAIL", "issues": [str(error)]}
+    passed = (verdict["passed"] and not changed and resolved_lock == expected_lock
+              and package_identity["status"] == "PASS" and package_identity["script_payloads_verified"] == 55)
     receipt = {"status": "PASS" if passed else "FAIL", "actual_unity_editor_executed": True,
         "native_exit_code": native_exit, "archive_sha256": args.archive_sha256, "test_framework_version": framework["version"],
         "duration_seconds": round(time.monotonic() - started, 1), "nunit": verdict,
         "protected_files": len(before), "modified_original_files": changed,
-        "copied_package_lock_updated": lock_changed, "package_lock_matches_planned_bundled_resolution": resolved_lock == expected_lock, "exact_packaged_scripts": count,
-        "vendor_script_mismatches": mismatch, "rendered_usability_tested": False,
+        "copied_package_lock_updated": lock_changed, "package_lock_matches_planned_bundled_resolution": resolved_lock == expected_lock, "exact_packaged_scripts": package_identity.get("script_payloads_verified", 0),
+        "vendor_script_mismatches": package_identity.get("script_payload_mismatches", []),
+        "package_identity": package_identity, "rendered_usability_tested": False,
         "commercial_release_approved": False}
     (args.output / "RESULT.json").write_text(json.dumps(receipt, indent=2))
     print(json.dumps(receipt), flush=True)

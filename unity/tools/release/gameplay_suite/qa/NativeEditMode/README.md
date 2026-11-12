@@ -7,8 +7,10 @@ copy of NUnit, or interact with graphical software terms. Execute only in a boun
 owned resource-broker job within the authorized owner window.
 
 `run_native_editmode.py --help` documents explicit template/import-receipt/archive
-checksum/installed Editor/output arguments. The template's 55 C# sources must match
-the selected archive before copying and again after native execution. The prior
+checksum/installed Editor/output arguments. The template must match the selected archive, including all C# sources, other
+asset payloads, metadata and GUIDs. The driver repeats this check on the copied
+project immediately before launch and after native execution. Its result includes
+the final package comparison and the archive checksum. The prior
 native import receipt must have successful actual-Editor evidence for that checksum.
 Each invocation uses a new directory below the private marketplace QA task runtime.
 Copied script databases are retained separately and rebuilt; PackageCache remains.

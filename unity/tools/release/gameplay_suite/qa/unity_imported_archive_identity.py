@@ -15,7 +15,7 @@ from pathlib import Path
 import re
 import tarfile
 
-from unity_archive_policy import inspect_archive
+from unity_archive_policy import read_package_members
 
 ROOT = "Assets/HPRGameplaySuite"
 GUID = re.compile(rb"(?m)^guid:\s*([0-9a-fA-F]{32})\s*$")
@@ -52,28 +52,8 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
         raise ValueError("Expected archive SHA-256 must be explicit and lowercase")
     if not archive.is_file() or archive.is_symlink():
         raise ValueError("Exact source archive missing or symlinked")
-    observed = _digest(archive)
-    if observed != expected_sha:
-        raise ValueError("Archive has changed or caller supplied a different expected version")
-    check = inspect_archive(archive)
-    if check["status"] != "PASS":
-        raise ValueError("Source archive failed the independent Unity archive policy gate")
-
-    # Independent tar data read: no extraction and no execution.
-    members: dict[str, bytes] = {}
-    with tarfile.open(archive, "r:gz") as package:
-        for member in package:
-            if member.isdir():
-                continue  # The source policy already verified legacy GUID directories.
-            if not member.isfile():
-                raise ValueError("Unexpected archive entry type")
-            stream = package.extractfile(member)
-            if stream is None:
-                raise ValueError("Missing Unity archive member data")
-            body = stream.read(member.size + 1)
-            if len(body) != member.size:
-                raise ValueError("Archive payload size mismatch")
-            members[member.name.removeprefix("./")] = body
+    # Verify and compare one byte snapshot even if another process replaces the archive.
+    members = read_package_members(archive, expected_sha=expected_sha)
 
     names: dict[str, str] = {}
     for member, body in members.items():
@@ -88,6 +68,8 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
     issues: list[str] = []
     checked_guids = 0
     checked_bodies = 0
+    verified_scripts = 0
+    mismatched_scripts = []
     checked_metadata = 0
     fully_verified_paths = 0
     for name, guid in sorted(names.items()):
@@ -115,6 +97,11 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
             else:
                 checked_bodies += 1
                 payload_matches = True
+        if name.endswith(".cs"):
+            if payload_matches:
+                verified_scripts += 1
+            else:
+                mismatched_scripts.append(name)
         if not metadata.is_file():
             issues.append("missing imported Unity .meta GUID file: " + name)
         else:
@@ -151,10 +138,12 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
         "read_only": True,
         "unity_editor_was_executed_by_this_check": False,
         "real_unity_editor_exit_or_compile_proved": False,
-        "archive_sha256": observed,
+        "archive_sha256": expected_sha,
         "asset_paths_expected": len(names),
         "asset_paths_verified": fully_verified_paths,
         "asset_payloads_verified": checked_bodies,
+        "script_payloads_verified": verified_scripts,
+        "script_payload_mismatches": mismatched_scripts,
         "metadata_payloads_verified": checked_metadata,
         "guid_identities_verified": checked_guids,
         "issues": sorted(set(issues)),

@@ -9,6 +9,7 @@ import sys
 import tarfile
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 QA=Path(__file__).resolve().parents[1]/"unity/tools/release/gameplay_suite/qa"
 sys.path.insert(0,str(QA))
@@ -95,6 +96,25 @@ class UnityImportedPackage(unittest.TestCase):
     def test_explicit_archive_hash_mismatch_refused_before_project_scan(self):
         with self.assertRaises(ValueError):
             self.run_check("0"*64)
+
+    def test_replaced_archive_cannot_supply_content_under_previous_digest(self):
+        replacement = self.base / "replacement.unitypackage"
+        changed_script = b"namespace Changed {}"
+        create_valid_archive(replacement, changed_script)
+        self.file.write_bytes(changed_script)
+        original_open = Path.open
+
+        def replace_after_open(path, *args, **kwargs):
+            stream = original_open(path, *args, **kwargs)
+            if path == self.archive and replacement.exists():
+                replacement.replace(path)
+            return stream
+
+        with mock.patch.object(Path, "open", replace_after_open):
+            result = self.run_check()
+        self.assertEqual(result["status"], "FAIL")
+        self.assertEqual(result["archive_sha256"], self.sha)
+        self.assertEqual(result["script_payload_mismatches"], [CS])
 
     def test_invalid_project_folder_refused(self):
         with self.assertRaises(ValueError):
