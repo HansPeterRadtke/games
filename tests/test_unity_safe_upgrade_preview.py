@@ -218,12 +218,19 @@ class UpgradePreconditions(unittest.TestCase):
         customer = self.project / "Assets/ExistingCustomerGame"
         customer.mkdir()
         scene = customer / "Player.prefab"
-        scene.write_text(f"%YAML 1.1\nref: {{fileID: 1, guid: {first_guid}, type: 3}}\n")
-        report = self.run_preview()
-        self.assertEqual(report["decision"], "review_required_customer_dependencies")
-        self.assertEqual(report["current_installed_vendor_guid_identities"], 101)
-        self.assertTrue(any(dep.get("guid") == first_guid
-                            for dep in report["customer_dependency_findings"]))
+        references = {
+            "serialized_vendor_guid": f"ref: {{fileID: 1, guid: {first_guid}, type: 3}}",
+            "addressable_asset_reference": f"loadout:\n  m_AssetGUID: {first_guid}",
+        }
+        for kind, reference in references.items():
+            with self.subTest(kind=kind):
+                scene.write_text(f"%YAML 1.1\n{reference}\n")
+                report = self.run_preview()
+                self.assertEqual(report["decision"], "review_required_customer_dependencies")
+                self.assertEqual(report["current_installed_vendor_guid_identities"], 101)
+                self.assertEqual([(dep["kind"], dep["guid"], dep["path"])
+                                  for dep in report["customer_dependency_findings"]],
+                                 [(kind, first_guid, "Assets/ExistingCustomerGame/Player.prefab")])
 
         write_meta(scene, first_guid)
         report = self.run_preview()

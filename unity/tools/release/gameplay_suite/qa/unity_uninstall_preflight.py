@@ -23,11 +23,21 @@ from pathlib import Path, PurePosixPath
 
 _GUID = re.compile(r"(?m)\bguid:\s*([0-9a-fA-F]{32})\b")
 _HPR_CSHARP = re.compile(r"\b(?:using\s+(?:static\s+)?(?:global::)?HPR\b|HPR\.[A-Za-z_]|HPR\w*Runtime\b)")
-_TEXT_SOURCE_EXTENSIONS = {
-    ".asset", ".asmdef", ".asmref", ".controller", ".cs", ".json",
-    ".mat", ".meta", ".overridecontroller", ".prefab", ".shader", ".unity", ".uxml",
-    ".uss", ".yaml", ".yml", ".xml", ".playable", ".txt",
+_UNITY_YAML_EXTENSIONS = {
+    ".asset", ".controller", ".mat", ".meta", ".overridecontroller", ".playable",
+    ".prefab", ".unity", ".yaml", ".yml",
 }
+_TEXT_SOURCE_EXTENSIONS = _UNITY_YAML_EXTENSIONS | {
+    ".asmdef", ".asmref", ".cs", ".json", ".shader", ".uss", ".uxml", ".xml", ".txt",
+}
+# Addressables stores the reference as a string. Unity renamed m_assetGUID to m_AssetGUID.
+_ADDRESSABLE_VALUE = r"""[ \t]*(?P<quote>['"]?)(?P<guid>[0-9a-fA-F]{32})(?P=quote)[ \t]*\r?$"""
+_ADDRESSABLE_FIELD = re.compile(r"^[ \t]*(?:-[ \t]+)?m_[Aa]ssetGUID:" + _ADDRESSABLE_VALUE, re.M)
+# A Unity prefab override stores its property path and value on adjacent, equally indented lines.
+_ADDRESSABLE_OVERRIDE = re.compile(
+    r"^(?P<indent>[ \t]*)propertyPath:[ \t]*(?:[\w.\[\]]+\.)?m_[Aa]ssetGUID[ \t]*\r?\n"
+    r"(?P=indent)value:" + _ADDRESSABLE_VALUE, re.M,
+)
 # Binary assets typically cannot refer to serialized Unity script GUIDs
 # directly; uncertainty is still reported for other unknown file types.
 _BINARY_MEDIA = {".png", ".jpg", ".jpeg", ".tga", ".wav", ".mp3", ".ogg", ".mp4", ".webm"}
@@ -240,6 +250,13 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
                     "vendor_asset": vendor[guid],
                     "guid": guid,
                 })
+        if extension in _UNITY_YAML_EXTENSIONS and ("m_AssetGUID" in source or "m_assetGUID" in source):
+            addressable_guids = {match["guid"].lower()
+                                 for pattern in (_ADDRESSABLE_FIELD, _ADDRESSABLE_OVERRIDE)
+                                 for match in pattern.finditer(source)}
+            for guid in sorted(addressable_guids.intersection(vendor)):
+                dependencies.append({"kind": "addressable_asset_reference", "path": name,
+                                     "vendor_asset": vendor[guid], "guid": guid})
         if extension == ".cs" and _HPR_CSHARP.search(source):
             dependencies.append({"kind": "csharp_hpr_reference", "path": name,
                                  "reason": "C# source contains HPR API/namespace token"})
@@ -333,6 +350,7 @@ def inspect(project: Path, archive: Path, *, max_file_bytes: int = 8_388_608,
     # Operator-facing next actions are advisory only. None performs a mutation
     # or treats the result as permission to remove a dependency.
     review_by_kind = {
+        "addressable_asset_reference": "Review the listed Addressables AssetReference and any prefab instance override. If you migrate the target, verify that the customer project can load the replacement by its address.",
         "project_settings_vendor_guid": "Review the cited Project Settings file in Unity, including build scenes, graphics and quality references. Preserve original settings/GUIDs and explicitly migrate and test a separate project copy before considering uninstall.",
         "serialized_vendor_guid": "Review each customer-owned scene, prefab or asset in the Unity Editor. On a new copy, explicitly migrate components and references, then verify Play mode before considering package removal.",
         "importer_meta_vendor_guid": "Review customer-owned Unity importer .meta references and their externalObjects in the Unity Editor. Preserve original GUID identities and test a separately copied project before any migration.",

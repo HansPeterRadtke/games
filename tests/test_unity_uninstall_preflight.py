@@ -90,6 +90,60 @@ class UninstallSafety(unittest.TestCase):
                             for x in result["dependencies"]))
         self.assertFalse(result["deletion_permitted"])
 
+    def test_addressable_reference_identifies_the_vendor_asset_once_per_file(self):
+        prefab = self.project / "Assets/MyGame/Loadout.prefab"
+        for field in ("m_AssetGUID", "m_assetGUID"):
+            for quote in ("", "'", '"'):
+                with self.subTest(field=field, quote=quote):
+                    content = (f"  primary:\r\n    {field}: {quote}{VENDOR_GUID.upper()}{quote}\r\n"
+                               f"  alternatives:\r\n  - {field}: {VENDOR_GUID}\r\n")
+                    prefab.write_bytes(content.encode())
+                    report = MODULE.inspect(self.project, self.archive)
+                    self.assertEqual("customer_dependencies_found", report["classification"])
+                    self.assertEqual([{"kind": "addressable_asset_reference",
+                                       "path": "Assets/MyGame/Loadout.prefab", "guid": VENDOR_GUID,
+                                       "vendor_asset": "Assets/HPRGameplaySuite/AbilityRunner.cs"}],
+                                     report["dependencies"])
+                    self.assertTrue(any("Addressables" in action for action in report["review_actions"]))
+                    self.assertFalse(report["deletion_permitted"])
+                    self.assertEqual(content.encode(), prefab.read_bytes())
+
+    def test_addressable_prefab_override_in_embedded_customer_package(self):
+        package = self.project / "Packages/com.customer.world"
+        package.mkdir(parents=True)
+        scene = package / "Encounters.unity"
+        for path in ("m_assetGUID", "encounters.Array.data[3].m_AssetGUID"):
+            with self.subTest(path=path):
+                scene.write_text("    - target: {fileID: 1001}\n"
+                                 f"      propertyPath: {path}\n"
+                                 f"      value: '{OTHER_GUID}'\n"
+                                 "      objectReference: {fileID: 0}\n")
+                report = MODULE.inspect(self.project, self.archive)
+                self.assertEqual([{"kind": "addressable_asset_reference", "guid": OTHER_GUID,
+                                   "path": "Packages/com.customer.world/Encounters.unity",
+                                   "vendor_asset": "Assets/HPRGameplaySuite/Samples/Heal.asset"}],
+                                 report["dependencies"])
+
+    def test_addressable_lookalikes_and_unrelated_values_are_not_references(self):
+        scene = self.project / "Assets/MyGame/Encounters.unity"
+        scene.write_text(
+            "    m_AssetGUID: 112233445566778899aabbccddeeff00\n"
+            f"    old_m_AssetGUID: {VENDOR_GUID}\n"
+            f"    m_AssetGUID: {VENDOR_GUID}bad\n"
+            f"    m_SubObjectGUID: {VENDOR_GUID}\n"
+            f"    # m_AssetGUID: {VENDOR_GUID}\n"
+            "      propertyPath: label.m_AssetGUIDSuffix\n"
+            f"      value: {VENDOR_GUID}\n"
+            "      propertyPath: item.m_AssetGUID\n"
+            "      value:\n"
+            "    - target: {fileID: 1001}\n"
+            "      propertyPath: description\n"
+            f"      value: {VENDOR_GUID}\n")
+        (scene.parent / "Notes.txt").write_text(f"m_AssetGUID: {VENDOR_GUID}\n")
+        report = MODULE.inspect(self.project, self.archive)
+        self.assertEqual("no_direct_reference_detected", report["classification"])
+        self.assertEqual([], report["dependencies"])
+
     def test_vendor_script_using_and_fully_qualified_name_detected(self):
         (self.project / "Assets/MyGame/Player.cs").write_text(
             "using HPR;\nnamespace Customer { HPR.AbilityRunnerComponent x; }\n")

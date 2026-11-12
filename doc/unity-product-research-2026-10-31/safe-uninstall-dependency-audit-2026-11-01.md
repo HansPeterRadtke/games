@@ -87,6 +87,28 @@ Grounded logs and JSON reports are preserved outside Git, under the
 private Nitro QA scratch evidence directory, with separate source tests
 under `tests/test_unity_uninstall_preflight.py`.
 
+## Addressables dependency checks, November 12, 2026
+
+A copied installation contained all 161 GUID identities from the older exported suite.
+Two buyer fixtures referred to assets in that installation. A shop asset pointed to
+Repair through a serialized Addressables reference. A prefab instance in an embedded
+customer package overrode an array element to point to Pulse through the legacy field
+name. Previously, the uninstall check reported zero dependencies and the upgrade
+preview passed its source checks with both references present.
+
+Both commands now return exit code 2 for this project. Each lists the buyer file,
+the referenced GUID, and the corresponding vendor asset for review. The scanner reads
+the current and former AssetReference field names and Unity's serialized prefab
+property-path/value pairs. This check covers GUIDs stored in Unity text assets.
+Runtime addresses constructed in code still require separate testing.
+[Unity Addressables field definition](https://docs.unity3d.com/Packages/com.unity.addressables@2.7/api/UnityEngine.AddressableAssets.AssetReference.m_AssetGUID.html)
+
+The before-and-after command reports and the SHA-256 inventory are under
+`/data/var/marketplace-account-setup/hpr-addressable-reference-preflight-20261112`
+on Nitro. All 297 files matched the original inventory after both scans. The
+uninstall and upgrade test suites cover ordinary object references, Addressables
+references, prefab overrides and unrelated GUID strings.
+
 ## Remaining product gates and commercial verdict
 
 This is a **detector**, not a safe automatic uninstall or migration tool.
