@@ -48,7 +48,7 @@ root.Dispose();
 - `ResolveAll<TService>()` returns all registered services assignable to the type
 - `Initialize()` invokes `IInitializable.Initialize(...)`
 - `Tick(deltaTime)` invokes `IUpdatableService.Tick(...)`
-- `Dispose()` disposes services in reverse registration order exactly once, even if called repeatedly
+- `Dispose()` calls each registered disposable service once in reverse registration order. If a service throws, cleanup continues. The caller receives the original exception for one failure or an `AggregateException` containing all failures in cleanup order. Calling `Dispose()` again skips services already given a cleanup attempt.
 - `Tick()` rejects nonfinite or negative delta time and operations after disposal fail explicitly
 
 ## Demo

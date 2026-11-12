@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace HPR
@@ -64,6 +66,49 @@ namespace HPR
         {
             public int DisposeCount;
             public void Dispose() { DisposeCount++; }
+        }
+
+        private sealed class CleanupService : IDisposable, IService
+        {
+            private readonly Action cleanup;
+
+            public CleanupService(Action cleanup) { this.cleanup = cleanup; }
+            public void Dispose() { cleanup(); }
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void Dispose_ContinuesInReverseOrderAndReportsOriginalFailures(bool failTwice)
+        {
+            var root = new CompositionRoot();
+            var released = new List<string>();
+            var saveFailure = new InvalidOperationException("Save failed");
+            var controllerFailure = new InvalidOperationException("Controller failed");
+            root.Services.Register<IService>(new CleanupService(() =>
+            {
+                released.Add("controller");
+                if (failTwice) throw controllerFailure;
+            }));
+            root.Services.Register<CleanupService>(new CleanupService(() => released.Add("input")));
+            root.Services.Register<IDisposable>(new CleanupService(() =>
+            {
+                released.Add("save");
+                throw saveFailure;
+            }));
+
+            if (failTwice)
+            {
+                var error = Assert.Throws<AggregateException>(() => root.Dispose());
+                Assert.That(error.InnerExceptions, Is.EqualTo(new[] { saveFailure, controllerFailure }));
+            }
+            else
+            {
+                var error = Assert.Throws<InvalidOperationException>(() => root.Dispose());
+                Assert.That(error, Is.SameAs(saveFailure));
+            }
+
+            root.Dispose();
+            Assert.That(released, Is.EqualTo(new[] { "save", "input", "controller" }));
         }
 
         [Test]
