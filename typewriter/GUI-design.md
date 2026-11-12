@@ -31,3 +31,7 @@ W3C's status-message guidance supports announcing an outcome while input focus s
 On a fresh 360 by 780 CSS-pixel viewport, the original Sequence Start button began 1,491 pixels down the document. With the revised layout it begins at 545 and ends at 592. On a 1,280 by 900 desktop viewport it moved from 1,251 to 581. The target and Start fit the first view in every mode at both sizes.
 
 A controlled sequence produced a 1.0-second all-time best, followed by a separate 1.3-second recent best after three slower rounds. At both sizes the gold celebration stayed inside the viewport beside the exercise, clear of the current letter, and keyboard focus remained in the typing input. With reduced motion enabled it appeared without animation. Additional Chromium walkthroughs covered a full 150-letter sequence, enlarged text, keyboard activation, blocked browser storage and a muted celebration. Human enjoyment and physical-device touch keyboard behavior remain unmeasured.
+
+## Passage length and single-word practice
+
+Generated passages show their character limit and word-coverage badge beside the prompt. The badge distinguishes an unavailable word from a limit that excludes otherwise usable letters. Auto selects the minimum word count covering the available letters. The fourth mode shows one spelling, the repetition number, and a space cue at the boundary. Players can search the available words or see which ones their adaptive strategy is likely to draw next. Results compare sets of the same word and repetition count.

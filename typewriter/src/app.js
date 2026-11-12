@@ -7,7 +7,9 @@ import {
   deleteCharacter, levelTextValid, textRecordKey, LEVEL_PASSAGES, isLevelPassage,
 } from './core.js';
 import { loadData, saveData, serializeData, parseExport, MAX_BACKUP_LENGTH } from './storage.js';
-import { invalidTextKeys, normalizedPreset, keyCoverage, MIN_KEY_OCCURRENCES, VOCABULARY_VERSION } from './training_text.js';
+import { invalidTextKeys, normalizedPreset, keyCoverage, wordPool, passageLanguage, minimumWordCharacters, BOXED_DRILLS_VERSION } from './training_text.js';
+
+import { wordDistribution, wordRecordKey, wordSetText } from './word_practice.js';
 
 const $ = id => document.getElementById(id);
 const dom = {
@@ -96,7 +98,12 @@ function updateConfiguration(patch) {
       && PASSAGES.some(item => item.id === session.passageId)) {
     patch = { ...patch, passageId: 'level-mixed' };
   }
-  session = newSession({ ...session, ...patch });
+  const currentWord = session.practiceWord;
+  session = newSession({ ...session, ...patch }, profile);
+  if (patch.wordRepeats && currentWord && session.mode === 'word') {
+    session.practiceWord = currentWord;
+    session.target = wordSetText(currentWord, session.wordRepeats);
+  }
   if (session.mode === 'sequence' && !session.sequence) reshuffleSequence(session);
   notice = '';
   persist();
@@ -106,7 +113,7 @@ function updateConfiguration(patch) {
 function beginPractice() {
   if (session.phase === 'complete') {
     clearReward();
-    session = newSession(session);
+    session = newSession(session, profile);
   }
   if (session.phase === 'running') {
     pausePractice();
@@ -121,7 +128,11 @@ function beginPractice() {
     noticeKind = 'error';
     render();
     $('practice-settings').open = true;
-    (session.passageId === 'custom' ? dom.customText : dom.passage).focus();
+    if (isLevelPassage(session.passageId)) {
+      notice = 'Increase Max characters or clear it for Auto.';
+      render();
+      $('text-limit').focus();
+    } else (session.passageId === 'custom' ? dom.customText : dom.passage).focus();
     return;
   }
   if (start(session, profile, now())) {
@@ -139,11 +150,11 @@ function pausePractice(message = '') {
   persist();
   render();
 }
-function newPractice() {
+function newPractice(drawAnother = false) {
   if (!abandonPrompt()) return;
   clearReward();
   finishEarly(session, profile, now());
-  session = newSession(session);
+  session = newSession(session, profile, Math.random, drawAnother ? session.practiceWord : '');
   if (session.mode === 'sequence' && !session.sequence) reshuffleSequence(session);
   notice = '';
   persist();
@@ -156,7 +167,7 @@ function shufflePractice() {
   }
   clearReward();
   finishEarly(session, profile, now());
-  session = newSession(session);
+  session = newSession(session, profile);
   reshuffleSequence(session);
   noticeKind = 'success';
   notice = 'New sequence shuffled. Press Space to start.';
@@ -204,7 +215,7 @@ function isEditing(target) {
 }
 function handleSpaceShortcut() {
   if (session.phase !== 'running') beginPractice();
-  else if (session.mode === 'text') return false;
+  else if (session.mode === 'text' || session.mode === 'word') return false;
   else if (session.mode === 'keys' || session.feedback !== 'incorrect') pausePractice();
   return true;
 }
@@ -310,11 +321,11 @@ $('celebrations').addEventListener('change', e => {
   if (!profile.celebrations) $('achievement-banner').hidden = true;
   persist();
 });
-const modeTabs = [dom.modeKeys, dom.modeSequence, dom.modeText];
+const modeTabs = [dom.modeKeys, dom.modeSequence, dom.modeText, $('mode-word')];
 document.querySelector('.mode-tabs').addEventListener('keydown', e => {
   const index = modeTabs.indexOf(e.target);
   if (index < 0) return;
-  const next = { ArrowLeft: (index + 2) % 3, ArrowRight: (index + 1) % 3, Home: 0, End: 2 }[e.key];
+  const next = { ArrowLeft: (index + modeTabs.length - 1) % modeTabs.length, ArrowRight: (index + 1) % modeTabs.length, Home: 0, End: modeTabs.length - 1 }[e.key];
   if (next === undefined) return;
   e.preventDefault();
   modeTabs[next].click();
@@ -322,10 +333,42 @@ document.querySelector('.mode-tabs').addEventListener('keydown', e => {
 });
 
 dom.primary.addEventListener('click', beginPractice);
-dom.newSession.addEventListener('click', newPractice);
+dom.newSession.addEventListener('click', () => newPractice());
 dom.modeKeys.addEventListener('click', () => { if (session.mode !== 'keys') updateConfiguration({ mode: 'keys' }); });
 dom.modeSequence.addEventListener('click', () => { if (session.mode !== 'sequence') updateConfiguration({ mode: 'sequence' }); });
 dom.modeText.addEventListener('click', () => { if (session.mode !== 'text') updateConfiguration({ mode: 'text' }); });
+$('mode-word').addEventListener('click', () => { if (session.mode !== 'word') updateConfiguration({ mode:'word' }); });
+$('first-word-level').addEventListener('click', () => changeLevel(6));
+$('draw-word').addEventListener('click', () => newPractice(true));
+$('text-limit').addEventListener('change', e => {
+  if (!e.target.validity.valid) { e.target.reportValidity(); return; }
+  updateConfiguration({maxCharacters: e.target.value === '' ? null : e.target.valueAsNumber});
+});
+$('word-repeats').addEventListener('change', e => {
+  if (!e.target.value || !e.target.validity.valid) { e.target.reportValidity(); return; }
+  updateConfiguration({wordRepeats:e.target.valueAsNumber});
+});
+$('word-language').addEventListener('change', e => updateConfiguration({wordLanguage:e.target.value}));
+$('word-strategy').addEventListener('change', e => updateConfiguration({wordStrategy:e.target.value,
+  selectedWord:session.selectedWord || session.practiceWord}));
+$('word-choice').addEventListener('change', e => {
+  if (!updateConfiguration({selectedWord:e.target.value})) e.target.value = session.selectedWord;
+});
+$('word-choice').addEventListener('input', () => wordSuggestions());
+let lastSuggestionKey = '';
+function wordSuggestions() {
+  const query = $('word-choice').value.trim().toLowerCase();
+  const key = session.level + '|' + session.wordLanguage + '|' + query;
+  if (key === lastSuggestionKey) return;
+  lastSuggestionKey = key;
+  const pool = wordPool(session.level, session.wordLanguage);
+  const options = [];
+  for (const word of pool.words) {
+    if (word.startsWith(query)) options.push(new Option(word,word));
+    if (options.length >= 60) break;
+  }
+  $('word-suggestions').replaceChildren(...options);
+}
 function changeLevel(requested) {
   const level = Math.max(1, Math.min(KEY_ORDER.length - 1, requested));
   if (level === session.level) return;
@@ -427,7 +470,7 @@ window.addEventListener('pagehide', () => {
 function renderStage() {
   const isKeys = session.mode === 'keys';
   const isSequence = session.mode === 'sequence';
-  const boxedDrills = session.textKind === 'words+drills' && session.vocabularyVersion === VOCABULARY_VERSION;
+  const boxedDrills = session.textKind === 'words+drills' && session.vocabularyVersion >= BOXED_DRILLS_VERSION;
   dom.keyStage.hidden = !isKeys;
   dom.textStage.hidden = isKeys;
   dom.textStageLabel.textContent = isSequence ? 'TYPE THIS SAME SEQUENCE EACH ROUND'
@@ -449,15 +492,22 @@ function renderStage() {
       : session.phase === 'complete' ? '✓' : keyName(session.target);
     dom.keyOrder.textContent = keys.map(keyName).join(' · ');
   } else {
-    const text = isSequence ? session.sequence : (session.target || passageFor(session));
-    const typedLen = Array.from(session.typed).length;
+    const single = session.mode === 'word';
+    const word = session.practiceWord;
+    const offset = single && word ? Math.min(Math.floor(session.typed.length / (word.length + 1)), session.wordRepeats - 1) * (word.length + 1) : 0;
+    const separator = single && word && offset + word.length < session.target.length;
+    const text = single ? word + (separator ? ' ' : '') : isSequence ? session.sequence : session.target;
+    const typedLen = session.typed.length - offset;
+    if (single) dom.textStageLabel.textContent = word
+      ? 'REPETITION ' + (1 + offset / (word.length + 1)) + ' OF ' + session.wordRepeats : 'SINGLE WORD';
+    dom.targetText.setAttribute('aria-label', single ? 'Word to type' : 'Passage to type');
     const fragment = document.createDocumentFragment();
     Array.from(text).forEach((char, i) => {
       const cls = i < typedLen ? 'typed' : i === typedLen
         ? (session.feedback === 'incorrect' ? 'current wrong-current' : 'current') : 'pending';
       const wrong = i === typedLen && session.wrongKey;
       const glyph = wrong === ' ' ? '␣' : wrong === '\n' ? '↵' : wrong;
-      const span = element('span', cls, glyph || char);
+      const span = element('span', cls, glyph || (single && char === ' ' ? '␣' : char));
       // Word prompts have at least two letters. Standalone keys explicitly
       // cover letters without an ordinary word in the selected language.
       if (!isSequence && boxedDrills && char !== ' '
@@ -479,6 +529,7 @@ function renderStage() {
   if (session.phase === 'idle') {
     dom.stageHint.textContent = session.mode === 'keys' ? 'Press Space to begin, or select Start practice.'
       : isSequence ? 'Press Space to start round 1.'
+      : session.mode === 'word' ? 'Press Space to start. Type one word per repetition.'
       : session.textKind === 'key-groups'
         ? 'Few real words are possible yet. Practice these letter groups, then unlock more letters.'
         : boxedDrills ? 'Type each word. A boxed letter is a separate single-key exercise.'
@@ -497,6 +548,7 @@ function renderStage() {
     dom.stageHint.textContent = session.mode === 'keys'
       ? 'Type the highlighted key. Space pauses the exercise.'
       : isSequence ? 'Type the sequence. The timer stops when you finish each round.'
+      : session.mode === 'word' ? (currentExpected(session) === ' ' ? 'Press Space for the next repetition.' : 'Type the word. Escape pauses practice.')
       : 'Type the text including spaces. Escape pauses the exercise.';
   }
 }
@@ -615,6 +667,12 @@ function renderRecords() {
     addRecordCell('ROUNDS COMPLETED', String(session.rounds.length), 'Of ' + session.sequenceRounds + ' planned rounds');
     addRecordCell('BEST ACCURACY', record ? percent(record.bestAccuracy) : '—', 'For this exact sequence');
     dom.recordsNote.textContent = 'Each round repeats the identical shuffled sequence. A faster full round sets a new record, even after starting a new session.';
+  } else if (session.mode === 'word') {
+    dom.recordsTitle.textContent = 'Single-word records';
+    const best = profile.wordRecords[wordRecordKey(session)];
+    addRecordCell('BEST PACE', best?.bestWpm == null ? '—' : formatInt(best.bestWpm * 5) + ' chars/min', session.practiceWord || 'Choose a word');
+    addRecordCell('BEST ACCURACY', percent(best?.bestAccuracy), session.wordRepeats + ' repetitions');
+    dom.recordsNote.textContent = 'Records compare the same word and repetition count.';
   } else {
     dom.recordsTitle.textContent = 'Passage records';
     const id = textRecordKey(session);
@@ -658,7 +716,7 @@ function renderHistory() {
     const date = Date.parse(h.at);
     const item = element('div', 'history-item');
     item.append(element('strong', '', h.mode === 'keys' ? 'Key trainer · L' + h.level
-      : h.mode === 'sequence' ? 'Sequence · L' + h.level : 'Text practice'));
+      : h.mode === 'sequence' ? 'Sequence · L' + h.level : h.mode === 'word' ? 'Single word · ' + h.practiceWord : 'Text practice'));
     item.append(element('span', 'history-meta', h.status === 'completed' ? 'Completed' : 'Ended early'));
     item.append(element('span', 'history-result', h.mode === 'sequence'
       ? (h.bestRoundMs === null ? 'No full round' : 'Best ' + formatMs(h.bestRoundMs))
@@ -690,16 +748,53 @@ function renderFeedback() {
   setStatus(dom.feedback, message);
   dom.feedback.className = kind ? 'feedback ' + kind : 'feedback';
 }
+let drawPreview = {};
+function renderWordOptions() {
+  const pool = wordPool(session.level, session.wordLanguage);
+  const picked = session.wordStrategy === 'selected';
+  $('word-strategy').value = session.wordStrategy;
+  $('word-language').value = session.wordLanguage;
+  $('word-repeats').value = session.wordRepeats;
+  $('word-picker').hidden = !picked;
+  if (document.activeElement !== $('word-choice')) $('word-choice').value = session.selectedWord;
+  if (picked) wordSuggestions();
+  $('first-word-level').hidden = pool.words.length !== 0;
+  $('draw-word').hidden = picked || !pool.words.length;
+  let message = '';
+  if (pool.words.length && ['mistakes','slowest'].includes(session.wordStrategy)) {
+    const observation = profile.wordStats[session.practiceWord];
+    if (drawPreview.session !== session || drawPreview.observation !== observation) {
+      const { entries, total, focus } = wordDistribution(pool, session.wordStrategy, profile.wordStats);
+      const best = entries.sort((a,b) => b[1]-a[1]).slice(0, 3);
+      const chance = weight => {
+        const percent = 100 * (focus * weight / total + (1 - focus) / pool.words.length);
+        return percent < .1 ? '<0.1%' : Number(percent.toFixed(1)) + '%';
+      };
+      const label = best.length ? 'Next draw · ' + best.map(([word, weight]) => word + ' ' + chance(weight)).join(' · ')
+        : 'Drawing at random until there are ' + (session.wordStrategy === 'mistakes' ? 'recorded mistakes.' : 'word timings.');
+      drawPreview = { session, observation, label };
+    }
+    message = drawPreview.label;
+  }
+  setStatus($('word-draw-note'), message);
+  $('word-draw-note').hidden = !message;
+}
 function render() {
   const keys = session.mode === 'keys';
   const sequence = session.mode === 'sequence';
   const text = session.mode === 'text';
+  const single = session.mode === 'word';
   $('practice-panel').setAttribute('aria-labelledby', 'mode-' + session.mode);
   for (const tab of modeTabs) tab.tabIndex = tab.id === 'mode-' + session.mode ? 0 : -1;
   $('settings-state').textContent = 'Level ' + session.level + ' · ' + (keys ? session.goal + ' keys'
-    : sequence ? session.sequenceLength + ' letters × ' + session.sequenceRounds + ' rounds' : dom.passage.querySelector('option[value="' + session.passageId + '"]')?.textContent ?? 'Text practice');
+    : single ? session.wordRepeats + ' repetitions' : sequence ? session.sequenceLength + ' letters × ' + session.sequenceRounds + ' rounds' : dom.passage.querySelector('option[value="' + session.passageId + '"]')?.textContent ?? 'Text practice');
   $('celebrations').checked = profile.celebrations;
   dom.prompt.classList.toggle('sequence-prompt', sequence);
+  dom.prompt.classList.toggle('word-prompt', single);
+  $('mode-word').classList.toggle('active', single);
+  $('mode-word').setAttribute('aria-selected', String(single));
+  $('word-controls').hidden = !single;
+  if (single) renderWordOptions();
   dom.modeKeys.classList.toggle('active', keys);
   dom.modeSequence.classList.toggle('active', sequence);
   dom.modeText.classList.toggle('active', text);
@@ -726,27 +821,32 @@ function render() {
   dom.passage.value = session.passageId;
   dom.customBlock.hidden = !text || session.passageId !== 'custom';
   const unlocked = unlockedKeys(session);
-  const exerciseText = text ? (session.target || passageFor(session)) : '';
+  const exerciseText = text ? session.target : '';
   const illegal = invalidTextKeys(exerciseText, unlocked);
-  const coverage = keyCoverage(exerciseText, unlocked);
   const isGenerated = isLevelPassage(session.passageId);
+  $('text-length-controls').hidden = !text || !isGenerated;
+  $('text-limit').value = session.maxCharacters ?? '';
+  $('text-length-note').textContent = (session.maxCharacters ? 'Including spaces' : 'Auto · fewest words') + ' · ' + exerciseText.length + ' characters';
   dom.textCoverageNote.hidden = !text;
   if (text) {
-    const latest = unlocked.at(-1);
-    const minimum = isGenerated && !coverage.missing.length && coverage.weakest >= MIN_KEY_OCCURRENCES
-      && coverage.counts[latest] >= 5;
-    dom.textCoverageNote.classList.toggle('incomplete', !minimum);
-    setStatus(dom.textCoverageNote, isGenerated && minimum
-      ? 'All ' + unlocked.length + ' unlocked keys included · '
-        + (coverage.quarterMinimum ? 'at least ' + coverage.quarterMinimum + ' of each per quarter'
-          : 'at least ' + coverage.weakest + ' of each in this passage')
-      : coverage.covered + ' of ' + coverage.total + ' unlocked keys used'
-        + (isGenerated ? ' · Start a new exercise to practise all keys.' : ' · Custom passages may omit some letters.'));
+    const language = passageLanguage(session.passageId);
+    const pool = isGenerated ? wordPool(session.level, language) : null;
+    const words = exerciseText.toLowerCase().split(/\s+/).filter(w => !pool || pool.members.has(w));
+    const coverage = keyCoverage(words.join(''), unlocked);
+    const unavailable = pool?.unsupported || [];
+    const omitted = coverage.missing.filter(k => !unavailable.includes(k));
+    const message = coverage.missing.length === 0 ? 'All ' + unlocked.length + ' letters covered in words'
+      : [isGenerated && !unavailable.length ? 'All letters fit in words from ' + minimumWordCharacters(session.level, language) + ' characters' : '',
+        coverage.covered + ' of ' + unlocked.length + ' letters in words',
+        unavailable.length ? 'No eligible word for ' + unavailable.join(' ').toUpperCase() : '',
+        omitted.length ? (isGenerated && session.maxCharacters ? 'Outside this cap: ' : 'Missing: ') + omitted.join(' ').toUpperCase() : ''].filter(Boolean).join(' · ');
+    dom.textCoverageNote.classList.toggle('incomplete', coverage.missing.length > 0);
+    setStatus(dom.textCoverageNote, message);
   }
   dom.textGenerationNote.textContent = session.textKind === 'key-groups'
     ? 'At this level there are not enough real words; letter groups use only unlocked keys.'
     : session.textKind === 'words' ? 'Practice everyday words you can spell with your unlocked keys.'
-    : session.textKind === 'words+drills' && session.vocabularyVersion === VOCABULARY_VERSION ? 'A boxed letter is a single-key exercise. It has no practice word yet in this language at this level.'
+    : session.textKind === 'words+drills' && session.vocabularyVersion >= BOXED_DRILLS_VERSION ? 'A boxed letter is a single-key exercise. It has no practice word yet in this language at this level.'
     : session.textKind === 'sentences+drills' ? 'Real phrases where available, plus key drills for letters without usable words in this language.'
     : session.textKind === 'sentences+words' ? 'Real phrases and extra focus words include every unlocked key.'
     : isLevelPassage(session.passageId)
@@ -765,13 +865,14 @@ function render() {
   dom.phaseDot.className = 'phase-dot' + (session.phase === 'running' ? ' running' : session.phase === 'complete' ? ' complete' : '');
   dom.primaryLabel.textContent = { idle: 'Start practice', running: 'Pause', paused: 'Resume practice', 'between-rounds': 'Start round ' + (session.rounds.length + 1), complete: 'Practice again' }[session.phase];
   dom.primaryIcon.textContent = session.phase === 'running' ? 'Ⅱ' : session.phase === 'complete' ? '↻' : '▶';
-  dom.primary.disabled = text && !session.legacyResume
-    && !levelTextValid(session, session.target || passageFor(session)) && session.phase === 'idle';
+  dom.primary.disabled = session.phase === 'idle' && ((single && !session.practiceWord) || (text && !session.legacyResume && !levelTextValid(session, session.target)));
   $('blocked-reason').hidden = !dom.primary.disabled;
   $('blocked-reason').textContent = !dom.primary.disabled ? '' : illegal.length
     ? 'This passage needs more letters. Open Practice settings to change the level or the text.'
-    : 'Open Practice settings and enter a passage to start.';
-  dom.keyboardTip.textContent = text && session.phase === 'running'
+    : single ? (wordPool(session.level, session.wordLanguage).words.length ? 'Choose a word from the unlocked vocabulary.' : 'Words become available at level 6.')
+    : isGenerated ? 'No whole practice word fits. Increase Max characters or clear it for Auto.' : 'Open Practice settings and enter a passage to start.';
+  if (single && session.phase === 'complete') dom.primaryLabel.textContent = session.wordStrategy === 'selected' ? 'Repeat this word' : 'Start next word';
+  dom.keyboardTip.textContent = (text || single) && session.phase === 'running'
     ? 'Space = type a space · Esc = pause' : 'Space = start or resume · Esc = pause';
   const progress = progressOf(session);
   const ratio = progress.total ? Math.min(100, progress.done / progress.total * 100) : 0;

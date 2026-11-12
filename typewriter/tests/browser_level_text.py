@@ -56,9 +56,9 @@ try {
  $('mode-text').click();
  check('global level visible in text', !$('level-controls').hidden && $('level-hint').textContent==='2 keys');
  check('text defaults to level-generated content', $('passage-select').value==='level-mixed');
- check('early exercise coverage announced', $('text-coverage-note').textContent.includes('All 2 unlocked keys included'));
+ check('early exercise coverage announced', $('text-coverage-note').textContent.includes('No eligible word for F J'));
  const short=$('target-text').textContent;
- check('level one only unlocked keys',short.length>=50 && [...short].every(c=>'fj '.includes(c)),short.slice(0,20));
+ check('level one only unlocked keys',short.length===3 && [...short].every(c=>'fj '.includes(c)),short.slice(0,20));
  check('honest small-level label', $('text-stage-label').textContent.includes('KEY GROUPS'));
  $('primary-button').click();
  press(short[0]);
@@ -94,7 +94,7 @@ try {
  check('dictionary words at level six', $('text-stage-label').textContent.includes('REAL WORDS') && practice.includes(' '),practice.slice(0,50));
  check('level six letters only', [...practice].every(c=>'fjdksla '.includes(c)));
  check('level summary lists unlocked keys', $('unlocked-key-list').querySelectorAll('.key-sample').length===7);
- check('later exercise coverage announced', $('text-coverage-note').textContent.includes('All 7 unlocked keys included'));
+ check('later exercise coverage announced', $('text-coverage-note').textContent.includes('All 7 letters covered in words'));
  $('passage-select').value='custom';event($('passage-select'),'change');
  $('custom-text').value='hello';event($('custom-text'),'input');
  check('invalid custom passage rejected', $('primary-button').disabled && $('custom-text-validation').classList.contains('invalid'));
@@ -105,7 +105,7 @@ try {
  $('passage-select').value='level-en';event($('passage-select'),'change');
  const drillNodes=[...$('target-text').querySelectorAll('.drill-key')];
  check('unsupported English J is shown as an individual boxed key',
-   drillNodes.length>=8 && drillNodes.every(n=>n.textContent==='j' && n.title.includes('Single-key practice')));
+   drillNodes.length===1 && drillNodes.every(n=>n.textContent==='j' && n.title.includes('Single-key practice')));
  check('English-only exercises valid', [...$('target-text').textContent].every(c=>'fjdksla '.includes(c)));
  check('no horizontal overflow',document.documentElement.scrollWidth<=document.documentElement.clientWidth+1,
    document.documentElement.scrollWidth+'/'+document.documentElement.clientWidth);
@@ -119,16 +119,12 @@ try {
  const advanced=$('target-text').textContent;
  const minCounts=[...all].map(k=>[...advanced].filter(c=>c===k).length);
  check('all keys unlocked at top level', $('level-hint').textContent==='29 keys');
- check('every rare key present at advanced level', minCounts.every(n=>n>=3),minCounts.join(','));
- check('newest advanced key emphasized', minCounts.at(-1)>=5);
- const letters=advanced.replaceAll(' ','');
- check('all unlocked keys recur in each quarter',Array.from({length:4},(_,q)=>{
-   const quarter=letters.slice(q*letters.length/4,(q+1)*letters.length/4);
-   return [...all].every(k=>quarter.split(k).length>=3);
- }).every(Boolean) && $('text-coverage-note').textContent.includes('per quarter'));
+ check('every rare key present at advanced level', minCounts.every(n=>n>=1),minCounts.join(','));
+ check('newest advanced key included', minCounts.at(-1)>=1);
+ check('minimum full-alphabet passage uses five words',advanced.split(' ').length===5);
  $('new-session').click();
  check('new session changes the actual passage',$('target-text').textContent!==advanced);
- check('top-level key coverage announced', $('text-coverage-note').textContent.includes('All 29 unlocked keys included'));
+ check('top-level key coverage announced', $('text-coverage-note').textContent.includes('All 29 letters covered in words'));
  check('high-level passage is not synthetic key groups', !$('text-stage-label').textContent.includes('KEY DRILLS') && !$('text-stage-label').textContent.includes('KEY GROUPS'));
  check('advanced-page width fits mobile',document.documentElement.scrollWidth<=document.documentElement.clientWidth+1);
 

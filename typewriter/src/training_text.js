@@ -1,6 +1,7 @@
 // Level-aware offline word practice. Saved passages keep their original text.
 import germanTiers from '../vocabulary/de.js';
 import englishTiers from '../vocabulary/en.js';
+import covers from '../vocabulary/covers.js';
 
 export const TRAINING_KEY_ORDER = Object.freeze(Array.from('fjdkslaöghärueiwoqptzüvmcxybn'));
 
@@ -36,8 +37,9 @@ function shuffled(items, rng) {
   return list;
 }
 
-export const VOCABULARY_VERSION = 2;
-export const MIN_KEY_OCCURRENCES = 3;
+export const BOXED_DRILLS_VERSION = 2;
+export const VOCABULARY_VERSION = 3;
+export const MAX_TEXT_CHARACTERS = 800;
 
 export function keyCoverage(text, keys) {
   const count = Object.fromEntries(keys.map(key => [key, 0]));
@@ -56,248 +58,203 @@ export function keyCoverage(text, keys) {
   return { counts: count, missing, weakest, quarterMinimum, covered: keys.length - missing.length, total: keys.length };
 }
 
-// Append each newly unlocked dictionary tier once. Earlier levels sample only
-// the prefix recorded for them, even after visiting the full alphabet.
-class Vocabulary {
-  constructor(tiers) {
-    this.tiers = tiers;
-    this.words = [];
-    this.groups = new Map();
-    this.limits = [];
-  }
-
-  unlock(level) {
-    while (this.limits.length <= level) {
-      let previous = '';
-      for (const entry of this.tiers[this.limits.length].matchAll(/(\d+)([a-zäöü]+)/g)) {
-        const word = previous.slice(0, Number(entry[1])) + entry[2];
-        previous = word;
-        this.words.push(word);
-        const groups = [...new Set(word), word.length];
-        for (const group of groups) {
-          if (!this.groups.has(group)) this.groups.set(group, []);
-          this.groups.get(group).push(word);
-        }
-      }
-      const sizes = new Map([...this.groups].map(([key, words]) => [key, words.length]));
-      this.limits.push({ sizes, total: this.words.length });
-    }
-    return this.limits[level];
-  }
+// The build proves two optima per level and language: fewest words, and
+// fewest typed characters. The latter may use more, shorter words.
+const tiers = { de: germanTiers, en: englishTiers };
+const tierWords = new Map();
+const pools = new Map();
+const order = TRAINING_KEY_ORDER;
+const bits = Object.fromEntries(order.map((k, i) => [k, 1 << i]));
+function maskOf(word) {
+  let mask = 0;
+  for (const k of word) mask |= bits[k];
+  return mask;
+}
+function countBits(mask) {
+  let n = 0;
+  for (; mask; mask &= mask - 1) n++;
+  return n;
 }
 
-const banks = { de: new Vocabulary(germanTiers), en: new Vocabulary(englishTiers) };
+export function wordPool(level, language = 'mixed') {
+  const id = language + ':' + level;
+  if (pools.has(id)) return pools.get(id);
+  let words;
+  if (language === 'mixed') {
+    words = [...new Set([...wordPool(level, 'de').words, ...wordPool(level, 'en').words])];
+  } else {
+    words = [];
+    for (let i = 0; i <= level; i++) {
+      const tier = language + ':' + i;
+      if (!tierWords.has(tier)) {
+        const list = [];
+        let prev = '';
+        for (const [, prefix, suffix] of tiers[language][i].matchAll(/(\d+)([a-zäöü]+)/g)) {
+          prev = prev.slice(0, Number(prefix)) + suffix;
+          list.push(prev);
+        }
+        tierWords.set(tier, list);
+      }
+      words.push(...tierWords.get(tier));
+    }
+  }
+  const masks = words.map(maskOf);
+  const possible = masks.reduce((a, b) => a | b, 0);
+  const unsupported = order.slice(0, level + 1).filter(k => !(possible & bits[k]));
+  const byKey = Object.fromEntries(order.slice(0,level + 1).map(k => [k, []]));
+  for (let i = 0; i < words.length; i++) for (const k of new Set(words[i])) byKey[k].push(i);
+  const pool = { words, masks, byKey, members: new Set(words), unsupported, possible };
+  pools.set(id, pool);
+  return pool;
+}
 
 export function eligibleWords(keys, language = 'de') {
-  const unlocked = new Set(keys);
-  const highest = TRAINING_KEY_ORDER.findLastIndex(key => unlocked.has(key));
+  const mask = maskOf(keys);
+  const highest = order.findLastIndex(k => mask & bits[k]);
   if (highest < 0) return [];
-  const bank = banks[language];
-  const entries = bank.words.slice(0, bank.unlock(highest).total);
-  return unlocked.size === highest + 1 ? entries : entries.filter(w => [...w].every(k => unlocked.has(k)));
+  const pool = wordPool(highest, language);
+  return pool.words.filter((_, i) => !(pool.masks[i] & ~mask));
 }
 
-function keyGroups(keys, rng) {
-  const letters = [];
-  while (letters.length < 72) letters.push(...shuffled(keys, rng));
-  const words = [];
-  for (let i = 0; i < letters.length;) {
-    const end = i + 2 + index(rng, 4);
-    words.push(letters.slice(i, end).join(''));
-    i = end;
-  }
-  return words.join(' ');
+export function minimumWordCharacters(level, language) {
+  return covers[language][level - 1][1].join(' ').length;
 }
 
-// Sample across the whole eligible bucket, including late alphabetic entries.
-// Stratification also produces different candidates when a bucket is smaller
-// than the sample or a caller supplies a constant random source.
-function bestWord(bank, sizes, group, rng, score) {
-  const words = bank.groups.get(group);
-  const size = sizes.get(group) || 0;
-  const samples = Math.min(size, 48);
-  let best = null;
-  let high = -Infinity;
-  for (let i = 0; i < samples; i++) {
-    const lo = Math.floor(i * size / samples);
-    const hi = Math.floor((i + 1) * size / samples);
-    const word = words[lo + index(rng, hi - lo)];
-    const value = score(word);
-    if (value > high) { best = word; high = value; }
-  }
-  return best;
+export function passageLanguage(id) {
+  return id === 'level-de' ? 'de' : id === 'level-en' ? 'en' : 'mixed';
 }
 
-// Keep a quarter's chosen words and letter counts. Spread standalone keys
-// through the words and give repeated spellings room whenever possible.
-function orderQuarters(quarters) {
-  const result = [];
-  const lastUsed = new Map();
-  for (const tokens of quarters) {
-    const words = tokens.filter(t => t.length > 1);
-    const keys = tokens.filter(t => t.length === 1);
-    const slots = tokens.length;
-    let keyIndex = 0;
-    for (let i = 0; i < slots; i++) {
-      if (keyIndex < Math.round((i + 1) * keys.length / slots)) {
-        result.push(keys[keyIndex++]);
-        continue;
+function varyCover(template, pool, budget, rng) {
+  const words = shuffled(template, rng);
+  let length = words.join(' ').length;
+  // Swap pairs as well as individual words. A private letter need not stay in
+  // the same slot as in the offline certificate.
+  if (words.length >= 2) {
+    const required = pool.possible & ~maskOf(words.slice(2).join(''));
+    const firstKey = Object.keys(pool.byKey).filter(k => required & bits[k])
+      .sort((a,b) => pool.byKey[a].length - pool.byKey[b].length)[0];
+    const candidates = pool.byKey[firstKey];
+    const pairBudget = words[0].length + words[1].length + Math.min(5, budget - length);
+    if (candidates?.length) {
+      for (let attempt = 0; attempt < 32; attempt++) {
+        const a = candidates[index(rng, candidates.length)];
+        const missing = required & ~pool.masks[a];
+        const key = Object.keys(pool.byKey).filter(k => missing & bits[k])
+          .sort((a,b) => pool.byKey[a].length - pool.byKey[b].length)[0];
+        if (!key) continue;
+        const others = pool.byKey[key], offset = index(rng, others.length);
+        let other;
+        for (let j = 0; j < Math.min(others.length, 250); j++) {
+          const b = others[(j + offset) % others.length];
+          if ((pool.masks[b] & missing) === missing && pool.words[a].length + pool.words[b].length <= pairBudget) {
+            other = pool.words[b]; break;
+          }
+        }
+        if (other) {
+          words.splice(0, 2, pool.words[a], other);
+          length = words.join(' ').length;
+          break;
+        }
       }
-      let pick = 0;
-      for (let j = 0; j < words.length; j++) {
-        const seen = lastUsed.get(words[j]) ?? -Infinity;
-        if (seen < result.length - 3) { pick = j; break; }
-        if (seen < (lastUsed.get(words[pick]) ?? -Infinity)) pick = j;
-      }
-      const [word] = words.splice(pick, 1);
-      lastUsed.set(word, result.length);
-      result.push(word);
     }
   }
-  return result.join(' ');
+  for (let i = 0; i < words.length; i++) {
+    let covered = 0;
+    for (let j = 0; j < words.length; j++) if (j !== i) covered |= maskOf(words[j]);
+    const required = pool.possible & ~covered;
+    const max = words[i].length + Math.min(3, budget - length);
+    let matches = 0;
+    let pick = words[i];
+    for (let j = 0; j < pool.words.length; j++) {
+      const w = pool.words[j];
+      if (w.length <= max && (pool.masks[j] & required) === required && index(rng, ++matches) === 0) pick = w;
+    }
+    length += pick.length - words[i].length;
+    words[i] = pick;
+  }
+  return words;
 }
 
-// Rare draws of long compound words can exceed the saved-passage limit.
-// Keep real words and quarter coverage even for that case. The shortest
-// eligible spellings give a bounded cover for every supported alphabet.
-function compactPassage(keys, sources, rng) {
-  const shortest = new Map();
-  for (const source of shuffled(sources, rng)) {
-    for (const key of keys) {
-      const pool = source.bank.groups.get(key);
-      const size = source.sizes.get(key) || 0;
-      let best = shortest.get(key);
-      for (let i = 0; i < size; i++) {
-        if (!best || pool[i].length < best.word.length) best = { word: pool[i], language: source.language };
-      }
-      if (best) shortest.set(key, best);
+function partialCover(pool, limit, rng) {
+  const chosen = [];
+  let needed = pool.possible;
+  while (needed && limit >= 2) {
+    let best = -Infinity, pick = '';
+    for (let i = 0; i < pool.words.length; i++) {
+      const w = pool.words[i], gain = countBits(pool.masks[i] & needed);
+      if (!gain || w.length > limit) continue;
+      const score = gain / (w.length + 1) + .04 * gain + .01 * rng();
+      if (score > best) { best = score; pick = w; }
     }
+    if (!pick) break;
+    chosen.push(pick);
+    needed &= ~maskOf(pick);
+    limit -= pick.length + 1;
   }
-  const count = Object.fromEntries(keys.map(k => [k, 0]));
-  const words = [];
-  const languages = new Set();
-  for (const goal of [1, 2]) {
-    for (const key of shuffled(keys, rng)) {
-      if (count[key] >= goal) continue;
-      const unit = shortest.get(key);
-      const word = unit?.word || key;
-      if (unit) languages.add(unit.language);
-      words.push(word);
-      for (const char of word) count[char]++;
-    }
-  }
-  return { text: orderQuarters(Array.from({ length: 4 }, () => shuffled(words, rng))), languages };
+  return chosen;
 }
 
 export function generateLevelExercise(config, rng = Math.random) {
-  const level = Number.isInteger(config.level) ? Math.min(28, Math.max(1, config.level)) : 1;
-  const keys = TRAINING_KEY_ORDER.slice(0, level + 1);
-  const languages = config.passageId === 'level-de' ? ['de']
-    : config.passageId === 'level-en' ? ['en'] : ['de', 'en'];
-  const sources = languages.map(language => ({ language, bank: banks[language],
-    sizes: banks[language].unlock(level).sizes }));
-  if (sources.every(s => !s.sizes.size)) {
-    const text = keyGroups(keys, rng);
-    return { text, kind: 'key-groups', language: null, focusKeys: [...keys], coverage: keyCoverage(text, keys) };
+  const level = Math.min(28, Math.max(1, config.level || 1));
+  const language = passageLanguage(config.passageId);
+  const keys = order.slice(0, level + 1);
+  const pool = wordPool(level, language);
+  const [fewest, shortest] = covers[language][level - 1];
+  const manual = Number.isInteger(config.maxCharacters) && config.maxCharacters > 0;
+  const limit = manual ? Math.min(config.maxCharacters, MAX_TEXT_CHARACTERS) : MAX_TEXT_CHARACTERS;
+  const drills = shuffled(pool.unsupported, rng);
+  const drillCost = drills.length * 2;
+  const tokens = [];
+  let length = 0;
+  function append(word) {
+    const cost = word.length + Number(tokens.length > 0);
+    if (length + cost > limit) return false;
+    tokens.push(word);
+    length += cost;
+    return true;
   }
-
-  const drills = keys.filter(key => sources.every(s => !s.sizes.has(key)));
-  const lengths = [...new Set(sources.flatMap(s => [...s.sizes.keys()].filter(k => typeof k === 'number')))];
-  if (drills.length && !lengths.includes(1)) lengths.push(1);
-  lengths.sort((a, b) => a - b);
-  const counts = Object.fromEntries(keys.map(k => [k, 0]));
-  const last = Object.fromEntries(keys.map(k => [k, -keys.length]));
-  const used = new Map();
-  const usedLanguages = new Set();
-  let languageTurn = index(rng, sources.length);
-  let position = 0;
-
-  function add(section, word, language) {
-    section.words.push(word);
-    section.length += word.length;
-    used.set(word, (used.get(word) || 0) + 1);
-    if (language) usedLanguages.add(language);
-    for (const k of word) {
-      counts[k]++;
-      section.counts[k]++;
-      last[k] = position++;
+  const fit = fewest.join(' ').length + drillCost <= limit ? fewest : shortest;
+  const available = limit - (fit.join(' ').length + drillCost <= limit ? drillCost : 0);
+  const batch = fit.join(' ').length <= available
+    ? varyCover(fit, pool, available, rng) : partialCover(pool, limit, rng);
+  // Reserve whole words first when a tight cap excludes some single-key drills.
+  let used = batch.join(' ').length;
+  for (const k of drills) {
+    const cost = 1 + Number(batch.length > 0);
+    if (used + cost > limit) break;
+    batch.splice(index(rng, batch.length + 1), 0, k);
+    used += cost;
+  }
+  for (const w of batch) append(w);
+  if (manual) {
+    const counts = keyCoverage(tokens.join(''), keys).counts;
+    const seen = new Set(tokens);
+    while (length + 1 < limit) {
+      const room = limit - length - 1;
+      const due = shuffled(keys, rng).sort((a,b) => counts[a] - counts[b]);
+      let next = '';
+      for (const k of due) {
+        const bucket = pool.byKey[k];
+        if (!bucket.length) { next = k; break; }
+        const offset = index(rng, bucket.length);
+        let best = -Infinity, considered = 0;
+        for (let j = 0; j < bucket.length && considered < 36; j++) {
+          const w = pool.words[bucket[(j + offset) % bucket.length]];
+          if (w.length > room) continue;
+          considered++;
+          const cost = [...w].reduce((sum, ch) => sum + counts[ch], 0) / w.length;
+          const score = rng() * 2 - cost - (seen.has(w) ? 8 : 0);
+          if (score > best) { best = score; next = w; }
+        }
+        if (next) break;
+      }
+      if (!next) break;
+      append(next);
+      seen.add(next);
+      for (const k of next) counts[k]++;
     }
   }
-
-  function choose(section, group) {
-    let source = sources[languageTurn % sources.length];
-    if (!source.sizes.has(group)) source = sources.find(s => s.sizes.has(group));
-    if (!source) return null;
-    const score = word => {
-      let cost = 0;
-      const seen = new Set();
-      for (const k of word) {
-        // Repeated, already plentiful and recently seen letters cost more.
-        cost += counts[k] + 1.6 * section.counts[k] + (seen.has(k) ? 2.5 : 0)
-          + Math.max(0, 1 - (position - last[k]) / keys.length);
-        seen.add(k);
-      }
-      const gain = [...seen].filter(k => !section.counts[k]).length;
-      return .95 * gain - 1.4 * cost / word.length - .45 * Math.abs(word.length - 5)
-        - 30 * (used.get(word) || 0) + 3 * rng();
-    };
-    const word = bestWord(source.bank, source.sizes, group, rng, score);
-    if (word) { languageTurn++; add(section, word, source.language); }
-    return word;
-  }
-
-  // Construct each quarter around overdue letters. A key with no eligible
-  // word gets a short drill at the point it is due, including in English.
-  const sections = [];
-  for (let part = 0; part < 4; part++) {
-    const section = { words: [], length: 0, counts: Object.fromEntries(keys.map(k => [k, 0])) };
-    sections.push(section);
-    const order = shuffled(keys, rng);
-    while (true) {
-      let due = order.filter(k => section.counts[k] < 2);
-      if (!due.length) {
-        if (section.length >= Math.max(16, keys.length * 2)) break;
-        due = [...order];
-      }
-      due.sort((a, b) => section.counts[a] - section.counts[b] || counts[a] - counts[b] || last[a] - last[b]);
-      if (!choose(section, due[0])) {
-        add(section, due[0], null);
-      }
-    }
-  }
-
-  // Equal letter counts make the four coverage guarantees hold in the actual
-  // passage, whatever lengths the selected words have. Use real word lengths
-  // to fill differences; tiny alphabets need not contain a one-letter word.
-  const longest = Math.max(...sections.map(s => s.length));
-  const reachable = [true];
-  let target = longest;
-  for (let size = 1; ; size++) {
-    reachable[size] = lengths.some(n => n <= size && reachable[size - n]);
-    if (size >= longest && sections.every(s => reachable[size - s.length])) { target = size; break; }
-  }
-  for (const section of sections) {
-    while (section.length < target) {
-      const remaining = target - section.length;
-      const fits = lengths.filter(n => n <= remaining && reachable[remaining - n]);
-      // Prefer everyday typing lengths. A short exact fit finishes the quarter.
-      const viable = fits.filter(n => n >= 2 && n <= 9);
-      const options = viable.length ? viable : fits;
-      const length = options.includes(remaining) ? remaining : options[index(rng, options.length)];
-      if (!choose(section, length)) {
-        const key = [...drills].sort((a, b) => counts[a] - counts[b])[0];
-        add(section, key, null);
-      }
-    }
-  }
-  let text = orderQuarters(sections.map(s => s.words));
-  let actualLanguages = usedLanguages;
-  if (text.length > 800) {
-    const compact = compactPassage(keys, sources, rng);
-    text = compact.text;
-    actualLanguages = compact.languages;
-  }
-  return { text, kind: drills.length ? 'words+drills' : 'words',
-    language: actualLanguages.size === 2 ? 'mixed' : [...actualLanguages][0],
-    focusKeys: drills, coverage: keyCoverage(text, keys) };
+  const text = tokens.join(' ');
+  return { text, kind: !pool.words.length ? 'key-groups' : tokens.some(w => w.length === 1) ? 'words+drills' : 'words',
+    language: pool.words.length ? language : null, focusKeys: pool.unsupported, coverage: keyCoverage(text, keys) };
 }

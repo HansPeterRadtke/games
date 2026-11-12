@@ -1,7 +1,8 @@
+import { WORD_STRATEGIES, MAX_WORD_REPEATS, choosePracticeWord, observeCompletedWord, wordSetText, wordRecordKey } from './word_practice.js';
 import { CHARACTERS_PER_WORD, DEFAULT_ROUND_WINDOW, scoreRound } from './rounds.js';
 // Pure practice engine. No DOM, storage, or system-clock dependencies.
 import {
-  LEVEL_PASSAGES, TRAINING_KEY_ORDER, VOCABULARY_VERSION, generateLevelExercise, normalizedPreset, allowedText,
+  LEVEL_PASSAGES, TRAINING_KEY_ORDER, VOCABULARY_VERSION, MAX_TEXT_CHARACTERS, wordPool, generateLevelExercise, normalizedPreset, allowedText,
 } from './training_text.js';
 
 export { LEVEL_PASSAGES } from './training_text.js';
@@ -33,11 +34,17 @@ export function normalizeConfig(source = {}) {
     ? Array.from(source.customText.normalize('NFC').replace(/\r\n?/g, '\n')).slice(0, 800).join('')
     : '';
   return {
-    mode: ['keys', 'text', 'sequence'].includes(source.mode) ? source.mode : 'keys',
+    mode: ['keys', 'text', 'sequence', 'word'].includes(source.mode) ? source.mode : 'keys',
     level: cap(level, 1, KEY_ORDER.length - 1),
     goal,
     sequenceLength,
     sequenceRounds,
+    maxCharacters: Number.isInteger(source.maxCharacters) && source.maxCharacters > 0
+      ? Math.min(source.maxCharacters, MAX_TEXT_CHARACTERS) : null,
+    wordRepeats: Number.isInteger(source.wordRepeats) ? cap(source.wordRepeats, 1, MAX_WORD_REPEATS) : 10,
+    wordStrategy: WORD_STRATEGIES.includes(source.wordStrategy) ? source.wordStrategy : 'random',
+    wordLanguage: ['de', 'en'].includes(source.wordLanguage) ? source.wordLanguage : 'mixed',
+    selectedWord: typeof source.selectedWord === 'string' ? source.selectedWord.trim().toLowerCase().normalize('NFC').slice(0,64) : '',
     adaptive: source.adaptive !== false,
     passageId: PASSAGES.some(p => p.id === source.passageId) || isLevelPassage(source.passageId) || source.passageId === 'custom'
       ? source.passageId : 'level-mixed',
@@ -62,7 +69,7 @@ export function textRecordKey(state) {
 }
 
 export function newProfile() {
-  return { keyStats: {}, records: {}, textRecords: {}, sequenceRecords: {}, keyRoundRecords: {}, roundWindow: DEFAULT_ROUND_WINDOW, celebrations: true, history: [] };
+  return { wordStats: Object.create(null), wordRecords: {}, keyStats: {}, records: {}, textRecords: {}, sequenceRecords: {}, keyRoundRecords: {}, roundWindow: DEFAULT_ROUND_WINDOW, celebrations: true, history: [] };
 }
 
 export function keyRoundKey(state) {
@@ -70,6 +77,7 @@ export function keyRoundKey(state) {
 }
 
 export function roundRecordFor(state, profile) {
+  if (state.mode === 'word') return profile.wordRecords?.[wordRecordKey(state)];
   if (state.mode === 'sequence') return profile.sequenceRecords[sequenceRecordKey(state)];
   if (state.mode === 'text') return profile.textRecords[textRecordKey(state)];
   return profile.keyRoundRecords[keyRoundKey(state)];
@@ -118,15 +126,18 @@ export function sequenceRecordKey(state) {
   return String(state.level) + '|' + state.sequence;
 }
 
-export function newSession(config = {}) {
+export function newSession(config = {}, profile = null, rng = Math.random, excludeWord = '') {
   const normalized = normalizeConfig(config);
   const preservedSequence = validSequence(normalized, config.sequence) ? config.sequence : '';
   const exercise = normalized.mode === 'text' && isLevelPassage(normalized.passageId)
-    ? generateLevelExercise(normalized) : null;
-  const textTarget = normalized.mode === 'text' ? (exercise?.text || passageFor(normalized)) : '';
+    ? generateLevelExercise(normalized, rng) : null;
+  const practiceWord = normalized.mode === 'word' ? choosePracticeWord(normalized, profile?.wordStats, rng, excludeWord) : '';
+  const textTarget = normalized.mode === 'word' ? wordSetText(practiceWord, normalized.wordRepeats)
+    : normalized.mode === 'text' ? (exercise?.text ?? passageFor(normalized)) : '';
   return {
     ...normalized,
     phase: 'idle',
+    practiceWord,
     target: normalized.mode === 'sequence' ? preservedSequence : textTarget,
     ...(exercise && { vocabularyVersion: VOCABULARY_VERSION }),
     textKind: exercise?.kind || (normalized.passageId === 'custom' ? 'custom' : 'preset'),
@@ -197,7 +208,7 @@ export function currentPromptMs(state, now) {
 export function progressOf(state) {
   if (state.mode === 'keys') return { done: state.correct, total: state.goal };
   if (state.mode === 'sequence') return { done: state.correct, total: state.sequenceLength * state.sequenceRounds };
-  return { done: Array.from(state.typed).length, total: Array.from(state.target || passageFor(state)).length };
+  return { done: Array.from(state.typed).length, total: Array.from(state.target).length };
 }
 
 export function currentExpected(state) {
@@ -210,7 +221,7 @@ export function start(state, profile, now, rng = Math.random) {
   if (state.phase === 'idle') {
     if (state.mode === 'sequence' && !validSequence(state, state.sequence)) reshuffleSequence(state, rng);
     state.target = state.mode === 'keys' ? weightedKeyChoice(state, profile, rng)
-      : state.mode === 'sequence' ? state.sequence : (state.target || passageFor(state));
+      : state.mode === 'sequence' ? state.sequence : state.target;
     if (!state.target || !state.target.trim()
         || (state.mode === 'text' && !state.legacyResume && !levelTextValid(state, state.target))) return false;
     state.startedAt = new Date().toISOString();
@@ -251,6 +262,7 @@ export function summaryOf(state, now) {
     mode: state.mode,
     level: state.level,
     passageId: state.passageId,
+    ...(state.mode === 'word' && { practiceWord: state.practiceWord, wordRepeats: state.wordRepeats }),
     goal: state.mode === 'keys' ? state.goal
       : state.mode === 'sequence' ? state.sequenceLength * state.sequenceRounds : Array.from(state.target).length,
     sequence: state.mode === 'sequence' ? state.sequence : '',
@@ -396,6 +408,9 @@ export function typeCharacter(state, profile, input, now, rng = Math.random) {
     updateRecords(state, profile);
   } else {
     state.typed += expected;
+    if (state.mode === 'word' || state.mode === 'text') {
+      observeCompletedWord(profile.wordStats, state.target, state.typed.length, state.trials);
+    }
     state.latestRecords = [];
   }
   let round = null;
@@ -415,9 +430,13 @@ export function typeCharacter(state, profile, input, now, rng = Math.random) {
     let reward = round?.reward;
     if (state.mode !== 'sequence') {
       const text = state.mode === 'text';
-      const records = text ? profile.textRecords : profile.keyRoundRecords;
-      const key = text ? textRecordKey(state) : keyRoundKey(state);
+      const records = state.mode === 'word' ? profile.wordRecords : text ? profile.textRecords : profile.keyRoundRecords;
+      const key = state.mode === 'word' ? wordRecordKey(state) : text ? textRecordKey(state) : keyRoundKey(state);
       const scored = scoreRound(records[key], summary.wpm, rounded(summary.accuracy), false, profile.roundWindow);
+      if (state.mode === 'word') {
+        delete records[key];
+        if (Object.keys(records).length >= 300) delete records[Object.keys(records)[0]];
+      }
       records[key] = scored.record;
       reward = scored.reward;
     }
@@ -467,7 +486,7 @@ export function restoreSession(data) {
   if (state.mode === 'text' && isLevelPassage(state.passageId)
       && data.vocabularyVersion !== VOCABULARY_VERSION && data.phase === 'idle'
       && !data.typed && !data.trials?.length && !data.errors && !data.pendingErrors) return state;
-  const trials = Array.isArray(data.trials) ? data.trials.slice(0, state.mode === 'sequence' ? 4500 : 1000).filter(t =>
+  const trials = Array.isArray(data.trials) ? data.trials.slice(0, ['sequence', 'word'].includes(state.mode) ? 4500 : 1000).filter(t =>
     t && typeof t.key === 'string' && Array.from(t.key).length === 1 && positive(t.ms)
       && Number.isInteger(t.errors) && t.errors >= 0 && t.errors <= 100000) : [];
   state.trials = trials.map(t => ({ key: t.key, ms: Math.min(t.ms, 3600000), errors: t.errors }));
@@ -517,18 +536,25 @@ export function restoreSession(data) {
       return newSession(state);
     }
   } else {
-    const stored = typeof data.target === 'string' && data.target.length <= 800
+    if (state.mode === 'word') {
+      const pool = wordPool(state.level, state.wordLanguage);
+      if (!pool.members.has(data.practiceWord) || (state.wordStrategy === 'selected' && data.practiceWord !== state.selectedWord)
+          || data.target !== wordSetText(data.practiceWord, state.wordRepeats)) return newSession(state);
+      state.practiceWord = data.practiceWord;
+      state.target = data.target;
+    }
+    const stored = typeof data.target === 'string' && data.target.length <= (state.mode === 'word' ? 4500 : 800)
       ? data.target.normalize('NFC') : '';
     const typed = typeof data.typed === 'string' ? data.typed.normalize('NFC') : '';
     const preset = PASSAGES.find(p => p.id === state.passageId);
     const originalPreset = preset?.text || '';
-    const matchesSource = isLevelPassage(state.passageId) ? levelTextValid(state, stored)
+    const matchesSource = state.mode === 'word' ? stored === state.target : isLevelPassage(state.passageId) ? levelTextValid(state, stored)
       : stored === passageFor(state) || (stored === originalPreset && Boolean(originalPreset));
     // Resuming pre-upgrade text (uppercase/punctuation) must not lose progress.
     // New sessions and fresh passages remain strictly limited to unlocked keys.
     state.target = stored && matchesSource && stored.startsWith(typed) ? stored : passageFor(state);
-    if (isLevelPassage(state.passageId) && stored && state.target === stored) {
-      state.vocabularyVersion = data.vocabularyVersion === VOCABULARY_VERSION ? VOCABULARY_VERSION : 1;
+    if (state.mode === 'text' && isLevelPassage(state.passageId) && stored && state.target === stored) {
+      state.vocabularyVersion = Number.isInteger(data.vocabularyVersion) ? cap(data.vocabularyVersion, 1, VOCABULARY_VERSION) : 1;
     }
     state.legacyResume = !levelTextValid(state, state.target)
       && state.target === stored && ['running', 'paused', 'complete'].includes(data.phase);

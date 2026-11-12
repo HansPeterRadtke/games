@@ -48,13 +48,19 @@ Generated text records are stored separately by selected level and language, whi
 
 In Sequence challenge and Text practice, the wrong character stays red and blocks further typing. Delete or Backspace removes that one typo. Accepted characters stay in place, including when the key is held, tapped twice, or reported twice by a keyboard. Correction time and the original mistake count toward the round result.
 
-Verification commands are `npm test`, `python3 tests/browser_headless.py`, `python3 tests/browser_sequence.py`, and `python3 tests/browser_level_text.py`. The tests cover unlocked alphabets at every level, old progress compatibility, typo-only correction, held and repeated Delete, touch-keyboard deletion, dictionary coverage and word variety, and both original modes.
+Verification commands are `npm test`, `python3 tests/browser_headless.py`, `python3 tests/browser_sequence.py`, `python3 tests/browser_level_text.py`, and `python3 tests/browser_word_practice.py`. The tests cover unlocked alphabets at every level, old progress compatibility, typo-only correction, held and repeated Delete, touch-keyboard deletion, dictionary coverage and word variety, and both original modes.
 
 ## Vocabulary and letter distribution
 
 The offline word banks contain about ten thousand German and thirteen thousand English words. All early-level prompts and all words shorter than five letters come from the reviewed practice lists. Other entries must be frequent in their language, have a thesaurus entry and appear in its spelling dictionary. Mixed practice draws from both languages. The [vocabulary sources and build instructions](vocabulary/README.md) document the selection.
 
-Each quarter, measured in letters, contains every unlocked key at least twice. Selection favours letters that are underrepresented and spaces out repeated spellings. The first five levels use labelled key groups. When a later level has no practice word containing a particular letter in the selected language, that letter appears individually in a keycap between the words. The coverage line measures the current passage, including older saved rounds.
+Generated Text practice defaults to the minimum number of real words covering every letter that can occur in a word at the selected level and language. A separate boxed key covers a letter with no eligible word. At the earliest levels each unlocked key appears once. Enter a maximum from 1 to 800 characters for a longer or shorter passage. The cap counts spaces and never truncates a word. If the cap cannot cover everything, the badge names the missing letters. If no complete word or applicable key drill fits, the start button explains how to raise the limit. The build solves both minimum word count and minimum typed length. Runtime substitutions preserve coverage and the selected budget.
+
+## Single-word practice
+
+Select **Single word** to repeat one word ten times by default. Set one to fifty repetitions. Choose a word from the searchable unlocked vocabulary, draw one at random, or select **Most mistakes** or **Slowest words**. The word stays fixed for the set. Space separates repetitions. At the end, Space starts the next set. The manual choice stays selected; automatic strategies draw again from current measurements. At levels without real words, the level-six button opens the first word level.
+
+Text practice and Single word update the word's error rate and milliseconds per character after each completed spelling. Spaces and paused time are excluded. Each new spelling supplies thirty percent of the moving average. Adaptive sets give higher weight to words with more recent errors or slower pace per character. At least fifteen percent of draws explore the full eligible pool. Exploration increases as mistakes fall or words get faster, even with only one measured word. Before there is relevant evidence, draws are uniform. The adaptive controls show the leading probabilities for the next draw. The session, observations and separate records for each word and repetition count survive reload and export/import. Older backups can contribute word measurements when they contain the original passage and per-letter trials.
 
 ## Round records and celebrations
 

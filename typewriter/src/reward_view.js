@@ -126,6 +126,7 @@ export function renderRoundBoard(session, profile) {
   byId('round-window').value = String(profile.roundWindow);
   const scope = timed ? 'This exact sequence'
     : session.mode === 'keys' ? 'Level ' + session.level + ' · ' + session.goal + ' keys'
+    : session.mode === 'word' ? (session.practiceWord || 'Single word') + ' × ' + session.wordRepeats
     : isLevelPassage(session.passageId) ? 'Level ' + session.level + ' · ' + LEVEL_PASSAGES.find(p => p.id === session.passageId).language
     : 'This passage';
   byId('round-scope').textContent = scope + ' · ' + stats.count + (stats.count === 1 ? ' recent round' : ' recent rounds');

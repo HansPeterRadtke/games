@@ -359,7 +359,7 @@ summary:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
  .practice-top { padding: 8px 12px; gap: 4px 10px; }
  .mode-actions { width: 100%; justify-content: space-between; }
  #round-readout { margin-inline: 12px; }
- .mode-tabs { display: grid; grid-template-columns: 1fr 1.25fr 1fr; width: 100%; gap: 2px; }
+ .mode-tabs { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); width: 100%; gap: 2px; }
  .mode-tab { padding: 6px 4px; min-height: 44px; font-size: .82rem; white-space: normal; }
  .practice-settings { margin: 0 14px 5px; }
  #settings-state { display: inline; }
@@ -380,3 +380,11 @@ summary:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
 
 .prompt-surface.round-break .stage-hint { color: var(--mint); font-size: 1rem; font-weight: 650; }
 .prompt-surface.wrong .stage-hint { color: var(--red); }
+
+.practice-options { display:flex; align-items:end; flex-wrap:wrap; gap:10px 15px; margin:10px 0; }
+.practice-options label { display:grid; gap:4px; color:var(--subtle); font-size:.84rem; }
+.practice-options small, #word-draw-note { color:var(--subtle); margin:0 0 6px; }
+.practice-options input, .practice-options select { box-sizing:border-box; min-height:36px; max-width:100%; padding:5px 9px; border:1px solid #405265; border-radius:7px; color:var(--text); background:#19222e; font:inherit; }
+.practice-options input[type=number] { width:6.5em; }
+#text-coverage-note { margin:8px 0; }
+.word-prompt .target-text { font-size:clamp(1.6rem,4vw,2.4rem); text-align:center; }

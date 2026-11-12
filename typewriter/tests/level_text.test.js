@@ -5,7 +5,8 @@ import { KEY_ORDER, PASSAGES, currentExpected, newProfile, newSession, pause, re
   snapshot, start, summaryOf, textRecordKey, typeCharacter, unlockedKeys } from '../src/core.js';
 import { TRAINING_KEY_ORDER, LEVEL_PASSAGES, allowedText,
   eligibleWords, generateLevelExercise, invalidTextKeys, normalizedPreset,
-  keyCoverage, MIN_KEY_OCCURRENCES } from '../src/training_text.js';
+  keyCoverage, wordPool, passageLanguage } from '../src/training_text.js';
+import covers from '../vocabulary/covers.js';
 import { parseExport, serializeData, sanitizeProfile } from '../src/storage.js';
 
 const rng = seed => {
@@ -28,16 +29,10 @@ test('every generated character is legal for every level and language, with vari
         const result = generateLevelExercise({ level, passageId }, rng(seed * 571));
         assert.ok(allowedText(result.text, keys), `bad letters in level ${level}: ${result.text}`);
         assert.equal(/[A-Z.,!?0-9]/.test(result.text), false);
-        assert.ok(result.text.length >= 50 && result.text.length <= 800, `${level} ${result.text.length}`);
+        assert.ok(result.text.length >= 1 && result.text.length <= 800, `${level} ${result.text.length}`);
         const coverage = keyCoverage(result.text, keys);
         assert.equal(coverage.covered, keys.length, `omitted unlocked letters at level ${level}`);
-        assert.ok(coverage.weakest >= MIN_KEY_OCCURRENCES, `undertrained letter at ${level}: ${JSON.stringify(coverage.counts)}`);
-        assert.ok(coverage.counts[keys.at(-1)] >= 5, `newest key missing practice at ${level}`);
-        const letters = result.text.replaceAll(' ', '');
-        for (let q = 0; q < 4; q++) {
-          const quarter = letters.slice(Math.floor(q * letters.length / 4), Math.floor((q + 1) * letters.length / 4));
-          for (const key of keys) assert.ok(quarter.split(key).length - 1 >= 2, `${passageId} level ${level}, quarter ${q}, key ${key}`);
-        }
+        assert.equal(result.text.split(' ').filter(w => w.length > 1).length, covers[passageLanguage(passageId)][level-1][0].length);
         assert.deepEqual(result.coverage.counts, coverage.counts);
         assert.ok(['words', 'words+drills', 'key-groups'].includes(result.kind), result.kind);
         if (passageId === 'level-de' && result.kind !== 'key-groups') assert.equal(result.language, 'de');
@@ -79,28 +74,33 @@ test('real words start at level six and key drills only use unsupported letters'
   }
 });
 
-test('fresh passages draw varied vocabulary and balance the full alphabet', () => {
-  for (const passageId of LEVEL_PASSAGES.map(p => p.id)) {
-    const unique = new Set();
-    let relativeDeviation = 0;
-    for (let seed = 0; seed < 16; seed++) {
-      const s = generateLevelExercise({ level: 28, passageId }, rng(13 + seed * 173));
-      if (passageId === 'level-mixed') assert.equal(s.language, 'mixed');
-      for (const w of s.text.split(' ')) unique.add(w);
-      const counts = Object.values(s.coverage.counts);
-      const mean = counts.reduce((a, b) => a + b) / counts.length;
-      relativeDeviation += Math.sqrt(counts.reduce((sum, c) => sum + (c - mean) ** 2, 0) / counts.length) / mean;
+test('character limits count spaces, keep words intact and achieve full coverage at the exact feasible size', () => {
+  for (const language of ['de','en','mixed']) for (let level = 1; level <= 28; level++) {
+    const pool = wordPool(level, language);
+    const minimum = [...covers[language][level-1][1], ...pool.unsupported].join(' ').length;
+    for (const cap of new Set([1, 5, minimum-1, minimum, 65, 105])) {
+      const ex = generateLevelExercise({level, passageId:'level-'+language, maxCharacters:cap},rng(cap+level));
+      assert.ok(ex.text.length <= cap);
+      for (const w of ex.text.split(' ').filter(Boolean)) assert.ok(pool.members.has(w) || pool.unsupported.includes(w), w);
+      if (cap >= minimum) assert.deepEqual(ex.coverage.missing, [], level+' '+language+' '+cap);
     }
-    assert.ok(unique.size > 400, passageId + ' distinct words: ' + unique.size);
-    assert.ok(relativeDeviation / 16 < .55, passageId + ' relative deviation: ' + relativeDeviation / 16);
   }
 });
 
+test('an exhaustive small-alphabet search independently confirms the minimum word count', () => {
+  for (const language of ['de','en','mixed']) for (let level=6; level<=10; level++) {
+    const pool=wordPool(level,language), dist=new Map([[0,0]]);
+    for (const mask of new Set(pool.masks)) {
+      for (const [prev,n] of [...dist]) dist.set(prev|mask, Math.min(dist.get(prev|mask) ?? Infinity,n+1));
+    }
+    assert.equal(covers[language][level-1][0].length,dist.get(pool.possible));
+  }
+});
 test('generated text is created once and never regenerates while typing or reloading', () => {
   const s = newSession({ mode: 'text', level: 15, passageId: 'level-mixed' });
   const p = newProfile();
   const preview = s.target;
-  assert.ok(preview.length > 50);
+  assert.ok(preview.length > 0);
   assert.equal(start(s, p, 500), true);
   assert.equal(s.target, preview);
   const first = currentExpected(s);
@@ -190,9 +190,9 @@ test('newly unlocked rare keys are meaningfully practiced, not silently omitted'
       for (const rngInput of [() => 0, () => .42, () => .9999999, rng(73 + level)]) {
         const exercise = generateLevelExercise({ level, passageId: id }, rngInput);
         const stats = keyCoverage(exercise.text, keyOrder.slice(0, level + 1));
-        assert.ok(stats.counts[newest] >= 5,
+        assert.ok(stats.counts[newest] >= 1,
           `new key ${newest} only ${stats.counts[newest]} occurrences at ${id}, level ${level}`);
-        assert.ok(stats.weakest >= MIN_KEY_OCCURRENCES);
+        assert.ok(stats.weakest >= 1);
         assert.equal(exercise.coverage.covered, level + 1);
       }
     }

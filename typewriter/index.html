@@ -31,6 +31,7 @@
               <button type="button" class="mode-tab active" id="mode-keys" role="tab" aria-selected="true" aria-controls="practice-panel">Key training</button>
               <button type="button" class="mode-tab" id="mode-sequence" role="tab" aria-selected="false" aria-controls="practice-panel">Sequence challenge</button>
               <button type="button" class="mode-tab" id="mode-text" role="tab" aria-selected="false" aria-controls="practice-panel">Text practice</button>
+              <button type="button" class="mode-tab" id="mode-word" role="tab" aria-selected="false" aria-controls="practice-panel">Single word</button>
             </div>
             <div class="mode-actions">
               <div class="phase"><span class="phase-dot" id="phase-dot"></span><span id="phase-text">READY</span></div>
@@ -96,7 +97,6 @@
                   <span class="setting-label">PRACTICE TEXT</span>
                   <select id="passage-select"></select>
                   <small id="text-generation-note" class="setting-help">Only unlocked keys are used.</small>
-                  <div class="text-coverage" id="text-coverage-note" role="status">Current exercise covers all unlocked letters.</div>
                 </label>
                 <label class="setting-block custom-block" id="custom-block" for="custom-text" hidden>
                   <span class="setting-label">YOUR TEXT <small>(MAX. 800 CHARACTERS)</small></span>
@@ -107,6 +107,23 @@
 
               <label class="celebration-option"><input id="celebrations" type="checkbox" checked> Show record celebrations</label>
             </details>
+            <div id="text-length-controls" class="practice-options" hidden>
+              <label for="text-limit">Max characters <input type="number" min="1" max="800" step="1" id="text-limit" placeholder="Auto" inputmode="numeric"></label>
+              <small id="text-length-note">Auto uses the fewest words.</small>
+            </div>
+            <div class="text-coverage" id="text-coverage-note" role="status" hidden></div>
+            <div id="word-controls" class="word-controls" hidden>
+              <div class="practice-options">
+                <label>Word source <select id="word-strategy"><option value="random">Random word</option><option value="selected">Choose a word</option><option value="mistakes">Most mistakes</option><option value="slowest">Slowest words</option></select></label>
+                <label>Language <select id="word-language"><option value="mixed">German / English</option><option value="de">German</option><option value="en">English</option></select></label>
+                <label>Repetitions <input type="number" id="word-repeats" min="1" max="50" value="10" inputmode="numeric"></label>
+                <label id="word-picker" hidden>Choose a word <input id="word-choice" type="text" list="word-suggestions" autocomplete="off" spellcheck="false" placeholder="Search unlocked words"></label>
+                <datalist id="word-suggestions"></datalist>
+                <button type="button" class="quiet-button" id="draw-word">Draw another word</button>
+                <button type="button" class="quiet-button" id="first-word-level" hidden>Use level 6</button>
+              </div>
+              <p id="word-draw-note" class="setting-help" role="status"></p>
+            </div>
             <p id="blocked-reason" class="blocked-reason" hidden></p>
             <div class="prompt-surface" id="prompt-surface" tabindex="0" role="group" aria-label="Typing target. Select to focus typing.">
               <div class="surface-grid" aria-hidden="true"></div>

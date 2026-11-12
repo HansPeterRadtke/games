@@ -11,3 +11,5 @@ For longer words beyond the starter alphabet, the build takes only entries prese
 Frequency data comes from Robyn Speer’s [wordfreq](https://doi.org/10.5281/zenodo.7199437) 3.1.1, whose data files use [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The selection and encoding are adapted for keyboard practice. The [source credits](frequency-NOTICE.txt) include OpenSubtitles and the freely available SUBTLEX data by Marc Brysbaert and collaborators.
 
 Run `python3 tools/build_vocabulary.py` with wngerman, scowl, mythes-de, mythes-en-us and Python wordfreq 3.1.1 installed to regenerate both language banks. Each word is stored at the first level where it can be typed. The browser uses only the generated practice banks.
+
+After rebuilding the word banks, run `python3 tools/build_covers.py` with NumPy and SciPy installed. It computes exact minimum word counts and minimum character costs for every language and level. The browser uses the checked-in solutions, so practice requires no server or solver.

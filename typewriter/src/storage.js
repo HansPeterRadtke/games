@@ -1,3 +1,4 @@
+import { MAX_WORD_REPEATS, observeCompletedWord } from './word_practice.js';
 import { ROUND_WINDOWS, MAX_RECENT_ROUNDS } from './rounds.js';
 import { GOALS, isLevelPassage, keyRoundKey, sequenceRecordKey, KEY_ORDER, PASSAGES, WINDOW_SIZES, MAX_SEQUENCE_LENGTH, newProfile, newSession, restoreSession, snapshot } from './core.js';
 
@@ -32,6 +33,20 @@ export function sanitizeProfile(raw) {
   if (!plain(raw)) return p;
   p.celebrations = raw.celebrations !== false;
   if (ROUND_WINDOWS.includes(raw.roundWindow)) p.roundWindow = raw.roundWindow;
+  if (plain(raw.wordStats)) {
+    for (const [word, stat] of Object.entries(raw.wordStats)) {
+      if (!/^[a-zäöü]{2,64}$/.test(word) || !plain(stat) || !Number.isSafeInteger(stat.count)
+          || stat.count < 1 || !Number.isSafeInteger(stat.errors) || stat.errors < 0
+          || !finite(stat.errorRate, 1) || !finite(stat.msPerChar, 3600000)) continue;
+      p.wordStats[word] = { count: stat.count, errors: stat.errors, errorRate: stat.errorRate, msPerChar: stat.msPerChar };
+    }
+  }
+  if (plain(raw.wordRecords)) {
+    for (const [key, record] of Object.entries(raw.wordRecords).slice(-300)) {
+      const m = /^([a-zäöü]{2,64})\|([1-9][0-9]?)$/.exec(key);
+      if (m && Number(m[2]) <= MAX_WORD_REPEATS && plain(record)) p.wordRecords[key] = paceRecord(record);
+    }
+  }
   if (plain(raw.keyRoundRecords)) {
     for (const [key, record] of Object.entries(raw.keyRoundRecords)) {
       const [level, goal] = key.split(':').map(Number);
@@ -102,9 +117,11 @@ export function sanitizeProfile(raw) {
     }
   }
   if (Array.isArray(raw.history)) {
-    p.history = raw.history.slice(0, 50).filter(h => plain(h) && ['keys', 'text', 'sequence'].includes(h.mode)
+    p.history = raw.history.slice(0, 50).filter(h => plain(h) && ['keys', 'text', 'sequence', 'word'].includes(h.mode)
       && Number.isInteger(h.correct) && h.correct >= 0 && h.correct <= 4500).map(h => ({
       mode: h.mode,
+      ...(h.mode === 'word' && { practiceWord: typeof h.practiceWord === 'string' ? h.practiceWord.slice(0,64) : '',
+        wordRepeats: Number.isInteger(h.wordRepeats) ? Math.min(MAX_WORD_REPEATS, Math.max(1,h.wordRepeats)) : 10 }),
       level: Number.isInteger(h.level) ? Math.max(1, Math.min(KEY_ORDER.length - 1, h.level)) : 1,
       passageId: typeof h.passageId === 'string' ? h.passageId.slice(0, 60) : '',
       goal: Number.isInteger(h.goal) ? Math.max(1, Math.min(4500, h.goal)) : 50,
@@ -131,7 +148,7 @@ export function sanitizeProfile(raw) {
 function recoverRoundHistory(profile, session) {
   const groups = new Map();
   for (const h of [...profile.history].reverse()) {
-    if (h.status !== 'completed' || h.mode === 'sequence' || h.accuracy === null) continue;
+    if (h.status !== 'completed' || ['sequence','word'].includes(h.mode) || h.accuracy === null) continue;
     let entry;
     if (h.mode === 'keys') {
       if (!GOALS.includes(h.goal) || h.correct !== h.goal) continue;
@@ -171,6 +188,11 @@ export function parseExport(text) {
   }
   const profile = sanitizeProfile(data.profile);
   const session = restoreSession(data.session);
+  if (!Object.hasOwn(data.profile, 'wordStats') && session.mode === 'text') {
+    for (let end = 1; end <= session.typed.length; end++) {
+      observeCompletedWord(profile.wordStats, session.target, end, session.trials);
+    }
+  }
   recoverRoundHistory(profile, session);
   return { profile, session };
 }
