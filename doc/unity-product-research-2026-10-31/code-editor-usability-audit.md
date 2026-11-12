@@ -101,3 +101,34 @@ source is indexed at full-text paragraph resolution.
 **Commercial status unchanged:** source hygiene and UI improvements are
 necessary, but no validated differentiated buyer problem or market demand
 has yet been demonstrated. Do not submit as generic gameplay framework.
+
+## November 12, 2026. A failing buyer service skipped the rest of scene cleanup
+
+A teardown probe registered a controller, an input service and a save service, in that order.
+The probe used the composition assembly from an actual Unity import of the previous suite
+archive (`9640f2a08a0b3e4db3e6abd68fdcdbc6ccc51134e7cc9c3c5bdeb717f2aea533`).
+When save cleanup threw, only save received a disposal call. A second call to the root
+also skipped input and controller cleanup. The same setup released all three on a normal
+shutdown.
+
+The fix in `96da8a6` attempts each disposable service once in reverse registration order,
+then propagates the original exception or reports multiple failures together in encounter
+order. Two new regression cases exercise failing save and controller callbacks and a
+second shutdown attempt. The module README documents the behavior.
+
+Unity 6000.6.8f1 exported the committed source and imported the resulting suite into a
+new buyer project. The native archive SHA-256 was
+`1f6854829e01579497c0ec5cfddea99df45ec209e7d86bb776864e85f4766ad0`.
+The exported package preserved all 161 asset identities. The runtime source and the
+composition README were the only changed asset payloads. The exact imported assembly
+passed the buyer probe with zero, one and two failing callbacks. Unity EditMode passed
+all 56 previous cases and both new cases. All 359 protected files passed the native
+runner's integrity check. Another 39 source and receipt tests passed.
+
+On Nitro, the evidence directory is
+`/data/var/marketplace-account-setup/hpr-composition-dispose-20261112`.
+Run `python3 check-native-result.py` there to recheck the native package hash, source
+revision, import record, original and new test identities, and buyer probe output.
+`native.sh` records the clean export, import and NUnit commands. The evidence includes
+the package under `native-release/`, the full test results in `nunit/test-results.xml`,
+and the before-and-after buyer traces in `baseline.log` and `native-probe.log`.
