@@ -23,7 +23,7 @@ through public `-runTests -testPlatform EditMode -assemblyNames` arguments, omit
 `-quit` so the native runner controls completion. It records raw XML, Editor log,
 launch/source hashes and native exit separately.
 
-Acceptance requires all 56 distinct NUnit cases, exact per-module coverage, no
+Acceptance requires all 58 distinct NUnit cases, exact per-module coverage, no
 failed/skipped/inconclusive cases, consistent root counters, all passed assembly
 receipts and native exit zero. Missing XML, duplicates or partial runs fail closed.
 The protected-file baseline includes every staged canonical test and original asset,
@@ -35,10 +35,11 @@ template. Lock deletion or unrelated dependency updates fail acceptance, as do a
 other original-file changes. Compilation or arbitrary Editor failure is not a successful
 old-package negative control: inspect actual failed case identities and assertions.
 
-The ability module has 25 cases: its original three plus 17 malformed-field cases,
+The ability module has 27 cases: its original three plus 17 malformed-field cases,
 one whole-list-before-effects case, two event-only/optional-null-slot maximum saved
 cooldown cases, a zero-cost/zero-cooldown negative-offset valid control and one
-destroyed-provider/replacement lifetime case. These
+destroyed-provider/replacement lifetime case, plus two duplicate-definition cases covering
+API and Inspector loadouts. These
 exercise public runner APIs and customer callback counters, so the same tests can
 run against the pre-fix archive without depending on newly added validation methods.
 The other nine module assemblies retain their 31 existing cases unchanged.

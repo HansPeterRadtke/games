@@ -46,7 +46,12 @@ migration, or production-ready UI. Those are integration points for buyers.
 
 Open **Tools > HPR > Gameplay Suite > Integration Guide** and choose **Create my
 own editable healing ability**. Save the copy in your own folder under
-`Assets`. The guide copies its healing effect and links the new ability to it.
+`Assets`. The guide copies its healing effect, links it to the new ability, and
+assigns fresh gameplay IDs to both copies. If you build a loadout from several
+abilities by hand, give each ability on the same runner a distinct **Id** in
+the Inspector before unlocking it. Renaming its file or changing **Display
+Name** does not change **Id**. Keep these IDs stable once you save unlocks or
+cooldowns.
 
 Select your player in an open scene and open **Tools > HPR > Gameplay Suite >
 Attach Ability to Selected Object**. Choose the copied ability. In **Resource
