@@ -4,18 +4,9 @@
 set -euo pipefail
 src=$(cd -- "$(dirname -- "$BASH_SOURCE")" && pwd)
 unity=${UNITY_BIN:-/data/apps/Unity/Hub/Editor/6000.6.8f1/Editor/Unity}
-release=${HPR_SUITE_RELEASE_ROOT:-/data/var/marketplace-account-setup/unity-consolidated-20261031-v6/release}
-project=${HPR_SUITE_CLEANROOM_PROJECT:-/data/tmp/hpr_gameplay_suite_cleanroom_20261031_v6}
-test -f "$project/Assets/HPRGameplaySuite/Demo/GameplaySuiteShowcase.unity" || {
-    echo 'Independent buyer archive must be imported first' >&2; exit 3;
-}
-mkdir -p "$project/Assets/Editor"
-cp "$src/qa/HprGameplaySuitePlaymodeValidator.cs" "$project/Assets/Editor/"
+release=${HPR_SUITE_RELEASE_ROOT:-/data/var/marketplace-account-setup/unity-consolidated-20261031-v2/release}
+project=${HPR_SUITE_CLEANROOM_PROJECT:-/data/tmp/hpr_gameplay_suite_cleanroom_20261031_v2}
 export HOME=/home/hans USER=hans LOGNAME=hans DISPLAY=:1
 export XAUTHORITY=/home/hans/.Xauthority XDG_RUNTIME_DIR=/run/user/1000
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
-export HPR_SUITE_PLAYMODE_RECEIPT="$release/actual-playmode-receipt.txt"
-test ! -e "$HPR_SUITE_PLAYMODE_RECEIPT" || { echo 'Refusing to reuse playmode receipt' >&2; exit 4; }
-timeout 420 "$unity" -batchmode -projectPath "$project" -executeMethod HprGameplaySuitePlaymodeValidator.Run -logFile "$release/actual-playmode.unity.log" >/dev/null 2>&1
-test -s "$HPR_SUITE_PLAYMODE_RECEIPT"
-cat "$HPR_SUITE_PLAYMODE_RECEIPT"
+exec python3 "$src/qa/run_verified_playmode.py" --editor "$unity" --release "$release" --project "$project"
