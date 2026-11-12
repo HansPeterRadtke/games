@@ -151,7 +151,8 @@ namespace HPR.GameplaySuite.Experimental
                     ? "The selected scene object already contains one HPR runner. " +
                       "Remove HPR runner explicitly if you want to detach it. Undo is available. " +
                       "This does not uninstall the HPR package or remove other components."
-                    : "Nothing will be modified. " + error;
+                    : "Nothing will be modified. " + (target != null &&
+                        target.GetComponent<AbilityRunnerComponent>() != null ? removalError : error);
             attachButton.SetEnabled(ready);
             removeButton.SetEnabled(removable);
         }
@@ -230,11 +231,32 @@ namespace HPR.GameplaySuite.Experimental
             if (!target.scene.IsValid() || !target.scene.isLoaded ||
                 target.scene != EditorSceneManager.GetActiveScene())
                 return "Only the current, loaded scene can be edited.";
-            int count = target.GetComponents<AbilityRunnerComponent>().Length;
-            if (count == 0)
+            var runners = target.GetComponents<AbilityRunnerComponent>();
+            if (runners.Length == 0)
                 return "There is no HPR AbilityRunner to remove from this object.";
-            if (count != 1)
+            if (runners.Length != 1)
                 return "Multiple HPR runners found; refuse ambiguous removal and inspect manually.";
+
+            var runner = runners[0];
+            var components = target.GetComponents<Component>();
+            bool WouldLoseRequirement(Type type) =>
+                type != null && type.IsInstanceOfType(runner) &&
+                !components.Any(other => other != null && other != runner && type.IsInstanceOfType(other));
+
+            foreach (var dependent in components)
+            {
+                if (dependent == null || dependent == runner)
+                    continue;
+                foreach (RequireComponent requirement in dependent.GetType()
+                    .GetCustomAttributes(typeof(RequireComponent), true))
+                {
+                    if (WouldLoseRequirement(requirement.m_Type0) ||
+                        WouldLoseRequirement(requirement.m_Type1) ||
+                        WouldLoseRequirement(requirement.m_Type2))
+                        return dependent.GetType().Name + " requires this HPR AbilityRunner. " +
+                               "Update that component before detaching the runner.";
+                }
+            }
             return null;
         }
 
@@ -350,6 +372,8 @@ namespace HPR.GameplaySuite.Experimental
             try
             {
                 Undo.DestroyObjectImmediate(runner);
+                if (runner != null)
+                    throw new InvalidOperationException("Unity kept the runner on the selected object.");
                 EditorSceneManager.MarkSceneDirty(target.scene);
                 Undo.CollapseUndoOperations(group);
                 return true;

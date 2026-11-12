@@ -56,6 +56,8 @@ Select `HprSuiteAbilityPool` as the provider. It reads the stats on the same pla
 If your controller supplies its own resource pool, select that component. Preview the selection, then
 choose **Attach ability**. Save the scene to keep the runner, or use **Edit >
 Undo**. To detach it later, select the player and choose **Remove HPR runner**.
+If another component on the player declares the runner as a required component,
+the installer names it and disables removal. Update that dependency first.
 
 ## Troubleshooting
 
