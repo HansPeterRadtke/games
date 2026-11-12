@@ -340,6 +340,7 @@ dom.modeText.addEventListener('click', () => { if (session.mode !== 'text') upda
 $('mode-word').addEventListener('click', () => { if (session.mode !== 'word') updateConfiguration({ mode:'word' }); });
 $('first-word-level').addEventListener('click', () => changeLevel(6));
 $('draw-word').addEventListener('click', () => newPractice(true));
+$('text-rotation').addEventListener('change', e => updateConfiguration({strictMinimum:e.target.value === 'minimum'}));
 $('text-limit').addEventListener('change', e => {
   if (!e.target.validity.valid) { e.target.reportValidity(); return; }
   updateConfiguration({maxCharacters: e.target.value === '' ? null : e.target.valueAsNumber});
@@ -761,20 +762,27 @@ function renderWordOptions() {
   $('first-word-level').hidden = pool.words.length !== 0;
   $('draw-word').hidden = picked || !pool.words.length;
   let message = '';
-  if (pool.words.length && ['mistakes','slowest'].includes(session.wordStrategy)) {
-    const observation = profile.wordStats[session.practiceWord];
+  if (pool.words.length && ['combined','mistakes','slowest'].includes(session.wordStrategy)) {
+    const observation = session.correct + session.errors;
     if (drawPreview.session !== session || drawPreview.observation !== observation) {
-      const { entries, total, focus } = wordDistribution(pool, session.wordStrategy, profile.wordStats);
-      const best = entries.sort((a,b) => b[1]-a[1]).slice(0, 3);
+      const { entries, total, focus } = wordDistribution(pool, session.wordStrategy, profile.wordStats, '', profile);
+      const best = [];
+      for (const entry of entries) {
+        if (best.length === 3 && entry[1] <= best[2][1]) continue;
+        best.push(entry);
+        best.sort((a,b) => b[1]-a[1]);
+        if (best.length > 3) best.pop();
+      }
       const chance = weight => {
         const percent = 100 * (focus * weight / total + (1 - focus) / pool.words.length);
         return percent < .1 ? '<0.1%' : Number(percent.toFixed(1)) + '%';
       };
-      const label = best.length ? 'Next draw · ' + best.map(([word, weight]) => word + ' ' + chance(weight)).join(' · ')
+      const label = best.length ? 'Next set · ' + best.map(([word, weight]) => word + ' ' + chance(weight)).join(' · ')
+        : session.wordStrategy === 'combined' ? 'Practice to reveal difficult words and letters.'
         : 'Drawing at random until there are ' + (session.wordStrategy === 'mistakes' ? 'recorded mistakes.' : 'word timings.');
       drawPreview = { session, observation, label };
     }
-    message = drawPreview.label;
+    message = (session.wordStrategy === 'combined' ? 'Mistakes first, then slow words and difficult letters. ' : '') + drawPreview.label;
   }
   setStatus($('word-draw-note'), message);
   $('word-draw-note').hidden = !message;
@@ -826,7 +834,9 @@ function render() {
   const isGenerated = isLevelPassage(session.passageId);
   $('text-length-controls').hidden = !text || !isGenerated;
   $('text-limit').value = session.maxCharacters ?? '';
-  $('text-length-note').textContent = (session.maxCharacters ? 'Including spaces' : 'Auto · fewest words') + ' · ' + exerciseText.length + ' characters';
+  $('text-rotation-control').hidden = Boolean(session.maxCharacters);
+  $('text-rotation').value = session.strictMinimum ? 'minimum' : 'rotate';
+  $('text-length-note').textContent = exerciseText.length + ' characters including spaces';
   dom.textCoverageNote.hidden = !text;
   if (text) {
     const language = passageLanguage(session.passageId);

@@ -40,6 +40,7 @@ function shuffled(items, rng) {
 export const BOXED_DRILLS_VERSION = 2;
 export const VOCABULARY_VERSION = 3;
 export const MAX_TEXT_CHARACTERS = 800;
+export const PASSAGE_MEMORY = 10;
 
 export function keyCoverage(text, keys) {
   const count = Object.fromEntries(keys.map(key => [key, 0]));
@@ -124,58 +125,85 @@ export function passageLanguage(id) {
   return id === 'level-de' ? 'de' : id === 'level-en' ? 'en' : 'mixed';
 }
 
-function varyCover(template, pool, budget, rng) {
-  const words = shuffled(template, rng);
-  let length = words.join(' ').length;
-  // Swap pairs as well as individual words. A private letter need not stay in
-  // the same slot as in the offline certificate.
-  if (words.length >= 2) {
-    const required = pool.possible & ~maskOf(words.slice(2).join(''));
-    const firstKey = Object.keys(pool.byKey).filter(k => required & bits[k])
-      .sort((a,b) => pool.byKey[a].length - pool.byKey[b].length)[0];
-    const candidates = pool.byKey[firstKey];
-    const pairBudget = words[0].length + words[1].length + Math.min(5, budget - length);
-    if (candidates?.length) {
-      for (let attempt = 0; attempt < 32; attempt++) {
-        const a = candidates[index(rng, candidates.length)];
-        const missing = required & ~pool.masks[a];
-        const key = Object.keys(pool.byKey).filter(k => missing & bits[k])
-          .sort((a,b) => pool.byKey[a].length - pool.byKey[b].length)[0];
-        if (!key) continue;
-        const others = pool.byKey[key], offset = index(rng, others.length);
-        let other;
-        for (let j = 0; j < Math.min(others.length, 250); j++) {
-          const b = others[(j + offset) % others.length];
-          if ((pool.masks[b] & missing) === missing && pool.words[a].length + pool.words[b].length <= pairBudget) {
-            other = pool.words[b]; break;
-          }
-        }
-        if (other) {
-          words.splice(0, 2, pool.words[a], other);
-          length = words.join(' ').length;
-          break;
-        }
-      }
-    }
-  }
-  for (let i = 0; i < words.length; i++) {
-    let covered = 0;
-    for (let j = 0; j < words.length; j++) if (j !== i) covered |= maskOf(words[j]);
-    const required = pool.possible & ~covered;
-    const max = words[i].length + Math.min(3, budget - length);
-    let matches = 0;
-    let pick = words[i];
-    for (let j = 0; j < pool.words.length; j++) {
-      const w = pool.words[j];
-      if (w.length <= max && (pool.masks[j] & required) === required && index(rng, ++matches) === 0) pick = w;
-    }
-    length += pick.length - words[i].length;
-    words[i] = pick;
-  }
-  return words;
+// Compare sets of actual words. Moving the same words around is still a repeat.
+function passageWords(text) {
+  return [...new Set(text.split(' ').filter(w => w.length > 1))].sort();
 }
 
-function partialCover(pool, limit, rng) {
+function recentWords(history) {
+  const cost = new Map(), sets = new Set();
+  for (let age = 0; age < history.length; age++) {
+    const words = passageWords(history[history.length - 1 - age]);
+    sets.add(words.join(' '));
+    for (const word of words) cost.set(word, (cost.get(word) || 0) + 1 / (age + 1));
+  }
+  return { cost, sets };
+}
+
+// Branch on the rarest outstanding letter. Every complete cover must use a
+// word from that bucket. Bound the search on large dictionaries for fast redraws.
+function rotatingCover(template, pool, budget, recent, allowExtra, rng) {
+  if (!template.length) return [];
+  const keys = Object.keys(pool.byKey).filter(k => pool.byKey[k].length)
+    .sort((a, b) => pool.byKey[a].length - pool.byKey[b].length);
+  let best, bestCost = Infinity;
+  function consider(words) {
+    const signature = [...words].sort().join(' ');
+    const exposure = words.reduce((sum, w) => sum + (recent.cost.get(w) || 0), 0) / words.length;
+    const cost = (recent.sets.has(signature) ? 100 : 0) + exposure + rng() * .015;
+    if (cost < bestCost) { best = [...words]; bestCost = cost; }
+  }
+  consider(template);
+  // A beam keeps alternative first words alive. Spending the entire search
+  // budget below one promising first word recreates the same sets at high levels.
+  const importance = keys.map(k => 1 + .7 * Math.log2(pool.words.length / pool.byKey[k].length));
+  function search(slots) {
+    let frontier = [{ ids: [], missing: pool.possible, room: budget, exposure: 0 }];
+    for (let left = slots; left > 0; left--) {
+      const next = new Map();
+      for (const path of frontier) {
+        const key = keys.find(k => path.missing & bits[k]);
+        const bucket = pool.byKey[key];
+        const sample = left === 1 ? bucket.length : Math.min(100, bucket.length);
+        const offset = index(rng, bucket.length);
+        for (let n = 0; n < sample; n++) {
+          const pos = (offset + Math.floor(n * bucket.length / sample)) % bucket.length;
+          const id = bucket[pos], word = pool.words[id], mask = pool.masks[id];
+          if (word.length + (left - 1) * 3 > path.room) continue;
+          const missing = path.missing & ~mask;
+          if (left === 1) {
+            if (missing) continue;
+            // Each word in an expanded cover must contribute a letter of its own.
+            if (slots > template.length && path.ids.some((_, skip) => {
+              let other = mask;
+              for (let i = 0; i < path.ids.length; i++) if (i !== skip) other |= pool.masks[path.ids[i]];
+              return other === pool.possible;
+            })) continue;
+            consider([...path.ids.map(i => pool.words[i]), word]);
+          } else if (countBits(missing) >= left - 1) {
+            const room = path.room - word.length - 1;
+            if (countBits(missing) + left - 2 > room) continue;
+            const exposure = path.exposure + (recent.cost.get(word) || 0);
+            let difficulty = 0;
+            for (let i = 0; i < keys.length; i++) if (missing & bits[keys[i]]) difficulty += importance[i];
+            const rank = -difficulty + .75 * room - 4 * exposure + 5 * rng();
+            const old = next.get(missing);
+            if (!old || rank > old.rank) next.set(missing, { ids: [...path.ids, id], missing, room, exposure, rank });
+          }
+        }
+      }
+      frontier = [...next.values()].sort((a, b) => b.rank - a.rank).slice(0, 56);
+      if (!frontier.length) return;
+    }
+  }
+  search(template.length);
+  // Keep the minimum count whenever we find an unfamiliar combination. When
+  // compact solutions keep recycling the same words, allow one useful word more.
+  if (allowExtra && bestCost >= .49) search(template.length + 1);
+  return shuffled(best, rng);
+}
+
+function partialCover(pool, limit, rng, recent) {
   const chosen = [];
   let needed = pool.possible;
   while (needed && limit >= 2) {
@@ -183,7 +211,7 @@ function partialCover(pool, limit, rng) {
     for (let i = 0; i < pool.words.length; i++) {
       const w = pool.words[i], gain = countBits(pool.masks[i] & needed);
       if (!gain || w.length > limit) continue;
-      const score = gain / (w.length + 1) + .04 * gain + .01 * rng();
+      const score = gain / (w.length + 1) + .04 * gain + .01 * rng() - .025 * (recent.cost.get(w) || 0);
       if (score > best) { best = score; pick = w; }
     }
     if (!pick) break;
@@ -194,7 +222,7 @@ function partialCover(pool, limit, rng) {
   return chosen;
 }
 
-export function generateLevelExercise(config, rng = Math.random) {
+export function generateLevelExercise(config, rng = Math.random, history = []) {
   const level = Math.min(28, Math.max(1, config.level || 1));
   const language = passageLanguage(config.passageId);
   const keys = order.slice(0, level + 1);
@@ -215,8 +243,11 @@ export function generateLevelExercise(config, rng = Math.random) {
   }
   const fit = fewest.join(' ').length + drillCost <= limit ? fewest : shortest;
   const available = limit - (fit.join(' ').length + drillCost <= limit ? drillCost : 0);
+  const recent = recentWords(history);
+  const budget = manual ? available : Math.min(available, fit.join(' ').length + 10);
   const batch = fit.join(' ').length <= available
-    ? varyCover(fit, pool, available, rng) : partialCover(pool, limit, rng);
+    ? rotatingCover(fit, pool, budget, recent, (manual || !config.strictMinimum) && history.length > 0, rng)
+    : partialCover(pool, limit, rng, recent);
   // Reserve whole words first when a tight cap excludes some single-key drills.
   let used = batch.join(' ').length;
   for (const k of drills) {
@@ -243,7 +274,7 @@ export function generateLevelExercise(config, rng = Math.random) {
           if (w.length > room) continue;
           considered++;
           const cost = [...w].reduce((sum, ch) => sum + counts[ch], 0) / w.length;
-          const score = rng() * 2 - cost - (seen.has(w) ? 8 : 0);
+          const score = rng() * 2 - cost - (seen.has(w) ? 8 : 0) - 3 * (recent.cost.get(w) || 0);
           if (score > best) { best = score; next = w; }
         }
         if (next) break;

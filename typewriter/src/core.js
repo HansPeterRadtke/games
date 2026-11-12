@@ -1,8 +1,9 @@
+import { observeTypingAttempt } from './adaptive_words.js';
 import { WORD_STRATEGIES, MAX_WORD_REPEATS, choosePracticeWord, observeCompletedWord, wordSetText, wordRecordKey } from './word_practice.js';
 import { CHARACTERS_PER_WORD, DEFAULT_ROUND_WINDOW, scoreRound } from './rounds.js';
 // Pure practice engine. No DOM, storage, or system-clock dependencies.
 import {
-  LEVEL_PASSAGES, TRAINING_KEY_ORDER, VOCABULARY_VERSION, MAX_TEXT_CHARACTERS, wordPool, generateLevelExercise, normalizedPreset, allowedText,
+  LEVEL_PASSAGES, TRAINING_KEY_ORDER, VOCABULARY_VERSION, MAX_TEXT_CHARACTERS, PASSAGE_MEMORY, wordPool, generateLevelExercise, normalizedPreset, allowedText,
 } from './training_text.js';
 
 export { LEVEL_PASSAGES } from './training_text.js';
@@ -39,10 +40,11 @@ export function normalizeConfig(source = {}) {
     goal,
     sequenceLength,
     sequenceRounds,
+    strictMinimum: source.strictMinimum === true,
     maxCharacters: Number.isInteger(source.maxCharacters) && source.maxCharacters > 0
       ? Math.min(source.maxCharacters, MAX_TEXT_CHARACTERS) : null,
     wordRepeats: Number.isInteger(source.wordRepeats) ? cap(source.wordRepeats, 1, MAX_WORD_REPEATS) : 10,
-    wordStrategy: WORD_STRATEGIES.includes(source.wordStrategy) ? source.wordStrategy : 'random',
+    wordStrategy: WORD_STRATEGIES.includes(source.wordStrategy) ? source.wordStrategy : 'combined',
     wordLanguage: ['de', 'en'].includes(source.wordLanguage) ? source.wordLanguage : 'mixed',
     selectedWord: typeof source.selectedWord === 'string' ? source.selectedWord.trim().toLowerCase().normalize('NFC').slice(0,64) : '',
     adaptive: source.adaptive !== false,
@@ -69,7 +71,7 @@ export function textRecordKey(state) {
 }
 
 export function newProfile() {
-  return { wordStats: Object.create(null), wordRecords: {}, keyStats: {}, records: {}, textRecords: {}, sequenceRecords: {}, keyRoundRecords: {}, roundWindow: DEFAULT_ROUND_WINDOW, celebrations: true, history: [] };
+  return { typingSignals: Object.create(null), recentPassages: {}, wordStats: Object.create(null), wordRecords: {}, keyStats: {}, records: {}, textRecords: {}, sequenceRecords: {}, keyRoundRecords: {}, roundWindow: DEFAULT_ROUND_WINDOW, celebrations: true, history: [] };
 }
 
 export function keyRoundKey(state) {
@@ -129,9 +131,15 @@ export function sequenceRecordKey(state) {
 export function newSession(config = {}, profile = null, rng = Math.random, excludeWord = '') {
   const normalized = normalizeConfig(config);
   const preservedSequence = validSequence(normalized, config.sequence) ? config.sequence : '';
+  const scope = normalized.passageId + ':' + normalized.level;
+  const recent = profile?.recentPassages?.[scope] || [];
   const exercise = normalized.mode === 'text' && isLevelPassage(normalized.passageId)
-    ? generateLevelExercise(normalized, rng) : null;
-  const practiceWord = normalized.mode === 'word' ? choosePracticeWord(normalized, profile?.wordStats, rng, excludeWord) : '';
+    ? generateLevelExercise(normalized, rng, recent) : null;
+  if (profile && exercise?.text && exercise.kind !== 'key-groups') {
+    profile.recentPassages ??= {};
+    profile.recentPassages[scope] = [...recent, exercise.text].slice(-PASSAGE_MEMORY);
+  }
+  const practiceWord = normalized.mode === 'word' ? choosePracticeWord(normalized, profile?.wordStats, rng, excludeWord, profile || {}) : '';
   const textTarget = normalized.mode === 'word' ? wordSetText(practiceWord, normalized.wordRepeats)
     : normalized.mode === 'text' ? (exercise?.text ?? passageFor(normalized)) : '';
   return {
@@ -389,6 +397,8 @@ export function typeCharacter(state, profile, input, now, rng = Math.random) {
   const expected = currentExpected(state);
   const char = (state.mode !== 'text' ? input.normalize('NFC').toLowerCase() : input.normalize('NFC'));
   if (Array.from(char).length !== 1 || !expected) return { kind: 'ignored' };
+  const responseMs = rounded(currentPromptMs(state, now));
+  observeTypingAttempt(profile, state, expected, char === expected ? responseMs : null);
   if (char !== expected) {
     state.errors++;
     state.pendingErrors++;
@@ -398,7 +408,6 @@ export function typeCharacter(state, profile, input, now, rng = Math.random) {
     state.latestRecords = [];
     return { kind: 'incorrect', expected };
   }
-  const responseMs = rounded(currentPromptMs(state, now));
   state.trials.push({ key: expected, ms: responseMs, errors: state.pendingErrors });
   state.correct++;
   state.pendingErrors = 0;

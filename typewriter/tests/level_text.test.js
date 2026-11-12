@@ -220,3 +220,50 @@ test('key coverage reports the truth for legacy generated text and custom text',
   assert.equal(keyCoverage('f j', keys).weakest, 0);
   assert.equal(keyCoverage('', keys).covered, 0);
 });
+
+test('successive level passages rotate actual vocabulary and keep compact complete covers', () => {
+  for (const [level, language, distinctNeeded] of [[10,'mixed',18],[10,'de',10],[28,'mixed',45],[28,'de',35],[28,'en',40]]) {
+    const profile = newProfile(), random = rng(73571), all = new Set(), sets = new Set();
+    const config = {mode:'text', level, passageId:'level-'+language};
+    const pool = wordPool(level, language), minimum = covers[language][level-1][0].length;
+    for (let i = 0; i < 25; i++) {
+      const s = newSession(config, profile, random);
+      const words = s.target.split(' ').filter(w => w.length > 1);
+      assert.equal(keyCoverage(s.target, unlockedKeys(s)).missing.length, 0);
+      assert.ok(words.every(w => pool.members.has(w)));
+      assert.ok(words.length >= minimum && words.length <= minimum + Number(i > 0));
+      words.forEach(w => all.add(w));
+      sets.add(words.sort().join(' '));
+    }
+    assert.ok(sets.size >= 12, level+' '+language+' sets: '+sets.size);
+    assert.ok(all.size >= distinctNeeded, level+' '+language+' words: '+all.size);
+  }
+});
+
+test('rotation survives reload, isolates each practice pool, and respects strict minimum and caps', () => {
+  const p = newProfile(), random = rng(1107);
+  const conf = {mode:'text',level:10,passageId:'level-mixed'};
+  const first = newSession(conf, p, random);
+  const saved = serializeData(first,p,0);
+  const {profile,session} = parseExport(saved);
+  const scope = 'level-mixed:10';
+  assert.equal(session.target, first.target);
+  assert.deepEqual(profile.recentPassages[scope], [first.target]);
+  const old = JSON.parse(saved);
+  delete old.profile.recentPassages;
+  assert.deepEqual(parseExport(JSON.stringify(old)).profile.recentPassages[scope], [first.target]);
+  const second = newSession(conf,profile,random);
+  assert.equal(second.target.split(' ').filter(w => w.length > 1).length, 4);
+  const before = [...profile.recentPassages[scope]];
+  newSession({...conf,mode:'word'},profile,random);
+  newSession({...conf,passageId:'level-de'},profile,random);
+  assert.deepEqual(profile.recentPassages[scope],before);
+  for (let i=0;i<12;i++) {
+    const shortest = newSession({...conf,strictMinimum:true},profile,random);
+    assert.deepEqual(shortest.target.split(' ').sort(), first.target.split(' ').sort());
+    const limited = newSession({...conf,maxCharacters:19},profile,random);
+    assert.ok(limited.target.length<=19);
+    assert.equal(keyCoverage(limited.target,unlockedKeys(limited)).missing.length,0);
+  }
+  assert.equal(profile.recentPassages[scope].length,10);
+});

@@ -60,11 +60,31 @@ def exercise(url, width, height):
             enter('text-limit','55')
             assert 48 <= len(text('target-text')) <= 55
             enter('text-limit','')
+            assert len(text('target-text').split()) in (3,4)
+            select('text-rotation','minimum')
             assert len(text('target-text').split())==3
+            select('text-rotation','rotate')
             if not el('practice-settings').get_attribute('open'):
                 browser.find_element(By.CSS_SELECTOR,'#practice-settings > summary').click()
             for _ in range(4): click('level-up')
             assert 'No eligible word for Ä' in text('text-coverage-note') and len(text('target-text').split())==4
+            key='level-mixed:10'
+            passages=[]
+            for _ in range(8):
+                words=text('target-text').split()
+                assert set(''.join(words))==set('fjdkslaöghä')
+                passages.append(tuple(sorted(w for w in words if len(w)>1)))
+                click('new-session')
+            assert len(set(passages))>=5 and len({w for passage in passages for w in passage})>=9
+            last=text('target-text')
+            history=data()['profile']['recentPassages'][key]
+            browser.refresh()
+            wait.until(lambda _:text('target-text')==last)
+            assert data()['profile']['recentPassages'][key]==history
+            select('text-rotation','minimum')
+            for _ in range(3):
+                assert set(text('target-text').split())=={'ä','ölfass','jagd','kahl'}
+                click('new-session')
             click('mode-word')
             select('word-language','de')
             current=data()['session']['practiceWord']
@@ -97,7 +117,25 @@ def exercise(url, width, height):
                 click('draw-word')
                 samples.add(data()['session']['practiceWord'])
             assert len(samples)>1 and browser.execute_script('return document.documentElement.scrollWidth<=innerWidth+1')
-            print(width,'word coverage and cap, four word sources, corrections, repetition timing, reload and layout passed',flush=True)
+            select('word-strategy','combined')
+            word=data()['session']['practiceWord']
+            before=data()['profile']['typingSignals'].get(word,{}).get('attempts',0)
+            click('primary-button')
+            press('!')
+            typed=data()
+            assert typed['session']['practiceWord']==word and typed['session']['typed']==''
+            assert typed['profile']['typingSignals'][word]['attempts']==before+1
+            assert '%' in text('word-draw-note') and 'difficult letters' in text('word-draw-note')
+            press(word[0])
+            assert data()['profile']['typingSignals'][word]['attempts']==before+1
+            press(Keys.DELETE,word[0])
+            assert data()['profile']['typingSignals'][word]['attempts']==before+2
+            assert data()['session']['typed']==word[0]
+            browser.refresh()
+            wait.until(lambda _:text('phase-text')=='PAUSED')
+            assert data()['profile']['typingSignals'][word]['attempts']==before+2
+            assert el('word-strategy').get_attribute('value')=='combined'
+            print(width,'passage rotation, cap, exact minimum, five word sources, live adaptive scores, corrections and reload passed',flush=True)
 
 
 if __name__ == '__main__':

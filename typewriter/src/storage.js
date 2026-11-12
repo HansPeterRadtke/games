@@ -1,10 +1,11 @@
+import { MAX_TEXT_CHARACTERS, PASSAGE_MEMORY } from './training_text.js';
 import { MAX_WORD_REPEATS, observeCompletedWord } from './word_practice.js';
 import { ROUND_WINDOWS, MAX_RECENT_ROUNDS } from './rounds.js';
-import { GOALS, isLevelPassage, keyRoundKey, sequenceRecordKey, KEY_ORDER, PASSAGES, WINDOW_SIZES, MAX_SEQUENCE_LENGTH, newProfile, newSession, restoreSession, snapshot } from './core.js';
+import { GOALS, isLevelPassage, textRecordKey, keyRoundKey, sequenceRecordKey, KEY_ORDER, PASSAGES, WINDOW_SIZES, MAX_SEQUENCE_LENGTH, newProfile, newSession, restoreSession, snapshot } from './core.js';
 
 export const STORAGE_KEY = 'typewriter.practice.v1';
 export const DATA_VERSION = 1;
-export const MAX_BACKUP_LENGTH = 3000000; // Includes histories for each exercise and an active 4,500-key sequence.
+export const MAX_BACKUP_LENGTH = 8000000; // Includes per-word typing signals and all progress that fits in browser local storage.
 const metrics = ['fastestMs', 'slowestMs', 'avgMs', 'medianMs', 'accuracy'];
 const finite = (v, max = 1e9) => Number.isFinite(v) && v >= 0 && v <= max;
 const plain = v => v !== null && typeof v === 'object' && !Array.isArray(v);
@@ -33,6 +34,20 @@ export function sanitizeProfile(raw) {
   if (!plain(raw)) return p;
   p.celebrations = raw.celebrations !== false;
   if (ROUND_WINDOWS.includes(raw.roundWindow)) p.roundWindow = raw.roundWindow;
+  if (plain(raw.recentPassages)) {
+    for (const [key, history] of Object.entries(raw.recentPassages)) {
+      if (!/^level-(mixed|de|en):(?:[1-9]|1[0-9]|2[0-8])$/.test(key) || !Array.isArray(history)) continue;
+      p.recentPassages[key] = history.slice(-PASSAGE_MEMORY).filter(text =>
+        typeof text === 'string' && text.length <= MAX_TEXT_CHARACTERS && /^[a-zäöü]+(?: [a-zäöü]+)*$/.test(text));
+    }
+  }
+  if (plain(raw.typingSignals)) {
+    for (const [token, signal] of Object.entries(raw.typingSignals)) {
+      if (!/^[a-zäöü]{1,64}$/.test(token) || !plain(signal) || !Number.isSafeInteger(signal.attempts)
+          || signal.attempts < 1 || !finite(signal.errorRate, 1) || !(signal.ms === null || finite(signal.ms, 3600000))) continue;
+      p.typingSignals[token] = { attempts:signal.attempts, errorRate:signal.errorRate, ms:signal.ms };
+    }
+  }
   if (plain(raw.wordStats)) {
     for (const [word, stat] of Object.entries(raw.wordStats)) {
       if (!/^[a-zäöü]{2,64}$/.test(word) || !plain(stat) || !Number.isSafeInteger(stat.count)
@@ -188,6 +203,11 @@ export function parseExport(text) {
   }
   const profile = sanitizeProfile(data.profile);
   const session = restoreSession(data.session);
+  // Seed the rotation from the visible passage when opening a pre-rotation save.
+  if (session.mode === 'text' && isLevelPassage(session.passageId) && session.target
+      && session.textKind !== 'key-groups' && !profile.recentPassages[textRecordKey(session)]) {
+    profile.recentPassages[textRecordKey(session)] = [session.target];
+  }
   if (!Object.hasOwn(data.profile, 'wordStats') && session.mode === 'text') {
     for (let end = 1; end <= session.typed.length; end++) {
       observeCompletedWord(profile.wordStats, session.target, end, session.trials);
