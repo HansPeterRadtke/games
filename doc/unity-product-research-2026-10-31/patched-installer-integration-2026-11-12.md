@@ -42,3 +42,13 @@ On Unity 6000.6.8f1 the real Test Runner passed all 56 EditMode cases across ten
 The source suite passed 383 tests. The commercial rehearsal passed 385 with all fourteen pending local files overlaid from the verified patch. The previous commercial tip `209c33a708c55fd21f7aff462cb6b6eed5bfe243` is a direct ancestor of this integration. All intervening file changes are confined to the Unity suite, its ability module, tests and project QA documentation. The original checkout at `2a0e5a3` retains its original fourteen local files.
 
 The tested internal archive SHA-256 is `d948a746850d4c45bffa4617fc8a704c7b1ed73f5c80865fe5a3bc9cbb3934bb`. Nitro retains the native XML, package identity report, previous-template rejection and source test logs under `/data/var/marketplace-account-setup/hpr-commercial-nunit-20261112`. Rendered installer and URP acceptance and the final Unity 6.4 NUnit run remain open.
+
+## Removing a runner required by an existing player controller
+
+On Unity `6000.6.8f1`, the previous package offered to detach the runner from a player whose controller inherited a `RequireComponent` attribute naming the runner in its third slot. Unity logged that the controller depended on it and kept both components. The installer nevertheless returned success.
+
+The installer now names the dependent component during preview and rejects explicit removal before opening an Undo group. The fixed package preserved the disabled controller, its runner, the clean scene and the original Undo group. On a second player, removal preserved its collider, Undo restored the runner's configured effect origin, and Redo removed only the runner. The scene file stayed byte-identical until explicitly saved. Reloading that save retained both players' intended component sets.
+
+To reproduce in a disposable imported project, place `qa/RunnerDependency/BuyerCastingController.cs` in a runtime Assets folder and `qa/RunnerDependency/RunnerDependencyVerifier.cs` in an Editor folder. Run `HPR.Qa.RunnerDependency.RunnerDependencyVerifier.Run` with the Editor in batch mode. It creates its own scene and refuses an existing fixture path.
+
+The private archive built from `1fe25583a806d95aa1225dc7d86054d156998e7e` has SHA-256 `9640f2a08a0b3e4db3e6abd68fdcdbc6ccc51134e7cc9c3c5bdeb717f2aea533`. Clean import, the runtime smoke test, showcase Play Mode, all 56 native Edit Mode cases and the packaged dependency fixture passed. The installer and quickstart were the only changed asset payloads. All 161 paths retained their GUIDs. The branch passed 383 source tests. A disposable copy with the owner's existing changes passed 385. Nitro stores the paired native logs and archive identity receipts in `/data/var/marketplace-account-setup/hpr-runner-dependency-20261112`.
