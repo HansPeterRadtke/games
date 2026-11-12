@@ -3,7 +3,7 @@
 # No Unity publisher API, purchases, browser state or account writes.
 set -euo pipefail
 src_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
-unity=${UNITY_BIN:-/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity}
+unity=${UNITY_BIN:-/data/apps/Unity/Hub/Editor/6000.6.8f1/Editor/Unity}
 release=${HPR_SUITE_RELEASE_ROOT:-/data/var/marketplace-account-setup/unity-consolidated-20261031-v2/release}
 project=${HPR_SUITE_CLEANROOM_PROJECT:-/data/tmp/hpr_gameplay_suite_cleanroom_20261031_v2}
 archive="$release/hpr-gameplay-systems-suite-candidate.unitypackage"

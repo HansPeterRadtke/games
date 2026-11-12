@@ -1,6 +1,6 @@
 # Five-minute buyer walkthrough
 
-This is a **code toolkit**, not a premade game. Start Unity 6000.4 or later,
+This is a **code toolkit**, not a premade game. Start security-patched Unity 6000.6.8f1 or a verified patched LTS release,
 import the supplied `.unitypackage`, then open:
 `Assets/HPRGameplaySuite/Demo/GameplaySuiteShowcase.unity`.
 
@@ -49,9 +49,11 @@ own editable healing ability**. Save the copy in your own folder under
 `Assets`. The guide copies its healing effect and links the new ability to it.
 
 Select your player in an open scene and open **Tools > HPR > Gameplay Suite >
-Attach Ability to Selected Object**. Choose the copied ability and a component
-on that player that implements `IAbilityResourcePool`. For the native HPR pool,
-use an `ActorStatsComponent` on the same player. Preview the selection, then
+Attach Ability to Selected Object**. Choose the copied ability. In **Resource
+provider**, choose a component on that player that implements `IAbilityResourcePool`.
+For HPR Stats, the player needs both `ActorStatsComponent` and `HprSuiteAbilityPool`.
+Select `HprSuiteAbilityPool` as the provider. It reads the stats on the same player.
+If your controller supplies its own resource pool, select that component. Preview the selection, then
 choose **Attach ability**. Save the scene to keep the runner, or use **Edit >
 Undo**. To detach it later, select the player and choose **Remove HPR runner**.
 

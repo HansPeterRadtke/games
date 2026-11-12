@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 
 MODULES = (
@@ -22,10 +23,13 @@ MODULES = (
     "com.hpr.weapons", "com.hpr.ai", "com.hpr.world",
 )
 SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+from qa.editor_security import require_patched_editor
 REPO_ROOT = SCRIPT_DIR.parents[3]
 PROJECT = Path(os.environ.get("HPR_SUITE_PROJECT_ROOT", "/data/tmp/hpr_gameplay_suite_release_20261031_v2/project"))
 RELEASE = Path(os.environ.get("HPR_SUITE_RELEASE_ROOT", "/data/var/marketplace-account-setup/unity-consolidated-20261031-v2/release"))
-UNITY = Path(os.environ.get("UNITY_BIN", "/data/apps/Unity/Hub/Editor/6000.4.0f1/Editor/Unity"))
+UNITY = Path(os.environ.get("UNITY_BIN", "/data/apps/Unity/Hub/Editor/6000.6.8f1/Editor/Unity"))
 
 
 def integrated_module_readme(name: str, original_text: str) -> str:
@@ -188,11 +192,17 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--reuse-project", action="store_true", help="Only reuse a project created by this script; does not destroy existing projects")
     args = ap.parse_args()
+    if not UNITY.is_file():
+        raise RuntimeError("Unity editor is not installed")
+    if os.environ.get("HPR_UNPATCHED_EDITOR_INTERNAL_QA") != "1":
+        verified_editor = require_patched_editor(UNITY)
+        print("SECURITY_PATCHED_EDITOR", verified_editor, flush=True)
+    else:
+        verified_editor = None
+        print("INTERNAL_ONLY_UNPATCHED_EDITOR_QA_OVERRIDE", flush=True)
     RELEASE.mkdir(parents=True, exist_ok=True, mode=0o700)
     os.chmod(RELEASE, 0o700)
     print("GAMES_REPO", REPO_ROOT, flush=True)
-    if not UNITY.is_file():
-        raise RuntimeError("Unity editor is not installed")
     if not PROJECT.exists():
         PROJECT.parent.mkdir(parents=True, exist_ok=True)
         run_editor(["-createProject", str(PROJECT)], "create")
@@ -280,6 +290,7 @@ def main() -> None:
         "format": "hpr-unity-suite-manifest-v2",
         "assembly_root": "Assets/HPRGameplaySuite",
         **source_revision(),
+        "verified_patched_editor": verified_editor,
         "modules": manifests,
         "external_art_included": False,
         "includes_original_integration_demo": True,
