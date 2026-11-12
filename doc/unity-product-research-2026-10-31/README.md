@@ -8,6 +8,7 @@ The owner explicitly requested substantive research, original-book reading, firs
 
 ## Documents
 
+- [Patched Editor and ability installer integration](patched-installer-integration-2026-11-12.md) records the tested customer upgrade on Unity 6000.6.8f1 and the rehearsal with the pending commercial changes.
 - [Knowledge and standards](knowledge-and-standards.md) — seven new legal publisher PDF reference files, their actual editions/publisher rights/original PDF page references; O'Reilly book access limit; native Raspi KnowMoreDiRT status and coverage gap; first-party Unity code/editor/Asset Store validation; trace to Infra policy.
 - [Code, configuration and Editor audit](code-editor-usability-audit.md) — specific source locations, confirmed compatibility defect, suspected API/lifecycle bugs clearly labeled as untested, configurable parameter contract and code-quality release gates.
 - [Market and positioning](market-and-positioning.md) — direct overlapping framework, system, Editor, replay and industrial-simulation competitors; verified descriptions/prices/reviews where available, customer complaints, differentiated hypotheses, no-sale-data caution and commercial stop/go.
