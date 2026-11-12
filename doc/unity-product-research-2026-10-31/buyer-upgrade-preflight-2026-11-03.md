@@ -44,3 +44,31 @@ The real Unity six point six Editor import, Build-in/URP and old/new Input Syste
 Nitro's owner resource broker remains active but has not started Unity because CPU pressure is far above its configured safe admission limit. Do not run an unbrokered heavyweight Unity process in parallel with other owner work.
 
 Commercial decision remains NO-GO. There was no public upload, publisher-account modification, purchase, trading effect, data deletion, or false buyer testimonial.
+
+## November 12 archive and upgrade checks
+
+The previous upgrade check accepted both of these modified copies of the integrated archive when supplied their matching SHA-256 hashes. One kept the installer's pathname and GUID but omitted its C# payload. The other added an asset at the same path as the test game's own player script. The current check validates the contents and destinations in the incoming archive before scanning the project. Both copies were rejected and the diagnostics named the affected paths.
+
+The project GUID and dependency scans now recognize Unity's older `./<guid>/pathname` records. A known-good v2 archive and its original import passed a same-version source check with all 151 identities. The immediately preceding commercial archive retained all 160 of its identities in the current 161-asset candidate.
+
+### Historical compatibility
+
+These results compare archived internal builds with the revised package. Every old asset path still exists in the new candidate. A changed GUID means that an existing serialized reference to that ID no longer resolves to the corresponding vendor asset.
+
+| Internal preview | Shared asset paths | Paths with changed GUIDs |
+| --- | ---: | ---: |
+| v2 through v5 | 151 | 43 |
+| v6 through v8 | 156 | 48 |
+| v9 and v10 | 160 | 0 |
+| v11 | 160 | 52 |
+| v12 through v15 | 160 | 0 |
+
+An independently saved copy of the v2 showcase scene contained 23 distinct vendor references. Sixteen of those GUIDs are absent from the candidate, including the raider definition and a material. The corrected preflight identified those references in the copied scene and blocked the upgrade. The v11 showcase contained 21 such references, and the v15 showcase contained none. The buyer quick start now explains how to test a preview upgrade in a project copy and locate missing references before updating a working game.
+
+### Verification of the revised package
+
+Unity 6000.6.8f1 built the private archive from commit `7a07af9f65203f071862f5c750a8bb9d71b57f33` and imported it into a fresh project. All 161 metadata files and GUIDs matched the preceding integrated package. Only the README, quick start and architecture guide changed contents. All 133 payloads matched the exported archive after Play. Thirteen scene bindings resolved, eleven runtime checks passed and all eight native showcase Play checks passed.
+
+All 377 source tests passed. A separate rehearsal with the fourteen pending commercial files passed 379. Applying the preserved commercial patch to the new commit reproduced those fourteen rehearsed files byte for byte.
+
+The revised archive SHA-256 is `d948a746850d4c45bffa4617fc8a704c7b1ed73f5c80865fe5a3bc9cbb3934bb`. The before-and-after command output, historical GUID comparisons, scene references, import and Play receipts are on Nitro in `/data/var/marketplace-account-setup/hpr-upgrade-archive-20261112`. The consolidated result is `verified.json`.
