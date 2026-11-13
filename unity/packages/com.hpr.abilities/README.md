@@ -52,6 +52,17 @@ or start a cooldown. Other slots keep their positions and work normally. After
 editing the IDs on a live runner, call `RefreshRuntimeBindings()` or configure
 the loadout again. Unlock the new ID if your game gates that ability.
 
+When an ability runner has no resource provider assigned, it discovers a local
+`IAbilityResourcePool` only if exactly one is present. Multiple pools never
+silently select the first. The Integration Guide's installer persists the
+chosen provider as an **explicit binding**. If that component is later removed,
+the ability refuses to spend resources until you rebind it; it does not fall
+back to the remaining pool. `BindRuntimeServices` with a live provider selects
+a replacement explicitly. Runtime Inspector-authored bindings become explicit
+on their next successful refresh. For an already authored player, use the
+installer or explicitly bind the intended provider before removing any other
+provider. A `null` provider does not silently clear the protective lock.
+
 ## API overview
 - `ConfigureAbilities(...)` updates the authored ability catalog
 - `SetUnlockedAbilityIds(...)` controls which abilities are available at runtime

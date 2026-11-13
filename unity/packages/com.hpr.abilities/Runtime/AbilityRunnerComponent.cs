@@ -27,6 +27,10 @@ namespace HPR
         [SerializeField] private LayerMask damageLayers = ~0;
         [SerializeField] private MonoBehaviour eventBusSourceBehaviour;
         [SerializeField] private MonoBehaviour resourcePoolBehaviour;
+        // Persist an explicit buyer choice independently of the Unity object reference.
+        // A deleted component becomes null after scene reload; never silently rebind
+        // the ability to a different resource provider on that same actor.
+        [SerializeField, HideInInspector] private bool explicitResourcePoolSelection;
 
         private readonly Dictionary<string, AbilityData> abilityLookup = new(StringComparer.Ordinal);
         private readonly HashSet<string> conflictingAbilityIds = new(StringComparer.Ordinal);
@@ -60,6 +64,8 @@ namespace HPR
         {
             eventBusSourceBehaviour = eventBusSourceMono;
             resourcePoolBehaviour = resourcePoolMono;
+            if (resourcePoolMono != null)
+                explicitResourcePoolSelection = true;
             RefreshRuntimeBindings();
         }
 
@@ -81,7 +87,27 @@ namespace HPR
         {
             effectOrigin = effectOrigin != null ? effectOrigin : transform;
             eventBusSource = eventBusSourceBehaviour as IEventBusSource;
-            resourcePool = resourcePoolBehaviour as IAbilityResourcePool ?? GetComponent<IAbilityResourcePool>();
+            if (resourcePoolBehaviour != null)
+            {
+                // Directly configured Inspector/API references are explicit even if
+                // authored before this field was added to the serialized component.
+                explicitResourcePoolSelection = true;
+                resourcePool = resourcePoolBehaviour as IAbilityResourcePool;
+            }
+            else if (explicitResourcePoolSelection)
+            {
+                // A missing/deleted explicit reference must never fall through to
+                // another provider, even when that provider is the sole survivor.
+                resourcePool = null;
+            }
+            else
+            {
+                // Only an unconfigured runner may discover a local provider, and
+                // only when there is exactly one unambiguous candidate.
+                var candidates = GetComponents<MonoBehaviour>()
+                    .OfType<IAbilityResourcePool>().ToArray();
+                resourcePool = candidates.Length == 1 ? candidates[0] : null;
+            }
             RebuildLookup();
             if (unlockAllConfiguredAbilities)
             {

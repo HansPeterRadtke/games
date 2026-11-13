@@ -379,6 +379,80 @@ namespace HPR
             }
         }
 
+        [Test]
+        public void DeletedExplicitProvider_RejectsUntilBuyerRebindsInsteadOfChargingAnother()
+        {
+            var go = new GameObject("Buyer resource loss");
+            var ability = ScriptableObject.CreateInstance<AbilityData>();
+            var effect = ScriptableObject.CreateInstance<AbilityEffectData>();
+            try
+            {
+                ability.Id = "qa.specific-provider";
+                ability.Cost = 20f;
+                effect.EffectType = AbilityEffectType.Heal;
+                effect.Value = 10f;
+                ability.Effects.Add(effect);
+                var remaining = go.AddComponent<TestAbilityResourcePool>();
+                var selected = go.AddComponent<TestAbilityResourcePool>();
+                var runner = go.AddComponent<AbilityRunnerComponent>();
+                runner.BindRuntimeServices(null, selected);
+                runner.ConfigureAbilities(new[] { ability });
+                runner.SetUnlockedAbilityIds(new[] { ability.Id });
+                Object.DestroyImmediate(selected);
+                runner.RefreshRuntimeBindings();
+                Assert.That(runner.TryActivateBySlot(0), Is.False);
+                Assert.That(remaining.Stamina, Is.EqualTo(100f));
+                Assert.That(remaining.Health, Is.EqualTo(50f));
+                Assert.That(runner.CaptureSnapshot().Cooldowns, Is.Empty);
+                runner.BindRuntimeServices(null, remaining);
+                Assert.That(runner.TryActivateBySlot(0), Is.True);
+                Assert.That(remaining.Stamina, Is.EqualTo(80f));
+                Assert.That(remaining.Health, Is.EqualTo(60f));
+            }
+            finally { Object.DestroyImmediate(effect); Object.DestroyImmediate(ability); Object.DestroyImmediate(go); }
+        }
+
+        [Test]
+        public void UnconfiguredRunner_OnlyAutoSelectsSoleResourcePool()
+        {
+            var solo = new GameObject("One unconfigured pool");
+            var multiple = new GameObject("Ambiguous unconfigured pools");
+            var ability = ScriptableObject.CreateInstance<AbilityData>();
+            var effect = ScriptableObject.CreateInstance<AbilityEffectData>();
+            try
+            {
+                ability.Id = "qa.unambiguous-pool";
+                ability.Cost = 20f;
+                effect.EffectType = AbilityEffectType.Heal;
+                effect.Value = 10f;
+                ability.Effects.Add(effect);
+
+                var sole = solo.AddComponent<TestAbilityResourcePool>();
+                var loneRunner = solo.AddComponent<AbilityRunnerComponent>();
+                loneRunner.ConfigureAbilities(new[] { ability });
+                loneRunner.SetUnlockedAbilityIds(new[] { ability.Id });
+                loneRunner.RefreshRuntimeBindings();
+                Assert.That(loneRunner.TryActivateBySlot(0), Is.True);
+                Assert.That(sole.Stamina, Is.EqualTo(80f));
+
+                var first = multiple.AddComponent<TestAbilityResourcePool>();
+                var second = multiple.AddComponent<TestAbilityResourcePool>();
+                var ambiguous = multiple.AddComponent<AbilityRunnerComponent>();
+                ambiguous.ConfigureAbilities(new[] { ability });
+                ambiguous.SetUnlockedAbilityIds(new[] { ability.Id });
+                ambiguous.RefreshRuntimeBindings();
+                Assert.That(ambiguous.TryActivateBySlot(0), Is.False);
+                Assert.That(first.Stamina, Is.EqualTo(100f));
+                Assert.That(second.Stamina, Is.EqualTo(100f));
+                Assert.That(ambiguous.CaptureSnapshot().Cooldowns, Is.Empty);
+            }
+            finally
+            {
+                Object.DestroyImmediate(effect); Object.DestroyImmediate(ability);
+                Object.DestroyImmediate(solo); Object.DestroyImmediate(multiple);
+            }
+        }
+
         private sealed class TestAbilityResourcePool : MonoBehaviour, IAbilityResourcePool
         {
             public int SpendCalls { get; private set; }

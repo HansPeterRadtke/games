@@ -62,6 +62,11 @@ Undo**. To detach it later, select the player and choose **Remove HPR runner**.
 If another component on the player declares the runner as a required component,
 the installer names it and disables removal. Update that dependency first.
 
+The installer also remembers that the pool was explicitly chosen: if that
+component is deleted later, the runner refuses to activate rather than
+silently charging a different pool on the same player. Select and bind a
+replacement provider explicitly after inspecting your existing game.
+
 ## Troubleshooting
 
 * Two distinct ability assets share an `Id`: each conflicted slot shows

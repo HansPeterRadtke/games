@@ -23,7 +23,7 @@ from unity_imported_archive_identity import verify_import
 
 PRIVATE_QA_ROOT = Path("/data/var/marketplace-account-setup")
 EXPECTED_ASSEMBLIES = {
-    "HPR.Abilities.Tests.EditMode": 27, "HPR.Ai.Tests.EditMode": 6,
+    "HPR.Abilities.Tests.EditMode": 29, "HPR.Ai.Tests.EditMode": 6,
     "HPR.Composition.Tests.EditMode": 6, "HPR.Eventbus.Tests.EditMode": 4,
     "HPR.Interaction.Tests.EditMode": 3, "HPR.Inventory.Tests.EditMode": 4,
     "HPR.Save.Tests.EditMode": 2, "HPR.Stats.Tests.EditMode": 2,

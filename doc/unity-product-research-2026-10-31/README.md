@@ -8,6 +8,8 @@ The owner explicitly requested substantive research, original-book reading, firs
 
 ## Documents
 
+- [Resource-provider deletion and safe rebind, November 13](provider-loss-buyer-qa-2026-11-13.md) documents a reproducible silent wrong-pool debit, the actual fixed customer package, native regression and module/Play Mode acceptance.
+
 - [Current exact-package Player and Play Mode acceptance, November 13](current-player-and-playmode-2026-11-13.md) confirms the refreshed runtime in real Editor Play Mode and across three standalone Linux Players, with explicit legacy-only input and consent-gate limits.
 
 - [Patched Editor and ability installer integration](patched-installer-integration-2026-11-12.md) records the tested customer upgrade on Unity 6000.6.8f1 and the rehearsal with the pending commercial changes.

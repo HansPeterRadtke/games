@@ -341,16 +341,19 @@ namespace HPR.GameplaySuite.Experimental
                 var abilities = serialized.FindProperty("configuredAbilities");
                 var unlocked = serialized.FindProperty("unlockAllConfiguredAbilities");
                 var resources = serialized.FindProperty("resourcePoolBehaviour");
+                var explicitSelection = serialized.FindProperty("explicitResourcePoolSelection");
                 var effectOrigin = serialized.FindProperty("effectOrigin");
                 if (abilities == null || !abilities.isArray ||
                     unlocked == null || unlocked.propertyType != SerializedPropertyType.Boolean ||
                     resources == null || resources.propertyType != SerializedPropertyType.ObjectReference ||
+                    explicitSelection == null || explicitSelection.propertyType != SerializedPropertyType.Boolean ||
                     effectOrigin == null)
                     throw new InvalidOperationException("The installed HPR component has incompatible Inspector fields.");
                 abilities.arraySize = 1;
                 abilities.GetArrayElementAtIndex(0).objectReferenceValue = ability;
                 unlocked.boolValue = true;
                 resources.objectReferenceValue = resourceProvider;
+                explicitSelection.boolValue = true;
                 effectOrigin.objectReferenceValue = target.transform;
                 if (!serialized.ApplyModifiedProperties())
                     throw new InvalidOperationException("Unity did not apply the selected ability settings.");
