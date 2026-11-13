@@ -53,7 +53,10 @@ Attach Ability to Selected Object**. Choose the copied ability. In **Resource
 provider**, choose a component on that player that implements `IAbilityResourcePool`.
 For HPR Stats, the player needs both `ActorStatsComponent` and `HprSuiteAbilityPool`.
 Select `HprSuiteAbilityPool` as the provider. It reads the stats on the same player.
-If your controller supplies its own resource pool, select that component. Preview the selection, then
+If your controller supplies its own resource pool, select that component. The installer
+selects a sole provider automatically. If the player has several, drag the component
+that should pay the ability cost from the player's Inspector into **Resource provider**.
+Preview the selection, then
 choose **Attach ability**. Save the scene to keep the runner, or use **Edit >
 Undo**. To detach it later, select the player and choose **Remove HPR runner**.
 If another component on the player declares the runner as a required component,

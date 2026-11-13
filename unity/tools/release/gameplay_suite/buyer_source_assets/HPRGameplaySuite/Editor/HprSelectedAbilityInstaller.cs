@@ -19,6 +19,7 @@ namespace HPR.GameplaySuite.Experimental
         private GameObject target;
         private AbilityData ability;
         private MonoBehaviour provider;
+        private bool providerChosen;
         private ObjectField selectedObjectField;
         private ObjectField abilityField;
         private ObjectField providerField;
@@ -39,12 +40,14 @@ namespace HPR.GameplaySuite.Experimental
         {
             Selection.selectionChanged += RefreshFromSelection;
             EditorApplication.projectChanged += Refresh;
+            EditorApplication.hierarchyChanged += Refresh;
         }
 
         private void OnDisable()
         {
             Selection.selectionChanged -= RefreshFromSelection;
             EditorApplication.projectChanged -= Refresh;
+            EditorApplication.hierarchyChanged -= Refresh;
         }
 
         public void CreateGUI()
@@ -90,13 +93,7 @@ namespace HPR.GameplaySuite.Experimental
             };
             scroll.Add(removeButton);
 
-            selectedObjectField.RegisterValueChangedCallback(change =>
-            {
-                target = change.newValue as GameObject;
-                provider = FindProvider(target);
-                providerField.SetValueWithoutNotify(provider);
-                Refresh();
-            });
+            selectedObjectField.RegisterValueChangedCallback(change => SelectTarget(change.newValue as GameObject));
             abilityField.RegisterValueChangedCallback(change =>
             {
                 ability = change.newValue as AbilityData;
@@ -105,38 +102,46 @@ namespace HPR.GameplaySuite.Experimental
             providerField.RegisterValueChangedCallback(change =>
             {
                 provider = change.newValue as MonoBehaviour;
+                providerChosen = true;
                 Refresh();
             });
-            target = selectedObjectField.value as GameObject;
             ability = abilityField.value as AbilityData;
-            provider = FindProvider(target);
-            providerField.SetValueWithoutNotify(provider);
+            SelectTarget(selectedObjectField.value as GameObject);
+        }
+
+        private void SelectTarget(GameObject selected)
+        {
+            if (target != selected)
+            {
+                target = selected;
+                providerChosen = false;
+            }
+            selectedObjectField.SetValueWithoutNotify(target);
             Refresh();
         }
 
-        private static MonoBehaviour FindProvider(GameObject target)
+        private static MonoBehaviour[] FindProviders(GameObject selected)
         {
-            return target == null
-                ? null
-                : target.GetComponents<MonoBehaviour>()
-                    .FirstOrDefault(component => component is IAbilityResourcePool);
+            return selected == null ? Array.Empty<MonoBehaviour>() : selected.GetComponents<MonoBehaviour>()
+                .Where(component => component is IAbilityResourcePool).ToArray();
         }
 
         private void RefreshFromSelection()
         {
-            if (selectedObjectField == null)
-                return;
-            target = Selection.activeGameObject;
-            selectedObjectField.SetValueWithoutNotify(target);
-            provider = FindProvider(target);
-            providerField.SetValueWithoutNotify(provider);
-            Refresh();
+            if (selectedObjectField != null)
+                SelectTarget(Selection.activeGameObject);
         }
 
         private void Refresh()
         {
             if (readiness == null || attachButton == null || removeButton == null)
                 return;
+            if (!providerChosen)
+            {
+                var candidates = FindProviders(target);
+                provider = candidates.Length == 1 ? candidates[0] : null;
+            }
+            providerField.SetValueWithoutNotify(provider);
             string error = ValidateSelection(target, ability, provider);
             string removalError = ValidateRemoval(target);
             bool ready = error == null;
@@ -160,6 +165,9 @@ namespace HPR.GameplaySuite.Experimental
         private void AttachRequested()
         {
             if (readiness == null)
+                return;
+            Refresh();
+            if (!attachButton.enabledSelf)
                 return;
             try
             {
@@ -275,6 +283,9 @@ namespace HPR.GameplaySuite.Experimental
                 return "Only the current, loaded scene can be edited.";
             if (target.GetComponent<AbilityRunnerComponent>() != null)
                 return "An HPR AbilityRunner already exists; no automatic replacement is allowed.";
+            if (resourceProvider == null && FindProviders(target).Length > 1)
+                return "This player has multiple resource providers. Drag the intended component " +
+                       "from its Inspector into Resource provider.";
             if (resourceProvider == null || resourceProvider.gameObject != target ||
                 !(resourceProvider is IAbilityResourcePool))
                 return "Choose an IAbilityResourcePool component on that same GameObject.";
