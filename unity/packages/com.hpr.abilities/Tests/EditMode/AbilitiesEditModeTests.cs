@@ -296,6 +296,89 @@ namespace HPR
             finally { Object.DestroyImmediate(effect); Object.DestroyImmediate(ability); Object.DestroyImmediate(go); }
         }
 
+        [TestCase(false)]
+        [TestCase(true)]
+        public void DuplicateDefinitionId_BlocksBothSlotsAndKeepsUnrelatedSlot(bool inspectorLoadout)
+        {
+            var actor = new GameObject("Player with a copied ability");
+            var ward = ScriptableObject.CreateInstance<AbilityData>();
+            var heal = ScriptableObject.CreateInstance<AbilityData>();
+            var sprint = ScriptableObject.CreateInstance<AbilityData>();
+            var healing = ScriptableObject.CreateInstance<AbilityEffectData>();
+            try
+            {
+                ward.Id = heal.Id = "player.ward";
+                ward.DisplayName = "Ward";
+                ward.Cost = 5f;
+                heal.DisplayName = "Heal";
+                heal.Cost = 25f;
+                healing.EffectType = AbilityEffectType.Heal;
+                healing.Value = 20f;
+                heal.Effects.Add(healing);
+                sprint.Id = "player.sprint";
+                sprint.DisplayName = "Sprint";
+                sprint.Cost = 1f;
+
+                var resources = actor.AddComponent<TestAbilityResourcePool>();
+                var runner = actor.AddComponent<AbilityRunnerComponent>();
+                runner.BindRuntimeServices(null, resources);
+                var definitions = new[] { ward, sprint, heal };
+                if (inspectorLoadout)
+                {
+                    var inspector = new UnityEditor.SerializedObject(runner);
+                    var list = inspector.FindProperty("configuredAbilities");
+                    list.arraySize = definitions.Length;
+                    for (int i = 0; i < definitions.Length; i++)
+                        list.GetArrayElementAtIndex(i).objectReferenceValue = definitions[i];
+                    inspector.ApplyModifiedPropertiesWithoutUndo();
+                    runner.RefreshRuntimeBindings();
+                }
+                else
+                    runner.ConfigureAbilities(definitions);
+                runner.SetUnlockedAbilityIds(new[] { ward.Id, sprint.Id });
+
+                bool activated = runner.TryActivateBySlot(0);
+                Assert.That(activated, Is.False,
+                    $"Ward slot cast on duplicate ID. Stamina {resources.Stamina}, health {resources.Health}.");
+                Assert.That(runner.LastStatusMessage, Does.Contain(ward.Id));
+                Assert.That(runner.LastStatusMessage, Does.Contain("duplicate").IgnoreCase);
+                Assert.That(runner.TryActivateBySlot(2), Is.False);
+                Assert.That(runner.TryActivate(heal.Id), Is.False);
+                Assert.That(resources.SpendCalls, Is.Zero);
+                Assert.That(resources.Health, Is.EqualTo(50f));
+                Assert.That(runner.CaptureSnapshot().Cooldowns, Is.Empty);
+
+                var entries = runner.BuildEntries();
+                Assert.That(entries.Count, Is.EqualTo(3));
+                Assert.That(entries[0].Ready || entries[2].Ready, Is.False);
+                Assert.That(entries[1].Ready, Is.True);
+                Assert.That(runner.BuildHudSummary("Q", "W", "E"), Does.Contain("Q Ward DUPLICATE ID")
+                    .And.Contain("W Sprint READY").And.Contain("E Heal DUPLICATE ID"));
+                runner.RestoreSnapshot(runner.CaptureSnapshot());
+                Assert.That(runner.TryActivateBySlot(0), Is.False);
+                Assert.That(runner.TryActivateBySlot(1), Is.True);
+                Assert.That(resources.Stamina, Is.EqualTo(99f));
+
+                heal.Id = "player.heal";
+                runner.RefreshRuntimeBindings();
+                runner.SetUnlockedAbilityIds(new[] { ward.Id, sprint.Id, heal.Id });
+                Assert.That(runner.TryActivateBySlot(0), Is.True);
+                Assert.That(resources.Stamina, Is.EqualTo(94f));
+                Assert.That(resources.Health, Is.EqualTo(50f));
+                Assert.That(runner.TryActivateBySlot(2), Is.True);
+                Assert.That(resources.Stamina, Is.EqualTo(69f));
+                Assert.That(resources.Health, Is.EqualTo(70f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(actor);
+                Object.DestroyImmediate(ward);
+                Object.DestroyImmediate(heal);
+                Object.DestroyImmediate(sprint);
+                Object.DestroyImmediate(healing);
+            }
+        }
+
         private sealed class TestAbilityResourcePool : MonoBehaviour, IAbilityResourcePool
         {
             public int SpendCalls { get; private set; }

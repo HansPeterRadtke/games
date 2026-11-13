@@ -29,6 +29,7 @@ namespace HPR
         [SerializeField] private MonoBehaviour resourcePoolBehaviour;
 
         private readonly Dictionary<string, AbilityData> abilityLookup = new(StringComparer.Ordinal);
+        private readonly HashSet<string> conflictingAbilityIds = new(StringComparer.Ordinal);
         private readonly Dictionary<string, float> nextReadyTimes = new(StringComparer.Ordinal);
         private readonly HashSet<string> unlockedAbilityIds = new(StringComparer.Ordinal);
         private readonly HashSet<string> requestedUnlockedAbilityIds = new(StringComparer.Ordinal);
@@ -201,7 +202,8 @@ namespace HPR
                     CooldownRemaining = GetCooldownRemaining(ability.Id),
                     Cost = Mathf.Max(0f, ability.Cost),
                     Unlocked = unlockedAbilityIds.Contains(ability.Id),
-                    Ready = unlockedAbilityIds.Contains(ability.Id) && GetCooldownRemaining(ability.Id) <= 0f,
+                    Ready = unlockedAbilityIds.Contains(ability.Id) && !conflictingAbilityIds.Contains(ability.Id) &&
+                        GetCooldownRemaining(ability.Id) <= 0f,
                     ThemeColor = ability.ThemeColor
                 })
                 .ToList();
@@ -226,6 +228,12 @@ namespace HPR
             if (string.IsNullOrWhiteSpace(abilityId) || !abilityLookup.TryGetValue(abilityId, out AbilityData ability) || ability == null)
             {
                 PublishStatus("Ability unavailable.");
+                return false;
+            }
+
+            if (conflictingAbilityIds.Contains(abilityId))
+            {
+                PublishStatus($"Duplicate ability ID '{abilityId}'. Give each ability on this runner a unique ID.");
                 return false;
             }
 
@@ -293,6 +301,8 @@ namespace HPR
                 AbilityEntryViewData entry = unlocked[index];
                 string label = slotLabels != null && index < slotLabels.Length && !string.IsNullOrWhiteSpace(slotLabels[index]) ? slotLabels[index] : (index + 1).ToString();
                 string state = entry.CooldownRemaining > 0f ? $"{entry.CooldownRemaining:0.0}s" : "READY";
+                if (conflictingAbilityIds.Contains(entry.Id))
+                    state = "DUPLICATE ID";
                 parts.Add($"{label} {entry.DisplayName} {state}");
             }
 
@@ -375,9 +385,11 @@ namespace HPR
         private void RebuildLookup()
         {
             abilityLookup.Clear();
+            conflictingAbilityIds.Clear();
             foreach (AbilityData ability in configuredAbilities.Where(ability => ability != null && !string.IsNullOrWhiteSpace(ability.Id)))
             {
-                abilityLookup[ability.Id] = ability;
+                if (!abilityLookup.TryAdd(ability.Id, ability) && abilityLookup[ability.Id] != ability)
+                    conflictingAbilityIds.Add(ability.Id);
             }
 
             RefreshUnlockedAbilityIds();

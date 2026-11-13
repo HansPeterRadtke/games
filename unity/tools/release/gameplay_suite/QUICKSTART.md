@@ -64,6 +64,10 @@ the installer names it and disables removal. Update that dependency first.
 
 ## Troubleshooting
 
+* Two distinct ability assets share an `Id`: each conflicted slot shows
+  `DUPLICATE ID` and refuses activation until you give each ability a stable,
+  unique ID and refresh its runner. Renaming only the asset does not change `Id`.
+  Other valid ability slots continue working.
 * Scripts or classes duplicate: remove older standalone `com.hpr.*` UPM
   installations before importing the Suite.
 * Demo scene does not compile: ensure the complete archive was imported

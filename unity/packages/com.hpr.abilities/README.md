@@ -43,6 +43,15 @@ runner.BindRuntimeServices(eventBusSourceAdapter, abilityResourcePool);
 runner.TryActivate(repairPulse.Id);
 ```
 
+Give each distinct ability on a runner a unique, stable `Id`. A copy of an
+ability asset made with Unity's ordinary Duplicate command keeps its original
+ID until you edit the copy. The suite Integration Guide assigns fresh IDs to
+its sample copies. If two definitions
+share an ID, their HUD slots show `DUPLICATE ID` and neither can spend resources
+or start a cooldown. Other slots keep their positions and work normally. After
+editing the IDs on a live runner, call `RefreshRuntimeBindings()` or configure
+the loadout again. Unlock the new ID if your game gates that ability.
+
 ## API overview
 - `ConfigureAbilities(...)` updates the authored ability catalog
 - `SetUnlockedAbilityIds(...)` controls which abilities are available at runtime
