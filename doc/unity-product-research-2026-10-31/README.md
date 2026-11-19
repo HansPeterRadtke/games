@@ -8,6 +8,9 @@ The owner explicitly requested substantive research, original-book reading, firs
 
 ## Documents
 
+- [Input Compatibility Audit new editor-tool candidate, November 19](input-readiness-audit-native-2026-11-19.md) — actual Unity package exports/imports and QA across input modes, exact preservation and remaining buyer visual/economic gates.
+- [Unity editor-tool demand review, November 19](editor-product-demand-2026-11-19.md) — source-backed 2026 customer input failures, competitive review and unproven willingness to pay.
+
 - [Resource-provider deletion and safe rebind, November 13](provider-loss-buyer-qa-2026-11-13.md) documents a reproducible silent wrong-pool debit, the actual fixed customer package, native regression and module/Play Mode acceptance.
 
 - [Current exact-package Player and Play Mode acceptance, November 13](current-player-and-playmode-2026-11-13.md) confirms the refreshed runtime in real Editor Play Mode and across three standalone Linux Players, with explicit legacy-only input and consent-gate limits.
