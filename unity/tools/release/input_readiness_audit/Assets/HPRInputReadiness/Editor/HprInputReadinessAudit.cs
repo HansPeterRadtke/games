@@ -48,9 +48,28 @@ namespace HPR.InputReadiness
         private const int MaximumScripts = 10000;
         private const long MaximumScriptBytes = 1024 * 1024;
         private const int MaximumFindings = 1000;
+        private const string LegacyMember =
+            @"(?:GetKey(?:Down|Up)?|GetButton(?:Down|Up)?|GetAxis(?:Raw)?|GetMouseButton(?:Down|Up)?|" +
+            @"GetTouch|GetJoystickNames|GetAccelerationEvent|ResetInputAxes|mousePosition|mouseScrollDelta|" +
+            @"touchCount|touches|anyKey(?:Down)?|inputString|acceleration(?:Events?|EventCount)?|" +
+            @"gyro|compass|deviceOrientation|multiTouchEnabled|simulateMouseWithTouches|backButtonLeavesApp)\b";
         private static readonly Regex LegacyCalls = new Regex(
-            @"\b(?:(?:UnityEngine)\s*\.\s*)?Input\s*\.\s*(?:GetKey(?:Down|Up)?|GetButton(?:Down|Up)?|GetAxis(?:Raw)?|GetMouseButton(?:Down|Up)?|GetTouch|GetJoystickNames|mousePosition|touchCount|touches|anyKey(?:Down)?|inputString)\b",
+            @"(?<![\w.])(?:(?:UnityEngine)\s*\.\s*)?Input\s*\.\s*" + LegacyMember,
             RegexOptions.Compiled);
+        private static readonly Regex LegacyAliasDeclaration = new Regex(
+            @"^\s*using\s+(?<alias>[A-Za-z_][A-Za-z0-9_]*)\s*=\s*(?:global::)?UnityEngine\s*\.\s*Input\s*;",
+            RegexOptions.Compiled);
+        private static readonly Regex LegacyAliasCall = new Regex(
+            @"(?<![\w.])(?<alias>[A-Za-z_][A-Za-z0-9_]*)\s*\.\s*" + LegacyMember,
+            RegexOptions.Compiled);
+
+        private static bool HasLegacyCall(string source, HashSet<string> aliases)
+        {
+            if (LegacyCalls.IsMatch(source)) return true;
+            foreach (Match match in LegacyAliasCall.Matches(source))
+                if (aliases.Contains(match.Groups["alias"].Value)) return true;
+            return false;
+        }
         private static readonly Regex NewApi = new Regex(
             @"\b(?:UnityEngine\s*\.\s*)?InputSystem\b|\b(?:Keyboard|Mouse|Gamepad)\s*\.\s*current\b",
             RegexOptions.Compiled);
@@ -154,7 +173,6 @@ namespace HPR.InputReadiness
         {
             public Certainty parent;
             public Certainty prior;
-            public Certainty condition;
         }
         private static Certainty And(Certainty a, Certainty b) => a == Certainty.No || b == Certainty.No ?
             Certainty.No : a == Certainty.Yes && b == Certainty.Yes ? Certainty.Yes : Certainty.Unknown;
@@ -172,12 +190,87 @@ namespace HPR.InputReadiness
             if (s == "UNITY_EDITOR") return Certainty.No; // Inspect Player paths, not editor code.
             return Certainty.Unknown; // Other user/platform defines are not guessed.
         }
-        private static Certainty Condition(string expression, int mode, bool installed)
+        // C# preprocessor condition grammar: identifiers, true/false, !, &&, ||,
+        // and parentheses. Unknown symbols use three-valued logic: branches with
+        // unknown compilation symbols remain REVIEW, never a false unconditional PASS.
+        private sealed class ConditionParser
         {
-            string s = expression.Trim();
-            if (s.StartsWith("!", StringComparison.Ordinal)) return Not(Condition(s.Substring(1), mode, installed));
-            return Symbol(s, mode, installed); // Composite expressions remain conservative.
+            private readonly string expression;
+            private readonly int mode;
+            private readonly bool installed;
+            private int index;
+
+            public ConditionParser(string expression, int mode, bool installed)
+            {
+                int comment = expression.IndexOf("//", StringComparison.Ordinal);
+                this.expression = comment >= 0 ? expression.Substring(0, comment) : expression;
+                this.mode = mode;
+                this.installed = installed;
+            }
+
+            private void SkipSpaces()
+            {
+                while (index < expression.Length && char.IsWhiteSpace(expression[index])) index++;
+            }
+
+            private bool Take(string token)
+            {
+                SkipSpaces();
+                if (index + token.Length > expression.Length ||
+                    string.CompareOrdinal(expression, index, token, 0, token.Length) != 0) return false;
+                index += token.Length;
+                return true;
+            }
+
+            private Certainty Atom()
+            {
+                SkipSpaces();
+                if (Take("("))
+                {
+                    Certainty nested = ParseOr();
+                    return Take(")") ? nested : Certainty.Unknown;
+                }
+                int start = index;
+                if (index < expression.Length &&
+                    (char.IsLetter(expression[index]) || expression[index] == '_'))
+                {
+                    index++;
+                    while (index < expression.Length &&
+                        (char.IsLetterOrDigit(expression[index]) || expression[index] == '_')) index++;
+                    string name = expression.Substring(start, index - start);
+                    if (name == "true") return Certainty.Yes;
+                    if (name == "false") return Certainty.No;
+                    return Symbol(name, mode, installed);
+                }
+                // Unsupported directive syntax must not be interpreted as definitely true.
+                if (index < expression.Length) index++;
+                return Certainty.Unknown;
+            }
+
+            private Certainty Unary() => Take("!") ? Not(Unary()) : Atom();
+            private Certainty ParseAnd()
+            {
+                Certainty result = Unary();
+                while (Take("&&")) result = And(result, Unary());
+                return result;
+            }
+            private Certainty ParseOr()
+            {
+                Certainty result = ParseAnd();
+                while (Take("||")) result = Or(result, ParseAnd());
+                return result;
+            }
+            public Certainty Evaluate()
+            {
+                if (expression.Length > 512) return Certainty.Unknown;
+                Certainty result = ParseOr();
+                SkipSpaces();
+                return index == expression.Length ? result : Certainty.Unknown;
+            }
         }
+
+        private static Certainty Condition(string expression, int mode, bool installed) =>
+            new ConditionParser(expression, mode, installed).Evaluate();
         private static void Add(InputAuditReport report, string severity, string rule,
                                 string asset, int line, string detail)
         {
@@ -208,16 +301,55 @@ namespace HPR.InputReadiness
             }
         }
 
-        private static string MaskCommentsAndStrings(string input, ref bool block)
+        private struct SourceLexState
+        {
+            public bool BlockComment;
+            public bool VerbatimString;
+            public bool InterpolatedVerbatim;
+            public int RawQuotes;
+            public bool InterpolatedRaw;
+        }
+
+        private static int QuoteRun(string input, int index)
+        {
+            int count = 0;
+            while (index + count < input.Length && input[index + count] == '"') count++;
+            return count;
+        }
+
+        // Preserve lexical state across physical lines for verbatim and raw C#
+        // strings; a previous per-line scanner spuriously reported old Input calls
+        // inside a multi-line literal as executable code.
+        private static string MaskCommentsAndStrings(string input, ref SourceLexState state,
+                                                     out bool uncertainInterpolation)
         {
             var sb = new StringBuilder(input.Length);
+            uncertainInterpolation = state.InterpolatedVerbatim || state.InterpolatedRaw;
             bool quote = false, character = false, escaped = false;
             for (int i = 0; i < input.Length; i++)
             {
                 char c = input[i], next = i + 1 < input.Length ? input[i + 1] : '\0';
-                if (block)
+                if (state.BlockComment)
                 {
-                    if (c == '*' && next == '/') { block = false; sb.Append("  "); i++; }
+                    if (c == '*' && next == '/') { state.BlockComment = false; sb.Append("  "); i++; }
+                    else sb.Append(' ');
+                }
+                else if (state.RawQuotes > 0)
+                {
+                    int run = c == '"' ? QuoteRun(input, i) : 0;
+                    if (run >= state.RawQuotes)
+                    {
+                        for (int n = 0; n < run; n++) sb.Append(' ');
+                        i += run - 1;
+                        state.RawQuotes = 0;
+                        state.InterpolatedRaw = false;
+                    }
+                    else sb.Append(' ');
+                }
+                else if (state.VerbatimString)
+                {
+                    if (c == '"' && next == '"') { sb.Append("  "); i++; }
+                    else if (c == '"') { sb.Append(' '); state.VerbatimString = false; state.InterpolatedVerbatim = false; }
                     else sb.Append(' ');
                 }
                 else if (quote || character)
@@ -225,14 +357,47 @@ namespace HPR.InputReadiness
                     sb.Append(' ');
                     if (escaped) escaped = false;
                     else if (c == '\\') escaped = true;
-                    else if ((quote && c == '"') || (character && c == '\'')) { quote = false; character = false; }
+                    else if ((quote && c == '"') || (character && c == '\''))
+                    { quote = false; character = false; }
                 }
                 else if (c == '/' && next == '/') { sb.Append(' ', input.Length - i); break; }
-                else if (c == '/' && next == '*') { block = true; sb.Append("  "); i++; }
+                else if (c == '/' && next == '*') { state.BlockComment = true; sb.Append("  "); i++; }
+                else if ((c == '@' && next == '"') ||
+                         (c == '$' && next == '@' && i + 2 < input.Length && input[i + 2] == '"') ||
+                         (c == '@' && next == '$' && i + 2 < input.Length && input[i + 2] == '"'))
+                {
+                    int prefix = next == '"' ? 2 : 3;
+                    state.VerbatimString = true;
+                    state.InterpolatedVerbatim = prefix == 3;
+                    if (state.InterpolatedVerbatim) uncertainInterpolation = true;
+                    for (int n = 0; n < prefix; n++) sb.Append(' ');
+                    i += prefix - 1;
+                }
+                else if (c == '"' && QuoteRun(input, i) >= 3)
+                {
+                    int run = QuoteRun(input, i);
+                    state.RawQuotes = run;
+                    state.InterpolatedRaw = i > 0 && input[i - 1] == '$';
+                    if (state.InterpolatedRaw) uncertainInterpolation = true;
+                    for (int n = 0; n < run; n++) sb.Append(' ');
+                    i += run - 1;
+                }
+                else if (c == '$' && next == '"')
+                {
+                    uncertainInterpolation = true;
+                    quote = true;
+                    sb.Append("  ");
+                    i++;
+                }
                 else if (c == '"') { quote = true; sb.Append(' '); }
                 else if (c == '\'') { character = true; sb.Append(' '); }
                 else sb.Append(c);
             }
+            // Interpolation expressions may execute input APIs. The simple lexer
+            // cannot parse C# interpolation braces, so such matches are REVIEW,
+            // never silently ignored nor asserted definitely executable.
+            uncertainInterpolation = uncertainInterpolation &&
+                (LegacyCalls.IsMatch(input) || NewApi.IsMatch(input));
             return sb.ToString();
         }
 
@@ -315,11 +480,14 @@ namespace HPR.InputReadiness
                     .Replace('\\', '/');
                 if (new FileInfo(file).Length > MaximumScriptBytes)
                 {
-                    Add(report, "REVIEW", "OVERSIZE_SCRIPT", relative, 0, "Script larger than one megabyte was not scanned.");
+                    report.scriptScanTruncated = true;
+                    Add(report, "REVIEW", "OVERSIZE_SCRIPT", relative, 0,
+                        "Script larger than one megabyte was not scanned; results are INCOMPLETE.");
                     continue;
                 }
-                bool block = false;
+                SourceLexState lex = new SourceLexState();
                 var branches = new Stack<Branch>();
+                var aliases = new HashSet<string>(StringComparer.Ordinal);
                 var current = Certainty.Yes;
                 int lineNo = 0;
                 foreach (var line in File.ReadLines(file))
@@ -329,7 +497,7 @@ namespace HPR.InputReadiness
                     if (directive.StartsWith("#if ", StringComparison.Ordinal))
                     {
                         Certainty cond = Condition(directive.Substring(4), mode, installed);
-                        branches.Push(new Branch { parent = current, prior = cond, condition = cond });
+                        branches.Push(new Branch { parent = current, prior = cond });
                         current = And(current, cond);
                         continue;
                     }
@@ -350,18 +518,28 @@ namespace HPR.InputReadiness
                     {
                         current = branches.Pop().parent; continue;
                     }
-                    string source = MaskCommentsAndStrings(line, ref block);
+                    bool interpolatedCall;
+                    string source = MaskCommentsAndStrings(line, ref lex, out interpolatedCall);
                     if (current == Certainty.No) continue;
                     bool certain = current == Certainty.Yes;
-                    if (mode == 1 && LegacyCalls.IsMatch(source))
+                    var alias = LegacyAliasDeclaration.Match(source);
+                    if (alias.Success) aliases.Add(alias.Groups["alias"].Value);
+                    bool legacy = HasLegacyCall(source, aliases);
+                    if (mode == 1 && legacy)
                         Add(report, certain ? "RISK" : "REVIEW", "LEGACY_API_IN_NEW_ONLY",
                             relative, lineNo, "Possible old UnityEngine.Input call in a new-only Player; check the actual execution path.");
+                    if (mode == 1 && !legacy && interpolatedCall && HasLegacyCall(line, aliases))
+                        Add(report, "REVIEW", "INTERPOLATED_INPUT_CALL", relative, lineNo,
+                            "Possible executable legacy input API inside an interpolated string; inspect the expression.");
                     if (!installed && NewApi.IsMatch(source))
                         Add(report, certain ? "RISK" : "REVIEW", "NEW_API_WITHOUT_PACKAGE",
                             relative, lineNo, "Possible Input System API reference but com.unity.inputsystem is not installed.");
                     else if (installed && mode == 0 && NewApi.IsMatch(source))
                         Add(report, certain ? "RISK" : "REVIEW", "NEW_API_IN_LEGACY_ONLY",
                             relative, lineNo, "Possible newer Input System API in a legacy-only Player; confirm the runtime code path.");
+                    if ((!installed || mode == 0) && !NewApi.IsMatch(source) && interpolatedCall && NewApi.IsMatch(line))
+                        Add(report, "REVIEW", "INTERPOLATED_NEW_INPUT", relative, lineNo,
+                            "Possible executable new input API inside an interpolated string; inspect the expression.");
                 }
             }
             report.result = report.findingsTruncated || report.scriptScanTruncated ? "INCOMPLETE" :
