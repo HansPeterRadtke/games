@@ -101,6 +101,30 @@ namespace HPR
             }
         }
 
+        [Test]
+        public void Snapshot_RestoresEnemyHealthAndAttackCooldown()
+        {
+            var config = CreateEnemy();
+            try
+            {
+                var state = new EnemyRuntimeState(config);
+                state.ApplyDamage(22f);
+                Assert.That(state.TryAttack(1f, out _), Is.True);
+                EnemyRuntimeSnapshot saved = state.CaptureSnapshot();
+                state.Tick(2f);
+                state.ApplyDamage(78f);
+                Assert.That(state.IsDead, Is.True);
+                state.RestoreSnapshot(saved);
+                Assert.That(state.Health, Is.EqualTo(78f));
+                Assert.That(state.AttackCooldownRemaining, Is.EqualTo(1.2f).Within(0.0001f));
+                Assert.That(state.TryAttack(1f, out _), Is.False);
+                saved.Health = 900f;
+                Assert.Throws<System.ArgumentOutOfRangeException>(() => state.RestoreSnapshot(saved));
+                Assert.That(state.Health, Is.EqualTo(78f));
+            }
+            finally { Object.DestroyImmediate(config); }
+        }
+
         private static EnemyData CreateEnemy()
         {
             var enemy = ScriptableObject.CreateInstance<EnemyData>();

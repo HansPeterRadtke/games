@@ -43,12 +43,13 @@ root.Dispose();
 ```
 
 ## API overview
-- `Register<TService>(instance)` stores an explicit service mapping
+- `Register<TService>(instance)` stores an explicit service mapping; replacing its final registration removes the obsolete instance from lookup and lifecycle order
 - `Resolve<TService>()` and `TryResolve<TService>(out service)` expose lookup
 - `ResolveAll<TService>()` returns all registered services assignable to the type
 - `Initialize()` invokes `IInitializable.Initialize(...)`
 - `Tick(deltaTime)` invokes `IUpdatableService.Tick(...)`
-- `Dispose()` disposes services in reverse registration order
+- `Dispose()` calls each registered disposable service once in reverse registration order. If a service throws, cleanup continues. The caller receives the original exception for one failure or an `AggregateException` containing all failures in cleanup order. Calling `Dispose()` again skips services already given a cleanup attempt.
+- `Tick()` rejects nonfinite or negative delta time and operations after disposal fail explicitly
 
 ## Demo
 - Scene: `Packages/com.hpr.composition/Demo/CompositionDemo.unity`

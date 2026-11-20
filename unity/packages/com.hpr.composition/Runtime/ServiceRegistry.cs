@@ -33,11 +33,20 @@ namespace HPR
                 throw new ArgumentException($"Service does not implement '{serviceType.FullName}'.", nameof(service));
             }
 
+            services.TryGetValue(serviceType, out object? previous);
             services[serviceType] = service;
-            if (!serviceOrder.Contains(service))
+
+            // The old instance can still be registered under another interface.
+            // Do not orphan it in ResolveAll/initialize/tick/dispose ordering after
+            // its final registration is replaced, and never dispose caller-owned
+            // services as a side effect of changing the registry.
+            if (previous != null && !ReferenceEquals(previous, service) &&
+                !services.Values.Any(value => ReferenceEquals(value, previous)))
             {
-                serviceOrder.Add(service);
+                serviceOrder.RemoveAll(value => ReferenceEquals(value, previous));
             }
+            if (!serviceOrder.Any(value => ReferenceEquals(value, service)))
+                serviceOrder.Add(service);
         }
 
         public TService Resolve<TService>() where TService : class

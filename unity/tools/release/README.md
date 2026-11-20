@@ -2,6 +2,10 @@
 
 This directory contains the reproducible sale-package validation, export, screenshot, official Asset Store Tools validation, and upload helpers.
 
+## Separate original editor-tool candidates (not approved for storefronts)
+
+`input_readiness_audit/` and `animator_contract_audit/` contain independently tested read-only Editor utilities, each with private QA, exact asset metadata and user documentation. Their `Assets/` folders are the only proposed consumer payloads. Neither is an approved seller release. Unity Editor graphical screenshots and human onboarding remain blocked by the Software Terms consent gate. Never use the generic upload script or an old Publisher Portal package id for these candidates; the single shared sales worker must first verify licensing, actual media and owner publication authority. Native package build/import receipts remain in registered private Nitro project folders, not Git.
+
 ## Typical package flow
 
 For one sellable package, run the package-specific pipeline rather than the all-package default:

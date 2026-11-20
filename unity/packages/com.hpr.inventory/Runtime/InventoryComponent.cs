@@ -25,7 +25,16 @@ namespace HPR
 
         public virtual void ConfigureKnownItems(IEnumerable<ItemData> items)
         {
-            knownItems = items.Where(item => item != null).Distinct().ToList();
+            if (items == null) throw new ArgumentNullException(nameof(items));
+            List<ItemData> candidates = items.Where(item => item != null).Distinct().ToList();
+            var ids = new HashSet<string>(StringComparer.Ordinal);
+            foreach (ItemData item in candidates)
+            {
+                if (string.IsNullOrWhiteSpace(item.Id) || !ids.Add(item.Id) ||
+                    item.StartingPlayerQuantity < 0)
+                    throw new ArgumentException("Each item requires one unique ID and valid start quantity.", nameof(items));
+            }
+            knownItems = candidates;
             RebuildLookup();
             ResetInventory();
         }
@@ -54,16 +63,20 @@ namespace HPR
                 return false;
             }
 
+            long multiplier = data.ItemType == ItemType.Ammo ? Math.Max(1L, data.Value) : 1L;
+            long delta = (long)amount * multiplier;
+            long updatedQuantity = (long)GetQuantity(data.Id) + delta;
+            if (delta > int.MaxValue || updatedQuantity > int.MaxValue) return false;
+            if (itemLookup.TryGetValue(data.Id, out ItemData registered) &&
+                !ReferenceEquals(registered, data)) return false;
+
             if (!itemLookup.ContainsKey(data.Id))
             {
                 knownItems.Add(data);
                 itemLookup[data.Id] = data;
             }
-
-            int delta = data.ItemType == ItemType.Ammo ? amount * Mathf.Max(1, data.Value) : amount;
-            quantities[data.Id] = GetQuantity(data.Id) + delta;
-
-            ItemAdded?.Invoke(data, delta);
+            quantities[data.Id] = (int)updatedQuantity;
+            ItemAdded?.Invoke(data, (int)delta);
             return true;
         }
 
@@ -138,21 +151,19 @@ namespace HPR
 
         public virtual void RestoreItemQuantities(IEnumerable<ItemQuantitySaveData> savedItems)
         {
-            quantities.Clear();
             if (savedItems == null)
+                throw new ArgumentNullException(nameof(savedItems));
+            var restored = new Dictionary<string, int>(StringComparer.Ordinal);
+            foreach (ItemQuantitySaveData item in savedItems)
             {
-                return;
+                if (item == null || string.IsNullOrWhiteSpace(item.itemId) ||
+                    item.quantity <= 0 || !itemLookup.ContainsKey(item.itemId) ||
+                    !restored.TryAdd(item.itemId, item.quantity))
+                    throw new ArgumentException("Snapshot contains invalid, unknown or duplicate items.", nameof(savedItems));
             }
-
-            foreach (var entry in savedItems)
-            {
-                if (entry == null || string.IsNullOrWhiteSpace(entry.itemId) || entry.quantity <= 0)
-                {
-                    continue;
-                }
-
-                quantities[entry.itemId] = entry.quantity;
-            }
+            quantities.Clear();
+            foreach (KeyValuePair<string, int> item in restored)
+                quantities.Add(item.Key, item.Value);
         }
 
         protected void RebuildLookup()

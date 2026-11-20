@@ -1,0 +1,177 @@
+--- a/unity/tools/release/gameplay_suite/HprSuiteIntegrationGuide.cs
++++ b/unity/tools/release/gameplay_suite/HprSuiteIntegrationGuide.cs
+@@ -176,12 +176,15 @@
+             }
+             catch (Exception error) when (error is ArgumentException ||
+                                           error is IOException ||
+-                                          error is InvalidOperationException)
++                                          error is InvalidOperationException ||
++                                          error is UnityException)
+             {
+                 Debug.LogException(error);
+-                EditorUtility.DisplayDialog("HPR sample copy not created", error.Message, "OK");
++                EditorUtility.DisplayDialog("HPR sample copy incomplete", error.Message, "OK");
+                 if (advice != null)
+-                    advice.text = "No vendor sample was edited. See the Console for the exact error.";
++                    advice.text = "No vendor sample was edited. New customer-owned files may remain; " +
++                                  "review the listed paths before trying again. " +
++                                  "No automatic cleanup was performed. See the Console.";
+             }
+         }
+ 
+@@ -189,7 +192,9 @@
+         /// Copy a ScriptableObject and its packaged ScriptableObject dependencies
+         /// into a customer-owned Assets folder. Rebind copied object references and
+         /// issue unique runtime Id values. Validate every path before writing any
+-        /// file; roll back only newly created files if a later step fails.
++        /// file. If a later step fails after creating files, preserve the new
++        /// files for explicit buyer inspection rather than deleting a path whose
++        /// ownership may have changed in the meantime.
+         /// Called only from an explicit user action, never upon package import.
+         /// </summary>
+         internal static UnityEngine.Object CopySampleToCustomerPath(
+@@ -261,7 +266,8 @@
+                 string physical = Path.Combine(Application.dataPath, relative);
+                 if (!uniqueDestinations.Add(target) ||
+                     AssetDatabase.LoadMainAssetAtPath(target) != null ||
+-                    File.Exists(physical) || Directory.Exists(physical))
++                    File.Exists(physical) || Directory.Exists(physical) ||
++                    File.Exists(physical + ".meta") || Directory.Exists(physical + ".meta"))
+                     throw new IOException(
+                         "An output asset already exists, or dependencies have conflicting names: " +
+                         target + ". Nothing has been copied.");
+@@ -270,6 +276,7 @@
+             }
+ 
+             var newlyCreated = new List<string>();
++            string lastAttemptedTarget = null;
+             try
+             {
+                 // Copy all files first, so every referenced destination exists
+@@ -277,9 +284,24 @@
+                 foreach (string source in sourcePaths)
+                 {
+                     string target = destinations[source];
++                    // The original preflight can be stale if another importer
++                    // created this path while the dependencies were analyzed.
++                    // Recheck both the Unity registry and physical asset/meta
++                    // immediately before attempting this individual CopyAsset.
++                    string physical = Path.Combine(Application.dataPath,
++                        target.Substring("Assets/".Length));
++                    if (AssetDatabase.LoadMainAssetAtPath(target) != null ||
++                        File.Exists(physical) || Directory.Exists(physical) ||
++                        File.Exists(physical + ".meta") ||
++                        Directory.Exists(physical + ".meta"))
++                        throw new IOException("The output became occupied before copying: " + target +
++                            ". Inspect the owning GUID; nothing at this path was overwritten by HPR.");
++                    lastAttemptedTarget = target;
+                     if (!AssetDatabase.CopyAsset(source, target))
+-                        throw new IOException("Unity could not copy sample asset: " + source);
++                        throw new IOException("Unity could not copy sample asset: " + source +
++                            ". The last attempted target may require manual inspection: " + target);
+                     newlyCreated.Add(target);
++                    lastAttemptedTarget = null;
+                 }
+ 
+                 foreach (string source in sourcePaths)
+@@ -329,7 +351,18 @@
+                     if (dirty)
+                         serialized.ApplyModifiedPropertiesWithoutUndo();
+                 }
+-                AssetDatabase.SaveAssets();
++                // Save only copies authored by this explicit user operation.
++                // Unity's global SaveAssets would flush OTHER dirty buyer assets.
++                // SaveAssetIfDirty bypasses OnWillSaveAssets callbacks for these
++                // named new assets, so VCS integrations need independent review.
++                // Nothing else was saved by this operation.
++                foreach (string target in destinations.Values)
++                {
++                    UnityEngine.Object copy = AssetDatabase.LoadMainAssetAtPath(target);
++                    if (copy == null)
++                        throw new InvalidOperationException("New customer-owned copy cannot be saved: " + target);
++                    AssetDatabase.SaveAssetIfDirty(copy);
++                }
+ 
+                 // Verify no newly copied object still depends on an original
+                 // vendor-owned *sample*. Script runtime references are intentional.
+@@ -358,11 +391,25 @@
+                 }
+                 return AssetDatabase.LoadMainAssetAtPath(normalizedDestination);
+             }
+-            catch
+-            {
+-                for (int i = newlyCreated.Count - 1; i >= 0; --i)
+-                    AssetDatabase.DeleteAsset(newlyCreated[i]);
+-                throw;
++            catch (Exception copyFailure)
++            {
++                if (newlyCreated.Count == 0 && lastAttemptedTarget == null)
++                    throw;
++                // CopyAsset can return false after part of a file operation;
++                // that last target might exist despite a false return. Keep
++                // confirmed and uncertain outputs for explicit customer review.
++                // Automatic deletion by pathname could destroy another
++                // importer's replacement if ownership changed concurrently.
++                string createdPaths = newlyCreated.Count == 0
++                    ? "(none confirmed)" : string.Join(", ", newlyCreated);
++                string uncertainPath = lastAttemptedTarget == null ? string.Empty :
++                    " The last attempted output may also exist: " + lastAttemptedTarget + ".";
++                throw new InvalidOperationException(
++                    "A partial HPR asset copy was interrupted. Unity created some assets: " +
++                    createdPaths + "." + uncertainPath +
++                    " Cause: " + copyFailure.Message + ". No automatic cleanup was performed. " +
++                    "Inspect the listed paths and their GUIDs before deletion or retry.",
++                    copyFailure);
+             }
+         }
+ 
+--- a/unity/tools/release/gameplay_suite/HprGameplaySuiteSceneBuilder.cs
++++ b/unity/tools/release/gameplay_suite/HprGameplaySuiteSceneBuilder.cs
+@@ -15,6 +15,26 @@
+         private const string Root = "Assets/HPRGameplaySuite";
+         private const string Samples = Root + "/Samples";
+         private const string Scene = Root + "/Demo/GameplaySuiteShowcase.unity";
++
++        // Only save new HPR sample assets authored by this explicitly requested
++        // private scene creation. Never flush unrelated customer Inspector edits.
++        // SaveAssetIfDirty does not call OnWillSaveAssets; this tradeoff is
++        // disclosed for projects using custom VCS/asset checkout hooks.
++        private static void SaveOwnedSamplesOnly()
++        {
++            foreach (string guid in AssetDatabase.FindAssets("", new[] { Samples }))
++            {
++                string path = AssetDatabase.GUIDToAssetPath(guid);
++                if (!path.StartsWith(Samples + "/", StringComparison.Ordinal) ||
++                    !(path.EndsWith(".asset", StringComparison.OrdinalIgnoreCase) ||
++                      path.EndsWith(".mat", StringComparison.OrdinalIgnoreCase)))
++                    continue;
++                UnityEngine.Object asset = AssetDatabase.LoadMainAssetAtPath(path);
++                if (asset == null)
++                    throw new InvalidOperationException("Missing HPR newly authored sample: " + path);
++                AssetDatabase.SaveAssetIfDirty(asset);
++            }
++        }
+ 
+         private static T CreateAsset<T>(string filename) where T : ScriptableObject
+         {
+@@ -408,7 +428,7 @@
+             SetRef(controller, "keyPickup", keyStation);
+             SetRef(controller, "demoDoor", door);
+ 
+-            AssetDatabase.SaveAssets();
++            SaveOwnedSamplesOnly();
+             if (!EditorSceneManager.SaveScene(scene, Scene))
+                 throw new InvalidOperationException("Unity failed to save original training arena");
+             AssetDatabase.Refresh();
+@@ -455,8 +475,9 @@
+                 if (material.HasProperty("_Smoothness")) material.SetFloat("_Smoothness", Mathf.Clamp01(smoothness));
+                 if (material.HasProperty("_Glossiness")) material.SetFloat("_Glossiness", Mathf.Clamp01(smoothness));
+                 EditorUtility.SetDirty(material);
+-            }
+-            AssetDatabase.SaveAssets();
++                // Save only this explicitly adapted HPR-owned sample material.
++                AssetDatabase.SaveAssetIfDirty(material);
++            }
+             Debug.Log("HPR Gameplay Suite adapted its demo materials to " +
+                 (current == null ? "Built-in" : current.GetType().Name) +
+                 ". No other project materials, packages or render settings changed.");

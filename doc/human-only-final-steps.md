@@ -1,3 +1,19 @@
+# CURRENT UNITY REVIEW CORRECTION — OCTOBER 30, 2026
+
+The October 8 rejection emails independently confirm that **all nine** packages
+listed as `pendingReview` in the historical section below were **declined**.
+Do not interpret their previous state as current. Do not resubmit unchanged
+packages or create a duplicate Unity ID. A new one-product integrated candidate
+and honest source/validation evidence live in `unity/tools/release/gameplay_suite/`.
+The browser account/verification and support steps remain unresolved and the
+Asset Store API currently authenticates but lists zero packages. The current
+Human-only action is completing a genuine identity/CAPTCHA challenge if the
+normal sign-in or official support form requests it. Changing account/tax
+payout declarations is human-only; researching, compiling, packaging and
+contacting support are agent actions and should be attempted independently.
+
+---
+
 # Human-Only Final Steps
 
 ## EventBus current state

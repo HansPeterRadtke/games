@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346beff0d3510006f857dbfb7fc00b73, type: 3}
+  m_Name: RepairAbility
+  m_EditorClassIdentifier: HPR.Abilities.Runtime::HPR.AbilityData
+  Id: hpr_suite_repair
+  DisplayName: Field Recovery
+  Description: Spend twenty stamina to restore twenty health. Four-second cooldown.
+  TargetType: 0
+  Cooldown: 4
+  Cost: 20
+  Effects:
+  - {fileID: 11400000, guid: 8ffc1dda78d6e65f2b18d563e071155d, type: 2}
+  ActivationStatus: Ability activated
+  FailureStatus: Ability unavailable
+  ThemeColor: {r: 0.24, g: 0.72, b: 0.96, a: 1}

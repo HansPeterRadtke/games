@@ -1,3 +1,28 @@
+# CURRENT ASSET STORE DIRECTION — OCTOBER 30, 2026
+
+**Do not submit or resubmit the nine former standalone HPR packages.** Every one
+was declined on October 8 with the same Unity curator explanation: nine similar
+AI-assisted products submitted in a short period oversaturate the category.
+The former first-wave and second-wave plans below are historical, not an
+active launch queue. A rejected package cannot simply be duplicated in a new
+seller draft to circumvent curation. Unity's currently published submission
+guideline 1.6.d addresses mass-produced AI-assisted products, guideline
+2.1.h explicitly rejects unmodified reruns,
+and guideline 1.1.m imposes a monthly submission cap on recent publishers.
+
+The new direction is **one integrated HPR Gameplay Systems Suite** with one
+single-root buyer package, newly built Play-mode encounter demo and actual
+cross-module typed-event gameplay, validated by clean Unity compilation and
+EditMode tests. Current source and reproducible builder are in
+`unity/tools/release/gameplay_suite/`. This is a private QA candidate,
+**not a live publisher listing or approved package**. It requires a cleanroom
+import check and permission/status from Unity before any single submission.
+Read `doc/unity-asset-store-recovery-2026-10-30.md` for live account and support
+state. Zero packages currently returned by the authenticated publisher API
+must never be interpreted as deleted or published without provider confirmation.
+
+---
+
 # Package Launch Strategy
 
 ## First wave

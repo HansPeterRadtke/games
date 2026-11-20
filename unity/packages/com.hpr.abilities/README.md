@@ -43,6 +43,26 @@ runner.BindRuntimeServices(eventBusSourceAdapter, abilityResourcePool);
 runner.TryActivate(repairPulse.Id);
 ```
 
+Give each distinct ability on a runner a unique, stable `Id`. A copy of an
+ability asset made with Unity's ordinary Duplicate command keeps its original
+ID until you edit the copy. The suite Integration Guide assigns fresh IDs to
+its sample copies. If two definitions
+share an ID, their HUD slots show `DUPLICATE ID` and neither can spend resources
+or start a cooldown. Other slots keep their positions and work normally. After
+editing the IDs on a live runner, call `RefreshRuntimeBindings()` or configure
+the loadout again. Unlock the new ID if your game gates that ability.
+
+When an ability runner has no resource provider assigned, it discovers a local
+`IAbilityResourcePool` only if exactly one is present. Multiple pools never
+silently select the first. The Integration Guide's installer persists the
+chosen provider as an **explicit binding**. If that component is later removed,
+the ability refuses to spend resources until you rebind it; it does not fall
+back to the remaining pool. `BindRuntimeServices` with a live provider selects
+a replacement explicitly. Runtime Inspector-authored bindings become explicit
+on their next successful refresh. For an already authored player, use the
+installer or explicitly bind the intended provider before removing any other
+provider. A `null` provider does not silently clear the protective lock.
+
 ## API overview
 - `ConfigureAbilities(...)` updates the authored ability catalog
 - `SetUnlockedAbilityIds(...)` controls which abilities are available at runtime
@@ -81,3 +101,61 @@ runner.TryActivate(repairPulse.Id);
 ## Support
 - issue tracker: https://github.com/HansPeterRadtke/games/issues
 - when reporting a package issue, include the package name, Unity version, and the validator log if available.
+
+
+## Definition validation and save-compatible limits
+
+`AbilityData.TryValidateRuntimeSettings(out reason)` validates resource cost,
+cooldown and all non-null built-in effects. `AbilityEffectData` exposes the same
+validation entry point for effect parameters. Cost and effect amounts must be
+finite and nonnegative. Cooldown is finite and between zero and
+`AbilityData.MaximumCooldownSeconds` (86400 seconds, one day), matching the existing
+snapshot format's limit. Area-damage radius is finite and nonnegative; the existing
+minimum effective radius of 0.25 meters is retained. Forward offset may be negative
+but must be finite. Unsupported effect types and a null effect list are rejected.
+
+`TryActivate` checks these settings before calling `SpendAbilityCost`, changing
+health or starting cooldown. Invalid settings return false with a status reason;
+negative values are no longer silently made free/instant activations. This guards
+definition errors, not arbitrary failures or mutations inside custom adapter callbacks.
+
+Empty effect lists and optional null slots retain their existing runtime behavior
+for event-only integrations. The selected-object Editor installer has its separate
+existing requirement for at least one independently owned effect asset. Relative
+snapshot cooldowns pause while the game is closed and resume on the new game clock;
+they are not wall-clock/offline-expiry timers. Runtime definition validation does
+not itself load a customer save or replace a game's own save schema.
+
+This revision's real native candidate checks are recorded in the November 3 night
+research report. New six-point-four results are API-only unless a corresponding
+native Editor process/log is specifically recorded; rendered buyer usability and
+commercial approval remain separate gates.
+
+
+## Editor regression tests
+
+`Tests/EditMode/HPR.Abilities.Tests.EditMode.asmdef` contains 25 NUnit cases.
+They cover unlocks, snapshot validation/restore, malformed definition rejection
+before resource/effect callbacks, valid event-only optional slots, maximum saved
+cooldown and valid zero-cost/zero-cooldown activation. The tests use public runner
+APIs and callback counters; they do not depend on a particular Inspector layout.
+Enable the installed Unity Editor's bundled Test Framework and run this assembly
+in Edit mode. Tests in a UPM dependency may additionally need that package listed
+in the consuming project's `testables` manifest entry. The private suite QA driver
+stages the same tests into a disposable Assets test folder and records actual
+native NUnit XML separately from archive-import/gameplay evidence.
+
+The regression source is not added to the immutable private buyer archive. A native
+NUnit result against an existing imported candidate does not certify a rebuilt UPM
+package, visual usability, Player behavior or marketplace readiness.
+
+
+## Resource provider lifetime
+
+Activation rejects a missing or destroyed Unity resource-provider component before
+calling its resource/effect methods or creating cooldown. The status explains that
+the provider is missing or removed. Bind a live replacement through
+`BindRuntimeServices` to resume use of the existing loadout/unlocks. Interface-held
+managed references do not by themselves prove that a Unity component still exists.
+This entry check does not make arbitrary customer callbacks transactional or guard
+against a provider destroying itself partway through its own callback.

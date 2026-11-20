@@ -5,6 +5,20 @@ using UnityEngine;
 
 namespace HPR
 {
+    [Serializable]
+    public sealed class AbilityCooldownSnapshot
+    {
+        public string AbilityId;
+        public float Remaining;
+    }
+
+    [Serializable]
+    public sealed class AbilityRuntimeSnapshot
+    {
+        public List<string> UnlockedIds = new();
+        public List<AbilityCooldownSnapshot> Cooldowns = new();
+    }
+
     public class AbilityRunnerComponent : MonoBehaviour, IAbilityLoadout
     {
         [SerializeField] private List<AbilityData> configuredAbilities = new();
@@ -13,8 +27,13 @@ namespace HPR
         [SerializeField] private LayerMask damageLayers = ~0;
         [SerializeField] private MonoBehaviour eventBusSourceBehaviour;
         [SerializeField] private MonoBehaviour resourcePoolBehaviour;
+        // Persist an explicit buyer choice independently of the Unity object reference.
+        // A deleted component becomes null after scene reload; never silently rebind
+        // the ability to a different resource provider on that same actor.
+        [SerializeField, HideInInspector] private bool explicitResourcePoolSelection;
 
         private readonly Dictionary<string, AbilityData> abilityLookup = new(StringComparer.Ordinal);
+        private readonly HashSet<string> conflictingAbilityIds = new(StringComparer.Ordinal);
         private readonly Dictionary<string, float> nextReadyTimes = new(StringComparer.Ordinal);
         private readonly HashSet<string> unlockedAbilityIds = new(StringComparer.Ordinal);
         private readonly HashSet<string> requestedUnlockedAbilityIds = new(StringComparer.Ordinal);
@@ -45,6 +64,8 @@ namespace HPR
         {
             eventBusSourceBehaviour = eventBusSourceMono;
             resourcePoolBehaviour = resourcePoolMono;
+            if (resourcePoolMono != null)
+                explicitResourcePoolSelection = true;
             RefreshRuntimeBindings();
         }
 
@@ -66,7 +87,27 @@ namespace HPR
         {
             effectOrigin = effectOrigin != null ? effectOrigin : transform;
             eventBusSource = eventBusSourceBehaviour as IEventBusSource;
-            resourcePool = resourcePoolBehaviour as IAbilityResourcePool ?? GetComponent<IAbilityResourcePool>();
+            if (resourcePoolBehaviour != null)
+            {
+                // Directly configured Inspector/API references are explicit even if
+                // authored before this field was added to the serialized component.
+                explicitResourcePoolSelection = true;
+                resourcePool = resourcePoolBehaviour as IAbilityResourcePool;
+            }
+            else if (explicitResourcePoolSelection)
+            {
+                // A missing/deleted explicit reference must never fall through to
+                // another provider, even when that provider is the sole survivor.
+                resourcePool = null;
+            }
+            else
+            {
+                // Only an unconfigured runner may discover a local provider, and
+                // only when there is exactly one unambiguous candidate.
+                var candidates = GetComponents<MonoBehaviour>()
+                    .OfType<IAbilityResourcePool>().ToArray();
+                resourcePool = candidates.Length == 1 ? candidates[0] : null;
+            }
             RebuildLookup();
             if (unlockAllConfiguredAbilities)
             {
@@ -93,6 +134,87 @@ namespace HPR
             PublishStateChanged();
         }
 
+        /// <summary>Capture relative cooldowns so saved states work across sessions.</summary>
+        public AbilityRuntimeSnapshot CaptureSnapshot()
+        {
+            return new AbilityRuntimeSnapshot
+            {
+                UnlockedIds = unlockedAbilityIds.OrderBy(id => id, StringComparer.Ordinal).ToList(),
+                Cooldowns = nextReadyTimes
+                    .Where(pair => abilityLookup.ContainsKey(pair.Key) && pair.Value > Time.time)
+                    .OrderBy(pair => pair.Key, StringComparer.Ordinal)
+                    .Select(pair => new AbilityCooldownSnapshot
+                    {
+                        AbilityId = pair.Key,
+                        Remaining = Mathf.Max(0f, pair.Value - Time.time)
+                    }).ToList()
+            };
+        }
+
+        /// <summary>
+        /// Validate all externally supplied save data without changing current
+        /// unlocks, timers, resources or events. Unknown or duplicate ability IDs
+        /// are errors, not silently ignored entries.
+        /// </summary>
+        public bool TryValidateSnapshot(AbilityRuntimeSnapshot snapshot, out string reason)
+        {
+            if (snapshot == null || snapshot.UnlockedIds == null || snapshot.Cooldowns == null)
+            {
+                reason = "Snapshot is missing ability unlocks or cooldowns.";
+                return false;
+            }
+            var knownUnlocks = new HashSet<string>(StringComparer.Ordinal);
+            foreach (string id in snapshot.UnlockedIds)
+            {
+                if (string.IsNullOrWhiteSpace(id) || !abilityLookup.ContainsKey(id) ||
+                    !knownUnlocks.Add(id))
+                {
+                    reason = "Snapshot contains an unknown, empty or duplicate unlocked ability ID.";
+                    return false;
+                }
+            }
+
+            var cooldownIds = new HashSet<string>(StringComparer.Ordinal);
+            foreach (AbilityCooldownSnapshot entry in snapshot.Cooldowns)
+            {
+                if (entry == null || string.IsNullOrWhiteSpace(entry.AbilityId) ||
+                    !abilityLookup.ContainsKey(entry.AbilityId) ||
+                    !cooldownIds.Add(entry.AbilityId) ||
+                    float.IsNaN(entry.Remaining) || float.IsInfinity(entry.Remaining) ||
+                    entry.Remaining < 0f || entry.Remaining > AbilityData.MaximumCooldownSeconds)
+                {
+                    reason = "Snapshot contains an invalid, unknown or duplicate cooldown.";
+                    return false;
+                }
+            }
+            reason = string.Empty;
+            return true;
+        }
+
+        /// <summary>
+        /// Restore a fully validated snapshot and emit one final change event.
+        /// Relative cooldowns are anchored to the current engine clock.
+        /// </summary>
+        public void RestoreSnapshot(AbilityRuntimeSnapshot snapshot)
+        {
+            if (!TryValidateSnapshot(snapshot, out string error))
+                throw new ArgumentException(error, nameof(snapshot));
+
+            var cooldowns = new Dictionary<string, float>(StringComparer.Ordinal);
+            float restoreTime = Time.time;
+            foreach (AbilityCooldownSnapshot entry in snapshot.Cooldowns)
+                cooldowns.Add(entry.AbilityId, restoreTime + entry.Remaining);
+
+            requestedUnlockedAbilityIds.Clear();
+            foreach (string id in snapshot.UnlockedIds)
+                requestedUnlockedAbilityIds.Add(id);
+            RefreshUnlockedAbilityIds();
+            nextReadyTimes.Clear();
+            foreach (KeyValuePair<string, float> entry in cooldowns)
+                nextReadyTimes.Add(entry.Key, entry.Value);
+            PublishStateChanged();
+        }
+
         public List<AbilityEntryViewData> BuildEntries()
         {
             return configuredAbilities
@@ -106,7 +228,8 @@ namespace HPR
                     CooldownRemaining = GetCooldownRemaining(ability.Id),
                     Cost = Mathf.Max(0f, ability.Cost),
                     Unlocked = unlockedAbilityIds.Contains(ability.Id),
-                    Ready = unlockedAbilityIds.Contains(ability.Id) && GetCooldownRemaining(ability.Id) <= 0f,
+                    Ready = unlockedAbilityIds.Contains(ability.Id) && !conflictingAbilityIds.Contains(ability.Id) &&
+                        GetCooldownRemaining(ability.Id) <= 0f,
                     ThemeColor = ability.ThemeColor
                 })
                 .ToList();
@@ -134,9 +257,21 @@ namespace HPR
                 return false;
             }
 
+            if (conflictingAbilityIds.Contains(abilityId))
+            {
+                PublishStatus($"Duplicate ability ID '{abilityId}'. Give each ability on this runner a unique ID.");
+                return false;
+            }
+
             if (!unlockedAbilityIds.Contains(abilityId))
             {
                 PublishStatus(ability.FailureStatus);
+                return false;
+            }
+
+            if (!ability.TryValidateRuntimeSettings(out string configurationError))
+            {
+                PublishStatus(configurationError);
                 return false;
             }
 
@@ -147,7 +282,15 @@ namespace HPR
                 return false;
             }
 
-            if (resourcePool == null || !resourcePool.SpendAbilityCost(Mathf.Max(0f, ability.Cost)))
+            // An interface reference outlives Unity's destroyed native component.
+            // Check Unity object lifetime before invoking any customer callback.
+            if (resourcePool == null || (resourcePool is UnityEngine.Object provider && provider == null))
+            {
+                PublishStatus("Ability resource provider is missing or has been removed.");
+                return false;
+            }
+
+            if (!resourcePool.SpendAbilityCost(ability.Cost))
             {
                 PublishStatus($"{ability.DisplayName} requires {ability.Cost:0} stamina.");
                 return false;
@@ -158,7 +301,7 @@ namespace HPR
                 ApplyEffect(ability, effect);
             }
 
-            nextReadyTimes[ability.Id] = Time.time + Mathf.Max(0f, ability.Cooldown);
+            nextReadyTimes[ability.Id] = Time.time + ability.Cooldown;
             eventBus?.Publish(new AbilityUsedEvent
             {
                 SourceRoot = gameObject,
@@ -184,6 +327,8 @@ namespace HPR
                 AbilityEntryViewData entry = unlocked[index];
                 string label = slotLabels != null && index < slotLabels.Length && !string.IsNullOrWhiteSpace(slotLabels[index]) ? slotLabels[index] : (index + 1).ToString();
                 string state = entry.CooldownRemaining > 0f ? $"{entry.CooldownRemaining:0.0}s" : "READY";
+                if (conflictingAbilityIds.Contains(entry.Id))
+                    state = "DUPLICATE ID";
                 parts.Add($"{label} {entry.DisplayName} {state}");
             }
 
@@ -266,9 +411,11 @@ namespace HPR
         private void RebuildLookup()
         {
             abilityLookup.Clear();
+            conflictingAbilityIds.Clear();
             foreach (AbilityData ability in configuredAbilities.Where(ability => ability != null && !string.IsNullOrWhiteSpace(ability.Id)))
             {
-                abilityLookup[ability.Id] = ability;
+                if (!abilityLookup.TryAdd(ability.Id, ability) && abilityLookup[ability.Id] != ability)
+                    conflictingAbilityIds.Add(ability.Id);
             }
 
             RefreshUnlockedAbilityIds();

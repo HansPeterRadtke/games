@@ -1,0 +1,357 @@
+// Tests real imported buyer code, not copied source or an editor mock.
+#if UNITY_EDITOR
+using System;
+using System.IO;
+using System.Reflection;
+using UnityEditor.SceneManagement;
+using UnityEditor;
+using HPR;
+using HPR.GameplaySuite;
+using UnityEngine;
+
+public static class HprGameplaySuiteRuntimeSmokeValidator
+{
+    private const BindingFlags Flags = BindingFlags.NonPublic | BindingFlags.Instance;
+
+    public static void Run()
+    {
+        GameObject player = null, target = null, medStation = null, keyStation = null,
+            gate = null, host = null;
+        ItemData medkit = null, key = null;
+        WeaponData rifle = null;
+        EnemyData enemyData = null;
+        AbilityData healing = null, pulse = null;
+        AbilityEffectData healingEffect = null, pulseEffect = null;
+        AssetMetadata metadata = null;
+        AssetRegistry catalog = null;
+        string slot = Environment.GetEnvironmentVariable("HPR_SUITE_SMOKE_JSON");
+        if (string.IsNullOrWhiteSpace(slot)) throw new InvalidOperationException("Missing isolated QA JSON path");
+        if (File.Exists(slot)) throw new InvalidOperationException("QA refuses to overwrite an existing save");
+        try
+        {
+            // The preceding scene validation opens the imported showcase. Its
+            // colliders must not interfere with this independent physics rig.
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            player = new GameObject("QA-player");
+            player.AddComponent<EventManager>();
+            player.AddComponent<InventoryComponent>();
+            player.AddComponent<ActorStatsComponent>();
+            player.AddComponent<SimpleInteractionActor>();
+            target = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            target.name = "QA-enemy-target";
+            target.transform.position = new Vector3(2, 0, 0);
+            target.AddComponent<HprSuiteEnemyTarget>();
+            medStation = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            medStation.transform.position = new Vector3(.5f, 0, 0);
+            var medPickup = medStation.AddComponent<InventoryPickupInteractable>();
+            keyStation = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            keyStation.transform.position = new Vector3(1.5f, 0, 0);
+            var keyPickup = keyStation.AddComponent<InventoryPickupInteractable>();
+            gate = new GameObject("QA-lockable-gate");
+            gate.transform.position = new Vector3(2.6f, 0, 0);
+            var door = gate.AddComponent<KeyDoorInteractable>();
+
+            medkit = ScriptableObject.CreateInstance<ItemData>();
+            medkit.Id = "qa_medkit";
+            medkit.DisplayName = "QA Field Medkit";
+            medkit.ItemType = ItemType.Consumable;
+            medkit.StartingPlayerQuantity = 0;
+            key = ScriptableObject.CreateInstance<ItemData>();
+            key.Id = "qa_key";
+            key.DisplayName = "QA Key";
+            key.ItemType = ItemType.Key;
+            key.StartingPlayerQuantity = 0;
+            Set(medPickup, "itemData", medkit);
+            Set(keyPickup, "itemData", key);
+            Set(door, "requiredKeyItem", key);
+
+            rifle = ScriptableObject.CreateInstance<WeaponData>();
+            rifle.Id = "qa_rifle";
+            rifle.UsesAmmo = true;
+            rifle.Damage = 20f;
+            rifle.Range = 50f; // Real raycasts need a nonzero authored effective range.
+            rifle.FireDelay = .35f;
+            rifle.MagazineSize = 3;
+            rifle.StartingMagazineAmmo = 3;
+            rifle.StartingReserveAmmo = 9;
+            rifle.MaxAmmo = 15;
+            enemyData = ScriptableObject.CreateInstance<EnemyData>();
+            enemyData.Id = "qa_raider";
+            enemyData.MaxHealth = 48f;
+            enemyData.AttackDamage = 8f;
+            enemyData.AttackRange = 2.5f;
+            enemyData.AttackCooldown = 1f;
+
+            healingEffect = ScriptableObject.CreateInstance<AbilityEffectData>();
+            healingEffect.Id = "qa_healing_effect";
+            healingEffect.EffectType = AbilityEffectType.Heal;
+            healingEffect.Value = 20f;
+            healing = ScriptableObject.CreateInstance<AbilityData>();
+            healing.Id = "qa_healing";
+            healing.DisplayName = "QA Heal";
+            healing.Cooldown = 4f;
+            healing.Cost = 20f;
+            healing.Effects.Add(healingEffect);
+            pulseEffect = ScriptableObject.CreateInstance<AbilityEffectData>();
+            pulseEffect.Id = "qa_pulse_effect";
+            pulseEffect.EffectType = AbilityEffectType.AreaDamage;
+            pulseEffect.Value = 12f;
+            pulseEffect.Radius = 7f;
+            pulseEffect.ForwardOffset = 0f;
+            pulse = ScriptableObject.CreateInstance<AbilityData>();
+            pulse.Id = "qa_pulse";
+            pulse.DisplayName = "QA Pulse";
+            pulse.Cooldown = 6f;
+            pulse.Cost = 25f;
+            pulse.Effects.Add(pulseEffect);
+            metadata = ScriptableObject.CreateInstance<AssetMetadata>();
+            metadata.AssetId = medkit.Id;
+            metadata.DisplayName = medkit.DisplayName;
+            catalog = ScriptableObject.CreateInstance<AssetRegistry>();
+            catalog.SetEntries(new[] { metadata });
+
+            host = new GameObject("QA-Suite");
+            var controller = host.AddComponent<HprGameplaySuitePlayground>();
+            Set(controller, "playerRoot", player);
+            Set(controller, "enemyVisual", target);
+            Set(controller, "medkitPickup", medStation);
+            Set(controller, "keyPickup", keyStation);
+            Set(controller, "demoDoor", door);
+            Set(controller, "lootItem", medkit);
+            Set(controller, "keyItem", key);
+            Set(controller, "weaponData", rifle);
+            Set(controller, "enemyData", enemyData);
+            Set(controller, "healAbility", healing);
+            Set(controller, "pulseAbility", pulse);
+            Set(controller, "worldRegistry", catalog);
+            controller.enabled = true;
+            MethodInfo awake = typeof(HprGameplaySuitePlayground).GetMethod("Awake", Flags);
+            Require(awake != null, "Awake method missing");
+            awake.Invoke(controller, null);
+            Physics.SyncTransforms();
+
+            Require(controller.PlayerHealth == 100f && controller.PlayerStamina == 100f, "starting vitals");
+            Require(controller.EnemyHealth == 48f && controller.MagazineAmmo == 3, "starting combat state");
+            Require(controller.ServicesAvailable, "CompositionRoot resolved actual services");
+            Require(controller.WorldCatalogAvailable, "World AssetRegistry stable item lookup");
+            door.Interact(player.GetComponent<SimpleInteractionActor>());
+            Require(!door.IsOpen, "gate refuses access without inventory key");
+
+            Require(controller.EnemyAttack(), "real enemy attack through typed EventBus");
+            Require(controller.PlayerHealth == 92f && controller.EnemyAttackCooldown > 0, "player stats and enemy cooldown");
+            Require(!controller.EnemyAttack(), "enemy attack cooldown enforced");
+            Require(controller.UseHealAbility(), "healing ability activation through resource adapter");
+            Require(controller.PlayerHealth == 100f && controller.PlayerStamina == 80f, "healing costs stamina");
+            Require(!controller.UseHealAbility(), "ability cooldown enforced");
+            Require(controller.UsePulseAbility(), "area ability activation");
+            Require(controller.EnemyHealth == 36f && controller.PlayerStamina == 55f,
+                "AreaDamage physics collider -> DamageEvent -> enemy health");
+            Require(!controller.UsePulseAbility(), "pulse cooldown enforced");
+
+            Require(controller.Interact() && controller.LootCount == 1, "real medkit pickup");
+            Require(!medStation.activeSelf, "collected medkit station disabled");
+            Require(controller.Interact() && controller.KeyCount == 1, "real key pickup");
+            Require(!keyStation.activeSelf, "collected key station disabled");
+            Require(controller.Interact() && controller.DoorIsOpen, "inventory-locked door now opens");
+            controller.SaveCheckpoint();
+            Require(controller.HasCheckpoint, "captured in-memory snapshot");
+            HprSuiteSnapshot original = controller.CaptureSnapshot();
+            Require(original.Abilities.Cooldowns.Count == 2 && original.PlayerStamina == 55f,
+                "ability state and stamina included in checkpoint");
+            Require(original.DoorOpen && !original.MedkitPickupActive && !original.KeyPickupActive,
+                "world interaction states included in checkpoint");
+            Require(original.Enemy.AttackCooldownRemaining > 0f, "enemy cooldown included in checkpoint");
+
+            Require(controller.Fire() && controller.EnemyHealth == 16f, "weapon firing and enemy state");
+            Require(!controller.Fire(), "weapon cooldown enforced");
+            WeaponRuntimeState weapon = (WeaponRuntimeState)typeof(HprGameplaySuitePlayground)
+                .GetField("weapon", Flags).GetValue(controller);
+            Require(weapon.CaptureSnapshot().CooldownRemaining > 0, "weapon cooldown actually captured");
+            weapon.Tick(1f);
+            Require(controller.Fire() && controller.EnemyHealth == 0f, "enemy death from weapon");
+            Require(controller.LootCount == 2, "enemy loot added to previously picked inventory");
+            Require(controller.Heal() && controller.LootCount == 1, "inventory consumption path");
+            controller.ResetEncounter();
+            Require(controller.MagazineAmmo == 3 && controller.PlayerStamina == 100f &&
+                controller.LootCount == 0 && controller.KeyCount == 0 && !controller.DoorIsOpen,
+                "reset clears all derived states");
+            Require(controller.RestoreCheckpoint(), "memory restore");
+            Require(controller.EnemyHealth == 36f && controller.PlayerStamina == 55f &&
+                controller.MagazineAmmo == 3 && controller.KeyCount == 1 &&
+                controller.LootCount == 1 && controller.DoorIsOpen && controller.EnemyAttackCooldown > 0,
+                "full encounter restores across all modules");
+            var abilityRunner = player.GetComponent<AbilityRunnerComponent>();
+            Require(abilityRunner.CaptureSnapshot().Cooldowns.Count == 2, "ability cooldowns restored");
+
+            CheckSaveSlotIntegrity(controller, slot);
+            Require(controller.SaveToDisk(slot), "opt-in local JSON slot written");
+            Require(File.Exists(slot) && new FileInfo(slot).Length > 100, "JSON save actually exists");
+            controller.ResetEncounter();
+            Require(controller.LoadFromDisk(slot), "reload from real JSON filesystem");
+            Require(controller.PlayerStamina == 55f && controller.EnemyHealth == 36f &&
+                controller.KeyCount == 1 && controller.DoorIsOpen && controller.MagazineAmmo == 3,
+                "serialized, restarted encounter state matches snapshot");
+            Require(controller.SaveToDisk(slot), "second disk save replaces existing slot");
+            HprSuiteSnapshot invalid = controller.CaptureSnapshot();
+            invalid.Weapon.MagazineAmmo = 999;
+            Require(!controller.RestoreSnapshot(invalid), "invalid ammunition refused");
+            Require(controller.MagazineAmmo == 3 && controller.PlayerStamina == 55f,
+                "invalid snapshot does not partially mutate state");
+            HprSuiteSnapshot duplicateAbility = controller.CaptureSnapshot();
+            duplicateAbility.Abilities.UnlockedIds.Add(duplicateAbility.Abilities.UnlockedIds[0]);
+            Require(!controller.RestoreSnapshot(duplicateAbility), "duplicate nested ability IDs rejected");
+            Require(controller.MagazineAmmo == 3 && controller.PlayerStamina == 55f &&
+                controller.EnemyHealth == 36f && controller.KeyCount == 1 &&
+                controller.DoorIsOpen, "nested ability rejection is not a partial restore");
+            HprSuiteSnapshot invalidRotation = controller.CaptureSnapshot();
+            invalidRotation.EnemyRotation = new SerializableQuaternion(new Quaternion(0f, 0f, 0f, 0f));
+            Require(!controller.RestoreSnapshot(invalidRotation),
+                "zero-length save quaternion must not be accepted");
+            Require(controller.MagazineAmmo == 3 && controller.EnemyHealth == 36f,
+                "invalid world orientation preserves unchanged gameplay state");
+            File.WriteAllText(slot, "{not valid JSON");
+            Require(!controller.LoadFromDisk(slot), "corrupted disk slot rejected");
+            Require(controller.PlayerStamina == 55f, "invalid disk slot preserves live state");
+            // Physics-based firing must consume rounds on misses; no auto-target damage.
+            controller.ResetEncounter();
+            float intactEnemy = controller.EnemyHealth;
+            Require(controller.FireAt(new Vector3(-5, 0, 0)), "physics misses still fire");
+            Require(controller.EnemyHealth == intactEnemy && controller.MagazineAmmo == 2,
+                "miss cannot injure an unhit enemy");
+            controller.ResetEncounter();
+            controller.SetAutomaticEnemy(true);
+            float beforeAttack = controller.PlayerHealth;
+            controller.AdvanceEnemy(.2f);
+            Require(controller.PlayerHealth < beforeAttack && controller.EnemyAttackCooldown > 0f,
+                "automatic enemy near-range attack uses real cooldown and EventBus");
+            controller.SetAutomaticEnemy(false);
+
+            // The authored arena side walls are at x=+/-8.5 and z=+/-6.
+            // A player can legitimately stand past the old x=7 limit.
+            HprSuiteSnapshot nearArenaWall = controller.CaptureSnapshot();
+            nearArenaWall.Player.position =
+                new SerializableVector3(new Vector3(7.5f, nearArenaWall.Player.position.y, 0f));
+            Require(controller.RestoreSnapshot(nearArenaWall),
+                "valid player checkpoint beside the arena boundary must restore");
+            controller.ResetEncounter();
+
+            string output = Environment.GetEnvironmentVariable("HPR_SUITE_SMOKE_RECEIPT");
+            if (string.IsNullOrWhiteSpace(output))
+                throw new InvalidOperationException("No QA receipt path");
+            File.WriteAllText(output,
+                "initial_and_service_registry=PASS\nworld_registry_lookup=PASS\n" +
+                "inventory_keyed_door_and_pickups=PASS\nenemy_attack_eventbus_stats=PASS\n" +
+                "heal_ability_stamina_cooldown=PASS\npulse_area_damage_eventbus=PASS\n" +
+                "weapon_fire_cooldown_and_loot=PASS\nfull_memory_restore_all_modules=PASS\n" +
+                "save_slot_integrity=PASS\nreal_json_disk_roundtrip=PASS\ninvalid_state_and_corruption_rejected=PASS\n");
+            Debug.Log("HPR SUITE V2 QA PASS: runtime integration and save-slot checks");
+        }
+        finally
+        {
+            if (File.Exists(slot)) File.Delete(slot);
+            if (host != null) UnityEngine.Object.DestroyImmediate(host);
+            if (player != null) UnityEngine.Object.DestroyImmediate(player);
+            if (target != null) UnityEngine.Object.DestroyImmediate(target);
+            if (medStation != null) UnityEngine.Object.DestroyImmediate(medStation);
+            if (keyStation != null) UnityEngine.Object.DestroyImmediate(keyStation);
+            if (gate != null) UnityEngine.Object.DestroyImmediate(gate);
+            foreach (UnityEngine.Object obj in new UnityEngine.Object[] { medkit, key, rifle,
+                enemyData, healing, pulse, healingEffect, pulseEffect, metadata, catalog })
+                if (obj != null) UnityEngine.Object.DestroyImmediate(obj);
+        }
+    }
+
+    private static void CheckSaveSlotIntegrity(HprGameplaySuitePlayground controller, string slot)
+    {
+        // Isolate negative controls from the normal roundtrip and any existing user file.
+        var directory = Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(Path.GetFullPath(slot)),
+            "save-integrity-" + Guid.NewGuid().ToString("N")));
+        string target = Path.Combine(directory.FullName, "slot.json");
+        string neighbor = target + ".writing";
+        try
+        {
+            const string original = "existing neighboring file";
+            File.WriteAllText(neighbor, original);
+            Require(controller.SaveToDisk(target), "first save succeeds beside an existing .writing file");
+            bool neighborPreserved = File.Exists(neighbor) && File.ReadAllText(neighbor) == original;
+            string previous = File.ReadAllText(target);
+
+            HprSuiteSnapshot snapshot = controller.CaptureSnapshot();
+            snapshot.WeaponId = new string('界', 400000);
+            bool rejected = false;
+            try
+            {
+                HprSuiteSnapshotStorage.Save(target, snapshot);
+            }
+            catch (InvalidDataException)
+            {
+                rejected = true;
+            }
+            bool slotPreserved = File.ReadAllText(target) == previous;
+            Require(neighborPreserved && rejected && slotPreserved,
+                $"save integrity: neighboring file preserved={neighborPreserved}, " +
+                $"oversized UTF-8 rejected={rejected}, previous slot preserved={slotPreserved}");
+
+            snapshot.WeaponId = "épée";
+            HprSuiteSnapshotStorage.Save(target, snapshot);
+            Require(HprSuiteSnapshotStorage.Load(target).WeaponId == snapshot.WeaponId,
+                "valid Unicode save roundtrips");
+
+            const int maxBytes = 1024 * 1024;
+            long remaining = maxBytes - new FileInfo(target).Length;
+            snapshot.WeaponId += new string('x', checked((int)remaining));
+            HprSuiteSnapshotStorage.Save(target, snapshot);
+            Require(new FileInfo(target).Length == maxBytes &&
+                HprSuiteSnapshotStorage.Load(target).WeaponId == snapshot.WeaponId,
+                "one-megabyte UTF-8 snapshot roundtrips at the exact limit");
+            snapshot.WeaponId += "x";
+            try
+            {
+                HprSuiteSnapshotStorage.Save(target, snapshot);
+                throw new InvalidOperationException("Expected refusal one byte over the save limit");
+            }
+            catch (InvalidDataException)
+            {
+                Require(new FileInfo(target).Length == maxBytes, "one-byte overflow retains previous slot");
+            }
+
+            // Race two complete snapshots at a brand-new slot, using no Unity
+            // objects on worker threads. A winning file must be one whole save.
+            string raced = Path.Combine(directory.FullName, "concurrent.json");
+            var first = controller.CaptureSnapshot();
+            var second = controller.CaptureSnapshot();
+            first.WeaponId = new string('A', 32768);
+            second.WeaponId = new string('B', 32768);
+            System.Threading.Tasks.Parallel.Invoke(
+                () => HprSuiteSnapshotStorage.Save(raced, first),
+                () => HprSuiteSnapshotStorage.Save(raced, second));
+            string winner = HprSuiteSnapshotStorage.Load(raced).WeaponId;
+            Require(winner == first.WeaponId || winner == second.WeaponId,
+                "concurrent writers publish a whole save");
+
+            float health = controller.PlayerHealth;
+            File.WriteAllText(target, string.Empty);
+            Require(!controller.LoadFromDisk(target) && controller.PlayerHealth == health,
+                "empty disk slot reports failure and preserves live state");
+            Require(File.ReadAllText(neighbor) == original &&
+                directory.GetFileSystemInfos().Length == 3, "writers leave only the two slots and their original neighbor");
+        }
+        finally
+        {
+            directory.Delete(true);
+        }
+    }
+
+    private static void Set(object instance, string name, object value)
+    {
+        FieldInfo field = instance.GetType().GetField(name, Flags);
+        if (field == null) throw new MissingFieldException(instance.GetType().Name, name);
+        field.SetValue(instance, value);
+    }
+
+    private static void Require(bool condition, string message)
+    {
+        if (!condition) throw new InvalidOperationException("QA assertion failed: " + message);
+    }
+}
+#endif

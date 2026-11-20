@@ -1,0 +1,52 @@
+--- a/unity/tools/release/gameplay_suite/HprSuiteIntegrationGuide.cs
++++ b/unity/tools/release/gameplay_suite/HprSuiteIntegrationGuide.cs
+@@ -179,9 +179,11 @@
+                                           error is InvalidOperationException)
+             {
+                 Debug.LogException(error);
+-                EditorUtility.DisplayDialog("HPR sample copy not created", error.Message, "OK");
++                EditorUtility.DisplayDialog("HPR sample copy incomplete", error.Message, "OK");
+                 if (advice != null)
+-                    advice.text = "No vendor sample was edited. See the Console for the exact error.";
++                    advice.text = "No vendor sample was edited. New customer-owned files may remain; " +
++                                  "review the listed paths before trying again. " +
++                                  "No automatic cleanup was performed. See the Console.";
+             }
+         }
+ 
+@@ -189,7 +191,9 @@
+         /// Copy a ScriptableObject and its packaged ScriptableObject dependencies
+         /// into a customer-owned Assets folder. Rebind copied object references and
+         /// issue unique runtime Id values. Validate every path before writing any
+-        /// file; roll back only newly created files if a later step fails.
++        /// file. If a later step fails after creating files, preserve the new
++        /// files for explicit buyer inspection rather than deleting a path whose
++        /// ownership may have changed in the meantime.
+         /// Called only from an explicit user action, never upon package import.
+         /// </summary>
+         internal static UnityEngine.Object CopySampleToCustomerPath(
+@@ -370,10 +374,19 @@
+                 }
+                 return AssetDatabase.LoadMainAssetAtPath(normalizedDestination);
+             }
+-            catch
+-            {
+-                for (int i = newlyCreated.Count - 1; i >= 0; --i)
+-                    AssetDatabase.DeleteAsset(newlyCreated[i]);
+-                throw;
++            catch (Exception copyFailure)
++            {
++                if (newlyCreated.Count == 0)
++                    throw;
++                // Another importer/agent may have replaced a path between our
++                // CopyAsset call and this failure. AssetDatabase.DeleteAsset
++                // would destroy whoever now owns that path. Keep partial
++                // copies visible and let the customer review each actual GUID.
++                string createdPaths = string.Join(", ", newlyCreated);
++                throw new InvalidOperationException(
++                    "A partial HPR asset copy was interrupted. Unity created some assets: " +
++                    createdPaths + ". No automatic cleanup was performed. " +
++                    "Inspect the listed paths and their GUIDs before deletion or retry.",
++                    copyFailure);
+             }
+         }

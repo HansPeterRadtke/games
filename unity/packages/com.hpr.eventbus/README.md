@@ -49,8 +49,8 @@ subscription.Dispose();
 3. Keep domain event payload classes in your own package or project code.
 
 ## API overview
-- `Subscribe<TEvent>(Action<TEvent>)` returns a disposable subscription token
-- `Unsubscribe<TEvent>(Action<TEvent>)` explicitly removes a handler
+- `Subscribe<TEvent>(Action<TEvent>)` returns a disposable subscription token; each registration has an independent lifetime, even when the same callback is subscribed twice
+- `Unsubscribe<TEvent>(Action<TEvent>)` explicitly removes all registrations matching the callback
 - `Publish<TEvent>(TEvent)` dispatches to exact-type and base-type subscribers
 - `Clear()` removes all subscriptions
 

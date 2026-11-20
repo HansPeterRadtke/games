@@ -88,6 +88,29 @@ namespace HPR
             }
         }
 
+        [Test]
+        public void Snapshot_RestoresAmmoAndRemainingCooldown_RejectsImpossibleState()
+        {
+            var config = CreateWeapon();
+            try
+            {
+                var state = new WeaponRuntimeState(config);
+                Assert.That(state.TryFire(out _), Is.True);
+                WeaponRuntimeSnapshot captured = state.CaptureSnapshot();
+                state.Tick(5f);
+                state.Reload();
+                state.RestoreSnapshot(captured);
+                Assert.That(state.MagazineAmmo, Is.EqualTo(2));
+                Assert.That(state.ReserveAmmo, Is.EqualTo(5));
+                Assert.That(state.CooldownRemaining, Is.EqualTo(0.25f));
+                Assert.That(state.TryFire(out _), Is.False);
+                captured.MagazineAmmo = 200;
+                Assert.Throws<System.ArgumentOutOfRangeException>(() => state.RestoreSnapshot(captured));
+                Assert.That(state.MagazineAmmo, Is.EqualTo(2));
+            }
+            finally { Object.DestroyImmediate(config); }
+        }
+
         private static WeaponData CreateWeapon()
         {
             var weapon = ScriptableObject.CreateInstance<WeaponData>();
