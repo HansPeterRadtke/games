@@ -8,6 +8,8 @@ The owner explicitly requested substantive research, original-book reading, firs
 
 ## Documents
 
+- [Input Auditor Unity 2022 LTS installation regression and cross-version patch, November 20](input-compatibility-unity2022-2026-11-20.md) — reproduced native compiler failure, guarded source, actual exported package identity, consumer preservation and further Unity 6.7 core-package caveat.
+
 - [New HPR Animator Contract Audit candidate, November 20](animator-contract-candidate-2026-11-20.md) — independent Unity six and Unity twenty twenty-two native buyer tests, real URP/new-input import, private package hashes, market comparison, and unresolved seller/graphical gates.
 
 - [Input Compatibility Audit new editor-tool candidate, November 19](input-readiness-audit-native-2026-11-19.md) — actual Unity package exports/imports and QA across input modes, exact preservation and remaining buyer visual/economic gates.

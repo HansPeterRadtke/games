@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEditor;
+#if UNITY_6000_0_OR_NEWER
 using UnityEditor.Build.Profile;
+#endif
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -420,6 +422,7 @@ namespace HPR.InputReadiness
             // The serialized override field is not a public stable API; fail closed
             // instead of falsely claiming the global mode is the effective one.
             bool activeOverride = false;
+#if UNITY_6000_0_OR_NEWER
             string currentRoot = Directory.GetParent(Application.dataPath).FullName;
             if (string.Equals(Path.GetFullPath(projectRoot).TrimEnd(Path.DirectorySeparatorChar),
                               Path.GetFullPath(currentRoot).TrimEnd(Path.DirectorySeparatorChar),
@@ -441,6 +444,11 @@ namespace HPR.InputReadiness
                         "inspect File > Build Profiles > Player Settings and test the effective Player build.");
                 }
             }
+#else
+            // Unity 2022 LTS does not expose Unity 6 Build Profiles.
+            // The normal global Player input setting remains applicable.
+            report.activeBuildProfile = "Not available in this Unity version";
+#endif
             report.inputHandling = mode == 0 ? "Legacy only" : mode == 1 ? "New only" :
                                    mode == 2 ? "Both" : "Unknown";
             if (mode == -1 && !activeOverride) Add(report, "RISK", "UNKNOWN_INPUT_MODE", "ProjectSettings/ProjectSettings.asset", 0,

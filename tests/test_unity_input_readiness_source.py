@@ -24,6 +24,9 @@ class InputAuditSourceSafety(unittest.TestCase):
         self.assertIn('EditorUtility.SaveFilePanel', self.source)
         self.assertIn('EditorApplication.delayCall', self.source)
         self.assertIn('AssetDatabase.OpenAsset(script, f.line)', self.source)
+        # BuildProfile is a Unity 6 API. Unity 2022 LTS must compile without that namespace.
+        self.assertIn('#if UNITY_6000_0_OR_NEWER\nusing UnityEditor.Build.Profile;', self.source)
+        self.assertIn('report.activeBuildProfile = "Not available in this Unity version";', self.source)
 
     def test_explicit_limits_and_incomplete_status(self):
         for marker in ('MaximumScripts', 'MaximumScriptBytes', 'MaximumFindings',
