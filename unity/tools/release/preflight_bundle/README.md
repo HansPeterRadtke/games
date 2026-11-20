@@ -1,0 +1,11 @@
+# HPR Project Preflight — private integrated Editor product candidate
+
+The buyer package combines the independently developed **Input Compatibility Audit** and **Animator Contract Audit** with one Editor window for running both at once and exporting a create-only JSON report. Only the three original vendor roots under `Assets/` should be exported; private QA and exporter scripts in this directory's `qa/` are never buyer assets. This is not a generic asset cleaner, and it does not modify buyer source or fix problems automatically.
+
+Test in isolated Unity projects by importing all three roots, then staging `qa/HprProjectPreflightNativeQa.cs` privately under `Assets/Editor` and invoking `-executeMethod HprProjectPreflightNativeQa.Run` with a fresh `HPR_PREFLIGHT_QA_OUT` path. This scans the *actual* current project's Animator Controllers and source, checks fail-closed combined status for uncertain/incomplete cases, and verifies one combined create-only JSON export. Export only after native QA via `qa/HprProjectPreflightExporter.cs` and a fresh `HPR_PREFLIGHT_BUNDLE_OUT` path, then import the resulting `.unitypackage` into an independent buyer project and compare all original files and package payload/GUID bytes.
+
+Human graphical UX, seller terms, licensing, user willingness to pay and publication remain unverified. No Asset Store upload or marketing claim is authorized by these source files.
+
+## Verified native acceptance, November 20–21
+
+The exact private bundle archive exported by installed Unity 2022.3.22f1 contains twelve vendor paths and three original Editor-only C# sources, SHA-256 `f4d7fde3d6bf4b7adb44ef9be456c571101b8763fb569fe128002b008963ac4d`. Real independent native imports and eight regression checks passed in both Unity 2022.3.22f1 and Unity 6000.6.8f1 (URP/new Input System). Exact package/meta/GUID comparison and original-customer-file preservation passed both before and after QA. Evidence is registered under `/data/var/marketplace-account-setup/unity-input-audit-unity2022-20261120-night/`, not in Git. No genuine normal graphical screenshot or buyer retail acceptance exists; the Unity Software Terms dialog remains an owner-consent gate. Do not imply Unity 6.7+ compatibility, automatic repairs or seller approval.

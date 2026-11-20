@@ -8,6 +8,8 @@ The owner explicitly requested substantive research, original-book reading, firs
 
 ## Documents
 
+- [New HPR Project Preflight combined audit candidate, November 20–21](preflight-bundle-native-2026-11-21.md) — original Editor UI combining input and Animator audits, real native Unity 2022 source QA, fixed-scope package export and outstanding buyer/graphics gates.
+
 - [Input Auditor Unity 2022 LTS installation regression and cross-version patch, November 20](input-compatibility-unity2022-2026-11-20.md) — reproduced native compiler failure, guarded source, actual exported package identity, consumer preservation and further Unity 6.7 core-package caveat.
 
 - [New HPR Animator Contract Audit candidate, November 20](animator-contract-candidate-2026-11-20.md) — independent Unity six and Unity twenty twenty-two native buyer tests, real URP/new-input import, private package hashes, market comparison, and unresolved seller/graphical gates.

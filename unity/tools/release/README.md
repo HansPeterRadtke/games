@@ -4,6 +4,8 @@ This directory contains the reproducible sale-package validation, export, screen
 
 ## Separate original editor-tool candidates (not approved for storefronts)
 
+`preflight_bundle/` is a third *unpublished internal candidate* that combines the original Input and Animator read-only Editor audit source with an original one-window preflight and create-only JSON report. It exports exactly those three vendor asset roots, with real-import QA and a separate software-terms graphical gate; it is not a general asset validator or authorized Asset Store listing.
+
 `input_readiness_audit/` and `animator_contract_audit/` contain independently tested read-only Editor utilities, each with private QA, exact asset metadata and user documentation. Their `Assets/` folders are the only proposed consumer payloads. Neither is an approved seller release. Unity Editor graphical screenshots and human onboarding remain blocked by the Software Terms consent gate. Never use the generic upload script or an old Publisher Portal package id for these candidates; the single shared sales worker must first verify licensing, actual media and owner publication authority. Native package build/import receipts remain in registered private Nitro project folders, not Git.
 
 ## Typical package flow
