@@ -8,6 +8,8 @@ The owner explicitly requested substantive research, original-book reading, firs
 
 ## Documents
 
+- [New HPR Animator Contract Audit candidate, November 20](animator-contract-candidate-2026-11-20.md) — independent Unity six and Unity twenty twenty-two native buyer tests, real URP/new-input import, private package hashes, market comparison, and unresolved seller/graphical gates.
+
 - [Input Compatibility Audit new editor-tool candidate, November 19](input-readiness-audit-native-2026-11-19.md) — actual Unity package exports/imports and QA across input modes, exact preservation and remaining buyer visual/economic gates.
 - [Unity editor-tool demand review, November 19](editor-product-demand-2026-11-19.md) — source-backed 2026 customer input failures, competitive review and unproven willingness to pay.
 
