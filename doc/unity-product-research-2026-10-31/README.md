@@ -8,6 +8,8 @@ The owner explicitly requested substantive research, original-book reading, firs
 
 ## Documents
 
+- [New HPR Package Boundary Inspector market and release evidence, November 21](package-boundary-inspector-evidence-2026-11-21.md) — new focused Editor candidate, official publisher dependency rules, competitor pricing and unverified sales; source and native buyer QA are separate from publisher upload.
+
 - [Unity 2022.3 LTS gameplay buyer installation and runtime regression, November 21](gameplay-unity2022-buyer-2026-11-21.md) — additional native Editor generation, complete package asset/GUID acceptance, exact default C# metadata normalization and eleven runtime checks.
 
 - [Current Gameplay Suite existing-project upgrade and buyer integration QA, November 21](gameplay-buyer-upgrade-2026-11-21.md) — reproduced obsolete-package CS1061, rebuilt canonical source export, verified Built-in and URP migrations, real selected-ability Undo/Redo test, native Play Mode shutdown correction and outstanding visual release gates.

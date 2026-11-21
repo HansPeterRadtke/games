@@ -8,6 +8,8 @@ This directory contains the reproducible sale-package validation, export, screen
 
 `input_readiness_audit/` and `animator_contract_audit/` contain independently tested read-only Editor utilities, each with private QA, exact asset metadata and user documentation. Their `Assets/` folders are the only proposed consumer payloads. Neither is an approved seller release. Unity Editor graphical screenshots and human onboarding remain blocked by the Software Terms consent gate. Never use the generic upload script or an old Publisher Portal package id for these candidates; the single shared sales worker must first verify licensing, actual media and owner publication authority. Native package build/import receipts remain in registered private Nitro project folders, not Git.
 
+`package_boundary_audit/` is an additional **unpublished publisher-facing Editor candidate**. It scans a chosen single export folder for resolved Unity asset dependencies outside that boundary and offers a read-only report with create-only JSON export. The authored source and private native builder/consumer tests are separated; the GUI, real screenshots, seller economic validation, license and publication eligibility remain additional release gates. See its own README and the November 21 market comparison. It does not replace the official Asset Store Validator, discover missing GUIDs or certify dependency manifests.
+
 ## Typical package flow
 
 For one sellable package, run the package-specific pipeline rather than the all-package default:
