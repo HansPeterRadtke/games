@@ -18,7 +18,11 @@ ALLOWED={
  'Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveReader.cs',
  'Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveWindow.cs',
  'Assets/HPRArchivePreflight/README.md',
- 'Assets/HPRArchivePreflight/LICENSE.md'
+ 'Assets/HPRArchivePreflight/LICENSE.md',
+ 'Assets/HPRArchivePreflight/Samples',
+ 'Assets/HPRArchivePreflight/Samples/HprExample-baseline.unitypackage',
+ 'Assets/HPRArchivePreflight/Samples/HprExample-additions_only.unitypackage',
+ 'Assets/HPRArchivePreflight/Samples/HprExample-changed_guid.unitypackage'
 }
 
 
@@ -52,14 +56,17 @@ def _synthetic_package(path:Path,tamper=False,extra=False):
 def test_distinct_first_party_sources_and_metadata():
     ids=[]
     for relative in ['', 'Editor','Editor/HprUnitypackageArchiveReader.cs',
-                     'Editor/HprUnitypackageArchiveWindow.cs','README.md','LICENSE.md']:
+                     'Editor/HprUnitypackageArchiveWindow.cs','README.md','LICENSE.md',
+                     'Samples','Samples/HprExample-baseline.unitypackage',
+                     'Samples/HprExample-additions_only.unitypackage',
+                     'Samples/HprExample-changed_guid.unitypackage']:
         source=VENDOR/relative if relative else VENDOR
         meta=Path(str(source)+'.meta')
         assert source.exists() and meta.exists()
         guid=re.search(r'(?m)^guid:\s*([a-f0-9]{32})',meta.read_text())
         assert guid
         ids.append(guid.group(1))
-    assert len(ids)==len(set(ids))==6
+    assert len(ids)==len(set(ids))==10
     assert not list(VENDOR.rglob('*.dll'))
     assert set(ALLOWED)==_verifier().ALLOWED
 
@@ -94,7 +101,7 @@ def test_read_only_parser_covers_tar_checksum_footer_sha_crc_unsafe_inputs():
 def test_strict_verifier_rejects_wrong_source_or_added_package_paths(tmp_path):
     verify=_verifier().verify
     good=tmp_path/'good.unitypackage';_synthetic_package(good)
-    assert verify(good)['verified_vendor_paths']==6
+    assert verify(good)['verified_vendor_paths']==10
     tamper=tmp_path/'tamper.unitypackage';_synthetic_package(tamper,tamper=True)
     try:verify(tamper)
     except ValueError as e:assert 'source bytes' in str(e)
@@ -108,6 +115,9 @@ def test_strict_verifier_rejects_wrong_source_or_added_package_paths(tmp_path):
 def test_native_qa_requires_genuine_archives_corruption_and_fresh_buyer():
     qa=(PACKAGE/'qa/HprArchivePreflightNativeQa.cs').read_text()
     for name in ('real_Unity_packages_strict_readable',
+                 'three_genuine_unity_authored_example_archives_parse',
+                 'included_example_explains_one_addition_not_an_engine_error',
+                 'included_example_warns_about_intentionally_replaced_guid',
                  'real_existing_buyer_upgrade_exposes_content_changes_not_just_GUIDs',
                  'metadata_GUID_mismatch_fails_closed',
                  'genuine_archive_GUID_change_warns_before_import',
@@ -127,5 +137,22 @@ def test_actual_buyer_documentation_explains_statuses_and_limits():
     for term in ('documentation', 'existing', 'proposed', 'INCOMPLETE',
                  'REVIEW_POTENTIAL_REFERENCE_BREAKAGE', 'REVIEW_PATH_MIGRATION',
                  'REVIEW_CONTENT_OR_IMPORT_CHANGES', 'ADDITIONS_ONLY',
-                 'real buyer project', 'serialized references', 'No archive is imported'):
+                 'real buyer project', 'serialized references', 'No archive is imported',
+                 'Try the included original examples first',
+                 'Try example: additions only', 'Try example: replaced GUID'):
         assert term in readme
+
+
+def test_example_onboarding_buttons_only_read_existing_original_archives():
+    window=(VENDOR/'Editor/HprUnitypackageArchiveWindow.cs').read_text()
+    assert 'Try included' not in window  # The actual labels say Try example.
+    for term in ('Try example: additions only', 'Try example: replaced GUID',
+                 'private void TryIncludedExample(bool deliberateGuidChange)',
+                 'HprExample-baseline.unitypackage',
+                 'HprExample-additions_only.unitypackage',
+                 'HprExample-changed_guid.unitypackage', 'BeginScan();'):
+        assert term in window
+    method=window.split('private void TryIncludedExample',1)[1].split('private void BeginScan',1)[0]
+    for forbidden in ('AssetDatabase.ImportPackage','ExportPackage(', 'File.WriteAllBytes',
+                      'File.Copy(', 'File.Delete(', 'WWW(', 'UnityWebRequest'):
+        assert forbidden not in method

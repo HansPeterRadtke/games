@@ -16,6 +16,24 @@ This README is the user documentation for the first-party Editor utility.
 You need two original `.unitypackage` files already on your own computer.
 The tool does not download them or obtain any new Asset Store entitlements.
 
+### Try the included original examples first
+
+You can also try the tool immediately without obtaining an outside asset.
+Choose **Try example: additions only** to compare the included original
+`Samples/HprExample-baseline.unitypackage` to
+`Samples/HprExample-additions_only.unitypackage`. The expected result is
+`ADDITIONS_ONLY`: one new example text asset, no changed existing path,
+source data or GUID. Choose **Try example: replaced GUID** to compare the
+baseline against `Samples/HprExample-changed_guid.unitypackage`; the result
+should warn `REVIEW_POTENTIAL_REFERENCE_BREAKAGE` and name one intentionally
+replaced GUID at a stable asset path. These three tiny archives were created
+from original instructional text using the real Unity Editor ExportPackage
+API. The GUID-change example is **deliberately constructed**; it does not
+claim that Unity spontaneously changed GUIDs or prove a real Unity engine bug.
+The sample archives are read only; the example buttons NEVER import them into
+your active project. They are supplemental instructional files, not additional
+sellable products or evidence that any arbitrary upgrade is safe.
+
 First choose the **existing** archive currently represented in your game or
 release history; then choose the **proposed updated** archive. The order
 matters: removals and additions are counted relative to the older package.

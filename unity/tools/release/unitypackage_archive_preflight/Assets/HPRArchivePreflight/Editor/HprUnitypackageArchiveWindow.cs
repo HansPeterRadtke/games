@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -33,6 +34,17 @@ namespace HPR.ArchivePreflight
                 "asset changes, extraction or network requests occur. A clean identity result is NOT proof " +
                 "of API, serialized subasset or runtime compatibility.", MessageType.Info);
             EditorGUI.BeginDisabledGroup(scanning);
+            GUILayout.Label("TRY ORIGINAL INCLUDED EXAMPLES", EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox("The included sample archives were exported by Unity from original " +
+                "educational text assets. They demonstrate additions and an intentionally changed " +
+                "GUID; they do NOT reproduce a Unity engine defect or approve a real upgrade.", MessageType.Info);
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Try example: additions only", GUILayout.Height(32)))
+                TryIncludedExample(false);
+            if (GUILayout.Button("Try example: replaced GUID", GUILayout.Height(32)))
+                TryIncludedExample(true);
+            EditorGUILayout.EndHorizontal();
+            GUILayout.Space(8);
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Choose existing package", GUILayout.Width(215), GUILayout.Height(31)))
             {
@@ -95,6 +107,26 @@ namespace HPR.ArchivePreflight
             }
             EditorGUILayout.HelpBox(preview.limitation, MessageType.Warning);
             EditorGUILayout.EndScrollView();
+        }
+
+        private void TryIncludedExample(bool deliberateGuidChange)
+        {
+            const string root = "Assets/HPRArchivePreflight/Samples";
+            string projectRoot = Directory.GetParent(Application.dataPath).FullName;
+            string source = Path.Combine(projectRoot, root, "HprExample-baseline.unitypackage");
+            string proposed = Path.Combine(projectRoot, root,
+                deliberateGuidChange ? "HprExample-changed_guid.unitypackage" :
+                    "HprExample-additions_only.unitypackage");
+            if (!File.Exists(source) || !File.Exists(proposed))
+            {
+                preview = null;
+                notice = "The original example archives are missing. Re-import the complete " +
+                    "package or choose two existing local .unitypackage files yourself.";
+                return;
+            }
+            previousPath = source;
+            updatedPath = proposed;
+            BeginScan();
         }
 
         private void BeginScan()

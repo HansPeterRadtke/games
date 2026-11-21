@@ -32,7 +32,7 @@ public static class HprArchivePreflightNativeQa
         string truncated = Environment.GetEnvironmentVariable("HPR_ARCHIVE_PREFLIGHT_TRUNCATED");
         string link = Environment.GetEnvironmentVariable("HPR_ARCHIVE_PREFLIGHT_SYMLINK");
         Check(Application.isBatchMode && !string.IsNullOrEmpty(evidence) &&
-            evidence.StartsWith("/data/var/marketplace-account-setup/unity-20261121-wave50/",StringComparison.Ordinal) &&
+            evidence.StartsWith("/data/var/marketplace-account-setup/unity-20261121-wave51/",StringComparison.Ordinal) &&
             !Directory.Exists(evidence) && !File.Exists(evidence), "fresh_private_evidence");
         Check(new[]{oldArchive,newArchive,badMeta,changedGuid,unsafePath,truncated,link}
                 .All(path=>!string.IsNullOrEmpty(path) && Path.IsPathRooted(path) && File.Exists(path)),
@@ -84,6 +84,34 @@ public static class HprArchivePreflightNativeQa
             "result_export_create_only_and_readable");
         Check(oldDigest==Hash(oldArchive) && newDigest==Hash(newArchive),
             "both_archives_unchanged_by_scanning");
+        // The exact three small buyer samples must really be present,
+        // inspector-readable, and unmodified after both scan modes.
+        string sampleFolder = Path.Combine(Directory.GetParent(Application.dataPath).FullName,
+            "Assets/HPRArchivePreflight/Samples");
+        string[] labels={"baseline","additions_only","changed_guid"};
+        string[] sampleFiles=labels.Select(name=>Path.Combine(sampleFolder,
+            "HprExample-"+name+".unitypackage")).ToArray();
+        Check(sampleFiles.All(File.Exists), "all_three_first_party_archives_installed");
+        string[] sampleBeforeHash=sampleFiles.Select(Hash).ToArray();
+        var sampleBefore=HprUnitypackageArchiveReader.Inspect(sampleFiles[0]);
+        var sampleAdd=HprUnitypackageArchiveReader.Inspect(sampleFiles[1]);
+        var sampleRisk=HprUnitypackageArchiveReader.Inspect(sampleFiles[2]);
+        Check(sampleBefore.status=="READABLE_STRICT_ARCHIVE" && sampleBefore.pathsChecked==3 &&
+            sampleAdd.status=="READABLE_STRICT_ARCHIVE" && sampleAdd.pathsChecked==4 &&
+            sampleRisk.status=="READABLE_STRICT_ARCHIVE" && sampleRisk.pathsChecked==3,
+            "three_genuine_unity_authored_example_archives_parse");
+        var safeSample=HprUnitypackageArchiveReader.Compare(sampleBefore,sampleAdd);
+        Check(!safeSample.incomplete && safeSample.status=="ADDITIONS_ONLY" &&
+            safeSample.addedPaths==1 && safeSample.replacedGuids==0 &&
+            safeSample.removedPaths==0 && safeSample.sourceChanges==0 &&
+            safeSample.importerChanges==0,
+            "included_example_explains_one_addition_not_an_engine_error");
+        var riskSample=HprUnitypackageArchiveReader.Compare(sampleBefore,sampleRisk);
+        Check(!riskSample.incomplete && riskSample.status=="REVIEW_POTENTIAL_REFERENCE_BREAKAGE" &&
+            riskSample.replacedGuids==1 && riskSample.findings.Any(f=>f.kind=="GUID_REPLACED_AT_PATH"),
+            "included_example_warns_about_intentionally_replaced_guid");
+        Check(sampleBeforeHash.SequenceEqual(sampleFiles.Select(Hash)),
+            "included_genuine_sample_archive_bytes_not_edited_by_comparison");
         Check(AssetDatabase.IsValidFolder("Assets/HPRArchivePreflight") &&
             AssetDatabase.LoadMainAssetAtPath("Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveReader.cs")!=null &&
             AssetDatabase.LoadMainAssetAtPath("Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveWindow.cs")!=null,
@@ -102,7 +130,11 @@ public static class HprArchivePreflightNativeQa
                 "cancel_scan_fails_closed=PASS",
                 "create_only_report_export=PASS",
                 "real_old_and_new_archive_hashes_unchanged=PASS",
-                "actual_unity_editor_scanner_and_window_installed=PASS"})writer.WriteLine(line);
+                "actual_unity_editor_scanner_and_window_installed=PASS",
+                "all_three_original_unity_exported_archives_imported=PASS",
+                "included_additions_only_sample_explains_no_identity_breakage=PASS",
+                "included_changed_guid_sample_warns_accurately=PASS",
+                "included_original_archive_bytes_unchanged=PASS"})writer.WriteLine(line);
             writer.WriteLine("unity_version="+Application.unityVersion);
         }
         Debug.Log("HPR_ARCHIVE_PREFLIGHT_NATIVE_PASS "+Application.unityVersion+

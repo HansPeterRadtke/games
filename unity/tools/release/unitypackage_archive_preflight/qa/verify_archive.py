@@ -12,7 +12,11 @@ ALLOWED={
 'Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveReader.cs',
 'Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveWindow.cs',
 'Assets/HPRArchivePreflight/README.md',
-'Assets/HPRArchivePreflight/LICENSE.md'
+'Assets/HPRArchivePreflight/LICENSE.md',
+'Assets/HPRArchivePreflight/Samples',
+'Assets/HPRArchivePreflight/Samples/HprExample-baseline.unitypackage',
+'Assets/HPRArchivePreflight/Samples/HprExample-additions_only.unitypackage',
+'Assets/HPRArchivePreflight/Samples/HprExample-changed_guid.unitypackage'
 }
 MEMBER=re.compile(r'([0-9a-f]{32})/(pathname|asset|asset.meta)$')
 
@@ -53,7 +57,8 @@ def verify(p:Path):
     if set(by_path)!=ALLOWED or len(set(by_path.values()))!=len(by_path):
         raise ValueError('Missing/extra/duplicate buyer assets')
     return {'result':'PASS','verified_vendor_paths':len(by_path),
-            'editor_scripts':2,'source_and_meta_guid_bytes':'PASS'}
+            'editor_scripts':2,'unity_exported_training_archives':3,
+            'source_and_meta_guid_bytes':'PASS'}
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--archive',type=Path,required=True)

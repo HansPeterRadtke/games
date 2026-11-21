@@ -9,7 +9,7 @@ label=${2:?New unique QA label required}
 root=$(cd "$(dirname "$0")/.." && pwd)
 unity=/data/apps/Unity/Hub/Editor/${version}/Editor/Unity
 [[ -x "$unity" ]] || exit 3
-base=/data/var/marketplace-account-setup/unity-20261121-wave50/native-${version//./-}-$label
+base=/data/var/marketplace-account-setup/unity-20261121-wave51/native-${version//./-}-$label
 [[ ! -e "$base" ]] || { echo 'Refusing replay of existing native QA project' >&2;exit 4; }
 mkdir -p "$base"
 archive="$base/hpr-unitypackage-archive-preflight-candidate.unitypackage"

@@ -13,3 +13,22 @@ Only real native Editor and independent buyer installation receipts can
 support compatibility. The package is not approved for retail or publishing.
 
 Producer private QA belongs in `qa/` and never inside `Assets/`.
+
+## Buyer first-run demonstration (native first-party sample archives)
+
+The original version required two outside `.unitypackage` files before a
+buyer could see how the Editor window worked. The current candidate includes
+three small real Unity-exported original instructional archives under
+`Assets/HPRArchivePreflight/Samples`. The window gives one-click previews of
+`ADDITIONS_ONLY` and an intentionally replaced GUID; there is no import
+operation and no assertion of a Unity engine defect. The reproducible
+first-party authoring scripts and pre-export source manifests are under
+`qa/` with unique immutable private original export receipts. The archive
+contains only the product's Editor sources, documentation, licensing notice,
+and supplemental original training files.
+
+Unity submission rules section 2.2.a restrict archives that obscure most
+product content. Here the nested files serve directly as small, transparent
+example input for an archive-comparison tool, but **official retailer review
+is still required** and no legal or sales clearance is implied. Do not ship
+a nested-archive approach if the official reviewer rejects it.
