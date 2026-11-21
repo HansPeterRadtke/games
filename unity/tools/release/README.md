@@ -12,6 +12,15 @@ This directory contains the reproducible sale-package validation, export, screen
 
 `fbx_clip_identity_audit/` is a separate, unpublished narrowly scoped FBX animation importer ID diagnostic candidate. It examines configured custom-clip internalIDs and serialized AnimationClip mapping class IDs without changing importer settings. Original Blender FBX QA, seller evidence and genuine GUI tests remain separate from publication. See its own internal source/QA folders.
 
+`unitypackage_archive_preflight/` is an additional first-party read-only
+candidate for comparing the actual TAR/GZIP contents and asset GUIDs of two
+classic `.unitypackage` release archives **before import**. It is distinct
+from checking the project's installed asset dependency graph, and uses
+independent author/buyer Unity QA. No archive extraction, import, automatic
+GUID repair, or publisher transaction. Its exact native acceptance and strict
+size/metadata limitations are in the component README and its private `qa/`.
+Do not list it for sale until its GUI, license and buyer demand are verified.
+
 ## Typical package flow
 
 For one sellable package, run the package-specific pipeline rather than the all-package default:

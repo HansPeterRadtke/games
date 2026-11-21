@@ -8,6 +8,8 @@ The owner explicitly requested substantive research, original-book reading, firs
 
 ## Documents
 
+- [Classic Unitypackage archive upgrade preflight market and acceptance evidence, November 21](archive-upgrade-preflight-market-and-native-qa-2026-11-21.md) — real GUID update issues, PackageLens competition, strict original offline scanner scope and independent Unity QA gates.
+
 - [New FBX Clip Identity Audit demand and technical scope, November 21](fbx-clip-identity-market-and-qa-2026-11-21.md) — independently sourced repeated imported animation IDs, community reports, comparison with competing animation utilities and fail-closed QA plan; not retail-approved.
 
 - [New HPR Package Boundary Inspector market and release evidence, November 21](package-boundary-inspector-evidence-2026-11-21.md) — new focused Editor candidate, official publisher dependency rules, competitor pricing and unverified sales; source and native buyer QA are separate from publisher upload.
