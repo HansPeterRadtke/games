@@ -17,6 +17,7 @@ ALLOWED={
  'Assets/HPRArchivePreflight/Editor',
  'Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveReader.cs',
  'Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveWindow.cs',
+ 'Assets/HPRArchivePreflight/Editor/HprArchiveCoexistence.cs',
  'Assets/HPRArchivePreflight/README.md',
  'Assets/HPRArchivePreflight/LICENSE.md',
  'Assets/HPRArchivePreflight/Samples',
@@ -56,7 +57,7 @@ def _synthetic_package(path:Path,tamper=False,extra=False):
 def test_distinct_first_party_sources_and_metadata():
     ids=[]
     for relative in ['', 'Editor','Editor/HprUnitypackageArchiveReader.cs',
-                     'Editor/HprUnitypackageArchiveWindow.cs','README.md','LICENSE.md',
+                     'Editor/HprUnitypackageArchiveWindow.cs','Editor/HprArchiveCoexistence.cs','README.md','LICENSE.md',
                      'Samples','Samples/HprExample-baseline.unitypackage',
                      'Samples/HprExample-additions_only.unitypackage',
                      'Samples/HprExample-changed_guid.unitypackage']:
@@ -66,13 +67,27 @@ def test_distinct_first_party_sources_and_metadata():
         guid=re.search(r'(?m)^guid:\s*([a-f0-9]{32})',meta.read_text())
         assert guid
         ids.append(guid.group(1))
-    assert len(ids)==len(set(ids))==10
+    assert len(ids)==len(set(ids))==11
     assert not list(VENDOR.rglob('*.dll'))
     assert set(ALLOWED)==_verifier().ALLOWED
+    coexist=(VENDOR/'Editor/HprArchiveCoexistence.cs').read_text()
+    for contract in ('GUID_REUSED_AT_DIFFERENT_PATH',
+                     'PATH_REUSED_WITH_DIFFERENT_GUID',
+                     'SHARED_GUID_PATH_DIFFERENT_BYTES',
+                     'NO_OVERLAP_CONFLICTS_IN_CHECKED_ARCHIVES',
+                     'REVIEW_INDEPENDENT_PACKAGE_COLLISIONS',
+                     'FileMode.CreateNew',
+                     'result.incomplete = true',
+                     'report.pathsChecked != report.assets.Length'):
+        assert contract in coexist
+    for forbidden in ('AssetDatabase.ImportPackage(', 'AssetDatabase.DeleteAsset(',
+                      'File.Delete(', 'FileMode.Create,', 'UnityWebRequest'):
+        assert forbidden not in coexist
 
 
 def test_read_only_parser_covers_tar_checksum_footer_sha_crc_unsafe_inputs():
     source=(VENDOR/'Editor/HprUnitypackageArchiveReader.cs').read_text()
+    assert 'var paths = new HashSet<string>(StringComparer.OrdinalIgnoreCase)' in source
     for contract in ('GZipStream(', 'CheckHeaderChecksum(header)',
                      'Invalid Unity package member GUID or path',
                      'Unsafe/unsupported TAR entry type',
@@ -91,17 +106,24 @@ def test_read_only_parser_covers_tar_checksum_footer_sha_crc_unsafe_inputs():
         assert keyword not in source
     ui=(VENDOR/'Editor/HprUnitypackageArchiveWindow.cs').read_text()
     for contract in ('MenuItem(', 'DisplayCancelableProgressBar',
-                     'OpenFilePanel(', 'Compare without importing',
+                     'OpenFilePanel(', 'Review an UPGRADE (old replaced by new)',
+                     'Check COEXISTENCE (both packages together)',
                      'Export result to a NEW JSON file', 'INCOMPLETE'):
         assert contract in ui
     for keyword in ('AssetDatabase.ImportPackage(', 'AssetDatabase.DeleteAsset(', 'SaveAndReimport('):
         assert keyword not in ui
+    for entry in ('Check COEXISTENCE (both packages together)',
+                  'Try coexistence: competing packages use the same path',
+                  'HprArchiveCoexistence.Compare(previous, updated)',
+                  'BeginScan(true)', 'BeginScan(false)',
+                  'HprArchiveCoexistence.ExportNew(coexistencePreview, destination)'):
+        assert entry in ui
 
 
 def test_strict_verifier_rejects_wrong_source_or_added_package_paths(tmp_path):
     verify=_verifier().verify
     good=tmp_path/'good.unitypackage';_synthetic_package(good)
-    assert verify(good)['verified_vendor_paths']==10
+    assert verify(good)['verified_vendor_paths']==11
     tamper=tmp_path/'tamper.unitypackage';_synthetic_package(tamper,tamper=True)
     try:verify(tamper)
     except ValueError as e:assert 'source bytes' in str(e)
@@ -118,6 +140,10 @@ def test_native_qa_requires_genuine_archives_corruption_and_fresh_buyer():
                  'three_genuine_unity_authored_example_archives_parse',
                  'included_example_explains_one_addition_not_an_engine_error',
                  'included_example_warns_about_intentionally_replaced_guid',
+                 'genuine_renamed_path_reusing_guid_is_collision_if_both_installed',
+                 'same_renamed_guid_can_be_upgrade_migration_not_safe_coexistence',
+                 'independent_packages_different_bytes_warn_overwrite',
+                 'independent_collision_report_export_create_only',
                  'real_existing_buyer_upgrade_exposes_content_changes_not_just_GUIDs',
                  'metadata_GUID_mismatch_fails_closed',
                  'genuine_archive_GUID_change_warns_before_import',
@@ -150,7 +176,7 @@ def test_example_onboarding_buttons_only_read_existing_original_archives():
                  'private void TryIncludedExample(bool deliberateGuidChange)',
                  'HprExample-baseline.unitypackage',
                  'HprExample-additions_only.unitypackage',
-                 'HprExample-changed_guid.unitypackage', 'BeginScan();'):
+                 'HprExample-changed_guid.unitypackage', 'BeginScan(false);'):
         assert term in window
     method=window.split('private void TryIncludedExample',1)[1].split('private void BeginScan',1)[0]
     for forbidden in ('AssetDatabase.ImportPackage','ExportPackage(', 'File.WriteAllBytes',

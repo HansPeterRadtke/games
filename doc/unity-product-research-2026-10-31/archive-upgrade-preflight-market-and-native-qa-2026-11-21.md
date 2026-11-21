@@ -366,3 +366,263 @@ field, identifying functional generated source and substantial real native QA
 work. The source is not based on third-party private commercial code, but
 first-party status is not a complete IP/legal clearance. No external account,
 customer, royalty, software-terms or marketplace effects were performed.
+
+## Independent-package coexistence — new technical scope, November 21 later
+
+A credible user problem is independent Unity Asset Store packages overriding
+one another despite distinct store SKUs or renamed folders. One developer's
+August/September 2025 discussion described different asset packs from one
+publisher importing under colliding GUIDs, where both apparent pack roots
+existed but content references resolved to the wrong pack. The participants
+warned that renaming a folder does not change the GUIDs, and changing GUIDs
+can break existing prefab references. This is directly relevant to buyers,
+but the discussion is **anecdotal**, not evidence of a paying market:
+https://discussions.unity.com/t/asset-packs-from-the-same-publisher-all-override-each-other-any-ideas/1682115
+
+The first HPR Archive Upgrade Preflight implementation had only a
+**replacement-version** comparison. If an original asset moves to a new path
+with the SAME GUID, an *upgrade* can be a legitimate migration with separate
+path-based loading risk. If two independently sold packages both claim that
+GUID at different paths, installing both risks a shared-GUID collision. The
+same input therefore requires **different semantics** depending on the
+customer's actual workflow. Treating upgrade results as generic
+multi-package compatibility would be misleading.
+
+The original Editor candidate now offers two clearly distinct read-only
+modes in the same window. **Review an UPGRADE** retains its existing
+old/new replacement identity, source and importer behavior. New **Check
+COEXISTENCE** checks two independent packages expected in the same project.
+Its three explicit finding categories are
+`GUID_REUSED_AT_DIFFERENT_PATH`, `PATH_REUSED_WITH_DIFFERENT_GUID`, and
+`SHARED_GUID_PATH_DIFFERENT_BYTES`. Exactly identical shared asset identities,
+paths, source bytes and importer settings are counted as shared overlap,
+not falsely reported as collisions. Every incomplete/malformed archive,
+invalid serialized caller snapshot, truncated finding cap or canceled scan
+remains `INCOMPLETE`, never a positive pass. Each mode uses create-only JSON
+export and never imports, rewrites, remaps or downloads any asset.
+
+The user's three original Unity-exported educational examples now include
+a **third one-click coexistence demonstration**, using the same baseline and
+intentionally changed-GUID sample at the same asset path. That example is
+clearly labeled as educational, not a Unity engine bug or third-party pack
+evidence. No new nested sample archives were added to the customer package.
+
+A *different* private test fixture was created as a genuinely exported Unity
+2022.3 package, with one original first-party text file renamed while
+retaining its original `.meta` GUID, contents and metadata bytes. The actual
+Unity `AssetDatabase.ExportPackage` output has three strictly verified assets;
+its private independent SHA256 and original source identity checks are at
+`/data/var/marketplace-account-setup/unity-20261121-wave52/real-moved-guid-fixture/verified-original-move.json`.
+This real fixture discriminates a path migration in upgrade mode from a GUID
+collision in independent-package coexistence mode. Testing a moved path does
+not establish how the Unity importer would resolve the collision if a buyer
+actually installs both; separate disposable buyer import observation is an
+appropriate follow-up.
+
+Competing commercial tools remain a risk: the free PackageLens already checks
+incoming packages against a project's installed assets, while Odin Validator
+and Asset Validator offer more general package/project validation. A
+publisher-targeted two-archive comparison is narrower and somewhat distinct,
+but it cannot justify a new standalone paid SKU without credible buyer
+willingness-to-pay evidence. The feasible strategic choice is to improve the
+existing first-party preflight bundle, not multiply thin listings, and to
+retain the one shared seller's authority over storefronts and price. Official
+Unity 6000.3 publisher instructions continue to say paid UPM products are
+not yet supported, so a paid offer may need classic `.unitypackage` while
+the platform evolves; this is not evidence the user's seller account was
+approved or is currently eligible.
+
+Sources:
+https://assetstore.unity.com/packages/tools/utilities/packagelens-package-import-review-tool-375592
+https://assetstore.unity.com/packages/tools/utilities/odin-validator-227861
+https://assetstore.unity.com/packages/tools/utilities/asset-validator-271338
+https://docs.unity.com/en-us/engine/6000.3/manual/assets-and-media/asset-store/publishing/upm/submit
+
+An adjacent future research candidate is Unity's manually edited FBX
+Animation import settings not updating new source clips, reported in a
+2026 developer discussion. The official manual describes why this occurs;
+Unity's issue tracker may eventually add an import-refresh UI. This is an
+interesting **technical** lead for the existing FBX inspector but currently
+has insufficient independent buyer/payment evidence for another SKU:
+https://www.reddit.com/r/Unity3D/comments/1o41nb5/
+
+Any real GUI screenshots remain owner-consent gated by the earlier genuine
+Unity activation/terms state; do not infer real visualization from batch
+compilation or manufacture a screenshot. No external publication, product
+sale, customer contact, software terms action, or irreversible external effect
+was performed.
+
+### Case-only asset-path false-negative and actual disposable buyer observation
+
+Unity's documented `AssetDatabase.LoadAssetAtPath` API explicitly states
+that its asset path argument is **not case-sensitive**, regardless of the
+underlying host filesystem:
+https://docs.unity.cn/6000.4/Documentation/ScriptReference/AssetDatabase.LoadAssetAtPath.html
+
+An early independent-package coexistence implementation used ordinal,
+case-sensitive asset-path keys. That was a potential **false negative**:
+`Assets/HPRUpgradeExample/Example.txt` and
+`Assets/HPRUpgradeExample/example.TXT` could be treated as unrelated,
+even though Unity's lookup sees case-equivalent asset paths. The revised
+independent comparer now catches `CASE_ONLY_ASSET_PATH_COLLISION` for case-only
+paths with different GUIDs, while full-archive inspection and the
+public comparer reject case-only duplicate paths *within* an individual
+candidate archive as `INCOMPLETE`. This does not imply every such collision
+will destroy data, only that simultaneous installation needs buyer QA.
+
+A genuinely **Unity 2022 Editor-exported first-party case-only test archive**
+with two files and one folder was created under private
+`/data/var/marketplace-account-setup/unity-20261121-wave52/real-case-only-path-fixture/`.
+It contains exactly one different-cased example filename, one original README,
+one folder and a distinct documented GUID for the cased file. The QA
+independently compared source text bytes, metadata GUIDs and path strings
+against the earlier immutable original Unity-exported baseline. Its verified
+SHA-256 is `2cb0d056bb76860a5030a22205c5d3ab2a79caadfe32f2fc35721426e6b06bfe`.
+In native unit acceptance the case-only different-GUID collision is required
+to flag exactly once, and malformed caller arrays with case-folded duplicate
+paths are rejected. Such private fixture files are **not** nested into the
+customer product; there is no added retail Asset Store compressed-file warning
+from them.
+
+Actual Unity 2022.3.22f1 observed buyer behavior was also captured, rather
+than simply trusting the predicted warning. An original baseline sample
+and the independent first-party *moved same-GUID path* export were imported
+sequentially into a brand-new disposable real Unity project. Both filenames
+were present after import, but Unity auto-assigned a **new GUID to the
+incoming moved asset**, leaving the original GUID resolving to the original
+filename. The exact observed GUID values and original input archive
+SHA-256 equality receipts are private under
+`/data/var/marketplace-account-setup/unity-20261121-wave52/actual-buyer-guid-collision-2022-3-22f1/`.
+This independently demonstrates that a pre-import identity collision is real,
+while also demonstrating that **a collision warning must not be described
+as proof of customer data loss**. The precise outcome may vary with Unity
+version, import conditions and existing project references; the tool never
+changes customer identities automatically.
+
+At the time of this source checkpoint the updated Unity 2022.3 native
+**author/export and independent buyer** package completed **26/26 checks**
+with exact 11 approved vendor paths, 3 Editor scripts and three original
+small instructional archives. Its immutable QA is under
+`/data/var/marketplace-account-setup/unity-20261121-wave52/native-2022-3-22f1-coexistence-case2/`.
+The matching final Unity 6000.6 independent buyer result, last final Asset
+Store Tools run and consolidated Git publication need their own actual
+observed receipts before being reported as complete.
+
+### Corrected dual-package coexistence release: two native buyer acceptances
+
+The final source for the coexistence and case-insensitive path correction was
+exported as a genuine native `.unitypackage` and imported into independent
+buyer projects with Unity **2022.3.22f1 and Unity 6000.6.8f1**. Both installed
+Editors passed **26/26 real native checks** each, including existing strict
+archive/upgrade negative cases, the three original instructional archive
+samples, independent overlapping package comparison, the actual first-party
+Unity-exported moved-GUID and case-only-path fixtures, fail-closed malformed
+caller arrays, create-only JSON reports and immutable input SHA-256s. The
+archive source verifier found exactly **11 intended vendor paths, three
+original C# Editor scripts and three original sample archives** with exact
+byte and metadata GUID preservation. Native author, buyer import, exact
+source verifier and private receipts are stored under
+`/data/var/marketplace-account-setup/unity-20261121-wave52/native-2022-3-22f1-coexistence-case2/`
+and `native-6000-6-8f1-coexistence-case2/`, with earlier 24-check native
+receipts retained separately. Do not describe a Python test or a local Git
+commit as substitute evidence for these actual independent Unity imports.
+
+The **actual final Unity 2022 buyer package** was then imported into another
+isolated project with installed Asset Store Tools 12.0.0 and checked offline.
+Official counted result: `RanToCompletion`, `hadCompilationErrors: False`,
+`testsReturned: 34`, `testsPassed: 32`, `testsWithIssues: 2`.
+The two warnings remain **Check Compressed Files** (three truthful small
+nested original Unity sample archives) and **Check Demo Scenes** (the
+archive-reading Editor-only utility has no scene demo). They were not
+suppressed. There were no reported C# compile errors, no Publisher Portal
+submission and no retail review. The validator deliberately exits nonzero
+when it finds warnings. Exact receipt:
+`/data/var/marketplace-account-setup/unity-20261121-wave52/archive-official-ast-2022-coexistence-case2/asset-store-tools-results.txt`.
+
+The original pre-import identity scanner, both explicit workflow modes,
+and the case-insensitive asset collision detector remain **read-only**.
+Publisher approval, real GUI screenshots, third-party rights and legal
+licenses, actual buyer willingness-to-pay and authorized marketplace
+submission remain separate open gates. The sole shared seller owns those
+actions. The project producer has not fabricated screenshots or issued a
+new owner-facing narrated report for routine internal engineering QA.
+
+### Independent actual case-only import observed in both supported installed Editors
+
+The publisher/purchaser compatibility question was independently observed in
+**fresh actual Unity Editor buyer projects** by importing the original
+baseline first-party `.unitypackage` and then the original real Unity-exported
+case-only-path package, both in strict sequence. Unity 2022.3.22f1 **and**
+Unity 6000.6.8f1 produced the same result in this particular controlled
+example: `Assets/HPRUpgradeExample/Example.txt` was **absent from the physical
+buyer project after the second import**, while the incoming lowercase
+`example.TXT` file existed. Both `AssetDatabase.AssetPathToGUID` calls,
+even when given the earlier filename capitalization, resolved to the
+**incoming different GUID**, not the original. The actual AssetDatabase
+listed the README and new lowercase example, not both filename variants.
+
+The source input archive SHA-256s were checked before and after both test
+runs, and the originals remained unchanged. This is **real Unity importer
+behavior**, not a claim that any customer's project was tested or harmed.
+Both observed receipts, actual logs and archive hash proofs are private under
+`/data/var/marketplace-account-setup/unity-20261121-wave52/actual-case-only-coexistence-buyer-2022-3-22f1/`
+and `actual-case-only-coexistence-buyer-6000-6-8f1/`. This confirms the
+casefold preflight warning is useful in real Unity buyers; it does *not* by
+itself establish that a prefab or saved asset reference was broken. A separate
+first-party disposable **serialized buyer reference** experiment is needed
+before asserting actual reference loss. Never advertise the tool as an
+automatic repair for this collision, and do not conflate the file identity
+result with guaranteed runtime correctness.
+
+### Buyer-owned serialized-reference failure reproduced in two Unity generations
+
+A strictly first-party, disposable buyer-project experiment **independently
+reproduced a missing saved asset reference** in both the installed Unity
+2022.3.22f1 and Unity 6000.6.8f1 Editors. This strengthens the case for
+warn-before-import checking beyond a naming or cosmetic issue.
+
+For **each** real Editor generation, an empty project was created; the
+original baseline `.unitypackage` was imported; a private QA-only C#
+`ScriptableObject` holding a `TextAsset` reference was created and saved
+under `Assets/BuyerOwned/ExistingReference.asset`; its original target and
+GUID were confirmed by `AssetDatabase`; and then a separately Unity-exported
+first-party archive containing the **same path except for letter case** and
+**a different GUID** was imported. A new independent Unity process loaded
+the existing buyer-owned reference again. Before the second import the
+saved reference was alive and resolved to `Example.txt`; afterward the
+holder survived but its saved `referenced` field was **missing/null**.
+The `AssetDatabase` mapped both capitalization variants to the incoming
+asset GUID, while the first file was absent and the second existed.
+Both original packages and the serialized buyer-owned holder retained
+identical SHA-256 bytes before and after the test. The runtime meaning
+changed **without any source-file bytes changing in the holder**.
+
+The actual immutable input/evidence records are privately under:
+
+- `/data/var/marketplace-account-setup/unity-20261121-wave52/serialized-reference-case-only-2022-3-22f1/`
+- `/data/var/marketplace-account-setup/unity-20261121-wave52/serialized-reference-case-only-6000-6-8f1/`
+
+The independently observed behavior is limited to these exact Unity
+versions and intentionally conflicting first-party demo archives. It does
+not assert that a specific third-party pack is defective or that every
+GUID collision causes reference loss. It establishes a concrete compatible
+failure mode which a buyer can check in advance using the archive-preflight
+coexistence mode, without touching the buyer's actual project.
+
+Additional public user evidence was located in the August 27, **2026**
+Unity 3D community: an avatar user reported that importing a modified
+third-party avatar `.unitypackage` overrides the existing project; a
+suggested automatic re-export did not fix their situation. The account is
+anecdotal and does not demonstrate payment demand for an inspector product:
+https://www.reddit.com/r/Unity3D/comments/1vzslbx/importing_edited_project_overrides_existing/
+
+Unity's current submission rules still leave the two warnings unchanged:
+transparent nested training packages and no demo scene. Code and sample
+inputs remain fully available, and no terms or Marketplace publication
+occurred. Native **26-check author+independent buyer** verifications for
+both Editors were completed, exact included paths/GUID/meta/source bytes
+verified, with the larger archive tests retained from the preceding wave.
+The entire current Unity source regression run passed **455 tests**.
+The graphical preview gate is still unresolved due earlier real Editor
+license/terms prompts. This is not an accepted retail listing or an
+actual customer screenshot.

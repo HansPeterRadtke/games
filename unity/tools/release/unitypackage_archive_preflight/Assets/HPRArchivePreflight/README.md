@@ -1,7 +1,9 @@
 # HPR Unitypackage Upgrade Preflight — original, unpublished Editor utility
 
 This standalone **read-only** Unity Editor utility compares two existing
-Unity `.unitypackage` archives **before** importing an update. Use
+Unity `.unitypackage` archives **before** importing an update, and can
+independently check whether two unrelated packages have colliding asset
+identities if both would be installed in the same project. Use
 **Tools > HPR > Unitypackage Upgrade Preflight**, choose the previous and
 proposed archive files, then click **Compare without importing**. The result
 shows assets added, removed, moved or assigned different GUIDs, and separately
@@ -9,6 +11,34 @@ shows importer metadata and source byte changes where identity stayed stable.
 Detailed warnings can be exported as a **new** JSON file, never overwriting
 an existing receipt. No archive is imported, uncompressed to disk, rewritten,
 uploaded or otherwise modified. No project settings are changed.
+
+## Two different workflows — do not confuse version upgrades with coexistence
+
+**Review an UPGRADE** means the second archive is a replacement version of the
+first. The scanner checks whether old GUIDs and asset references survive, and
+warns of changed source/importer data or removed assets. An old asset moving
+under the **same GUID** can be an ordinary migration, though path-based code
+may break.
+
+**Check COEXISTENCE** means you want to install two *independent products*
+**together**. The tool checks for **GUID_REUSED_AT_DIFFERENT_PATH** (two
+unrelated paths claiming one GUID), **PATH_REUSED_WITH_DIFFERENT_GUID** (two
+vendors claiming the same path with different GUIDs), and
+**SHARED_GUID_PATH_DIFFERENT_BYTES** (the same GUID and path but incompatible
+source or importer metadata). Exact shared identity, path, and all source bytes
+are counted as identical overlap rather than reported as a conflict.
+`NO_OVERLAP_CONFLICTS_IN_CHECKED_ARCHIVES` is a narrowly scoped identity check,
+**not** a promise that the two packages safely import or run together. Always
+verify in a disposable combined buyer project. A finding is not proof of a
+Unity engine defect, and the tool never changes GUIDs or automatically
+repairs third-party content.
+
+A third teaching button, **Try coexistence: competing packages use the same
+path**, compares the original baseline example with the deliberately changed-
+GUID first-party sample. Its expected result is a path collision, **not** a
+problem found in a purchased third-party product. Use the two separate buttons
+for the actual selected archives rather than interpreting an upgrade review
+as a simultaneous-install safety check.
 
 ## Customer documentation: using the result before installing updates
 

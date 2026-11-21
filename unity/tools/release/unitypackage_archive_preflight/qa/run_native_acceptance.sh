@@ -9,14 +9,16 @@ label=${2:?New unique QA label required}
 root=$(cd "$(dirname "$0")/.." && pwd)
 unity=/data/apps/Unity/Hub/Editor/${version}/Editor/Unity
 [[ -x "$unity" ]] || exit 3
-base=/data/var/marketplace-account-setup/unity-20261121-wave51/native-${version//./-}-$label
+base=/data/var/marketplace-account-setup/unity-20261121-wave52/native-${version//./-}-$label
 [[ ! -e "$base" ]] || { echo 'Refusing replay of existing native QA project' >&2;exit 4; }
 mkdir -p "$base"
 archive="$base/hpr-unitypackage-archive-preflight-candidate.unitypackage"
 legacy=/data/var/marketplace-account-setup/unity-20261121-afternoon/native-2022-3-22f1-cleanmeta1/hpr-package-boundary-candidate.unitypackage
 updated=/data/var/marketplace-account-setup/unity-20261121-afternoon/native-2022-3-22f1-upgrade-final1/hpr-package-boundary-candidate.unitypackage
 negative=/data/var/marketplace-account-setup/unity-20261121-wave50/negative-archive-fixtures
-[[ -s "$legacy" && -s "$updated" && -s "$negative/guid_changed.unitypackage" ]] || exit 5
+moved=/data/var/marketplace-account-setup/unity-20261121-wave52/real-moved-guid-fixture/moved-path-same-guid.unitypackage
+case_archive=/data/var/marketplace-account-setup/unity-20261121-wave52/real-case-only-path-fixture/case-only-path-distinct-guid.unitypackage
+[[ -s "$legacy" && -s "$updated" && -s "$negative/guid_changed.unitypackage" && -s "$moved" && -s "$case_archive" ]] || exit 5
 export HOME=/home/hans USER=hans LOGNAME=hans XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/1000}
 export DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/1000/bus}
 export HPR_ARCHIVE_PREFLIGHT_OLD="$legacy"
@@ -26,6 +28,8 @@ export HPR_ARCHIVE_PREFLIGHT_CHANGED_GUID="$negative/guid_changed.unitypackage"
 export HPR_ARCHIVE_PREFLIGHT_UNSAFE_PATH="$negative/path_traversal.unitypackage"
 export HPR_ARCHIVE_PREFLIGHT_TRUNCATED="$negative/truncated.unitypackage"
 export HPR_ARCHIVE_PREFLIGHT_SYMLINK="$negative/symlink.unitypackage"
+export HPR_COEXISTENCE_MOVED_ARCHIVE="$moved"
+export HPR_COEXISTENCE_CASE_ARCHIVE="$case_archive"
 run(){
   phase=$1;shift
   echo "UNITY_ARCHIVE_NATIVE $version $phase"

@@ -3,7 +3,10 @@
 An isolated Editor-only publisher/buyer pre-import safety preview: two actual
 `.unitypackage` archives, strictly bounded read-only TAR.GZIP inspection,
 metadata GUID/path/content comparison, fail-closed warnings and create-only
-JSON export. No Unity AssetDatabase import operation or guessed references.
+JSON export. Choose **upgrade** if one archive replaces an older version, or
+**coexistence** to check two independently installed packages for reused GUIDs,
+clashing asset paths and silent overwrites. These are deliberately different
+checks: a valid migration move can be an independent-product GUID collision. No Unity AssetDatabase import operation or guessed references.
 
 The existing `package_boundary_audit` checks currently installed package
 assets; this product instead checks **raw archived releases before import**.

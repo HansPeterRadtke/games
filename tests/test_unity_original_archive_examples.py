@@ -87,7 +87,7 @@ def test_bundled_original_example_metadata_unique_and_buyer_qa_required():
         match=re.search(r'(?m)^guid: ([0-9a-f]{32})',p.read_text())
         assert match
         guids.append(match.group(1))
-    assert len(guids)==len(set(guids))==10
+    assert len(guids)==len(set(guids))==11
     examples=sum(p.stat().st_size for p in SAMPLES.glob('*.unitypackage'))
     functional=sum(p.stat().st_size for p in (VENDOR/'Editor').glob('*.cs'))
     assert examples < functional // 5  # transparent samples cannot obscure majority of code
@@ -99,6 +99,7 @@ def test_bundled_original_example_metadata_unique_and_buyer_qa_required():
                  'included_genuine_sample_archive_bytes_not_edited_by_comparison'):
         assert name in qa
     assert 'Directory.GetParent(Application.dataPath)' in qa
+    assert 'HPR_COEXISTENCE_MOVED_ARCHIVE' in qa
     assert 'File.Delete(' not in qa
 
 

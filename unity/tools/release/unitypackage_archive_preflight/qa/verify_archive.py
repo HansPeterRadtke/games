@@ -11,6 +11,7 @@ ALLOWED={
 'Assets/HPRArchivePreflight/Editor',
 'Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveReader.cs',
 'Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveWindow.cs',
+'Assets/HPRArchivePreflight/Editor/HprArchiveCoexistence.cs',
 'Assets/HPRArchivePreflight/README.md',
 'Assets/HPRArchivePreflight/LICENSE.md',
 'Assets/HPRArchivePreflight/Samples',
@@ -57,7 +58,7 @@ def verify(p:Path):
     if set(by_path)!=ALLOWED or len(set(by_path.values()))!=len(by_path):
         raise ValueError('Missing/extra/duplicate buyer assets')
     return {'result':'PASS','verified_vendor_paths':len(by_path),
-            'editor_scripts':2,'unity_exported_training_archives':3,
+            'editor_scripts':3,'unity_exported_training_archives':3,
             'source_and_meta_guid_bytes':'PASS'}
 
 if __name__=='__main__':

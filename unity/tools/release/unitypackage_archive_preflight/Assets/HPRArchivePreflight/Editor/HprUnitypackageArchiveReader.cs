@@ -271,7 +271,10 @@ namespace HPR.ArchivePreflight
                         BitConverter.ToUInt32(trailer, 4) != input.SizeModulo32)
                         throw new InvalidDataException("Truncated or corrupted GZIP CRC32/size trailer.");
                 }
-                var paths = new HashSet<string>(StringComparer.Ordinal);
+                // Unity AssetDatabase path lookups are case-insensitive even
+                // when the underlying Linux filesystem is case-sensitive.
+                // Reject internal archives containing case-only duplicate paths.
+                var paths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 var assets = new List<HprArchivedAsset>();
                 foreach (var group in groups.OrderBy(x => x.Value.path ?? "", StringComparer.Ordinal))
                 {

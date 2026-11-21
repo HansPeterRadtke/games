@@ -31,10 +31,12 @@ public static class HprArchivePreflightNativeQa
         string unsafePath = Environment.GetEnvironmentVariable("HPR_ARCHIVE_PREFLIGHT_UNSAFE_PATH");
         string truncated = Environment.GetEnvironmentVariable("HPR_ARCHIVE_PREFLIGHT_TRUNCATED");
         string link = Environment.GetEnvironmentVariable("HPR_ARCHIVE_PREFLIGHT_SYMLINK");
+        string movedArchive = Environment.GetEnvironmentVariable("HPR_COEXISTENCE_MOVED_ARCHIVE");
+        string caseArchive = Environment.GetEnvironmentVariable("HPR_COEXISTENCE_CASE_ARCHIVE");
         Check(Application.isBatchMode && !string.IsNullOrEmpty(evidence) &&
-            evidence.StartsWith("/data/var/marketplace-account-setup/unity-20261121-wave51/",StringComparison.Ordinal) &&
+            evidence.StartsWith("/data/var/marketplace-account-setup/unity-20261121-wave52/",StringComparison.Ordinal) &&
             !Directory.Exists(evidence) && !File.Exists(evidence), "fresh_private_evidence");
-        Check(new[]{oldArchive,newArchive,badMeta,changedGuid,unsafePath,truncated,link}
+        Check(new[]{oldArchive,newArchive,badMeta,changedGuid,unsafePath,truncated,link,movedArchive,caseArchive}
                 .All(path=>!string.IsNullOrEmpty(path) && Path.IsPathRooted(path) && File.Exists(path)),
                 "existing_read_only_real_archives_and_negative_fixtures_required");
         string oldDigest = Hash(oldArchive);
@@ -110,11 +112,84 @@ public static class HprArchivePreflightNativeQa
         Check(!riskSample.incomplete && riskSample.status=="REVIEW_POTENTIAL_REFERENCE_BREAKAGE" &&
             riskSample.replacedGuids==1 && riskSample.findings.Any(f=>f.kind=="GUID_REPLACED_AT_PATH"),
             "included_example_warns_about_intentionally_replaced_guid");
+        // Genuine first-party separately exported packages can coexist or
+        // collide. A valid UPGRADE move is an unsafe independent-PACK collision.
+        string movedHash = Hash(movedArchive);
+        var moved=HprUnitypackageArchiveReader.Inspect(movedArchive);
+        Check(moved.status=="READABLE_STRICT_ARCHIVE" && moved.pathsChecked==3,
+            "actual_unity_export_with_path_moved_guid_preserved_parses");
+        var coexistSafe=HprArchiveCoexistence.Compare(sampleBefore,sampleAdd);
+        Check(!coexistSafe.incomplete &&
+            coexistSafe.status=="NO_OVERLAP_CONFLICTS_IN_CHECKED_ARCHIVES" &&
+            coexistSafe.identicalSharedAssets==3 && coexistSafe.guidCollisions==0 &&
+            coexistSafe.pathCollisions==0 && coexistSafe.overwriteRisks==0,
+            "same_identity_and_bytes_are_not_false_independent_collisions");
+        var coexistPath=HprArchiveCoexistence.Compare(sampleBefore,sampleRisk);
+        Check(!coexistPath.incomplete &&
+            coexistPath.status=="REVIEW_INDEPENDENT_PACKAGE_COLLISIONS" &&
+            coexistPath.pathCollisions==1 && coexistPath.guidCollisions==0 &&
+            coexistPath.findings.Any(f=>f.kind=="PATH_REUSED_WITH_DIFFERENT_GUID"),
+            "two_independent_packages_different_guids_at_same_path_warn");
+        var coexistGuid=HprArchiveCoexistence.Compare(sampleBefore,moved);
+        Check(!coexistGuid.incomplete &&
+            coexistGuid.status=="REVIEW_INDEPENDENT_PACKAGE_COLLISIONS" &&
+            coexistGuid.guidCollisions==1 && coexistGuid.pathCollisions==0 &&
+            coexistGuid.findings.Any(f=>f.kind=="GUID_REUSED_AT_DIFFERENT_PATH"),
+            "genuine_renamed_path_reusing_guid_is_collision_if_both_installed");
+        var movedUpgrade=HprUnitypackageArchiveReader.Compare(sampleBefore,moved);
+        Check(!movedUpgrade.incomplete && movedUpgrade.status=="REVIEW_PATH_MIGRATION" &&
+            movedUpgrade.movedPaths==1 && movedUpgrade.replacedGuids==0,
+            "same_renamed_guid_can_be_upgrade_migration_not_safe_coexistence");
+        var coexistDifferentBytes=HprArchiveCoexistence.Compare(older,newer);
+        Check(!coexistDifferentBytes.incomplete &&
+            coexistDifferentBytes.status=="REVIEW_INDEPENDENT_PACKAGE_COLLISIONS" &&
+            coexistDifferentBytes.overwriteRisks>=1 &&
+            coexistDifferentBytes.findings.Any(f=>f.kind=="SHARED_GUID_PATH_DIFFERENT_BYTES"),
+            "two_real_versions_as_independent_products_could_silently_overwrite");
+        Check(HprArchiveCoexistence.Compare(HprUnitypackageArchiveReader.Inspect(badMeta),sampleBefore)
+            .status=="INCOMPLETE" &&
+            HprArchiveCoexistence.Compare(null,sampleBefore).incomplete,
+            "malformed_or_null_release_fails_closed_for_coexistence");
+        string coexistFile=Path.Combine(evidence,"actual-independent-coexistence-preview.json");
+        HprArchiveCoexistence.ExportNew(coexistGuid,coexistFile);
+        bool coexistOverwriteBlocked=false;
+        try { HprArchiveCoexistence.ExportNew(coexistGuid,coexistFile); }
+        catch (IOException) { coexistOverwriteBlocked=true; }
+        Check(coexistOverwriteBlocked && File.ReadAllText(coexistFile).Contains("GUID_REUSED_AT_DIFFERENT_PATH"),
+            "independent_collision_report_export_create_only");
+        // Unity AssetDatabase paths are case-insensitive; comparing as Ordinal
+        // previously missed genuinely distinct archive paths differing only
+        // by letter case and GUID. Use a real Editor-exported first-party file.
+        string caseHash=Hash(caseArchive);
+        var changedCase=HprUnitypackageArchiveReader.Inspect(caseArchive);
+        Check(changedCase.status=="READABLE_STRICT_ARCHIVE" && changedCase.pathsChecked==3,
+            "actual_Unity_case_only_path_fixture_parses");
+        var caseCollision=HprArchiveCoexistence.Compare(sampleBefore,changedCase);
+        Check(!caseCollision.incomplete &&
+            caseCollision.status=="REVIEW_INDEPENDENT_PACKAGE_COLLISIONS" &&
+            caseCollision.caseOnlyPathCollisions==1 && caseCollision.pathCollisions==0 &&
+            caseCollision.guidCollisions==0 && caseCollision.identicalSharedAssets==2 &&
+            caseCollision.findings.Any(f=>f.kind=="CASE_ONLY_ASSET_PATH_COLLISION") &&
+            Hash(caseArchive)==caseHash,
+            "actual_Unity_case_only_distinct_guid_collision_warns_and_input_unchanged");
+        // Independently guard the publicly callable comparator against an
+        // internally inconsistent caller snapshot containing case twins.
+        var badCaller=new HprArchiveInspection
+        {
+            status="READABLE_STRICT_ARCHIVE", pathsChecked=2,
+            assets=new [] {sampleBefore.assets.First(a=>a.assetPath.EndsWith("Example.txt")),
+                changedCase.assets.First(a=>a.assetPath.EndsWith("example.TXT"))}
+        };
+        Check(HprArchiveCoexistence.Compare(badCaller,sampleBefore).status=="INCOMPLETE",
+            "case_only_duplicate_paths_in_serialized_caller_snapshot_fail_closed");
+        Check(Hash(movedArchive)==movedHash && sampleBeforeHash.SequenceEqual(sampleFiles.Select(Hash)),
+            "genuine_guid_collision_fixtures_remain_unmodified");
         Check(sampleBeforeHash.SequenceEqual(sampleFiles.Select(Hash)),
             "included_genuine_sample_archive_bytes_not_edited_by_comparison");
         Check(AssetDatabase.IsValidFolder("Assets/HPRArchivePreflight") &&
             AssetDatabase.LoadMainAssetAtPath("Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveReader.cs")!=null &&
-            AssetDatabase.LoadMainAssetAtPath("Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveWindow.cs")!=null,
+            AssetDatabase.LoadMainAssetAtPath("Assets/HPRArchivePreflight/Editor/HprUnitypackageArchiveWindow.cs")!=null &&
+            AssetDatabase.LoadMainAssetAtPath("Assets/HPRArchivePreflight/Editor/HprArchiveCoexistence.cs")!=null,
             "real_original_scanner_and_GUI_installed_in_project");
         using (var stream=new FileStream(Path.Combine(evidence,"native-receipt.txt"),FileMode.CreateNew,FileAccess.Write,FileShare.None))
         using (var writer=new StreamWriter(stream,new UTF8Encoding(false)))
@@ -134,7 +209,18 @@ public static class HprArchivePreflightNativeQa
                 "all_three_original_unity_exported_archives_imported=PASS",
                 "included_additions_only_sample_explains_no_identity_breakage=PASS",
                 "included_changed_guid_sample_warns_accurately=PASS",
-                "included_original_archive_bytes_unchanged=PASS"})writer.WriteLine(line);
+                "included_original_archive_bytes_unchanged=PASS",
+                "real_moved_guid_archive_parsed=PASS",
+                "independent_identical_overlap_does_not_false_alert=PASS",
+                "independent_path_collision_detected=PASS",
+                "independent_guid_reused_different_path_detected=PASS",
+                "upgrade_migration_distinct_from_coexistence_collision=PASS",
+                "independent_packages_different_bytes_warn_overwrite=PASS",
+                "invalid_coexistence_input_fails_closed=PASS",
+                "coexistence_report_create_only_export=PASS",
+                "coexistence_moved_original_archive_unchanged=PASS",
+                "real_Unity_case_only_path_collision_warns=PASS",
+                "case_only_duplicate_caller_snapshot_rejected=PASS"})writer.WriteLine(line);
             writer.WriteLine("unity_version="+Application.unityVersion);
         }
         Debug.Log("HPR_ARCHIVE_PREFLIGHT_NATIVE_PASS "+Application.unityVersion+

@@ -10,7 +10,7 @@ public static class HprArchivePreflightExporter
         string destination = Environment.GetEnvironmentVariable("HPR_ARCHIVE_PREFLIGHT_EXPORT") ?? "";
         const string root = "Assets/HPRArchivePreflight";
         if (!Application.isBatchMode || !Path.IsPathRooted(destination) ||
-            !destination.StartsWith("/data/var/marketplace-account-setup/unity-20261121-wave51/",StringComparison.Ordinal) ||
+            !destination.StartsWith("/data/var/marketplace-account-setup/unity-20261121-wave52/",StringComparison.Ordinal) ||
             !destination.EndsWith(".unitypackage",StringComparison.Ordinal) ||
             File.Exists(destination) || !AssetDatabase.IsValidFolder(root))
             throw new InvalidOperationException("New private buyer archive and real original vendor root required.");
