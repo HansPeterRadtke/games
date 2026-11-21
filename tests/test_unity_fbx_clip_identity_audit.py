@@ -100,6 +100,7 @@ def test_native_qa_uses_real_original_fbx_and_negative_checks():
     assert 'HPR_FBX_CLIP_IDENTITY_EXPORT_PASS' in exporter
     script=(BASE/'qa/run_native_acceptance.sh').read_text()
     assert 'buyer-real-model-qa' in script and 'buyer-import' in script
+    assert 'buyer-sample-only-native' in script and 'HPR_FBX_SAMPLE_ONLY_QA_OUT' in script
 
 
 def test_empty_project_and_incomplete_report_are_distinct_from_clean():
@@ -122,3 +123,15 @@ def test_customer_sample_is_documented_and_native_qa_covers_single_model():
                   'selected_model_single_scan', 'sample_one_click_source_scan',
                   'clipless_scan_not_misreported_clean'):
         assert check in qa
+
+
+def test_bundled_sample_does_not_make_customer_project_scan_look_clean():
+    src=(VENDOR/'Editor/HprFbxClipIdentityAudit.cs').read_text()
+    assert '!string.Equals(p, ExampleFbxPath, StringComparison.Ordinal)' in src
+    assert 'Run the demo check separately' in src
+    qa=(BASE/'qa/HprFbxSampleOnlyQa.cs').read_text()
+    assert 'independent_buyer_project_contains_only_shipped_fbx_sample' in qa
+    assert 'project_scan_must_not_report_bundled_sample_as_customer_model' in qa
+    assert 'HPR_FBX_SAMPLE_ONLY_QA_PASS' in qa
+    assert 'source_fbx_and_import_metadata_unchanged_by_both_scan_modes' in qa
+    assert 'FileMode.CreateNew' in qa

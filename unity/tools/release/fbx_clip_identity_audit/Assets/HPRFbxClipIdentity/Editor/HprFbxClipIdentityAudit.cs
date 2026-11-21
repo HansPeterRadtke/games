@@ -306,15 +306,20 @@ namespace HPR.FbxClipIdentity
             var report = new FbxClipIdentityReport
             {
                 unityVersion = Application.unityVersion,
-                limitation = "Checks both ModelImporter class-74 internal-ID mappings and configured " +
-                    "clipAnimations internalID entries. Does not prove missing/undetected source clips, " +
+                limitation = "Checks ModelImporter class-74 and configured clipAnimations IDs in your " +
+                    "project's FBX assets, excluding only this tool's bundled demo. " +
+                    "Run the demo check separately. This does not prove missing/undetected source clips, " +
                     "future reimport stability or exact Unity hash generation. " +
                     "No automatic asset or importer changes."
             };
             var rows = new List<FbxClipIdentityModel>();
             string[] assets = AssetDatabase.GetAllAssetPaths().Where(p =>
                 p.StartsWith("Assets/", StringComparison.Ordinal) &&
-                p.EndsWith(".fbx", StringComparison.OrdinalIgnoreCase))
+                p.EndsWith(".fbx", StringComparison.OrdinalIgnoreCase) &&
+                // The bundled first-run demo must not make an empty customer
+                // project appear to have passed a real project-wide audit.
+                // Users can still inspect the demo explicitly via ScanSingle.
+                !string.Equals(p, ExampleFbxPath, StringComparison.Ordinal))
                 .Distinct(StringComparer.Ordinal).OrderBy(p => p, StringComparer.Ordinal).ToArray();
             if (assets.Length > maxModels) report.incomplete = true;
             int limit = Math.Min(assets.Length, maxModels);

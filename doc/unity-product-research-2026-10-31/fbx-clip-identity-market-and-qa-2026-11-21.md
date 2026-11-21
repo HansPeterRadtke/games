@@ -133,3 +133,24 @@ mass-produced assets. This improved technical demo is not proof of purchases,
 commercial rights, seller approval or an acceptable marketing image. Treat
 this narrowly scoped scanner as a potential feature of a broader publisher
 preflight package unless measurable buyer demand justifies a separate SKU.
+
+### Later buyer correctness gate: bundled sample is not a customer scan
+
+The included `Samples/OriginalMotion.fbx` appears under `Assets` in every
+freshly imported buyer project. The initial whole-project scanner therefore
+reported a clean model even if the buyer had not imported any **own** FBX
+files. This is a misleading outcome for a product whose claim is to inspect
+the buyer's models. The source now excludes only the exact first-party sample
+path in project-wide mode, while keeping the explicit example scan intact.
+A separate native QA phase runs **before** injecting any private customer FBX
+into a fresh buyer project and checks that the full-project result is
+`NO_FBX_MODELS_SCANNED` while explicit sample scan imports animation and
+returns no collision. It verifies unchanged FBX and `.meta` bytes and a
+create-only evidence receipt. A second native phase adds a real customer FBX
+and rechecks whole-project scanning, clips and no mutation.
+
+This fixes buyer-result correctness, not a confirmed paid-customer report;
+normal human-visible Editor GUI acceptance, legal owner approval and
+paid-buyer willingness remain outstanding. Do not interpret a source-only
+pytest green as a real buyer import pass; retain actual Editor receipts for
+both Unity 2022 and Unity 6 separately.

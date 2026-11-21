@@ -123,6 +123,8 @@ public static class HprFbxClipIdentityNativeQa
             report.status == "NO_DUPLICATE_IDS_IN_CHECKED_MODELS" &&
             report.models.Any(m => m.path == imported && m.modelClipCount >= 1),
             "real_project_model_scan");
+        Check(!report.models.Any(m => m.path == sampleAsset),
+            "bundled_demo_is_not_counted_as_customer_project_model");
         var empty = new FbxClipIdentityReport
         {
             modelsChecked = 0, models = new FbxClipIdentityModel[0], incomplete = false
@@ -208,6 +210,7 @@ public static class HprFbxClipIdentityNativeQa
             "bundled_original_bytes_stable=PASS\n" +
             "sample_and_selected_single_scan=PASS\n" +
             "clipless_fbx_does_not_look_clean=PASS\n" +
+            "bundled_demo_excluded_from_project_scan=PASS\n" +
             "unity_version=" + Application.unityVersion + "\n");
         Debug.Log("HPR_FBX_CLIP_IDENTITY_NATIVE_PASS " + Application.unityVersion +
                   " clips=" + real.modelClipCount + " table=" + real.idEntries);

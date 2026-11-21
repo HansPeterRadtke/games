@@ -46,6 +46,13 @@ grep -q 'HPR_FBX_CLIP_IDENTITY_EXPORT_PASS' "$base/unity-real-export.unity.log"
 python3 "$root/qa/verify_archive.py" --archive "$archive" > "$base/archive-verified.json"
 run buyer-create -createProject "$buyer"
 run buyer-import -projectPath "$buyer" -importPackage "$archive"
+# Before adding any private test FBX, reproduce the actual one-sample-only
+# buyer experience in the fresh imported project. Do not reuse a prior QA run.
+mkdir -p "$buyer/Assets/Editor"
+cp -- "$root/qa/HprFbxSampleOnlyQa.cs" "$buyer/Assets/Editor/"
+export HPR_FBX_SAMPLE_ONLY_QA_OUT="$base/sample-only-native-qa"
+run buyer-sample-only-native -projectPath "$buyer" -executeMethod HprFbxSampleOnlyQa.Run
+grep -q 'HPR_FBX_SAMPLE_ONLY_QA_PASS' "$base/buyer-sample-only-native.unity.log"
 stage "$buyer"
 export HPR_FBX_ID_QA_OUT="$base/buyer-native-qa"
 run buyer-real-model-qa -projectPath "$buyer" -executeMethod HprFbxClipIdentityNativeQa.Run
@@ -60,7 +67,12 @@ assert a==b,'author and imported buyer results differ'
 assert 'real_original_blender_fbx_import=PASS' in a
 assert all(line.endswith('=PASS') or line.startswith('unity_version=') for line in a.splitlines())
 assert json.loads((p/'archive-verified.json').read_text())['result']=='PASS'
+sample_only=(p/'sample-only-native-qa/sample-only-receipt.txt').read_text()
+assert 'sample_only_project_scan_reports_no_customer_fbx=PASS' in sample_only
+assert all(x.endswith('=PASS') or x.startswith('unity_version=') for x in sample_only.splitlines())
+assert a.split('unity_version=')[-1].strip()==sample_only.split('unity_version=')[-1].strip()
 print(json.dumps({'status':'PASS','unity_version':a.split('unity_version=')[-1].strip(),
     'real_original_fbx':True,'author_and_buyer':'PASS','fixed_scope_archive':'PASS',
-    'native_regressions':len(a.splitlines())-1,'archive_bytes':(p/'hpr-fbx-clip-identity-candidate.unitypackage').stat().st_size}))
+    'native_regressions':len(a.splitlines())-1,'sample_only_buyer_checks':len(sample_only.splitlines())-1,
+    'archive_bytes':(p/'hpr-fbx-clip-identity-candidate.unitypackage').stat().st_size}))
 PY

@@ -9,7 +9,11 @@ Use **Tools > HPR > FBX Clip Identity Audit**. For your first run, click
 at `Assets/HPRFbxClipIdentity/Samples/OriginalMotion.fbx`; it should have no
 known duplicated ID in its default importer settings. To scan your own file,
 choose the FBX model in **Selected model asset** and click **Check selected FBX**.
-To audit every FBX in `Assets`, click **Scan all FBX models (read only)**.
+To audit every customer FBX in `Assets`, click **Scan all FBX models (read only)**.
+The project-wide scan explicitly excludes this tool's own included
+`Samples/OriginalMotion.fbx`, so a fresh buyer project containing only the
+example correctly reports `NO_FBX_MODELS_SCANNED`. Use the separate example
+button to inspect the sample itself. A clean example is not a clean project.
 The result displays the overall state, checked-model and affected-model counts,
 confirmed duplicated IDs, and explanatory model paths. Optionally export a
 create-only JSON report. Never interpret the bundled example's clean result as
