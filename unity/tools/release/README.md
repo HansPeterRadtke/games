@@ -10,6 +10,8 @@ This directory contains the reproducible sale-package validation, export, screen
 
 `package_boundary_audit/` is an additional **unpublished publisher-facing Editor candidate**. It scans a chosen single export folder for resolved Unity asset dependencies outside that boundary and offers a read-only report with create-only JSON export. The authored source and private native builder/consumer tests are separated; the GUI, real screenshots, seller economic validation, license and publication eligibility remain additional release gates. See its own README and the November 21 market comparison. It does not replace the official Asset Store Validator, discover missing GUIDs or certify dependency manifests.
 
+`fbx_clip_identity_audit/` is a separate, unpublished narrowly scoped FBX animation importer ID diagnostic candidate. It examines configured custom-clip internalIDs and serialized AnimationClip mapping class IDs without changing importer settings. Original Blender FBX QA, seller evidence and genuine GUI tests remain separate from publication. See its own internal source/QA folders.
+
 ## Typical package flow
 
 For one sellable package, run the package-specific pipeline rather than the all-package default:
