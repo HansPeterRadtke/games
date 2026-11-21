@@ -143,6 +143,38 @@ class UnityImportedPackage(unittest.TestCase):
         self.assertGreaterEqual(sum("payload" in issue for issue in r["issues"]),5)
 
 
+    def test_unity2022_default_monoimporter_requires_explicit_opt_in(self):
+        meta = self.project / (CS + ".meta")
+        original = meta.read_bytes()
+        meta.write_bytes(original.rstrip(b"\n") + identity.UNITY2022_DEFAULT_MONOIMPORTER)
+        strict = self.run_check()
+        self.assertEqual("FAIL", strict["status"])
+        compatible = identity.verify_import(self.archive, self.project, self.sha,
+            allow_unity2022_default_monoimporter=True)
+        self.assertEqual("PASS", compatible["status"])
+        self.assertEqual(1, compatible["unity2022_default_monoimporter_normalizations_verified"])
+        self.assertEqual(2, compatible["guid_identities_verified"])
+        self.assertEqual(2, compatible["asset_paths_verified"])
+        self.assertEqual(1, compatible["metadata_payloads_verified"])
+
+    def test_unity2022_non_default_importer_change_remains_rejected(self):
+        meta = self.project / (CS + ".meta")
+        meta.write_bytes(meta.read_bytes().rstrip(b"\n") +
+            identity.UNITY2022_DEFAULT_MONOIMPORTER.replace(b"executionOrder: 0", b"executionOrder: 42"))
+        compatible = identity.verify_import(self.archive,self.project,self.sha,
+            allow_unity2022_default_monoimporter=True)
+        self.assertEqual("FAIL",compatible["status"])
+        self.assertTrue(any("metadata payload" in issue for issue in compatible["issues"]))
+
+    def test_unity2022_does_not_excuse_buyer_source_modifications(self):
+        meta = self.project / (CS + ".meta")
+        meta.write_bytes(meta.read_bytes().rstrip(b"\n") + identity.UNITY2022_DEFAULT_MONOIMPORTER)
+        self.file.write_text("namespace UnrelatedChange {}")
+        result=identity.verify_import(self.archive,self.project,self.sha,
+            allow_unity2022_default_monoimporter=True)
+        self.assertEqual("FAIL",result["status"])
+        self.assertTrue(any("asset payload differs" in issue for issue in result["issues"]))
+
     def test_same_guid_importer_settings_are_not_pristine(self):
         meta = self.project / (CS + ".meta")
         meta.write_text(meta.read_text() + "MonoImporter:\n  executionOrder: 123\n")

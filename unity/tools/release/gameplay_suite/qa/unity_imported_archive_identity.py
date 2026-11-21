@@ -2,6 +2,8 @@
 """Exact read-only .unitypackage vs actual imported Unity project integrity.
 
 Checks EVERY archived asset payload, full metadata and GUID against project files.
+Default behavior requires exact metadata. Explicit Unity 2022 compatibility mode
+allows only its known, byte-exact default C# MonoImporter expansion.
 A successful result is not proof the Unity Editor compiled or played:
 an independent genuine Editor run, log and exit code must be supplied.
 Never reads symlink targets or repairs customer project data.
@@ -19,6 +21,31 @@ from unity_archive_policy import read_package_members
 
 ROOT = "Assets/HPRGameplaySuite"
 GUID = re.compile(rb"(?m)^guid:\s*([0-9a-fA-F]{32})\s*$")
+
+# Unity 2022.3 expands a minimal C# .meta into this *exact* default
+# MonoImporter block during native import. This is permitted ONLY by an
+# explicit compatibility flag; any other metadata edit still fails closed.
+UNITY2022_DEFAULT_MONOIMPORTER = (
+    b"\nMonoImporter:\n"
+    b"  externalObjects: {}\n"
+    b"  serializedVersion: 2\n"
+    b"  defaultReferences: []\n"
+    b"  executionOrder: 0\n"
+    b"  icon: {instanceID: 0}\n"
+    b"  userData: \n"
+    b"  assetBundleName: \n"
+    b"  assetBundleVariant: \n"
+)
+
+
+def _default_csharp_metadata_normalization(name: str, guid: str,
+                                             archive_meta: bytes, imported_meta: bytes) -> bool:
+    if not name.endswith('.cs'):
+        return False
+    expected = (b'fileFormatVersion: 2\nguid: ' + guid.encode('ascii'))
+    return (archive_meta in (expected, expected + b"\n") and
+            imported_meta == expected + UNITY2022_DEFAULT_MONOIMPORTER)
+
 
 
 def _digest(path: Path) -> str:
@@ -38,11 +65,14 @@ def _safe_path(project: Path, relative: str) -> Path:
     return current
 
 
-def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
+def verify_import(archive: Path, project: Path, expected_sha: str,
+                  *, allow_unity2022_default_monoimporter: bool = False) -> dict:
     """Read the original exact archive and compare the actual imported tree.
 
     SHA-256 is a required explicit 64-hex pin. No writing or repair of Unity
-    projects, metadata, input settings, or asset content is performed.
+    projects, metadata, input settings, or asset content is performed. The
+    explicit optional Unity 2022 C# metadata compatibility mode remains strict
+    for every other asset type and any non-default importer configuration.
     """
     archive = Path(archive)
     project = Path(project)
@@ -71,6 +101,7 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
     verified_scripts = 0
     mismatched_scripts = []
     checked_metadata = 0
+    validated_2022_default_meta = 0
     fully_verified_paths = 0
     for name, guid in sorted(names.items()):
         asset = _safe_path(project, name)
@@ -115,11 +146,15 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
             expected_metadata = members.get(guid + "/asset.meta")
             if expected_metadata is None:
                 raise ValueError("Missing exact archive metadata: " + name)
-            if text != expected_metadata:
-                issues.append("imported Unity metadata payload differs from exact archive: " + name)
-            else:
+            if text == expected_metadata:
                 checked_metadata += 1
                 metadata_matches = True
+            elif (allow_unity2022_default_monoimporter and
+                  _default_csharp_metadata_normalization(name, guid, expected_metadata, text)):
+                validated_2022_default_meta += 1
+                metadata_matches = True
+            else:
+                issues.append("imported Unity metadata payload differs from exact archive: " + name)
         if payload_matches and guid_matches and metadata_matches:
             fully_verified_paths += 1
 
@@ -145,6 +180,8 @@ def verify_import(archive: Path, project: Path, expected_sha: str) -> dict:
         "script_payloads_verified": verified_scripts,
         "script_payload_mismatches": mismatched_scripts,
         "metadata_payloads_verified": checked_metadata,
+        "unity2022_default_monoimporter_normalizations_verified": validated_2022_default_meta,
+        "unity2022_normalization_mode_requested": allow_unity2022_default_monoimporter,
         "guid_identities_verified": checked_guids,
         "issues": sorted(set(issues)),
         "remediation": "Do not report Unity package acceptance until an actual Editor process/log also passes.",
@@ -157,9 +194,12 @@ def main() -> int:
     parser.add_argument("--project", type=Path, required=True)
     parser.add_argument("--expected-sha256", type=str, required=True)
     parser.add_argument("--receipt", type=Path)
+    parser.add_argument("--allow-unity2022-default-monoimporter", action="store_true",
+                        help="Allow only Unity 2022.3's exact default MonoImporter expansion on .cs files; no other metadata edits")
     args = parser.parse_args()
     try:
-        result = verify_import(args.archive, args.project, args.expected_sha256)
+        result = verify_import(args.archive, args.project, args.expected_sha256,
+                               allow_unity2022_default_monoimporter=args.allow_unity2022_default_monoimporter)
         payload = json.dumps(result, indent=2, sort_keys=True) + "\n"
         if args.receipt is not None:
             dest = args.receipt.resolve(strict=False)
