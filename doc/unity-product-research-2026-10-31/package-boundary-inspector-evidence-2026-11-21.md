@@ -122,3 +122,83 @@ Real developer posts and current competition change the relative ranking:
    https://www.reddit.com/r/Unity3D/comments/1vrslwk/
 
 This is a **feasibility and competitive-intensity ordering**, not a revenue forecast. No listing conversion data, paying beta buyers, operating margin, or measured market size was found. Importer-internal ID editing is potentially destructive and would require independent owner approval before any real project mutation; begin with read-only verification if explored.
+
+### November 21, later owner-serial wave: legacy buyer upgrades and paid UPM
+
+The exact November 2026 publisher question is **not** whether another generic
+dependency viewer can be created, but whether a previous customer can safely
+upgrade an installed `.unitypackage` while retaining references and customer
+files. The private original HPR Package Boundary archives supply a grounded
+real-test pair: November 21 initial five-asset release followed by the later
+six-asset release, with all five old path/GUID identities intact and one new
+Editor script. A genuine old-buyer project with authored serialized references,
+customer file hashes and a same-project native package upgrade is the correct
+next validation gate; synthetic report comparisons alone do not prove it.
+The corresponding private QA harness is kept outside the consumer archive.
+
+The primary official Unity Asset Store UPM marketing page currently advertises
+UPM publishing for tools, extensions and SDKs, including **multi-package
+products**, automatic dependencies and package cache updates. However,
+Unity's detailed manual under Unity 6000.3 (crawled November 21) still says
+that **paid UPM packages are not yet available**. A November 9 public
+publisher/buyer discussion reports that prior `.unitypackage` purchases
+cannot be automatically converted to entitlements for new paid UPM packages.
+Sources: https://assetstore.unity.com/publishing/upm-publishing ;
+https://docs.unity.com/en-us/engine/6000.3/manual/assets-and-media/asset-store/publishing/upm ;
+https://www.reddit.com/r/Unity3D/comments/1xrox60/
+These are **conflicting publication-state signals**, not a portal/account
+transaction receipt. Neither paid UPM eligibility nor user migration or
+seller enrollment is verified. No paid UPM sales forecast should rest on them.
+
+A newly listed **free** official UPM Publishing Tools package (version 0.3.3,
+September 28) and free **Package Authoring** version 1.0.4 (November 3) already
+cover validation/upload and UPM scaffolding respectively. This reduces the
+potential price power of generic UPM builders. There is no defensible net
+revenue estimate from listings or forum anecdotes alone.
+Sources: https://marketplace.unity.com/packages/tools/asset-store-upm-publishing-tools-5368745 ;
+https://assetstore.unity.com/packages/tools/package-authoring-5967085
+
+Current opportunity ranking by **feasible owner-hours and specific unmet
+problem**, *not measured sales*: (1) a safe legacy-to-current install upgrade
+and compatibility-evidence offering built on genuine native buyer receipts,
+**only after the actual upgrade succeeds** and paying customer demand is
+shown; (2) differentiated Gameplay Systems Suite with mature integration and
+honest Editor walkthroughs, but higher runtime-support and asset/demo needs;
+(3) the existing narrow read-only FBX clip ID diagnostic as one possible part
+of a broader product, not assumed worth an independent marketplace SKU;
+(4) general validators/UPM scaffolders are low-priority due to abundant free
+and advanced existing tools. Profit, net payout, buyer conversion and listing
+eligibility remain **unverified**. The single shared seller owns market
+publication and may reject prototypes with weak economics.
+
+### Verified old-buyer preservation, final native receipts
+
+Both Unity 2022.3.22f1 and Unity 6000.6.8f1 independently passed a real
+first-package-to-next-package upgrade in a fresh buyer project. Exactly five
+old metadata GUIDs remained stable, one new vendor Editor script appeared,
+and all six buyer-owned source/metadata files were byte-identical. A genuine
+customer `ScriptableObject` in the runtime assembly retained its serialized
+reference to the vendor README. The product's `HprBoundaryUpgradeReview`
+returned `ADDITIONS_ONLY` with no changed, removed or moved original assets.
+Private source-matched proof:
+`/data/var/marketplace-account-setup/unity-20261121-wave49/boundary-upgrade-2022-3-22f1-native2/`
+and `boundary-upgrade-6000-6-8f1-native1/` contain real Unity import logs,
+source GUID snapshots, customer SHA-256 inventories and native receipts.
+
+The first 2022 native run had a false negative test fixture: an Editor-only
+`ScriptableObject` was serialized without a durable runtime script reference.
+The subsequent corrected test used a normal buyer runtime class in
+`Assets/HprBoundaryUpgradeCustomerFixture`, and the failed run was preserved.
+The official Unity 2026 UPM publishing and legacy update documents distinguish
+publisher package updates from cross-product paid upgrades, so this **exact
+local `.unitypackage` import test** must not be described as verified
+legacy-to-UPM store entitlement migration. Nor does it prove arbitrary old
+customers retain references when the publisher changes or deletes existing
+GUIDs; this test's precise change is an additions-only source release.
+
+Separate firsthand Unity issue reports confirm that GUID collisions can occur
+when migrating Unity Registry packages, including the June 2026 com.unity.ai
+package incident which caused missing-type compile errors:
+https://discussions.unity.com/t/updating-to-unity-6000-5-0f1-ai-packages-problems/1723433
+That is additional demand evidence for **provenance and collision detection**,
+not a measured paid market or evidence our tool repairs those Unity internals.
