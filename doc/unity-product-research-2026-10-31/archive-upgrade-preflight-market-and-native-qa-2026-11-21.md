@@ -626,3 +626,73 @@ The entire current Unity source regression run passed **455 tests**.
 The graphical preview gate is still unresolved due earlier real Editor
 license/terms prompts. This is not an accepted retail listing or an
 actual customer screenshot.
+
+### November 21, 2026: competitive alternatives and next-product triage
+
+Current public user pain is real but **payment conversion is not established**.
+A September 2025 Unity buyer reported multiple purchased packs overriding one
+another when imported together. An August 27, 2026 Unity3D user described a
+modified avatar `.unitypackage` overwriting an existing project; their stated
+re-export attempt did not solve the problem. Our *separate controlled Unity
+buyer test* goes further on technical causality: in both installed Editors,
+case-only path collisions produced a missing saved reference. None of these
+facts establish actual willingness to purchase our tool.
+
+The competition imposes a meaningful commercial constraint:
+
+* **PackageLens** (June 2026) is **FREE**, and claims incoming-package vs
+  current-project conflicts, selected imports, text/YAML diffs, snapshots and
+  a demo/tutorial scene. This is a substantial free alternative to HPR's
+  narrower **two independent archives** / **two versions of one product**
+  comparisons. Its seven favourites are neither verified sales nor a revenue
+  signal; do not describe the HPR product as the first or only solution.
+  https://assetstore.unity.com/packages/tools/utilities/packagelens-package-import-review-tool-375592
+* **Generic missing-reference fixers** are a crowded cheap category rather
+  than a clear new high-margin independent product. The 2026 Smashy Tech
+  Missing Reference & None Field Finder is advertised at **$4.99**, with
+  two favourites and insufficient ratings; Missing Reference Fixer is
+  advertised at **$9.99**, eight favourites, insufficient ratings. Multiple
+  further competitors sell or give away similar reference/scene/prefab scans,
+  including Asset Validator, Project Verification (free) and ProjectDoctor.
+  Unity itself documents a hierarchy-search filter for missing asset,
+  script and prefab references. Favourites, dates and listed prices do
+  **not** imply paid transactions, demand volume or owner earnings.
+  https://assetstore.unity.com/packages/tools/utilities/missing-reference-none-field-finder-384684
+  https://assetstore.unity.com/packages/tools/utilities/missing-reference-fixer-316285
+  https://assetstore.unity.com/packages/tools/utilities/project-verification-free-find-errors-in-your-project-333900
+  https://docs.unity.com/en-us/engine/6000.7/manual/unity-editor/editor-navigating-managing/editor-searching/search-overview/search-by-provider/search-project-scenes/search-scene
+* **Animation binding repair** has recent visible discussion: a September
+  2026 Unity3D thread about low-framerate animation tangents has substantial
+  engagement, and Blender-to-Unity FBX incompatibility appears in separate
+  questions. However mature-looking competing tools already advertise
+  automatic editable `.anim` binding path repairs, backups and recovery,
+  including **AnimBinder** and **Animation Tools**. FBX-embedded read-only
+  clips require a different workflow, and fixing generic animation behavior
+  requires genuine engine/rig examples and much greater support exposure.
+  These examples are **technical research leads**, not a verified new SKU.
+  https://www.reddit.com/r/Unity3D/comments/1we75ar/
+  https://assetstore.unity.com/packages/tools/animation/animbinder-368186
+  https://assetstore.unity.com/packages/tools/animation/animation-tools-324462
+
+**Priority ordered by evidence, expected owner workload and differentiation:**
+(1) Preserve and harden the now independently tested **first-party archive
+upgrade/coexistence tool** as part of an existing publisher safety suite,
+with no speculative storefront sale claims; its concrete unique evidence is
+pre-import two-archive comparison and the reproducer that destroys a saved
+reference. (2) Investigate a differentiated **publisher release CI gate** for
+repeatable archive-to-archive migration QA only after finding a publisher
+budget/payment signal and comparing free CI/asset-validator alternatives.
+(3) Retain FBX animation import diagnostic as a lower-priority technical
+candidate requiring genuine Blender-generated reproductions and buyer proof.
+(4) **Do not produce yet another generic missing-reference fixer**: free
+built-in/editor alternatives and cheap competitors make an isolated small SKU
+a weak use of production time. No defensible net revenue or owner-hours
+estimate is currently possible because actual paid buyer numbers, fees,
+support needs and conversion evidence are absent.
+
+The single shared seller receives **authentic tested packages and open
+retail warnings**, not approval to publish. A native test passes C# and
+package import, but authentic GUI screenshots remain blocked by the actual
+licence/terms state; no screenshot should be invented. Exact sources and
+private test receipts are in the owning producer's private evidence path
+rather than copied into public listings.
