@@ -154,3 +154,69 @@ incident was bypassed. The new tool is intentionally offline, limited to
 classic `.unitypackage`, and has no automatic repair or entitlement migration
 support. All marketplace, legal, pricing, rights and buyer interview gates
 remain open; no external publication was performed.
+
+## Final documented buyer archive and official local validator evidence
+
+The customer-facing README was expanded with genuine **documentation**: the
+order of previous/current release selection, how to interpret each warning,
+create-only JSON export, `INCOMPLETE` cases, and why the user must prove
+compatibility in a populated disposable Unity buyer project. The buyer
+archive source changed only in its first-party documentation; the C# scanner
+and window source remained the same real Unity-tested implementation.
+
+The exact revised documentation package then completed **fresh Unity author,
+export, independent buyer import and eleven native checks** in installed Unity
+2022.3.22f1 and Unity 6000.6.8f1, without source/metadata GUID mismatches.
+Actual two-version buyer receipts and source byte checks are saved privately:
+`/data/var/marketplace-account-setup/unity-20261121-wave50/native-2022-3-22f1-docs2/`
+and `native-6000-6-8f1-docs2/`. Earlier `final1` native results remain separate,
+and initial parser-negative cases are not overwritten.
+
+The producer additionally installed the **same revised 2022-compiled package**
+into a brand-new disposable Unity 2022.3.22f1 project with locally installed
+Unity Asset Store Tools 12.0.0. Its actual counted validator receipt is:
+
+* `status: RanToCompletion`, `hadCompilationErrors: False`
+* `testsReturned: 34`, `testsPassed: 33`, `testsWithIssues: 1`
+* The sole warning is **Check Demo Scenes**: no valid demo scene under the
+  package's Editor-only root. The earlier documentation-content warning is
+  resolved. No file was uploaded or Publisher Portal action performed.
+
+The AST test's missing-scene check expects a scene containing game objects
+or a designated UPM sample. A standalone archive file comparer does not use
+scenes. Adding an unrelated primitive scene to game the validator would be
+misleading to customers; the author intentionally preserved the honest warning
+for seller/marketplace review. Therefore **do not describe the product as
+validator-clean or approved**. The actual machine result is retained at
+`/data/var/marketplace-account-setup/unity-20261121-wave50/archive-official-ast-2022-docs2/asset-store-tools-results.txt`.
+The official installed AST version had earlier failed to compile in Unity
+6000.6 due obsolete AST APIs; the new tool itself completed independent
+Unity 6000.6 author and buyer compilation, which is different evidence.
+
+A materially stronger new competitor check: the Unity Asset Store's actual
+**PackageLens - Package Import Review Tool** is listed as **FREE**, version
+1.0.0, dated June 4, 2026; it specifically previews incoming `.unitypackage`
+changes and conflicts versus an existing project. This undermines the paid
+standalone business case more than a generic feature-overlap claim. The new
+HPR tool compares two actual archives rather than incoming archive vs active
+project, but no seller demand, premium price or paid conversion data has been
+obtained: https://assetstore.unity.com/packages/tools/utilities/packagelens-package-import-review-tool-375592
+
+A recently published $14.99 promotional/regular $29.99 generic Build &
+Dependency Analyzer illustrates the low-dollar utility category, **not
+verified purchases**. Unity's official publisher FAQ states the developer
+retains 70% of gross Asset Store sales, before taxes/support/marketing; this
+does not predict sales. Self-reported November 15 small-publisher results
+include zero-sale and low-visibility experiences, while some established
+publishers report better outcomes. These anecdotes are nonrepresentative and
+should not be multiplied into fabricated revenue forecasts:
+https://assetstore.unity.com/packages/tools/utilities/build-dependency-analyzer-413664
+https://marketplace.unity.com/publishing/publish-and-sell-assets
+https://www.reddit.com/r/Unity3D/comments/1xwpb73/
+
+Current technical opportunity is to **combine genuinely tested archive
+upgrade, installed-asset boundary and buyer-preservation capabilities** into
+a high-quality publisher preflight bundle if a paying budget owner is later
+verified. Avoid creating more low-value overlapping SKUs and avoid product
+publication until legal/AI provenance, UI screenshots, compatibility, existing
+seller standing and actual buyer willingness are independently supported.

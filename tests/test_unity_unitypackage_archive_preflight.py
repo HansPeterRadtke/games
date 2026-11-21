@@ -120,3 +120,12 @@ def test_native_qa_requires_genuine_archives_corruption_and_fresh_buyer():
     assert 'buyer-create' in run and 'buyer-real-import' in run and 'buyer-native-qa' in run
     assert 'verified-buyer-archive.json' in run
     assert 'HprArchivePreflightExporter.Run' in run
+
+
+def test_actual_buyer_documentation_explains_statuses_and_limits():
+    readme=(VENDOR/'README.md').read_text()
+    for term in ('documentation', 'existing', 'proposed', 'INCOMPLETE',
+                 'REVIEW_POTENTIAL_REFERENCE_BREAKAGE', 'REVIEW_PATH_MIGRATION',
+                 'REVIEW_CONTENT_OR_IMPORT_CHANGES', 'ADDITIONS_ONLY',
+                 'real buyer project', 'serialized references', 'No archive is imported'):
+        assert term in readme
