@@ -15,6 +15,7 @@ public static class HprSuiteFastPlaymodeValidator
     private static int frames;
     private static int phase;
     private static bool subscribed;
+    private static double exitReadyAfter;
 
     static HprSuiteFastPlaymodeValidator()
     {
@@ -94,10 +95,31 @@ public static class HprSuiteFastPlaymodeValidator
             }
             else if (phase == 4 && !EditorApplication.isPlayingOrWillChangePlaymode)
             {
+                // Restore the customer's exact Editor settings before winding
+                // down. Unity 6.6 can refresh EditorSettings and its Search
+                // index asynchronously; immediate batch Exit after this write
+                // triggered a native Mono SIGSEGV even when gameplay QA passed.
                 RestoreOriginalEditorSettings();
+                exitReadyAfter = EditorApplication.timeSinceStartup + 8.0;
+                NextPhase(5);
+                Debug.Log("HPR_SUITE_FAST_PLAY_EDITOR_DRAIN_STARTED");
+            }
+            else if (phase == 5)
+            {
+                if (EditorApplication.isPlayingOrWillChangePlaymode ||
+                    EditorApplication.isCompiling || EditorApplication.isUpdating)
+                {
+                    // Restart the quiet period after any remaining refresh.
+                    frames = 0;
+                    exitReadyAfter = EditorApplication.timeSinceStartup + 8.0;
+                    return;
+                }
+                if (++frames < 120 || EditorApplication.timeSinceStartup < exitReadyAfter)
+                    return;
                 NextPhase(0);
                 EditorApplication.update -= OnUpdate;
                 subscribed = false;
+                Debug.Log("HPR_SUITE_FAST_PLAY_EDITOR_IDLE_EXIT_REQUESTED");
                 EditorApplication.delayCall += () => EditorApplication.Exit(0);
             }
         }

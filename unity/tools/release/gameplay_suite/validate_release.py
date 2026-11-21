@@ -67,6 +67,28 @@ def validate_runtime_sources(contents: dict[str, bytes]) -> int:
     return len(expected)
 
 
+def validate_ability_installer_api_contract(contents: dict[str, bytes]) -> None:
+    """Fail a package with an Editor installer/runtime API mismatch.
+
+    A November 2026 old buyer archive omitted the installed ability helper and
+    downgraded AbilityData/ability-pool APIs in an existing URP project, leaving
+    C# compile errors that stopped further Unity imports. This pre-export gate
+    checks the exact shipped payloads, not only the authoring source tree. It is
+    a narrow signature check; real Unity import/compilation remains mandatory.
+    """
+    helper = contents.get(ROOT + "Editor/HprSelectedAbilityInstaller.cs")
+    ability = contents.get(ROOT + "Modules/com.hpr.abilities/Runtime/AbilityData.cs")
+    pool = contents.get(ROOT + "Integration/HprSuiteIntegration.cs")
+    if not helper or not ability or not pool:
+        raise ValueError("Buyer package missing ability installer/runtime contract source")
+    if (b"TryValidateRuntimeSettings(" in helper and
+        b"public bool TryValidateRuntimeSettings(out string reason)" not in ability):
+        raise ValueError("Ability installer requires missing AbilityData.TryValidateRuntimeSettings API")
+    if (b"HasValidStatsSource" in helper and
+        b"public bool HasValidStatsSource" not in pool):
+        raise ValueError("Ability installer requires missing HprSuiteAbilityPool.HasValidStatsSource API")
+
+
 def authored_guid(metadata: Path) -> str:
     match = re.search(r"(?m)^guid:\s*([0-9a-f]{32})\s*$", metadata.read_text(encoding="utf-8"))
     if match is None:
@@ -172,6 +194,7 @@ def inspect(archive: Path) -> dict:
         raise ValueError("Buyer Editor code still expects obsolete UPM layout: " + repr(bad_paths))
     validate_editor_sources(editor_code)
     runtime_sources = validate_runtime_sources(asset_contents)
+    validate_ability_installer_api_contract(asset_contents)
     # UI Toolkit (UnityEngine.UIElements) is built into Unity; UGUI is optional.
     if any(b"using UnityEngine.UI;" in body or b"UnityEngine.UI." in body
            for path, body in asset_contents.items() if path.endswith(".cs")):

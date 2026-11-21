@@ -8,6 +8,8 @@ The owner explicitly requested substantive research, original-book reading, firs
 
 ## Documents
 
+- [Current Gameplay Suite existing-project upgrade and buyer integration QA, November 21](gameplay-buyer-upgrade-2026-11-21.md) — reproduced obsolete-package CS1061, rebuilt canonical source export, verified Built-in and URP migrations, real selected-ability Undo/Redo test, native Play Mode shutdown correction and outstanding visual release gates.
+
 - [New HPR Project Preflight combined audit candidate, November 20–21](preflight-bundle-native-2026-11-21.md) — original Editor UI combining input and Animator audits, real native Unity 2022 source QA, fixed-scope package export and outstanding buyer/graphics gates.
 
 - [Input Auditor Unity 2022 LTS installation regression and cross-version patch, November 20](input-compatibility-unity2022-2026-11-20.md) — reproduced native compiler failure, guarded source, actual exported package identity, consumer preservation and further Unity 6.7 core-package caveat.
