@@ -26,6 +26,36 @@ The release scripts always inject the `hans` GUI/session environment (`DISPLAY`,
 
 Package-specific preparation is non-destructive at the reporting layer: `doc/package-sale-prep.md` is rebuilt from all sale artifacts currently present under `dist/package_sale_artifacts`, not just the package names supplied to the latest command. `generate_sale_listing_drafts.py` also preserves the maintained `doc/human-only-final-steps.md`; it creates the generic checklist only when that document is missing.
 
+## Official validator fail-closed receipts and dependency boundaries
+
+The official Asset Store Tools batch validator requires an **already installed**
+local `com.unity.asset-store-tools` package. The wrapper no longer clones,
+pulls, patches, or otherwise modifies the shared third-party checkout. A
+missing local package is an actionable setup failure, not permission for an
+implicit download or upgrade. The checker still stages the runner and package
+manifest only inside an explicitly selected disposable sale project; do not
+point `PROJECTS_ROOT` at a buyer's existing game or another agent's active
+project.
+
+Successful machine receipts now include `testsReturned`, `testsPassed`, and
+`testsWithIssues`. **No tests**, missing individual test results, compilation
+errors, unexpected results, or non-Pass results all fail the batch run.
+Receipts use create-only output paths and never overwrite existing evidence.
+The caller is responsible for choosing a fresh log/receipt destination and an
+Editor version supported by that installed AST package. This is a local
+validation result only; it does not grant licensing or publisher approval.
+
+On November 21, AST version 12.0.0 as already installed on Nitro completed
+**34 of 34 checks** against the current 161-asset Gameplay Suite archive in
+Unity 2022.3.22f1 and Unity 6000.4.0f1, with zero issues. It did not compile
+in Unity 6000.6.8f1 because several AST implementation APIs (not Gameplay
+Suite scripts) became errors under that Editor. The local AST checkout already
+contained a separately owned exporter-method change; this producer did not
+modify that third-party source, and the results should not be described as an
+untouched upstream AST checkout. Full private receipts and exact steps are in
+`/data/var/marketplace-account-setup/unity-20261121-evening/`. Real seller
+review and current marketing/graphical approval remain separate.
+
 ## Asset Store upload/status command
 
 `upload_asset_store_package.sh` uses Unity's installed Asset Store Publishing Tools API through `HprAssetStoreUploaderRunner.cs`.

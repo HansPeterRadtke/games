@@ -61,13 +61,14 @@ public static class HprAssetStoreToolsValidatorRunner
         string status = resultType.GetField("Status", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(validationResult)?.ToString() ?? "Unknown";
         bool hadCompilationErrors = (bool)(resultType.GetField("HadCompilationErrors", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(validationResult) ?? false);
         Exception? exception = resultType.GetField("Exception", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(validationResult) as Exception;
-        IEnumerable<object> tests = (((IEnumerable?)resultType.GetField("Tests", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(validationResult)) ?? Array.Empty<object>())
-            .Cast<object>();
+        object[] tests = (((IEnumerable?)resultType.GetField("Tests", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(validationResult)) ?? Array.Empty<object>())
+            .Cast<object>().ToArray();
 
         var lines = new List<string>
         {
             $"status: {status}",
-            $"hadCompilationErrors: {hadCompilationErrors}"
+            $"hadCompilationErrors: {hadCompilationErrors}",
+            $"testsReturned: {tests.Length}"
         };
 
         if (exception != null)
@@ -76,6 +77,7 @@ public static class HprAssetStoreToolsValidatorRunner
         }
 
         int issueCount = 0;
+        int passedCount = 0;
         foreach (object test in tests)
         {
             Type testType = test.GetType();
@@ -83,6 +85,9 @@ public static class HprAssetStoreToolsValidatorRunner
             object? testResult = testType.GetField("Result", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(test);
             if (testResult == null)
             {
+                issueCount++;
+                lines.Add($"test: {title}");
+                lines.Add("  result: MISSING_TEST_RESULT");
                 continue;
             }
 
@@ -90,6 +95,7 @@ public static class HprAssetStoreToolsValidatorRunner
             string testStatus = testResultType.GetField("Status", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(testResult)?.ToString() ?? "Unknown";
             if (string.Equals(testStatus, "Pass", StringComparison.Ordinal))
             {
+                passedCount++;
                 continue;
             }
 
@@ -115,10 +121,17 @@ public static class HprAssetStoreToolsValidatorRunner
             }
         }
 
+        lines.Add($"testsPassed: {passedCount}");
+        lines.Add($"testsWithIssues: {issueCount}");
         Directory.CreateDirectory(Path.GetDirectoryName(resultsPath) ?? ".");
-        File.WriteAllLines(resultsPath, lines);
+        // Never replace an earlier official validator receipt, even on retry.
+        using (var stream = new FileStream(resultsPath, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+        using (var writer = new StreamWriter(stream))
+            foreach (string line in lines)
+                writer.WriteLine(line);
 
-        if (!string.Equals(status, "RanToCompletion", StringComparison.Ordinal) || hadCompilationErrors || exception != null || issueCount > 0)
+        if (!string.Equals(status, "RanToCompletion", StringComparison.Ordinal) || hadCompilationErrors ||
+            exception != null || tests.Length == 0 || issueCount > 0 || passedCount != tests.Length)
         {
             Debug.LogError($"Asset Store Tools validation failed. Results: {resultsPath}");
             EditorApplication.Exit(1);

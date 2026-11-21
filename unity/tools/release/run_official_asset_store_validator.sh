@@ -34,27 +34,13 @@ run_as_hans() {
 }
 
 ensure_ast_tools() {
-  if [[ ! -d "$ast_repo/.git" ]]; then
-    git clone --depth 1 https://github.com/Unity-Technologies/com.unity.asset-store-tools.git "$ast_repo"
-  else
-    git -C "$ast_repo" pull --ff-only
-  fi
-
-  if [[ ! -d "$ast_package_dir" ]]; then
-    echo "Missing official Asset Store Tools package dir: $ast_package_dir" >&2
+  # An owner-managed installed dependency is read-only here. Never git clone,
+  # pull, or patch a shared third-party checkout as a validation side effect.
+  # Resolve or install a missing dependency in a separately authorized task.
+  if [[ ! -d "$ast_package_dir" || ! -f "$ast_package_dir/package.json" ]]; then
+    echo "Installed Asset Store Tools package missing: $ast_package_dir" >&2
     exit 1
   fi
-
-  python3 - <<'PY' "$ast_package_dir/Editor/Exporter/Abstractions/PackageExporterBase.cs"
-from pathlib import Path
-import sys
-
-path = Path(sys.argv[1])
-text = path.read_text(encoding='utf-8')
-text = text.replace('return GUID.Generate().ToString();', 'return Guid.NewGuid().ToString("N");')
-text = text.replace('return UnityEditor.GUID.Generate().ToString();', 'return Guid.NewGuid().ToString("N");')
-path.write_text(text, encoding='utf-8')
-PY
 }
 
 resolve_packages() {

@@ -45,3 +45,38 @@ A real Unity 6000.6.8f1 native `HprSuiteUrpValidator.Run` against the independen
 The release's earlier first-party Unity camera covers and basic encounter images were visually inspected; their branding and captions are readable, and the underlying primitive arena images are authentic, but they do **not** demonstrate the actual customer Editor installer workflow or all ten modules. Read-only comparison of the *earlier November 1 v14 package* and current rebuilt package established byte-identical `Demo/GameplaySuiteShowcase.unity` scene and all **eleven authored sample Arena materials** (`previous-media-content-parity.json`). That is evidence of source-content continuity, **not** a refreshed Unity 6.6.8 render or approval for commercial marketing. A fresh private native camera render was planned, but the Raspi resource broker denied an additional one-gigabyte Nitro GPU reservation as `resources_currently_insufficient`; no GPU capture, alternative bypass, customer upload or synthetic claim was performed. The owner's Unity graphical Software Terms consent blocker also remains unchanged. The single shared seller must not treat the previous stills as independently verified current marketing without genuine visual review and permission.
 
 The producer's exact private internal candidate and QA handoff are at `/data/var/marketplace-account-setup/unity-20261121-production/`, with `internal-producer-handoff.json` listing the release hash, scoped tested modes, reproducible receipts and the remaining human/license/visual gates. The current internal package has a single `Assets/HPRGameplaySuite` folder root. Its original public source remains in the canonical Games `main` branch; no new customer asset, private transcript or render belongs in public Git. **No Unity Asset Store submission, external publishing or buyer communication was authorized.**
+
+## November 21 wave-48 independent official validator cross-version evidence
+
+The original unchanged producer Unity Gameplay Systems Suite archive,
+`hpr-gameplay-systems-suite-candidate.unitypackage`, SHA-256
+`28481398f239c6900511c96ad40f9b6f9be4f87ee143546384ce52478b41cb0b`,
+was imported into two **new disposable Unity buyer projects** with locally
+installed Asset Store Tools version 12.0.0, never uploaded or submitted.
+The AST validation runner was corrected to report independent test counts,
+fail closed on zero/missing test results, and save create-only receipts.
+
+* Unity 2022.3.22f1: native validation completed, **34/34 checks passed**,
+  zero issues, no reported C# compilation errors.
+* Unity 6000.4.0f1: same exact released archive, **34/34 checks passed**,
+  zero issues, no reported C# compilation errors.
+* Unity 6000.6.8f1: the installed **AST validator itself** failed to compile
+  before importing Gameplay Suite; six AST-owned `CS0619` errors involved
+  `GetInstanceID()`/`GetAssetPath(int)` and `AssetPreview` APIs. This attempt
+  is not a Gameplay Suite compile failure and is not a completed AST check.
+
+The local AST checkout already had a separate, pre-existing dirty exporter
+change. None of the above operations changed, reset, pulled, committed or
+otherwise modified that shared checkout. AST performed its existing local
+validation, not server-side publisher review or sale approval. It does not
+establish final Unity 6.6+ official-Tool compliance or graphical usability.
+Private evidence: `/data/var/marketplace-account-setup/unity-20261121-evening/gameplay-official-ast-wave48-2022/`
+and `gameplay-official-ast-wave48-unity60004/` contain actual new-project
+imports, Unity Editor logs and counted receipts. The earlier failed 6.6
+attempt is retained at `gameplay-official-ast-wave48/`.
+
+This real package-quality gain resolves the previous uncertainty over
+whether the published-source Gameplay Suite passes the installed Asset Store
+Tools battery on supported Editor versions. Remaining release gates are
+source/AI/third-party rights and seller-selected GUI footage, not AST failures
+in those two tested Editors.
