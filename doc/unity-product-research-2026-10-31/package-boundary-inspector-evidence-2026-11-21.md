@@ -77,3 +77,48 @@ shared seller to create a listing until that differentiation, GUI/screenshot
 quality, buyer rights/license and economic value are independently validated.
 Attribution: prices are listing observations, not confirmed transaction or
 net-owner revenue evidence.
+
+### Additional independent competition / buyer evidence on 21 November
+
+An especially important direct competitor is **Release Check Pro - Game &
+Asset Validator** (Unity Asset Store, October 2026). Its author explicitly
+advertises asset-folder *external dependency* detection, missing serialized
+references, scene/prefab inspection, read-only Editor analysis, responsive
+UI, progress, configurable thresholds, and release-readiness reporting.
+This overlaps almost entirely with a simple package-boundary checker:
+https://assetstore.unity.com/packages/tools/utilities/release-check-pro-game-asset-validator-401728
+
+Another **Project Validator** launched in October 2026 with twenty-one rules,
+JSON/CSV export, progress/cancellation, optional fixes and asset-quality
+inspection, limited to Unity 6000.3 or newer:
+https://assetstore.unity.com/packages/tools/utilities/project-validator-410282
+
+In the dated November 15 Unity publisher discussion, self-reported low sales
+for new generic systems and buyer concerns over bloated/non-extensible or
+AI-assisted code reinforce the need for durable verified differentiated
+software rather than a basic replacement for existing inspectors. This is
+**anecdotal, not representative market volume or revenue**:
+https://www.reddit.com/r/Unity3D/comments/1xwpb73/
+
+Therefore the basic standalone product has a **poor current revenue case**.
+The differentiating follow-on is exact old/new version GUID identity
+preflight, fail-closed CI-friendly reports, reproducible clean-buyer imports
+across editor generations, and a documented upgrade safety workflow.
+Even this enhanced prototype needs sales-side pricing and buyer-demand
+validation; neither feature count nor source tests demonstrate purchases.
+
+### Wider Unity product opportunity review, same day
+
+Real developer posts and current competition change the relative ranking:
+
+1. **Version-aware publisher preflight with verified clean-project and populated-project upgrades**: the existing HPR audit/Inspector code reduces development cost and exact old/new GUID changes have reproducible value. Commercial potential relative to our codebase is **first among observed near-term options**, but a standalone check is clearly saturated; revenue and buyer conversion remain **unknown**. Buyer interest has to be verified by the shared seller before spending substantial further development effort.
+2. **Targeted FBX animation-import identity audit/diagnostics**: Unity users reported duplicate imported clip internal IDs that break assigning clips, plus order-of-operation bugs when merging model clips. A safe read-only diagnostics utility might offer a sharper problem focus than a general animation toolkit. **Research/prototype only**: data fixtures, Unity API coverage, rights and breadth of demand unverified. Source:
+   https://discussions.unity.com/t/duplicated-internalid-when-creating-animation-clips-on-an-imported-fbx/1716388
+   https://discussions.unity.com/t/how-to-automatically-combine-animation-clips-after-model-import/1730293
+3. **Complex project-specific game systems with built-in migration, samples and long-term guarantees**: higher possible selling price but higher engineering/maintenance burden; low confidence until buyer willingness and uniquely superior gameplay are established. Concrete threads report poor sales/discoverability for generic system packs and demand mature, proven systems.
+4. **Generic dependency validators, editor shortcuts, hierarchy/inspector enhancers, animation-event timelines and lightmap batch tools**: poor greenfield opportunity due to many established free or advanced commercial competitors. A November 2026 Editor utility listing already offers a 21-rule project validator with progress and JSON export. For animation events, Animation Event Studio already provides timeline edit, persisted imported-model events, batch application, validation and extensive native tests:
+   https://assetstore.unity.com/packages/tools/animation/animation-event-studio-383238
+   https://discussions.unity.com/t/released-batch-lightmap-baker-bake-all-your-scenes-in-one-unattended-run-validation-changed-only-rebakes-ci-support/1731834
+   https://www.reddit.com/r/Unity3D/comments/1vrslwk/
+
+This is a **feasibility and competitive-intensity ordering**, not a revenue forecast. No listing conversion data, paying beta buyers, operating margin, or measured market size was found. Importer-internal ID editing is potentially destructive and would require independent owner approval before any real project mutation; begin with read-only verification if explored.

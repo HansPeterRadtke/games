@@ -12,6 +12,7 @@ ALLOWED = {
     'Assets/HPRPackageBoundary',
     'Assets/HPRPackageBoundary/Editor',
     'Assets/HPRPackageBoundary/Editor/HprPackageBoundaryWindow.cs',
+    'Assets/HPRPackageBoundary/Editor/HprBoundaryUpgradeReview.cs',
     'Assets/HPRPackageBoundary/LICENSE.md',
     'Assets/HPRPackageBoundary/README.md',
 }
@@ -66,7 +67,7 @@ def inspect(path: Path) -> dict:
         raise ValueError('Buyer package asset set is not exactly approved: ' + repr(sorted(ALLOWED - set(paths))))
     if len(set(paths.values())) != len(paths):
         raise ValueError('Duplicate asset GUIDs')
-    return {'status': 'PASS', 'assets': len(paths), 'source_scripts': 1,
+    return {'status': 'PASS', 'assets': len(paths), 'source_scripts': 2,
             'single_export_root': True, 'meta_guids_and_payloads_match': True}
 
 
