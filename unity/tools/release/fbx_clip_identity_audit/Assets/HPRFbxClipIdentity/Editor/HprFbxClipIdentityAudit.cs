@@ -275,6 +275,29 @@ namespace HPR.FbxClipIdentity
             { return Incomplete(assetPath, "READ_FAILURE", ex.GetType().Name + ": " + ex.Message); }
         }
 
+        // One-file shortcut for first-time users and a bundled, original
+        // animated FBX example. Does not import or modify the chosen model.
+        public const string ExampleFbxPath = "Assets/HPRFbxClipIdentity/Samples/OriginalMotion.fbx";
+
+        public static FbxClipIdentityReport ScanSingle(string assetPath)
+        {
+            var model = ScanOne(assetPath);
+            var report = new FbxClipIdentityReport
+            {
+                unityVersion = Application.unityVersion,
+                modelsChecked = 1,
+                models = new[] { model },
+                incomplete = model.incomplete,
+                definiteDuplicateIds = model.duplicateClipIds,
+                duplicateModels = model.duplicateClipIds > 0 ? 1 : 0,
+                limitation = "Read-only selected-model preflight. This checks only the current " +
+                    "stored ModelImporter ID tables. It cannot validate future reimports " +
+                    "or repair a source FBX and never modifies buyer assets."
+            };
+            report.status = Classify(report);
+            return report;
+        }
+
         public static FbxClipIdentityReport ScanAssets(Func<int, int, bool> cancelled = null,
             int maxModels = MaxModels)
         {
@@ -319,6 +342,8 @@ namespace HPR.FbxClipIdentity
                 return "NO_FBX_MODELS_SCANNED";
             if (report.definiteDuplicateIds > 0)
                 return "DUPLICATE_IDS_DETECTED";
+            if (report.models.All(model => model != null && model.modelClipCount == 0))
+                return "NO_ANIMATION_CLIPS_IN_CHECKED_MODELS";
             return "NO_DUPLICATE_IDS_IN_CHECKED_MODELS";
         }
 

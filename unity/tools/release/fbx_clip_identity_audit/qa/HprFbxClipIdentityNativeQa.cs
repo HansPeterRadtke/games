@@ -38,6 +38,38 @@ public static class HprFbxClipIdentityNativeQa
         Check(real != null && !real.incomplete && real.modelClipCount >= 1,
             "real_blender_animation_imported_and_checked");
         Check(real.duplicateClipIds == 0, "original_model_has_no_duplicate_clip_ids");
+        string sampleAsset = HprFbxClipIdentityAudit.ExampleFbxPath;
+        var sampleImporter = AssetImporter.GetAtPath(sampleAsset) as ModelImporter;
+        Check(sampleImporter != null, "sample_model_is_original_blender_animation");
+        string sampleAbsolute = Path.Combine(Directory.GetParent(Application.dataPath).FullName,
+            sampleAsset);
+        byte[] sampleOriginal = File.ReadAllBytes(sampleAbsolute);
+        byte[] sampleSettings = File.ReadAllBytes(sampleAbsolute + ".meta");
+        Check(Hash(sampleOriginal) == Hash(beforeSource),
+            "bundled_sample_matches_first_party_source_exactly");
+        var sampleReport = HprFbxClipIdentityAudit.ScanSingle(sampleAsset);
+        Check(sampleReport.modelsChecked == 1 && !sampleReport.incomplete &&
+            sampleReport.models[0].modelClipCount >= 1 &&
+            sampleReport.models[0].duplicateClipIds == 0 &&
+            sampleReport.status == "NO_DUPLICATE_IDS_IN_CHECKED_MODELS",
+            "sample_one_click_source_scan");
+        var singleReport = HprFbxClipIdentityAudit.ScanSingle(imported);
+        Check(singleReport.modelsChecked == 1 && !singleReport.incomplete &&
+            singleReport.models[0].modelClipCount >= 1 &&
+            singleReport.models[0].duplicateClipIds == 0,
+            "selected_model_single_scan");
+        var invalidSingle = HprFbxClipIdentityAudit.ScanSingle("Assets/BadFolder/file.txt");
+        Check(invalidSingle.incomplete && invalidSingle.status == "INCOMPLETE",
+            "invalid_selected_model_fails_closed");
+        var noAnimation = new FbxClipIdentityReport
+        {
+            modelsChecked = 1, models = new[] { new FbxClipIdentityModel
+            { path = "Assets/StaticNoAnimation.fbx", modelClipCount = 0,
+                incomplete = false, duplicateClipIds = 0 } }
+        };
+        Check(HprFbxClipIdentityAudit.Classify(noAnimation) ==
+            "NO_ANIMATION_CLIPS_IN_CHECKED_MODELS",
+            "clipless_scan_not_misreported_clean");
         var realMeta = HprFbxClipIdentityAudit.AnalyzeMetaText(imported,
             File.ReadAllText(absolute + ".meta"));
         Check(!realMeta.incomplete && realMeta.duplicateClipIds == 0,
@@ -117,6 +149,9 @@ public static class HprFbxClipIdentityNativeQa
         Check(Hash(beforeSource) == Hash(File.ReadAllBytes(absolute)) &&
               Hash(beforeMeta) == Hash(File.ReadAllBytes(absolute + ".meta")),
             "original_fbx_and_meta_untouched");
+        Check(Hash(sampleOriginal) == Hash(File.ReadAllBytes(sampleAbsolute)) &&
+              Hash(sampleSettings) == Hash(File.ReadAllBytes(sampleAbsolute + ".meta")),
+            "bundled_first_party_fbx_and_meta_untouched");
         // For testing importer YAML, intentionally create a SECOND original
         // animated FBX in this disposable project and configure split clips.
         // Original user/fixture FBX bytes and metadata above were NOT changed.
@@ -169,6 +204,10 @@ public static class HprFbxClipIdentityNativeQa
             "cancelled_scan_fails_closed=PASS\n" +
             "create_only_machine_report=PASS\n" +
             "source_and_import_settings_unchanged=PASS\n" +
+            "bundled_original_animation_imported=PASS\n" +
+            "bundled_original_bytes_stable=PASS\n" +
+            "sample_and_selected_single_scan=PASS\n" +
+            "clipless_fbx_does_not_look_clean=PASS\n" +
             "unity_version=" + Application.unityVersion + "\n");
         Debug.Log("HPR_FBX_CLIP_IDENTITY_NATIVE_PASS " + Application.unityVersion +
                   " clips=" + real.modelClipCount + " table=" + real.idEntries);

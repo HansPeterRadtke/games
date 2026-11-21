@@ -91,3 +91,45 @@ real product media. Private original screenshots and logs are preserved at
 `/data/var/marketplace-account-setup/unity-20261121-evening/` and all
 owner desktop tabs/layouts were left unchanged. Graphical buyer acceptance,
 rights, official Asset Store validator, price and real demand remain open.
+
+## Buyer-ready example and workflow, November 21 wave 48
+
+A key first-use weakness was confirmed: earlier native QA used a private
+Blender animation but shipped no usable example asset, and the Editor offered
+only a potentially slow project-wide scan. The new candidate **ships the
+first-party original animated FBX** (`Samples/OriginalMotion.fbx`, 18,236
+bytes; SHA-256 `5077da866845ba9638311faa57af0cfd77a84ae2f7fe915064a73e23ca57d84e`)
+with stable original vendor metadata and self-contained buyer documentation.
+The Editor provides a fast bundled-example action, a selected-model single-file
+check, and a separately labeled cancelable whole-project check. An FBX that
+imports no animation clip no longer looks like a clean animation-ID audit;
+it reports `NO_ANIMATION_CLIPS_IN_CHECKED_MODELS`.
+
+Native acceptance using **installed Unity 2022.3.22f1** and **6000.6.8f1**
+was independently completed in genuine disposable author and freshly created
+buyer projects for each Editor version. Both real exports include precisely
+eight vendor paths, two original Editor C# scripts, one original FBX asset;
+exact metadata GUIDs, source bytes and sample animation bytes match source.
+Both author and buyer receipts contain **twenty-one passing native checks**,
+including original importer preservation, custom split-clip ID behavior,
+malformed/repeated-zero negative fixtures, sample/selected scanning, and
+clipless-scan classification. Python Unity regression suite: **four hundred
+thirty-five passed**. Private unchanged receipts and exact archives:
+`/data/var/marketplace-account-setup/unity-20261121-evening/native-2022-3-22f1-with-sample-wave48/`
+and `native-6000-6-8f1-with-sample-wave48/`.
+
+The shipped sample demonstrates import and a valid no-collision scan; it does
+**not** reproduce Unity's rare duplicate-ID engine bug. Positive duplicate-ID
+checks use explicitly synthetic data, not a mutated customer model. Real
+Editor GUI screenshot acceptance remains blocked by Unity Software Terms and
+a separate Unity 2022 graphical crash, neither bypassed. First-party Blender
+sample is included only with its basic original mesh/animation; no third-party
+asset content or stock image is used.
+
+Market positioning remains conditional. Unity's October 23 submission rules
+require truthful documentation, the correct dependencies and appropriate
+samples for external-asset tools, and reject largely duplicated or generic
+mass-produced assets. This improved technical demo is not proof of purchases,
+commercial rights, seller approval or an acceptable marketing image. Treat
+this narrowly scoped scanner as a potential feature of a broader publisher
+preflight package unless measurable buyer demand justifies a separate SKU.

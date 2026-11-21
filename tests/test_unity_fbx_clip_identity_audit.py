@@ -1,6 +1,7 @@
 """Original read-only FBX clip-ID candidate policy and archive safety tests."""
 from pathlib import Path
 import io
+import hashlib
 import importlib.util
 import re
 import tarfile
@@ -22,7 +23,10 @@ def test_no_dangerous_or_unintended_buyer_actions():
                      'NO_DUPLICATE_IDS_IN_CHECKED_MODELS','INCOMPLETE',
                      'InspectConfiguredClipIds','DUPLICATE_CONFIGURED_CLIP_INTERNAL_ID',
                      'ModelImporter','AssetDatabase.GetAllAssetPaths','FileMode.CreateNew',
-                     'HprFbxClipIdentityAudit.ScanAssets'):
+                     'HprFbxClipIdentityAudit.ScanAssets',
+                     'HprFbxClipIdentityAudit.ScanSingle',
+                     'NO_ANIMATION_CLIPS_IN_CHECKED_MODELS', 'ExampleFbxPath',
+                     'Check selected FBX','Check included animated FBX'):
         assert expected in code
     for forbidden in ('AssetDatabase.DeleteAsset(', 'AssetDatabase.MoveAsset(',
                       'SaveAndReimport(', 'AssetDatabase.ImportPackage(',
@@ -35,15 +39,18 @@ def test_no_dangerous_or_unintended_buyer_actions():
 def test_fbx_vendor_guid_stability_and_fixed_scope():
     guid=[]
     for relative in ('', 'Editor','Editor/HprFbxClipIdentityAudit.cs',
-                     'Editor/HprFbxClipIdentityWindow.cs','README.md','LICENSE.md'):
+                     'Editor/HprFbxClipIdentityWindow.cs','README.md','LICENSE.md',
+                     'Samples','Samples/OriginalMotion.fbx'):
         path=VENDOR/relative if relative else VENDOR
         meta=Path(str(path)+'.meta')
         assert meta.is_file()
         match=re.search(r'^guid: ([a-f0-9]{32})$',meta.read_text(),re.M)
         assert match,meta
         guid.append(match.group(1))
-    assert len(guid)==len(set(guid))==6
-    assert not list(VENDOR.rglob('*.fbx'))
+    assert len(guid)==len(set(guid))==8
+    assert [p.name for p in VENDOR.rglob('*.fbx')]==['OriginalMotion.fbx']
+    assert hashlib.sha256((VENDOR/'Samples/OriginalMotion.fbx').read_bytes()).hexdigest()==(
+        '5077da866845ba9638311faa57af0cfd77a84ae2f7fe915064a73e23ca57d84e')
     assert not list(VENDOR.rglob('*.dll'))
     assert 'read-only' in (VENDOR/'README.md').read_text().lower()
 
@@ -68,7 +75,7 @@ def _synthetic_package(path,extra=False,tamper=False):
 def test_archive_rejects_tamper_and_wrong_package_scope(tmp_path):
     checker=_checker()
     clean=tmp_path/'clean.unitypackage';_synthetic_package(clean)
-    assert checker.inspect(clean)['buyer_paths']==6
+    assert checker.inspect(clean)['buyer_paths']==8
     changed=tmp_path/'changed.unitypackage';_synthetic_package(changed,tamper=True)
     try:checker.inspect(changed)
     except ValueError as ex:assert 'source' in str(ex).lower()
@@ -103,3 +110,15 @@ def test_empty_project_and_incomplete_report_are_distinct_from_clean():
     qa=(BASE/'qa/HprFbxClipIdentityNativeQa.cs').read_text()
     assert 'empty_project_does_not_claim_a_clean_fbx_scan' in qa
     assert 'malformed_combined_report_fails_closed' in qa
+
+
+def test_customer_sample_is_documented_and_native_qa_covers_single_model():
+    readme=(VENDOR/'README.md').read_text()
+    for detail in ('OriginalMotion.fbx','Check included animated FBX',
+                   'Check selected FBX', 'Scan all FBX'):
+        assert detail in readme
+    qa=(BASE/'qa/HprFbxClipIdentityNativeQa.cs').read_text()
+    for check in ('sample_model_is_original_blender_animation',
+                  'selected_model_single_scan', 'sample_one_click_source_scan',
+                  'clipless_scan_not_misreported_clean'):
+        assert check in qa

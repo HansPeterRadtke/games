@@ -1,0 +1,2 @@
+# Unity ModelImporter serializes empty YAML scalar values with a trailing space.
+Assets/HPRFbxClipIdentity/Samples/OriginalMotion.fbx.meta whitespace=-blank-at-eol

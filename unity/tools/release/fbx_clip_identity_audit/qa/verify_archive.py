@@ -12,6 +12,8 @@ ALLOWED={
 'Assets/HPRFbxClipIdentity/Editor',
 'Assets/HPRFbxClipIdentity/Editor/HprFbxClipIdentityAudit.cs',
 'Assets/HPRFbxClipIdentity/Editor/HprFbxClipIdentityWindow.cs',
+'Assets/HPRFbxClipIdentity/Samples',
+'Assets/HPRFbxClipIdentity/Samples/OriginalMotion.fbx',
 'Assets/HPRFbxClipIdentity/README.md',
 'Assets/HPRFbxClipIdentity/LICENSE.md',
 }
@@ -49,7 +51,7 @@ def inspect(path):
         if authored.is_dir() and real not in (None,b''):raise ValueError('Folder payload changed')
         mapped[where]=guid
     if set(mapped)!=ALLOWED or len(set(mapped.values()))!=len(mapped):raise ValueError('Missing/duplicated scope assets')
-    return {'result':'PASS','buyer_paths':len(mapped),'editor_source_scripts':2,'source_and_guid_identity':'PASS'}
+    return {'result':'PASS','buyer_paths':len(mapped),'editor_source_scripts':2,'first_party_animated_fbx_samples':1,'source_and_guid_identity':'PASS'}
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--archive',required=True,type=Path);args=ap.parse_args()
