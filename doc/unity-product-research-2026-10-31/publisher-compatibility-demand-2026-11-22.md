@@ -115,3 +115,62 @@ Real product engineering should progress only with explicit independent
 quality and demand evidence; do not invent a €100k opportunity or promise
 fully automated commercial results. Seller-facing listing work must remain
 with the single shared sales worker and no external publication is authorized.
+
+
+## Independent late-November developer demand and marketplace caution
+
+A June 2026 Unity developer working on a dark-fantasy RPG reported growing
+time spent browsing a large prefab library, difficulty finding assets from
+tiny previews, and a specific need to place/scatter modular environment
+prefabs **without** using Unity Terrain. This is a more complete daily
+workflow pain than the niche duplicate FBX local-ID bug. It is one
+firsthand buyer-like request, **not** a paid order, customer count or proof
+of Asset Store willingness to pay.
+https://www.reddit.com/r/Unity3D/comments/1tupsr2/how_do_you_handle_large_environment_prefab/
+
+An independent July 2026 editor-usability question described cumbersome
+component reference selection when multiple components share a type on the
+same GameObject. Another September 2026 thread praised workflow-accelerating
+Editor assets but explicitly criticized tools that merely duplicate native
+features. Both requests motivate focused UX experiments, but the market is
+competitive and none of these people authorized buyer contact.
+https://www.reddit.com/r/Unity3D/comments/1v5lsmk/best_editor_resources_for_improving_qol/
+https://www.reddit.com/r/Unity3D/comments/1witner/these_tools_solve_the_annoying_parts_in_unity/
+
+A November 2026 thread of small Asset Store publishers includes anecdotal
+reports of poor sales for code-editor utilities, stronger but still modest
+sales for some 3D models, and high expectations for free AI-assisted custom
+tooling. These accounts are **unverified individual anecdotes**, not a
+representative published-revenue dataset. They favor completing and testing
+a distinctive creator workflow before investing in multiple one-feature
+paid editor assets.
+https://www.reddit.com/r/Unity3D/comments/1xwpb73/is_the_unity_asset_store_dying_for_small/
+
+Revised engineering rank: maintain the actual tested publisher import
+compatibility matrix as top candidate if portable and demonstrably better
+than competitors; explore prefab-library *visual browsing plus modular
+non-terrain placement* as a potential next new buyer-facing tool once scope
+and native Unity UX can be verified; keep component reference selection as
+a smaller optional feature; and avoid a separate paid listing for the
+original clip-ID and source-take preflight unless real bulk-use demand
+emerges. Actual net receipts, buyer counts, store fees and continuing support
+hours remain unknown. Do not invent revenue estimates or make contact.
+
+
+## Unity release rules checked on 22 November
+
+The current official Unity Asset Store submission rules, updated October
+23, 2026, separately require transparent **AI-assisted functional code**
+disclosure in the publisher's AI description field, full code documentation,
+readable namespaces, genuine non-deprecated APIs on the latest supported
+Editor, no internal-only reflected Unity APIs, and correct domain-reload-
+disabled Fast Enter Playmode behavior for all packages on Unity **6.6 and
+later**. This last case is an independent release gate beyond successful
+batchmode editor imports and the thirty-four static official validator
+checks. We have not demonstrated an actual graphical EditorWindow or runtime
+Playmode transition with Domain Reload disabled, and no seller approval.
+Unity's rules also distinguish generated/AI-assisted functional code from
+AI-assisted marketing images; authentic supporting screens must accurately
+represent real functionality. Researching the policy does not accept Unity
+Software Terms or publish a listing.
+https://assetstore.unity.com/publishing/submission-guidelines

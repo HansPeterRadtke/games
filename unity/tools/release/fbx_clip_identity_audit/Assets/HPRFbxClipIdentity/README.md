@@ -33,3 +33,21 @@ project before making manual changes.
 Editor-only first-party source. No runtime components or optional packages.
 Unity 2022 LTS and Unity six native validation is required before publication.
 The attached legal text is an internal placeholder, not buyer-approved license.
+
+
+## Original teaching sample prefab and corrected model orientation — 22 November
+
+The original Blender-generated `Samples/OriginalMotion.fbx` teaching cube is
+now exported with Blender `bake_space_transform=True`. Installed Unity 2022
+acceptance confirmed the mesh local rotation is identity and local scale is
+one, with the AnimationClip importer and original scan still functional. An
+original genuine Unity 2022 prefab,
+`Samples/Prefabs/OriginalMotionTeachingPrefab.prefab`, references this source
+FBX with the existing original Unity GUID. It has a nonempty mesh reference
+and is useful for inspecting the original model in a disposable demo scene.
+The prefab is NOT a source animation repair, a product GUI screenshot or proof
+of any customer animation playback. Source QA and official Asset Store Tools
+checking must be performed on the final full combined buyer archive before
+claiming that missing-prefab and orientation warnings are resolved. The older
+FBX content is preserved by the Git history and previous immutable private
+Unity exports, not silently confused with the new sample.

@@ -41,7 +41,7 @@ def test_new_first_party_combined_root_has_fixed_scope_and_unique_original_guids
             guid = re.search(r'(?m)^guid: ([a-f0-9]{32})$',meta.read_text())
             assert guid and guid.group(1) not in seen
             seen.add(guid.group(1)); count += 1
-    assert count == 27
+    assert count == 29
     assert (SOURCE/'Editor/HprAnimationImportPreflight.cs').is_file()
     assert not list(SOURCE.rglob('*.dll'))
     assert 'Documentation' in (SOURCE/'README.md').read_text()
@@ -130,7 +130,7 @@ def test_archive_inspection_rejects_rewritten_sources_and_foreign_payloads(tmp_p
     good = tmp_path/'original-preview.unitypackage'
     _synthetic_original_archive(good)
     valid = mod.verify(good)
-    assert valid['result']=='PASS' and valid['actual_original_unity_asset_paths']==27
+    assert valid['result']=='PASS' and valid['actual_original_unity_asset_paths']==29
     bad = tmp_path/'different-source.unitypackage'
     _synthetic_original_archive(bad,bad_source=True)
     import pytest
@@ -138,3 +138,16 @@ def test_archive_inspection_rejects_rewritten_sources_and_foreign_payloads(tmp_p
     foreign = tmp_path/'foreign-file.unitypackage'
     _synthetic_original_archive(foreign,extra=True)
     with pytest.raises(ValueError): mod.verify(foreign)
+
+
+def test_first_party_original_model_prefab_geometry_qa_source_safety():
+    private=(BUNDLE/'qa/HprOriginalAnimationGeometryQa.cs').read_text()
+    for expected in ('original_clip_id_sample_identity_rotation_and_unit_scale=PASS',
+                     'original_three_native_Unity_prefabs_have_real_FBX_mesh_references=PASS',
+                     'AssetDatabase.GetDependencies(prefabPath,true)',
+                     'Quaternion.Angle(mesh.transform.localRotation,Quaternion.identity)',
+                     'FileMode.CreateNew','HPR_ORIGINAL_COMBINED_GEOMETRY_QA_PASS'):
+        assert expected in private
+    assert 'SaveAndReimport(' not in private
+    assert 'AssetDatabase.SaveAssets(' not in private
+    assert not list(SOURCE.rglob('HprOriginalAnimationGeometryQa.cs'))

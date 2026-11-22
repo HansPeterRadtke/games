@@ -26,7 +26,7 @@ cube.select_set(True)
 bpy.context.view_layer.objects.active=cube
 bpy.ops.export_scene.fbx(filepath=path, use_selection=True, object_types={'MESH'},
     bake_anim=True, bake_anim_use_all_actions=True, bake_anim_use_nla_strips=False,
-    add_leaf_bones=False, path_mode='AUTO')
+    add_leaf_bones=False, path_mode='AUTO', bake_space_transform=True)
 if not Path(path).is_file() or Path(path).stat().st_size < 4000:
     raise RuntimeError('Native FBX exporter did not create a nontrivial original animation')
 print('HPR_ORIGINAL_FBX_CREATED_BYTES',Path(path).stat().st_size)

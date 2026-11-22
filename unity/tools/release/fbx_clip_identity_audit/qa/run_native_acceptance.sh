@@ -6,7 +6,7 @@ version=${1:?Unity version, e.g. 2022.3.22f1}
 root=$(cd "$(dirname "$0")/.." && pwd)
 unity=/data/apps/Unity/Hub/Editor/${version}/Editor/Unity
 [[ -x "$unity" ]] || { echo 'Missing installed Unity Editor' >&2; exit 2; }
-fixture=/data/var/marketplace-account-setup/unity-20261121-evening/original-fbx-fixture/OriginalMotion.fbx
+fixture="$root/Assets/HPRFbxClipIdentity/Samples/OriginalMotion.fbx"
 [[ -s "$fixture" ]] || { echo 'Missing original Blender FBX fixture' >&2; exit 3; }
 base=/data/var/marketplace-account-setup/unity-20261121-evening/native-${version//./-}-${HPR_FBX_QA_LABEL:-first}
 [[ ! -e "$base" ]] || { echo 'Refusing to overwrite existing native test run' >&2; exit 4; }

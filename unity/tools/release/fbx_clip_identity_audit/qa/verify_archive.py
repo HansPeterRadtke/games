@@ -14,6 +14,8 @@ ALLOWED={
 'Assets/HPRFbxClipIdentity/Editor/HprFbxClipIdentityWindow.cs',
 'Assets/HPRFbxClipIdentity/Samples',
 'Assets/HPRFbxClipIdentity/Samples/OriginalMotion.fbx',
+'Assets/HPRFbxClipIdentity/Samples/Prefabs',
+'Assets/HPRFbxClipIdentity/Samples/Prefabs/OriginalMotionTeachingPrefab.prefab',
 'Assets/HPRFbxClipIdentity/README.md',
 'Assets/HPRFbxClipIdentity/LICENSE.md',
 }
