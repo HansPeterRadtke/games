@@ -51,7 +51,10 @@ files are excluded.
 The real original Unity-authored `Samples/Prefabs/` folder contains two
 prefabs, one wrapping each included FBX, and `Samples/Scenes/SourceTakeVisibilityDemo.unity`
 places them side by side under a camera and light. The scene is a static
-first-party example for comparing the two imported source models; it is
+first-party example for comparing the two imported source models. The two
+prefabs use short, separately centered two-line labels to avoid the original
+real Unity screenshot's overlapping captions. Inspect each model's Animation
+tab for the authoritative imported state. The scene is
 **not** a screenshot or visualization of the FBX scanner window, and it
 does not certify animation playback or a customer project. Open the two
 respective FBX assets in the Inspector's Animation tab to compare their

@@ -34,10 +34,10 @@ public static class HprFbxDemoSceneAuthor
             model.transform.localRotation=Quaternion.identity;
             var guide=new GameObject("Read Me - "+caption);
             guide.transform.SetParent(root.transform,false);
-            guide.transform.localPosition=new Vector3(0,1.5f,0);
+            guide.transform.localPosition=new Vector3(0,1.95f,0);
             var label=guide.AddComponent<TextMesh>();
             label.text=caption; label.anchor=TextAnchor.MiddleCenter;
-            label.alignment=TextAlignment.Center;label.characterSize=0.12f;
+            label.alignment=TextAlignment.Center;label.characterSize=0.068f;
             label.fontSize=48;
             var result=PrefabUtility.SaveAsPrefabAsset(root,path);
             if(result==null) throw new InvalidOperationException("PrefabUtility did not create original prefab");
@@ -58,9 +58,9 @@ public static class HprFbxDemoSceneAuthor
             AssetDatabase.CreateFolder(Root,"Prefabs");
         if(!AssetDatabase.IsValidFolder(Root+"/Scenes"))
             AssetDatabase.CreateFolder(Root,"Scenes");
-        string healthy=Prefab(Root+"/HPRTwoTakeCube.fbx","OriginalAutoTwoTake","AUTO - Both source takes available");
+        string healthy=Prefab(Root+"/HPRTwoTakeCube.fbx","OriginalAutoTwoTake","AUTO IMPORT\n2 takes available");
         string warning=Prefab(Root+"/HPRTwoTakeCustomMissing.fbx","OriginalConfiguredMissingTake",
-            "CUSTOM - One source take unlisted");
+            "CUSTOM IMPORT\n1 take unlisted");
         const string sceneFile = Root+"/Scenes/SourceTakeVisibilityDemo.unity";
         var absoluteScene=Path.Combine(Directory.GetParent(Application.dataPath).FullName,sceneFile);
         if(File.Exists(absoluteScene))throw new IOException("Refusing to replace any existing demo scene");

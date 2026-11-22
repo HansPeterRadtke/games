@@ -205,3 +205,69 @@ Exact native proof:
 and preserved native Editor log under the same basename. This is one actual
 supported-version Play Mode scenario, not universal Player build/runtime
 compatibility, visual acceptance or Asset Store listing approval.
+
+
+## Actual rendered visual QA and original caption repair — 22 November
+
+The original first-party source-take teaching scene was rendered from a
+**real installed Unity 2022 buyer project** inside a new isolated Xvfb
+virtual display, with Unity's real Camera, RenderTexture and PNG encoder.
+It was NOT an AI-generated mockup or a manually assembled promotional
+image, and no normal EditorWindow or Unity Software Terms dialog was
+accepted or bypassed. The first authentic 1440-by-900 preview revealed a
+serious visual defect that earlier source tests and official Asset Store
+Tools did not detect: both long prefab labels overlapped and were unreadable.
+The original capture is preserved privately as
+`/data/var/marketplace-account-setup/unity-20261122-wave55/verified-real-unity-buyer-scene-preview-20261122.png`.
+
+A fresh private first-party Unity 2022 author project reopened both
+original prefabs using genuine `PrefabUtility.LoadPrefabContents`, changed
+only their textual guide labels to concise centered two-line versions,
+reduced the TextMesh character size and moved the captions upward. Unity
+then wrote the revised prefab assets, preserving both exact existing Unity
+GUIDs and each original animated FBX mesh dependency. The original Unity
+scene retained the same two prefab GUID references and was not rewritten.
+Two labels now read **AUTO IMPORT / 2 takes available** and **CUSTOM IMPORT
+/ 1 take unlisted**. Exact private native author evidence:
+`/data/var/marketplace-account-setup/unity-20261122-wave55/original-two-caption-repair-author-2022/original-prefab-caption-repair-receipt.txt`.
+
+The *revised product* was then independently exported in actual Unity
+2022.3.22f1, imported into a new consumer project and tested with its real
+author/buyer scan fixtures; the strict original archive checker verified
+**29 authored assets** including the two revised native prefabs and all
+original `.meta` GUID identities. The real Unity scene was rendered again
+from the freshly installed buyer package. The second untouched original
+1440-by-900 PNG has two separate legible labels and side-by-side original
+cubes, confirmed by direct visual inspection of a downsized copy. It is
+**usable as a genuine static first-party example preview**, but is not a
+screenshot of the actual EditorWindow or proof of human UI acceptance.
+Private exact camera screenshot:
+`/data/var/marketplace-account-setup/unity-20261122-wave55/verified-real-unity-buyer-scene-preview-captionfix1.png`;
+source/export/independent consumer receipts:
+`/data/var/marketplace-account-setup/unity-20261122-wave55/combined-animation-native-2022-3-22f1-captionfix1/`.
+
+The **exact revised buyer package**, not the earlier overlapping-caption
+archive, again completed all **34 of 34 official Unity Asset Store Tools v12
+checks with zero warnings and zero C# compilation errors**, in a separate
+new Unity 2022 validation project. Exact independent receipt:
+`/data/var/marketplace-account-setup/unity-20261122-wave55/combined-ast-2022-captionfix1/official-validation-counted-results.txt`.
+The source-only full Unity suite passed **467 tests** for this revision.
+The **actual updated Unity 6000.6.8f1** author/export and independently
+installed fresh buyer project also passed the final original three-root
+package acceptance, including genuine positive/negative private customer FBX
+importer outcomes and the strict 29 original Unity vendor asset archive
+scope/GUID verifier. Private immutable proof:
+`/data/var/marketplace-account-setup/unity-20261122-wave55/combined-animation-native-6000-6-8f1-captionfix1/`.
+A genuine second camera-rendered scene PNG was captured **inside that real
+Unity six buyer project** using an isolated Xvfb display and Unity graphics
+pipeline, not a synthetic mockup:
+`/data/var/marketplace-account-setup/unity-20261122-wave55/verified-real-unity-buyer-scene-preview-6000-6-8f1-captionfix1.png`.
+It is 1440 by 900, and direct visual inspection of a 960 by 600 inspection
+copy confirmed **both white two-line captions are legible, separated,
+centered above their corresponding gray Blender cubes**, with no original
+caption overlap. Both Unity 2022 and Unity six corrected original previews
+are safe source-grounded example-scene images, but they are **not** actual
+EditorWindow screenshots. The graphical Editor tool window inspection,
+licensing, transparent AI-assisted source disclosure, demonstrated paid
+demand and seller publication authority remain separate release gates. Do
+not use the raw first overlapping screenshot as marketing media.

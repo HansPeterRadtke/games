@@ -162,3 +162,26 @@ def test_real_editor_authored_scene_prefabs_and_true_importer_sample_identity():
         assert source_identifiers[model] in prefab.read_text()  # genuine imported FBX source
     assert 'camera_and_key_light_and_two_model_prefab_instances=PASS' in (
         (PKG/'qa/HprFbxDemoSceneAuthor.cs').read_text())
+
+
+def test_illustrative_original_scene_labels_are_short_clear_and_meta_stable():
+    healthy=VENDOR/'Samples/Prefabs/OriginalAutoTwoTake.prefab'
+    warning=VENDOR/'Samples/Prefabs/OriginalConfiguredMissingTake.prefab'
+    assert "m_Text: 'AUTO IMPORT" in healthy.read_text()
+    assert '2 takes available' in healthy.read_text()
+    assert "m_Text: 'CUSTOM IMPORT" in warning.read_text()
+    assert '1 take unlisted' in warning.read_text()
+    for prefab in (healthy,warning):
+        assert 'm_CharacterSize: 0.068' in prefab.read_text()
+        assert 'm_LocalPosition: {x: 0, y: 1.95, z: 0}' in prefab.read_text()
+        assert Path(str(prefab)+'.meta').is_file()
+    original=(VENDOR/'Samples/Scenes/SourceTakeVisibilityDemo.unity').read_text()
+    import re
+    for prefab in (healthy,warning):
+        guid=re.search(r'^guid: ([a-f0-9]{32})$',Path(str(prefab)+'.meta').read_text(),re.M).group(1)
+        assert guid in original
+    qa=(PKG/'qa/HprOriginalSampleCaptionRepair.cs').read_text()
+    assert 'PrefabUtility.LoadPrefabContents(' in qa
+    assert 'PrefabUtility.SaveAsPrefabAsset(' in qa
+    assert 'original_scene_still_references_same_prefab_GUIDs' in qa
+    assert 'HPR_ORIGINAL_TWO_PREFAB_CAPTION_REPAIR_PASS' in qa
