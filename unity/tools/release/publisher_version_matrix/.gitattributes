@@ -1,0 +1,3 @@
+# Unity-generated YAML intentionally contains empty scalar values with trailing spaces.
+# Preserve exact native-verified .meta bytes; Git should not rewrite them.
+*.meta -whitespace

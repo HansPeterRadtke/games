@@ -1,0 +1,5 @@
+# HPR Publisher Version Matrix — original unpublished product candidate
+
+A version-to-version, **read-only evidence** tool for Unity Asset Store publishers. It addresses actual reported cross-version import and serialization risks, not generic project linting. The buyer-facing source is only `Assets/HPRPublisherVersionMatrix`. Private QA and receipt comparison do not belong in a `.unitypackage` until explicitly reviewed and correctly scoped. No product listing or graphical user acceptance is implied by the source prototype.
+
+Buyer workflow: scan the same authentic imported package in each Unity version, export two new receipts, then choose the self-contained **Tools > HPR > Compare Publisher Version Receipts** window inside Unity; only a fully checked comparison can be exported. A supplemental private automated comparator is `python3 qa/compare_version_receipts.py UNITY2022.json UNITY6.json --output NEW_COMPARE.json` (create-only, do not package private QA). Any mismatch produces REVIEW rather than guessing compatibility.
