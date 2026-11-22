@@ -23,7 +23,10 @@ button in modern Editor lines (6000.4/5/6), making a separate paid one-FBX
 tool commercially weak; only a project-wide bulk audit might differentiate
 it as part of an importer preflight suite. All native QA, official validator
 warnings, genuine Editor screenshot/terms gates, rights and single-seller
-publication controls remain required. It is not approved for storefronts.
+publication controls remain required. It is not approved for storefronts. Its first-party Blender teaching FBXs
+have since been corrected using baked axis transforms and real original
+Unity author/buyer quality checks; refer to the current source README
+and immutable native validator receipts before making any claims.
 
 `unitypackage_archive_preflight/` is an additional first-party read-only
 candidate for comparing the actual TAR/GZIP contents and asset GUIDs of two

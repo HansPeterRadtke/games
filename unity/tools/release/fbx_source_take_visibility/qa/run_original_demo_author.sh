@@ -3,7 +3,7 @@
 # private project. Never edits an existing customer/project/tool source.
 set -euo pipefail
 root=$(cd "$(dirname "$0")/.." && pwd)
-base=/data/var/marketplace-account-setup/unity-20261122-wave54/original-real-unity-demo-author
+base=/data/var/marketplace-account-setup/unity-20261122-wave55/original-real-unity-demo-author
 editor=/data/apps/Unity/Hub/Editor/2022.3.22f1/Editor/Unity
 [[ ! -e "$base" && -x "$editor" ]] || { echo 'Refusing duplicate original demo author run';exit 3; }
 mkdir -p "$base"

@@ -3,7 +3,7 @@ set -euo pipefail
 version=${1:?installed Unity version}
 [[ "$version" = 2022.3.22f1 || "$version" = 6000.6.8f1 ]] || exit 2
 root=$(cd "$(dirname "$0")/.." && pwd)
-base=/data/var/marketplace-account-setup/unity-20261122-wave54/native-${version//./-}-original-two-takes-probe
+base=/data/var/marketplace-account-setup/unity-20261122-wave55/native-${version//./-}-original-two-takes-probe
 unity=/data/apps/Unity/Hub/Editor/${version}/Editor/Unity
 [[ ! -e "$base" && -x "$unity" && -s "$root/Assets/HPRFbxSourceTakes/Samples/HPRTwoTakeCube.fbx" ]] || exit 3
 mkdir -p "$base"

@@ -278,6 +278,13 @@ namespace HPR.FbxClipIdentity
         // One-file shortcut for first-time users and a bundled, original
         // animated FBX example. Does not import or modify the chosen model.
         public const string ExampleFbxPath = "Assets/HPRFbxClipIdentity/Samples/OriginalMotion.fbx";
+        // These are original first-party training examples shipped by the
+        // related HPR Source Take Visibility tool. They are NOT buyer models.
+        // Keep exact path comparisons; never hide arbitrary customer assets.
+        private const string RelatedSourceTakeHealthyExample =
+            "Assets/HPRFbxSourceTakes/Samples/HPRTwoTakeCube.fbx";
+        private const string RelatedSourceTakeMissingExample =
+            "Assets/HPRFbxSourceTakes/Samples/HPRTwoTakeCustomMissing.fbx";
 
         public static FbxClipIdentityReport ScanSingle(string assetPath)
         {
@@ -307,7 +314,8 @@ namespace HPR.FbxClipIdentity
             {
                 unityVersion = Application.unityVersion,
                 limitation = "Checks ModelImporter class-74 and configured clipAnimations IDs in your " +
-                    "project's FBX assets, excluding only this tool's bundled demo. " +
+                    "project's FBX assets, excluding this and the related HPR Source Take tool's " +
+                "exact first-party sample FBX files. " +
                     "Run the demo check separately. This does not prove missing/undetected source clips, " +
                     "future reimport stability or exact Unity hash generation. " +
                     "No automatic asset or importer changes."
@@ -319,7 +327,9 @@ namespace HPR.FbxClipIdentity
                 // The bundled first-run demo must not make an empty customer
                 // project appear to have passed a real project-wide audit.
                 // Users can still inspect the demo explicitly via ScanSingle.
-                !string.Equals(p, ExampleFbxPath, StringComparison.Ordinal))
+                !string.Equals(p, ExampleFbxPath, StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(p, RelatedSourceTakeHealthyExample, StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(p, RelatedSourceTakeMissingExample, StringComparison.OrdinalIgnoreCase))
                 .Distinct(StringComparer.Ordinal).OrderBy(p => p, StringComparer.Ordinal).ToArray();
             if (assets.Length > maxModels) report.incomplete = true;
             int limit = Math.Min(assets.Length, maxModels);

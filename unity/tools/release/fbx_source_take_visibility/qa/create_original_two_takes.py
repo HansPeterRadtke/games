@@ -7,7 +7,7 @@ import bpy
 import os
 from pathlib import Path
 
-root='/data/var/marketplace-account-setup/unity-20261122-wave54/original-fbx-fixture/'
+root='/data/var/marketplace-account-setup/unity-20261122-wave55/original-fbx-fixture/'
 destination=os.environ.get('HPR_TAKE_SOURCE_FBX_OUT','')
 if not destination.startswith(root) or not destination.endswith('.fbx') or Path(destination).exists():
     raise RuntimeError('A fresh original FBX destination within owner private test root is required')
@@ -39,7 +39,7 @@ cube.select_set(True)
 bpy.context.view_layer.objects.active=cube
 bpy.ops.export_scene.fbx(filepath=destination, use_selection=True, object_types={'MESH'},
     bake_anim=True, bake_anim_use_all_actions=True,bake_anim_use_nla_strips=False,
-    add_leaf_bones=False,path_mode='AUTO')
+    add_leaf_bones=False,path_mode='AUTO', bake_space_transform=True) # Keep Unity model-space mesh axes normal and scale 1
 if not Path(destination).is_file() or Path(destination).stat().st_size<6000:
     raise RuntimeError('Native original Blender FBX with two Actions was not exported')
 print('HPR_ORIGINAL_BLENDER_ACTION_COUNT',count, 'FBX_BYTES',Path(destination).stat().st_size)

@@ -33,11 +33,12 @@ def test_vendor_scope_original_guid_and_blender_sample():
     assert len(set(guids))==14
     original=VENDOR/'Samples/HPRTwoTakeCube.fbx'
     assert hashlib.sha256(original.read_bytes()).hexdigest()==(
-        '280dfbfcc7b3288fea028268ed214f3dd36b589e647051c3f051e02dc7b66e1f')
+        'cf617c46018dfbec648765c0487e3215b1e1251c26817916f6f4a23aef0228fa')
     assert set(VENDOR.rglob('*.fbx'))=={original,VENDOR/'Samples/HPRTwoTakeCustomMissing.fbx'}
     assert original.read_bytes()==(VENDOR/'Samples/HPRTwoTakeCustomMissing.fbx').read_bytes()
     assert not list(VENDOR.rglob('*.dll'))
     assert 'Blender' in (VENDOR/'README.md').read_text()
+    assert 'bake_space_transform=True' in (PKG/'qa/create_original_two_takes.py').read_text()
     assert (VENDOR/'Samples/Prefabs/OriginalAutoTwoTake.prefab').is_file()
     assert (VENDOR/'Samples/Prefabs/OriginalConfiguredMissingTake.prefab').is_file()
     assert (VENDOR/'Samples/Scenes/SourceTakeVisibilityDemo.unity').is_file()
@@ -50,6 +51,7 @@ def test_editor_sources_are_readonly_and_classify_automatic_vs_custom():
                      'SOURCE_TAKES_NOT_IN_CUSTOM_LIST','DEFAULT_SOURCE_TAKES_ACTIVE',
                      'NO_CUSTOMER_FBX_MODELS_SCANNED','NO_MISSING_SOURCE_TAKES_IN_INSPECTED_CUSTOM_LISTS',
                      'ExampleOmittedTakeFbxPath',
+                     'RelatedClipIdentityExampleFbxPath',
                      'NO_ENABLED_SOURCE_ANIMATIONS_CHECKED','SourceTakeScanReport',
                      'MaxTakesPerModel','StringComparer.Ordinal','FileMode.CreateNew',
                      'result.incomplete = true','ModelImporterClipAnimation'):

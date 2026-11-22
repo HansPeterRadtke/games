@@ -127,7 +127,8 @@ def test_customer_sample_is_documented_and_native_qa_covers_single_model():
 
 def test_bundled_sample_does_not_make_customer_project_scan_look_clean():
     src=(VENDOR/'Editor/HprFbxClipIdentityAudit.cs').read_text()
-    assert '!string.Equals(p, ExampleFbxPath, StringComparison.Ordinal)' in src
+    assert '!string.Equals(p, ExampleFbxPath, StringComparison.OrdinalIgnoreCase)' in src
+    assert 'RelatedSourceTakeHealthyExample' in src and 'RelatedSourceTakeMissingExample' in src
     assert 'Run the demo check separately' in src
     qa=(BASE/'qa/HprFbxSampleOnlyQa.cs').read_text()
     assert 'independent_buyer_project_contains_only_shipped_fbx_sample' in qa

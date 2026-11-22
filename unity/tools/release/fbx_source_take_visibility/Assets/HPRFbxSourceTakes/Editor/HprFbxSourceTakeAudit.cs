@@ -47,6 +47,10 @@ namespace HPR.FbxSourceTakeVisibility
     {
         public const string ExampleFbxPath = "Assets/HPRFbxSourceTakes/Samples/HPRTwoTakeCube.fbx";
         public const string ExampleOmittedTakeFbxPath = "Assets/HPRFbxSourceTakes/Samples/HPRTwoTakeCustomMissing.fbx";
+        // The related first-party Clip Identity tool ships an original FBX
+        // example; an installed suite must not count it as customer content.
+        private const string RelatedClipIdentityExampleFbxPath =
+            "Assets/HPRFbxClipIdentity/Samples/OriginalMotion.fbx";
         public const int MaxModels = 300;
         public const int MaxTakesPerModel = 2048;
         private const int MaxPrintedTakeNames = 80;
@@ -196,7 +200,8 @@ namespace HPR.FbxSourceTakeVisibility
                 .Where(p => p.StartsWith("Assets/", StringComparison.Ordinal) &&
                     p.EndsWith(".fbx", StringComparison.OrdinalIgnoreCase) &&
                     !string.Equals(p, ExampleFbxPath, StringComparison.OrdinalIgnoreCase) &&
-                    !string.Equals(p, ExampleOmittedTakeFbxPath, StringComparison.OrdinalIgnoreCase))
+                    !string.Equals(p, ExampleOmittedTakeFbxPath, StringComparison.OrdinalIgnoreCase) &&
+                    !string.Equals(p, RelatedClipIdentityExampleFbxPath, StringComparison.OrdinalIgnoreCase))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .OrderBy(p => p, StringComparer.Ordinal).ToArray();
             var models = new List<SourceTakeModelResult>();

@@ -18,7 +18,7 @@ public static class HprFbxSourceTakeNativeQa
     {
         string root=Environment.GetEnvironmentVariable("HPR_SOURCE_TAKE_CUSTOM_QA_DIR") ?? "";
         Check(Application.isBatchMode && Path.IsPathRooted(root) && Directory.Exists(root) &&
-            root.StartsWith("/data/var/marketplace-account-setup/unity-20261122-wave54/",StringComparison.Ordinal),
+            root.StartsWith("/data/var/marketplace-account-setup/unity-20261122-wave55/",StringComparison.Ordinal),
             "private_custom_qa_folder");
         string destination=Path.Combine(root,name);
         Check(!File.Exists(destination),"private_custom_qa_create_only");
@@ -194,15 +194,35 @@ public static class HprFbxSourceTakeNativeQa
         Debug.Log("HPR_ACTUAL_FBX_SOURCE_UPDATE_VISIBILITY_PASS");
     }
 
+    private static void CheckOriginalBakedMesh(GameObject importedModel, string fixture)
+    {
+        Check(importedModel != null,"baked_original_asset_exists_"+fixture);
+        var meshFilters=importedModel.GetComponentsInChildren<MeshFilter>(true);
+        Check(meshFilters.Length>0,"baked_original_mesh_present_"+fixture);
+        foreach(var filter in meshFilters)
+        {
+            Check(filter.sharedMesh!=null && filter.sharedMesh.vertexCount>=8 &&
+                filter.sharedMesh.bounds.size.sqrMagnitude>0.001f,
+                "baked_original_mesh_vertices_and_bounds_"+fixture);
+            Check(filter.transform.localRotation==Quaternion.identity,
+                "original_mesh_rotation_is_identity_"+fixture);
+            Vector3 scale=filter.transform.localScale;
+            Check(Mathf.Abs(scale.x-1f)<0.01f && Mathf.Abs(scale.y-1f)<0.01f &&
+                Mathf.Abs(scale.z-1f)<0.01f,"original_mesh_scale_one_"+fixture);
+        }
+    }
     public static void Probe()
     {
         string path=Environment.GetEnvironmentVariable("HPR_SOURCE_TAKE_QA_OUT") ?? "";
         Check(Application.isBatchMode && Path.IsPathRooted(path) &&
-            path.StartsWith("/data/var/marketplace-account-setup/unity-20261122-wave54/",StringComparison.Ordinal) &&
+            path.StartsWith("/data/var/marketplace-account-setup/unity-20261122-wave55/",StringComparison.Ordinal) &&
             !File.Exists(path), "private_new_QA_out");
         const string demo=HprFbxSourceTakeAudit.ExampleFbxPath;
         var importer=AssetImporter.GetAtPath(demo) as ModelImporter;
         Check(importer!=null,"original_Unity_ModelImporter");
+        CheckOriginalBakedMesh(AssetDatabase.LoadAssetAtPath<GameObject>(demo),"healthy_two_take_original");
+        CheckOriginalBakedMesh(AssetDatabase.LoadAssetAtPath<GameObject>(
+            HprFbxSourceTakeAudit.ExampleOmittedTakeFbxPath),"intentionally_incomplete_two_take_original");
         var source=importer.defaultClipAnimations;
         var customized=importer.clipAnimations;
         Check(source!=null && customized!=null,"actual_Unity_take_arrays");
@@ -238,6 +258,8 @@ public static class HprFbxSourceTakeNativeQa
         var sceneAsset=AssetDatabase.LoadAssetAtPath<SceneAsset>(demoScene);
         Check(modelA!=null && modelB!=null && sceneAsset!=null,
             "demo_scene_and_both_prefabs_imported_and_resolve");
+        CheckOriginalBakedMesh(modelA,"healthy_Unity_authored_prefab");
+        CheckOriginalBakedMesh(modelB,"configured_incomplete_Unity_authored_prefab");
         string[] deps=AssetDatabase.GetDependencies(demoScene,true);
         Check(deps.Contains(prefabA) && deps.Contains(prefabB) &&
             deps.Contains(demo) && deps.Contains(expectedNegative),
@@ -289,6 +311,7 @@ public static class HprFbxSourceTakeNativeQa
             writer.WriteLine("distinct_original_sample_guids="+healthyId+";"+negativeId);
             writer.WriteLine("real_importer_report_status="+project.status);
             writer.WriteLine("original_Unity_demo_prefabs_and_scene_dependencies=PASS");
+            writer.WriteLine("original_blender_FBX_and_Unity_prefabs_identity_orientation_scale=PASS");
             writer.WriteLine("reference_omission_detected=PASS");
             writer.WriteLine("default_auto_mode_no_false_warning=PASS");
             writer.WriteLine("normal_split_clip_not_false_warning=PASS");

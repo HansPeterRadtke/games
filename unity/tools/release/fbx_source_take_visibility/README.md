@@ -10,7 +10,8 @@ NOT a justified independent paid listing.
 
 The first-party buyer content is exclusively in
 `Assets/HPRFbxSourceTakes/`, with two Editor C# files, concise buyer
-instructions, a rights-review placeholder and two first-party animated FBX examples, two genuine Editor-generated prefabs
+instructions, a rights-review placeholder and two first-party axis-baked Blender FBX examples with verified native normal
+mesh orientation and scale, two genuine Editor-generated prefabs
 and one actual Unity scene for first-use orientation: the normal model and
 a deliberately incomplete custom Animation tab model. Both samples are excluded from customer-project
 scan results so new empty buyer projects do not get false clean passes.

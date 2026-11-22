@@ -8,7 +8,7 @@ label=${2:?Fresh unique label}
 [[ "$version" = 2022.3.22f1 || "$version" = 6000.6.8f1 ]] || exit 2
 [[ "$label" =~ ^[a-zA-Z0-9_-]{1,35}$ ]] || exit 2
 root=$(cd "$(dirname "$0")/.." && pwd)
-base=/data/var/marketplace-account-setup/unity-20261122-wave54/native-${version//./-}-$label
+base=/data/var/marketplace-account-setup/unity-20261122-wave55/native-${version//./-}-$label
 unity=/data/apps/Unity/Hub/Editor/$version/Editor/Unity
 original="$root/Assets/HPRFbxSourceTakes/Samples/HPRTwoTakeCube.fbx"
 [[ ! -e "$base" && -x "$unity" && -s "$original" ]] || {

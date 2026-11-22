@@ -11,8 +11,9 @@ known duplicated ID in its default importer settings. To scan your own file,
 choose the FBX model in **Selected model asset** and click **Check selected FBX**.
 To audit every customer FBX in `Assets`, click **Scan all FBX models (read only)**.
 The project-wide scan explicitly excludes this tool's own included
-`Samples/OriginalMotion.fbx`, so a fresh buyer project containing only the
-example correctly reports `NO_FBX_MODELS_SCANNED`. Use the separate example
+`Samples/OriginalMotion.fbx` and the two exact first-party sample FBXs from
+the related HPR FBX Source Take Visibility tool, so a buyer project containing
+only original vendor examples correctly reports `NO_FBX_MODELS_SCANNED`. Use the separate example
 button to inspect the sample itself. A clean example is not a clean project.
 The result displays the overall state, checked-model and affected-model counts,
 confirmed duplicated IDs, and explanatory model paths. Optionally export a

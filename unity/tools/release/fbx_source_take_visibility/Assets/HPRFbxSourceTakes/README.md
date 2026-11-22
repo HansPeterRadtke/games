@@ -1,5 +1,11 @@
 # HPR FBX Source Take Visibility — read-only Editor candidate
 
+## Documentation and first-use guide
+
+This is the complete usage documentation for the first-party Editor window,
+its bundled real FBX examples, its detection limits, its non-mutating export
+workflow and manual troubleshooting of missing animation source takes.
+
 When an FBX animation's clip list has been manually customized, Unity may not
 add new animations automatically after the source FBX changes. This Editor-only
 preflight compares source take names reported by `ModelImporter.defaultClipAnimations`
@@ -20,6 +26,15 @@ This read-only tool does not repair imports or guarantee animation playback.
 The native warning may be sufficient for a single FBX; this candidate's
 possible advantage is a **project-wide audit of many source FBX files**.
 
+The sample FBX geometry and original actions are exported from Blender using
+**baked axis transforms**, so the model imports into Unity with identity mesh
+rotation and scale one instead of a hidden ninety-degree rotation and a
+hundredfold scale. This makes the sample easier to inspect and avoids a
+misleading model-orientation warning; the two real animation takes and
+original Unity asset GUIDs are preserved. The sample still is not a
+photorealistic production model and does not prove any animation actually
+plays correctly in a buyer game.
+
 The package ships TWO first-party animated cubes: **HPRTwoTakeCube.fbx**
 illustrates normal automatic importing and should report no missing source
 names; **HPRTwoTakeCustomMissing.fbx** uses the SAME originally Blender-exported
@@ -28,6 +43,10 @@ clip list containing only one of its two takes. The second example must flag
 one missing source take. Both are educational fixtures, never evidence of a
 third-party bug or a real customer model. Neither sample is counted in
 whole-project customer results; use the two labeled example buttons.
+When the separate first-party HPR FBX Clip Identity Audit tool is installed,
+its exact bundled `Assets/HPRFbxClipIdentity/Samples/OriginalMotion.fbx`
+is likewise excluded from this scan. No unrelated third-party or buyer FBX
+files are excluded.
 
 The real original Unity-authored `Samples/Prefabs/` folder contains two
 prefabs, one wrapping each included FBX, and `Samples/Scenes/SourceTakeVisibilityDemo.unity`

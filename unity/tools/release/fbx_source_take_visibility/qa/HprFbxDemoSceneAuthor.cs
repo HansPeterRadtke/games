@@ -49,7 +49,7 @@ public static class HprFbxDemoSceneAuthor
     {
         string receipt=Environment.GetEnvironmentVariable("HPR_SOURCE_TAKE_DEMO_AUTHOR_RECEIPT") ?? "";
         if(!Application.isBatchMode || !Path.IsPathRooted(receipt) ||
-           !receipt.StartsWith("/data/var/marketplace-account-setup/unity-20261122-wave54/",StringComparison.Ordinal) ||
+           !receipt.StartsWith("/data/var/marketplace-account-setup/unity-20261122-wave55/",StringComparison.Ordinal) ||
            !receipt.EndsWith(".txt",StringComparison.Ordinal) || File.Exists(receipt))
             throw new InvalidOperationException("New original private Unity demo author receipt required.");
         if(!AssetDatabase.IsValidFolder(Root) || !AssetDatabase.LoadMainAssetAtPath(Root+"/HPRTwoTakeCube.fbx"))

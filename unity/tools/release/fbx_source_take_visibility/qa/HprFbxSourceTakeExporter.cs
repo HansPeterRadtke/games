@@ -10,7 +10,7 @@ public static class HprFbxSourceTakeExporter
     {
         string target=Environment.GetEnvironmentVariable("HPR_SOURCE_TAKE_PACKAGE_OUT") ?? "";
         if (!Application.isBatchMode || !Path.IsPathRooted(target) ||
-            !target.StartsWith("/data/var/marketplace-account-setup/unity-20261122-wave54/",StringComparison.Ordinal) ||
+            !target.StartsWith("/data/var/marketplace-account-setup/unity-20261122-wave55/",StringComparison.Ordinal) ||
             !target.EndsWith(".unitypackage",StringComparison.Ordinal) || File.Exists(target))
             throw new InvalidOperationException("Fresh package export path required");
         const string source="Assets/HPRFbxSourceTakes";

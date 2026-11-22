@@ -5,7 +5,7 @@ set -euo pipefail
 archive=${1:?Fresh native owner package archive path}
 label=${2:?Fresh unique validation label}
 [[ "$label" =~ ^[a-zA-Z0-9_-]{1,35}$ ]] || exit 2
-base=/data/var/marketplace-account-setup/unity-20261122-wave54
+base=/data/var/marketplace-account-setup/unity-20261122-wave55
 out="$base/official-ast-2022-$label"
 [[ ! -e "$out" && -s "$archive" ]] || { echo 'Refusing duplicate or missing package' >&2;exit 3; }
 case "$archive" in
