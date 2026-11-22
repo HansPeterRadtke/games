@@ -28,6 +28,18 @@ namespace HPR.AnimationImportPreflight
     /// as a single read-only buyer workflow. No auto-fix, reimport, network or
     /// editor setting mutation. Both source scanners must be present.
     /// </summary>
+    /// <summary>One matched customer FBX with model-specific, read-only scan evidence.</summary>
+    public sealed class HprAnimationImportRow
+    {
+        public string path;
+        public string clipStatus;
+        public string sourceTakeStatus;
+        public int repeatedClipIds;
+        public int missingSourceTakes;
+        public string[] missingSourceTakeNames;
+        public FbxClipIdentityFinding[] clipFindings;
+    }
+
     public static class HprAnimationImportScan
     {
         private const string Limitations =
@@ -99,6 +111,42 @@ namespace HPR.AnimationImportPreflight
             return output;
         }
 
+        /// <summary>
+        /// Prepare an issue-first, searchable result list from two aligned scans.
+        /// Never combine unmatched/partial reports into a misleading clean result.
+        /// This method does not load or change any customer asset.
+        /// </summary>
+        public static HprAnimationImportRow[] BuildRows(HprAnimationImportReport report,
+            bool findingsOnly, string pathFilter)
+        {
+            if(report == null || report.incomplete || report.clipIdentities == null ||
+                report.sourceTakes == null ||
+                !SameCustomerModels(report.clipIdentities,report.sourceTakes))
+                return new HprAnimationImportRow[0];
+            string query = (pathFilter ?? "").Trim();
+            var rows = new System.Collections.Generic.List<HprAnimationImportRow>();
+            for(int i=0;i<report.clipIdentities.modelsChecked;i++)
+            {
+                var clip = report.clipIdentities.models[i];
+                var takes = report.sourceTakes.models[i];
+                if(clip.incomplete || takes.incomplete)
+                    return new HprAnimationImportRow[0];
+                if(query.Length>0 && clip.path.IndexOf(query,StringComparison.OrdinalIgnoreCase)<0)
+                    continue;
+                bool hasFinding = clip.duplicateClipIds>0 || takes.missingSourceTakeCount>0;
+                if(findingsOnly && !hasFinding) continue;
+                rows.Add(new HprAnimationImportRow
+                {
+                    path=clip.path, clipStatus=clip.status,
+                    sourceTakeStatus=takes.status, repeatedClipIds=clip.duplicateClipIds,
+                    missingSourceTakes=takes.missingSourceTakeCount,
+                    missingSourceTakeNames=takes.missingSourceTakes ?? new string[0],
+                    clipFindings=clip.findings ?? new FbxClipIdentityFinding[0]
+                });
+            }
+            return rows.ToArray();
+        }
+
         public static void ExportNew(HprAnimationImportReport report, string absolutePath)
         {
             if(report == null || string.IsNullOrWhiteSpace(absolutePath) ||
@@ -114,6 +162,8 @@ namespace HPR.AnimationImportPreflight
     {
         private bool working;
         private Vector2 scroll;
+        private bool findingsOnly = true;
+        private string pathFilter = "";
         private HprAnimationImportReport report;
         private string exampleNotice = "";
         private string notice = "Inspect your own FBX models or the bundled first-party examples.";
@@ -191,15 +241,63 @@ namespace HPR.AnimationImportPreflight
                     catch(Exception ex){notice="No report overwritten: "+ex.Message;}
                 }
             }
-            scroll=EditorGUILayout.BeginScrollView(scroll);
             if(report.clipIdentities!=null)
                 EditorGUILayout.LabelField("Local-ID check: "+report.clipIdentities.status,
                     EditorStyles.wordWrappedLabel);
             if(report.sourceTakes!=null)
                 EditorGUILayout.LabelField("Source take coverage: "+report.sourceTakes.status,
                     EditorStyles.wordWrappedLabel);
+            if(!report.incomplete)
+            {
+                findingsOnly = EditorGUILayout.ToggleLeft("Show only FBX models with detected issues",findingsOnly);
+                pathFilter = EditorGUILayout.TextField("Find FBX path",pathFilter);
+                var rows = HprAnimationImportScan.BuildRows(report,findingsOnly,pathFilter);
+                if(rows.Length==0)
+                    EditorGUILayout.HelpBox(report.customerModelsChecked==0 ?
+                        "No customer FBX models to inspect. The bundled examples are excluded." :
+                        "No models match these filters. Turn off 'issues only' to browse every inspected FBX.",
+                        MessageType.Info);
+                else
+                    EditorGUILayout.LabelField("Matching customer FBX models: "+rows.Length,
+                        EditorStyles.boldLabel);
+                scroll=EditorGUILayout.BeginScrollView(scroll);
+                foreach(var row in rows)
+                {
+                    EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                    EditorGUILayout.BeginHorizontal();
+                    GUILayout.Label(row.path,EditorStyles.boldLabel);
+                    if(GUILayout.Button("Select FBX",GUILayout.Width(95f)))
+                    {
+                        var asset=AssetDatabase.LoadMainAssetAtPath(row.path);
+                        if(asset==null) notice="The scanned FBX no longer exists at this path. Run another scan.";
+                        else { Selection.activeObject=asset; EditorGUIUtility.PingObject(asset); }
+                    }
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.LabelField("Clip local IDs: "+row.clipStatus+
+                        " (repeated "+row.repeatedClipIds+") | Source takes: "+
+                        row.sourceTakeStatus+" (unlisted "+row.missingSourceTakes+")",
+                        EditorStyles.wordWrappedLabel);
+                    if(row.missingSourceTakeNames.Length>0)
+                    {
+                        int shown=Math.Min(6,row.missingSourceTakeNames.Length);
+                        var names=new string[shown];
+                        Array.Copy(row.missingSourceTakeNames,names,shown);
+                        string extra=row.missingSourceTakeNames.Length>shown ?
+                            " (and "+(row.missingSourceTakeNames.Length-shown)+" more in the JSON report)" : "";
+                        EditorGUILayout.LabelField("Unlisted source take names: "+
+                            string.Join(", ",names)+extra,EditorStyles.wordWrappedLabel);
+                    }
+                    for(int i=0;i<Math.Min(3,row.clipFindings.Length);i++)
+                        EditorGUILayout.LabelField("Local-ID finding: "+row.clipFindings[i].rule+
+                            " — "+row.clipFindings[i].detail,EditorStyles.wordWrappedLabel);
+                    if(row.clipFindings.Length>3)
+                        EditorGUILayout.LabelField("Additional local-ID findings are in the JSON report.",
+                            EditorStyles.wordWrappedLabel);
+                    EditorGUILayout.EndVertical();
+                }
+                EditorGUILayout.EndScrollView();
+            }
             EditorGUILayout.HelpBox(report.limitation,MessageType.Warning);
-            EditorGUILayout.EndScrollView();
         }
     }
 }

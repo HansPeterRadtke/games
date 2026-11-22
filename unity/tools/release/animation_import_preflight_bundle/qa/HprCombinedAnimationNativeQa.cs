@@ -53,6 +53,8 @@ public static class HprCombinedAnimationNativeQa
     public static void SamplesOnly()
     {
         CheckMatchingCustomerPathsFailClosed();
+        Check(HprAnimationImportScan.BuildRows(null,true,"").Length==0,
+            "missing_report_must_not_produce_findings_rows");
         Check((AssetImporter.GetAtPath(HprFbxClipIdentityAudit.ExampleFbxPath) as ModelImporter)!=null,
             "real_first_party_clip_ID_importer");
         Check((AssetImporter.GetAtPath(HprFbxSourceTakeAudit.ExampleFbxPath) as ModelImporter)!=null,
@@ -75,6 +77,8 @@ public static class HprCombinedAnimationNativeQa
             report.unreferencedSourceTakes==0 && report.clipIdentities.modelsChecked==0 &&
             report.sourceTakes.modelsChecked==0,
             "combined_buyer_sees_NO_custom_models_not_fake_clean");
+        Check(HprAnimationImportScan.BuildRows(report,false,"").Length==0,
+            "bundled_examples_excluded_from_results_browser");
         HprAnimationImportScan.ExportNew(report,Receipt("original-vendor-only-both-scans.json"));
         string file=Path.Combine(Environment.GetEnvironmentVariable("HPR_COMBINED_ANIM_QA_DIR"),
             "original-vendor-only-both-scans.json");
@@ -105,6 +109,14 @@ public static class HprCombinedAnimationNativeQa
             report.status=="NO_TARGETED_FINDINGS_IN_INSPECTED_MODELS" &&
             report.repeatedClipIds==0 && report.unreferencedSourceTakes==0,
             "real_customer_project_both_analyses_no_target_findings");
+        Check(HprAnimationImportScan.BuildRows(report,true,"").Length==0,
+            "clean_customer_has_no_findings_only_rows");
+        var allRows=HprAnimationImportScan.BuildRows(report,false,"ORIGINALTWO");
+        Check(allRows.Length==1 && allRows[0].path==Customer &&
+            allRows[0].missingSourceTakes==0,
+            "all_results_search_case_insensitive_and_selects_real_customer");
+        Check(HprAnimationImportScan.BuildRows(report,false,"does-not-exist").Length==0,
+            "path_filter_rejects_unknown_models");
         Write("real-customer-original-receipt.txt",
             "unity_version="+Application.unityVersion+"\n"+
             "combined_real_customer_count=1\n"+
@@ -128,6 +140,13 @@ public static class HprCombinedAnimationNativeQa
             report.repeatedClipIds==0 && report.unreferencedSourceTakes==1 &&
             report.status=="POTENTIAL_ANIMATION_IMPORT_ISSUES",
             "combined_warning_when_real_customer_custom_clips_omit_source_take");
+        var findings=HprAnimationImportScan.BuildRows(report,true,"originaltwotake");
+        Check(findings.Length==1 && findings[0].path==Customer &&
+            findings[0].missingSourceTakes==1 && findings[0].repeatedClipIds==0 &&
+            findings[0].missingSourceTakeNames.Length==1,
+            "read_only_combined_results_browser_locates_real_customer_issue");
+        Check(HprAnimationImportScan.BuildRows(report,true,"wrong-prefix").Length==0,
+            "results_browser_filters_real_warning_by_path");
         Check(Hash(File.ReadAllBytes(absolute))==beforeSha,"private_customer_source_FBX_untouched");
         HprAnimationImportScan.ExportNew(report,Receipt("combined-original-customer-warning.json"));
         Write("combined-original-customer-warning.txt",

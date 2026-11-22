@@ -29,3 +29,5 @@ inspection and normal graphical buyer use remain blocked by an unaccepted
 Unity terms dialog; licensing, disclosure, authentic media, market demand,
 pricing and seller publication authority remain separate release gates.
 Native batch tests and successful source push are not proof of sale.
+
+The combined result window now includes a read-only issue-first, path-searchable FBX list and an explicit Select FBX link. This is a usability improvement, not proof of live graphical-window acceptance; source and native buyer tests must separately verify the exact final bundle.

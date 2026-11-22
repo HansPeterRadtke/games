@@ -11,8 +11,12 @@ three non-mutating checks on first-party training FBXs and demonstrates a
 healthy local-ID scan, a default source-take import, and a genuinely saved
 Unity import with one unreferenced original Blender action. This action does
 not count the examples as customer files. Then click **Scan all customer FBX
-models**, review separate ID and source-take
-statuses, and optionally export a new JSON report. The exporter refuses to
+models**. The results initially show only affected customer FBXs: search for a
+model path, switch off **Show only FBX models with detected issues** to see
+all inspected files, and use **Select FBX** to highlight the asset in the
+Unity Project window. The combined window shows counts, relevant missing
+take names and local-ID findings without requiring you to inspect two
+separate windows. Export a new JSON report for the complete detailed result. The exporter refuses to
 overwrite existing reports. A fresh project containing only the bundled
 original Blender examples correctly reports **NO_CUSTOMER_FBX_MODELS_SCANNED**;
 those vendor FBXs are not customer assets and do not count as a clean scan.

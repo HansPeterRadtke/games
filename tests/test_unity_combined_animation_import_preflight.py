@@ -58,7 +58,9 @@ def test_one_combined_window_and_no_buyer_file_mutation_or_network_effects():
         'SameCustomerModels(clip,takes)','HashSet<string>(StringComparer.OrdinalIgnoreCase)',
         'NO_TARGETED_FINDINGS_IN_INSPECTED_MODELS','INCOMPLETE',
         'DisplayCancelableProgressBar','ClearProgressBar','FileMode.CreateNew',
-        'Import Unreferenced Takes'):
+        'Import Unreferenced Takes', 'BuildRows(', 'Find FBX path',
+        'Select FBX', 'EditorGUIUtility.PingObject',
+        'AssetDatabase.LoadMainAssetAtPath'):
         assert required in code
     for banned in ('SaveAndReimport(', 'AssetDatabase.ImportPackage(',
                    'AssetDatabase.DeleteAsset(', 'AssetDatabase.MoveAsset(',
@@ -83,7 +85,9 @@ def test_genuine_unity_two_generations_qa_isolated_and_buyer_scoped():
         'combined_warning_when_real_customer_custom_clips_omit_source_take',
         'combined_buyer_sees_NO_custom_models_not_fake_clean',
         'private_customer_source_FBX_untouched',
-        'JSON_output_create_only_no_overwrite'):
+        'JSON_output_create_only_no_overwrite',
+        'clean_customer_has_no_findings_only_rows',
+        'read_only_combined_results_browser_locates_real_customer_issue'):
         assert key in test
     assert '2022.3.22f1' in runner and '6000.6.8f1' in runner
     assert 'buyer-import-exact-archive' in runner
