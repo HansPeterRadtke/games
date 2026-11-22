@@ -32,7 +32,7 @@ timeout 300 "$editor" -batchmode -nographics -quit -projectPath "$project" \
 grep -q 'HPR_MATRIX_REAL_TWO_EDITOR_COMPARE_PASS' "$log"
 python3 - "$output" <<'PY'
 import json,sys
-r=json.load(open(sys.argv[1])); assert r['status']=='MATCHED_IMPORT_METADATA'
+r=json.load(open(sys.argv[1])); assert r['status']=='MATCHED_IMPORT_INPUT_BYTES_AND_METADATA'
 for k in ['missingFromSecond','newInSecond','guidChanges','dependencyChanges']:
  assert r[k]==[],(k,r[k])
 print('REAL_NATIVE_TWO_VERSION_IN_EDITOR_COMPARISON_PASS')

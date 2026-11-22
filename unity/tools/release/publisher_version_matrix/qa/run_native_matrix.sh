@@ -61,7 +61,7 @@ python3 - "$work" <<'PY'
 import json,sys
 from pathlib import Path
 p=Path(sys.argv[1]); report=json.loads((p/'independent-buyer-import-snapshot.json').read_text())
-assert report['schema']==1 and report['status']=='SNAPSHOT_COMPLETE' and not report['incomplete'] and report['assetCount']>=15
+assert report['schema']==2 and report['status']=='SNAPSHOT_COMPLETE' and not report['incomplete'] and report['assetCount']>=15
 assert json.loads((p/'original-vendor-scope.json').read_text())['status']=='PASS'
 diff=json.loads((p/'independent-buyer-synthetic-negative-diff.json').read_text())
 assert diff['status']=='REVIEW_IMPORT_DIFFERENCES' and len(diff['guidChanges'])==1

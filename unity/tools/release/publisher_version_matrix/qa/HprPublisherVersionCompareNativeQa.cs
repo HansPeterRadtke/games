@@ -24,9 +24,38 @@ public static class HprPublisherVersionCompareNativeQa
         var other=JsonUtility.FromJson<HprVersionReceipt>(JsonUtility.ToJson(actual));
         other.unityVersion="synthetic-different-version-for-negative-QA";
         var matched=HprVersionReceiptCompare.Compare(actual,other);
-        Require(matched.status=="MATCHED_IMPORT_METADATA" &&
+        Require(matched.status=="MATCHED_IMPORT_INPUT_BYTES_AND_METADATA" &&
             matched.guidChanges.Length==0 && matched.dependencyChanges.Length==0,
             "same_real_import_source_in_fake_second_version_is_equal");
+        // Same path and GUID, but changed original source bytes, must NOT pass.
+        var byteChanged=JsonUtility.FromJson<HprVersionReceipt>(JsonUtility.ToJson(actual));
+        byteChanged.unityVersion="synthetic-changed-source-bytes-QA";
+        byteChanged.assets[0].sourceFileSha256=new string('0',64);
+        if(byteChanged.assets[0].sourceFileSha256==actual.assets[0].sourceFileSha256)
+            byteChanged.assets[0].sourceFileSha256=new string('1',64);
+        var changedOnlyBytes=HprVersionReceiptCompare.Compare(actual,byteChanged);
+        Require(changedOnlyBytes.status=="REVIEW_IMPORT_DIFFERENCES" &&
+            changedOnlyBytes.sourceFileChanges.Length==1 &&
+            changedOnlyBytes.guidChanges.Length==0 &&
+            changedOnlyBytes.importerMetaChanges.Length==0,
+            "same_GUID_but_changed_original_source_bytes_must_fail_clean");
+        var metaChanged=JsonUtility.FromJson<HprVersionReceipt>(JsonUtility.ToJson(actual));
+        metaChanged.unityVersion="synthetic-changed-importer-meta-bytes-QA";
+        metaChanged.assets[0].metaFileSha256=new string('0',64);
+        if(metaChanged.assets[0].metaFileSha256==actual.assets[0].metaFileSha256)
+            metaChanged.assets[0].metaFileSha256=new string('1',64);
+        var metaDiff=HprVersionReceiptCompare.Compare(actual,metaChanged);
+        Require(metaDiff.status=="REVIEW_IMPORT_DIFFERENCES" &&
+            metaDiff.importerMetaChanges.Length==1 && metaDiff.sourceFileChanges.Length==0 &&
+            metaDiff.guidChanges.Length==0,
+            "same_GUID_source_but_changed_importer_meta_bytes_must_fail_clean");
+        // Old schema-one snapshots cannot fabricate matching content hashes.
+        var oldReceipt=JsonUtility.FromJson<HprVersionReceipt>(JsonUtility.ToJson(actual));
+        oldReceipt.schema=1;
+        bool oldRejected=false;
+        try { HprVersionReceiptCompare.Compare(actual,oldReceipt); }
+        catch(ArgumentException) { oldRejected=true; }
+        Require(oldRejected,"old_receipt_without_verified_source_fingerprints_rejected");
         other.assets[0].guid="ffffffffffffffffffffffffffffffff";
         var changed=HprVersionReceiptCompare.Compare(actual,other);
         Require(changed.status=="REVIEW_IMPORT_DIFFERENCES" && changed.guidChanges.Length==1,

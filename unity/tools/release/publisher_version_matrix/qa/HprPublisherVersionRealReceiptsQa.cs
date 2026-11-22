@@ -25,9 +25,10 @@ public static class HprPublisherVersionRealReceiptsQa
         Require(a.unityVersion=="2022.3.22f1" && b.unityVersion=="6000.6.8f1" &&
             a.assetCount==18 && b.assetCount==18,"real_version_pair_and_original_FBX_assets");
         var result=HprVersionReceiptCompare.Compare(a,b);
-        Require(result.status=="MATCHED_IMPORT_METADATA" &&
+        Require(result.status=="MATCHED_IMPORT_INPUT_BYTES_AND_METADATA" &&
             result.missingFromSecond.Length==0 && result.newInSecond.Length==0 &&
-            result.guidChanges.Length==0 && result.dependencyChanges.Length==0,
+            result.guidChanges.Length==0 && result.dependencyChanges.Length==0 &&
+            result.sourceFileChanges.Length==0 && result.importerMetaChanges.Length==0,
             "original_buyer_assets_same_metadata_in_two_real_editors");
         HprVersionReceiptCompare.ExportNew(result,output);
         bool refused=false;

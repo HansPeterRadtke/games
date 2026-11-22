@@ -27,6 +27,13 @@ public static class HprPublisherVersionMatrixQa
             "real_original_multiple_publisher_assets");
         Require(HprPublisherVersionScan.ValidateRoots(roots).Length==3,
             "three_original_vendor_roots_only");
+        Require(result.schema==2 && result.assets.All(x=>x.sourceFileSha256!=null &&
+            x.sourceFileSha256.Length==64 && x.metaFileSha256!=null &&
+            x.metaFileSha256.Length==64),"native_original_source_and_meta_sha256");
+        var canceled=HprPublisherVersionScan.Scan(roots,(i,n)=>true);
+        Require(canceled.incomplete && canceled.status=="INCOMPLETE" &&
+            canceled.failureReason.Contains("Canceled"),
+            "canceled_hashing_is_incomplete_not_clean");
         HprPublisherVersionScan.ExportNew(result,output);
         bool refused=false;
         try{HprPublisherVersionScan.ExportNew(result,output);}catch(IOException){refused=true;}
