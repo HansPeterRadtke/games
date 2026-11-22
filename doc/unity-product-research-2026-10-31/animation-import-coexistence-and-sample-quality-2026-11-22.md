@@ -181,3 +181,27 @@ complementary tools is limited to project-wide bulk checking and the
 specific duplicate local-ID failure. They should be considered as one
 combined importer health workflow rather than two repetitive standalone
 marketplace products. The single shared seller owns any eventual listing.
+
+
+## Actual Unity 6.6 Fast Enter Play Mode quality check, 22 November
+
+The official October 23 Unity Asset Store submission rules require packages
+with scripts on Unity 6.6 or newer to support entering Play Mode when **Domain
+Reload is disabled**. We tested this in the actual independently imported
+Unity **6000.6.8f1** combined animation buyer project. Only that disposable
+private project's `EditorSettings.enterPlayModeOptionsEnabled` and
+`EnterPlayModeOptions.DisableDomainReload` were changed for the test; no user
+project, source FBX or source material was modified. An original private QA
+Editor callback observed genuine `EnteredPlayMode` and `EnteredEditMode`
+transitions. The **same actual project-wide combined read-only scanner**
+returned a consistent one-customer-model missing-source-take warning before
+and after Play Mode, with **zero captured console errors/exceptions**. The
+private harness itself exited only after observing both actual Unity state
+transitions and saving a create-only receipt. No unapproved Terms acceptance
+or graphical EditorWindow testing was attempted.
+
+Exact native proof:
+`/data/var/marketplace-account-setup/unity-20261122-wave55/fast-enter-playmode-6000-6-8f1-real-original-buyer.txt`
+and preserved native Editor log under the same basename. This is one actual
+supported-version Play Mode scenario, not universal Player build/runtime
+compatibility, visual acceptance or Asset Store listing approval.

@@ -151,3 +151,27 @@ def test_first_party_original_model_prefab_geometry_qa_source_safety():
     assert 'SaveAndReimport(' not in private
     assert 'AssetDatabase.SaveAssets(' not in private
     assert not list(SOURCE.rglob('HprOriginalAnimationGeometryQa.cs'))
+
+
+def test_real_private_Unity_6_6_fast_enter_playmode_qa_is_safe():
+    qa = (BUNDLE / 'qa/HprOriginalFastEnterPlaymodeQa.cs').read_text()
+    runner = (BUNDLE / 'qa/run_fast_enter_playmode_existing_buyer.sh').read_text()
+    for expected in (
+        'EnterPlayModeOptions.DisableDomainReload',
+        'PlayModeStateChange.EnteredPlayMode',
+        'PlayModeStateChange.EnteredEditMode',
+        'HprAnimationImportScan.ScanProject()',
+        'original_readonly_importer_scan_before_after_playmode_identical=PASS',
+        'Application.logMessageReceived',
+        'HPR_ORIGINAL_FAST_PLAYMODE_NATIVE_PASS',
+        'FileMode.CreateNew',
+        'EditorSettings.enterPlayModeOptions=previousOptions'):
+        assert expected in qa
+    for forbidden in ('AssetDatabase.DeleteAsset(', 'AssetDatabase.SaveAssets(',
+                      'SaveAndReimport(', 'AssetDatabase.ImportPackage(',
+                      'UnityWebRequest'):
+        assert forbidden not in qa
+    assert '-batchmode -nographics' in runner
+    assert 'timeout 230' in runner
+    assert 'HPR_ORIGINAL_FAST_PLAYMODE_NATIVE_PASS' in runner
+    assert not list(SOURCE.rglob('HprOriginalFastEnterPlaymodeQa.cs'))
