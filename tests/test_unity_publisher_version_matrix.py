@@ -45,6 +45,11 @@ def test_original_buyer_root_is_metadata_complete():
     assert C.is_file() and (p/'README.md').is_file() and (p/'LICENSE.md').is_file()
     assert (p/'Editor/HprPublisherVersionMatrixCompare.cs').is_file()
     assert not list(p.rglob('*.dll'))
+    docs=(p/'README.md').read_text()
+    for statement in ('Documentation and purpose','Scan imported publisher assets',
+                      'Compare imported paths, GUIDs and direct dependencies',
+                      'MATCHED_IMPORT_METADATA','private commercial candidate'):
+        assert statement in docs
 
 
 def test_first_party_readonly_editor_scanner_public_api_and_strict_write():
