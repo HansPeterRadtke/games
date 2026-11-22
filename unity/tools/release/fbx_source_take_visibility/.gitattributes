@@ -1,0 +1,5 @@
+*.fbx binary
+
+# Unity generated YAML metadata includes intentional empty fields with spaces.
+# Preserve exact bytes tested in author and independent buyer imports.
+*.meta -whitespace

@@ -12,6 +12,19 @@ This directory contains the reproducible sale-package validation, export, screen
 
 `fbx_clip_identity_audit/` is a separate, unpublished narrowly scoped FBX animation importer ID diagnostic candidate. It examines configured custom-clip internalIDs and serialized AnimationClip mapping class IDs without changing importer settings. Original Blender FBX QA, seller evidence and genuine GUI tests remain separate from publication. See its own internal source/QA folders.
 
+`fbx_source_take_visibility/` is a further first-party, unpublished
+Editor import preflight candidate. It scans current FBX source animation take
+names against manually customized importer clip definitions and can flag
+unreferenced takes across many project files without changing source or
+import settings. Its two original Blender examples include a deliberately
+incomplete real Unity importer plus genuine Unity-authored prefabs and a
+static demo scene. Unity already supplies an **Import Unreferenced Takes**
+button in modern Editor lines (6000.4/5/6), making a separate paid one-FBX
+tool commercially weak; only a project-wide bulk audit might differentiate
+it as part of an importer preflight suite. All native QA, official validator
+warnings, genuine Editor screenshot/terms gates, rights and single-seller
+publication controls remain required. It is not approved for storefronts.
+
 `unitypackage_archive_preflight/` is an additional first-party read-only
 candidate for comparing the actual TAR/GZIP contents and asset GUIDs of two
 classic `.unitypackage` release archives **before import**. It is distinct
