@@ -413,3 +413,21 @@ def test_nested_custom_actual_playmode_restores_editor_state_and_captures_uninsp
     assert 'HprNestedCustomPlaymodeQa.Run' in runner
     assert 'real-fast-enter-playmode-receipt.txt' in runner
     assert not list(BUYER.rglob('HprNestedCustomPlaymodeQa.cs'))
+
+
+def test_actual_Unity6_Csharp_nested_variant_receipt_comparison_is_source_isolated():
+    qa=ROOT/'qa'
+    source=(qa/'HprNestedCustomTwoEditorQa.cs').read_text()
+    runner=(qa/'run_nested_custom_native_compare.sh').read_text()
+    for expected in ('HprPrefabStateCompare.ReadReceipt(a)',
+                     'HprPrefabStateCompare.ReadReceipt(b)',
+                     'COVERED_VALUES_MATCH_UNINSPECTED_COMPONENTS',
+                     'compare.unsupportedComponents==6',
+                     'compare.dependencyDifferences.Length==0',
+                     'compare.unverifiedDependencyPaths.Length==0',
+                     'HPR_NESTED_CUSTOM_TWO_REAL_EDITOR_PASS'):
+        assert expected in source
+    assert 'HprNestedCustomTwoEditorQa.Run' in runner
+    assert 'HPR_NESTED_CUSTOM_TWO_REAL_EDITOR_PASS' in runner
+    assert '! -e "$target"' in runner and '! -e "$output"' in runner
+    assert not list(BUYER.rglob('HprNestedCustomTwoEditorQa.cs'))
