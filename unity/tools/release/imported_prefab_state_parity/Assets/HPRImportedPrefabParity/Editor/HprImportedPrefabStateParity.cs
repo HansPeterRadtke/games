@@ -17,6 +17,13 @@ namespace HPR.ImportedPrefabParity
         public string sourceSha256;
         public string metaSha256;
     }
+    [Serializable] public sealed class HprPrefabDependency
+    {
+        public string path;
+        public string guid;
+        public string sourceSha256;
+        public string metaSha256;
+    }
     [Serializable] public sealed class HprPrefabValue
     {
         public string key;
@@ -24,7 +31,7 @@ namespace HPR.ImportedPrefabParity
     }
     [Serializable] public sealed class HprPrefabReceipt
     {
-        public int schema=1;
+        public int schema=2;
         public string unityVersion;
         public string status;
         public bool incomplete;
@@ -32,16 +39,20 @@ namespace HPR.ImportedPrefabParity
         public int valuesCaptured;
         public int unsupportedComponents;
         public HprPrefabInput[] inputs;
+        public HprPrefabDependency[] dependencies;
+        public string[] unverifiedDependencyPaths;
         public HprPrefabValue[] values;
         public string limitation;
     }
     [Serializable] public sealed class HprPrefabComparison
     {
-        public int schema=1;
+        public int schema=2;
         public string firstUnityVersion;
         public string secondUnityVersion;
         public string status;
         public string[] sourceDifferences;
+        public string[] dependencyDifferences;
+        public string[] unverifiedDependencyPaths;
         public string[] removedValueKeys;
         public string[] addedValueKeys;
         public string[] changedValueKeys;
@@ -54,12 +65,16 @@ namespace HPR.ImportedPrefabParity
     {
         public const int MaxPrefabs=24;
         public const int MaxValues=25000;
+        public const int MaxDependencies=512;
+        public const int MaxUnverifiedDependencyPaths=64;
         public const long MaxSourceBytes=67108864L;
         public const long MaxTotalBytes=268435456L;
         private const string Scope="Checks imported prefab hierarchy, object active/layer/tag, " +
             "Transform, Renderer/material/mesh/sprite, TextMesh, Animator, Collider and Rigidbody fields and component " +
-            "types. Other scripts and serialized fields are NOT inspected; matching covered values " +
-            "does not prove identical Unity serialization, graphics, animation or runtime behavior.";
+            "types. Recursively referenced original Assets/ dependency bytes and .meta input " +
+            "are checked, but built-in and package dependencies may remain unverified. " +
+            "Other scripts, project settings and fields are NOT inspected; this never " +
+            "proves identical Unity serialization, graphics, animation or runtime behavior.";
         private static readonly StringComparer Order=StringComparer.Ordinal;
 
         public static string[] ValidatePaths(string input)
@@ -102,6 +117,14 @@ namespace HPR.ImportedPrefabParity
             return digest;
         }
 
+        private static bool RealAssetPath(string path)
+        {
+            return !string.IsNullOrEmpty(path) && path.Length<=500 &&
+                path.StartsWith("Assets/",StringComparison.Ordinal) &&
+                !path.Contains("..") && !path.Contains("\\") &&
+                !path.Contains(":") && !path.Contains("//") &&
+                !path.Any(char.IsControl);
+        }
         private static string Float(float value)
             => value.ToString("R",System.Globalization.CultureInfo.InvariantCulture);
         private static string Vec3(Vector3 v)=>Float(v.x)+","+Float(v.y)+","+Float(v.z);
@@ -231,8 +254,12 @@ namespace HPR.ImportedPrefabParity
             var names=ValidatePaths(paths);
             var report=new HprPrefabReceipt{unityVersion=Application.unityVersion,
                 status="INCOMPLETE",incomplete=true,failureReason="",
-                inputs=new HprPrefabInput[0],values=new HprPrefabValue[0],limitation=Scope};
+                inputs=new HprPrefabInput[0],dependencies=new HprPrefabDependency[0],
+                unverifiedDependencyPaths=new string[0],values=new HprPrefabValue[0],limitation=Scope};
             var files=new List<HprPrefabInput>();
+            var dependencies=new Dictionary<string,HprPrefabDependency>(Order);
+            var unverified=new HashSet<string>(Order);
+            var rootNames=new HashSet<string>(names,Order);
             var values=new List<HprPrefabValue>();
             long total=0;
             int unsupported=0;
@@ -251,6 +278,34 @@ namespace HPR.ImportedPrefabParity
                     files.Add(new HprPrefabInput{path=path,
                         sourceSha256=Sha256(Path.Combine(root,path),ref total,root),
                         metaSha256=Sha256(Path.Combine(root,path+".meta"),ref total,root)});
+                    // Capture transitive referenced source inputs, not only prefab YAML.
+                    // AssetDatabase may report package or built-in pseudo-assets: record
+                    // their paths as unverified and never claim a clean input match.
+                    var referenced=AssetDatabase.GetDependencies(path,true);
+                    foreach(string dep in referenced.OrderBy(v=>v,Order))
+                    {
+                        if(string.IsNullOrEmpty(dep) || rootNames.Contains(dep))continue;
+                        if(!RealAssetPath(dep) ||
+                            !File.Exists(Path.Combine(root,dep)) ||
+                            !File.Exists(Path.Combine(root,dep+".meta")))
+                        {
+                            if(dep.Length>500)
+                                throw new InvalidOperationException("Unverifiable dependency path too long.");
+                            unverified.Add(dep);
+                            if(unverified.Count>MaxUnverifiedDependencyPaths)
+                                throw new InvalidOperationException("Unverifiable dependency list too large.");
+                            continue;
+                        }
+                        if(dependencies.ContainsKey(dep))continue;
+                        if(dependencies.Count>=MaxDependencies)
+                            throw new InvalidOperationException("Referenced dependency scan limit exceeded.");
+                        string guid=AssetDatabase.AssetPathToGUID(dep);
+                        if(string.IsNullOrEmpty(guid) || guid.Length!=32)
+                            throw new InvalidOperationException("Referenced source has no stable Unity GUID: "+dep);
+                        dependencies.Add(dep,new HprPrefabDependency{path=dep,guid=guid,
+                            sourceSha256=Sha256(Path.Combine(root,dep),ref total,root),
+                            metaSha256=Sha256(Path.Combine(root,dep+".meta"),ref total,root)});
+                    }
                     contents=PrefabUtility.LoadPrefabContents(path);
                     if(contents==null)throw new InvalidOperationException("Could not load isolated prefab contents.");
                     Visit(contents,"Prefab/"+CleanKey(path),values,ref unsupported);
@@ -266,7 +321,10 @@ namespace HPR.ImportedPrefabParity
             for(int i=1;i<values.Count;i++)
                 if(values[i].key==values[i-1].key)
                 {report.failureReason="Ambiguous component property identity.";return report;}
-            report.inputs=files.ToArray();report.values=values.ToArray();
+            report.inputs=files.ToArray();
+            report.dependencies=dependencies.Values.OrderBy(v=>v.path,Order).ToArray();
+            report.unverifiedDependencyPaths=unverified.OrderBy(v=>v,Order).ToArray();
+            report.values=values.ToArray();
             report.valuesCaptured=values.Count;report.unsupportedComponents=unsupported;
             report.status="CAPTURED_COVERED_PREFAB_VALUES";report.incomplete=false;
             return report;
@@ -287,10 +345,13 @@ namespace HPR.ImportedPrefabParity
     {
         public static void Validate(HprPrefabReceipt receipt)
         {
-            if(receipt==null || receipt.schema!=1 || receipt.incomplete ||
+            if(receipt==null || receipt.schema!=2 || receipt.incomplete ||
                 receipt.status!="CAPTURED_COVERED_PREFAB_VALUES" ||
                 string.IsNullOrEmpty(receipt.unityVersion) || receipt.inputs==null ||
+                receipt.dependencies==null || receipt.unverifiedDependencyPaths==null ||
                 receipt.values==null || receipt.inputs.Length<1 ||
+                receipt.dependencies.Length>HprPrefabStateScan.MaxDependencies ||
+                receipt.unverifiedDependencyPaths.Length>HprPrefabStateScan.MaxUnverifiedDependencyPaths ||
                 receipt.inputs.Length>HprPrefabStateScan.MaxPrefabs ||
                 receipt.values.Length>HprPrefabStateScan.MaxValues ||
                 receipt.valuesCaptured!=receipt.values.Length || receipt.unsupportedComponents<0)
@@ -302,6 +363,22 @@ namespace HPR.ImportedPrefabParity
                     !ShaValid(input.sourceSha256) || !ShaValid(input.metaSha256) || !seen.Add(input.path))
                     throw new ArgumentException("Invalid input prefab or source fingerprint.");
             }
+            var inputs=new HashSet<string>(seen,StringComparer.Ordinal);
+            seen.Clear();
+            foreach(var dep in receipt.dependencies)
+                if(dep==null || string.IsNullOrEmpty(dep.path) || dep.path.Length>500 ||
+                    !dep.path.StartsWith("Assets/",StringComparison.Ordinal) ||
+                    dep.path.Contains("..") || dep.path.Contains("\\") ||
+                    dep.path.Contains(":") || dep.path.Contains("//") ||
+                    dep.path.Any(char.IsControl) || inputs.Contains(dep.path) ||
+                    !seen.Add(dep.path) || dep.guid==null || dep.guid.Length!=32 ||
+                    !dep.guid.All(c=>(c>='0'&&c<='9')||(c>='a'&&c<='f')) ||
+                    !ShaValid(dep.sourceSha256) || !ShaValid(dep.metaSha256))
+                    throw new ArgumentException("Invalid or duplicate referenced dependency evidence.");
+            foreach(string unknown in receipt.unverifiedDependencyPaths)
+                if(string.IsNullOrEmpty(unknown) || unknown.Length>500 ||
+                    inputs.Contains(unknown) || !seen.Add(unknown))
+                    throw new ArgumentException("Invalid, duplicate or ambiguous unverified dependency.");
             seen.Clear();
             var prefixes=receipt.inputs.Select(input=>"Prefab/"+Uri.EscapeDataString(input.path)+"/")
                 .ToArray();
@@ -325,6 +402,14 @@ namespace HPR.ImportedPrefabParity
                 throw new ArgumentException("The original two prefab scopes must match exactly.");
             var sourceDiff=a.Keys.Where(k=>a[k].sourceSha256!=b[k].sourceSha256 ||
                 a[k].metaSha256!=b[k].metaSha256).OrderBy(k=>k,StringComparer.Ordinal).ToArray();
+            var ad=first.dependencies.ToDictionary(v=>v.path,StringComparer.Ordinal);
+            var bd=second.dependencies.ToDictionary(v=>v.path,StringComparer.Ordinal);
+            var dependencyDiff=ad.Keys.Union(bd.Keys,StringComparer.Ordinal).Where(k=>
+                !ad.ContainsKey(k) || !bd.ContainsKey(k) ||
+                ad[k].guid!=bd[k].guid || ad[k].sourceSha256!=bd[k].sourceSha256 ||
+                ad[k].metaSha256!=bd[k].metaSha256).OrderBy(k=>k,StringComparer.Ordinal).ToArray();
+            var unknown=first.unverifiedDependencyPaths.Union(second.unverifiedDependencyPaths,
+                StringComparer.Ordinal).OrderBy(k=>k,StringComparer.Ordinal).ToArray();
             var x=first.values.ToDictionary(v=>v.key,v=>v.value,StringComparer.Ordinal);
             var y=second.values.ToDictionary(v=>v.key,v=>v.value,StringComparer.Ordinal);
             var removed=x.Keys.Except(y.Keys,StringComparer.Ordinal).OrderBy(k=>k,StringComparer.Ordinal).ToArray();
@@ -333,10 +418,14 @@ namespace HPR.ImportedPrefabParity
                 .OrderBy(k=>k,StringComparer.Ordinal).ToArray();
             var result=new HprPrefabComparison{firstUnityVersion=first.unityVersion,
                 secondUnityVersion=second.unityVersion,sourceDifferences=sourceDiff,
+                dependencyDifferences=dependencyDiff,unverifiedDependencyPaths=unknown,
                 removedValueKeys=removed,addedValueKeys=added,changedValueKeys=changed,
                 unsupportedComponents=first.unsupportedComponents+second.unsupportedComponents,
-                limitation="Only the declared covered imported prefab fields, not all serialized data or Player behavior, are compared."};
+                limitation="Only declared covered imported prefab fields and verified referenced Assets/ " +
+                    "input bytes; built-in/package inputs, project settings and Player behavior may be unverified."};
             result.status=sourceDiff.Length>0 ? "SOURCE_BYTES_DIFFER_NO_EDITOR_INFERENCE" :
+                dependencyDiff.Length>0 ? "DEPENDENCY_INPUTS_DIFFER_NO_EDITOR_INFERENCE" :
+                unknown.Length>0 ? "DEPENDENCIES_UNVERIFIED_NO_EDITOR_INFERENCE" :
                 removed.Length+added.Length+changed.Length>0 ? "REVIEW_IMPORTED_PREFAB_VALUE_DIFFERENCES" :
                 "MATCHED_COVERED_IMPORTED_PREFAB_VALUES";
             return result;
@@ -345,6 +434,8 @@ namespace HPR.ImportedPrefabParity
         {
             if(comparison==null || !Path.IsPathRooted(absolutePath) ||
                 (comparison.status!="SOURCE_BYTES_DIFFER_NO_EDITOR_INFERENCE" &&
+                 comparison.status!="DEPENDENCY_INPUTS_DIFFER_NO_EDITOR_INFERENCE" &&
+                 comparison.status!="DEPENDENCIES_UNVERIFIED_NO_EDITOR_INFERENCE" &&
                  comparison.status!="REVIEW_IMPORTED_PREFAB_VALUE_DIFFERENCES" &&
                  comparison.status!="MATCHED_COVERED_IMPORTED_PREFAB_VALUES"))
                 throw new ArgumentException("A complete comparison and new absolute file path are required.");
@@ -403,6 +494,8 @@ namespace HPR.ImportedPrefabParity
                             "Read-only prefab inspection "+(i+1)+" / "+n,n>0 ? (float)i/n:0f));
                     notice=captured.incomplete ? "INCOMPLETE: "+captured.failureReason :
                         "Captured "+captured.valuesCaptured+" covered values; "+
+                        captured.dependencies.Length+" source dependencies verified; "+
+                        captured.unverifiedDependencyPaths.Length+" not fully verified; "+
                         captured.unsupportedComponents+" component types not fully inspected.";
                 }
                 catch(Exception ex){notice="No scan: "+ex.Message;}
@@ -436,9 +529,13 @@ namespace HPR.ImportedPrefabParity
                     comparison=HprPrefabStateCompare.Compare(HprPrefabStateCompare.ReadReceipt(first),
                         HprPrefabStateCompare.ReadReceipt(second));
                     notice=comparison.status=="MATCHED_COVERED_IMPORTED_PREFAB_VALUES" ?
-                        "Covered values match in both Editors. Check other component fields and Player builds separately." :
+                        "Covered values and checked source dependencies match. Review other fields and Player builds." :
                         comparison.status=="SOURCE_BYTES_DIFFER_NO_EDITOR_INFERENCE" ?
                         "Original prefab files differ. Cannot attribute differences to a Unity version." :
+                        comparison.status=="DEPENDENCY_INPUTS_DIFFER_NO_EDITOR_INFERENCE" ?
+                        "Referenced asset or importer bytes differ. Unity-version attribution is unsafe." :
+                        comparison.status=="DEPENDENCIES_UNVERIFIED_NO_EDITOR_INFERENCE" ?
+                        "Some package or built-in dependencies cannot be checked. No clean result." :
                         "Imported covered values differ. Inspect the affected keys before a release.";
                 }
                 catch(Exception ex){notice="Comparison refused: "+ex.Message;}
@@ -449,8 +546,11 @@ namespace HPR.ImportedPrefabParity
             {
                 EditorGUILayout.LabelField("Comparison: "+notice,EditorStyles.boldLabel);
                 EditorGUILayout.LabelField(comparison.status,EditorStyles.miniLabel);
-                EditorGUILayout.LabelField("Source differences: "+comparison.sourceDifferences.Length+
-                    " | Added: "+comparison.addedValueKeys.Length+" | Removed: "+
+                EditorGUILayout.LabelField("Original source changes: "+comparison.sourceDifferences.Length+
+                    " | Dependency changes: "+comparison.dependencyDifferences.Length+
+                    " | Unverified dependencies: "+comparison.unverifiedDependencyPaths.Length,
+                    EditorStyles.wordWrappedLabel);
+                EditorGUILayout.LabelField("Added: "+comparison.addedValueKeys.Length+" | Removed: "+
                     comparison.removedValueKeys.Length+" | Changed: "+comparison.changedValueKeys.Length,
                     EditorStyles.wordWrappedLabel);
                 if(GUILayout.Button("Export NEW comparison JSON"))
@@ -463,6 +563,10 @@ namespace HPR.ImportedPrefabParity
                 scroll=EditorGUILayout.BeginScrollView(scroll);
                 foreach(var key in comparison.sourceDifferences.Take(12))
                     EditorGUILayout.LabelField("Different source: "+key,EditorStyles.wordWrappedLabel);
+                foreach(var key in comparison.dependencyDifferences.Take(12))
+                    EditorGUILayout.LabelField("Referenced source changed: "+key,EditorStyles.wordWrappedLabel);
+                foreach(var key in comparison.unverifiedDependencyPaths.Take(12))
+                    EditorGUILayout.LabelField("Unverified dependency: "+key,EditorStyles.wordWrappedLabel);
                 foreach(var key in comparison.changedValueKeys.Take(24))
                     EditorGUILayout.LabelField("Changed imported value: "+key,EditorStyles.wordWrappedLabel);
                 foreach(var key in comparison.addedValueKeys.Take(12))

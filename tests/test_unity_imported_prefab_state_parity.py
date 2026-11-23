@@ -25,10 +25,13 @@ def original(version, change=None, source_change=False):
             {'key':'Prefab/Assets%2FA.prefab/Transform/position','value':'0,0,0'},
             {'key':'Prefab/Assets%2FA.prefab/Component/UnityEngine.MeshRenderer[0]/enabled','value':'true'}]
     if change:values[1]['value']=change
-    return {'schema':1,'unityVersion':version,'status':'CAPTURED_COVERED_PREFAB_VALUES',
+    return {'schema':2,'unityVersion':version,'status':'CAPTURED_COVERED_PREFAB_VALUES',
             'incomplete':False,'failureReason':'','valuesCaptured':3,'unsupportedComponents':1,
             'inputs':[{'path':'Assets/A.prefab','sourceSha256':('b' if source_change else 'a')*64,
-                       'metaSha256':'c'*64}], 'values':values,
+                       'metaSha256':'c'*64}],
+            'dependencies':[{'path':'Assets/Shared/Mesh.fbx','guid':'f'*32,
+                             'sourceSha256':'d'*64,'metaSha256':'e'*64}],
+            'unverifiedDependencyPaths':[], 'values':values,
             'limitation':'only a subset of actual imported fields'}
 
 
@@ -65,7 +68,8 @@ def test_public_unity_editor_api_and_read_only_structure():
                    'PrefabUtility.LoadPrefabContents','PrefabUtility.UnloadPrefabContents',
                    'AssetDatabase.LoadAssetAtPath<GameObject>',
                    'AssetDatabase.TryGetGUIDAndLocalFileIdentifier',
-                   'MaxPrefabs=24','MaxValues=25000',
+                   'MaxPrefabs=24','MaxValues=25000','MaxDependencies=512',
+                   'AssetDatabase.GetDependencies(path,true)',
                    'CAPTURED_COVERED_PREFAB_VALUES','REVIEW_IMPORTED_PREFAB_VALUE_DIFFERENCES',
                    'SOURCE_BYTES_DIFFER_NO_EDITOR_INFERENCE',
                    'FileMode.CreateNew','EditorUtility.DisplayCancelableProgressBar',
@@ -75,7 +79,7 @@ def test_public_unity_editor_api_and_read_only_structure():
     assert "new[]{';','\\r','\\n'}" in s
     assert 'EditorGUILayout.TextArea(paths,multilinePaths,GUILayout.MinHeight(80f))' in s
     assert 'ReceiptLabel(first)' in s and 'ReceiptLabel(second)' in s
-    assert 'Covered values match in both Editors' in s
+    assert 'Covered values and checked source dependencies match' in s
     for forbidden in ('AssetDatabase.SaveAssets(', 'AssetDatabase.ImportAsset(',
                       'PrefabUtility.SaveAsPrefabAsset(', 'Undo.RecordObject(',
                       'AssetDatabase.DeleteAsset(', 'File.Delete(', 'UnityWebRequest',
@@ -95,7 +99,11 @@ def test_real_unity_native_export_and_buyer_harness_scope():
                    'native_cancel_is_incomplete_not_clean',
                    'same_source_original_value_modified_in_memory_detected',
                    'different_original_source_cannot_implicate_Unity_engine',
-                   'create_only_refuses_original_overwrite'):
+                   'create_only_refuses_original_overwrite',
+                   'same_prefab_but_modified_referenced_source_must_not_pass_clean',
+                   'same_prefab_but_modified_dependency_importer_meta_must_not_pass_clean',
+                   'unverified_package_dependency_must_not_pass_clean',
+                   'old_receipt_without_dependency_evidence_rejected'):
         assert needle in qa
 
 
@@ -134,6 +142,57 @@ def test_semantic_changed_field_detected_with_identical_source(tmp_path):
     assert not r['source_differences']
 
 
+def test_changed_referenced_mesh_or_importer_blocks_unity_attribution(tmp_path):
+    m=comparator()
+    a=original('2022.3.22f1');b=original('6000.6.8f1',change='0,1,0')
+    b['dependencies'][0]['sourceSha256']='0'*64
+    one=write(tmp_path,'one.json',a)
+    two=write(tmp_path,'two.json',b)
+    answer=m.compare(one,two)
+    assert answer['status']=='DEPENDENCY_INPUTS_DIFFER_NO_EDITOR_INFERENCE'
+    assert answer['dependency_differences']==['Assets/Shared/Mesh.fbx']
+    assert answer['source_differences']==[]
+    b['dependencies'][0]['sourceSha256']=a['dependencies'][0]['sourceSha256']
+    b['dependencies'][0]['metaSha256']='1'*64
+    three=write(tmp_path,'three.json',b)
+    assert m.compare(one,three)['status']=='DEPENDENCY_INPUTS_DIFFER_NO_EDITOR_INFERENCE'
+
+
+def test_dependency_removed_or_added_across_editors_requires_manual_review(tmp_path):
+    m=comparator()
+    before=original('2022.3.22f1')
+    after=original('6000.6.8f1')
+    after['dependencies']=[]
+    first=write(tmp_path,'before.json',before)
+    second=write(tmp_path,'after.json',after)
+    result=m.compare(first,second)
+    assert result['status']=='DEPENDENCY_INPUTS_DIFFER_NO_EDITOR_INFERENCE'
+    assert result['dependency_differences']==['Assets/Shared/Mesh.fbx']
+
+
+def test_input_source_mismatch_precedes_dependency_mismatch(tmp_path):
+    m=comparator()
+    before=original('2022.3.22f1')
+    after=original('6000.6.8f1',source_change=True)
+    after['dependencies'][0]['metaSha256']='7'*64
+    first=write(tmp_path,'before.json',before)
+    second=write(tmp_path,'after.json',after)
+    result=m.compare(first,second)
+    assert result['status']=='SOURCE_BYTES_DIFFER_NO_EDITOR_INFERENCE'
+    assert result['source_differences']==['Assets/A.prefab']
+    assert result['dependency_differences']==['Assets/Shared/Mesh.fbx']
+
+
+def test_unverified_builtin_or_package_dependency_is_not_clean(tmp_path):
+    m=comparator()
+    a=original('2022.3.22f1');b=original('6000.6.8f1')
+    b['unverifiedDependencyPaths']=['Resources/unity_builtin_extra']
+    one=write(tmp_path,'one.json',a);two=write(tmp_path,'two.json',b)
+    result=m.compare(one,two)
+    assert result['status']=='DEPENDENCIES_UNVERIFIED_NO_EDITOR_INFERENCE'
+    assert result['unverified_dependency_paths']==['Resources/unity_builtin_extra']
+
+
 def test_source_changed_not_misrepresented_as_engine_regression(tmp_path):
     m=comparator()
     p=write(tmp_path,'2022.json',original('2022.3.22f1'))
@@ -144,8 +203,13 @@ def test_source_changed_not_misrepresented_as_engine_regression(tmp_path):
 
 
 @pytest.mark.parametrize('corrupt', [
-    {'schema':2}, {'incomplete':True}, {'status':'INCOMPLETE'},
+    {'schema':1}, {'incomplete':True}, {'status':'INCOMPLETE'},
     {'inputs':[]}, {'valuesCaptured':0}, {'failureReason':'partial'},
+    {'dependencies':None}, {'unverifiedDependencyPaths':None},
+    {'dependencies':[{'path':'Assets/Shared/Mesh.fbx','guid':'f'*32,
+                      'sourceSha256':'d'*63,'metaSha256':'e'*64}]},
+    {'dependencies':[{'path':'Assets/Shared/../evil.fbx','guid':'f'*32,
+                      'sourceSha256':'d'*64,'metaSha256':'e'*64}]},
     {'inputs':[{'path':'Assets/../evil.prefab','sourceSha256':'a'*64,'metaSha256':'c'*64}]},
     {'inputs':[{'path':'Assets/A.prefab','sourceSha256':'a'*63,'metaSha256':'c'*64}]},
     {'values':[{'key':'x','value':'a'},{'key':'x','value':'b'}]},
@@ -199,11 +263,18 @@ def test_independent_real_source_hash_verifier_and_tamper_detection(tmp_path):
     project=tmp_path/'project';source=project/'Assets/A.prefab';source.parent.mkdir(parents=True)
     source.write_bytes(b'original test prefab bytes from private fixture')
     meta=Path(str(source)+'.meta');meta.write_bytes(b'original private importer metadata')
+    dep=project/'Assets/Shared/Mesh.fbx';dep.parent.mkdir(parents=True)
+    dep.write_bytes(b'original referenced mesh source')
+    dep_meta=Path(str(dep)+'.meta');dep_meta.write_bytes(b'original referenced mesh importer')
     r=original('2022.3.22f1')
     r['inputs'][0]['sourceSha256']=hashlib.sha256(source.read_bytes()).hexdigest()
     r['inputs'][0]['metaSha256']=hashlib.sha256(meta.read_bytes()).hexdigest()
+    r['dependencies'][0]['sourceSha256']=hashlib.sha256(dep.read_bytes()).hexdigest()
+    r['dependencies'][0]['metaSha256']=hashlib.sha256(dep_meta.read_bytes()).hexdigest()
     receipt=write(tmp_path,'receipt.json',r)
-    assert v.verify(project,receipt)['original_prefab_and_meta_files']==2
+    verification=v.verify(project,receipt)
+    assert verification['original_prefab_and_meta_files']==2
+    assert verification['total_prefab_dependency_and_meta_files_checked']==4
     source.write_bytes(source.read_bytes()+b'\nchanged without changing GUID')
     with pytest.raises(ValueError,match='bytes differ'):
         v.verify(project,receipt)
@@ -212,6 +283,14 @@ def test_independent_real_source_hash_verifier_and_tamper_detection(tmp_path):
     with pytest.raises(ValueError,match='bytes differ'):
         v.verify(project,receipt)
 
+    meta.write_bytes(b'original private importer metadata')
+    dep.write_bytes(b'changed referenced mesh source without changing Unity GUID')
+    with pytest.raises(ValueError,match='bytes differ'):
+        v.verify(project,receipt)
+    dep.write_bytes(b'original referenced mesh source')
+    dep_meta.write_bytes(b'changed importer meta with same GUID')
+    with pytest.raises(ValueError,match='bytes differ'):
+        v.verify(project,receipt)
 
 def test_native_domain_reload_disabled_enter_exit_and_original_state_unchanged():
     qa=(ROOT/'qa/HprPrefabParityPlaymodeQa.cs').read_text()

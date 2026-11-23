@@ -28,10 +28,11 @@ public static class HprPrefabParityPlaymodeQa
         output=Environment.GetEnvironmentVariable("HPR_PREFAB_PLAYMODE_OUT")??"";
         Require(Application.isBatchMode && Application.unityVersion.StartsWith("6000.6.",StringComparison.Ordinal) &&
             Path.IsPathRooted(output) &&
-            output.StartsWith("/data/var/marketplace-account-setup/unity-prefab-state-parity-20261122-wave59/",StringComparison.Ordinal) &&
+            output.StartsWith("/data/var/marketplace-account-setup/unity-prefab-dependency-20261123-wave61/",StringComparison.Ordinal) &&
             !File.Exists(output),"private_new_receipt");
         var receipt=HprPrefabStateScan.Scan(OriginalPrefabs);
-        Require(!receipt.incomplete && receipt.valuesCaptured>=100 && receipt.unsupportedComponents==0,"original_native_three_prefabs_covered_scan");
+        Require(!receipt.incomplete && receipt.valuesCaptured>=100 && receipt.unsupportedComponents==0 &&
+            receipt.dependencies!=null && receipt.dependencies.Length>=1,"original_native_three_prefabs_covered_scan");
         before=JsonUtility.ToJson(receipt,false);
         savedEnabled=EditorSettings.enterPlayModeOptionsEnabled;
         savedOptions=EditorSettings.enterPlayModeOptions;

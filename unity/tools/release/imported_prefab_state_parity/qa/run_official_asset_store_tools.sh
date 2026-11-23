@@ -4,7 +4,7 @@ set -euo pipefail
 caseid=${1:?installed original 2022 package label}
 label=${2:?new unique validator label}
 [[ "$caseid" =~ ^2022-3-22f1-[a-z0-9_-]{4,30}$ && "$label" =~ ^[a-z0-9_-]{3,24}$ ]] || exit 2
-root=/data/var/marketplace-account-setup/unity-prefab-state-parity-20261122-wave59
+root=/data/var/marketplace-account-setup/unity-prefab-dependency-20261123-wave61
 original="$root/$caseid/HPR_Imported_Prefab_State_Parity_original.unitypackage"
 out="$root/official-ast-$label"
 [[ -s "$original" && ! -e "$out" ]] || { echo 'Source missing or repeated exact validation effect' >&2;exit 3; }

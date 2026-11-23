@@ -10,7 +10,7 @@ public static class HprPrefabParityExporter
     public static void Run()
     {
         string output=Environment.GetEnvironmentVariable("HPR_PREFAB_PACKAGE_OUT")??"";
-        const string safe="/data/var/marketplace-account-setup/unity-prefab-state-parity-20261122-wave59/";
+        const string safe="/data/var/marketplace-account-setup/unity-prefab-dependency-20261123-wave61/";
         if(!Application.isBatchMode || !Path.IsPathRooted(output) ||
             !output.StartsWith(safe,StringComparison.Ordinal) || File.Exists(output) ||
             !AssetDatabase.IsValidFolder("Assets/HPRImportedPrefabParity"))

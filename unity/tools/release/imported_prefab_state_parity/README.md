@@ -1,3 +1,7 @@
 # Original HPR Imported Prefab State Parity — private separate Unity tool
 
 This is a separate product from the Publisher Version Matrix: it snapshots selected **loaded prefab object values**, not just imported source byte paths and GUID/dependencies. Use public Unity Editor PrefabUtility APIs to load isolated source prefabs and unload without writing; compare results from real installed Editors. Unsupported component fields are counted and disclosed rather than pretending full serialization parity. The buyer source is the single `Assets/HPRImportedPrefabParity` folder; `qa/` is private and must not be shipped in `.unitypackage`. Do not publish without genuine native QA, visual screenshots, licensing, disclosure and market evidence.
+
+## Dependency input fidelity revision, 23 November 2026
+
+The newer receipt schema two also fingerprints physical source and importer metadata for the recursively referenced `Assets/` dependencies of each selected prefab. A changed FBX/material/script or `.meta` file now prevents attributing selected loaded-value differences to Unity alone, even if the prefab source bytes match. Nonphysical built-in or package dependencies are recorded explicitly and prevent a clean verdict. Earlier schema-one native receipts are intentionally rejected for new comparisons. All private QA and native buyer evidence are versioned separately under the new wave61 test root. No external storefront or customer action is authorized by this revision.

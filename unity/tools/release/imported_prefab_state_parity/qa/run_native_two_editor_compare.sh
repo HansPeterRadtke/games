@@ -2,7 +2,7 @@
 set -euo pipefail
 label=${1:?existing original genuine two-Unity-editor native test label}
 [[ "$label" =~ ^[a-z0-9_-]{4,30}$ ]]||exit 2
-base=/data/var/marketplace-account-setup/unity-prefab-state-parity-20261122-wave59
+base=/data/var/marketplace-account-setup/unity-prefab-dependency-20261123-wave61
 A="$base/2022-3-22f1-$label/real-imported-prefab-states.json"
 B="$base/6000-6-8f1-$label/real-imported-prefab-states.json"
 project="$base/6000-6-8f1-$label/independent-buyer-project"

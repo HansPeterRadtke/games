@@ -20,7 +20,7 @@ public static class HprPrefabParityGraphicalQa
     }
     public static void Run()
     {
-        const string safe="/data/var/marketplace-account-setup/unity-prefab-state-parity-20261122-wave59/";
+        const string safe="/data/var/marketplace-account-setup/unity-prefab-dependency-20261123-wave61/";
         string receipt=Environment.GetEnvironmentVariable("HPR_PREFAB_GUI_RECEIPT")??"";
         string first=Environment.GetEnvironmentVariable("HPR_PREFAB_GUI_FIRST")??"";
         string second=Environment.GetEnvironmentVariable("HPR_PREFAB_GUI_SECOND")??"";
@@ -35,8 +35,9 @@ public static class HprPrefabParityGraphicalQa
         var comparison=HprPrefabStateCompare.Compare(
             HprPrefabStateCompare.ReadReceipt(first),
             HprPrefabStateCompare.ReadReceipt(second));
-        Require(comparison.status!="SOURCE_BYTES_DIFFER_NO_EDITOR_INFERENCE",
-            "verified_unchanged_original_vendor_inputs");
+        Require(comparison.status!="SOURCE_BYTES_DIFFER_NO_EDITOR_INFERENCE" &&
+            comparison.status!="DEPENDENCY_INPUTS_DIFFER_NO_EDITOR_INFERENCE",
+            "verified_unchanged_original_vendor_sources_and_referenced_inputs");
         EditorApplication.delayCall += () =>
         {
             HprPrefabStateParityWindow.Open();

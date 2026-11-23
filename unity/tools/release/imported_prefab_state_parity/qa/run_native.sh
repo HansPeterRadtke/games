@@ -4,7 +4,7 @@ version=${1:?installed version}
 label=${2:?new immutable native label}
 [[ "$version" = '2022.3.22f1' || "$version" = '6000.6.8f1' ]] || exit 2
 [[ "$label" =~ ^[a-z0-9_-]{4,30}$ ]] || exit 2
-root=/data/var/marketplace-account-setup/unity-prefab-state-parity-20261122-wave59
+root=/data/var/marketplace-account-setup/unity-prefab-dependency-20261123-wave61
 work="$root/${version//./-}-$label"
 product=$(cd "$(dirname "$0")/.." && pwd)
 qa="$product/qa"
@@ -43,8 +43,8 @@ python3 - "$work" <<'PY'
 import json,sys
 from pathlib import Path
 r=Path(sys.argv[1]);data=json.loads((r/'real-imported-prefab-states.json').read_text())
-assert data['schema']==1 and data['status']=='CAPTURED_COVERED_PREFAB_VALUES' and data['incomplete'] is False
-assert len(data['inputs'])==3 and data['valuesCaptured']>=30
+assert data['schema']==2 and data['status']=='CAPTURED_COVERED_PREFAB_VALUES' and data['incomplete'] is False
+assert len(data['inputs'])==3 and data['valuesCaptured']>=30 and len(data['dependencies'])>=1
 assert json.loads((r/'exact-original-vendor-archive.json').read_text())['status']=='PASS'
-print('HPR_PREFAB_NATIVE_REAL_BUYER_PASS',r.name,'original_prefabs',len(data['inputs']),'covered_values',data['valuesCaptured'],'uncovered_components',data['unsupportedComponents'])
+print('HPR_PREFAB_NATIVE_REAL_BUYER_PASS',r.name,'original_prefabs',len(data['inputs']),'covered_values',data['valuesCaptured'],'uncovered_components',data['unsupportedComponents'],'verified_dependencies',len(data['dependencies']),'unverified',len(data['unverifiedDependencyPaths']))
 PY

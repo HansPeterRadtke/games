@@ -2,7 +2,7 @@
 set -euo pipefail
 label=${1:?existing unique tested Unity 6 buyer label}
 [[ "$label" =~ ^[a-z0-9_-]{3,24}$ ]] || exit 2
-root=/data/var/marketplace-account-setup/unity-prefab-state-parity-20261122-wave59
+root=/data/var/marketplace-account-setup/unity-prefab-dependency-20261123-wave61
 caseid=6000-6-8f1-$label
 project="$root/$caseid/independent-buyer-project"
 product=$(cd "$(dirname "$0")/.." && pwd)

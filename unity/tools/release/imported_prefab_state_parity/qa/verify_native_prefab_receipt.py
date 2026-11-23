@@ -32,7 +32,10 @@ def verify(project: Path,receipt: Path):
     data,inputs,values=m.load(receipt)
     total=0
     root=project.resolve(strict=True)
-    for path,(src,meta) in inputs.items():
+    checks=[(path,src,meta) for path,(src,meta) in inputs.items()]
+    checks.extend((row['path'],row['sourceSha256'],row['metaSha256'])
+                  for row in data['dependencies'])
+    for path,src,meta in checks:
         for name,wanted in ((path,src),(path+'.meta',meta)):
             local=project/name
             if local.is_symlink() or not local.is_file():raise ValueError('Missing original file')
@@ -45,7 +48,11 @@ def verify(project: Path,receipt: Path):
     return {'status':'PASS','original_unity_version':data['unityVersion'],
             'original_prefabs':len(inputs),'native_imported_values':len(values),
             'uncovered_component_types':data['unsupportedComponents'],
-            'original_prefab_and_meta_files':2*len(inputs),'total_verified_source_bytes':total}
+            'referenced_source_dependencies_verified':len(data['dependencies']),
+            'unverified_dependency_paths':data['unverifiedDependencyPaths'],
+            'original_prefab_and_meta_files':2*len(inputs),
+            'total_prefab_dependency_and_meta_files_checked':2*len(checks),
+            'total_verified_source_bytes':total}
 
 
 def main():
