@@ -1,0 +1,27 @@
+# HPR Player Reference Probe — Unity Editor and Player diagnostic documentation
+
+This is an **opt-in diagnostic**, not an automatic fix or a guarantee of an error-free game. It checks only chosen direct `UnityEngine.Object` reference fields on specific ScriptableObjects, first in the Unity Editor and separately in a game Player **actually built and run using the same Unity version**. If an object assigned in the Editor is null in the built game, the result identifies the exact case to investigate. A deliberately empty field is not automatically an error. This utility does not contact any server, install a service, edit any source asset, or submit anything online.
+
+## Included first-party demo
+
+A practical sample scene lives under `Demo/Scenes` and has one assigned prefab reference and one intentionally empty optional reference. To try the tool without altering a customer game, open that scene in an isolated project, select **HPR | Reference Probe (select me)** in the Hierarchy and follow `Demo/README.md`. This is a real Unity scene built from basic primitives, not evidence that every game reference or platform is healthy. Both demo cases use path-only Resources lookups and never add a direct ScriptableObject scene reference.
+
+## Installation and first use
+
+Import the `Assets/HPRPlayerReferenceProbe` folder into an **isolated copy** of the Unity project. Open a scene for a repeatable test and add an `HprPlayerReferenceProbe` component to one test GameObject. Add one to sixty-four checks. Each must have a unique ID and an exact C# field name, such as `itemPrefab` on a ScriptableObject. For fields on assets under a Resources directory, **prefer the non-pinning path-only mode** described below, which avoids adding a strong ScriptableObject object reference to the test scene.
+
+From the Unity Editor choose **Tools → HPR → Player Reference Probe**, select the test GameObject, click **Inspect selected scene probe — read only**, and export a *new* Editor baseline JSON file. Build and run a real game Player using your own supported build configuration. When your test scene starts, the opt-in component logs `HPR_PLAYER_REFERENCE_RECEIPT=` followed by a JSON record. By default it also writes a new private JSON file in that Player's `Application.persistentDataPath`, logging the file location. No existing report is overwritten; the filename has a random suffix. Copy the actual Player report back to the Editor, select it along with the original Editor baseline, and click **Compare Editor and actual Player references**. Disable or remove the diagnostic GameObject when no longer needed.
+
+## Non-pinning Resources lookup
+
+When the source ScriptableObject is under `Assets/.../Resources/`, leave a check's **Source** field empty and set `resourcesPath` to the asset path *relative to that Resources directory and without the `.asset` extension*. For example, `Assets/Examples/Resources/Items/Blade.asset` becomes `Items/Blade`. The probe then calls `Resources.Load<ScriptableObject>` independently in both the Editor and Player. This matters because assigning the ScriptableObject directly to the test-scene component can **force it into the build** and hide an inclusion problem. Do not provide both a Source object and a Resources path in the same case; the inspector rejects that combination. Unity includes Resources contents automatically in builds, so this mode does not investigate resources excluded by custom package systems, Addressables or asset bundle loading. No network call or remote asset fetch occurs.
+
+Alternatively, leave `resourcesPath` empty and explicitly drag a Source ScriptableObject into the check to inspect a directly referenced object. This *direct scene* mode is useful for known scene references, but may itself change asset inclusion, so it must not be presented as an unbiased test for an asset otherwise missing from a build.
+
+## Interpreting a result
+
+`PLAYER_REFERENCE_LOSS_REPRODUCED` means a directly inspected field was assigned in the Editor and null in the built Player. `PLAYER_SCRIPTABLEOBJECT_SOURCE_NOT_LOADED` means the path-only ScriptableObject source itself was found in the Editor but could not be loaded in the Player, which is a distinct issue. `CONSISTENT_NULL_OR_UNSET_FIELDS` means one or more inspected references were null in both; that is not proof of a defect because the field might be intentionally unset. Other changed names/types or unsupported fields require manual review. A narrow match means only the selected values matched, not that the entire asset, GUID identity, build, platform or game behavior is certified.
+
+Only public instance fields or private `[SerializeField]` fields whose type derives from `UnityEngine.Object` are supported. Collections, dictionaries, nested objects, `[SerializeReference]` graphs, dynamically loaded assets, Addressables lifetimes, Player stripping effects, runtime replacement, and unselected fields are out of scope. The runtime scene probe is opt-in; including it can produce local log output when that scene loads. It never edits user scenes or serialised assets itself, but the user must add or remove the component to their own test scene. Reference comparison is diagnostic evidence, not an engine bug report.
+
+Technical owner QA, source licenses, seller authorization and release paperwork are handled separately from these buyer instructions. The package ships no customer tracker or third-party code.
