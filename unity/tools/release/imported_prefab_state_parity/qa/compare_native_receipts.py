@@ -86,6 +86,7 @@ def compare(first: Path, second: Path):
                    'DEPENDENCY_INPUTS_DIFFER_NO_EDITOR_INFERENCE' if dependency_changed else
                    'DEPENDENCIES_UNVERIFIED_NO_EDITOR_INFERENCE' if unverified_paths else
                    'REVIEW_IMPORTED_PREFAB_VALUE_DIFFERENCES' if (removed or added or changed) else
+                   'COVERED_VALUES_MATCH_UNINSPECTED_COMPONENTS' if (a['unsupportedComponents']+b['unsupportedComponents']>0) else
                    'MATCHED_COVERED_IMPORTED_PREFAB_VALUES'),
         'first_unity_version': a['unityVersion'], 'second_unity_version': b['unityVersion'],
         'prefabs': sorted(ain), 'source_differences': original_changed,

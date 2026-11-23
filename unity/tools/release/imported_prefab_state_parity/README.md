@@ -5,3 +5,7 @@ This is a separate product from the Publisher Version Matrix: it snapshots selec
 ## Dependency input fidelity revision, 23 November 2026
 
 The newer receipt schema two also fingerprints physical source and importer metadata for the recursively referenced `Assets/` dependencies of each selected prefab. A changed FBX/material/script or `.meta` file now prevents attributing selected loaded-value differences to Unity alone, even if the prefab source bytes match. Nonphysical built-in or package dependencies are recorded explicitly and prevent a clean verdict. Earlier schema-one native receipts are intentionally rejected for new comparisons. All private QA and native buyer evidence are versioned separately under the new wave61 test root. No external storefront or customer action is authorized by this revision.
+
+## Uninspected custom fields — strict verdict
+
+A separate original nested-prefab/variant acceptance test uses a genuine custom MonoBehaviour carrying serialized fields. Even with identical source and covered imported values, the comparison must return `COVERED_VALUES_MATCH_UNINSPECTED_COMPONENTS` whenever either native receipt reports uninspected component occurrences. The tool does not silently label unknown custom-script serialization as matching. Full-script parity, custom importer effects and Player behavior are outside current verified scope.

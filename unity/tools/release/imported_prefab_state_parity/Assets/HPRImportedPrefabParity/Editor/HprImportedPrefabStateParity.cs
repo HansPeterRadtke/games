@@ -427,6 +427,7 @@ namespace HPR.ImportedPrefabParity
                 dependencyDiff.Length>0 ? "DEPENDENCY_INPUTS_DIFFER_NO_EDITOR_INFERENCE" :
                 unknown.Length>0 ? "DEPENDENCIES_UNVERIFIED_NO_EDITOR_INFERENCE" :
                 removed.Length+added.Length+changed.Length>0 ? "REVIEW_IMPORTED_PREFAB_VALUE_DIFFERENCES" :
+                result.unsupportedComponents>0 ? "COVERED_VALUES_MATCH_UNINSPECTED_COMPONENTS" :
                 "MATCHED_COVERED_IMPORTED_PREFAB_VALUES";
             return result;
         }
@@ -437,6 +438,7 @@ namespace HPR.ImportedPrefabParity
                  comparison.status!="DEPENDENCY_INPUTS_DIFFER_NO_EDITOR_INFERENCE" &&
                  comparison.status!="DEPENDENCIES_UNVERIFIED_NO_EDITOR_INFERENCE" &&
                  comparison.status!="REVIEW_IMPORTED_PREFAB_VALUE_DIFFERENCES" &&
+                 comparison.status!="COVERED_VALUES_MATCH_UNINSPECTED_COMPONENTS" &&
                  comparison.status!="MATCHED_COVERED_IMPORTED_PREFAB_VALUES"))
                 throw new ArgumentException("A complete comparison and new absolute file path are required.");
             using(var file=new FileStream(absolutePath,FileMode.CreateNew,FileAccess.Write,FileShare.None))
@@ -530,6 +532,9 @@ namespace HPR.ImportedPrefabParity
                         HprPrefabStateCompare.ReadReceipt(second));
                     notice=comparison.status=="MATCHED_COVERED_IMPORTED_PREFAB_VALUES" ?
                         "Covered values and checked source dependencies match. Review other fields and Player builds." :
+                        comparison.status=="COVERED_VALUES_MATCH_UNINSPECTED_COMPONENTS" ?
+                        "Covered values match, but "+comparison.unsupportedComponents+
+                        " custom or other component occurrences contain UNINSPECTED values. Do not treat as full compatibility." :
                         comparison.status=="SOURCE_BYTES_DIFFER_NO_EDITOR_INFERENCE" ?
                         "Original prefab files differ. Cannot attribute differences to a Unity version." :
                         comparison.status=="DEPENDENCY_INPUTS_DIFFER_NO_EDITOR_INFERENCE" ?
@@ -550,6 +555,8 @@ namespace HPR.ImportedPrefabParity
                     " | Dependency changes: "+comparison.dependencyDifferences.Length+
                     " | Unverified dependencies: "+comparison.unverifiedDependencyPaths.Length,
                     EditorStyles.wordWrappedLabel);
+                EditorGUILayout.LabelField("Component occurrences with uninspected values: "+
+                    comparison.unsupportedComponents,EditorStyles.wordWrappedLabel);
                 EditorGUILayout.LabelField("Added: "+comparison.addedValueKeys.Length+" | Removed: "+
                     comparison.removedValueKeys.Length+" | Changed: "+comparison.changedValueKeys.Length,
                     EditorStyles.wordWrappedLabel);

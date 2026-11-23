@@ -26,7 +26,7 @@ def original(version, change=None, source_change=False):
             {'key':'Prefab/Assets%2FA.prefab/Component/UnityEngine.MeshRenderer[0]/enabled','value':'true'}]
     if change:values[1]['value']=change
     return {'schema':2,'unityVersion':version,'status':'CAPTURED_COVERED_PREFAB_VALUES',
-            'incomplete':False,'failureReason':'','valuesCaptured':3,'unsupportedComponents':1,
+            'incomplete':False,'failureReason':'','valuesCaptured':3,'unsupportedComponents':0,
             'inputs':[{'path':'Assets/A.prefab','sourceSha256':('b' if source_change else 'a')*64,
                        'metaSha256':'c'*64}],
             'dependencies':[{'path':'Assets/Shared/Mesh.fbx','guid':'f'*32,
@@ -122,13 +122,27 @@ def test_native_real_sample_field_coverage_and_same_scanner_source_guard():
         assert branch in src
 
 
+def test_custom_script_fields_are_uninspected_and_never_silent_clean(tmp_path):
+    m=comparator()
+    a=original('2022.3.22f1');b=original('6000.6.8f1')
+    a['unsupportedComponents']=2;b['unsupportedComponents']=2
+    first=write(tmp_path,'custom-first.json',a)
+    second=write(tmp_path,'custom-second.json',b)
+    result=m.compare(first,second)
+    assert result['status']=='COVERED_VALUES_MATCH_UNINSPECTED_COMPONENTS'
+    assert result['unsupported_component_types']==4
+    assert not result['changed_keys'] and not result['source_differences']
+    assert 'COVERED_VALUES_MATCH_UNINSPECTED_COMPONENTS' in SOURCE.read_text()
+    assert 'Do not treat as full compatibility' in SOURCE.read_text()
+
+
 def test_identical_loaded_values_are_narrowly_matched(tmp_path):
     m=comparator()
     p=write(tmp_path,'2022.json',original('2022.3.22f1'))
     q=write(tmp_path,'6000.json',original('6000.6.8f1'))
     r=m.compare(p,q)
     assert r['status']=='MATCHED_COVERED_IMPORTED_PREFAB_VALUES'
-    assert r['unsupported_component_types']==2
+    assert r['unsupported_component_types']==0
     assert not r['changed_keys'] and not r['source_differences']
 
 
@@ -324,3 +338,78 @@ def test_original_graphical_preview_is_not_fabricated_or_shipped_to_buyer():
     for forbidden in ('AssetDatabase.SaveAssets(', 'AssetDatabase.DeleteAsset(',
                       'PrefabUtility.SaveAsPrefabAsset(', 'UnityWebRequest', 'File.Delete('):
         assert forbidden not in qa
+
+
+def test_genuine_nested_prefab_variant_and_custom_script_acceptance_is_producer_only():
+    qa=ROOT/'qa'
+    fixture=(qa/'HprNestedCustomFixtureAuthor.cs').read_text()
+    buyer=(qa/'HprNestedCustomBuyerQa.cs').read_text()
+    runner=(qa/'run_nested_custom_native.sh').read_text()
+    for requirement in ('PrefabUtility.SaveAsPrefabAsset(machine,Base)',
+                        'PrefabUtility.SaveAsPrefabAsset(variant,Variant)',
+                        'PrefabUtility.SaveAsPrefabAsset(assembly,Nested)',
+                        'PrefabAssetType.Variant',
+                        'PrefabUtility.RecordPrefabInstancePropertyModifications',
+                        'AssetDatabase.GetDependencies(Nested,true)'):
+        assert requirement in fixture,requirement
+    for requirement in ('GetComponentInChildren<HprNestedCustomSample>(true)',
+                        'AuthoredThreshold-8.75f',
+                        'PrivateSafetyLabel',
+                        'native.unsupportedComponents>=3',
+                        'COVERED_VALUES_MATCH_UNINSPECTED_COMPONENTS',
+                        'HPR_NESTED_CUSTOM_NATIVE_BUYER_PASS'):
+        assert requirement in buyer,requirement
+    assert 'HPR_NESTED_CUSTOM_ACTUAL_UNITYPACKAGE_ARCHIVE_PASS' in runner
+    assert '2022.3.22f1' in runner and '6000.6.8f1' in runner
+    assert not list(BUYER.rglob('HprNestedCustomSample.cs'))
+    assert not list(BUYER.rglob('HprNestedCustomBuyerQa.cs'))
+    assert not list(BUYER.rglob('HprNestedCustomFixtureAuthor.cs'))
+    for forbidden in ('UnityWebRequest', 'File.Delete(', 'Directory.Delete('):
+        assert forbidden not in buyer
+
+
+def test_matched_covered_values_with_uninspected_script_is_not_exported_as_full_match():
+    src=SOURCE.read_text()
+    assert 'result.unsupportedComponents>0 ? "COVERED_VALUES_MATCH_UNINSPECTED_COMPONENTS"' in src
+    assert 'comparison.status!="COVERED_VALUES_MATCH_UNINSPECTED_COMPONENTS"' in src
+    assert 'comparison.unsupportedComponents,EditorStyles.wordWrappedLabel' in src
+
+
+def test_real_nested_custom_graphical_and_official_acceptance_harnesses_are_private():
+    qa=ROOT/'qa'
+    preview=(qa/'HprNestedCustomGraphicalQa.cs').read_text()
+    graphical=(qa/'run_nested_custom_graphical.sh').read_text()
+    official=(qa/'run_nested_custom_official_ast.sh').read_text()
+    for needle in ('!Application.isBatchMode','HprPrefabStateScan.Scan(paths)',
+                   'HprPrefabStateCompare.Compare(',
+                   'COVERED_VALUES_MATCH_UNINSPECTED_COMPONENTS',
+                   'original.unsupportedComponents>=3',
+                   'HPR_NESTED_CUSTOM_GRAPHICAL_NATIVE_PASS',
+                   'human_clicked_controls=FALSE',
+                   'software_terms_accepted=FALSE'):
+        assert needle in preview
+    assert 'Xvfb :147' in graphical
+    assert 'actual-product-unity-editor-window.png' in graphical
+    assert 'HprNestedCustomGraphicalQa.Run' in graphical
+    assert 'HPR_NESTED_CUSTOM_GRAPHICAL_NATIVE_PASS' in graphical
+    assert 'HPR_Imported_Prefab_State_Parity_Nested_Original.unitypackage' in official
+    assert 'HprAssetStoreToolsValidatorRunner.ValidateFromEnvironment' in official
+    assert not list(BUYER.rglob('HprNestedCustomGraphicalQa.cs'))
+    assert not list(BUYER.rglob('HprAssetStoreToolsValidatorRunner.cs'))
+
+
+def test_nested_custom_actual_playmode_restores_editor_state_and_captures_uninspected():
+    qa=ROOT/'qa'
+    script=(qa/'HprNestedCustomPlaymodeQa.cs').read_text()
+    runner=(qa/'run_nested_custom_playmode.sh').read_text()
+    for expected in ('EnterPlayModeOptions.DisableDomainReload',
+                     'PlayModeStateChange.EnteredPlayMode',
+                     'PlayModeStateChange.EnteredEditMode',
+                     'original_nested_custom_script_scan_unchanged=PASS',
+                     'receipt.unsupportedComponents>=3',
+                     'HPR_NESTED_CUSTOM_PLAYMODE_NATIVE_PASS',
+                     'EditorSettings.enterPlayModeOptions=savedOptions'):
+        assert expected in script
+    assert 'HprNestedCustomPlaymodeQa.Run' in runner
+    assert 'real-fast-enter-playmode-receipt.txt' in runner
+    assert not list(BUYER.rglob('HprNestedCustomPlaymodeQa.cs'))
