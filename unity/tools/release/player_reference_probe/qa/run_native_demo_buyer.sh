@@ -5,7 +5,12 @@ origin=${1:?immutable first-party sample-package author label}
 label=${2:?new independent buyer test label}
 [[ "$origin" =~ ^[a-z0-9_-]{4,30}$ && "$label" =~ ^[a-z0-9_-]{4,30}$ ]] ||exit 2
 root=/data/var/marketplace-account-setup/unity-player-reference-probe-20261123-wave63
-archive="$root/$origin/HPR_Player_Reference_Probe_original_unity6_demo.unitypackage"
+archive_name=${HPR_DEMO_ARCHIVE_NAME:-HPR_Player_Reference_Probe_original_unity6_demo.unitypackage}
+case "$archive_name" in
+ HPR_Player_Reference_Probe_original_unity6_demo.unitypackage|HPR_Player_Reference_Probe_2022-3-22f1_current_original.unitypackage|HPR_Player_Reference_Probe_6000-6-8f1_current_original.unitypackage) ;;
+ *) echo 'Refusing arbitrary unverified source package' >&2;exit 2;;
+esac
+archive="$root/$origin/$archive_name"
 work="$root/$label"
 qa=$(cd "$(dirname "$0")" && pwd)
 editor22=/data/apps/Unity/Hub/Editor/2022.3.22f1/Editor/Unity

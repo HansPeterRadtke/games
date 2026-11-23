@@ -444,3 +444,107 @@ def test_private_verifier_proves_late_manual_capture_fixture_receipt_and_limit(t
         with pytest.raises(ValueError,match='Missing or out-of-order real late capture'):
             verify.verify_log(logfile,edit,tmp_path/f'denied_without_marker_{i}.json',
                               expect_late_loss=True)
+
+
+def test_actual_native_gui_file_dialog_qa_has_real_click_evidence_and_scene_guard():
+    qa = QA / 'HprProbeQaFileDialogs.cs'
+    assert qa.is_file()
+    source = qa.read_text()
+    for required in (
+        'EditorSceneManager.OpenScene(Demo,OpenSceneMode.Single)',
+        'Selection.activeGameObject=probe.gameObject;',
+        'Require(baseline.GetValue(win)==null',
+        'REAL_INSPECT_BUTTON_CLICK_PASS',
+        'REAL_EXPORT_BUTTON_AND_NATIVE_SAVE_FILE_DIALOG_PASS',
+        'REAL_NATIVE_OPEN_FILE_DIALOG_EDITOR_REPORT_SELECTED',
+        'REAL_NATIVE_OPEN_FILE_DIALOG_PLAYER_REPORT_SELECTED',
+        'REAL_BOTH_NATIVE_FILE_CHOOSERS_COMPARE_CLICK_PASS',
+        'EditorSceneManager.GetActiveScene().isDirty',
+        'FileMode.CreateNew',
+    ):
+        assert required in source, required
+    warm = (QA / 'run_native_file_dialog_clicks_warm.sh').read_text()
+    assert 'Xvfb :143' in warm
+    assert 'HprProbeQaFileDialogs.Run' in warm
+    assert 'comparison-complete.txt' in warm
+    assert 'echo' in warm
+
+
+def test_new_current_original_archive_author_is_explicitly_exact_source_and_create_only():
+    author = (QA / 'run_current_matched_native_archive.sh').read_text()
+    for required in (
+        '2022.3.22f1|6000.6.8f1',
+        '! -e "$work"',
+        'cp -a "$source" "$project/Assets/"',
+        'HprProbeQaAuthor.Run',
+        'verify_original_demo_archive.py',
+        "b'CaptureNow()'",
+        "b'manualOnly'",
+    ):
+        assert required in author, required
+    importer = (QA / 'run_native_demo_buyer.sh').read_text()
+    validator = (QA / 'run_native_official_ast.sh').read_text()
+    for release in ('HPR_Player_Reference_Probe_2022-3-22f1_current_original.unitypackage',
+                    'HPR_Player_Reference_Probe_6000-6-8f1_current_original.unitypackage'):
+        assert release in importer and release in validator
+    assert 'Refusing arbitrary unverified source package' in importer
+    assert 'Refusing unrecognized original first-party source archive' in validator
+
+
+def test_unity2022_real_buyer_player_qa_preserves_original_demo_and_autostops():
+    source = (QA / 'HprProbeQa2022ActualPlayer.cs').read_text()
+    for marker in (
+        'Application.unityVersion=="2022.3.22f1"',
+        'EditorSceneManager.OpenScene(sourceScene,OpenSceneMode.Single)',
+        'scene.rootCount==13',
+        'c.source==null && !string.IsNullOrWhiteSpace(c.resourcesPath)',
+        'EditorSceneManager.SaveScene(scene,clonedScene,true)',
+        'HprProbeQaAutoExit',
+        'BuildTarget.StandaloneLinux64',
+        'BuildPipeline.BuildPlayer',
+        'HPR_REAL_UNITY2022_BUILT_PLAYER_PASS',
+    ):
+        assert marker in source, marker
+    workflow = (QA / 'run_native_unity2022_actual_player.sh').read_text()
+    assert '! -e "$work"' in workflow
+    assert 'actual-Unity2022-Player.log' in workflow
+    assert 'verify_unity2022_actual_demo_player.py' in workflow
+    assert 'HPR_TRUE_UNITY2022_ORIGINAL_BUILT_PLAYER_PASS' in workflow
+    assert not list(BUYER.rglob('HprProbeQa2022ActualPlayer.cs'))
+
+
+def test_independent_real_unity2022_player_receipt_verifier_rejects_wrong_identity(tmp_path):
+    import importlib.util
+    path = QA / 'verify_unity2022_actual_demo_player.py'
+    spec = importlib.util.spec_from_file_location('qa2022check', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    report = {
+        'schema': 2, 'origin': 'EDITOR', 'unityVersion': '2022.3.22f1',
+        'checkedCount': 2, 'assignedCount': 1, 'missingCount': 1,
+        'unsupportedCount': 0, 'status': 'NULL_OR_UNSET_SELECTED_REFERENCE',
+        'cases': [
+            {'id':'demo-assigned','fieldName':'itemPrefab',
+             'sourceLookup':'RESOURCES:HPRSample/AssignedItem','assetName':'AssignedItem',
+             'status':'ASSIGNED','referencedType':'UnityEngine.GameObject',
+             'referencedName':'HPR_Demo_Reference'},
+            {'id':'demo-intentionally-empty','fieldName':'itemPrefab',
+             'sourceLookup':'RESOURCES:HPRSample/OptionalItem','assetName':'OptionalItem',
+             'status':'REFERENCE_NULL_OR_UNSET','referencedType':'','referencedName':''},
+        ],
+    }
+    editor = tmp_path / 'editor.json'
+    editor.write_text(json.dumps(report))
+    player = json.loads(json.dumps(report))
+    player['origin'] = 'PLAYER'
+    log = tmp_path / 'actual-player.log'
+    log.write_text('HPR_PLAYER_REFERENCE_RECEIPT='+json.dumps(player)+
+                   '\nHPR_PLAYER_PROBE_PRIVATE_RUNTIME_AUTOEXIT_PASS\n')
+    assert module.verify(log,editor,tmp_path/'first.json')['status']=='PASS_ACTUAL_UNITY2022_LINUX_PLAYER_ORIGINAL_DEMO'
+    with pytest.raises(ValueError,match='repeated'):
+        module.verify(log,editor,tmp_path/'first.json')
+    player['cases'][0]['sourceLookup']='DIRECT_SCENE'
+    log.write_text('HPR_PLAYER_REFERENCE_RECEIPT='+json.dumps(player)+
+                   '\nHPR_PLAYER_PROBE_PRIVATE_RUNTIME_AUTOEXIT_PASS\n')
+    with pytest.raises(ValueError,match='Scene-based reference pin'):
+        module.verify(log,editor,tmp_path/'second.json')

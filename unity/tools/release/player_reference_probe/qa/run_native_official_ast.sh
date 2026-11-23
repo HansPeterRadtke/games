@@ -8,7 +8,7 @@ root=/data/var/marketplace-account-setup/unity-player-reference-probe-20261123-w
 # Two exact first-party original archive forms; never permit an arbitrary package path.
 archive_name=${HPR_AST_ORIGINAL_PACKAGE_NAME:-HPR_Player_Reference_Probe_original.unitypackage}
 case "$archive_name" in
- HPR_Player_Reference_Probe_original.unitypackage|HPR_Player_Reference_Probe_original_unity6_demo.unitypackage|HPR_Player_Reference_Probe_Unity2022_original.unitypackage) ;;
+ HPR_Player_Reference_Probe_original.unitypackage|HPR_Player_Reference_Probe_original_unity6_demo.unitypackage|HPR_Player_Reference_Probe_Unity2022_original.unitypackage|HPR_Player_Reference_Probe_2022-3-22f1_current_original.unitypackage|HPR_Player_Reference_Probe_6000-6-8f1_current_original.unitypackage) ;;
  *) echo 'Refusing unrecognized original first-party source archive' >&2;exit 2;;
 esac
 original="$root/$caseid/$archive_name"
