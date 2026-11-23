@@ -356,3 +356,22 @@ def test_unity2022_script_meta_normalization_accepts_only_default_importer_value
         'Assets/HPRPlayerReferenceProbe/Demo/Materials/Original.mat')
     assert not v._accepted_unity2022_monoimporter_default(raw,default.replace(b'icon: {instanceID: 0}',
         b'icon: {instanceID: 1}'),'Assets/HPRPlayerReferenceProbe/Runtime/HprPlayerReferenceProbe.cs')
+
+
+def test_genuine_unity_editor_button_click_qa_uses_moused_event_not_private_invocation():
+    qa=(QA/'HprProbeQaActualClicks.cs').read_text()
+    runner=(QA/'run_native_actual_button_clicks.sh').read_text()
+    for phrase in ('HPR_ACTUAL_UI_CLICK_READY_FOR_HUMAN_INPUT_EMULATION',
+                   'HPR_ACTUAL_UI_INSPECT_BUTTON_CLICK_PASS',
+                   'HPR_ACTUAL_UI_COMPARE_BUTTON_CLICK_PASS',
+                   'scanned-by-actual-click.txt', 'compared-by-actual-click.txt',
+                   '!EditorSceneManager.GetActiveScene().isDirty',
+                   'EditorApplication.update+=Poll',
+                   'Require(baseline.GetValue(window)==null'):
+        assert phrase in qa
+    assert 'xdotool' not in runner  # Human-like clicks must occur externally after UI inspection.
+    assert 'HPR_ACTUAL_MOUSE_BUTTONS_READY' in runner
+    assert 'Xvfb :143' in runner
+    assert 'software terms' in runner.lower()
+    assert 'HPRPlayerReferenceProbe' in runner
+    assert not list(BUYER.rglob('HprProbeQaActualClicks.cs'))
