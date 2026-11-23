@@ -264,22 +264,55 @@ namespace HPR.PlayerReferenceProbe
     {
         public HprReferenceCase[] checks=Array.Empty<HprReferenceCase>();
         public bool writePrivateLocalReport=true;
+        // Default false preserves the behavior of scenes saved before this field existed.
+        public bool manualOnly=false;
+        // Bounds output even if an integration accidentally calls CaptureNow each frame.
+        public int maxCaptures=8;
+        private int captureCount;
+        private bool limitWarningEmitted;
+
         private void Start()
         {
-            if(Application.isEditor)return; // Editor baselines use the explicit Editor command.
+            if(!manualOnly)CaptureNow();
+        }
+
+        // Call from a game event after the suspected loss. Returns true if a receipt was
+        // recorded, NOT if every inspected reference was assigned or the game is healthy.
+        public bool CaptureNow()
+        {
+            if(Application.isEditor)return false; // Editor baseline comes from the Editor window.
+            var limit=maxCaptures<=0 ? 8 : Mathf.Clamp(maxCaptures,1,32);
+            if(captureCount>=limit)
+            {
+                if(!limitWarningEmitted)
+                {
+                    limitWarningEmitted=true;
+                    Debug.LogWarning("HPR_PLAYER_REFERENCE_CAPTURE_LIMIT_REACHED; no further reports recorded");
+                }
+                return false;
+            }
+            captureCount++; // Failed inspections also count, preventing unlimited repeated errors.
             try
             {
                 var report=HprReferenceInspector.Inspect(checks,"PLAYER");
                 Debug.Log("HPR_PLAYER_REFERENCE_RECEIPT="+JsonUtility.ToJson(report));
-                if(!writePrivateLocalReport)return;
-                string folder=Application.persistentDataPath;
-                if(string.IsNullOrEmpty(folder))throw new IOException("Player persistent data path unavailable.");
-                string path=Path.Combine(folder,"HprPlayerReferenceProbe-"+Guid.NewGuid().ToString("N")+".json");
-                HprReferenceInspector.WriteNew(report,path);
-                Debug.Log("HPR_PLAYER_REFERENCE_REPORT_CREATED="+path);
+                if(writePrivateLocalReport)
+                {
+                    string folder=Application.persistentDataPath;
+                    if(string.IsNullOrEmpty(folder))
+                        throw new IOException("Player persistent data path unavailable.");
+                    string path=Path.Combine(folder,"HprPlayerReferenceProbe-"+
+                        Guid.NewGuid().ToString("N")+".json");
+                    HprReferenceInspector.WriteNew(report,path);
+                    Debug.Log("HPR_PLAYER_REFERENCE_REPORT_CREATED="+path);
+                }
+                return true;
             }
             catch(Exception error)
-            {Debug.LogError("HPR_PLAYER_REFERENCE_PROBE_INCOMPLETE="+error.GetType().Name);}
+            {
+                Debug.LogError("HPR_PLAYER_REFERENCE_PROBE_INCOMPLETE="+error.GetType().Name);
+                return false;
+            }
         }
     }
 }

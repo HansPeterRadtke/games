@@ -45,7 +45,8 @@ PYARCHIVE
 run create-buyer -createProject "$buyer"
 run buyer-original-package-import -projectPath "$buyer" -importPackage "$HPR_PLAYER_PROBE_PACKAGE"
 mkdir -p "$buyer/Assets/HPRPrivateQa" "$buyer/Assets/Editor"
-cp "$qa/HprProbeQaItem.cs" "$qa/HprProbeQaAutoExit.cs" "$qa/HprProbeQaPlayerOnlyClear.cs" "$buyer/Assets/HPRPrivateQa/"
+cp "$qa/HprProbeQaItem.cs" "$qa/HprProbeQaAutoExit.cs" "$qa/HprProbeQaPlayerOnlyClear.cs" \
+ "$qa/HprProbeQaManualTrigger.cs" "$buyer/Assets/HPRPrivateQa/"
 cp "$qa/HprProbeQaBuild.cs" "$buyer/Assets/Editor/"
 export HPR_PROBE_QA_ROOT="$work"
 run original-editor-and-actual-player-build -projectPath "$buyer" -executeMethod HprProbeQaBuild.Run

@@ -24,7 +24,7 @@ def test_public_product_has_distinct_nonduplicative_editor_and_player_components
 
 def test_read_only_opt_in_and_explicit_scope_no_invasive_auto_fix():
     assert '[DisallowMultipleComponent]' in RUNTIME
-    assert 'if(Application.isEditor)return;' in RUNTIME
+    assert 'if(Application.isEditor)return false;' in RUNTIME
     assert 'Application.persistentDataPath' in RUNTIME
     assert 'FileMode.CreateNew' in RUNTIME
     assert 'MaxCases=64' in RUNTIME
@@ -375,3 +375,72 @@ def test_genuine_unity_editor_button_click_qa_uses_moused_event_not_private_invo
     assert 'software terms' in runner.lower()
     assert 'HPRPlayerReferenceProbe' in runner
     assert not list(BUYER.rglob('HprProbeQaActualClicks.cs'))
+
+
+def test_runtime_capture_on_demand_is_opt_in_and_bounded():
+    assert 'public bool manualOnly=false;' in RUNTIME
+    assert 'public int maxCaptures=8;' in RUNTIME
+    assert 'if(!manualOnly)CaptureNow();' in RUNTIME
+    assert 'public bool CaptureNow()' in RUNTIME
+    assert 'if(Application.isEditor)return false;' in RUNTIME
+    assert 'maxCaptures<=0 ? 8 : Mathf.Clamp(maxCaptures,1,32)' in RUNTIME
+    assert 'if(captureCount>=limit)' in RUNTIME
+    assert 'if(!limitWarningEmitted)' in RUNTIME
+    assert 'captureCount++; // Failed inspections also count' in RUNTIME
+    assert 'HPR_PLAYER_REFERENCE_CAPTURE_LIMIT_REACHED' in RUNTIME
+    assert 'returns `true` if it successfully logged an original receipt' in (BUYER/'README.md').read_text()
+    assert 'CaptureNow()' in (BUYER/'README.md').read_text()
+
+
+def test_native_manual_capture_is_tested_after_player_frames_and_bounded():
+    q=(QA/'HprProbeQaManualTrigger.cs').read_text()
+    builder=(QA/'HprProbeQaBuild.cs').read_text()
+    runner=(QA/'run_native_manual_late_capture.sh').read_text()
+    verifier=(QA/'verify_real_player_receipt.py').read_text()
+    for phrase in ('for(var frame=0;frame<6;frame++)yield return null;',
+                   'source.itemPrefab=null;',
+                   'HPR_PRIVATE_INTENTIONAL_LATE_PLAYER_FIELD_CLEAR_DONE',
+                   'probe.CaptureNow()',
+                   'HPR_PRIVATE_MANUAL_LATE_QA_CAPTURE_SUCCESS',
+                   'HPR_PRIVATE_MANUAL_LATE_QA_CAPTURE_LIMIT_ENFORCED'):
+        assert phrase in q
+    for phrase in ('HPR_PROBE_QA_MANUAL_LATE','probe.manualOnly=true;',
+                   'probe.maxCaptures=1;',
+                   'GetComponent<HprProbeQaManualTrigger>().source=realGood'):
+        assert phrase in builder
+    assert 'HPR_PROBE_QA_MANUAL_LATE=1' in runner
+    assert '--expect-manual-late-loss' in runner
+    assert 'HPR_PRIVATE_MANUAL_LATE_QA_CAPTURE_LIMIT_ENFORCED' in runner
+    assert 'expect_late_loss' in verifier
+    assert 'HPR_PLAYER_REFERENCE_CAPTURE_LIMIT_REACHED' in verifier
+    assert not list(BUYER.rglob('HprProbeQaManualTrigger.cs'))
+
+
+def test_private_verifier_proves_late_manual_capture_fixture_receipt_and_limit(tmp_path):
+    verify=load_verifier()
+    editor=make_report('EDITOR');player=make_report('PLAYER')
+    gone=player['cases'][0]
+    assert gone['id']=='assigned-prefab'
+    gone['status']='REFERENCE_NULL_OR_UNSET'
+    gone['referencedType']='';gone['referencedName']=''
+    player['assignedCount']=1;player['missingCount']=2
+    edit=tmp_path/'actual-original-editor.json';edit.write_text(json.dumps(editor))
+    logfile=tmp_path/'private-original-player.log'
+    def write_log(markers):
+        entries=list(markers)
+        entries.insert(1,'HPR_PLAYER_REFERENCE_RECEIPT='+json.dumps(player))
+        logfile.write_text('\n'.join(entries)+
+            '\nHPR_PLAYER_PROBE_PRIVATE_RUNTIME_AUTOEXIT_PASS\n')
+    required=('HPR_PRIVATE_INTENTIONAL_LATE_PLAYER_FIELD_CLEAR_DONE',
+              'HPR_PRIVATE_MANUAL_LATE_QA_CAPTURE_SUCCESS',
+              'HPR_PLAYER_REFERENCE_CAPTURE_LIMIT_REACHED',
+              'HPR_PRIVATE_MANUAL_LATE_QA_CAPTURE_LIMIT_ENFORCED')
+    write_log(required)
+    result=verify.verify_log(logfile,edit,tmp_path/'one_real_player_report.json',
+                             expect_late_loss=True)
+    assert result['status']=='PASS_INTENTIONAL_LATE_MANUAL_BUILT_PLAYER_REFERENCE_LOSS'
+    for i,marker in enumerate(required):
+        write_log([x for x in required if x!=marker])
+        with pytest.raises(ValueError,match='Missing or out-of-order real late capture'):
+            verify.verify_log(logfile,edit,tmp_path/f'denied_without_marker_{i}.json',
+                              expect_late_loss=True)

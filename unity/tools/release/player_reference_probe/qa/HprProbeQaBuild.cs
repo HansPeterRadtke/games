@@ -53,6 +53,18 @@ public static class HprProbeQaBuild
         node.AddComponent<HprProbeQaAutoExit>();
         bool intentionallyDropInPlayer=
             Environment.GetEnvironmentVariable("HPR_PROBE_QA_PLAYER_DROP")=="1";
+        bool lateManualCapture=
+            Environment.GetEnvironmentVariable("HPR_PROBE_QA_MANUAL_LATE")=="1";
+        if(lateManualCapture && intentionallyDropInPlayer)
+            throw new InvalidOperationException("Distinct Player-only QA modes cannot overlap.");
+        if(lateManualCapture)
+        {
+            probe.manualOnly=true; // A normal scene Start must not create a misleading early receipt.
+            probe.maxCaptures=1;   // Second actual call verifies the output bound.
+            var trigger=node.AddComponent<HprProbeQaManualTrigger>();
+            trigger.probe=probe;
+            trigger.source=good;
+        }
         if(intentionallyDropInPlayer)
         {
             var drop=node.AddComponent<HprProbeQaPlayerOnlyClear>();
@@ -86,6 +98,7 @@ public static class HprProbeQaBuild
             probe.checks[2].resourcesPath="OriginalEmptyItem";
         }
         if(intentionallyDropInPlayer)node.GetComponent<HprProbeQaPlayerOnlyClear>().source=realGood;
+        if(lateManualCapture)node.GetComponent<HprProbeQaManualTrigger>().source=realGood;
         Require(EditorSceneManager.SaveScene(scene,scenePath),"persist_reloaded_scene_contract");
         var editor=HprReferenceInspector.Inspect(probe.checks,"EDITOR");
         Debug.Log("HPR_PROBE_QA_RELOADED_EDITOR_FIELDS "+JsonUtility.ToJson(editor));
