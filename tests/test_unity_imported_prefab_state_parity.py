@@ -431,3 +431,38 @@ def test_actual_Unity6_Csharp_nested_variant_receipt_comparison_is_source_isolat
     assert 'HPR_NESTED_CUSTOM_TWO_REAL_EDITOR_PASS' in runner
     assert '! -e "$target"' in runner and '! -e "$output"' in runner
     assert not list(BUYER.rglob('HprNestedCustomTwoEditorQa.cs'))
+
+
+def test_common_physics_collider_geometry_not_silently_overlooked():
+    original=SOURCE.read_text()
+    for key in ('else if(collider is CapsuleCollider)',
+                'else if(collider is CharacterController)',
+                'capsule.center','capsule.radius','capsule.height','capsule.direction',
+                'controller.center','controller.radius','controller.height',
+                'controller.skinWidth','controller.stepOffset','controller.slopeLimit',
+                'COLLIDER_SUBTYPE_FIELDS_NOT_INSPECTED'):
+        assert key in original,key
+    assert 'unsupported++;' in original
+    assert 'Add(list,key+"/coverage","COLLIDER_SUBTYPE_FIELDS_NOT_INSPECTED")' in original
+
+
+def test_real_capsule_and_controller_native_qa_uses_separate_first_party_buyer_archives():
+    qa=ROOT/'qa'
+    author=(qa/'HprColliderPhysicsAuthorQa.cs').read_text()
+    consumer=(qa/'HprColliderPhysicsBuyerQa.cs').read_text()
+    runner=(qa/'run_native_physics_collider.sh').read_text()
+    for word in ('capsule.radius=.67f','capsule.height=2.75f','capsule.direction=2',
+                 'controller.radius=.41f','controller.height=1.85f',
+                 'controller.slopeLimit=46f','controller.skinWidth=.04f',
+                 'PrefabUtility.SaveAsPrefabAsset'):
+        assert word in author
+    for word in ('HprPrefabStateScan.Scan(Prefab)',
+                 'HprPrefabStateCompare.Compare(report,changed)',
+                 'REVIEW_IMPORTED_PREFAB_VALUE_DIFFERENCES',
+                 'changed_capsule_geometry_must_be_detected_instead_of_silent_clean',
+                 'HPR_COLLIDER_PHYSICS_BUYER_NATIVE_PASS'):
+        assert word in consumer
+    assert '2022.3.22f1' in runner and '6000.6.8f1' in runner
+    assert 'verify_native_prefab_receipt.py' in runner
+    assert 'compare_native_receipts.py' in runner
+    assert not list(ROOT.glob('Assets/**/HprColliderPhysics*.cs'))

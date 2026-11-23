@@ -228,6 +228,30 @@ namespace HPR.ImportedPrefabParity
                     }
                     else if(collider is MeshCollider)
                         Add(list,key+"/mesh",RefKey(((MeshCollider)collider).sharedMesh));
+                    else if(collider is CapsuleCollider)
+                    {
+                        var capsule=(CapsuleCollider)collider;
+                        Add(list,key+"/center",Vec3(capsule.center));
+                        Add(list,key+"/radius",Float(capsule.radius));
+                        Add(list,key+"/height",Float(capsule.height));
+                        Add(list,key+"/direction",capsule.direction.ToString());
+                    }
+                    else if(collider is CharacterController)
+                    {
+                        var controller=(CharacterController)collider;
+                        Add(list,key+"/center",Vec3(controller.center));
+                        Add(list,key+"/radius",Float(controller.radius));
+                        Add(list,key+"/height",Float(controller.height));
+                        Add(list,key+"/slopeLimit",Float(controller.slopeLimit));
+                        Add(list,key+"/stepOffset",Float(controller.stepOffset));
+                        Add(list,key+"/skinWidth",Float(controller.skinWidth));
+                    }
+                    else
+                    {
+                        // A generic Collider is not proof its shape fields were inspected.
+                        unsupported++;
+                        Add(list,key+"/coverage","COLLIDER_SUBTYPE_FIELDS_NOT_INSPECTED");
+                    }
                 }
                 else if(part is Rigidbody)
                 {

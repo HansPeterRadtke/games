@@ -29,3 +29,7 @@ The current receipt format is **schema two**. Earlier schema-one snapshots conta
 The package has no runtime scene behavior, so it deliberately contains no decorative example scene. The official Asset Store Tools generic demonstration-scene check may report a warning for this Editor-only package. This warning is distinct from a C# compilation failure or a failure of the native scanning workflow and must not be represented as a passing validator check.
 
 The package includes original source code only, runs offline, requires no runtime component, render pipeline or external account, and exports create-only JSON. Private native QA and test fixtures are not included in buyer archives. This candidate is **not licensed or authorized for retail**; actual two-version native buyer installation, asset screenshots, seller legal/software rights, Unity AI-assisted functional code disclosure and paying buyer demand must be verified before any marketplace listing.
+
+### Collider shape coverage correction (November twenty-three)
+
+The Editor scanner now includes direct capsule collider center, radius, height and axis direction, and character controller center, radius, height, slope limit, step offset and skin width. Other collider subclasses whose shape or configuration is not covered carry an explicit uninspected-component marker rather than looking fully inspected based only on `enabled` and `isTrigger`. The scan continues to cover only the listed fields, and a matching report does not certify all physics/runtime behavior or unknown script fields.
