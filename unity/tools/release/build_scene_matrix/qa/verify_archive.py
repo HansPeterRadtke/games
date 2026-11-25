@@ -4,7 +4,15 @@ import hashlib,json,re,sys,tarfile
 def inspect(archive,source):
     base=Path(source)
     expected={"Assets/"+f.relative_to(base).as_posix():f for f in base.rglob("*") if not f.name.endswith(".meta")}
-    assert len(expected)==5,expected
+    assert set(expected)=={
+        "Assets/HPRBuildSceneMatrix",
+        "Assets/HPRBuildSceneMatrix/Editor",
+        "Assets/HPRBuildSceneMatrix/Editor/HprBuildSceneMatrix.cs",
+        "Assets/HPRBuildSceneMatrix/Editor/HprSceneMatrixCore.cs",
+        "Assets/HPRBuildSceneMatrix/Editor/HprSceneBaseline.cs",
+        "Assets/HPRBuildSceneMatrix/LICENSE.md",
+        "Assets/HPRBuildSceneMatrix/README.md",
+    },expected
     blobs={}
     with tarfile.open(archive,"r:gz") as t:
         for m in t.getmembers():

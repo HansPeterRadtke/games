@@ -109,7 +109,33 @@ public static class HprBuildSceneMatrixQa
             Require(missing.A == "Absent" && missing.B == "#0" && missing.Warning, "Negative missing/absent comparison failed");
             Require(BuildProfile.GetActiveBuildProfile() == custom && paths.Select(Sha).SequenceEqual(before),
                 "Read-only scan/export changed source assets, settings or active profile");
-            File.WriteAllText(Receipt, "HPR_MATRIX_REAL_PROFILE_PASS\nActual global, inherited, override, enabled order, duplicate names, create-only CSV, read-only asset identity, missing/absent negative control.\nUnity=" + Application.unityVersion);
+            string baselinePath = Path.ChangeExtension(Receipt, ".hpr-scenes");
+            DateTimeOffset capture = DateTimeOffset.UtcNow;
+            HprSceneBaseline.SaveNew(baselinePath, o, capture);
+            string baselineHash = Sha(baselinePath);
+            var baseline = HprSceneBaseline.Load(baselinePath);
+            Require(baseline.Profile.Id == o.Id && baseline.CapturedUtc == capture &&
+                !baseline.Profile.Active && HprSceneMatrix.Compare(baseline.Profile,o).All(d=>!d.Different),
+                "Native scanned profile did not round-trip as historical reference");
+            Require(BuildProfile.GetActiveBuildProfile() == custom && paths.Select(Sha).SequenceEqual(before),
+                "Saving/loading reference changed the Unity project");
+
+            // Change ONLY the disposable fixture's real profile, not any customer project.
+            custom.scenes = new[] { new EditorBuildSettingsScene(a, true),
+                new EditorBuildSettingsScene(c, true), new EditorBuildSettingsScene(b, false) };
+            EditorUtility.SetDirty(custom);
+            AssetDatabase.SaveAssets();
+            var changedBefore = paths.Select(Sha).ToArray();
+            var changed = HprSceneMatrix.Scan().Single(p=>p.Id == o.Id);
+            var history = HprSceneMatrix.Compare(baseline.Profile, changed);
+            Require(history.Count == 3 && history.All(d => d.Different) &&
+                history.Single(d=>d.Path==b).A == "#2" && history.Single(d=>d.Path==b).B == "Disabled",
+                "Historical reference failed to detect actual profile changes");
+            Require(Sha(baselinePath) == baselineHash &&
+                BuildProfile.GetActiveBuildProfile() == custom && paths.Select(Sha).SequenceEqual(changedBefore),
+                "Historical comparison changed the saved baseline, current profile or project");
+
+            File.WriteAllText(Receipt, "HPR_MATRIX_REAL_PROFILE_PASS\nActual global, inherited, override, enabled order, duplicate names, create-only CSV, read-only asset identity, missing/absent negative control, historical reference and actual changed profile comparison.\nUnity=" + Application.unityVersion);
             Debug.Log("HPR_MATRIX_REAL_PROFILE_PASS");
         }
         finally

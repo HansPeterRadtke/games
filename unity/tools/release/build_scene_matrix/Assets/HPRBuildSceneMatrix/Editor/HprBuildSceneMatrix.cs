@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using UnityEditor;
 using UnityEngine;
 #if UNITY_6000_1_OR_NEWER
@@ -12,34 +11,8 @@ using UnityEditor.Build.Profile;
 
 namespace HPR.BuildSceneMatrix
 {
-    // Original first-party read-only configuration diagnostic.
-    public sealed class HprSceneRow
+    public static partial class HprSceneMatrix
     {
-        public string Path, Guid, Name;
-        public bool Enabled, Missing;
-        public int ListIndex, BuildIndex;
-    }
-
-    public sealed class HprSceneProfile
-    {
-        public string Id, Title, AssetPath, Source, Error;
-        public bool Active;
-        public readonly List<HprSceneRow> Rows = new List<HprSceneRow>();
-        public int EnabledCount => Rows.Count(r => r.Enabled);
-        public string First => Rows.FirstOrDefault(r => r.Enabled)?.Path ?? "(none)";
-        public bool Readable => string.IsNullOrEmpty(Error);
-    }
-
-    public sealed class HprSceneDifference
-    {
-        public string Key, Path, A, B, Issue;
-        public bool Different, Warning;
-    }
-
-    public static class HprSceneMatrix
-    {
-        public const string GlobalId = "global";
-
         private static void ReadRows(HprSceneProfile p, EditorBuildSettingsScene[] scenes)
         {
             if (scenes == null) throw new InvalidOperationException("Unity returned no scene list.");
@@ -113,81 +86,6 @@ namespace HPR.BuildSceneMatrix
             return result;
         }
 
-        private static string Key(HprSceneRow r) => string.IsNullOrEmpty(r.Guid) ||
-            r.Guid == "00000000000000000000000000000000" ? "path:" + r.Path : "guid:" + r.Guid;
-        private static string State(List<HprSceneRow> rows)
-        {
-            if (rows.Count == 0) return "Absent";
-            return string.Join(", ", rows.Select(r => r.Enabled ? "#" + r.BuildIndex : "Disabled"));
-        }
-
-        private static HashSet<string> ConflictingNames(HprSceneProfile profile) =>
-            new HashSet<string>(profile.Rows.Where(r => r.Enabled && !string.IsNullOrEmpty(r.Name))
-                .GroupBy(r => r.Name, StringComparer.OrdinalIgnoreCase)
-                .Where(g => g.Select(Key).Distinct().Skip(1).Any()).Select(g => g.Key),
-                StringComparer.OrdinalIgnoreCase);
-
-        public static string Summary(HprSceneProfile profile)
-        {
-            if (!profile.Readable) return "Unreadable";
-            int missing = profile.Rows.Count(r => r.Missing);
-            int duplicate = profile.Rows.GroupBy(Key).Count(g => g.Count() > 1);
-            return profile.EnabledCount + " enabled • " + missing + " stale • " + duplicate +
-                " repeated • " + ConflictingNames(profile).Count + " ambiguous names";
-        }
-
-        public static List<HprSceneDifference> Compare(HprSceneProfile a, HprSceneProfile b)
-        {
-            if (a == null || b == null || !a.Readable || !b.Readable)
-                throw new InvalidOperationException("Select two readable scene lists before comparison.");
-            var keys = a.Rows.Select(Key).Concat(b.Rows.Select(Key)).Distinct().ToArray();
-            var left = a.Rows.GroupBy(Key).ToDictionary(g => g.Key, g => g.ToList());
-            var right = b.Rows.GroupBy(Key).ToDictionary(g => g.Key, g => g.ToList());
-            var result = new List<HprSceneDifference>();
-            var conflictsA = ConflictingNames(a);
-            var conflictsB = ConflictingNames(b);
-            foreach (string key in keys)
-            {
-                if (!left.TryGetValue(key, out var aa)) aa = new List<HprSceneRow>();
-                if (!right.TryGetValue(key, out var bb)) bb = new List<HprSceneRow>();
-                string sa = State(aa), sb = State(bb);
-                var all = aa.Concat(bb).ToArray();
-                var issues = new List<string>();
-                if (all.Any(r => r.Missing)) issues.Add("Missing or stale scene reference");
-                if (aa.Count > 1 || bb.Count > 1) issues.Add("Repeated scene entry");
-                if (aa.Any(r => r.Enabled && conflictsA.Contains(r.Name)) ||
-                    bb.Any(r => r.Enabled && conflictsB.Contains(r.Name))) issues.Add("Ambiguous enabled scene name");
-                if (all.Select(r => r.Path).Distinct().Skip(1).Any()) issues.Add("Path differs for same identifier");
-                result.Add(new HprSceneDifference { Key = key, Path = all[0].Path, A = sa, B = sb,
-                    Different = sa != sb || issues.Contains("Path differs for same identifier"),
-                    Warning = issues.Count > 0, Issue = string.Join("; ", issues) });
-            }
-            return result;
-        }
-
-        // Prefix untrusted cells which spreadsheet applications might execute as formulas.
-        private static string CsvCell(string value)
-        {
-            value = value ?? "";
-            string trimmed = value.TrimStart();
-            if (trimmed.Length > 0 && "=+-@".IndexOf(trimmed[0]) >= 0) value = "'" + value;
-            return "\"" + value.Replace("\"", "\"\"") + "\"";
-        }
-        public static void ExportNewCsv(string path, HprSceneProfile a, HprSceneProfile b)
-        {
-            var rows = Compare(a, b);
-            // CreateNew prevents overwriting a pre-existing file. No automatic export.
-            using (var stream = new FileStream(path, FileMode.CreateNew, FileAccess.Write))
-            using (var writer = new StreamWriter(stream, new UTF8Encoding(true)))
-            {
-                writer.WriteLine("Scene,Reference state,Compared state,Different,Warning");
-                writer.WriteLine(string.Join(",", new[] { "Profile identities", a.Title, b.Title, "", "" }.Select(CsvCell)));
-                writer.WriteLine(string.Join(",", new[] { "Scene sources", a.Source, b.Source, "", "" }.Select(CsvCell)));
-                foreach (var row in rows)
-                    writer.WriteLine(string.Join(",", new[] { row.Path, row.A, row.B,
-                        row.Different ? "Yes" : "No", row.Issue }.Select(CsvCell)));
-            }
-        }
     }
 
     public sealed class HprBuildSceneMatrixWindow : EditorWindow
@@ -199,6 +97,9 @@ namespace HPR.BuildSceneMatrix
         private int visibleCount;
         private string filter = "", scanned = "", status = "";
         private Vector2 scroll;
+        private DateTimeOffset scannedUtc;
+        private HprSceneBaseline baseline;
+        private HprSceneProfile Reference => baseline == null ? profiles[left] : baseline.Profile;
         [MenuItem("Tools/HPR/Build Scene Matrix")]
         public static void Open() => GetWindow<HprBuildSceneMatrixWindow>("Build Scene Matrix");
         private void OnEnable() { minSize = new Vector2(480, 340); Refresh(); }
@@ -214,16 +115,68 @@ namespace HPR.BuildSceneMatrix
             if (defaultRight < 0) defaultRight = Math.Min(1, profiles.Count - 1);
             int preserved = profiles.FindIndex(p => p.Id == b);
             right = preserved >= 0 ? preserved : defaultRight;
-            scanned = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            scannedUtc = DateTimeOffset.UtcNow;
+            scanned = scannedUtc.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
             Recompare();
         }
         private void Recompare()
         {
             differences.Clear();
             status = "";
-            if (profiles[left].Readable && profiles[right].Readable)
-                differences = HprSceneMatrix.Compare(profiles[left], profiles[right]);
+            if (Reference.Readable && profiles[right].Readable)
+                differences = HprSceneMatrix.Compare(Reference, profiles[right]);
         }
+        private void SaveBaseline()
+        {
+            string path = EditorUtility.SaveFilePanel("Save current scene reference (new file only)",
+                "", "build-scenes", HprSceneBaseline.Extension);
+            if (string.IsNullOrEmpty(path)) return;
+            try
+            {
+                HprSceneBaseline.SaveNew(path, profiles[left], scannedUtc);
+                status = "Saved the scanned reference. No existing file was replaced.";
+            }
+            catch (Exception e) { status = "Snapshot save failed: " + e.Message; }
+        }
+
+        private void LoadBaseline()
+        {
+            string path = EditorUtility.OpenFilePanel("Open saved scene reference", "", HprSceneBaseline.Extension);
+            if (string.IsNullOrEmpty(path)) return;
+            try
+            {
+                var loaded = HprSceneBaseline.Load(path);
+                baseline = loaded;
+                int same = profiles.FindIndex(p => p.Id == loaded.Profile.Id && p.Readable);
+                if (same >= 0) right = same;
+                Recompare();
+                status = "Saved reference loaded. No project settings or active profile changed.";
+            }
+            catch (Exception e) { status = "Snapshot load failed: " + e.Message; }
+        }
+
+        private void DrawBaselineControls()
+        {
+            EditorGUILayout.BeginHorizontal();
+            using (new EditorGUI.DisabledScope(baseline != null || !profiles[left].Readable))
+                if (GUILayout.Button("Save live reference…")) SaveBaseline();
+            if (GUILayout.Button("Load saved reference…")) LoadBaseline();
+            EditorGUILayout.EndHorizontal();
+            if (baseline == null) return;
+            EditorGUILayout.LabelField("Saved profile: " + baseline.Profile.Title, EditorStyles.wordWrappedLabel);
+            EditorGUILayout.HelpBox("Captured: " + baseline.CapturedUtc.ToString("u") +
+                " (UTC). Use a snapshot from the intended project; profile identity alone cannot establish that.",
+                MessageType.Info);
+            if (baseline.Profile.Id != profiles[right].Id)
+                EditorGUILayout.HelpBox("The saved and current profile identifiers differ. Check that this is intentional.",
+                    MessageType.Warning);
+            if (GUILayout.Button("Return to live reference"))
+            {
+                baseline = null;
+                Recompare();
+            }
+        }
+
         private void DrawProfile(string label, HprSceneProfile p)
         {
             EditorGUILayout.LabelField(label + ": " + (p.Active ? "ACTIVE · " : "") + p.Source, EditorStyles.boldLabel);
@@ -244,10 +197,15 @@ namespace HPR.BuildSceneMatrix
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
             var names = profiles.Select(p => (p.Active ? "[Active] " : "") + p.Title).ToArray();
-            int nextLeft = EditorGUILayout.Popup("Reference", left, names);
+            int nextLeft = left;
+            if (baseline == null)
+                nextLeft = EditorGUILayout.Popup("Live reference", left, names);
+            else
+                EditorGUILayout.LabelField("Reference", "Saved snapshot");
             int nextRight = EditorGUILayout.Popup("Compare", right, names);
             if (nextLeft != left || nextRight != right) { left = nextLeft; right = nextRight; Recompare(); }
             scroll = EditorGUILayout.BeginScrollView(scroll);
+            DrawBaselineControls();
             showOverview = EditorGUILayout.Foldout(showOverview, "All profiles (" + profiles.Count + ")", true);
             if (showOverview)
             {
@@ -266,10 +224,14 @@ namespace HPR.BuildSceneMatrix
                     EditorGUILayout.EndVertical();
                 }
             }
-            DrawProfile("Reference", profiles[left]);
+            DrawProfile(baseline == null ? "Reference" : "Saved reference", Reference);
             DrawProfile("Compared", profiles[right]);
+            if (baseline != null && Reference.Readable && profiles[right].Readable &&
+                Reference.Source != profiles[right].Source)
+                EditorGUILayout.HelpBox("The source of the scene list has changed (shared, inherited or overridden).",
+                    MessageType.Warning);
             EditorGUILayout.Space(5);
-            bool readable = profiles[left].Readable && profiles[right].Readable;
+            bool readable = Reference.Readable && profiles[right].Readable;
             if (readable)
             {
                 EditorGUILayout.LabelField(differences.Count(d => d.Different) + " differences • " +
@@ -280,18 +242,27 @@ namespace HPR.BuildSceneMatrix
                 foreach (var row in differences)
                 {
                     if (differencesOnly && !row.Different && !row.Warning) continue;
-                    if (!string.IsNullOrEmpty(filter) && row.Path.IndexOf(filter, StringComparison.OrdinalIgnoreCase) < 0) continue;
+                    if (!string.IsNullOrEmpty(filter) &&
+                        row.Path.IndexOf(filter, StringComparison.OrdinalIgnoreCase) < 0 &&
+                        row.ReferencePath.IndexOf(filter, StringComparison.OrdinalIgnoreCase) < 0) continue;
                     visibleCount++;
                     EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.SelectableLabel(row.Path, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
-                    using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(row.Path) || !row.Path.EndsWith(".unity", StringComparison.OrdinalIgnoreCase)))
+                    string livePath = !string.IsNullOrEmpty(row.ComparedPath) ? row.ComparedPath :
+                        baseline == null ? row.ReferencePath : "";
+                    using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(livePath) ||
+                        !livePath.EndsWith(".unity", StringComparison.OrdinalIgnoreCase)))
                         if (GUILayout.Button("Find", GUILayout.Width(52)))
                         {
-                            var scene = AssetDatabase.LoadAssetAtPath<SceneAsset>(row.Path);
+                            var scene = AssetDatabase.LoadAssetAtPath<SceneAsset>(livePath);
                             if (scene != null) EditorGUIUtility.PingObject(scene);
                         }
                     EditorGUILayout.EndHorizontal();
+                    if (row.ReferencePath != row.ComparedPath && !string.IsNullOrEmpty(row.ReferencePath) &&
+                        !string.IsNullOrEmpty(row.ComparedPath))
+                        EditorGUILayout.SelectableLabel("Previous path: " + row.ReferencePath, EditorStyles.textField,
+                            GUILayout.Height(EditorGUIUtility.singleLineHeight));
                     EditorGUILayout.LabelField("Ref: " + row.A + "    Compared: " + row.B, EditorStyles.wordWrappedLabel);
                     if (row.Warning) EditorGUILayout.HelpBox(row.Issue, MessageType.Warning);
                     EditorGUILayout.EndVertical();
@@ -303,7 +274,7 @@ namespace HPR.BuildSceneMatrix
                     var path = EditorUtility.SaveFilePanel("Export comparison (new file only)", "", "build-scene-comparison", "csv");
                     if (!string.IsNullOrEmpty(path))
                     {
-                        try { HprSceneMatrix.ExportNewCsv(path, profiles[left], profiles[right]); status = "Exported new CSV."; }
+                        try { HprSceneMatrix.ExportNewCsv(path, Reference, profiles[right]); status = "Exported new CSV."; }
                         catch (Exception e) { status = "Export failed: " + e.Message; }
                     }
                 }
