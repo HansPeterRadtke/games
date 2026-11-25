@@ -81,10 +81,14 @@ materials; it does not install packages, change project Graphics Settings, or
 silently alter unrelated assets. Do not run it on an unknown/custom pipeline.
 URP/HDRP are optional host-project renderers, not required runtime dependencies.
 
-Unity 6.6 introduces an official Asset Store compatibility requirement for
-entering Play mode with domain reload disabled. This newer compatibility mode
-and URP/HDRP import must be tested independently before claiming those features
-as accepted; prior validation used Unity 6000.4 Built-in.
+The current private responsive-layout candidate was imported and exercised in
+Unity 6000.6.8f1 using Built-in on Linux; the original standalone player was
+also built and tested in that version. Earlier Unity and pipeline test results
+are historical, not proof of this exact changed archive. Exact-current
+URP/HDRP and disabled-domain-reload behavior have not yet been accepted.
+Unity's current submission rules require support for URP or HDRP when a
+submission uses Unity 6.5 or newer. Do not infer retail eligibility from
+the Built-in test alone.
 
 
 The arena uses Unity built-in primitives and standard materials, collision-aware
@@ -119,15 +123,17 @@ provided under `LICENSE.md`, and `ThirdPartyNotices.md` inventories rights.
 ## Validation and AI disclosure
 
 Source unit-test assemblies are retained in the development repository, not
-installed in buyers' runtime assemblies. The development pipeline builds
-in Unity 6000.4, exports a real .unitypackage, imports it into a completely
-fresh Unity project, and executes independent runtime tests. Evidence and
+installed in buyers' runtime assemblies. The private release builder uses
+Unity 6000.6.8f1 and exports a real .unitypackage. A separate newly created
+Unity 6000.6.8f1 project imported and exercised the responsive-layout
+candidate; a standalone Linux build was also tested through native input. Evidence and
 logs stay outside Git and are not a claim of marketplace approval.
 
-**AI-assisted coding tools** contributed to original HPR C# modules, the
+**AI-assisted coding tools, including Codex and ChatGPT,** contributed to original HPR C# modules, the
 integrated demonstration, engineering iterations, automated tests, and docs.
-Developers reviewed the architecture, connected the components, built
-deterministic tests, and verified the imported archives using Unity. The
+The original modules were integrated and exercised with deterministic
+tests and native Unity imports and standalone workflows. This is not a claim
+of exclusively human authorship or manual review of every line. The
 publisher must also accurately identify the specific tools used in the
 Asset Store's dedicated AI Description field, and disclose the scope and
 manual corrections performed. AI-generated or AI-assisted code is not
@@ -138,8 +144,10 @@ represented as exclusively human-authored.
 All ten included runtimes use Unity APIs with no external UI or art packages.
 Legacy standalone module demos that require the UI package are excluded.
 The shipped demo uses immediate-mode controls provided by the Editor/Unity.
-The buyer archive is tested in a fresh Unity 6000.4 project without adding
-`com.unity.ugui` or any unrelated Unity Registry package.
+The responsive-layout candidate was tested in a fresh Unity 6000.6.8f1
+project without adding `com.unity.ugui` or unrelated Unity Registry packages.
+This is evidence for that exact Built-in test environment, not certification
+for every project configuration.
 
 This package has **not** been resubmitted to Unity since the rejection of the
 former standalone products. It is a technical and product-quality candidate.

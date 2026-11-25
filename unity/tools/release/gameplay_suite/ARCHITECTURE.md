@@ -66,7 +66,11 @@ Unity physics, scene objects or other external game systems.
 
 ## Shipping scope and constraints
 
-Targets Unity 6000.4 in the verified pipeline. Code uses built-in
+The responsive-layout candidate has been exercised in Unity 6000.6.8f1
+using Built-in on Linux, including a native standalone demonstration.
+Exact-current URP/HDRP and disabled-domain-reload compatibility still require
+verification. Older Unity test results do not certify the changed package.
+Code uses built-in
 `UnityEngine` components and managed C#. There is no package manager,
 network, editor service or external GUI dependency. The source package
 is intended for local single-player use. State changes do not replicate
@@ -88,8 +92,9 @@ close-range simulation are intentionally separate. This is a deterministic
 teaching example, not a full pathfinding SDK.
 
 `FireAt(worldPoint)` raycasts in the selected direction and applies enemy
-damage only when an actual collider is the nearest relevant hit; all firing
-consumes ammunition regardless of hit. `Fire()` remains a convenient
+damage only when an actual collider is the nearest relevant hit; accepted
+shots consume ammunition even when they miss. A cursor outside the arena
+viewport is rejected before firing and does not consume ammunition. `Fire()` remains a convenient
 scripted demonstration command aiming at the enemy collider; normal keyboard
 play uses a mouse-ray/ground-plane aim point. No target can be damaged through
 a physical obstacle with the new sample gun.

@@ -78,6 +78,23 @@ class UnityGameplaySuiteSourceTest(unittest.TestCase):
         script = (SOURCE / "validate_cleanroom.sh").read_text()
         self.assertNotIn("com.unity.ugui", script)
 
+    def test_current_documentation_does_not_claim_old_pipeline_acceptance(self):
+        readme = (SOURCE / "README.md").read_text()
+        architecture = (SOURCE / "ARCHITECTURE.md").read_text()
+        quickstart = (SOURCE / "QUICKSTART.md").read_text()
+        for content in (readme, architecture, quickstart):
+            self.assertIn("6000.6.8f1", content)
+            self.assertIn("Built-in", content)
+        self.assertNotIn("Targets Unity 6000.4", architecture)
+        self.assertNotIn("builds\nin Unity 6000.4", readme)
+        self.assertNotIn("tested in a fresh Unity 6000.4", readme)
+        self.assertIn("Exact-current", readme)
+        self.assertIn("URP/HDRP", readme)
+        self.assertIn("have not yet been accepted", readme)
+        self.assertIn("Codex and ChatGPT", readme)
+        self.assertIn("does not consume ammunition", architecture)
+        self.assertIn("without spending ammunition", quickstart)
+
     def test_version_two_customer_features_and_validation(self):
         integration = (SOURCE / "HprGameplaySuitePlayground.cs").read_text()
         for contract in ("AbilityRunnerComponent", "CompositionRoot", "AssetRegistry",

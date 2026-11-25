@@ -1,7 +1,9 @@
 # Five-minute buyer walkthrough
 
-This is a **code toolkit**, not a premade game. Start security-patched Unity 6000.6.8f1 or a verified patched LTS release,
-import the supplied `.unitypackage`, then open:
+This is a **code toolkit**, not a premade game. Start security-patched Unity
+6000.6.8f1 for the demonstrated Built-in workflow. Other patched LTS versions
+and rendering pipelines require separate verification for the exact candidate.
+Import the supplied `.unitypackage`, then open:
 `Assets/HPRGameplaySuite/Demo/GameplaySuiteShowcase.unity`.
 
 Press Play. The blue-armored capsule is the player and the orange target is the
@@ -14,7 +16,8 @@ and inventory key check.
 Point your mouse over the target and press F to fire the rifle along a real
 physics ray, or use the scripted training-fire button to aim at the target.
 A crate or another solid obstacle can block shots; ammunition is still spent
-on a miss. Press R to reload. Cooldowns and ammunition are real
+on an accepted shot that misses. Pointing over the controls or outside the
+arena refuses cursor-directed firing without spending ammunition. Press R to reload. Cooldowns and ammunition are real
 `WeaponRuntimeState` values. Press **Enemy attacks** to simulate an adjacent
 opponent's attack; health decreases via a typed `DamageEvent`. In the demo,
 the enemy follows the player while within chase range and automatically
