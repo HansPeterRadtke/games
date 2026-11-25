@@ -105,5 +105,41 @@ class SceneMatrixArchiveContract(unittest.TestCase):
                 MOD.inspect(q,SRC)
 
 
+class SceneMatrixCompanionContract(unittest.TestCase):
+    def test_companion_links_exact_editor_independent_core_and_is_outside_assets(self):
+        companion = MATRIX / "companion"
+        project = (companion / "HprSceneGate.csproj").read_text()
+        for filename in ("HprSceneMatrixCore.cs", "HprSceneBaseline.cs"):
+            self.assertIn("$(HprSourceRoot)/" + filename, project)
+        self.assertIn("<TargetFramework>net10.0</TargetFramework>", project)
+        self.assertIn("<RuntimeFrameworkVersion>10.0.15</RuntimeFrameworkVersion>", project)
+        self.assertIn("<RollForward>LatestPatch</RollForward>", project)
+        for source in (companion / "Program.cs", companion / "SavedUnitySceneLists.cs"):
+            text = source.read_text()
+            self.assertNotIn("using UnityEditor;", text)
+            self.assertNotIn("using UnityEngine;", text)
+            self.assertNotIn("Process.Start", text)
+        self.assertFalse(list(SRC.rglob("HprSceneGate.dll")))
+        self.assertFalse(list(SRC.rglob("SavedUnitySceneLists.cs")))
+
+    def test_ui_and_companion_share_declared_list_delta(self):
+        core = (SRC / "HPRBuildSceneMatrix/Editor/HprSceneMatrixCore.cs").read_text()
+        editor = (SRC / "HPRBuildSceneMatrix/Editor/HprBuildSceneMatrix.cs").read_text()
+        companion = (MATRIX / "companion/Program.cs").read_text()
+        self.assertIn("CompareDeclaredLists", core)
+        self.assertIn("HprSceneMatrix.CompareDeclaredLists", editor)
+        self.assertIn("HprSceneMatrix.CompareDeclaredLists", companion)
+        self.assertIn("FirstDifferingEntryIndex", editor)
+        self.assertIn("FirstDifferingEntryIndex", companion)
+
+    def test_companion_packaging_requires_both_exact_process_receipts(self):
+        packaging = (MATRIX / "companion/qa/package_private.py").read_text()
+        self.assertIn('companion-process-receipt.json', packaging)
+        self.assertIn('saved-project-process-receipt.json', packaging)
+        self.assertIn('Packaged executable differs from actually tested output', packaging)
+        self.assertIn('PRIVATE_COMPANION_CANDIDATE_NOT_PUBLISHED', packaging)
+        self.assertIn('"runtime_included":False', packaging)
+
+
 if __name__ == "__main__":
     unittest.main()

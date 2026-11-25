@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <UseAppHost>false</UseAppHost>
+    <Version>0.1.0</Version>
+    <RuntimeFrameworkVersion>10.0.15</RuntimeFrameworkVersion>
+    <RollForward>LatestPatch</RollForward>
+    <HprSourceRoot Condition="'$(HprSourceRoot)' == ''">../Assets/HPRBuildSceneMatrix/Editor</HprSourceRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="SavedUnitySceneLists.cs" />
+    <Compile Include="$(HprSourceRoot)/HprSceneMatrixCore.cs" Link="HprSceneMatrixCore.cs" />
+    <Compile Include="$(HprSourceRoot)/HprSceneBaseline.cs" Link="HprSceneBaseline.cs" />
+  </ItemGroup>
+</Project>

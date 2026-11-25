@@ -92,6 +92,7 @@ namespace HPR.BuildSceneMatrix
     {
         private List<HprSceneProfile> profiles;
         private List<HprSceneDifference> differences = new List<HprSceneDifference>();
+        private HprDeclaredListDelta declaredDelta;
         private int left, right;
         private bool differencesOnly = true, showOverview;
         private int visibleCount;
@@ -123,8 +124,12 @@ namespace HPR.BuildSceneMatrix
         {
             differences.Clear();
             status = "";
+            declaredDelta = null;
             if (Reference.Readable && profiles[right].Readable)
+            {
                 differences = HprSceneMatrix.Compare(Reference, profiles[right]);
+                declaredDelta = HprSceneMatrix.CompareDeclaredLists(Reference, profiles[right]);
+            }
         }
         private void SaveBaseline()
         {
@@ -226,10 +231,18 @@ namespace HPR.BuildSceneMatrix
             }
             DrawProfile(baseline == null ? "Reference" : "Saved reference", Reference);
             DrawProfile("Compared", profiles[right]);
-            if (baseline != null && Reference.Readable && profiles[right].Readable &&
-                Reference.Source != profiles[right].Source)
-                EditorGUILayout.HelpBox("The source of the scene list has changed (shared, inherited or overridden).",
-                    MessageType.Warning);
+            if (declaredDelta != null)
+            {
+                if (baseline != null && declaredDelta.SceneListSourceChanged)
+                    EditorGUILayout.HelpBox("The source of the scene list has changed (shared, inherited or overridden).",
+                        MessageType.Warning);
+                if (baseline != null && declaredDelta.ProfileAssetPathChanged)
+                    EditorGUILayout.HelpBox("The saved and current profile asset paths differ.", MessageType.Warning);
+                if (declaredDelta.DeclaredEntrySequenceChanged)
+                    EditorGUILayout.HelpBox("Declared scene list differs at position " +
+                        (declaredDelta.FirstDifferingEntryIndex + 1) +
+                        ". Build indices may be unchanged when only disabled entries move.", MessageType.Info);
+            }
             EditorGUILayout.Space(5);
             bool readable = Reference.Readable && profiles[right].Readable;
             if (readable)
@@ -267,8 +280,12 @@ namespace HPR.BuildSceneMatrix
                     if (row.Warning) EditorGUILayout.HelpBox(row.Issue, MessageType.Warning);
                     EditorGUILayout.EndVertical();
                 }
-                if (visibleCount == 0) EditorGUILayout.HelpBox(differences.Count == 0 ?
-                    "No scene entries to compare." : "No rows match the current filter.", MessageType.None);
+                if (visibleCount == 0)
+                    EditorGUILayout.HelpBox(differences.Count == 0 ? "No scene entries to compare." :
+                        declaredDelta != null && declaredDelta.DeclaredEntrySequenceChanged &&
+                        differences.All(d => !d.Different && !d.Warning) ?
+                            "The declared list differs, but enabled build indices and reference checks match." :
+                            "No rows match the current filter.", MessageType.None);
                 if (GUILayout.Button("Export full comparison CSV…"))
                 {
                     var path = EditorUtility.SaveFilePanel("Export comparison (new file only)", "", "build-scene-comparison", "csv");

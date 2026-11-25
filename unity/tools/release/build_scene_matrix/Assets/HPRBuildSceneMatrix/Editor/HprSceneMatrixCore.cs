@@ -31,9 +31,42 @@ namespace HPR.BuildSceneMatrix
         public bool Different, Warning;
     }
 
+    /// <summary>Structural comparison distinct from per-scene enabled build indices.</summary>
+    public sealed class HprDeclaredListDelta
+    {
+        public bool ProfileIdentifierChanged, ProfileAssetPathChanged, SceneListSourceChanged;
+        public int FirstDifferingEntryIndex = -1;
+        public bool DeclaredEntrySequenceChanged => FirstDifferingEntryIndex >= 0;
+    }
+
     public static partial class HprSceneMatrix
     {
         public const string GlobalId = "global";
+
+        public static HprDeclaredListDelta CompareDeclaredLists(HprSceneProfile a, HprSceneProfile b)
+        {
+            if (a == null || b == null || !a.Readable || !b.Readable)
+                throw new InvalidOperationException("Select two readable scene lists before comparison.");
+            var result = new HprDeclaredListDelta
+            {
+                ProfileIdentifierChanged = !string.Equals(a.Id, b.Id, StringComparison.Ordinal),
+                ProfileAssetPathChanged = !string.Equals(a.AssetPath ?? "", b.AssetPath ?? "", StringComparison.Ordinal),
+                SceneListSourceChanged = !string.Equals(a.Source ?? "", b.Source ?? "", StringComparison.Ordinal)
+            };
+            int common = Math.Min(a.Rows.Count, b.Rows.Count);
+            for (int i = 0; i < common; i++)
+            {
+                HprSceneRow x = a.Rows[i], y = b.Rows[i];
+                if (!string.Equals(x.Guid ?? "", y.Guid ?? "", StringComparison.Ordinal) ||
+                    !string.Equals(x.Path ?? "", y.Path ?? "", StringComparison.Ordinal) || x.Enabled != y.Enabled)
+                {
+                    result.FirstDifferingEntryIndex = i;
+                    return result;
+                }
+            }
+            if (a.Rows.Count != b.Rows.Count) result.FirstDifferingEntryIndex = common;
+            return result;
+        }
 
         private static string Key(HprSceneRow r) => string.IsNullOrEmpty(r.Guid) ||
             r.Guid == "00000000000000000000000000000000" ? "path:" + r.Path : "guid:" + r.Guid;
@@ -128,6 +161,15 @@ namespace HPR.BuildSceneMatrix
                         "Live compared list", "", "" }.Select(CsvCell)));
                     writer.WriteLine(string.Join(",", new[] { "Profile asset identities", a.Id, b.Id,
                         a.Id == b.Id ? "No" : "Yes", "Confirm both lists belong to the intended project" }.Select(CsvCell)));
+                    var declared = CompareDeclaredLists(a, b);
+                    writer.WriteLine(string.Join(",", new[] { "Profile asset paths", a.AssetPath, b.AssetPath,
+                        declared.ProfileAssetPathChanged ? "Yes" : "No", "" }.Select(CsvCell)));
+                    writer.WriteLine(string.Join(",", new[] { "Declared entry sequence", a.Rows.Count + " entries",
+                        b.Rows.Count + " entries", declared.DeclaredEntrySequenceChanged ? "Yes" : "No",
+                        declared.DeclaredEntrySequenceChanged ?
+                            "First differing list position: " + (declared.FirstDifferingEntryIndex + 1) :
+                            "Enabled build indices are compared separately" }.Select(CsvCell)));
+
                 }
                 foreach (var row in rows)
                     writer.WriteLine(string.Join(",", new[] { row.Path, row.A, row.B,

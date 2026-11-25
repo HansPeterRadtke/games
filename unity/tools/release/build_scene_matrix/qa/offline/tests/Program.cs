@@ -102,6 +102,39 @@ internal static class Program
         Reject(()=>HprSceneMatrix.Compare(unreadable,b),"unreadable profile cannot be compared");
     }
 
+    private static void DeclaredSequenceCases()
+    {
+        var a = Profile();
+        Add(a, "Assets/Start.unity", new string('1',32));
+        Add(a, "Assets/Disabled.unity", new string('2',32), false);
+        var b = Profile();
+        Add(b, "Assets/Disabled.unity", new string('2',32), false);
+        Add(b, "Assets/Start.unity", new string('1',32));
+        Check(HprSceneMatrix.Compare(a,b).All(d=>!d.Different && !d.Warning),
+            "old per-scene indices are unchanged by disabled scene movement");
+        var changed=HprSceneMatrix.CompareDeclaredLists(a,b);
+        Check(changed.DeclaredEntrySequenceChanged && changed.FirstDifferingEntryIndex==0,
+            "shared core detects otherwise invisible disabled-scene order difference");
+        var same=HprSceneMatrix.CompareDeclaredLists(a,a);
+        Check(!same.DeclaredEntrySequenceChanged && same.FirstDifferingEntryIndex==-1,
+            "unchanged declared list has no first difference");
+        b=Profile();
+        Add(b, "Assets/Start.unity", new string('1',32));
+        Add(b, "Assets/Disabled.unity", new string('2',32), false);
+        Add(b, "Assets/New.unity", new string('3',32), false);
+        Check(HprSceneMatrix.CompareDeclaredLists(a,b).FirstDifferingEntryIndex==2,
+            "first appended entry reported exactly");
+        b.Id="other"; b.AssetPath="Assets/Changed.asset"; b.Source="Overrides global scenes";
+        changed=HprSceneMatrix.CompareDeclaredLists(a,b);
+        Check(changed.ProfileIdentifierChanged && changed.ProfileAssetPathChanged && changed.SceneListSourceChanged,
+            "identity path and inheritance are separately reported");
+        a.HistoricalCapturedUtc=Capture;
+        HprSceneMatrix.ExportNewCsv(P("declared.csv"),a,b);
+        string csv=File.ReadAllText(P("declared.csv"));
+        Check(csv.Contains("Declared entry sequence") && csv.Contains("First differing list position: 3") &&
+            csv.Contains("Profile asset paths"),"historical CSV exposes structural differences");
+    }
+
     private static void SnapshotCases()
     {
         var a = Profile("Réal \"quoted\" – 初版", "global");
@@ -235,6 +268,7 @@ internal static class Program
         root=args[0];
         Directory.CreateDirectory(root);
         CompareCases();
+        DeclaredSequenceCases();
         SnapshotCases();
         NativeReceiptReplay(args.Length>2?args[2]:"");
         EditorSyntax(args[1]);

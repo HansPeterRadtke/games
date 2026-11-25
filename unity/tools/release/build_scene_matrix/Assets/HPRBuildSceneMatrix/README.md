@@ -25,3 +25,9 @@ Exporting a historical comparison includes its capture time and profile
 identities. Snapshot and CSV exports never overwrite existing files; they
 may contain private project paths. Inspect before sharing. This checks declared
 configuration, not what a custom build script actually included.
+
+The declared-list sequence check also identifies changes in disabled scene
+positions that leave every enabled build index unchanged. Historical exports
+include the first differing declared list position and changes in profile asset
+path. The separately distributed offline companion shares this comparison core;
+its private package is not part of the Unity asset archive.
