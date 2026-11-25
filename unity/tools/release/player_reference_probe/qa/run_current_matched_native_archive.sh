@@ -28,9 +28,11 @@ run(){ stage=$1;shift;echo "HPR_CURRENT_MATCHED_NATIVE_STAGE $version $stage";
  }
 }
 run create-independent-author -createProject "$project"
-cp -a "$source" "$project/Assets/"
+python3 "$qa/stage_original_probe_source.py" "$source" "$project/Assets"
 mkdir -p "$project/Assets/Editor"
 cp "$qa/HprProbeQaAuthor.cs" "$project/Assets/Editor/"
+HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID=$(python3 "$qa/stage_original_probe_source.py" --root-guid "$source")
+export HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID
 export HPR_PLAYER_PROBE_PACKAGE="$archive"
 run export-current-firstparty-original -projectPath "$project" -executeMethod HprProbeQaAuthor.Run
 grep -q HPR_PLAYER_REFERENCE_ORIGINAL_PACKAGE_AUTHOR_PASS "$work/export-current-firstparty-original.unity.log"

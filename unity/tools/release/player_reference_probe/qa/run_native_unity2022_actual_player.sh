@@ -15,6 +15,7 @@ unity=/data/apps/Unity/Hub/Editor/2022.3.22f1/Editor/Unity
     ! -e "$work" && ! -e "$buyer/Assets/Editor/HprProbeQa2022ActualPlayer.cs" ]] ||{
  echo 'Refusing unavailable original buyer or reused one-off QA evidence' >&2;exit 3;
 }
+python3 -B "$qa/stage_original_probe_source.py" --verify-existing "$qa/../Assets/HPRPlayerReferenceProbe" "$buyer/Assets"
 mkdir -p "$work" "$buyer/Assets/HPRPrivateQa" "$buyer/Assets/Editor"
 cp "$qa/HprProbeQaAutoExit.cs" "$buyer/Assets/HPRPrivateQa/"
 cp "$qa/HprProbeQa2022ActualPlayer.cs" "$buyer/Assets/Editor/"

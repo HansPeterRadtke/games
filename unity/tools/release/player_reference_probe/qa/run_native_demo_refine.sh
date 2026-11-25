@@ -20,13 +20,15 @@ run(){ name=$1;shift;echo "HPR_ORIGINAL_SAMPLE_LAYOUT_QA $name";
 }
 project="$work/original-first-party-revision-author"
 run create-author -createProject "$project"
-cp -r "$source" "$project/Assets/"
+python3 "$qa/stage_original_probe_source.py" "$source" "$project/Assets"
 mkdir -p "$project/Assets/Editor"
 cp "$qa/HprProbeQaRefineDemo.cs" "$project/Assets/Editor/"
 export HPR_DEMO_REFINE_ROOT="$work"
 run revise-real-first-party-scene -projectPath "$project" -executeMethod HprProbeQaRefineDemo.Run
 grep -q HPR_FIRST_PARTY_DEMO_REAL_NATIVE_LAYOUT_REFINEMENT_PASS "$work/revise-real-first-party-scene.unity.log"
 cp "$qa/HprProbeQaAuthor.cs" "$project/Assets/Editor/"
+HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID=$(python3 "$qa/stage_original_probe_source.py" --root-guid "$source")
+export HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID
 export HPR_PLAYER_PROBE_PACKAGE="$work/HPR_Player_Reference_Probe_original_unity6_demo.unitypackage"
 run export-actual-revised-sample -projectPath "$project" -executeMethod HprProbeQaAuthor.Run
 grep -q HPR_PLAYER_REFERENCE_ORIGINAL_PACKAGE_AUTHOR_PASS "$work/export-actual-revised-sample.unity.log"

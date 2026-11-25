@@ -14,6 +14,9 @@ esac
 original="$root/$caseid/$archive_name"
 out="$root/official-ast-$label"
 [[ -s "$original" && ! -e "$out" ]] || { echo 'Source missing or repeated exact validation effect' >&2;exit 3; }
+qa_dir=$(cd "$(dirname "$0")" && pwd)
+current_source="$qa_dir/../Assets/HPRPlayerReferenceProbe"
+python3 -B "$qa_dir/verify_original_demo_archive.py" "$original" "$current_source"
 mkdir -p "$out"
 project="$out/independent-ast-validation-project"
 unity=/data/apps/Unity/Hub/Editor/2022.3.22f1/Editor/Unity

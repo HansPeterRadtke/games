@@ -19,13 +19,15 @@ run(){ name=$1;shift;echo "HPR_PLAYER_REFERENCE_FIRST_PARTY_SAMPLE_STAGE $name";
 }
 project="$work/original-demo-author-project"
 run create-author -createProject "$project"
-cp -r "$original" "$project/Assets/"
+python3 "$qa/stage_original_probe_source.py" "$original" "$project/Assets"
 mkdir -p "$project/Assets/Editor"
 cp "$qa/HprProbeQaCreateDemo.cs" "$project/Assets/Editor/"
 export HPR_DEMO_AUTHOR_ROOT="$work"
 run generate-native-sample -projectPath "$project" -executeMethod HprProbeQaCreateDemo.Run
 grep -q HPR_PLAYER_REFERENCE_ORIGINAL_DEMO_AUTHOR_PASS "$work/generate-native-sample.unity.log"
 cp "$qa/HprProbeQaAuthor.cs" "$project/Assets/Editor/"
+HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID=$(python3 "$qa/stage_original_probe_source.py" --root-guid "$original")
+export HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID
 export HPR_PLAYER_PROBE_PACKAGE="$work/HPR_Player_Reference_Probe_original_unity6_demo.unitypackage"
 run export-first-party-native-package -projectPath "$project" -executeMethod HprProbeQaAuthor.Run
 grep -q HPR_PLAYER_REFERENCE_ORIGINAL_PACKAGE_AUTHOR_PASS "$work/export-first-party-native-package.unity.log"

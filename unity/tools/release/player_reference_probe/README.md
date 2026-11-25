@@ -29,3 +29,23 @@ A Player reference can disappear after the scene starts. The original opt-in com
 The original product source lives only under `Assets/HPRPlayerReferenceProbe`; all `qa/` files are private author/test tooling excluded from buyer packages. Older artifacts may not contain the latest optional manual Player capture API. `qa/run_current_matched_native_archive.sh VERSION NEW_LABEL` starts a **fresh, disposable** first-party Unity author project, exports an original package and verifies source bytes, exact metadata identity and presence of current `CaptureNow` and `manualOnly` functionality. Never treat a previous `.unitypackage` as current just because its filename looks similar.
 
 Set `HPR_DEMO_ARCHIVE_NAME` to the exact newly verified current package filename when using `qa/run_native_demo_buyer.sh AUTHOR_LABEL NEW_BUYER_LABEL`; it installs the same archive independently in both Unity 2022 and Unity 6, tests the original demo Editor behavior, and builds an actual Unity 6 Linux Player. For an independent **Unity 2022-built and executed** Linux Player, `qa/run_native_unity2022_actual_player.sh VERIFIED_BUYER_LABEL NEW_QA_LABEL` builds a private copy of the installed demonstration scene, with a test-only auto-exit component, and checks the Player's own runtime JSON against its same-version Editor baseline. It never modifies the original demo inside the buyer package. Separately run the installed official Asset Store Tools against the exact archive using the allowlisted `HPR_AST_ORIGINAL_PACKAGE_NAME` override, preserving all raw receipts. Interactive UI workflow verification is represented by `qa/HprProbeQaFileDialogs.cs` plus `qa/run_native_file_dialog_clicks_warm.sh`, which uses real Unity mouse and native OS file chooser dialogs rather than setting completed state in private reflection fields. No script here authorizes publication, paid account changes or legal acceptance.
+
+### Exact root and complete source identity gate
+
+The current first-party export scripts stage the complete product folder and
+its sibling root folder metadata file before Unity sees the source. The
+private author checks the actual imported root identity before export.
+The archive verifier requires the exact original inventory, including
+every folder and its metadata, and permits only the documented Unity 2022
+default script-importer normalization. It rejects a generated replacement
+root identity, omitted source files, extra content, unsafe archive members,
+and changed import settings. Release-facing buyer/validator runners check
+the exact source match before launching Unity. Existing imported buyer
+projects are checked without rewriting their metadata.
+
+The previously tested November 23 private archive remains useful evidence of
+runtime behavior, but its root folder identity did not match the checked-in
+source. Do not use it as the final retail archive. The preparation and
+validation correction is tested offline; a fresh native export and real
+acceptance are still required. No historical archive or buyer project was
+altered to obtain a passing result.

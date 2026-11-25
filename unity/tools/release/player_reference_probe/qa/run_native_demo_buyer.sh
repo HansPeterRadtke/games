@@ -18,6 +18,9 @@ editor6=/data/apps/Unity/Hub/Editor/6000.6.8f1/Editor/Unity
 [[ -x "$editor22" && -x "$editor6" && -s "$archive" && ! -e "$work" ]] ||{
  echo 'Original package missing or this buyer test was already performed' >&2;exit 3;
 }
+qa_dir=$(cd "$(dirname "$0")" && pwd)
+current_source="$qa_dir/../Assets/HPRPlayerReferenceProbe"
+python3 -B "$qa_dir/verify_original_demo_archive.py" "$archive" "$current_source"
 mkdir -p "$work"
 export HOME=/home/hans USER=hans LOGNAME=hans XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/1000}
 export DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS:-unix:path=/run/user/1000/bus}

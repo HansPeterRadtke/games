@@ -24,12 +24,15 @@ run(){ name=$1;shift;echo "HPR_PLAYER_REFERENCE_REAL_STAGE $name";
 author="$work/original-author-project"
 buyer="$work/independent-buyer-project"
 run create-author -createProject "$author"
-cp -r "$original" "$author/Assets/"
+python3 "$qa/stage_original_probe_source.py" "$original" "$author/Assets"
 mkdir -p "$author/Assets/Editor"
 cp "$qa/HprProbeQaAuthor.cs" "$author/Assets/Editor/"
+HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID=$(python3 "$qa/stage_original_probe_source.py" --root-guid "$original")
+export HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID
 export HPR_PLAYER_PROBE_PACKAGE="$work/HPR_Player_Reference_Probe_original.unitypackage"
 run original-package-export -projectPath "$author" -executeMethod HprProbeQaAuthor.Run
 grep -q HPR_PLAYER_REFERENCE_ORIGINAL_PACKAGE_AUTHOR_PASS "$work/original-package-export.unity.log"
+python3 -B "$qa/verify_original_demo_archive.py" "$HPR_PLAYER_PROBE_PACKAGE" "$original"
 python3 - "$HPR_PLAYER_PROBE_PACKAGE" <<'PYARCHIVE'
 import pathlib,sys,tarfile
 p=pathlib.Path(sys.argv[1]);assert p.is_file() and p.stat().st_size>300

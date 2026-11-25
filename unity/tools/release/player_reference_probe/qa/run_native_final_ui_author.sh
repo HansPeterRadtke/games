@@ -19,9 +19,11 @@ run(){ phase=$1;shift;echo "HPR_ORIGINAL_FINAL_UI_AUTHOR $phase";
 }
 project="$work/first-party-production-author"
 run create-author -createProject "$project"
-cp -r "$source" "$project/Assets/"
+python3 "$qa/stage_original_probe_source.py" "$source" "$project/Assets"
 mkdir -p "$project/Assets/Editor"
 cp "$qa/HprProbeQaAuthor.cs" "$project/Assets/Editor/"
+HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID=$(python3 "$qa/stage_original_probe_source.py" --root-guid "$source")
+export HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID
 export HPR_PLAYER_PROBE_PACKAGE="$work/HPR_Player_Reference_Probe_original_unity6_demo.unitypackage"
 run original-export -projectPath "$project" -executeMethod HprProbeQaAuthor.Run
 grep -q HPR_PLAYER_REFERENCE_ORIGINAL_PACKAGE_AUTHOR_PASS "$work/original-export.unity.log"

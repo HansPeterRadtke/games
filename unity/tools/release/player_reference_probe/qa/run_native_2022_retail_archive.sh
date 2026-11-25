@@ -13,6 +13,10 @@ unity=/data/apps/Unity/Hub/Editor/2022.3.22f1/Editor/Unity
 [[ -x "$unity" && -d "$project/Assets/HPRPlayerReferenceProbe" && -s "$qa/HprProbeQaAuthor.cs" && ! -e "$out" && ! -e "$project/Assets/Editor/HprProbeQaAuthor.cs" ]]||{
  echo 'Current customer copy is unavailable or this author effect has already happened' >&2;exit 3;
 }
+# Never rewrite an existing imported buyer's identity to make it pass.
+python3 "$qa/stage_original_probe_source.py" --verify-existing "$retail" "$project/Assets"
+HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID=$(python3 "$qa/stage_original_probe_source.py" --root-guid "$retail")
+export HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID
 mkdir -p "$out"
 cp "$qa/HprProbeQaAuthor.cs" "$project/Assets/Editor/HprProbeQaAuthor.cs"
 export HPR_PLAYER_PROBE_PACKAGE="$out/HPR_Player_Reference_Probe_Unity2022_original.unitypackage"

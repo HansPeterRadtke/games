@@ -285,25 +285,35 @@ def _make_private_original_unity_archive_test(tmp_path, extra_path=None):
         QA/'verify_original_demo_archive.py')
     validator=importlib.util.module_from_spec(spec)
     spec.loader.exec_module(validator)
-    source=tmp_path/'source'
+    source=tmp_path/'HPRPlayerReferenceProbe'
     archive=tmp_path/'original.unitypackage'
-    files=sorted(validator.REQUIRED)
-    if extra_path is not None:
-        files.append(extra_path)
+    for name in sorted(validator.REQUIRED):
+        target=source/name
+        target.parent.mkdir(parents=True,exist_ok=True)
+        target.write_bytes(b'original first party test data\n'+name.encode())
+    entries=[source]+sorted(source.rglob('*'))
     with tarfile.open(archive,'w:gz') as tar:
-        for i,name in enumerate(files,1):
-            id=f'{i:032x}'
-            path='Assets/HPRPlayerReferenceProbe/'+name
-            data=b'original first party test data\n'+name.encode()
-            target=source/name
-            target.parent.mkdir(parents=True,exist_ok=True)
-            target.write_bytes(data)
-            metadata=f'fileFormatVersion: 2\nguid: {id}\n'.encode()
-            (target.parent/(target.name+'.meta')).write_bytes(metadata)
-            for section,content in (('pathname',path.encode()),('asset',data),('asset.meta',metadata)):
-                info=tarfile.TarInfo(id+'/'+section)
-                info.size=len(content)
-                tar.addfile(info,io.BytesIO(content))
+        def add(name,content):
+            info=tarfile.TarInfo(name)
+            info.size=len(content)
+            tar.addfile(info,io.BytesIO(content))
+        for i,target in enumerate(entries,1):
+            guid=f'{i:032x}'
+            rel=target.relative_to(source).as_posix()
+            path=validator.ROOT if rel=='.' else validator.ROOT+'/'+rel
+            metadata=f'fileFormatVersion: 2\nguid: {guid}\n'.encode()
+            if target.is_dir():
+                metadata+=b'folderAsset: yes\nDefaultImporter:\n  externalObjects: {}\n'
+            target.with_name(target.name+'.meta').write_bytes(metadata)
+            add(guid+'/pathname',path.encode())
+            if target.is_file():
+                add(guid+'/asset',target.read_bytes())
+            add(guid+'/asset.meta',metadata)
+        if extra_path is not None:
+            guid='f'*32
+            add(guid+'/pathname',(validator.ROOT+'/'+extra_path).encode())
+            add(guid+'/asset',b'private or unsafe unexpected entry')
+            add(guid+'/asset.meta',f'fileFormatVersion: 2\nguid: {guid}\n'.encode())
     return archive,source,validator
 
 
@@ -311,7 +321,9 @@ def test_source_parity_archive_validator_checks_real_customer_file_meta_bytes(tm
     archive,source,validator=_make_private_original_unity_archive_test(tmp_path)
     report=validator.verify(archive,source)
     assert report['status']=='ORIGINAL_UNITY_CUSTOMER_CONTENT_MATCHES_SOURCE_WITH_EXPLICIT_META_NORMALIZATION'
-    assert report['consumer_exported_paths']==len(validator.REQUIRED)
+    assert report['consumer_exported_paths']==len(validator.source_inventory(source))
+    assert report['all_folder_and_file_guids_verified']
+    assert report['complete_original_inventory_verified']
     chosen=source/'README.md'
     chosen.write_text('changed source: invalid archive comparison')
     with pytest.raises(ValueError,match='does not match original source'):
@@ -475,7 +487,8 @@ def test_new_current_original_archive_author_is_explicitly_exact_source_and_crea
     for required in (
         '2022.3.22f1|6000.6.8f1',
         '! -e "$work"',
-        'cp -a "$source" "$project/Assets/"',
+        'stage_original_probe_source.py" "$source" "$project/Assets"',
+        'HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID',
         'HprProbeQaAuthor.Run',
         'verify_original_demo_archive.py',
         "b'CaptureNow()'",
@@ -548,3 +561,77 @@ def test_independent_real_unity2022_player_receipt_verifier_rejects_wrong_identi
                    '\nHPR_PLAYER_PROBE_PRIVATE_RUNTIME_AUTOEXIT_PASS\n')
     with pytest.raises(ValueError,match='Scene-based reference pin'):
         module.verify(log,editor,tmp_path/'second.json')
+
+
+def test_strict_archive_rejects_changed_root_identity(tmp_path):
+    archive,source,validator=_make_private_original_unity_archive_test(tmp_path)
+    meta=source.with_name(source.name+'.meta')
+    meta.write_bytes(meta.read_bytes().replace(b'00000000000000000000000000000001',b'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'))
+    with pytest.raises(ValueError,match='GUID mismatch'):
+        validator.verify(archive,source)
+
+
+def test_strict_archive_rejects_nested_folder_import_settings_change(tmp_path):
+    archive,source,validator=_make_private_original_unity_archive_test(tmp_path)
+    meta=source/'Demo.meta'
+    meta.write_bytes(meta.read_bytes()+b'  assetBundleName: changed\n')
+    with pytest.raises(ValueError,match='import settings differ'):
+        validator.verify(archive,source)
+
+
+def test_strict_archive_rejects_omitted_original_extra_asset(tmp_path):
+    archive,source,validator=_make_private_original_unity_archive_test(tmp_path)
+    original=source/'Extra.txt'
+    original.write_text('not shipped')
+    original.with_name(original.name+'.meta').write_text('fileFormatVersion: 2\nguid: eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\n')
+    with pytest.raises(ValueError,match='Incomplete or unexpected archive inventory'):
+        validator.verify(archive,source)
+
+
+def test_stage_preserves_root_meta_and_refuses_overwrite(tmp_path):
+    import subprocess,sys
+    _,source,validator=_make_private_original_unity_archive_test(tmp_path)
+    assets=tmp_path/'fresh-assets';assets.mkdir()
+    script=QA/'stage_original_probe_source.py'
+    cmd=[sys.executable,str(script),str(source),str(assets)]
+    receipt=json.loads(subprocess.check_output(cmd,text=True))
+    assert receipt['root_guid']==validator.source_inventory(source)[validator.ROOT][2]
+    assert receipt['verified_paths']==len(validator.source_inventory(source))
+    assert (assets/(source.name+'.meta')).read_bytes()==source.with_name(source.name+'.meta').read_bytes()
+    actual=assets/source.name/'README.md'
+    actual.write_text('preserve existing buyer')
+    repeated=subprocess.run(cmd,capture_output=True,text=True)
+    assert repeated.returncode!=0 and 'Refusing to replace existing' in repeated.stderr
+    assert actual.read_text()=='preserve existing buyer'
+    verify=subprocess.run([sys.executable,str(script),'--verify-existing',str(source),str(assets)],
+                          capture_output=True,text=True)
+    assert verify.returncode!=0 and 'payload mismatch' in verify.stderr
+
+
+def test_native_author_checks_root_and_all_fresh_stages_preserve_it():
+    for name in ('run_current_matched_native_archive.sh','run_native_final_ui_author.sh',
+                 'run_native_demo_seed.sh','run_native_demo_refine.sh',
+                 'run_native_demo_refine_labels_v2.sh','run_native_built_player.sh'):
+        source=(QA/name).read_text()
+        assert 'stage_original_probe_source.py' in source
+        assert 'HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID' in source
+    author=(QA/'HprProbeQaAuthor.cs').read_text()
+    assert 'AssetDatabase.AssetPathToGUID(root)' in author
+    assert author.index('HPR_PLAYER_REFERENCE_AUTHOR_ROOT_GUID_MISMATCH')<author.index('AssetDatabase.ExportPackage')
+    old=(QA/'run_native_2022_retail_archive.sh').read_text()
+    assert '--verify-existing' in old
+    assert old.index('--verify-existing')<old.index('timeout 420')
+
+
+def test_release_consumers_require_exact_archive_or_existing_tree_before_mutation():
+    for name,create in (
+        ('run_native_demo_buyer.sh','mkdir -p "$work"'),
+        ('run_native_official_ast.sh','mkdir -p "$out"'),
+        ('run_existing_original_buyer.sh','mkdir -p "$work"'),
+    ):
+        source=(QA/name).read_text()
+        assert source.index('verify_original_demo_archive.py')<source.index(create)
+    source=(QA/'run_native_unity2022_actual_player.sh').read_text()
+    assert source.index('--verify-existing')<source.index('mkdir -p "$work"')
+    source=(QA/'run_native_built_player.sh').read_text()
+    assert source.index('verify_original_demo_archive.py')<source.index('run create-buyer')

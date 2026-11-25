@@ -16,6 +16,10 @@ public static class HprProbeQaAuthor
             !output.StartsWith(safe,StringComparison.Ordinal) || File.Exists(output) ||
             !AssetDatabase.IsValidFolder(root))
             throw new InvalidOperationException("HPR_PLAYER_REFERENCE_AUTHOR_MISSING_OR_REPLAYED");
+        var expectedRootGuid=Environment.GetEnvironmentVariable("HPR_PLAYER_PROBE_EXPECTED_ROOT_GUID")??"";
+        if(expectedRootGuid.Length!=32 ||
+            !string.Equals(AssetDatabase.AssetPathToGUID(root),expectedRootGuid,StringComparison.Ordinal))
+            throw new InvalidOperationException("HPR_PLAYER_REFERENCE_AUTHOR_ROOT_GUID_MISMATCH");
         AssetDatabase.ExportPackage(new[]{root},output,ExportPackageOptions.Recurse);
         if(!File.Exists(output) || new FileInfo(output).Length<100)
             throw new InvalidOperationException("HPR_PLAYER_REFERENCE_AUTHOR_ARCHIVE_MISSING");
