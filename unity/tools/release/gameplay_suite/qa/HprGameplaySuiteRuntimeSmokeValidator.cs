@@ -32,6 +32,7 @@ public static class HprGameplaySuiteRuntimeSmokeValidator
             // The preceding scene validation opens the imported showcase. Its
             // colliders must not interfere with this independent physics rig.
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            CheckResponsiveLayout();
             player = new GameObject("QA-player");
             player.AddComponent<EventManager>();
             player.AddComponent<InventoryComponent>();
@@ -239,7 +240,7 @@ public static class HprGameplaySuiteRuntimeSmokeValidator
             if (string.IsNullOrWhiteSpace(output))
                 throw new InvalidOperationException("No QA receipt path");
             File.WriteAllText(output,
-                "initial_and_service_registry=PASS\nworld_registry_lookup=PASS\n" +
+                "responsive_arena_and_hud_layout=PASS\ninitial_and_service_registry=PASS\nworld_registry_lookup=PASS\n" +
                 "inventory_keyed_door_and_pickups=PASS\nenemy_attack_eventbus_stats=PASS\n" +
                 "heal_ability_stamina_cooldown=PASS\npulse_area_damage_eventbus=PASS\n" +
                 "weapon_fire_cooldown_and_loot=PASS\nfull_memory_restore_all_modules=PASS\n" +
@@ -258,6 +259,32 @@ public static class HprGameplaySuiteRuntimeSmokeValidator
             foreach (UnityEngine.Object obj in new UnityEngine.Object[] { medkit, key, rifle,
                 enemyData, healing, pulse, healingEffect, pulseEffect, metadata, catalog })
                 if (obj != null) UnityEngine.Object.DestroyImmediate(obj);
+        }
+    }
+
+    private static void CheckResponsiveLayout()
+    {
+        Type type = typeof(HprGameplaySuitePlayground);
+        var hudMethod = type.GetMethod("CalculateHudRect", BindingFlags.NonPublic | BindingFlags.Static);
+        var cameraMethod = type.GetMethod("CalculateArenaViewport", BindingFlags.NonPublic | BindingFlags.Static);
+        Require(hudMethod != null && cameraMethod != null, "responsive layout methods shipped");
+        foreach (Vector2Int screen in new[] { new Vector2Int(1920,1080), new Vector2Int(1600,1000),
+            new Vector2Int(1024,768), new Vector2Int(800,600), new Vector2Int(720,1280), new Vector2Int(320,240) })
+        {
+            object[] args = { screen.x, screen.y };
+            Rect hud = (Rect)hudMethod.Invoke(null,args);
+            Rect camera = (Rect)cameraMethod.Invoke(null,args);
+            Rect arena = new Rect(camera.x * screen.x, (1f-camera.yMax)*screen.y,
+                camera.width*screen.x, camera.height*screen.y);
+            bool side = screen.x >= 850 && screen.x >= screen.y * 1.25f;
+            Require(hud.width > 0 && hud.height > 0 && arena.width > 0 && arena.height > 0,
+                "both regions visible " + screen);
+            Require(hud.xMin >= 0 && hud.yMin >= 0 && hud.xMax <= screen.x && hud.yMax <= screen.y,
+                "panel within window " + screen);
+            Require(side ? Mathf.Abs(arena.xMax-hud.xMin)<.01f : Mathf.Abs(arena.yMax-hud.yMin)<.01f,
+                "regions meet without overlap " + screen);
+            Require(Mathf.Abs(arena.width*arena.height+hud.width*hud.height-screen.x*screen.y)<2f,
+                "regions cover actual screen " + screen);
         }
     }
 

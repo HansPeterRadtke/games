@@ -89,7 +89,7 @@ as accepted; prior validation used Unity 6000.4 Built-in.
 
 The arena uses Unity built-in primitives and standard materials, collision-aware
 top-down WASD/arrow movement with a Unity CharacterController, cursor-aimed
-hitscan weapons, a deterministic chase/attack encounter, and runtime IMGUI. It deliberately does not
+hitscan weapons, a deterministic chase/attack encounter, and responsive, scrollable runtime IMGUI in a separate opaque region. The demo camera reserves space for the controls and adapts to the remaining arena viewport. It deliberately does not
 provide a full third-person character controller, authored animation, NavMesh routing,
 character animations, complex inventory grids or multiplayer synchronization.
 The training target fire button aims at the actual target collider,

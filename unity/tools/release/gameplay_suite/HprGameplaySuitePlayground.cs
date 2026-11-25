@@ -31,6 +31,12 @@ namespace HPR.GameplaySuite
 
         private readonly Queue<string> eventHistory = new Queue<string>();
         private Vector2 hudScrollPosition;
+        private GUIStyle hudLabel, hudHeading, hudObjective, hudButton;
+        private GUISkin hudSkin;
+        private bool cameraLayoutApplied, originalCameraCustomAspect;
+        private Rect originalCameraRect;
+        private float originalCameraSize, originalCameraAspect;
+        private int layoutWidth, layoutHeight;
         private EventManager eventManager;
         private InventoryComponent inventory;
         private ActorStatsComponent playerStats;
@@ -157,10 +163,17 @@ namespace HPR.GameplaySuite
             });
             Emit("Ready: E pick up a key, unlock the door, F fire, Q heal, Space pulse, K checkpoint.");
             RefreshVisual();
+            ApplyArenaLayout();
+        }
+
+        private void OnDisable()
+        {
+            RestoreCameraLayout();
         }
 
         private void OnDestroy()
         {
+            RestoreCameraLayout();
             statusSubscription?.Dispose();
             damageSubscription?.Dispose();
             services?.Dispose();
@@ -169,6 +182,7 @@ namespace HPR.GameplaySuite
         private void Update()
         {
             if (weapon == null || enemy == null) return;
+            ApplyArenaLayout();
             float dt = Mathf.Max(0f, Time.deltaTime);
             weapon.Tick(dt);
             enemy.Tick(dt);
@@ -188,7 +202,7 @@ namespace HPR.GameplaySuite
                         initialPlayerPosition.y, Mathf.Clamp(pos.z, -5f, 5f));
                 }
                 // Mouse cursor defines a real top-down aim point; no target auto-hit.
-                if (TryGetPointerAim(out Vector3 pointerAim))
+                if (TryGetPointerAim(out Vector3 pointerAim, out _))
                 {
                     Vector3 forward = pointerAim - playerRoot.transform.position;
                     forward.y = 0f;
@@ -199,8 +213,9 @@ namespace HPR.GameplaySuite
             AdvanceEnemy(dt);
             if (inputSource.WasPressed(fireKey))
             {
-                if (TryGetPointerAim(out Vector3 aim)) FireAt(aim);
-                else Fire();
+                if (TryGetPointerAim(out Vector3 aim, out bool pointerAvailable)) FireAt(aim);
+                else if (!pointerAvailable) Fire();
+                else Fail("Aim inside the arena before firing");
             }
             if (inputSource.WasPressed(reloadKey)) Reload();
             if (inputSource.WasPressed(interactKey)) Interact();
@@ -212,10 +227,12 @@ namespace HPR.GameplaySuite
             RefreshVisual();
         }
 
-        private bool TryGetPointerAim(out Vector3 aim)
+        private bool TryGetPointerAim(out Vector3 aim, out bool pointerAvailable)
         {
             aim = Vector3.zero;
-            if (arenaCamera == null || !inputSource.TryGetPointer(out Vector2 pointer) || !IsFinite(pointer))
+            pointerAvailable = inputSource.TryGetPointer(out Vector2 pointer);
+            if (arenaCamera == null || !pointerAvailable || !IsFinite(pointer) ||
+                !arenaCamera.pixelRect.Contains(pointer))
                 return false;
             Plane plane = new Plane(Vector3.up, playerRoot.transform.position);
             Ray ray = arenaCamera.ScreenPointToRay(pointer);
@@ -637,60 +654,151 @@ namespace HPR.GameplaySuite
             renderer.SetPropertyBlock(enemyColorBlock);
         }
 
+        // IMGUI coordinates start at the top left; camera viewport coordinates
+        // start at the bottom left. These two regions must never overlap.
+        internal static Rect CalculateHudRect(int width, int height)
+        {
+            width = Mathf.Max(1, width);
+            height = Mathf.Max(1, height);
+            if (width >= 850 && width >= height * 1.25f)
+            {
+                float panel = Mathf.Clamp(Mathf.Round(width * .30f), 300f, 520f);
+                return new Rect(width - panel, 0f, panel, height);
+            }
+            float bottom = Mathf.Round(height * .48f);
+            return new Rect(0f, height - bottom, width, bottom);
+        }
+
+        internal static Rect CalculateArenaViewport(int width, int height)
+        {
+            width = Mathf.Max(1, width);
+            height = Mathf.Max(1, height);
+            Rect hud = CalculateHudRect(width, height);
+            return hud.x > 0f ? new Rect(0f, 0f, hud.x / width, 1f) :
+                new Rect(0f, 1f - hud.y / height, 1f, hud.y / height);
+        }
+
+        private void ApplyArenaLayout()
+        {
+            if (arenaCamera == null || Screen.width < 2 || Screen.height < 2) return;
+            if (cameraLayoutApplied && layoutWidth == Screen.width && layoutHeight == Screen.height) return;
+            if (!cameraLayoutApplied)
+            {
+                originalCameraRect = arenaCamera.rect;
+                originalCameraSize = arenaCamera.orthographicSize;
+                originalCameraAspect = arenaCamera.aspect;
+                originalCameraCustomAspect = !Mathf.Approximately(originalCameraAspect,
+                    (float)arenaCamera.pixelWidth / Mathf.Max(1, arenaCamera.pixelHeight));
+                cameraLayoutApplied = true;
+            }
+            layoutWidth = Screen.width;
+            layoutHeight = Screen.height;
+            Rect viewport = CalculateArenaViewport(layoutWidth, layoutHeight);
+            arenaCamera.rect = viewport;
+            float aspect = layoutWidth * viewport.width / (layoutHeight * viewport.height);
+            arenaCamera.aspect = aspect;
+            // Keep the authored landscape composition visible, including the
+            // arena labels and outer walls, rather than cropping into a sidebar.
+            if (arenaCamera.orthographic)
+                arenaCamera.orthographicSize = originalCameraSize * Mathf.Max(1f, 1.6f / aspect);
+        }
+
+        private void RestoreCameraLayout()
+        {
+            if (!cameraLayoutApplied) return;
+            if (arenaCamera != null)
+            {
+                arenaCamera.rect = originalCameraRect;
+                arenaCamera.orthographicSize = originalCameraSize;
+                arenaCamera.ResetAspect();
+                // Preserve an explicitly different authored camera aspect.
+                if (originalCameraCustomAspect)
+                    arenaCamera.aspect = originalCameraAspect;
+            }
+            cameraLayoutApplied = false;
+        }
+
+        private void EnsureHudStyles()
+        {
+            if (hudSkin == GUI.skin && hudLabel != null) return;
+            hudSkin = GUI.skin;
+            hudLabel = new GUIStyle(GUI.skin.label) { fontSize = 14, wordWrap = true };
+            hudLabel.normal.textColor = new Color(.88f, .91f, .96f);
+            hudHeading = new GUIStyle(hudLabel) { fontSize = 19, fontStyle = FontStyle.Bold };
+            hudHeading.normal.textColor = Color.white;
+            hudObjective = new GUIStyle(hudLabel) { fontStyle = FontStyle.Bold };
+            hudObjective.normal.textColor = new Color(.45f, .90f, .94f);
+            hudButton = new GUIStyle(GUI.skin.button) { fontSize = 14, wordWrap = true };
+        }
+
+        private bool HudButton(string label) => GUILayout.Button(label, hudButton, GUILayout.MinHeight(30f));
+        private void HudLabel(string label) => GUILayout.Label(label, hudLabel);
+
         private void OnGUI()
         {
             if (weapon == null || enemy == null || playerStats == null) return;
-            float panelWidth = Mathf.Max(140f, Mathf.Min(550f, Screen.width - 24f));
-            float panelHeight = Mathf.Max(120f, Mathf.Min(485f, Screen.height - 24f));
-            GUILayout.BeginArea(new Rect(12f, 12f, panelWidth, panelHeight), GUI.skin.box);
+            Rect hud = CalculateHudRect(Screen.width, Screen.height);
+            if (hud.width < 24f || hud.height < 24f) return;
+            EnsureHudStyles();
+            Color previousColor = GUI.color;
+            GUI.color = new Color(.055f, .082f, .12f, 1f);
+            GUI.DrawTexture(hud, Texture2D.whiteTexture, ScaleMode.StretchToFill, false);
+            GUI.color = Color.white;
+            GUILayout.BeginArea(new Rect(hud.x + 12f, hud.y + 10f, hud.width - 24f, hud.height - 20f));
             hudScrollPosition = GUILayout.BeginScrollView(hudScrollPosition);
-            GUILayout.Label("HPR GAMEPLAY SYSTEMS SUITE   |   INTEGRATED TRAINING ARENA");
-            GUILayout.Label("OBJECTIVE  " + Objective);
-            GUILayout.Label("PLAYER " + PlayerHealth.ToString("0") + "/" + playerStats.MaxHealth.ToString("0") +
-                " HP    STAMINA " + PlayerStamina.ToString("0") +
-                "    ENEMY " + EnemyHealth.ToString("0") + "/" + enemyData.MaxHealth.ToString("0") + " HP");
-            GUILayout.Label("RIFLE " + MagazineAmmo + "/" + weapon.MagazineSize +
-                "    RESERVE " + ReserveAmmo + "    MEDKITS " + LootCount + "    KEYS " + KeyCount +
-                "    DOOR " + (DoorIsOpen ? "OPEN" : "LOCKED"));
-            GUILayout.Label("Movement " + moveForwardKey + "/" + moveLeftKey + "/" +
-                moveBackwardKey + "/" + moveRightKey + " or arrows | Aim with mouse, fire " + fireKey);
-            GUILayout.Label("Reload " + reloadKey + " | Interact " + interactKey +
-                " | Heal " + healAbilityKey + " | Pulse " + pulseAbilityKey +
-                " | Save " + memorySaveKey + " | Restore " + memoryLoadKey);
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Training target [button]")) Fire();
-            if (GUILayout.Button("Reload [" + reloadKey + "]")) Reload();
-            if (GUILayout.Button("Enemy attacks")) EnemyAttack();
-            if (GUILayout.Button("Use medkit [" + useMedkitKey + "]")) Heal();
-            GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Interact [" + interactKey + "]")) Interact();
-            if (GUILayout.Button("Heal ability [" + healAbilityKey + "]")) UseHealAbility();
-            if (GUILayout.Button("Damage pulse [" + pulseAbilityKey + "]")) UsePulseAbility();
-            GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("ENEMY CHASE/ATTACK: " + (AutomaticEnemy ? "LIVE" : "PAUSED"));
-            if (GUILayout.Button(AutomaticEnemy ? "Pause" : "Resume")) SetAutomaticEnemy(!AutomaticEnemy);
-            GUILayout.EndHorizontal();
-            GUILayout.Label("ABILITIES: " + abilities.BuildHudSummary(healAbilityKey.ToString(), pulseAbilityKey.ToString()));
+            GUILayout.Label("HPR Gameplay Systems Suite", hudHeading);
+            HudLabel("Integrated training arena");
+            GUILayout.Space(8f);
+            GUILayout.Label(Objective, hudObjective);
+            HudLabel("PLAYER " + PlayerHealth.ToString("0") + "/" + playerStats.MaxHealth.ToString("0") +
+                " HP   |   STAMINA " + PlayerStamina.ToString("0") +
+                "   |   TARGET " + EnemyHealth.ToString("0") + "/" + enemyData.MaxHealth.ToString("0") + " HP");
+            HudLabel("RIFLE " + MagazineAmmo + "/" + weapon.MagazineSize +
+                "   |   RESERVE " + ReserveAmmo + "   |   MEDKITS " + LootCount + "   |   KEYS " + KeyCount +
+                "   |   DOOR " + (DoorIsOpen ? "OPEN" : "LOCKED"));
+            HudLabel("Move " + moveForwardKey + "/" + moveLeftKey + "/" + moveBackwardKey + "/" + moveRightKey +
+                " or arrows. Aim inside the arena and press " + fireKey + ".");
+            GUILayout.Space(6f);
+            bool columns = hud.width >= 290f;
+            if (columns) GUILayout.BeginHorizontal();
+            if (HudButton("Fire at target")) Fire();
+            if (HudButton("Reload [" + reloadKey + "]")) Reload();
+            if (columns) GUILayout.EndHorizontal();
+            if (columns) GUILayout.BeginHorizontal();
+            if (HudButton("Enemy attacks")) EnemyAttack();
+            if (HudButton("Use medkit [" + useMedkitKey + "]")) Heal();
+            if (columns) GUILayout.EndHorizontal();
+            if (columns) GUILayout.BeginHorizontal();
+            if (HudButton("Interact [" + interactKey + "]")) Interact();
+            if (HudButton("Heal ability [" + healAbilityKey + "]")) UseHealAbility();
+            if (columns) GUILayout.EndHorizontal();
+            if (columns) GUILayout.BeginHorizontal();
+            if (HudButton("Damage pulse [" + pulseAbilityKey + "]")) UsePulseAbility();
+            if (HudButton(AutomaticEnemy ? "Pause enemy" : "Resume enemy")) SetAutomaticEnemy(!AutomaticEnemy);
+            if (columns) GUILayout.EndHorizontal();
+            HudLabel("ENEMY: " + (AutomaticEnemy ? "LIVE" : "PAUSED"));
+            HudLabel("ABILITIES: " + abilities.BuildHudSummary(healAbilityKey.ToString(), pulseAbilityKey.ToString()));
             IInteractable target = FindNearbyInteractable();
-            GUILayout.Label("NEARBY: " + (target != null ? target.GetPrompt(actor) : "move to the cyan or yellow pickups / door"));
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Memory checkpoint [" + memorySaveKey + "]")) SaveCheckpoint();
-            if (GUILayout.Button("Restore memory [" + memoryLoadKey + "]")) RestoreCheckpoint();
-            if (GUILayout.Button("Reset arena")) ResetEncounter();
-            GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Save disk slot")) SaveToDisk();
-            if (GUILayout.Button("Load disk slot")) LoadFromDisk();
-            GUILayout.EndHorizontal();
-            GUILayout.Label("COMPOSITION ROOT: " + (ServicesAvailable ? "registered" : "missing") +
-                "    WORLD REGISTRY: " + (WorldCatalogAvailable ? "lookups live" : "unavailable"));
-            GUILayout.Label("LATEST: " + status);
-            foreach (string line in eventHistory) GUILayout.Label("  " + line);
-            GUILayout.Label("No network access, telemetry, external 3D assets or runtime AI.");
+            HudLabel("NEARBY: " + (target != null ? target.GetPrompt(actor) : "move to the cyan or yellow pickups / door"));
+            GUILayout.Space(6f);
+            if (columns) GUILayout.BeginHorizontal();
+            if (HudButton("Memory save [" + memorySaveKey + "]")) SaveCheckpoint();
+            if (HudButton("Memory load [" + memoryLoadKey + "]")) RestoreCheckpoint();
+            if (columns) GUILayout.EndHorizontal();
+            if (columns) GUILayout.BeginHorizontal();
+            if (HudButton("Save disk slot")) SaveToDisk();
+            if (HudButton("Load disk slot")) LoadFromDisk();
+            if (columns) GUILayout.EndHorizontal();
+            if (HudButton("Reset arena")) ResetEncounter();
+            GUILayout.Space(6f);
+            HudLabel("COMPOSITION: " + (ServicesAvailable ? "registered" : "missing") +
+                "   |   WORLD: " + (WorldCatalogAvailable ? "lookups live" : "unavailable"));
+            GUILayout.Label("LATEST: " + status, hudObjective);
+            foreach (string line in eventHistory) HudLabel("  " + line);
+            HudLabel("No network access, telemetry, external 3D assets or runtime AI.");
             GUILayout.EndScrollView();
             GUILayout.EndArea();
+            GUI.color = previousColor;
         }
 
         private sealed class SuiteEvent { public string Text; }

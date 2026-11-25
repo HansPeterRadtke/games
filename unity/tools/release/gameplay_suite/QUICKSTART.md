@@ -34,7 +34,7 @@ door state, and collected pickups return to their saved values. The buttons
 **Save disk slot** and **Load disk slot** explicitly serialize that same
 state to JSON and restore it, including after stopping and restarting Play.
 
-The on-screen HUD shows the composed services and the world registry lookup.
+The on-screen controls occupy a separate opaque panel to the right of the arena in wide windows, or below it in narrow windows. Scroll the panel to see all actions and recent events. The camera framing adapts to the remaining arena region; point inside that region for cursor-directed firing. The on-screen HUD shows the composed services and the world registry lookup.
 Explore `Integration/HprGameplaySuitePlayground.cs` to see one complete
 integration across the ten runtime modules.
 
