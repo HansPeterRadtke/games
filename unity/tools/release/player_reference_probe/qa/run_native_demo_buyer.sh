@@ -55,6 +55,7 @@ for version in 2022.3.22f1 6000.6.8f1;do
  buyer="$work/${version//./-}-independent-buyer"
  run "$version" create -createProject "$buyer"
  run "$version" import-real-original-package -projectPath "$buyer" -importPackage "$archive"
+ python3 -B "$qa/stage_original_probe_source.py" --verify-existing "$current_source" "$buyer/Assets" > "$work/${version//./-}-imported-source-identity.json"
  mkdir -p "$buyer/Assets/Editor" "$work/${version//./-}-qa"
  cp "$qa/HprProbeQaDemoBuyer.cs" "$buyer/Assets/Editor/"
  export HPR_DEMO_BUYER_ROOT="$work/${version//./-}-qa"
@@ -64,6 +65,7 @@ for version in 2022.3.22f1 6000.6.8f1;do
  fi
  run "$version" real-native-demo-acceptance -projectPath "$buyer" -executeMethod HprProbeQaDemoBuyer.Run
  grep -q 'HPR_PLAYER_REFERENCE_ORIGINAL_DEMO_BUYER_NATIVE_PASS' "$work/${version//./-}-real-native-demo-acceptance.unity.log"
+ python3 -B "$qa/stage_original_probe_source.py" --verify-existing "$current_source" "$buyer/Assets" > "$work/${version//./-}-post-qa-source-identity.json"
  if [[ "$version" == 6000.6.8f1 ]];then
   grep -q 'HPR_PLAYER_REFERENCE_ORIGINAL_DEMO_ACTUAL_LINUX_PLAYER_BUILD_PASS' "$work/${version//./-}-real-native-demo-acceptance.unity.log"
   [[ -s "$HPR_DEMO_BUYER_ROOT/OriginalDemoLinux64.x86_64" ]]||exit 6

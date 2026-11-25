@@ -47,6 +47,7 @@ print('HPR_PLAYER_REFERENCE_ORIGINAL_SOURCE_ARCHIVE_PASS',len(paths),'first_part
 PYARCHIVE
 run create-buyer -createProject "$buyer"
 run buyer-original-package-import -projectPath "$buyer" -importPackage "$HPR_PLAYER_PROBE_PACKAGE"
+python3 -B "$qa/stage_original_probe_source.py" --verify-existing "$original" "$buyer/Assets" > "$work/imported-source-identity.json"
 mkdir -p "$buyer/Assets/HPRPrivateQa" "$buyer/Assets/Editor"
 cp "$qa/HprProbeQaItem.cs" "$qa/HprProbeQaAutoExit.cs" "$qa/HprProbeQaPlayerOnlyClear.cs" \
  "$qa/HprProbeQaManualTrigger.cs" "$buyer/Assets/HPRPrivateQa/"
@@ -73,6 +74,7 @@ python3 "$qa/verify_real_player_receipt.py" \
 cp "$qa/HprProbeQaCompare.cs" "$buyer/Assets/Editor/"
 run genuine-Csharp-compare -projectPath "$buyer" -executeMethod HprProbeQaCompare.Run
 grep -q HPR_PLAYER_REFERENCE_REAL_EDITOR_VS_BUILT_PLAYER_NATIVE_PASS "$work/genuine-Csharp-compare.unity.log"
+python3 -B "$qa/stage_original_probe_source.py" --verify-existing "$original" "$buyer/Assets" > "$work/post-qa-source-identity.json"
 [[ -s "$work/actual-editor-versus-player-comparison.json" ]] || exit 8
 python3 - "$work" <<'PYCOMPLETE'
 from pathlib import Path

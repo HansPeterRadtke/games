@@ -635,3 +635,22 @@ def test_release_consumers_require_exact_archive_or_existing_tree_before_mutatio
     assert source.index('--verify-existing')<source.index('mkdir -p "$work"')
     source=(QA/'run_native_built_player.sh').read_text()
     assert source.index('verify_original_demo_archive.py')<source.index('run create-buyer')
+
+
+def test_fresh_native_import_identity_gates_surround_buyer_qa():
+    for name,import_step,qa_step,after_receipt in (
+        ('run_native_demo_buyer.sh','run "$version" import-real-original-package',
+         'run "$version" real-native-demo-acceptance','post-qa-source-identity.json'),
+        ('run_native_official_ast.sh','run buyer-import-original','run official-validation',
+         'post-validator-source-identity.json'),
+        ('run_native_built_player.sh','run buyer-original-package-import',
+         'run original-editor-and-actual-player-build','post-qa-source-identity.json'),
+        ('run_existing_original_buyer.sh','run original-product-package-import',
+         'run editor-baseline-and-actual-Linux64-build','post-qa-source-identity.json'),
+    ):
+        source=(QA/name).read_text()
+        imported=source.index(import_step)
+        qa=source.index(qa_step)
+        assert imported < source.index('imported-source-identity.json',imported) < qa
+        assert qa < source.index(after_receipt,qa)
+        assert source.count('--verify-existing')>=2

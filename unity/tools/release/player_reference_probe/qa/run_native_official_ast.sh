@@ -37,10 +37,12 @@ from pathlib import Path
 p=Path(sys.argv[1]);d=json.loads(p.read_text());d.setdefault('dependencies',{})['com.unity.asset-store-tools']='file:'+sys.argv[2];p.write_text(json.dumps(d,indent=2)+'\n')
 PY
 run buyer-import-original -projectPath "$project" -importPackage "$original"
+python3 -B "$qa_dir/stage_original_probe_source.py" --verify-existing "$current_source" "$project/Assets" > "$out/imported-source-identity.json"
 mkdir -p "$project/Assets/Editor"
 cp -- "$runner" "$project/Assets/Editor/HprAssetStoreToolsValidatorRunner.cs"
 export HPR_AST_RESULTS="$out/official-results.txt"
 export HPR_AST_PATHS='Assets/HPRPlayerReferenceProbe'
 run official-validation -projectPath "$project" -executeMethod HprAssetStoreToolsValidatorRunner.ValidateFromEnvironment
 [[ -s "$HPR_AST_RESULTS" ]] || exit 6
+python3 -B "$qa_dir/stage_original_probe_source.py" --verify-existing "$current_source" "$project/Assets" > "$out/post-validator-source-identity.json"
 cat "$HPR_AST_RESULTS"

@@ -27,6 +27,7 @@ run(){ name=$1;shift;echo "HPR_PLAYER_REFERENCE_ACTUAL_BUYER_STAGE $name";
 buyer="$work/independent-buyer-project"
 run create-buyer -createProject "$buyer"
 run original-product-package-import -projectPath "$buyer" -importPackage "$archive"
+python3 -B "$qa/stage_original_probe_source.py" --verify-existing "$current_source" "$buyer/Assets" > "$work/imported-source-identity.json"
 mkdir -p "$buyer/Assets/HPRPrivateQa" "$buyer/Assets/Editor"
 cp "$qa/HprProbeQaItem.cs" "$qa/HprProbeQaAutoExit.cs" "$qa/HprProbeQaPlayerOnlyClear.cs" "$buyer/Assets/HPRPrivateQa/"
 cp "$qa/HprProbeQaBuild.cs" "$buyer/Assets/Editor/"
@@ -50,6 +51,7 @@ python3 "$qa/verify_real_player_receipt.py" \
 cp "$qa/HprProbeQaCompare.cs" "$buyer/Assets/Editor/"
 run original-native-Csharp-comparison -projectPath "$buyer" -executeMethod HprProbeQaCompare.Run
 grep -q HPR_PLAYER_REFERENCE_REAL_EDITOR_VS_BUILT_PLAYER_NATIVE_PASS "$work/original-native-Csharp-comparison.unity.log"
+python3 -B "$qa/stage_original_probe_source.py" --verify-existing "$current_source" "$buyer/Assets" > "$work/post-qa-source-identity.json"
 python3 - "$work" <<'PYRESULT'
 import json,sys
 from pathlib import Path
