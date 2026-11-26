@@ -5,7 +5,12 @@ The saved-reference feature and core comparisons are independently exercised by 
 
 The separate `companion/` source provides the private HPR Scene Gate command-line
 utility, compiled and tested independently without invoking Unity. It compares
-saved snapshots and can capture the observed saved project-text formats. It is
+saved snapshots and can capture the observed saved project-text formats. Its
+`check` command reads the selected saved project configuration afresh, compares
+in memory, and gives a human-readable result or JSON without creating a current
+snapshot. Input operations currently require Linux x86-64 with statx; nonregular
+files are rejected before opening. This is a stable-local-file check, not protection
+against hostile concurrent replacement. The companion is
 not included in the native Unity buyer archive; retain exact package and runtime
 acceptance boundaries. The editor-source correction also reports full declared
 list sequence changes (including disabled entries) separately from enabled build

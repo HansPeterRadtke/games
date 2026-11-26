@@ -102,6 +102,7 @@ namespace HPR.BuildSceneGate
 
         private static byte[] ReadBounded(string path, int limit = MaxFileBytes)
         {
+            RegularFileInput.RequireRegular(path);
             using (var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 Require(input.Length <= limit, "Saved project file exceeds read limit: " + path);
@@ -297,6 +298,7 @@ namespace HPR.BuildSceneGate
                 {
                     bool present = File.Exists(Resolve(row.Path));
                     observedScenes[row.Path] = present;
+                    if (present) RegularFileInput.RequireRegular(Resolve(row.Path));
                     string meta = MetaGuid(row.Path + ".meta", false);
                     missing = !present || row.Guid == ZeroGuid || row.Guid != meta;
                 }
@@ -312,8 +314,12 @@ namespace HPR.BuildSceneGate
                 Require(ReadBounded(Resolve(entry.Key), entry.Value.Length).SequenceEqual(entry.Value),
                     "Saved settings changed during capture: " + entry.Key);
             foreach (var entry in observedScenes)
-                Require(File.Exists(Resolve(entry.Key)) == entry.Value,
+            {
+                string path = Resolve(entry.Key);
+                Require(File.Exists(path) == entry.Value,
                     "Scene or metadata presence changed during capture: " + entry.Key);
+                if (entry.Value) RegularFileInput.RequireRegular(path);
+            }
         }
     }
 }

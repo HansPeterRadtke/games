@@ -9,7 +9,7 @@ here=$(cd "$(dirname "$0")" && pwd)
 product=$(cd "$here/.." && pwd)
 core=$(cd "$product/../Assets/HPRBuildSceneMatrix/Editor" && pwd)
 mkdir -p "$out/build" "$out/fixtures-source"
-cp "$product"/{HprSceneGate.csproj,Program.cs,SavedUnitySceneLists.cs,NuGet.Config} "$out/build/"
+cp "$product"/{HprSceneGate.csproj,Program.cs,SavedUnitySceneLists.cs,RegularFileInput.cs,NuGet.Config} "$out/build/"
 cp "$here"/fixtures/{Fixtures.csproj,Program.cs} "$out/fixtures-source/"
 cp "$product/NuGet.Config" "$out/fixtures-source/"
 export DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_NOLOGO=1
@@ -26,4 +26,4 @@ build "$out/build/HprSceneGate.csproj"
 build "$out/fixtures-source/Fixtures.csproj"
 dotnet "$out/fixtures-source/bin/Release/net10.0/Fixtures.dll" "$out/fixtures"
 python3 "$here/test_command.py" "$out/build/bin/Release/net10.0/HprSceneGate.dll" "$out/fixtures"
-sha256sum "$core/HprSceneMatrixCore.cs" "$core/HprSceneBaseline.cs" "$product/Program.cs" "$product/SavedUnitySceneLists.cs"
+sha256sum "$core/HprSceneMatrixCore.cs" "$core/HprSceneBaseline.cs" "$product/Program.cs" "$product/SavedUnitySceneLists.cs" "$product/RegularFileInput.cs"

@@ -1,86 +1,147 @@
 # HPR Scene Gate — offline Build Scene Matrix companion
 
-This tool compares two explicitly saved Build Scene Matrix scene-list snapshots
-without starting Unity. It is intended for review or a release pipeline that
-needs a machine-readable result and nonzero exit status when scene declarations
-change unexpectedly. It is not a scene editor, automatic build, project crawler,
-or certification of the generated game.
+Compare a chosen reference scene list with a freshly read saved Unity project,
+without opening Unity or creating a second snapshot. See which scene is first,
+whether a profile inherits or overrides the global list, and what changed.
 
-Use the Build Scene Matrix editor tool's **Save live reference** action once
-for the approved list, and again after a fresh scan of the corresponding
-current profile. The editor snapshot feature is a new source-level increment
-and has not yet completed native Unity acceptance. Earlier native packages
-do not contain it. The current independent companion does not resolve that
-release hold.
+This private prerelease is a companion to Build Scene Matrix, not a separate
+published store product. It checks declared configuration, not the contents
+or success of a built game. The included licence is for private evaluation;
+it is not an approved customer licence.
 
-With .NET 10.0.15 or a newer .NET 10 security patch installed (runtime not
-included), run from the extracted companion:
-```
+## Requirements
+
+- Linux x86-64 with the `statx` file metadata API. Windows, macOS and other
+  architectures are currently rejected for input operations.
+- A current .NET 10 LTS runtime, at least 10.0.15. The runtime is not included.
+- A closed, stable local Unity project with ordinary saved text files.
+- The observed Unity 6000.6.8f1 global scene list or version-two Build Profile
+  layout, or the observed 2022.3.22f1 global layout. Other versions and layouts
+  are rejected rather than guessed.
+
+Independent saved-file acceptance covers nonempty Unity 6.6 lists and an empty
+2022 list. A nonempty native 2022 configuration was not available. This historical
+file-format coverage is not a recommendation to install an old Editor. See the
+exact package acceptance receipt for tested runtime and platform details.
+
+## First use
+
+Extract the archive, then check the installed runtime and the command help:
+
+```text
+dotnet --list-runtimes
 dotnet HprSceneGate.dll --version
 dotnet HprSceneGate.dll --help
 ```
-Then compare your snapshots:
 
-    dotnet HprSceneGate.dll compare approved.hpr-scenes current.hpr-scenes
-
-The tool writes only a structured JSON comparison to standard output. It does
-not modify either snapshot, invoke Unity, access the network, or modify your
-project. It returns zero only when profile identity, inheritance source, profile asset path,
-declared entry sequence and comparison findings match, with no empty enabled
-list, comparison warnings, or reversed capture timestamps. Exit one requests
-review of a difference or diagnostic warning. Exit two means invalid input
-or failure to read the snapshots. An older baseline can contain existing
-warnings; these intentionally still request review. Capture-time differences
-alone do not indicate configuration drift. The report locates the first
-different declared entry even when only disabled-scene positions change.
-Use the current security-patched .NET 10 LTS runtime; .NET 8 and 9 are out
-of upstream support.
-
-The JSON contains the paths and identifiers of your selected scenes; inspect
-before sharing logs. The command cannot establish that the two snapshots
-belong to the same project, prove how recently the project was scanned, or
-detect custom build scripts, pipeline overrides, generated content or the
-actual built Player's scene contents. A successful result is limited to the
-two supplied snapshots.
-
-This private companion is intended for the supported .NET 10 LTS runtime.
-Refer to the exact accompanying acceptance receipt for verified versions
-and platforms; Windows and macOS are not yet verified. It shares the original C# comparison
-and bounded snapshot parser with Build Scene Matrix. The included private
-prerelease license is not an approved customer license. No publication or
-third-party support commitment is implied.
-
-## Capture directly from a saved project (no Unity process)
-
-Use a closed, stable project checkout. This option reads the saved text
-configuration, not the Editor's live state:
+Choose the project and explicit global list or profile you intend to check.
+First review the scene configuration yourself, then capture a reference in a
+new file **outside** the project:
 
 ```text
-dotnet HprSceneGate.dll capture /path/to/project global approved.hpr-scenes
-dotnet HprSceneGate.dll capture /path/to/project Assets/BuildProfiles/Release.asset current.hpr-scenes
+dotnet HprSceneGate.dll capture "/path/to/project" global approved.hpr-scenes
 ```
 
-Choose the same global list or explicit profile for baseline and current capture.
-Output must be a new file outside the project directory. The bounded reader
-understands the observed Unity 2022.3.22f1 and 6000.6.8f1 global text layout,
-and the observed 6000.6.8f1 custom Build Profile layout (version two).
-Independent real saved-file tests covered nonempty 6.6 lists and an empty
-2022 list; a nonempty native 2022 configuration was not available in the
-inspected fixtures. The historical 2022 file-format test is not a recommendation
-to install or use that unpatched Editor.
-It distinguishes inherited and overridden lists and checks listed scene paths
-and their adjacent metadata identifiers. It does not interpret arbitrary YAML,
-binary serialization, linked paths, package scenes, or unverified Unity versions.
-Unsupported formats return exit two rather than guessing. It does not search
-for moved files or validate the internal contents of scene assets; stale or
-missing path metadata is reported. It cannot determine the active profile,
-unsaved changes, or actual build results. Capture exit zero means a snapshot
-was created, not that all its scenes are healthy; run the comparison gate to
-review findings. Inputs must be ordinary local saved files, not live streams.
+After changes, check the saved project against that reference in one step:
 
-The included `examples/` files are synthetic demonstration snapshots, not
-customer data or actual Unity scans. In the extracted package, compare
-`examples/approved.hpr-scenes` with `examples/same.hpr-scenes` for exit zero,
-or with `examples/renamed.hpr-scenes` for exit one and a renamed scene finding.
-The command line JSON uses zero-based list positions; the editor and CSV
-describe positions starting at one.
+```text
+dotnet HprSceneGate.dll check approved.hpr-scenes "/path/to/project" global
+```
+
+The default text result names the selected list, its source, the current and
+reference launch scenes, enabled and declared scene counts, and the first
+differing entry. A launch scene means the first **enabled** scene in the selected
+saved list, not the scene currently open in the Editor. Up to ten per-scene
+findings appear in text; JSON includes all findings.
+
+For an explicit Build Profile, use the same project-relative asset path when
+capturing and checking:
+
+```text
+dotnet HprSceneGate.dll capture "/path/to/project" Assets/BuildProfiles/Release.asset release.hpr-scenes
+dotnet HprSceneGate.dll check release.hpr-scenes "/path/to/project" Assets/BuildProfiles/Release.asset
+```
+
+The program does not choose or activate a profile for you. It follows the
+explicit saved profile's inheritance setting. Unused custom rows in an
+inherited profile do not replace the global list.
+
+For automation, request exactly one JSON result:
+
+```text
+dotnet HprSceneGate.dll check approved.hpr-scenes "/path/to/project" global --format json
+```
+
+Check creates no snapshot, temporary comparison file, or project output.
+It reads the saved files during this invocation and rechecks those inputs for
+changes. JSON marks `current_saved_configuration_read_this_run` as true and
+records the read start and finish times. This is not a filesystem transaction;
+keep the project closed and stable while checking.
+
+## Exit results
+
+| Exit | Check or compare | Capture |
+|---|---|---|
+| 0 | Declared configuration matches without warnings. | A new snapshot was created; its scenes may still need review. |
+| 1 | A configuration difference or warning needs review. | Not used. |
+| 2 | Invalid input, unsupported format/platform, or a read error. | No successful snapshot capture. |
+
+Differences include profile identity, profile asset path, inheritance source,
+full declared entry order (including disabled scenes), enabled build indices,
+renamed paths and missing/stale references. Empty enabled lists, duplicate
+entries, ambiguous enabled scene names and a reference timestamp later than
+the current read also request review. Warnings already present in both lists
+still request review. An old reference is allowed; age alone does not fail.
+
+A successful check does not prove that the reference was approved or belongs
+to this project. Review its launch scene and selected profile. Saved files
+cannot reveal unsaved Editor changes, whether the chosen profile is active,
+custom build scripts, cloud scene overrides, generated content or actual Player
+contents. JSON retains `project_identity_verified=false`; snapshot comparison
+does not verify freshness. No command starts Unity or accesses the network.
+The results contain project and scene paths, so inspect logs before sharing.
+
+## Comparing two saved snapshots
+
+The existing snapshot workflow remains available:
+
+```text
+dotnet HprSceneGate.dll compare approved.hpr-scenes current.hpr-scenes
+```
+
+Compare always emits JSON and reads only the two supplied snapshots. Unlike
+check, it cannot establish that either snapshot reflects the saved project now.
+The synthetic examples in this package can demonstrate the exits:
+
+```text
+dotnet HprSceneGate.dll compare examples/approved.hpr-scenes examples/same.hpr-scenes
+dotnet HprSceneGate.dll compare examples/approved.hpr-scenes examples/renamed.hpr-scenes
+```
+
+The first returns zero. The second returns one with a renamed-scene finding.
+These examples are not customer data or actual Unity scans. JSON list positions
+start at zero; text positions start at one.
+
+## Input boundaries and recovery
+
+Use ordinary local files. Special files such as pipes, sockets and devices are
+rejected before opening, and linked project paths are unsupported. Metadata is
+checked before reads; this does not protect against another process maliciously
+replacing a path between that check and the read. Do not use a changing checkout,
+network stream or hostile filesystem as input.
+
+The saved reader is deliberately limited. It does not interpret arbitrary YAML,
+binary serialization, quoted or complex scalars, package scenes, linked assets
+or unverified Unity versions. It checks listed scene existence and adjacent
+metadata identifiers, without searching for moved files or examining scene
+contents. If input is unsupported, restore a stable supported saved layout or
+use another verified workflow; do not edit the reference merely to hide a warning.
+
+Capture requires a new `.hpr-scenes` file outside the project and refuses to
+overwrite an existing file. Keep the approved reference separate from disposable
+captures. None of these commands repairs or modifies Unity project settings.
+
+The Build Scene Matrix Editor's Save live reference integration is a separate
+source-level increment still awaiting native Unity acceptance. Earlier native
+Unity packages do not include it. This independently usable saved-file companion
+does not remove that release hold.

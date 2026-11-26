@@ -27,7 +27,7 @@ def run(dll, fixture):
         check(result.returncode==code, f"{left} -> {right}: exit {code}")
         check(not result.stderr, f"{left} -> {right}: no unstructured stderr")
         data=json.loads(result.stdout)
-        check(data["schema"]==1 and data["tool_version"]=="0.1.0", f"{left} -> {right}: JSON schema/version")
+        check(data["schema"]==1 and data["tool_version"]=="0.2.0", f"{left} -> {right}: JSON schema/version")
         if code!=2:
             check(not data["project_identity_verified"] and
                   not data["current_snapshot_freshness_verified"],"truthful verification boundary")
@@ -35,7 +35,7 @@ def run(dll, fixture):
     help_=command("--help")
     check(help_.returncode==0 and "Exit 2" in help_.stdout,"help documents exits")
     ver=command("--version")
-    check(ver.returncode==0 and ver.stdout.strip()=="0.1.0","version identifies candidate")
+    check(ver.returncode==0 and ver.stdout.strip()=="0.2.0","version identifies candidate")
     bad=command("compare")
     check(bad.returncode==2 and "Usage:" in bad.stderr,"wrong argument count")
     good=compare("approved","same",0)
