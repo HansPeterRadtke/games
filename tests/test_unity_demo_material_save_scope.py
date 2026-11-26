@@ -9,6 +9,7 @@ import unittest
 
 ROOT=Path(__file__).resolve().parents[1]
 QA=ROOT/"unity/tools/release/gameplay_suite/qa"
+CURRENT_BUYER_BUILDER=ROOT/"unity/tools/release/gameplay_suite/HprGameplaySuiteSceneBuilder.cs"
 PATCH=ROOT/"doc/unity-product-research-2026-10-31/patches/hpr-demo-material-save-scope-2026-11-02.patch"
 FIXTURE=QA/"HprDemoMaterialDirtyIsolationValidator.cs"
 
@@ -21,15 +22,19 @@ class DemoBuilderSaveScope(unittest.TestCase):
         self.assertIn("SaveAssetIfDirty(asset)",diff)
         self.assertIn("SaveOwnedSamplesOnly",diff)
 
-    def test_remapped_source_saves_only_under_packaged_samples(self):
-        source=QA/"HprGameplaySuiteSceneBuilderScoped.cs"
-        body=source.read_text()
+    def test_actual_current_buyer_source_saves_only_under_packaged_samples(self):
+        # The older private scoped QA fixture is a historical snapshot and
+        # can diverge from the current shipped authoring source. Test the
+        # actual source selected by validate_release.py instead.
+        body=CURRENT_BUYER_BUILDER.read_text()
         self.assertNotIn("AssetDatabase.SaveAssets();",body)
         self.assertIn('path.StartsWith(Samples + "/"',body)
         self.assertIn("AssetDatabase.FindAssets",body)
         self.assertIn("AssetDatabase.SaveAssetIfDirty(asset)",body)
         self.assertIn("AssetDatabase.SaveAssetIfDirty(material)",body)
         self.assertIn("private static void SaveOwnedSamplesOnly()",body)
+        self.assertIn('SaveAssetIfDirty(material)',body)
+        self.assertIn('RequireActiveDemoShader()',body)
 
     def test_actual_unity_editor_probe_preserves_unsaved_customer_asset(self):
         text=FIXTURE.read_text()
