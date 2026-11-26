@@ -1,6 +1,6 @@
 # HPR Scene Identity Guard — original read-only CLI candidate
 
-**Status: private technical candidate, NOT PUBLISHED, NOT APPROVED for Unity Asset Store, and NOT a Unity Editor extension.** This repository subfolder supplies a self-contained Python tool for detecting loss of directly serialized `GameObject` identities between two **saved Unity Force Text** project revisions. It is a *new narrow utility*, separate from Build Scene Matrix/Scene Gate (which inspect which scenes are enabled for a build), and separate from Gameplay Suite/Player Reference Probe.
+**Status: version 0.1.1, private technical candidate, NOT PUBLISHED, NOT APPROVED for Unity Asset Store, and NOT a Unity Editor extension.** This repository subfolder supplies a self-contained Python tool for detecting loss of directly serialized `GameObject` identities between two **saved Unity Force Text** project revisions. It is a *new narrow utility*, separate from Build Scene Matrix/Scene Gate (which inspect which scenes are enabled for a build), and separate from Gameplay Suite/Player Reference Probe.
 
 ## Why the operation is useful, and what it does not prove
 
@@ -23,7 +23,7 @@ Exit status zero means the current scan completed **within the declared direct-G
 
 Both capture and check are bounded: at most three thousand scene/prefab assets, thirty-two mebibytes per YAML asset, one hundred and twenty-eight mebibytes aggregate YAML, sixteen mebibytes baseline JSON, and two hundred thousand direct GameObject records. The tool **fails closed** rather than calling a partial scan a pass. Symlinked asset directories/inputs are refused. On Linux, nonblocking and no-follow file opens avoid hanging when a regular path is replaced by a pipe. The tool is designed for trusted local projects; it does not claim race-free protection against a malicious concurrent project mutator.
 
-A clean scan is **not** release certification: inspect the selected baseline, its source, whether the game actually persists these identifiers, and any additional serialization, migration, prefab, Player, pipeline or target-platform checks required by the buyer. Never accept an identity match as permission to overwrite a real player's saved data.
+File-system enumeration errors and unsupported GameObject YAML header formats cause an incomplete result, rather than a false clean pass. A clean scan is **not** release certification: inspect the selected baseline, its source, whether the game actually persists these identifiers, and any additional serialization, migration, prefab, Player, pipeline or target-platform checks required by the buyer. Never accept an identity match as permission to overwrite a real player's saved data.
 
 ## Private verification
 
@@ -43,7 +43,7 @@ That test reads the original saved scenes, records their hashes, captures an app
 
 ## Technical provenance and release limits
 
-The initial private source tests passed eighteen focused checks, and the original first-party Unity saved project offered three scenes and two hundred and seventy direct GameObjects for the end-to-end read-only test, as recorded in the owner's private evidence. All actual source and input files are preserved; source publication to the canonical private `games` main branch is separate from commercial publication. This directory is source, **not** a `.unitypackage` and must not be imported or listed as a native Unity Asset Store asset.
+The current private source tests passed twenty focused checks, and the original first-party Unity saved project offered three scenes and two hundred and seventy direct GameObjects for the end-to-end read-only test, as recorded in the owner's private evidence. All actual source and input files are preserved; source publication to the canonical private `games` main branch is separate from commercial publication. This directory is source, **not** a `.unitypackage` and must not be imported or listed as a native Unity Asset Store asset.
 
 Research dated November twenty-six found existing established competitors in both broader schema migration and scene/file-ID diffing. The strongest adjacent listings include **Scene Diff — Reliable Scene & Prefab Comparison**, **Save Compatibility Lab**, and **Scene Git**. A March twenty twenty-four Unity developer forum report about prefab file IDs is a real pain example, but **paid adoption, correct price, support load, buyer acquisition and viable net owner income remain unverified**. The value proposition is a narrow, dependency-free, create-only, explicit exit-code release gate rather than a general GUI diff. The shared sales worker alone should evaluate whether it justifies bundling with existing independently tested products. **Do not create a second listing or claim marketplace buyer acceptance.**
 

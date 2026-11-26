@@ -34,6 +34,7 @@ def package(new_zip: Path) -> dict:
         entries[TOP + "/" + name] = path.read_bytes()
     manifest = {
         "schema":"hpr.private-scene-identity-cli-archive.v1",
+        "tool_version":"0.1.1",
         "rights":"internal prerelease evaluation only; not a marketplace licence",
         "status":"PRIVATE_SOURCE_CLI_CANDIDATE_NOT_PUBLISHED",
         "native_unity_editor_tested":False,

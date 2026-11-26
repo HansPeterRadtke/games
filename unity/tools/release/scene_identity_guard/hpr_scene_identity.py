@@ -18,6 +18,7 @@ import stat
 import sys
 from pathlib import Path
 
+VERSION = "0.1.1"
 SCHEMA = "hpr.scene-identity-snapshot.v1"
 COVERAGE = "direct-serialized-gameobject-documents-only"
 ALLOWED_SUFFIXES = {".unity": "scene", ".prefab": "prefab"}
@@ -111,6 +112,9 @@ def _direct_objects(data: bytes, rel_path: str) -> tuple[list[tuple[str, str]], 
             active_name = ""
             active_is_gameobject = False
             m = HEADER_RE.fullmatch(line)
+            # An unfamiliar GameObject header must not silently erase that object.
+            if not m and re.match(r"^--- !u!1\s", line):
+                raise IncompleteScan("Unsupported GameObject YAML header: " + rel_path)
             if m:
                 if m.group(2):
                     stripped_count += 1
@@ -141,7 +145,11 @@ def _assets_to_scan(project: Path) -> list[tuple[Path, str]]:
     if not root.is_dir() or root.is_symlink():
         raise IncompleteScan("Missing or linked Assets folder")
     paths: list[tuple[Path, str]] = []
-    for dirpath, dirs, names in os.walk(root, topdown=True, followlinks=False):
+    def fail_enumeration(error: OSError) -> None:
+        raise IncompleteScan("Cannot enumerate Unity Assets: " + str(error)) from error
+
+    for dirpath, dirs, names in os.walk(root, topdown=True, followlinks=False,
+                                         onerror=fail_enumeration):
         here = Path(dirpath)
         for dirname in dirs:
             if (here / dirname).is_symlink():
@@ -196,7 +204,7 @@ def scan(project: Path) -> dict:
     rows.sort(key=lambda r: (r["asset_guid"], int(r["local_file_id"]), r["kind"]))
     file_evidence.sort(key=lambda r: r["path"])
     return {
-        "schema": SCHEMA, "coverage": COVERAGE, "complete": True,
+        "schema": SCHEMA, "tool_version": VERSION, "coverage": COVERAGE, "complete": True,
         "asset_count": len(assets), "direct_object_count": len(rows),
         "stripped_prefab_documents_not_resolved": stripped,
         "files": file_evidence, "objects": rows,

@@ -197,6 +197,19 @@ class SceneIdentityTest(unittest.TestCase):
         with self.assertRaisesRegex(guard.IncompleteScan,"regular file"):
             guard.scan(self.project)
 
+    def test_unsupported_class_one_yaml_header_is_incomplete(self):
+        self.source.write_bytes(scene((11,"Player"))+b"--- !u!1 &id-string\nGameObject:\n  m_Name: Unexpected\n")
+        with self.assertRaisesRegex(guard.IncompleteScan,"Unsupported GameObject"):
+            guard.scan(self.project)
+
+    def test_unreadable_asset_directory_fails_closed(self):
+        def denied(*args, **kwargs):
+            kwargs["onerror"](PermissionError("mocked directory read failure"))
+            return iter(())
+        with mock.patch.object(guard.os, "walk", side_effect=denied):
+            with self.assertRaisesRegex(guard.IncompleteScan,"Cannot enumerate Unity Assets"):
+                guard.scan(self.project)
+
     def test_fifo_baseline_boundary_fails_without_blocking(self):
         os.mkfifo(self.prev)
         with self.assertRaisesRegex(guard.IncompleteScan,"regular file"):
