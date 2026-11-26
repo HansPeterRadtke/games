@@ -1,6 +1,6 @@
 # HPR Scene Identity Guard — original read-only CLI candidate
 
-**Status: version 0.1.1, private technical candidate, NOT PUBLISHED, NOT APPROVED for Unity Asset Store, and NOT a Unity Editor extension.** This repository subfolder supplies a self-contained Python tool for detecting loss of directly serialized `GameObject` identities between two **saved Unity Force Text** project revisions. It is a *new narrow utility*, separate from Build Scene Matrix/Scene Gate (which inspect which scenes are enabled for a build), and separate from Gameplay Suite/Player Reference Probe.
+**Status: version 0.2.0, private technical candidate, NOT PUBLISHED, NOT APPROVED for Unity Asset Store, and NOT a Unity Editor extension.** This repository subfolder supplies a self-contained pair of Python modules for detecting loss of directly serialized `GameObject` identities between two **saved Unity Force Text** project revisions. It is a *new narrow utility*, separate from Build Scene Matrix/Scene Gate (which inspect which scenes are enabled for a build), and separate from Gameplay Suite/Player Reference Probe.
 
 ## Why the operation is useful, and what it does not prove
 
@@ -15,7 +15,27 @@ Requires Python **three point ten or newer** with no nonstandard packages, avail
 ```sh
 python3 -B hpr_scene_identity.py capture /path/to/project --out /new/private/release-baseline.json
 python3 -B hpr_scene_identity.py check /path/to/project --baseline /private/release-baseline.json --out /new/private/scene-review.json
+python3 -B hpr_scene_identity.py check /path/to/project --baseline /private/release-baseline.json --html-out /new/private/scene-review.html
 ```
+
+The optional **static HTML report** is a clear local read-only review of the
+same comparison, grouped into lost identities, changed asset GUIDs,
+additions, and harmless renames/moves. It includes a concise outcome banner,
+finding totals, a detailed annotated list and clear warnings about what the
+tool cannot prove. The report contains the project's original file paths and
+object names and should stay private. It does not include JavaScript,
+external fonts, network requests or tracking. A built-in content-security
+policy disables scripting. Never mistake a static example screenshot for
+a live Unity Editor window; the graphical Editor acceptance remains blocked.
+
+The `--html-out` option applies only to `check` and is mutually exclusive with
+`--out` for JSON. Generate each as a separate create-only command.
+Both output forms must be written **outside** the Unity project tree:
+ordinary files, directories and linked parent paths are checked before
+writing so a buyer cannot accidentally add release evidence to Assets.
+The renderer limits its visual list to five hundred entries and always
+labels omitted rows; the complete JSON is a separate user-requested export.
+If output already exists, it is never overwritten.
 
 A project path is a Unity root with regular `ProjectSettings/ProjectVersion.txt`, an `Assets` directory, and saved `.unity` or `.prefab` assets with their corresponding `.meta` files. The baseline output must **not exist** yet. The check `--out` is optional; if present, it also must be new. The script never edits any file under the project root. No network, login, telemetry, download, package installation or third-party dependency is used.
 
@@ -39,11 +59,11 @@ Run real saved-project input acceptance on a **new private evidence folder** (ex
 python3 -B qa/run_saved_project_acceptance.py /path/to/original/first-party-unity-project /new/private/evidence
 ```
 
-That test reads the original saved scenes, records their hashes, captures an approved reference, validates a no-change comparison, clones the saved files into private temporary evidence, deliberately changes **one GameObject YAML header on the clone only**, proves a review-required result, proves a capture cannot overwrite its original reference, then rehashes the original. It is NOT a native Unity Editor or Player acceptance. The source also contains isolated synthetic files and deliberate corrupt/symlink/FIFO cases; such QA fixtures are not buyer product media.
+That test reads the original saved scenes, records their hashes, captures an approved reference, validates a no-change comparison, clones the saved files into private temporary evidence, deliberately changes **one GameObject YAML header on the clone only**, proves a review-required result in both JSON and static HTML, produces an unchanged-state HTML control, proves a capture cannot overwrite its original reference, then rehashes the original. It is NOT a native Unity Editor or Player acceptance. The source also contains isolated synthetic files and deliberate corrupt/symlink/FIFO cases; such QA fixtures are not buyer product media.
 
 ## Technical provenance and release limits
 
-The current private source tests passed twenty focused checks, and the original first-party Unity saved project offered three scenes and two hundred and seventy direct GameObjects for the end-to-end read-only test, as recorded in the owner's private evidence. All actual source and input files are preserved; source publication to the canonical private `games` main branch is separate from commercial publication. This directory is source, **not** a `.unitypackage` and must not be imported or listed as a native Unity Asset Store asset.
+The original focused source checks, report/output-safety regressions, and exact private package tests are included in the QA directory, and the original first-party Unity saved project offered three scenes and two hundred and seventy direct GameObjects for the end-to-end read-only test, as recorded in the owner's private evidence. All actual source and input files are preserved; source publication to the canonical private `games` main branch is separate from commercial publication. This directory is source, **not** a `.unitypackage` and must not be imported or listed as a native Unity Asset Store asset.
 
 Research dated November twenty-six found existing established competitors in both broader schema migration and scene/file-ID diffing. The strongest adjacent listings include **Scene Diff — Reliable Scene & Prefab Comparison**, **Save Compatibility Lab**, and **Scene Git**. A March twenty twenty-four Unity developer forum report about prefab file IDs is a real pain example, but **paid adoption, correct price, support load, buyer acquisition and viable net owner income remain unverified**. The value proposition is a narrow, dependency-free, create-only, explicit exit-code release gate rather than a general GUI diff. The shared sales worker alone should evaluate whether it justifies bundling with existing independently tested products. **Do not create a second listing or claim marketplace buyer acceptance.**
 
@@ -61,3 +81,16 @@ The Unity Editor's updated software terms are an existing **unanswered owner-onl
 ## Rights
 
 See `LICENSE.md`. The author-controlled code is private and offered for internal prerelease evaluation only. It is not yet commercially licensed, approved by the owner for marketplace publishing, or promised to buyers.
+
+
+## Static preview evidence and buyer expectations
+
+The private producer evidence contains actual Firefox headless captures of a
+generated report from an **intentionally modified copy of saved Unity scene
+files**, at both desktop and narrow/mobile viewport sizes. The images are
+renderings of the report output, not screenshots of a Unity Editor window,
+native Player, or a real user's broken game. Do not crop out that distinction
+or present these controlled-test results as a reported buyer defect.
+Source-level and rendered HTML tests cannot substitute for real Unity Editor
+imports, supported render-pipeline checks, customer workflows, accepted
+submission packaging and the one shared seller's listing authorization.

@@ -18,7 +18,7 @@ import stat
 import sys
 from pathlib import Path
 
-VERSION = "0.1.1"
+VERSION = "0.2.0"
 SCHEMA = "hpr.scene-identity-snapshot.v1"
 COVERAGE = "direct-serialized-gameobject-documents-only"
 ALLOWED_SUFFIXES = {".unity": "scene", ".prefab": "prefab"}
@@ -290,10 +290,28 @@ def compare(baseline: dict, current: dict) -> dict:
     }
 
 
-def _write_new(path: Path, obj: dict) -> None:
-    payload = (json.dumps(obj,indent=2,ensure_ascii=False,sort_keys=True)+"\n").encode("utf-8")
-    if path.is_symlink():
-        raise IncompleteScan("Output path is a symbolic link")
+def _validated_output_path(project: Path, output: Path) -> Path:
+    """Never allow a reported read-only tool to create files in the project.
+
+    Reject symlinked output parents, rather than silently following a link
+    that points into another project or an unknown owner-owned folder.
+    """
+    project_root = project.resolve(strict=True)
+    output = output.absolute()
+    if not output.parent.is_dir():
+        raise IncompleteScan("Output folder does not exist: " + str(output.parent))
+    for part in [output.parent, *output.parent.parents]:
+        if part.is_symlink():
+            raise IncompleteScan("Linked output parent is not supported: " + str(part))
+    parent = output.parent.resolve(strict=True)
+    if parent == project_root or project_root in parent.parents:
+        raise IncompleteScan("Output must be outside the Unity project directory")
+    if output.exists() or output.is_symlink():
+        raise IncompleteScan("Output path already exists (create-only): " + str(output))
+    return output
+
+
+def _write_new(path: Path, payload: bytes) -> None:
     # x is intentionally create-only: no replacing previous release baselines.
     with path.open("xb") as stream:
         stream.write(payload)
@@ -303,11 +321,13 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Read-only, direct-GameObject Unity identity release witness.")
     parser.add_argument("action",choices=["capture","check"])
     parser.add_argument("project",type=Path)
-    parser.add_argument("--out",type=Path,help="New, never-overwritten JSON output file")
+    output_group = parser.add_mutually_exclusive_group()
+    output_group.add_argument("--out",type=Path,help="New, never-overwritten JSON output file outside the project")
+    output_group.add_argument("--html-out",type=Path,help="New, local static HTML review outside the project (check only)")
     parser.add_argument("--baseline",type=Path,help="Required for check")
     args = parser.parse_args(argv)
-    if args.action == "capture" and (args.out is None or args.baseline is not None):
-        parser.error("capture requires --out and does not accept --baseline")
+    if args.action == "capture" and (args.out is None or args.baseline is not None or args.html_out is not None):
+        parser.error("capture requires --out and does not accept --baseline or --html-out")
     if args.action == "check" and args.baseline is None:
         parser.error("check requires --baseline")
     try:
@@ -315,7 +335,12 @@ def main(argv: list[str] | None = None) -> int:
         current = scan(args.project)
         result = current if baseline is None else compare(baseline,current)
         if args.out is not None:
-            _write_new(args.out,result)
+            output = _validated_output_path(args.project,args.out)
+            _write_new(output,(json.dumps(result,indent=2,ensure_ascii=False,sort_keys=True)+"\n").encode("utf-8"))
+        if args.html_out is not None:
+            from hpr_scene_identity_report import render_report
+            output = _validated_output_path(args.project,args.html_out)
+            _write_new(output,render_report(result))
         print(json.dumps({"status":result.get("status","CAPTURED"),"assets":current["asset_count"],
             "objects":current["direct_object_count"],"coverage":COVERAGE,
             "missing":len(result.get("lost",[])),"added":len(result.get("added",[]))},sort_keys=True))

@@ -76,6 +76,20 @@ def run(project: Path, evidence: Path) -> dict:
     comparison = json.loads(drift.read_text())
     assert any(o["local_file_id"]==old_id and o["asset_guid"]==selected["asset_guid"] for o in comparison["lost"])
     assert any(o["local_file_id"]==replacement and o["asset_guid"]==selected["asset_guid"] for o in comparison["added"])
+    rendered_drift = evidence / "drift-review.html"
+    rc_html, html_out, html_err=invoke(project,"check",str(copy),"--baseline",str(baseline),
+                                     "--html-out",str(rendered_drift))
+    assert rc_html==1 and html_out and not html_err
+    text=rendered_drift.read_text()
+    assert "<!doctype html>" in text and "Review required" in text
+    assert "No longer present" in text and "New direct ID" in text
+    assert "script-src 'none'" in text and "<script" not in text.lower()
+    assert old_id in text
+    rendered_same = evidence / "stable-review.html"
+    rc_html_same, html_same, err_same=invoke(project,"check",str(project),
+        "--baseline",str(baseline),"--html-out",str(rendered_same))
+    assert rc_html_same==0 and html_same and not err_same
+    assert "Direct identities stable" in rendered_same.read_text()
     for item,hash_ in source_hashes.items():
         assert digest(project/item) == hash_,"Original source mutated: "+item
     rc4, out4,e4=invoke(project,"capture",str(project),"--out",str(baseline))
@@ -91,7 +105,10 @@ def run(project: Path, evidence: Path) -> dict:
         "test_changed_only_a_private_copy":True,
         "changed_asset":selected["path"],"changed_gameobject_fileid_from":old_id,
         "changed_gameobject_fileid_to":replacement,
-        "actual_commands_exit_codes":{"capture":rc1,"stable_check":rc2,"modified_copy_check":rc3,"overwrite_rejected":rc4},
+        "actual_commands_exit_codes":{"capture":rc1,"stable_check":rc2,"modified_copy_check":rc3,
+            "modified_copy_html":rc_html,"unchanged_html":rc_html_same,"overwrite_rejected":rc4},
+        "rendered_html_sha256":{"changed":digest(rendered_drift),"unchanged":digest(rendered_same)},
+        "html_verified_on_saved_source_only":True,
         "scope":"direct serialized GameObjects in Force Text Unity YAML only; not native Player save certification",
         "unknowns":["Native Unity Editor import/interaction","Actual Player runtime save compatibility","Nested/stripped prefab child IDs","Buyer demand/pricing/platform approval"],
     }
