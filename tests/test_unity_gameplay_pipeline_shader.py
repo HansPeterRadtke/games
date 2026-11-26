@@ -65,7 +65,7 @@ class GameplaySuiteShaderChoice(unittest.TestCase):
         for value in ('extract_method(original,"DemoShaderNameForPipelineType")',
                       'extract_method(original,"RequireActiveDemoShader")',
                       'extract_method(original,"SetDemoMaterialColor")',
-                      'dotnet','HPR_PIPELINE_SHADER_SOURCE_PASS assertions=22',
+                      'dotnet','HPR_PIPELINE_SHADER_SOURCE_PASS assertions=25',
                       'Shader.Available.Remove("HDRP/Lit")',
                       'Shader.Available.Remove("Universal Render Pipeline/Lit")',
                       'both.colors["Color"]' if False else 'both.colors["_Color"]',
@@ -74,7 +74,31 @@ class GameplaySuiteShaderChoice(unittest.TestCase):
                 self.assertIn(value,script)
         self.assertIn('CSharpSyntaxTree.ParseText',script)
         self.assertIn('UNITY_6000_6_OR_NEWER',script)
+        self.assertIn('HprSuiteDualPipelineHdrpMaterialValidator.cs',script)
         self.assertNotIn('UnityEditor.exe',script)
+
+    def test_private_hdrp_dual_package_fixture_is_actual_editor_only_qa(self):
+        path=SOURCE/'qa/HprSuiteDualPipelineHdrpMaterialValidator.cs'
+        code=path.read_text()
+        for token in ('#if UNITY_EDITOR','Application.unityVersion',
+                      'GraphicsSettings.currentRenderPipeline','HDRenderPipelineAsset',
+                      'Shader.Find("HDRP/Lit")','Shader.Find("Universal Render Pipeline/Lit")',
+                      'HprGameplaySuiteSceneBuilder.AdaptDemoMaterials()',
+                      'Sha256(OriginalScene)','HPR_HDRP_DUAL_PIPELINE_CLEANROOM_PASS',
+                      'FileMode.CreateNew','OriginalBuyerArchiveOrStorefrontSubmitted=NO'):
+            self.assertIn(token,code)
+        self.assertNotIn('GraphicsSettings.defaultRenderPipeline = ',code)
+        self.assertNotIn('AssetDatabase.SaveAssets()',code)
+        self.assertNotIn('AssetDatabase.ImportPackage',code)
+
+    def test_private_hdrp_qa_is_not_a_buyer_package_source(self):
+        builder=(SOURCE/'build_gameplay_suite.py').read_text()
+        validator=(SOURCE/'validate_release.py').read_text()
+        fixture_name='HprSuiteDualPipelineHdrpMaterialValidator.cs'
+        self.assertNotIn(fixture_name,builder)
+        self.assertNotIn(fixture_name,validator)
+        self.assertFalse((SOURCE/'buyer_source_assets/HPRGameplaySuite/Editor'/fixture_name).exists())
+        self.assertFalse((SOURCE/'buyer_source_assets/HPRGameplaySuite/Integration'/fixture_name).exists())
 
     def test_explicit_scope_does_not_claim_new_unity_acceptance(self):
         readme=(SOURCE/"README.md").read_text()

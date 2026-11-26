@@ -115,18 +115,20 @@ public static class Verification
     static string Name(Shader shader) => shader?.name;
     public static int Main(string[] args)
     {
-        if (args.Length != 1 || !File.Exists(args[0]))
-            throw new InvalidOperationException("Missing exact first-party C# source path");
+        if (args.Length != 2 || !File.Exists(args[0]) || !File.Exists(args[1]))
+            throw new InvalidOperationException("Missing exact builder or private HDRP fixture source");
+        foreach (string sourceFile in args)
         foreach (string[] symbols in new[]{
             new[]{"UNITY_EDITOR", "UNITY_6000_6_OR_NEWER"},
             new[]{"UNITY_EDITOR"},
             Array.Empty<string>()})
         {
             var options = new CSharpParseOptions(LanguageVersion.Preview, preprocessorSymbols:symbols);
-            var errors = CSharpSyntaxTree.ParseText(File.ReadAllText(args[0]),options)
+            var errors = CSharpSyntaxTree.ParseText(File.ReadAllText(sourceFile),options)
                 .GetDiagnostics().Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
             Expect(errors.Length == 0,
-                "Original complete builder syntax under symbols " + string.Join(",",symbols) +
+                "Full C# Editor/fixture syntax: " + Path.GetFileName(sourceFile) +
+                " symbols " + string.Join(",",symbols) +
                 (errors.Length > 0 ? ": " + string.Join("; ",errors.Select(e=>e.ToString())) : ""));
         }
         Shader.Available.Clear();
@@ -253,9 +255,9 @@ def run(out: Path)->dict:
     (out/"build.log").write_text(build.stdout+"\n"+build.stderr)
     if build.returncode:raise RuntimeError("Offline C# compile failed")
     executable=out/"bin/Release/net8.0/HprPipelineShaderOffline.dll"
-    result=subprocess.run(["dotnet",str(executable),str(AUTHOR)],capture_output=True,text=True,timeout=15,env=env)
+    result=subprocess.run(["dotnet",str(executable),str(AUTHOR),str(ROOT/"qa/HprSuiteDualPipelineHdrpMaterialValidator.cs")],capture_output=True,text=True,timeout=15,env=env)
     (out/"process.log").write_text(result.stdout+"\n"+result.stderr)
-    if result.returncode or "HPR_PIPELINE_SHADER_SOURCE_PASS assertions=22" not in result.stdout:
+    if result.returncode or "HPR_PIPELINE_SHADER_SOURCE_PASS assertions=25" not in result.stdout:
         raise RuntimeError("Actual C# source selection failed harness checks")
     receipt={
         "status":"OFFLINE_SOURCE_CSHARP_SELECTION_PASS_NOT_NATIVE_UNITY_EDITOR",
@@ -266,8 +268,9 @@ def run(out: Path)->dict:
         "compiler":"local .NET SDK and UnityEngine stub only",
         "actual_unity_editor_invoked":False,"actual_URP_HDRP_installed_test":False,
         "original_buyer_files_modified":False,
-        "unit_assertions":22,
+        "unit_assertions":25,
         "full_original_builder_roslyn_syntax_checked_under_three_preprocessor_configs":True,
+        "private_dual_pipeline_hdrp_fixture_syntax_checked_under_three_preprocessor_configs":True,
         "tested_types":["null Built-in","UniversalRenderPipelineAsset","HDRenderPipelineAsset",
                         "OtherCustomPipelineAsset","malformed near-match"],
         "tested_absent_or_unsupported_shaders":True,
