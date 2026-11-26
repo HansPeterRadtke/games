@@ -27,6 +27,9 @@ class DemoBuilderSaveScope(unittest.TestCase):
         # can diverge from the current shipped authoring source. Test the
         # actual source selected by validate_release.py instead.
         body=CURRENT_BUYER_BUILDER.read_text()
+        # The old thirty-kilobyte QA copy of this Editor class diverged
+        # from the actual buyer release builder and is no longer test input.
+        self.assertFalse((QA / "HprGameplaySuiteSceneBuilderScoped.cs").exists())
         self.assertNotIn("AssetDatabase.SaveAssets();",body)
         self.assertIn('path.StartsWith(Samples + "/"',body)
         self.assertIn("AssetDatabase.FindAssets",body)
