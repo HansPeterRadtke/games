@@ -81,6 +81,19 @@ materials; it does not install packages, change project Graphics Settings, or
 silently alter unrelated assets. Do not run it on an unknown/custom pipeline.
 URP/HDRP are optional host-project renderers, not required runtime dependencies.
 
+Shader selection and first-time authoring: The demo chooses sample shaders
+from the ACTIVE render-pipeline asset, not simply from whichever installed
+URP/HDRP shader Unity finds first. When both packages are installed, the active
+UniversalRenderPipelineAsset chooses URP Lit and HDRenderPipelineAsset chooses
+HDRP Lit. An unknown pipeline, absent shader, or shader without a supported
+color property raises an error instead of authoring a mismatched material.
+Standard uses _Color; URP and HDRP Lit use _BaseColor for sample colors.
+
+These corrections passed isolated C# compilation and a Unity API stub harness,
+NOT a real Unity Editor pipeline test. Current native URP/HDRP material conversion
+and visual buyer acceptance are still outstanding and must not be claimed.
+
+
 The current private responsive-layout candidate was imported and exercised in
 Unity 6000.6.8f1 using Built-in on Linux; the original standalone player was
 also built and tested in that version. Earlier Unity and pipeline test results

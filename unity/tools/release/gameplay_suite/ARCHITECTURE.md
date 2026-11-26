@@ -183,3 +183,19 @@ controller, XR or action-asset workflows should inject a custom
 `IHprSuiteInputSource`. The private validation suite sends actual virtual
 keyboard events into Unity Input System 1.20.1; compiling its conditional
 branch alone is not considered enough.
+
+
+### Active renderer selection and sample material color
+
+First-time sample authoring and explicit Adapt Demo Materials use one active
+pipeline shader resolver. It supports Built-in with a null active asset,
+UniversalRenderPipelineAsset, and HDRenderPipelineAsset. A custom pipeline
+or missing/unsupported matching shader fails closed rather than borrowing
+a shader from another installed pipeline. Sample color is assigned to
+_BaseColor and/or _Color only where the selected material has the property.
+New material color is checked before Unity creates the sample asset.
+
+These changes have been compiled and exercised against isolated C# Unity API
+stubs using the exact selected source helpers. They have NOT undergone current
+Unity native URP/HDRP import, appearance or package acceptance. An unanswered
+owner-only Unity software terms decision prevents that work.

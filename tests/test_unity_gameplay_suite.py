@@ -133,7 +133,10 @@ class UnityGameplaySuiteSourceTest(unittest.TestCase):
             self.assertIn(required, scene)
         self.assertIn("SchemaVersion = 3", (SOURCE / "HprSuiteSnapshot.cs").read_text())
         self.assertIn("Adapt Demo Materials to Current Render Pipeline", scene)
-        self.assertIn('Shader.Find("Universal Render Pipeline/Lit")', scene)
+        self.assertIn('DemoShaderNameForPipelineType', scene)
+        self.assertIn('RequireActiveDemoShader()', scene)
+        self.assertIn('"Universal Render Pipeline/Lit"', scene)
+        self.assertIn('"HDRP/Lit"', scene)
         self.assertIn("No other project materials, packages or render settings changed", scene)
 
     def test_buyer_editor_installation_and_scene_open_actions(self):

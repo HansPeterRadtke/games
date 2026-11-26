@@ -46,24 +46,68 @@ namespace HPR.GameplaySuite
             return data;
         }
 
+        // Active-pipeline selection is shared by initial sample authoring and the
+        // explicit buyer-side conversion action. A project may have URP and HDRP
+        // packages installed simultaneously: the first discoverable shader is
+        // NOT necessarily compatible with the active pipeline.
+        internal static string DemoShaderNameForPipelineType(string activePipelineType)
+        {
+            if (activePipelineType == null) return "Standard";
+            if (string.Equals(activePipelineType, "UniversalRenderPipelineAsset", StringComparison.Ordinal))
+                return "Universal Render Pipeline/Lit";
+            if (string.Equals(activePipelineType, "HDRenderPipelineAsset", StringComparison.Ordinal))
+                return "HDRP/Lit";
+            throw new InvalidOperationException(
+                "The active render pipeline is not Built-in, URP or HDRP. No materials changed.");
+        }
+
+        private static Shader RequireActiveDemoShader()
+        {
+            var pipeline = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline;
+            string name = DemoShaderNameForPipelineType(pipeline == null ? null : pipeline.GetType().Name);
+            Shader shader = Shader.Find(name);
+            if (shader == null || !shader.isSupported)
+                throw new InvalidOperationException(
+                    "The active pipeline's " + name + " shader is not installed or supported; no materials changed.");
+            return shader;
+        }
+
+        private static void SetDemoMaterialColor(Material material, Color color)
+        {
+            // HDRP/URP Lit use _BaseColor; Standard generally uses _Color.
+            // Material.color is not a reliable way to address _BaseColor.
+            bool assigned = false;
+            if (material.HasProperty("_BaseColor"))
+            {
+                material.SetColor("_BaseColor", color);
+                assigned = true;
+            }
+            if (material.HasProperty("_Color"))
+            {
+                material.SetColor("_Color", color);
+                assigned = true;
+            }
+            if (!assigned)
+                throw new InvalidOperationException("Active demo shader has no supported color property; no material color modified.");
+        }
+
         private static Material CreateMaterial(string name, Color color, float metallic = 0f, float roughness = 0.6f)
         {
             string path = Samples + "/" + name + ".mat";
             Material material = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (material == null)
             {
-                // Select a shader matching the active render pipeline; never ship a pink legacy
-                // Standard material into an active URP/HDRP project.
-                bool scriptablePipeline = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline != null;
-                Shader shader = scriptablePipeline
-                    ? (Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("HDRP/Lit"))
-                    : Shader.Find("Standard");
-                if (shader == null) shader = Shader.Find("Unlit/Color");
-                if (shader == null) throw new InvalidOperationException("Unity has no supported demo shader");
+                // Fail closed rather than authoring an incompatible shader or
+                // selecting an arbitrary other pipeline just because installed.
+                Shader shader = RequireActiveDemoShader();
                 material = new Material(shader);
+                // Validate the actual pipeline's base-color property BEFORE
+                // adding a new asset to the project. Unsupported shaders must
+                // not leave a half-created material behind on failure.
+                SetDemoMaterialColor(material, color);
                 AssetDatabase.CreateAsset(material, path);
             }
-            material.color = color;
+            else SetDemoMaterialColor(material, color);
             // Metal/roughness workflow: Standard/URP smoothness is one minus roughness.
             float smoothness = 1f - Mathf.Clamp01(roughness);
             if (material.HasProperty("_Metallic")) material.SetFloat("_Metallic", Mathf.Clamp01(metallic));
@@ -462,18 +506,7 @@ namespace HPR.GameplaySuite
         {
             UnityEngine.Rendering.RenderPipelineAsset current =
                 UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline;
-            Shader target;
-            if (current == null)
-                target = Shader.Find("Standard");
-            else if (current.GetType().Name.Contains("Universal"))
-                target = Shader.Find("Universal Render Pipeline/Lit");
-            else if (current.GetType().Name.Contains("HDRenderPipeline"))
-                target = Shader.Find("HDRP/Lit");
-            else
-                throw new InvalidOperationException(
-                    "The active render pipeline is not Built-in, URP or HDRP. No materials changed.");
-            if (target == null || !target.isSupported)
-                throw new InvalidOperationException("Required pipeline Lit shader is not installed/supported; no changes made.");
+            Shader target = RequireActiveDemoShader();
             string[] guids = AssetDatabase.FindAssets("t:Material", new[] { Samples });
             foreach (string guid in guids)
             {
@@ -486,8 +519,7 @@ namespace HPR.GameplaySuite
                 float smoothness = material.HasProperty("_Smoothness") ? material.GetFloat("_Smoothness") :
                                    material.HasProperty("_Glossiness") ? material.GetFloat("_Glossiness") : .4f;
                 material.shader = target;
-                if (material.HasProperty("_BaseColor")) material.SetColor("_BaseColor", color);
-                if (material.HasProperty("_Color")) material.SetColor("_Color", color);
+                SetDemoMaterialColor(material, color);
                 if (material.HasProperty("_Metallic")) material.SetFloat("_Metallic", Mathf.Clamp01(metallic));
                 if (material.HasProperty("_Smoothness")) material.SetFloat("_Smoothness", Mathf.Clamp01(smoothness));
                 if (material.HasProperty("_Glossiness")) material.SetFloat("_Glossiness", Mathf.Clamp01(smoothness));
