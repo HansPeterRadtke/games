@@ -20,10 +20,25 @@ for p in (root, *sorted(root.rglob('*'))):
     allowed[guid] = {'path': 'Assets/' + str(p.relative_to(assets)), 'source': p, 'guid': guid}
 with tarfile.open(archive, 'r:*') as tar:
     collected = {}
+    declared_directories = set()
     for item in tar:
-        assert item.isfile(), 'Unexpected archive entry type'
-        assert re.fullmatch(r'[a-f0-9]{32}/(asset|asset.meta|pathname)', item.name), f'Unexpected archive entry {item.name}'
-        guid, typ = item.name.split('/')
+        # Unity 2022 writes explicit root/GUID directory entries and ./
+        # pathname prefixes, whereas 6.6 writes file entries alone. Both
+        # formats are accepted ONLY if the exact payload matches source.
+        name = item.name[2:] if item.name.startswith('./') else item.name
+        if item.isdir():
+            if name in ('', '.'):
+                assert name not in declared_directories, 'Repeated root directory entry'
+            else:
+                assert re.fullmatch(r'[a-f0-9]{32}', name), f'Unexpected archive directory {item.name}'
+                assert name in allowed, f'Unknown GUID directory {name}'
+                assert name not in declared_directories, f'Repeated GUID directory {name}'
+            assert item.size == 0, f'Unexpected nonempty directory entry {item.name}'
+            declared_directories.add(name)
+            continue
+        assert item.isfile(), f'Unexpected link/non-file archive member {item.name}'
+        assert re.fullmatch(r'[a-f0-9]{32}/(asset|asset.meta|pathname)', name), f'Unexpected archive entry {item.name}'
+        guid, typ = name.split('/')
         assert guid in allowed, f'Unknown packaged GUID {guid}'
         assert typ not in collected.setdefault(guid, {}), f'Duplicate tar entry {item.name}'
         value = tar.extractfile(item).read()

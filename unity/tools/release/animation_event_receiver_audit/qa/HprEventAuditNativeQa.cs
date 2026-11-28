@@ -149,6 +149,11 @@ public static class HprEventAuditNativeQa
         Require(manifestBefore == Hash("Packages/manifest.json") &&
             before.SequenceEqual(protectedPaths.Select(Hash)),
             "Read-only scan/report/window changed a prefab/clip/controller or package manifest");
+#if UNITY_6000_6_OR_NEWER
+        const string eventInfoStatus = "current_unity_event_info_receiver=PASS\n";
+#else
+        const string eventInfoStatus = "current_unity_event_info_receiver=NOT_APPLICABLE_ON_THIS_EDITOR\n";
+#endif
         File.WriteAllText(ExpectedReceipt,
             "HPR_ANIMATION_EVENT_REAL_NATIVE_PASS\n" +
             "Unity=" + Application.unityVersion + "\n" +
@@ -157,7 +162,7 @@ public static class HprEventAuditNativeQa
             "overlap_with_different_name=PASS\nscoped_folder_scan=PASS\n" +
             "non_assets_scope_rejected=PASS\n" +
             "actual_editor_window=PASS\nreceiver_signatures=PASS\n" +
-            "current_unity_event_info_receiver=PASS\n" +
+            eventInfoStatus +
             "create_only_json=PASS\nproject_write_rejected=PASS\n" +
             "real_asset_hashes_and_manifest_unchanged=PASS\n");
         Debug.Log("HPR_ANIMATION_EVENT_REAL_NATIVE_PASS");
