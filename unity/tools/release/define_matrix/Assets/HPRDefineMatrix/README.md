@@ -8,6 +8,25 @@ In a Unity 6.1 or newer project that already has Build Profiles, import this arc
 
 For an independent sample, create two Build Profiles in Unity via **File > Build Profiles**. In the Scripting Defines section, add `RELEASE_BUILD` in one and `DEMO_BUILD` in the other; add `FEATURE_SHARED` in both. The tool should report one shared symbol and one unique symbol per profile. The sample is *instructional*, not an automatic modification or fixture included in the buyer archive.
 
+## Compare with an earlier approved release
+
+After reviewing a current saved Build Profile, choose **Save live define reference**
+and select a *new* `.hpr-defines` file outside the entire Unity project directory. Store this approved snapshot alongside your release evidence. When
+preparing a later revision, open the same window and choose **Load saved
+define reference**. It compares the earlier declared symbols with a current
+profile without changing any Build Profile, project setting, active target, or
+existing reference file. The display and CSV show the saved time and warn if
+the historical asset identifier differs from the selected current profile.
+Use **Return to live profile comparison** to compare two current profiles.
+
+A saved define reference does *not* prove that the original release was
+published or that its compiled Player used exactly those symbols. It does not
+include Player Settings, command-line overrides or external response-file
+defines. Only explicit declarations from one saved Build Profile are
+preserved. The tool cannot establish which Unity project an untrusted
+reference belongs to; review its provenance yourself. Snapshots are bounded,
+validated on load and never overwrite an existing file.
+
 ## Exact scope and limitations
 
 This is a **configuration comparison**, not a project validator or proof that a final Player contains a particular feature. It reads `BuildProfile.scriptingDefines` using documented Unity APIs. Those symbols are *additive* to the Player Settings and global compiler response files, but this tool deliberately does **not** report effective or compiled symbols from those other scopes. Build command-line extra defines and active build state also affect compilation and are not analyzed. A difference may be intentional, for example free demo versus paid release. The tool does not label either choice as wrong.

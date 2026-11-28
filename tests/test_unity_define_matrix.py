@@ -19,7 +19,7 @@ class DefineMatrixTest(unittest.TestCase):
             self.assertIsNotNone(found, str(meta))
             self.assertNotIn(found.group(1), guids)
             guids.add(found.group(1))
-        self.assertEqual(len(guids), 6)
+        self.assertEqual(len(guids), 7)
 
     def test_editor_only_no_buyer_qa(self):
         source = (ASSETS / 'Editor/HprDefineMatrix.cs').read_text()
@@ -33,6 +33,21 @@ class DefineMatrixTest(unittest.TestCase):
         self.assertNotIn('PlayerSettings.Set', source)
         self.assertNotIn('SetActiveBuildProfile', source)
         self.assertNotIn('HttpClient', source)
+
+    def test_historical_baseline_is_create_only_and_validated(self):
+        source = (ASSETS / "Editor/HprDefineBaseline.cs").read_text()
+        buyer_window = (ASSETS / "Editor/HprDefineMatrix.cs").read_text()
+        qa = (SRC / "qa/HprDefineMatrixQa.cs").read_text()
+        for term in ("FileMode.CreateNew", "MaxFileBytes", "InvalidDataException",
+                     "HistoricalCapturedUtc", "JsonUtility.ToJson", "JsonUtility.FromJson",
+                     "outside the entire Unity project", "profileId", "CapturedUtc"):
+            self.assertIn(term, source + buyer_window)
+        for term in ("Save live define reference", "Load saved define reference",
+                     "Return to live profile comparison", "Reference asset identity changed"):
+            self.assertIn(term, buyer_window)
+        for term in ("actual_profile_change_detected=PASS", "saved_reference_roundtrip=PASS",
+                     "historical_csv_includes_provenance=PASS", "reference_overwrite_refused=PASS", "project_write_refused=PASS"):
+            self.assertIn(term, qa)
 
     def test_native_qa_runs_real_editor(self):
         script = (SRC / 'qa/run_native_acceptance.sh').read_text()
@@ -54,7 +69,7 @@ class DefineMatrixTest(unittest.TestCase):
     def test_private_qa_excluded_and_has_critical_checks(self):
         fixture = (SRC / 'qa/HprDefineMatrixQa.cs').read_text()
         for value in ('HPR_DEFINES_NATIVE_PASS', 'Native Unity did not create a profile', 'RELEASE_BUILD',
-                      'DEMO_BUILD', 'AssetDatabase.CreateAsset', 'original_assets_unchanged=PASS',
+                      'DEMO_BUILD', 'AssetDatabase.CreateAsset', 'original_assets_unchanged_before_deliberate_fixture_change=PASS',
                       'HprDefineMatrixWindow.OpenWindow'):
             self.assertIn(value, fixture)
         self.assertFalse((ASSETS / 'qa').exists())

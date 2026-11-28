@@ -5,3 +5,9 @@ This package is **NEW**, distinct from the existing Build Scene Matrix and Scene
 Only `Assets/HPRDefineMatrix/` is buyer deliverable. `qa/` is developer-only and must NEVER ship. Unity 6.1 API needed; actual native tests in installed patched Unity 6000.6.8f1 only. `qa/run_native_acceptance.sh` creates an author project, exports a private .unitypackage with genuine stable `.meta` identities, imports into a clean buyer project and verifies real BuildProfile defines, read-only scanning, create-only export and EditorWindow construction. No automatic UPM operations or profiles in the buyer archive.
 
 Native interactive visual acceptance and customer usability (not merely batch Editor window construction) should additionally be verified before claiming buyer-ready marketplace screenshots. No external upload/publication is authorized. Sale income unknown. The current licence is private evaluation, not permission to distribute.
+
+The current release extends the original simultaneous profile view with
+**create-only historical define references**: capture reviewed release
+configuration, load it later, detect changed release/demo symbols and export
+timestamped differences. Only exact new source and newly tested Unity archive
+can substantiate this feature; older private packages do not contain it.

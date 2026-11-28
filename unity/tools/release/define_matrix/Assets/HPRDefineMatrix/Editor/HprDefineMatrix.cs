@@ -21,6 +21,7 @@ namespace HPR.DefineMatrix
         public string Name = "";
         public string Error;
         public bool IsActive;
+        public DateTimeOffset? HistoricalCapturedUtc;
         public readonly List<string> Symbols = new List<string>();
         public readonly List<string> Warnings = new List<string>();
         public bool Readable { get { return string.IsNullOrEmpty(Error); } }
@@ -139,7 +140,9 @@ namespace HPR.DefineMatrix
         {
             // Create-only CSV, never formulas when opened in spreadsheet software.
             if (raw == null) raw = "";
-            if (raw.Length > 0 && "=+-@\t\r".IndexOf(raw[0]) >= 0) raw = "'" + raw;
+            string trimmed = raw.TrimStart();
+            if ((trimmed.Length > 0 && "=+-@＝＋－＠".IndexOf(trimmed[0]) >= 0) ||
+                (raw.Length > 0 && "\t\r\n".IndexOf(raw[0]) >= 0)) raw = "'" + raw;
             return "\"" + raw.Replace("\"", "\"\"").Replace("\r", " ").Replace("\n", " ") + "\"";
         }
 
@@ -152,6 +155,18 @@ namespace HPR.DefineMatrix
             // No file created before all comparisons and bounded validation succeed.
             if (rows.Count > MaxSymbols * 2) throw new InvalidOperationException("Export result is too large.");
             var csv = new StringBuilder("Profile left,Profile right,Symbol,Left,Right,Status\r\n");
+            if (a.HistoricalCapturedUtc.HasValue)
+            {
+                csv.Append(Csv(a.Path)).Append(',').Append(Csv(b.Path))
+                   .Append(',').Append(Csv("Reference captured UTC"))
+                   .Append(",,,").Append(Csv(a.HistoricalCapturedUtc.Value.ToUniversalTime().ToString("O")))
+                   .Append("\r\n");
+                csv.Append(Csv(a.Path)).Append(',').Append(Csv(b.Path))
+                   .Append(',').Append(Csv("Reference asset identity changed"))
+                   .Append(",,,").Append(Csv(string.Equals(a.Id, b.Id, StringComparison.Ordinal) ?
+                       "No" : "Yes — verify the intended project and profile"))
+                   .Append("\r\n");
+            }
             foreach (var row in rows)
                 csv.Append(Csv(a.Path)).Append(',').Append(Csv(b.Path)).Append(',').Append(Csv(row.Symbol))
                    .Append(',').Append(row.Left ? "yes" : "no").Append(',').Append(row.Right ? "yes" : "no")
@@ -177,6 +192,8 @@ namespace HPR.DefineMatrix
         private Vector2 scroll;
         private string filter = "", status = "";
         private bool differencesOnly;
+        private HprDefineBaseline baseline;
+        private DefineProfile Reference { get { return baseline == null ? profiles[left] : baseline.Profile; } }
 
         [MenuItem("Tools/HPR/Define Matrix")]
         public static HprDefineMatrixWindow OpenWindow()
@@ -198,6 +215,50 @@ namespace HPR.DefineMatrix
                 Math.Max(0, profiles.FindIndex(p => p.Id == oldRight));
             status = "Scanned saved profile-specific scripting defines without changing project settings.";
         }
+        private void SaveReference()
+        {
+            string path = EditorUtility.SaveFilePanel("Save a NEW declared-define reference",
+                "", "hpr-release-defines", HprDefineBaseline.Extension);
+            if (string.IsNullOrEmpty(path)) return;
+            try
+            {
+                HprDefineBaseline.SaveNew(path, profiles[left], DateTimeOffset.UtcNow);
+                status = "Saved a new reference without changing Unity project assets.";
+            }
+            catch (Exception ex) { status = "Reference save refused: " + ex.Message; }
+        }
+        private void LoadReference()
+        {
+            string path = EditorUtility.OpenFilePanel("Load a saved define reference",
+                "", HprDefineBaseline.Extension);
+            if (string.IsNullOrEmpty(path)) return;
+            try
+            {
+                var loaded = HprDefineBaseline.Load(path);
+                baseline = loaded;
+                int same = profiles.FindIndex(p => p.Id == loaded.Profile.Id && p.Readable);
+                if (same >= 0) right = same;
+                status = "Saved reference loaded read-only. Verify it belongs to this project.";
+            }
+            catch (Exception ex) { status = "Reference load refused: " + ex.Message; }
+        }
+        private void DrawReferenceControls()
+        {
+            EditorGUILayout.BeginHorizontal();
+            using (new EditorGUI.DisabledScope(baseline != null || !profiles[left].Readable))
+                if (GUILayout.Button("Save live define reference…")) SaveReference();
+            if (GUILayout.Button("Load saved define reference…")) LoadReference();
+            EditorGUILayout.EndHorizontal();
+            if (baseline == null) return;
+            EditorGUILayout.HelpBox("Saved profile: " + baseline.Profile.Name +
+                " · captured " + baseline.CapturedUtc.ToString("u") +
+                ". A saved profile GUID alone does not establish project identity.", MessageType.Info);
+            if (GUILayout.Button("Return to live profile comparison"))
+            {
+                baseline = null;
+                status = "Comparing two current saved profiles again.";
+            }
+        }
         private void OnGUI()
         {
             EditorGUILayout.LabelField("HPR DEFINE MATRIX", EditorStyles.boldLabel);
@@ -212,14 +273,21 @@ namespace HPR.DefineMatrix
                 (p.Readable ? "" : " (unreadable)")).ToArray();
             left = Mathf.Clamp(left, 0, profiles.Count - 1);
             right = Mathf.Clamp(right, 0, profiles.Count - 1);
-            left = EditorGUILayout.Popup("Reference profile", left, labels);
+            if (baseline == null)
+                left = EditorGUILayout.Popup("Reference profile", left, labels);
+            else
+                EditorGUILayout.LabelField("Reference", "Saved snapshot");
             right = EditorGUILayout.Popup("Compared profile", right, labels);
-            var a = profiles[left]; var b = profiles[right];
+            DrawReferenceControls();
+            var a = Reference; var b = profiles[right];
             if (!a.Readable || !b.Readable)
             {
                 EditorGUILayout.HelpBox("Profile read failed: " + (a.Error ?? b.Error), MessageType.Error);
                 return;
             }
+            if (baseline != null && !string.Equals(a.Id, b.Id, StringComparison.Ordinal))
+                EditorGUILayout.HelpBox("The historical profile asset identifier differs from the selected live profile. " +
+                    "Check whether this comparison is intentional before interpreting the results.", MessageType.Warning);
             foreach (var warning in a.Warnings.Concat(b.Warnings).Distinct())
                 EditorGUILayout.HelpBox(warning, MessageType.Warning);
             var differences = HprDefineMatrix.Compare(a, b);
@@ -228,7 +296,7 @@ namespace HPR.DefineMatrix
             EditorGUILayout.LabelField("Shared: " + (differences.Count - onlyA - onlyB) + "    Reference only: " + onlyA +
                 "    Compared only: " + onlyB, EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(onlyA + onlyB == 0 ?
-                "These profiles declare the same additional defines. This does not certify equal builds." :
+                "These references declare the same additional defines. This does not certify equal builds." :
                 "Different profile-specific symbols can intentionally compile different features. Review the differences before releasing a build.",
                 onlyA + onlyB == 0 ? MessageType.Info : MessageType.Warning);
             differencesOnly = EditorGUILayout.ToggleLeft("Show differences only", differencesOnly);

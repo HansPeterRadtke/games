@@ -86,27 +86,95 @@ public static class HprDefineMatrixQa
         Require(File.ReadAllText(warningCsv).Contains("Reference warning") &&
                 File.ReadAllText(warningCsv).Contains("Repeated scripting define"),
                 "CSV concealed invalid or repeated scripting defines");
+        var unsafeProfile = new DefineProfile { Name = "Untrusted", Id = "untrusted",
+            Path = " ＝HYPERLINK(\"https://untrusted.invalid\")" };
+        unsafeProfile.Symbols.Add("VALID_DEFINE");
+        string unsafeCsv = Path.Combine(Path.GetDirectoryName(receipt), "unsafe-define-report.csv");
+        HprDefineMatrix.ExportNewCsv(unsafeCsv, unsafeProfile, b);
+        Require(File.ReadAllText(unsafeCsv).Contains("\"' ＝HYPERLINK"),
+            "Export does not guard spreadsheet formula-like profile path");
         string beforeCsv = Sha(csv);
         bool refused = false;
         try { HprDefineMatrix.ExportNewCsv(csv, a, b); }
         catch (IOException) { refused = true; }
         Require(refused && Sha(csv) == beforeCsv, "Create-only export overwrote an existing report");
 
-        // Instantiate the installed Editor window, not a fake UI-model class.
+        // Capture a true release-like reference without changing any profile;
+        // then verify it survives a subsequent actual saved-profile change.
+        string baselinePath = Path.ChangeExtension(receipt, ".hpr-defines");
+        DateTimeOffset captured = DateTimeOffset.UtcNow;
+        HprDefineBaseline.SaveNew(baselinePath, b, captured);
+        string baselineSha = Sha(baselinePath);
+        string forbiddenProjectFile = "ProjectSettings/HprForbiddenReference.hpr-defines";
+        bool refusedProjectLocation = false;
+        try { HprDefineBaseline.SaveNew(forbiddenProjectFile, b, captured); }
+        catch (IOException) { refusedProjectLocation = true; }
+        Require(refusedProjectLocation && !File.Exists(forbiddenProjectFile),
+            "Reference writer allowed unexpected in-project ProjectSettings file");
+        var historical = HprDefineBaseline.Load(baselinePath);
+        Require(historical.Profile.Id == b.Id && historical.Profile.Path == b.Path &&
+                historical.Profile.HistoricalCapturedUtc.HasValue &&
+                historical.CapturedUtc == captured &&
+                HprDefineMatrix.Compare(historical.Profile, b).All(d => d.Left == d.Right),
+                "Native saved scripting-define reference failed roundtrip");
+        bool refusedSavedReference = false;
+        try { HprDefineBaseline.SaveNew(baselinePath, b, captured); }
+        catch (IOException) { refusedSavedReference = true; }
+        Require(refusedSavedReference && Sha(baselinePath) == baselineSha,
+                "Native saved reference silently overwrote an existing file");
+        string invalidBaseline = Path.Combine(Path.GetDirectoryName(receipt), "invalid-define-reference.hpr-defines");
+        File.WriteAllText(invalidBaseline, "{\"format\":\"not-our-format\"}");
+        bool invalidRefused = false;
+        try { HprDefineBaseline.Load(invalidBaseline); }
+        catch (InvalidDataException) { invalidRefused = true; }
+        Require(invalidRefused, "Malformed external reference was incorrectly accepted");
+
+        // Instantiate the real installed Editor window, not a fake UI-model.
         var window = HprDefineMatrixWindow.OpenWindow();
         Require(window != null, "Unity Editor window failed to open");
-        window.Close();
+        try
+        {
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            typeof(HprDefineMatrixWindow).GetField("baseline", flags).SetValue(window, historical);
+            var reflected = (HprDefineBaseline)typeof(HprDefineMatrixWindow)
+                .GetField("baseline", flags).GetValue(window);
+            Require(reflected != null && reflected.Profile.Id == b.Id,
+                "Native EditorWindow did not accept the saved historical reference");
+        }
+        finally { window.Close(); }
         Require(beforeRelease == Sha(FixtureRoot + "/HPR_Release_Test.asset") &&
                 beforeDemo == Sha(FixtureRoot + "/HPR_Demo_Test.asset") &&
                 manifest == Sha("Packages/manifest.json") &&
                 active == (BuildProfile.GetActiveBuildProfile() == null ? "none" :
                    AssetDatabase.GetAssetPath(BuildProfile.GetActiveBuildProfile())),
                 "Read-only scan, UI or export mutated Unity settings or test source");
+        // Deliberate saved profile update on this disposable buyer fixture.
+        demo.scriptingDefines = new[] { "FEATURE_SHARED", "RELEASE_BUILD" };
+        EditorUtility.SetDirty(demo);
+        AssetDatabase.SaveAssets();
+        var updated = HprDefineMatrix.Scan().Single(x => x.Path == FixtureRoot + "/HPR_Demo_Test.asset");
+        var changed = HprDefineMatrix.Compare(historical.Profile, updated);
+        Require(changed.Count == 3 &&
+            changed.Single(x => x.Symbol == "DEMO_BUILD").Status == "Left only" &&
+            changed.Single(x => x.Symbol == "RELEASE_BUILD").Status == "Right only",
+            "Native historical reference missed an actual subsequent define change");
+        string historyCsv = Path.Combine(Path.GetDirectoryName(receipt), "historical-define-delta.csv");
+        HprDefineMatrix.ExportNewCsv(historyCsv, historical.Profile, updated);
+        string exportedHistory = File.ReadAllText(historyCsv);
+        Require(exportedHistory.Contains("Reference captured UTC") &&
+                exportedHistory.Contains("Reference asset identity changed") &&
+                exportedHistory.Contains("DEMO_BUILD") && exportedHistory.Contains("RELEASE_BUILD") &&
+                Sha(baselinePath) == baselineSha && manifest == Sha("Packages/manifest.json"),
+                "Historical CSV omitted provenance or changed original saved reference");
         File.WriteAllText(receipt, "HPR_DEFINES_NATIVE_PASS\n" +
             "Unity=" + Application.unityVersion + "\n" +
             "profiles=2\nshared=1\nleft_only=1\nright_only=1\n" +
-            "malformed_warnings=3\ncreate_only_csv=PASS\nwindow_opened=PASS\n" +
-            "original_assets_unchanged=PASS\n");
+            "malformed_warnings=3\ncreate_only_csv=PASS\ncsv_formula_guard=PASS\nwindow_opened=PASS\n" +
+            "saved_reference_roundtrip=PASS\nproject_write_refused=PASS\n" +
+            "reference_overwrite_refused=PASS\n" +
+            "malformed_reference_rejected=PASS\nactual_profile_change_detected=PASS\n" +
+            "historical_csv_includes_provenance=PASS\n" +
+            "original_assets_unchanged_before_deliberate_fixture_change=PASS\n");
         Debug.Log("HPR_DEFINES_NATIVE_PASS");
     }
 }
