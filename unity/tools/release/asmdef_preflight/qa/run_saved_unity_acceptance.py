@@ -60,13 +60,24 @@ def main(original: Path, evidence: Path):
         missing_in_player = inspect(copied)
         if missing_in_player['status']!='REVIEW' or not any(x['code']=='TEST_ONLY_CONSTRAINT' for x in missing_in_player['findings']):
             raise AssertionError('Deliberate private-copy runtime test-only constraint not reported')
+        # A distinct error mode from a real Unity forum problem: an embedded
+        # UPM package has .cs source, but no assembly definition in its scope.
+        embedded = copied/'Packages/com.hpr.assembly-missing'
+        (embedded/'Runtime').mkdir(parents=True)
+        (embedded/'package.json').write_text('{"name":"com.hpr.assembly-missing"}')
+        (embedded/'Runtime/UnboundComponent.cs').write_text('public class UnboundComponent {}')
+        unbound = inspect(copied)
+        if unbound['status']!='FAIL' or not any(x['code']=='UNBOUND_EMBEDDED_PACKAGE_SCRIPT' for x in unbound['findings']):
+            raise AssertionError('Private-copy package missing its runtime assembly was not detected')
         for filename,receipt in [('real-project-positive.json',good),('private-copy-duplicate.json',conflict),
-                                 ('private-copy-test-constraint.json',missing_in_player)]:
+                                 ('private-copy-test-constraint.json',missing_in_player),
+                                 ('private-copy-embedded-unbound-script.json',unbound)]:
             (evidence/filename).write_text(json.dumps(receipt,indent=2)+'\n')
     assert before == {str(p):sha(p) for p in original_files},'Original saved Unity data changed'
     result={'result':'PASS_SAVED_UNITY_SOURCE_ONLY','saved_project':str(original),
             'real_asmdef_files':len(files),'saved_originals_unchanged':True,
             'duplicate_detected_in_private_copy':True,'test_only_constraint_detected_in_private_copy':True,
+            'embedded_unbound_script_detected_in_private_copy':True,
             'scratch_project_removed':True,'unity_editor_invoked':False,'buyer_native_accepted':False,
             'original_file_hashes':before}
     (evidence/'source-preservation-receipt.json').write_text(json.dumps(result,indent=2)+'\n')

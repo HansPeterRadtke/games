@@ -215,6 +215,32 @@ def inspect(project_path: Path) -> dict:
             for path in paths:
                 add("FAIL", "DUPLICATE_ASMDEF_GUID", path,
                     "Repeated GUID across saved local assembly definitions: " + guid)
+    # Unity ignores C# code in an embedded UPM package when no assembly
+    # definition/reference owns its folder. A definition in Editor/ does not
+    # make separate Runtime/ scripts compile. This is a concrete buyer failure,
+    # not just an unresolved external assembly inference.
+    embedded_csharp_count = 0
+    for package in roots[1:]:
+        assembly_directories = {p.parent for p in files if p.is_relative_to(package)}
+        for directory, names_in_dir, filenames in os.walk(package, topdown=True, followlinks=False):
+            # Samples~ and Documentation~ are not compiled until separately
+            # imported; do not flag examples that aren't active project code.
+            names_in_dir[:] = sorted(n for n in names_in_dir if not n.endswith("~"))
+            for filename in sorted(filenames):
+                if not filename.lower().endswith(".cs"):
+                    continue
+                path = Path(directory) / filename
+                if path.is_symlink() or not path.is_file():
+                    raise Incomplete("Linked or nonregular embedded package script: " + str(path))
+                embedded_csharp_count += 1
+                if embedded_csharp_count > 10000:
+                    raise Incomplete("Too many embedded package scripts for bounded analysis")
+                owners = (path.parent, *path.parent.parents)
+                if not any(folder in assembly_directories for folder in owners if folder == package or package in folder.parents):
+                    add("FAIL", "UNBOUND_EMBEDDED_PACKAGE_SCRIPT", path.relative_to(project).as_posix(),
+                        "Embedded UPM script has no asmdef/asmref in its own folder ancestry. "
+                        "Its package code may not compile into the project; inspect Unity's assembly importer.")
+
     for source, reference in references:
         match = GUID_REF.fullmatch(reference)
         if match:
@@ -236,6 +262,7 @@ def inspect(project_path: Path) -> dict:
               "project": str(project), "asmdef_count": len(assemblies),
               "asmref_count": len(files) - len(assemblies),
               "embedded_roots_scanned": len(roots) - 1,
+              "embedded_csharp_scripts_checked": embedded_csharp_count,
               "bytes_read_from_assembly_json": total,
               "findings": findings,
               "coverage": "Saved Assets and embedded Packages folder asmdef/asmref JSON only",

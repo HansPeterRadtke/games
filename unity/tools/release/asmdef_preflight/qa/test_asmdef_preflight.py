@@ -65,6 +65,29 @@ class AssemblyPreflightTest(unittest.TestCase):
                          {"UNRESOLVED_NAME_REFERENCE", "UNRESOLVED_GUID_REFERENCE"})
         self.assertIn("Registry", d["limitations"][0])
 
+    def test_embedded_upm_runtime_script_without_own_assembly_is_definite_failure(self):
+        embedded = self.project / "Packages" / "com.hpr.runtime-test"
+        (embedded / "Runtime").mkdir(parents=True)
+        (embedded / "Editor").mkdir()
+        (embedded / "package.json").write_text('{"name":"com.hpr.runtime-test"}')
+        self.asset("Editor.asmdef", {"name":"HPR.Editor"}, "a"*32, embedded/"Editor")
+        (embedded/"Runtime"/"MissingAssembly.cs").write_text("public static class MissingAssembly {}")
+        d = mod.inspect(self.project)
+        self.assertEqual(d['status'], 'FAIL')
+        self.assertEqual(d['embedded_csharp_scripts_checked'], 1)
+        self.assertEqual([x['code'] for x in d['findings'] if x['severity']=='FAIL'],
+                         ['UNBOUND_EMBEDDED_PACKAGE_SCRIPT'])
+
+    def test_embedded_upm_runtime_script_with_ancestor_asmdef_is_not_flagged(self):
+        embedded = self.project / "Packages" / "com.hpr.runtime-test"
+        (embedded / "Runtime/Sub").mkdir(parents=True)
+        (embedded / "package.json").write_text('{"name":"com.hpr.runtime-test"}')
+        self.asset("Runtime.asmdef", {"name":"HPR.Runtime"}, "a"*32, embedded/"Runtime")
+        (embedded/"Runtime/Sub"/"ValidComponent.cs").write_text("public static class ValidComponent {}")
+        d = mod.inspect(self.project)
+        self.assertEqual(d['status'],'CLEAR_WITH_LIMITS')
+        self.assertEqual(d['embedded_csharp_scripts_checked'],1)
+
     def test_duplicate_guid_is_failed_identity(self):
         self.asset("A.asmdef", {"name": "A"}, "d" * 32)
         self.asset("B.asmdef", {"name": "B"}, "d" * 32)
