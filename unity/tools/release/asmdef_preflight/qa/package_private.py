@@ -49,7 +49,7 @@ def package(destination: Path) -> dict:
         for name, blob in sources.items():
             if archive.read(PREFIX+name) != blob:
                 raise ValueError("Packaged file content changed")
-    return {"status":"PASS_PRIVATE_CLI_ZIP_NOT_PUBLISHED","version":"0.1.1-private",
+    return {"status":"PASS_PRIVATE_CLI_ZIP_NOT_PUBLISHED","version":"0.1.2-private",
             "zip_path":str(destination),"zip_sha256":digest(destination.read_bytes()),
             "sources_sha256":{name:digest(b) for name,b in sources.items()},
             "files":[PREFIX+name for name in SHIP],"contains_private_qa":False,

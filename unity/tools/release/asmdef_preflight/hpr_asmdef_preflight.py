@@ -98,6 +98,7 @@ def _file_roots(project: Path) -> list[Path]:
 
 def _walk_sources(root: Path, project: Path) -> list[Path]:
     result = []
+    embedded = root != project / "Assets"
     for directory, names, files in os.walk(root, topdown=True, followlinks=False):
         names.sort()
         files.sort()
@@ -105,6 +106,10 @@ def _walk_sources(root: Path, project: Path) -> list[Path]:
             p = Path(directory) / name
             if p.is_symlink():
                 raise Incomplete("Linked directory under source root: " + str(p))
+        # Unity's tilde-suffixed package folders, notably Samples~ and
+        # Documentation~, are not imported/compiled as package source.
+        if embedded:
+            names[:] = [name for name in names if not name.endswith("~")]
         for filename in files:
             path = Path(directory) / filename
             if path.is_symlink():

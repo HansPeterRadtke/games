@@ -78,6 +78,24 @@ class AssemblyPreflightTest(unittest.TestCase):
         self.assertEqual([x['code'] for x in d['findings'] if x['severity']=='FAIL'],
                          ['UNBOUND_EMBEDDED_PACKAGE_SCRIPT'])
 
+    def test_embedded_upm_samples_tilde_do_not_create_false_duplicate_assembly(self):
+        embedded = self.project / "Packages" / "com.hpr.local-tool"
+        (embedded / "Runtime").mkdir(parents=True)
+        (embedded / "Samples~").mkdir()
+        (embedded / "package.json").write_text('{"name":"com.hpr.local-tool"}')
+        self.asset("Runtime.asmdef", {"name":"HPR.Runtime"}, "a" * 32,
+                   embedded / "Runtime")
+        (embedded / "Runtime" / "Good.cs").write_text("public static class Good {}")
+        # The sample is not a compiled package asset and must NOT be treated
+        # as a duplicate assembly definition until explicitly imported.
+        self.asset("Demo.asmdef", {"name":"HPR.Runtime"}, "b" * 32,
+                   embedded / "Samples~")
+        (embedded / "Samples~" / "Demo.cs").write_text("public static class Demo {}")
+        d = mod.inspect(self.project)
+        self.assertEqual(d['status'], 'CLEAR_WITH_LIMITS')
+        self.assertEqual(d['asmdef_count'], 1)
+        self.assertEqual(d['embedded_csharp_scripts_checked'], 1)
+
     def test_embedded_upm_runtime_script_with_ancestor_asmdef_is_not_flagged(self):
         embedded = self.project / "Packages" / "com.hpr.runtime-test"
         (embedded / "Runtime/Sub").mkdir(parents=True)

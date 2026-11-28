@@ -2,8 +2,9 @@
 
 **New private source-level product candidate; NOT an approved Unity Asset Store editor extension, NOT PUBLISHED, and NOT for resale.** Original stand-alone Python source checks a saved Unity project's local assembly definitions, `.asmdef` and `.asmref` files, for some important structural problems before a Unity package is shipped. It
 also identifies embedded UPM `.cs` files with no ancestor `.asmdef` or `.asmref`
-(such as runtime scripts hidden by an Editor-only definition); ignores `Samples~`
-and `Documentation~` example folders that Unity does not compile by default. It never starts the Unity Editor, makes a build, downloads dependencies, modifies files, or contacts anyone. It is deliberately separate from the existing HPR Package Boundary Inspector (which inspects asset references and GUID inventory, not assembly-name collisions or assembly reference declarations).
+(such as runtime scripts hidden by an Editor-only definition). It excludes
+`Samples~` and `Documentation~` from embedded-package assembly and C# scans;
+those directories are not compiled by Unity until explicitly imported. It never starts the Unity Editor, makes a build, downloads dependencies, modifies files, or contacts anyone. It is deliberately separate from the existing HPR Package Boundary Inspector (which inspects asset references and GUID inventory, not assembly-name collisions or assembly reference declarations).
 
 ## Typical buyer problem
 
