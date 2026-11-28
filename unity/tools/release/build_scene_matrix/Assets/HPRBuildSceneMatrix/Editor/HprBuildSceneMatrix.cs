@@ -239,16 +239,41 @@ namespace HPR.BuildSceneMatrix
                 if (baseline != null && declaredDelta.ProfileAssetPathChanged)
                     EditorGUILayout.HelpBox("The saved and current profile asset paths differ.", MessageType.Warning);
                 if (declaredDelta.DeclaredEntrySequenceChanged)
-                    EditorGUILayout.HelpBox("Declared scene list differs at position " +
+                {
+                    EditorGUILayout.HelpBox(declaredDelta.Positions.Count +
+                        " declared scene positions differ, starting at position " +
                         (declaredDelta.FirstDifferingEntryIndex + 1) +
-                        ". Build indices may be unchanged when only disabled entries move.", MessageType.Info);
+                        ". Changes to disabled entries may leave enabled build indices unchanged.",
+                        MessageType.Warning);
+                    // Show WHAT moved, not merely the first index. The full CSV
+                    // retains every changed position if the list is very long.
+                    int displayed = Math.Min(20, declaredDelta.Positions.Count);
+                    for (int i = 0; i < displayed; i++)
+                    {
+                        var position = declaredDelta.Positions[i];
+                        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                        EditorGUILayout.LabelField("Declared position " + (position.Index + 1), EditorStyles.boldLabel);
+                        EditorGUILayout.LabelField("Reference: " + position.Reference, EditorStyles.wordWrappedLabel);
+                        EditorGUILayout.LabelField("Compared: " + position.Compared, EditorStyles.wordWrappedLabel);
+                        if (position.AssetIdentityChanged)
+                            EditorGUILayout.HelpBox("A different scene asset occupies this declared list position. " +
+                                "Its GUID may be unchanged elsewhere in the list; this does not prove regeneration.",
+                                MessageType.Info);
+                        EditorGUILayout.EndVertical();
+                    }
+                    if (displayed < declaredDelta.Positions.Count)
+                        EditorGUILayout.HelpBox("Showing first " + displayed + " changed positions of " +
+                            declaredDelta.Positions.Count + ". Export CSV for the complete list.", MessageType.Info);
+                }
             }
             EditorGUILayout.Space(5);
             bool readable = Reference.Readable && profiles[right].Readable;
             if (readable)
             {
-                EditorGUILayout.LabelField(differences.Count(d => d.Different) + " differences • " +
-                    differences.Count(d => d.Warning) + " rows with warnings", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField(differences.Count(d => d.Different) + " scene-state differences • " +
+                    (declaredDelta == null ? 0 : declaredDelta.Positions.Count) +
+                    " declared-position changes • " + differences.Count(d => d.Warning) +
+                    " rows with warnings", EditorStyles.boldLabel);
                 differencesOnly = EditorGUILayout.ToggleLeft("Only differences or warnings", differencesOnly);
                 filter = EditorGUILayout.TextField("Filter scene path", filter);
                 visibleCount = 0;
@@ -281,11 +306,12 @@ namespace HPR.BuildSceneMatrix
                     EditorGUILayout.EndVertical();
                 }
                 if (visibleCount == 0)
-                    EditorGUILayout.HelpBox(differences.Count == 0 ? "No scene entries to compare." :
+                    EditorGUILayout.HelpBox(
                         declaredDelta != null && declaredDelta.DeclaredEntrySequenceChanged &&
                         differences.All(d => !d.Different && !d.Warning) ?
-                            "The declared list differs, but enabled build indices and reference checks match." :
-                            "No rows match the current filter.", MessageType.None);
+                            "Scene states match, but declared positions above differ. Export CSV for the full change list." :
+                        differences.Count == 0 ? "No scene entries to compare." :
+                            "No per-scene rows match the current filter.", MessageType.None);
                 if (GUILayout.Button("Export full comparison CSV…"))
                 {
                     var path = EditorUtility.SaveFilePanel("Export comparison (new file only)", "", "build-scene-comparison", "csv");

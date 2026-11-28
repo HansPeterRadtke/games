@@ -113,17 +113,33 @@ internal static class Program
         Check(HprSceneMatrix.Compare(a,b).All(d=>!d.Different && !d.Warning),
             "old per-scene indices are unchanged by disabled scene movement");
         var changed=HprSceneMatrix.CompareDeclaredLists(a,b);
-        Check(changed.DeclaredEntrySequenceChanged && changed.FirstDifferingEntryIndex==0,
-            "shared core detects otherwise invisible disabled-scene order difference");
+        Check(changed.DeclaredEntrySequenceChanged && changed.FirstDifferingEntryIndex==0 &&
+            changed.Positions.Count==2 && changed.Positions[0].Index==0 &&
+            changed.Positions[0].Reference.StartsWith("Enabled: Assets/Start.unity") &&
+            changed.Positions[0].Compared.StartsWith("Disabled: Assets/Disabled.unity"),
+            "shared core identifies both disabled-scene move positions and their actual content");
+        HprSceneMatrix.ExportNewCsv(P("live-disabled-reorder.csv"),a,b);
+        string liveCsv=File.ReadAllText(P("live-disabled-reorder.csv"));
+        Check(liveCsv.Contains("Declared entry sequence") &&
+            liveCsv.Contains("2 changed list positions; First differing list position: 1") &&
+            liveCsv.Contains("Declared position 1") &&
+            liveCsv.Contains("Enabled: Assets/Start.unity") &&
+            liveCsv.Contains("Disabled: Assets/Disabled.unity"),
+            "live to live CSV reports a structural change hidden by unchanged enabled indices");
+        Reject(()=>HprSceneMatrix.ExportNewCsv(P("live-disabled-reorder.csv"),a,b),
+            "live structural comparison export refuses overwrite");
         var same=HprSceneMatrix.CompareDeclaredLists(a,a);
-        Check(!same.DeclaredEntrySequenceChanged && same.FirstDifferingEntryIndex==-1,
-            "unchanged declared list has no first difference");
+        Check(!same.DeclaredEntrySequenceChanged && same.FirstDifferingEntryIndex==-1 &&
+            same.Positions.Count==0,"unchanged declared list has no changed positions");
         b=Profile();
         Add(b, "Assets/Start.unity", new string('1',32));
         Add(b, "Assets/Disabled.unity", new string('2',32), false);
         Add(b, "Assets/New.unity", new string('3',32), false);
-        Check(HprSceneMatrix.CompareDeclaredLists(a,b).FirstDifferingEntryIndex==2,
-            "first appended entry reported exactly");
+        var appended=HprSceneMatrix.CompareDeclaredLists(a,b);
+        Check(appended.FirstDifferingEntryIndex==2 && appended.Positions.Count==1 &&
+            appended.Positions[0].Reference=="(no entry)" &&
+            appended.Positions[0].Compared=="Disabled: Assets/New.unity",
+            "appended disabled scene preserves its exact position and absent reference");
         b.Id="other"; b.AssetPath="Assets/Changed.asset"; b.Source="Overrides global scenes";
         changed=HprSceneMatrix.CompareDeclaredLists(a,b);
         Check(changed.ProfileIdentifierChanged && changed.ProfileAssetPathChanged && changed.SceneListSourceChanged,

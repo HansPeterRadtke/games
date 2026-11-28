@@ -122,6 +122,27 @@ class SceneMatrixCompanionContract(unittest.TestCase):
         self.assertFalse(list(SRC.rglob("HprSceneGate.dll")))
         self.assertFalse(list(SRC.rglob("SavedUnitySceneLists.cs")))
 
+    def test_disabled_scene_position_is_visible_and_csv_never_loses_it(self):
+        editor = (SRC / "HPRBuildSceneMatrix/Editor/HprBuildSceneMatrix.cs").read_text()
+        core = (SRC / "HPRBuildSceneMatrix/Editor/HprSceneMatrixCore.cs").read_text()
+        native = (MATRIX / "qa/offline/tests/Program.cs").read_text()
+        for statement in ("declaredDelta.Positions.Count", "position.Reference",
+                          "position.Compared", "declared-position changes",
+                          "Export full comparison CSV"):
+            self.assertIn(statement, editor)
+        for statement in ("Declared position ", "Declared entry sequence",
+                          "CompareDeclaredLists(a, b)", "Different scene asset at this list position"):
+            self.assertIn(statement, core + editor)
+        self.assertIn("this does not prove regeneration", editor)
+        self.assertIn("live-disabled-reorder.csv", native)
+        self.assertIn("live to live CSV reports a structural change", native)
+        self.assertIn("shared core identifies both disabled-scene move positions", native)
+        native_fixture = (MATRIX / "qa/HprBuildSceneMatrixQa.cs").read_text()
+        for marker in ("ACTUAL_DISABLED_ENTRY_REORDER_PASS", "NATIVE_LIVE_CSV_DECLARED_POSITIONS_PASS",
+                       "NATIVE_EDITOR_WINDOW_CHANGED_POSITIONS_PASS", "disabled-entry-move-native-live-comparison.csv",
+                       "EditorWindow.GetWindow<HprBuildSceneMatrixWindow>", "DisabledShift"):
+            self.assertIn(marker, native_fixture)
+
     def test_ui_and_companion_share_declared_list_delta(self):
         core = (SRC / "HPRBuildSceneMatrix/Editor/HprSceneMatrixCore.cs").read_text()
         editor = (SRC / "HPRBuildSceneMatrix/Editor/HprBuildSceneMatrix.cs").read_text()

@@ -31,3 +31,22 @@ positions that leave every enabled build index unchanged. Historical exports
 include the first differing declared list position and changes in profile asset
 path. The separately distributed offline companion shares this comparison core;
 its private package is not part of the Unity asset archive.
+
+### Scene order changes that preserve build indices
+
+Two Build Profiles can have identical enabled build indices while their
+**declared** lists differ—for example, a disabled entry moved between enabled
+scenes. The window now counts changed declared positions separately from
+per-scene state changes, shows the original and compared rows for the first
+twenty positions, and warns instead of claiming "zero differences" without
+qualification. A new CSV export includes **all** changed declared positions
+for live-to-live and saved-reference comparisons, even where the enabled
+build indices are identical. It records whether a *different scene* now occupies each declared list
+position. A scene moving within the same list can change the GUID at that
+position without regenerating the scene asset's identity; the window clearly
+states that distinction. It never rewrites scenes or switches active profiles.
+
+This is a *configuration-level* comparison, not proof that Unity built the
+correct Player or that an old saved game remains compatible. Current changed
+source requires another independent native Unity import and GUI acceptance
+before being substituted for the previously accepted private buyer archive.

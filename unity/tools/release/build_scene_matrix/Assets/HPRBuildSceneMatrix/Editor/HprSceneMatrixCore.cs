@@ -31,11 +31,20 @@ namespace HPR.BuildSceneMatrix
         public bool Different, Warning;
     }
 
+    /// <summary>A changed exact declared-list position, including disabled rows.</summary>
+    public sealed class HprDeclaredPositionDifference
+    {
+        public int Index;
+        public string Reference, Compared;
+        public bool AssetIdentityChanged;
+    }
+
     /// <summary>Structural comparison distinct from per-scene enabled build indices.</summary>
     public sealed class HprDeclaredListDelta
     {
         public bool ProfileIdentifierChanged, ProfileAssetPathChanged, SceneListSourceChanged;
         public int FirstDifferingEntryIndex = -1;
+        public readonly List<HprDeclaredPositionDifference> Positions = new List<HprDeclaredPositionDifference>();
         public bool DeclaredEntrySequenceChanged => FirstDifferingEntryIndex >= 0;
     }
 
@@ -53,19 +62,35 @@ namespace HPR.BuildSceneMatrix
                 ProfileAssetPathChanged = !string.Equals(a.AssetPath ?? "", b.AssetPath ?? "", StringComparison.Ordinal),
                 SceneListSourceChanged = !string.Equals(a.Source ?? "", b.Source ?? "", StringComparison.Ordinal)
             };
-            int common = Math.Min(a.Rows.Count, b.Rows.Count);
-            for (int i = 0; i < common; i++)
+            int length = Math.Max(a.Rows.Count, b.Rows.Count);
+            for (int i = 0; i < length; i++)
             {
-                HprSceneRow x = a.Rows[i], y = b.Rows[i];
-                if (!string.Equals(x.Guid ?? "", y.Guid ?? "", StringComparison.Ordinal) ||
-                    !string.Equals(x.Path ?? "", y.Path ?? "", StringComparison.Ordinal) || x.Enabled != y.Enabled)
+                HprSceneRow x = i < a.Rows.Count ? a.Rows[i] : null;
+                HprSceneRow y = i < b.Rows.Count ? b.Rows[i] : null;
+                if (x == null || y == null ||
+                    !string.Equals(x.Guid ?? "", y.Guid ?? "", StringComparison.Ordinal) ||
+                    !string.Equals(x.Path ?? "", y.Path ?? "", StringComparison.Ordinal) ||
+                    x.Enabled != y.Enabled)
                 {
-                    result.FirstDifferingEntryIndex = i;
-                    return result;
+                    if (result.FirstDifferingEntryIndex < 0) result.FirstDifferingEntryIndex = i;
+                    result.Positions.Add(new HprDeclaredPositionDifference
+                    {
+                        Index = i,
+                        Reference = DescribeDeclaredEntry(x),
+                        Compared = DescribeDeclaredEntry(y),
+                        AssetIdentityChanged = x != null && y != null &&
+                            !string.Equals(x.Guid ?? "", y.Guid ?? "", StringComparison.Ordinal)
+                    });
                 }
             }
-            if (a.Rows.Count != b.Rows.Count) result.FirstDifferingEntryIndex = common;
             return result;
+        }
+
+        private static string DescribeDeclaredEntry(HprSceneRow row)
+        {
+            return row == null ? "(no entry)" :
+                (row.Enabled ? "Enabled: " : "Disabled: ") +
+                (string.IsNullOrEmpty(row.Path) ? "(empty path)" : row.Path);
         }
 
         private static string Key(HprSceneRow r) => string.IsNullOrEmpty(r.Guid) ||
@@ -161,16 +186,26 @@ namespace HPR.BuildSceneMatrix
                         "Live compared list", "", "" }.Select(CsvCell)));
                     writer.WriteLine(string.Join(",", new[] { "Profile asset identities", a.Id, b.Id,
                         a.Id == b.Id ? "No" : "Yes", "Confirm both lists belong to the intended project" }.Select(CsvCell)));
-                    var declared = CompareDeclaredLists(a, b);
-                    writer.WriteLine(string.Join(",", new[] { "Profile asset paths", a.AssetPath, b.AssetPath,
-                        declared.ProfileAssetPathChanged ? "Yes" : "No", "" }.Select(CsvCell)));
-                    writer.WriteLine(string.Join(",", new[] { "Declared entry sequence", a.Rows.Count + " entries",
-                        b.Rows.Count + " entries", declared.DeclaredEntrySequenceChanged ? "Yes" : "No",
-                        declared.DeclaredEntrySequenceChanged ?
-                            "First differing list position: " + (declared.FirstDifferingEntryIndex + 1) :
-                            "Enabled build indices are compared separately" }.Select(CsvCell)));
-
                 }
+                // Declared-list order must be exported for live AND saved-reference
+                // comparisons. Per-scene build indices alone conceal disabled moves.
+                var declared = CompareDeclaredLists(a, b);
+                writer.WriteLine(string.Join(",", new[] { "Profile asset paths", a.AssetPath, b.AssetPath,
+                    declared.ProfileAssetPathChanged ? "Yes" : "No", "" }.Select(CsvCell)));
+                writer.WriteLine(string.Join(",", new[] { "Declared entry sequence", a.Rows.Count + " entries",
+                    b.Rows.Count + " entries", declared.DeclaredEntrySequenceChanged ? "Yes" : "No",
+                    declared.DeclaredEntrySequenceChanged ?
+                        declared.Positions.Count + " changed list positions; First differing list position: " +
+                        (declared.FirstDifferingEntryIndex + 1) :
+                        "No change in order, enabled flags or asset GUIDs" }.Select(CsvCell)));
+                foreach (var position in declared.Positions)
+                    writer.WriteLine(string.Join(",", new[] {
+                        "Declared position " + (position.Index + 1), position.Reference,
+                        position.Compared, "Yes", position.AssetIdentityChanged ?
+                            "Different scene asset at this list position; identity may be stable elsewhere" :
+                            "Enabled indices may remain unchanged"
+                    }.Select(CsvCell)));
+
                 foreach (var row in rows)
                     writer.WriteLine(string.Join(",", new[] { row.Path, row.A, row.B,
                         row.Different ? "Yes" : "No", row.Issue +
