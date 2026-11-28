@@ -66,8 +66,11 @@ effect into your project folder. It gives each copy an independent identifier.
 Select your player in the scene, then use **Tools > HPR > Gameplay Suite >
 Attach Ability to Selected Object**. The installer previews the configuration
 and lets you attach or remove the runner with Undo. See `QUICKSTART.md` for
-the resource component and scene-saving steps. The guide also reports missing
-package files and opens the showcase.
+the resource component and scene-saving steps. The guide reports missing
+package files and warns when the old standalone `com.hpr.*` Registry packages
+are installed alongside the integrated suite; duplicated assemblies may
+prevent compilation. If it cannot inspect registered packages, it says so.
+It does not uninstall dependencies or modify another project's files.
 
 ### Render pipeline and tool compatibility
 

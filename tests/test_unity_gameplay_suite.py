@@ -176,6 +176,23 @@ class UnityGameplaySuiteSourceTest(unittest.TestCase):
         self.assertIn(".hpr-suite-root", style)
         self.assertIn(".hpr-suite-button", style)
 
+    def test_guide_warns_about_duplicate_standalone_runtime_packages(self):
+        guide = (SOURCE / "HprSuiteIntegrationGuide.cs").read_text()
+        self.assertIn("HprRegisteredPackageInfo.GetAllRegisteredPackages()", guide)
+        self.assertIn('"com.hpr." + name', guide)
+        self.assertIn('"DUPLICATE MODULES"', guide)
+        self.assertIn('"PACKAGE CHECK UNAVAILABLE"', guide)
+        self.assertIn("Review your existing packages before removal", guide)
+        self.assertNotIn("Client.Remove(", guide)
+
+    def test_private_editor_registry_fixture_is_nonshipping(self):
+        fixture = (SOURCE / "qa/HprSuiteGuidePackageRegistryFixture.cs").read_text()
+        for item in ("HprSuiteIntegrationGuide", "RefreshStatus", "com.hpr.save",
+                     "HPR_SUITE_EXPECT_CONFLICT", "CONFLICT_PASS", "CLEAN_PASS"):
+            self.assertIn(item, fixture)
+        builder = (SOURCE / "build_gameplay_suite.py").read_text()
+        self.assertNotIn("HprSuiteGuidePackageRegistryFixture.cs", builder)
+
     def test_optional_input_backends_with_external_injection(self):
         engine = (SOURCE / "HprSuiteInput.cs").read_text()
         for symbol in ("ENABLE_INPUT_SYSTEM", "ENABLE_LEGACY_INPUT_MANAGER",

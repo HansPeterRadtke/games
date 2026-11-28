@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using HprRegisteredPackageInfo = UnityEditor.PackageManager.PackageInfo;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
@@ -451,6 +452,33 @@ namespace HPR.GameplaySuite
                     missing.Add(path);
             }
 
+            // A single-root buyer archive must not coexist with old standalone
+            // com.hpr.* Registry packages. Those duplicate assembly names can
+            // prevent compilation even when all suite files are present.
+            var standaloneConflicts = new List<string>();
+            string packageLookupError = null;
+            try
+            {
+                HprRegisteredPackageInfo[] registered = HprRegisteredPackageInfo.GetAllRegisteredPackages();
+                if (registered == null)
+                    packageLookupError = "Package Manager has not supplied its registered package list";
+                else
+                {
+                    foreach (HprRegisteredPackageInfo package in registered)
+                    {
+                        if (package == null || string.IsNullOrEmpty(package.name)) continue;
+                        foreach (string name in Modules)
+                            if (string.Equals(package.name, "com.hpr." + name, StringComparison.Ordinal))
+                                standaloneConflicts.Add(package.name);
+                    }
+                }
+            }
+            catch (Exception error)
+            {
+                packageLookupError = "Package Manager lookup failed: " + error.GetType().Name;
+            }
+            standaloneConflicts.Sort(StringComparer.Ordinal);
+
             string installerIssue = HprGameplaySuiteSceneBuilder.AbilityInstallerIssue();
             if (installerIssue != null) missing.Add(installerIssue);
 
@@ -463,15 +491,27 @@ namespace HPR.GameplaySuite
                 "\nRuntime modules: " + foundModules + "/" + Modules.Length +
                 "\nRuntime source scripts: " + scriptCount +
                 "\nMissing paths/modules: " + (missing.Count == 0 ? "none" : string.Join(", ", missing)) +
+                "\nRegistered duplicate standalone modules: " + (standaloneConflicts.Count == 0 ? "none detected" : string.Join(", ", standaloneConflicts)) +
+                "\nPackage registry check: " + (packageLookupError ?? "available") +
                 "\nNOTE: This is layout validation only, not runtime or marketplace approval.";
 
+            string condition = missing.Count > 0 ? "INCOMPLETE IMPORT" :
+                standaloneConflicts.Count > 0 ? "DUPLICATE MODULES" :
+                packageLookupError != null ? "PACKAGE CHECK UNAVAILABLE" :
+                EditorApplication.isCompiling ? "COMPILATION RUNNING" : "PACKAGE FILES PRESENT";
             status.text = "Unity " + Application.unityVersion + "  |  " +
-                pipelineName + "  |  " + (missing.Count == 0 ? "PACKAGE FILES PRESENT" : "INCOMPLETE IMPORT");
-            advice.text = EditorApplication.isCompiling ?
-                "Scripts are compiling; inspect the Console before entering Play mode." :
-                missing.Count > 0 ?
+                pipelineName + "  |  " + condition;
+            advice.text = missing.Count > 0 ?
                 "Missing: " + string.Join(", ", missing) +
                 ". Re-import the complete package without deleting existing project assets." :
+                standaloneConflicts.Count > 0 ?
+                "Conflicting standalone HPR packages: " + string.Join(", ", standaloneConflicts) +
+                ". Review your existing packages before removal; the suite already includes these runtimes." :
+                packageLookupError != null ?
+                "Cannot verify registered package conflicts: " + packageLookupError +
+                ". Inspect Package Manager before using this suite." :
+                EditorApplication.isCompiling ?
+                "Scripts are compiling; inspect the Console before entering Play mode." :
                 "All ten runtime modules and required demo files are present. " +
                 "Open the demo and verify gameplay; this is not a runtime test.";
         }
